@@ -5,6 +5,7 @@ This repository will include newly-developed training courses which indcludes co
 Virtually all course exercises will be done using browser guides.
 
 BrowserGuides:
+
   intro-neo4j-exercises       hands-on exercises for the intro course that are published to https://guides.neo4j.com/intro-neo4j-exercises
 
 
