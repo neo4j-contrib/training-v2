@@ -1,0 +1,352 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Query Template</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Query Template</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Create Nodes</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE (a:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' }) RETURN a<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE (b:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' }) RETURN b<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Create Relationship</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' })
+MATCH (b:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' })
+CREATE (a)-[:`<span value-key="relationshipType">ACTED_IN</span>`]->(b)
+RETURN *<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Merge Nodes</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (a:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' }) RETURN a<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (b:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' }) RETURN b<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Merge Relationship</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (a:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' })
+MERGE (b:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' })
+MERGE (a)-[:`<span value-key="relationshipType">ACTED_IN</span>`]->(b)
+RETURN *<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Find Nodes</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' }) RETURN a<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (b:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' }) RETURN b<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Find All Nodes</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:`<span value-key="nodeLabelA">Person</span>`) RETURN a LIMIT 100<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (b:`<span value-key="nodeLabelB">Movie</span>`) RETURN b LIMIT 100<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Find Neighbours</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' })-[:`<span value-key="relationshipType">ACTED_IN</span>`]->(b) RETURN * LIMIT 100<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (b:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' })<--(a) RETURN * LIMIT 100<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Find Network</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = (:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' })-[:`<span value-key="relationshipType">ACTED_IN</span>`*1..3]-() RETURN path LIMIT 50<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = (:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' })-[*1..3]-() RETURN path LIMIT 50;<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Find Network</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = shortestPath((a:`<span value-key="nodeLabelA">Person</span>` { `<span value-key="propertyKeyA">name</span>`: '<span value-key="propertyValueA">Keanu Reeves</span>' })-[*]-(b:`<span value-key="nodeLabelB">Movie</span>` { `<span value-key="propertyKeyB">title</span>`: '<span value-key="propertyValueB">The Matrix</span>' })) RETURN path LIMIT 50;<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Create Unique Constraints</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (a:`<span value-key="nodeLabelA">Person</span>`) ASSERT a.`<span value-key="propertyKeyA">name</span>` IS UNIQUE;<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (b:`<span value-key="nodeLabelB">Movie</span>`) ASSERT b.`<span value-key="propertyKeyB">title</span>` IS UNIQUE;<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Create Indexes</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX ON :`<span value-key="nodeLabelA">Person</span>`(`<span value-key="propertyKeyA">name</span>`);<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX ON :`<span value-key="nodeLabelB">Movie</span>`(`<span value-key="propertyKeyB">title</span>`);<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Create Existence Constraints</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Unresolved directive in query-template.adoc - include::template-table.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (a:`<span value-key="nodeLabelA">Person</span>`) ASSERT exists(a.`<span value-key="propertyKeyA">name</span>`);<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (b:`<span value-key="nodeLabelB">Movie</span>`) ASSERT exists(b.`<span value-key="propertyKeyB">title</span>`);<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>More Documentation</h3>
+    <br/>
+    <div>
+      <div class="ulist">
+<ul>
+<li>
+<p><a href="http://neo4j.com/docs/developer-manual/" target="_blank">Neo4j Developer Manual</a></p>
+</li>
+<li>
+<p><a href="http://neo4j.com/developer/get-started/" target="_blank">Neo4j Developer Guides</a></p>
+</li>
+<li>
+<p><a href="https://neo4j.com/docs/cypher-refcard/" target="_blank">Cypher Reference Card</a></p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>
