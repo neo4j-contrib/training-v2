@@ -1,6 +1,6 @@
 Neo4j Training Courses
 
-This repository will include newly-developed training courses which indcludes course content and browser guides. Course content will be the same for online courses and classroom courses with the exception that we produce slides and a book for the classroom version, where the online version is strictly html.
+This repository will include newly-developed training courses which includes course content and browser guides. Course content will be the same for online courses and classroom courses with the exception that we produce slides and a book for the classroom version, where the online version is strictly html.
 
 Virtually all course exercises will be done using browser guides.
 
