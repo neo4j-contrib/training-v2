@@ -1,0 +1,260 @@
+
+= Introduction to Graph Databases
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.4.4
+:currentyear: 2018
+:doctype: book
+:toc: left
+:toclevels: 3
+:experimental:
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+++++
+	<script type='text/javascript'>
+	var loc = window.location;
+	if (loc.hostname == "neo4j.com" && loc.search.indexOf("aliId=") == -1 ) {
+	 loc.pathname = "/graphacademy/online-training/XXXX/"	
+	}
+	document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script>Munchkin.init('773-GON-065');</script>
+++++
+
+=== About this module
+
+The Neo4j Graph Platform enables developers to create applications that are best architected as graph-powered systems that are built upon the rich connectedness of data. 
+
+At the end of this module, you should be able to:
+[square]
+* Describe what a graph database is.
+* Describe some common use cases for using a graph database.
+* Model a real-world scenario as a graph.
+
+=== The evolution of graph databases
+
+Today's business and user requirements demand applications that connect more and more of the world's data, yet still expect high levels of performance and data reliability. Many applications of the future will be built using graph databases like Neo4j.
+
+ifdef::backend-pdf[]
+
+In this video, you will learn how the need for graph databases has evolved.
+
+https://youtu.be/5Tl8WcaqZoc
+
+endif::backend-pdf[]
+
+ifdef::backend-html5[]
+
+In this video, you will learn how the need for graph databases has evolved.
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed?listType=playlist&#038;list=PL9Hl4pk2FsvWM9GWaguRhlCQ-pa-ERd4U&#038;index=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+
+endif::backend-html5[]
+
+=== What Is a graph database?
+
+A graph database is an online database management system with Create, Read, Update and Delete (CRUD) operations working on a graph data model. 
+Graph databases are generally built for use with online transaction processing (OLTP) systems. 
+Accordingly, they are normally optimized for transactional performance, and engineered with transactional integrity and operational availability in mind.
+
+Unlike other databases, relationships take first priority in graph databases.  
+This means your application doesn't have to infer data connections using foreign keys or out-of-band processing, such as MapReduce.
+
+By assembling the simple abstractions of nodes and relationships into connected structures, graph databases enable us to build sophisticated models that map closely to our problem domain.
+
+=== The case for graph databases
+
+The biggest value that graphs bring to the development stack is their ability to store relationships and connections as first-class entities.
+
+For instance, the early adopters of graph technology reimagined their businesses around the value of data relationships. 
+These companies have now become industry leaders: LinkedIn, Google, Facebook and PayPal.
+
+As pioneers in graph technology, each of these enterprises had to build their own graph database from scratch. 
+Fortunately for today's developers, that's no longer the case, as graph database technology is now available off the shelf.
+
+ifdef::backend-pdf[]
+
+In this video, you will learn how graph databases help you to model real-world data that needs to be connected as well as how Neo4j is used to solve real problems facing enterprises today.
+
+https://youtu.be/-dCeFEqDkUI
+
+endif::backend-pdf[]
+
+ifdef::backend-html5[]
+
+In this video, you will learn how graph databases help you to model real-world data that needs to be connected as well as how Neo4j is used to solve real problems facing enterprises today.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed?listType=playlist&#038;list=PL9Hl4pk2FsvWM9GWaguRhlCQ-pa-ERd4U&#038;index=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+
+endif::backend-html5[]
+
+=== What is a graph?
+
+A graph is composed of two elements: *nodes* and *relationships*.
+
+Each node represents an entity (a person, place, thing, category or other piece of data), and each relationship represents how two nodes are connected. 
+For example, the two nodes _Person_ and _Location_, might have the relationship _LIVES_AT_ pointing from a _Person_ node to _Location_ node.
+A relationship represents the verb or action between two entities.
+
+This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population's medical history, or anything else defined by relationships. 
+
+With Neo4j, nodes can have **labels** that are used to define types for nodes. 
+For example, a _Location_ node is a node with the label _Location_. 
+That same node can also have a label, _Residence_. Another _Location_ node can also have a label, _Business_. 
+A label can be used to group nodes of the same type. For example, you may want to retrieve all of the _Business_ nodes.
+
+The Neo4j database is a property graph. 
+You can add **properties** to nodes and relationships to further enrich the graph model. 
+This enables you to closely align data and connections in the graph to your real-world application. 
+For example, a _Person_ node might have a property, _name_ and a _Location_ node might have a property, _address_.
+
+ifdef::backend-pdf[]
+
+In this video, you will learn how to model property graphs containing nodes and relationships and how Cypher is used to access a graph database.
+
+https://youtu.be/NH6WoJHN4UA
+
+endif::backend-pdf[]
+
+ifdef::backend-html5[]
+In this video, you will learn how to model property graphs containing nodes and relationships and how Cypher is used to access a graph database.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed?listType=playlist&#038;list=PL9Hl4pk2FsvWM9GWaguRhlCQ-pa-ERd4U&#038;index=2" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+endif::backend-html5[]
+
+=== Modeling relational to graph
+
+Many applications' data is modeled as relational data. There are some similarities between a relational model and a graph model:
+
+[cols="<.^,<.^"]
+|===
+ *Relational*
+| *Graph*
+| Rows
+| Nodes
+| Joins
+| Relationships
+| Table names
+| Labels
+| Columns
+| Properties
+|===
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+But, there are some ways in which the relational model differs from the graph model:
+
+[cols="<.^,<.^"]
+|===
+ *Relational*
+| *Graph*
+| Rows in the same table have the same set of fields.
+| Nodes with the same label aren't required to have the same set of properties.
+| Joins are calculated at query time.
+| Relationships are stored on disk when they are created.
+| A row can belong to one table.
+| A node can have many labels.
+|===
+
+==== Run-time behavior: RDBMS vs graph
+
+How data is retrieved is very different between an RDBMS and a graph database:
+
+image::{imagedir}/RDBvsGraphRuntime.png[RDBvsGraphRuntime,600,400,align=center]
+
+==== How we model: RDBMS vs graph
+
+How you model data from relational vs graph differs:
+
+[cols="<.^,<.^"]
+|===
+ *Relational*
+| *Graph*
+| Try and get the schema defined and then make minimal changes to it after that.
+| It's common for the schema to evolve with the application.
+| More abstract focus when modeling i.e. focus on classes rather than objects.
+| Common to use actual data items when modeling.
+|===
+
+If we were modeling a football transfers graph in relational and graph databases these diagrams show what common approaches might look like.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+Here is the relational model:
+
+image::{imagedir}/RDB.png[RDB,600,400,align=center]
+
+And here is the corresponding graph model:
+
+image::{imagedir}/RDBToGraph.png[RDBToGraph,600,400,align=center]
+
+With the graph model we might sketch out examples with actual values and derive the 'schema' while doing that modeling process.
+
+In Neo4j, the data model might evolve to something like this:
+
+image::{imagedir}/GraphModel.png[GraphModel,600,400,align=center]
+
+=== How does Neo4j support the property graph model?
+[square]
+* Neo4j is a *Database* - use it to reliably *store information* and *find it later*.
+* Neo4j's data model is a *Graph*, in particular a *Property Graph*.
+* *Cypher* is Neo4j's graph query language (*SQL for graphs!*).
+* Cypher is a declarative query language: it describes *what* you are interested in, not *how* it is acquired.
+* Cypher is meant to be very *readable* and *expressive*.
+
+== Check your understanding
+=== Question 1
+
+What elements make up a graph?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#tuples#
+- [ ] [.required-answer]#nodes#
+- [ ] [.false-answer]#documents#
+- [ ] [.required-answer]#relationships#
+
+=== Question 2
+
+Suppose that you want to create a graph to model customers, products, what products a customer buys, and what products a customer rated. You have created nodes in the graph to represent the customers and products. In this graph, what relationships would you define?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.required-answer]#BOUGHT#
+- [ ] [.false-answer]#IS_A_CUSTOMER#
+- [ ] [.false-answer]#IS_A_PRODUCT#
+- [ ] [.required-answer]#RATED#
+
+=== Question 3
+
+What query language is used with a Neo4j Database?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#SQL#
+- [ ] [.false-answer]#CQL#
+- [ ] [.required-answer]#Cypher#
+- [ ] [.false-answer]#OPath#
+
+== Summary
+
+You should now be able to:
+[square]
+* Describe what a graph database is.
+* Describe some common use cases for using a graph database.
+* Model a real-world scenario as a graph.
+

@@ -1,0 +1,208 @@
+
+= Setting Up Your Development Environment
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.4.4
+:currentyear: 2018
+:doctype: book
+:toc: left
+:toclevels: 3
+:experimental:
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+++++
+	<script type='text/javascript'>
+	var loc = window.location;
+	if (loc.hostname == "neo4j.com" && loc.search.indexOf("aliId=") == -1 ) {
+	 loc.pathname = "/graphacademy/online-training/XXXX/"	
+	}
+	document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script>Munchkin.init('773-GON-065');</script>
+++++
+
+=== About this module
+
+As a developer, you will create Neo4j Databases, add and update data in them, and query the data. 
+When you learn to use Neo4j as a developer, you have two options⎼the Neo4j Desktop or the Neo4j Sandbox. 
+In his module you will learn how to use each of these development environments and select the option that is best for your needs while you are learning about Neo4j. 
+
+Many graph-enabled applications have been developed and deployed using Neo4j's Community Edition (free). 
+If your enterprise requires production features such as failover, clustering, monitoring, advanced access control, secure routing, etc. you will use Neo4j's Enterprise Edition which you can download and start using for free.
+
+At the end of this module, you should be able to:
+[square]
+* Determine the development environment that is best for you:
+** Install and start using the Neo4j Desktop.
+** Create a Neo4j Sandbox for learning Neo4j.
+* Start using  Neo4j Browser.
+
+=== Neo4j Desktop
+
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/Neo4jDesktop.1.1.8.png[Neo4jDesktop,width=500,align=center]
+a|
+The Neo4j Desktop includes the Neo4j Database server which includes the graph engine and kernel so that Cypher statements can be executed to access a database on your system. 
+It includes an application called  Neo4j Browser.  
+Neo4j Browser enables you to access a Neo4j database using Cypher. 
+You can also call built-in procedures that communicate with the database server. 
+There are a number of additional libraries and drivers for accessing the Neo4j database from Cypher or from another programming language that you can install in your development environment.
+If you are looking to use your system for application development and you want to be able to create multiple Neo4j databases on your machine, you should consider downloading the Neo4j Desktop (free download). 
+The Neo4j Desktop runs on MAC OS, Linux, and Windows.
+|===
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+=== Neo4j Sandbox
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/Neo4jSandbox.png[Neo4jSandbox,width=300,align=center]
+a|
+The Neo4j sandbox is another way that you can begin development with Neo4j. 
+It is a temporary, cloud-based instance of a Neo4j Server with its associated graph that you can access from any Web browser.
+
+By default, the Neo4j sandbox is available for three days, but you can extend it for up to 10 days. 
+If you do not want to install Neo4j Desktop on your system, consider creating a Neo4j sandbox. You must make sure that you extend your lease of the sandbox, otherwise you will lose your graph and any saved Cypher scripts you have created in the sandbox. However, you can use Neo4j Browser Sync to save Cypher scripts from your sandbox.  
+We recommend you use the Desktop for a real development project. 
+The Sandbox is intended as a temporary environment or for learning about the features of Neo4j as well as specific graph use-cases.
+
+|===
+
+=== *Guided Exercise: Getting Started with Neo4j Desktop*
+
+*Note:* In order to perform the hands-on exercises for this training, you must install Neo4j Desktop or you must create a Neo4j Sandbox.
+
+ifdef::backend-html5[]
+If you want to download and install Neo4j Desktop on your system, follow along with this video to download, install and get started using Neo4j Desktop. 
+If you will be using Neo4j Desktop in your development environment, you can follow the steps in this video to create a TestMovies project with its corresponding Movies database.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8yWhuUnPapw?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+
+endif::backend-html5[]
+
+ifdef::backend-pdf[]
+If you want to download and install Neo4j Desktop on your system, follow along with your instructor or this video to download, install and get started using Neo4j Desktop. 
+If you will be using Neo4j Desktop in your development environment, you can follow these steps create a TestMovies project with its corresponding Movies database.
+
+https://youtu.be/8yWhuUnPapw
+
+endif::backend-pdf[]
+
+=== *Guided Exercise: Creating a Neo4j Sandbox*
+
+*Note:* In order to perform the hands-on exercises for this training, you must install Neo4j Desktop or you must create a Neo4j Sandbox.
+
+ifdef::backend-html5[]
+If you want to run the Neo4j Database server in the cloud using a Neo4j sandbox, follow along with this video to create a Neo4j sandbox for training purposes. For this course, you should select the latest GA release of Neo4j for your sandbox as you want a blank sandbox for this course.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rmfgRKPjhl8?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+
+endif::backend-html5[]
+
+ifdef::backend-pdf[]
+If you want to run the Neo4j Database server in the cloud using a Neo4j sandbox, follow along with your instructor or this video to create a Neo4j sandbox for training purposes. For this course, you should select the latest GA release of Neo4j for your sandbox as you want a blank sandbox for this course.
+
+https://youtu.be/rmfgRKPjhl8
+
+endif::backend-pdf[]
+
+=== Using Neo4j Browser
+
+Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data. 
+The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables. 
+In addition to executing Cypher statements, you can execute a number of system calls that are related to the database being accessed by the Browser. 
+For example, you can retrieve the list of queries that are currently running in the server.
+
+There are two ways that you can use Neo4j Browser functionality:
+[square]
+* Open the Neo4j Browser application from Neo4j Desktop (database is local)
+* Use the Neo4j Browser Web interface by specifying a URL in a Web browser using port 7474 (database is local or in the cloud)
+
+image:{imagedir}/Neo4jBrowser.png[Neo4jBrowser,width=800]
+
+The user interface and behavior for the Neo4j Browser application and Neo4j Browser Web interface is identical, except that in the Web interface, you have the option of syncing your settings and scripts to the cloud.
+
+=== *Guided Exercise: Getting Started with Neo4j Browser*
+
+ifdef::backend-html5[]
+Follow along with this video to become familiar with common tasks in Neo4j Browser. 
+You will use Neo4j Browser to populate the Movies database that is used for training as well as syncing your settings and scripts to the cloud.
+
+*Note*: Before you perform the tasks shown in this video, you must have either created and started the database in the Neo4j Desktop or created a Neo4j Sandbox that comes with a database already started.
+
+// Note: Videos should always use &rel=0 to prevent suggested videos displaying at the end
+++++
+<!--
+Can't seem to get rid of the Youtube splash of other videos at the end!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rQTximyaETA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+-->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rQTximyaETA?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+endif::backend-html5[]
+
+ifdef::backend-pdf[]
+
+Follow along with your instructor or this video to become familiar with common tasks in Neo4j Browser. 
+You will use Neo4j Browser to populate the Movies database that is used for training as well as syncing your settings and scripts to the cloud.
+
+*Note*: Before you perform these tasks, you must have either created and started the database in the Neo4j Desktop or created a Neo4j Sandbox that comes with a database already started.
+
+https://youtu.be/rQTximyaETA
+
+endif::backend-pdf[]
+
+== Check your understanding
+=== Question 1
+
+What development environment should you use if you want to develop a graph-enabled application using a local Neo4j Database?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.required-answer]#Neo4j Desktop#
+- [ ] [.false-answer]#Neo4j Sandbox#
+
+
+=== Question 2
+
+What development environment should you use if you want develop a graph-enabled application using a temporary, cloud-based Neo4j Database?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#Neo4j Desktop#
+- [ ] [.required-answer]#Neo4j Sandbox#
+
+=== Question 3
+
+Which Neo4j Browser command do you use to view a browser guide for the Movie graph?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#MATCH (Movie Graph)#
+- [ ] [.false-answer]#:MATCH (Movie Graph)#
+- [ ] [.false-answer]#play Movie Graph#
+- [ ] [.required-answer]#:play Movie Graph#
+
+
+== Summary
+
+You should now be able to:
+[square]
+* Determine the development environment that is best for you:
+** Install and start using the Neo4j Desktop.
+** Create a Neo4j Sandbox for learning Neo4j.
+* Start using  Neo4j Browser.
+
+
