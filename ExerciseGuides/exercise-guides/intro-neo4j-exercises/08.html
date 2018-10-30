@@ -618,10 +618,6 @@ CREATE
 </ol>
 </div>
 <div class="paragraph">
-<p><strong>Tip:</strong> Pin this Guide so that your Exercise instructions will always be displayed at the top of the result panes displayed.
-When you have completed this Exercise, you can unpin this Guide.</p>
-</div>
-<div class="paragraph">
 <p>Go to the next page to perform the four Parts of this Exercise.</p>
 </div>
 	</div>
@@ -646,9 +642,6 @@ When you have completed this Exercise, you can unpin this Guide.</p>
 </li>
 <li>
 <p>Retrieve the node you just created by its <em>title</em>.</p>
-</li>
-<li>
-<p>Retrieve the node you just created by its <em>id</em>.</p>
 </li>
 <li>
 <p>Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</p>
@@ -709,32 +702,11 @@ RETURN m<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div class="paragraph">
-<p><strong>Note:</strong> The value for the <em>id</em> property for the newly-created node may be different for your graph. It this screen shot, it is <em>741</em>.</p>
+<p><strong>Note:</strong> The value for the <em>id</em> property for the newly created node may be different for your graph. It this screen shot, it is <em>741</em>.</p>
 </div>
 <div style="clear: both;"></div>
 <div class="paragraph">
-<p><strong>3. Retrieve the node you just created by its <em>id</em>.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
-// the number you specify here depends on your particular graph
-// and is based upon what you see when you retrieve by _title_
-WHERE id(m) = 741
-RETURN m<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/RetrieveForrestGumpByID.png" alt="RetrieveForrestGumpByID" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</strong></p>
+<p><strong>3. Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -995,6 +967,14 @@ REMOVE p:Female<!--/code--></pre>
 </div>
 <div class="paragraph">
 <p><strong>Hint:</strong> This movie should also have the label <em>OlderMovie</em>.</p>
+</div>
+<div class="ulist">
+<div class="title"><strong>Taking it further (optional)</strong></div>
+<ul>
+<li>
+<p>Try adding or updating properties using the JSON-style syntax using <code>=</code> and <code>+=</code>.</p>
+</li>
+</ul>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="2">
@@ -1297,7 +1277,7 @@ RETURN p<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise, you wrote Cypher statemewnts to create nodes. Then you wrote Cypher statements to add and remove labels for nodes. Next, you used Cypher to add properties to nodes. Finally, you wrote Cypher statements to remove properties from nodes.</p>
+<p>In this Exercise, you wrote Cypher statements to create nodes. Then you wrote Cypher statements to add and remove labels for nodes. Next, you used Cypher to add properties to nodes. Finally, you wrote Cypher statements to remove properties from nodes.</p>
 </div>
 <div class="paragraph">
 <p><a play-topic='http://guides.neo4j.com/intro-neo4j-exercises/09.html'>Continue to Exercise 9</a></p>

@@ -50,7 +50,7 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15: Importing data</h3>
+    <h3>Exercise 15: Managing indexes</h3>
     <br/>
     <div>
       <div class="olist arabic">
@@ -75,7 +75,7 @@
 </ol>
 </div>
 <div class="paragraph">
-<p><strong>Important:</strong> This Cypher script will fail if your graph has any constraints defined as it creates the constraints you created in the previous Exercise. You must first drop any constraints in your graph before running this script. Use <code>call db.constraints</code> to see if you have any constraints in the graph and simply prefix the constraint definition with <code>DROP</code>.</p>
+<p><strong>Important:</strong> This Cypher script will fail if your graph has any constraints defined as it creates the constraints you created in the previous Exercise. You must first drop any constraints in your graph before running this script. Use <code>CALL db.constraints</code> to see if you have any constraints in the graph and simply prefix the constraint definition with <code>DROP</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -617,24 +617,20 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you write Cypher statements to import data into your graph.</p>
+<p>In this Exercise you write Cypher statements create, view, and drop indexes.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In Part 1, you import actor data from a CSV file.</p>
+<p>In Part 1, you create an index.</p>
 </li>
 <li>
-<p>In Part 2, you import movie data from a CSV file.</p>
+<p>In Part 2, you view index information.</p>
 </li>
 <li>
-<p>In Part 3, you import data to relate actors to movies from a CSV file.</p>
+<p>In Part 3, you drop an index.</p>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p><strong>Tip:</strong> Pin this Guide so that your Exercise instructions will always be displayed at the top of the result panes displayed.
-When you have completed this Exercise, you can unpin this Guide.</p>
 </div>
 <div class="paragraph">
 <p>Go to the next page to perform the three Parts of this Exercise.</p>
@@ -651,22 +647,8 @@ When you have completed this Exercise, you can unpin this Guide.</p>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing actor data</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/actors.csv" class="bare">http://data.neo4j.com/intro-neo4j/actors.csv</a> that you must load into your graph.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Write the Cypher statement to return the data from the file.</p>
-</li>
-<li>
-<p>Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</p>
-</li>
-<li>
-<p>Write the Cypher statement to load the data into your graph.
-<strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these actors.</p>
-</li>
-</ol>
+<div class="title"><strong>Creating an index</strong></div>
+<p>Write the Cypher statement to create a single-property index on the <em>born</em> property of a <em>Person</em> node.</p>
 </div>
 	</div>
   </div>
@@ -680,71 +662,23 @@ When you have completed this Exercise, you can unpin this Guide.</p>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing actor data</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/actors.csv" class="bare">http://data.neo4j.com/intro-neo4j/actors.csv</a> that you must load into your graph.</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Write the Cypher statement to return the data from the file.</strong></p>
+<div class="title"><strong>Creating an index</strong></div>
+<p>Write the Cypher statement to create a single-property index on the <em>born</em> property of a <em>Person</em> node.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/actors.csv'
-AS line
-RETURN line.id, line.name, line.birthYear<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX ON :Person(born)<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/CreateIndex.png" alt="CreateIndex" width="300">
 </div>
 </div>
 <div class="paragraph">
 <p>The result should be:</p>
 </div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadActorsToView.png" alt="LoadActorsToView" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/actors.csv'
-AS line
-RETURN line.id, line.name, toInteger(lTrim(line.birthYear))<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadAndFormatActorData.png" alt="LoadAndFormatActorData" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>3. Write the Cypher statement to load the data into your graph.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these actors.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/actors.csv'
-AS line
-MERGE (actor:Person {name: line.name})
-  ON CREATE SET actor.born = toInteger(lTrim(line.birthYear)), actor.actorId = line.id
-  ON MATCH SET actor.actorId = line.id<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadedActors.png" alt="LoadedActors" width="600">
-</div>
-</div>
+<div style="clear: both;"></div>
 <div class="paragraph">
 <p>Next, Part 2</p>
 </div>
@@ -760,22 +694,8 @@ MERGE (actor:Person {name: line.name})
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing movie data</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/movies.csv" class="bare">http://data.neo4j.com/intro-neo4j/movies.csv</a> that you must load into your graph.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Write the Cypher statement to return the data from the file.</p>
-</li>
-<li>
-<p>Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</p>
-</li>
-<li>
-<p>Write the Cypher statement to load the data into your graph.
-<strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these movies.</p>
-</li>
-</ol>
+<div class="title"><strong>Viewing indexes</strong></div>
+<p>Write the Cypher statement to view the indexes defined for the graph. Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
 </div>
 	</div>
   </div>
@@ -789,16 +709,12 @@ MERGE (actor:Person {name: line.name})
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing movie data</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/movies.csv" class="bare">http://data.neo4j.com/intro-neo4j/movies.csv</a> that you must load into your graph.</p>
+<div class="title"><strong>Viewing indexes</strong></div>
+<p>Write the Cypher statement to view the indexes defined for the graph. Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement? The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.</p>
 </div>
 <div class="listingblock">
-<div class="title"><strong>1. Write the Cypher statement to return the data from the file.</strong></div>
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/movies.csv'
-AS line
-RETURN line.id, line.title, line.year, line.tagLine<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.indexes()<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -806,53 +722,7 @@ RETURN line.id, line.title, line.year, line.tagLine<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadMoviesToView.png" alt="LoadMoviesToView" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/movies.csv'
-AS line
-RETURN line.id, line.title, toInteger(line.year), lTrim(line.tagLine)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadAndFormatMovies.png" alt="LoadAndFormatMovies" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>3. Write the Cypher statement to load the data into your graph.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these movies.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/movies.csv'
-AS line
-MERGE (m:Movie {title: line.title})
-ON CREATE
-  SET m.released = toInteger(lTrim(line.year)),
-      m.movieId = line.id,
-      m.tagline = line.tagLine
-  ON MATCH SET m.movieId = line.id<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadedMovies.png" alt="LoadedMovies" width="600">
+<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/ViewIndexes.png" alt="ViewIndexes" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -870,24 +740,8 @@ ON CREATE
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing data to relate actors to movies</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/roles.csv" class="bare">http://data.neo4j.com/intro-neo4j/roles.csv</a> that you must load into your graph.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Write the Cypher statement to return the data from the file.</p>
-</li>
-<li>
-<p>Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</p>
-</li>
-<li>
-<p>Write the Cypher statement to load the data into your graph.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains one of these relationships.</p>
+<div class="title"><strong>Dropping an index</strong></div>
+<p>Write Cypher code to drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</p>
 </div>
 	</div>
   </div>
@@ -901,68 +755,23 @@ ON CREATE
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing data to relate actors to movies</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/roles.csv" class="bare">http://data.neo4j.com/intro-neo4j/roles.csv</a> that you must load into your graph.</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Write the Cypher statement to return the data from the file.</strong></p>
+<div class="title"><strong>Dropping an index</strong></div>
+<p>Write Cypher code to drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/roles.csv'
-AS line FIELDTERMINATOR ';'
-RETURN line.personId, line.movieId, line.Role<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->DROP INDEX ON :Person(born)<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/DropIndex.png" alt="DropIndex" width="300">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadRolesToView.png" alt="LoadRolesToView" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/roles.csv'
-AS line FIELDTERMINATOR ';'
-RETURN line.personId, line.movieId, split(line.Role,',')<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadAndFormatRoles.png" alt="LoadAndFormatRoles" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>3. Write the Cypher statement to load the data into your graph.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/roles.csv'
-AS line FIELDTERMINATOR ';'
-MATCH (movie:Movie { movieId: line.movieId })
-MATCH (person:Person { actorId: line.personId })
-MERGE (person)-[:ACTED_IN { roles: split(line.Role,',')}]-&gt;(movie)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="http://guides.neo4j.com/intro-neo4j-exercises/img/LoadedRoles.png" alt="LoadedRoles" width="600">
-</div>
-</div>
+<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -975,7 +784,7 @@ MERGE (person)-[:ACTED_IN { roles: split(line.Role,',')}]-&gt;(movie)<!--/code--
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you wrote Cypher statements to load data that is properly formatted into the graph.</p>
+<p>In this Exercise you wrote Cypher statements to create, view, and drop an index for the graph.</p>
 </div>
 <div class="paragraph">
 <p><a play-topic='http://guides.neo4j.com/intro-neo4j-exercises/16.html'>Continue to Exercise 16</a></p>

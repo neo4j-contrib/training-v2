@@ -530,40 +530,37 @@ In this Exercise you will add and modify nodes and relationships in the graph by
 . In Part 1, you merge data to create and update nodes.
 . In Part 2, you merge data to create relationships.
 
-*Tip:* Pin this Guide so that your Exercise instructions will always be displayed at the top of the result panes displayed. 
-When you have completed this Exercise, you can unpin this Guide.
-
 Go to the next page to perform the two Parts of this Exercise.
 
 == Instructions, Exercise 11, Part 1
 .*Merging data to create and update nodes*
 
-In this Part of the Exercise, you will again create the movie, _Forrest Gump_ and then merge the data in the graph to create another node with a different label.
+In this Part of the Exercise, you will again create the movie, _Forrest Gump_, update the node, and then merge the data in the graph to create another node with a different label.
 
 Write Cypher statements to:
 
-. Use `CREATE` to create a node of type _Movie_ with the _title_ property, _Forrest Gump_.
-. Use `MERGE` to create a node of type _Movie_ with the _title_ property, _Forrest Gump_ and the _released_ property, 1994
-. Query the graph to find all nodes for _Forrest Gump_. 
-. Use a conditional merge (`ON CREATE`) to find a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value 1994.
-. Query the graph to find all nodes and labels for _Forrest Gump_.
-. Use a conditional merge (`ON MATCH`) to update the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.
-. Query the graph to find all nodes and labels for _Forrest Gump_.
-. Delete the _Movie_ node for _Forrest Gump_ that does [.underline]#not# have the _released_ property as you do not want multiple nodes of the same type in the graph.
-. Add the _OlderMovie_ label to the movie, _Forrest Gump_.
+. Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_.
+. Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to 
+"Life is like a box of chocolates...you never know what you're gonna get.".
+. Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_.
+. Query the graph to find all labels for nodes with the title property, _Forrest Gump_.
+. Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.
+. Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_..
 
 == Solution, Exercise 11, Part 1
 .*Merging data to create and update nodes*
 
-In this Part of the Exercise, you will again create the movie, _Forrest Gump_ and then merge the data in the graph to create another node with a different label.
+In this Part of the Exercise, you will again create the movie, _Forrest Gump_, update the node, and then merge the data in the graph to create another node with a different label.
 
 Write Cypher statements to:
 
-*1. Use `CREATE` to create a node of type _Movie_ with the _title_ property, _Forrest Gump_.*
+*1. Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_.*
 
 [source, cypher]
 ----
-CREATE (:Movie {title: 'Forrest Gump'})
+MERGE (m:Movie {title: 'Forrest Gump'})
+ON CREATE SET m.released = 1994
+RETURN m
 ----
 
 [.thumb]
@@ -575,11 +572,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Use `MERGE` to create a node of type _Movie_ with the _title_ property, _Forrest Gump_ and the _released_ property, 1994.*
+*2. Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to 
+"Life is like a box of chocolates...you never know what you're gonna get.".*
 
 [source, cypher]
 ----
-MERGE (:Movie {title: 'Forrest Gump', released: 1994})
+MERGE (m:Movie {title: 'Forrest Gump'})
+ON CREATE SET m.released = 1994
+ON MATCH SET m.tagline = "Life is like a box of chocolates...you never know what you're gonna get."
+RETURN m
 ----
 
 [.thumb]
@@ -591,32 +592,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Query the graph to find all nodes for _Forrest Gump_.*
-
-[source, cypher]
-----
-MATCH (m:Movie)
-WHERE m.title = 'Forrest Gump'
-RETURN m
-----
-
-[.thumb]
-image::{guides}/img/TwoForrestGumpMovies.png[TwoForrestGumpMovies,width=400,float="right"]
-
-The result returned should be:
-
-++++
-<div style="clear: both;"></div>
-++++
-
-Here we see that we have two nodes with the same title. The `MERGE` operation did not match all of the properties so a new node was created. If you try executing the `MERGE` operation again, you will find that no new nodes are created.
-
-*4. Use a conditional merge (`ON CREATE`) to find a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value 1994.*
+*3.  Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_.*
 
 [source, cypher]
 ----
 MERGE (p:Production {title: 'Forrest Gump'})
 ON CREATE SET p.year = 1994
+RETURN p
 ----
 
 [.thumb]
@@ -628,13 +610,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*5. Query the graph to find all nodes for _Forrest Gump_.*
+*4. Query the graph to find labels for nodes with the title property, _Forrest Gump_.*
 
 [source, cypher]
 ----
 MATCH (m)
 WHERE m.title = 'Forrest Gump'
-RETURN m, labels(m)
+RETURN  labels(m)
 ----
 
 [.thumb]
@@ -646,12 +628,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*6. Use a conditional merge (`ON MATCH`) to update the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.*
+*5. Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.*
 
 [source, cypher]
 ----
-MERGE (p:Production {title: 'Forrest Gump', year: 1994})
+MERGE (p:Production {title: 'Forrest Gump'})
 ON MATCH SET p.company = 'Paramount Pictures'
+RETURN p
 ----
 
 [.thumb]
@@ -663,49 +646,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*7. Query the graph to find all nodes and labels for _Forrest Gump_.*
+*6. Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
-MATCH (m)
-WHERE m.title = 'Forrest Gump'
-RETURN m, labels(m)
-----
-
-[.thumb]
-image::{guides}/img/QueryProduction.png[QueryProduction,width=400,float="right"]
-
-The result returned should be:
-
-++++
-<div style="clear: both;"></div>
-++++
-
-*8. Delete the _Movie_ node for _Forrest Gump_ that does [.underline]#not# have the _released_ property as you do not want multiple nodes of the same type in the graph.*
-
-[source, cypher]
-----
-MATCH (m:Movie)
-WHERE m.title = 'Forrest Gump' AND NOT exists(m.released)
-DELETE m
-----
-
-[.thumb]
-image::{guides}/img/DeleteExtraForrestGump.png[DeleteExtraForrestGump,width=400,float="right"]
-
-The result returned should be:
-
-++++
-<div style="clear: both;"></div>
-++++
-
-*9. Add the _OlderMovie_ label to the movie, _Forrest Gump_.*
-
-[source, cypher]
-----
-MATCH (m:Movie)
-WHERE m.title = 'Forrest Gump' 
-SET m:OlderMovie
+MERGE (m:Movie {title: 'Forrest Gump'})
+ON MATCH SET m:OlderMovie
+RETURN labels(m)
 ----
 
 [.thumb]
@@ -731,16 +678,18 @@ In this Part of the Exercise, you merge data to create relationships.
 MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump'})
 ----
 
-This statement that first finds all _Person_ nodes that have [.underline]#only# the _name_ property value of _Robert Zemeckis_. It then finds all nodes with [.underline]#only# the _title_ property set to _Forrest Gump_. There are no _Person_ or other nodes that have only these properties so the graph engine creates them. Then the graph engine creates the relatiobnship between these two nodes. That is, this `MERGE` operation createss two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.
+This statement first finds all _Person_ nodes that have [.underline[#only# the _name_ property value of _Robert Zemeckis_. It then finds all nodes with [.underline[#only# the _title_ property set to _Forrest Gump_. There are no _Person_ or other nodes that have only these properties so the graph engine creates them.  Then the graph engine creates the relationship between these two nodes. That is, this `MERGE` operation creates two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.
+
+In fact, you should *never* create nodes and relationships together like this! This example is here to show you how powerful Cypher can be. A best practice is to create nodes first, then relationships.
 
 [start=2]
-. Repeat the execution of this statement. It should do nothing. A best practice is to *always* use `MERGE` to create relationships to ensure that there will be no duplication in the graph. 
+. Repeat the execution of this statement. It should do nothing. A best practice is to *only* use `MERGE` to create relationships to ensure that there will be no duplication in the graph when you are unsure if the relationship exists. 
 . Delete the duplicated nodes ensuring that the relationships are also deleted.
 *Hint:* Query the nodes before you delete them to ensure you have the correct `MATCH` clauses.
 [start=4]
 . Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_.
 . Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, Forrest Gump_. 
-. Modify the relationbship property, _role_ for their roles in _Forrest Gump_:
+. Modify the relationship property, _role_ for their roles in _Forrest Gump_:
 * _Tom Hanks_ is _Forrest Gump_
 * _Gary Sinise_ is _Lt. Dan Taylor_
 * _Robin Wright_ is _Jenny Curran_
@@ -757,7 +706,9 @@ In this Part of the Exercise, you merge data to create relationships.
 MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump'})
 ----
 
-This statement that first finds all _Person_ nodes that have [.underline]#only# the _name_ property value of _Robert Zemeckis_. It then finds all nodes with [.underline]#only# the _title_ property set to _Forrest Gump_. There are no _Person_ or other nodes that have only these properties so the graph engine creates them. Then the graph engine creates the relatiobnship between these two nodes. That is, this `MERGE` operation createss two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.
+This statement first finds all _Person_ nodes that have [.underline[#only# the _name_ property value of _Robert Zemeckis_. It then finds all nodes with [.underline[#only# the _title_ property set to _Forrest Gump_. There are no _Person_ or other nodes that have only these properties so the graph engine creates them.  Then the graph engine creates the relationship between these two nodes. That is, this `MERGE` operation creates two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.
+
+In fact, you should *never* create nodes and relationships together like this! This example is here to show you how powerful Cypher can be. A best practice is to create nodes first, then relationships.
 
 [.thumb]
 image::{guides}/img/MergeNodesAndRelationships.png[MergeNodesAndRelationships,width=400,float="right"]
@@ -768,7 +719,7 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Repeat the execution of this statement. It should do nothing. A best practice is to *always* use `MERGE` to create relationships to ensure that there will be no duplication in the graph.* 
+*2. Repeat the execution of this statement. It should do nothing. A best practice is to always use `MERGE` to create relationships to ensure that there will be no duplication in the graph.* 
 
 [source, cypher]
 ----
@@ -894,7 +845,7 @@ The result returned should be:
 ++++
 
 
-*6. Modify the relationbship property, _role_ for their roles in _Forrest Gump_:*
+*6. Modify the relationship property, _role_ for their roles in _Forrest Gump_:*
 * _Tom Hanks_ is _Forrest Gump_
 * _Gary Sinise_ is _Lt. Dan Taylor_
 * _Robin Wright_ is _Jenny Curran_
@@ -922,6 +873,6 @@ The result returned should be:
 
 == Exercise Summary
 
-In this Exercise you added and modified nodes and relationships in the graph by merging data. In some parts of the Exercise, you created duplicate nodes and relationships. You should take care not to create duplicate nodes and relationships in your real applicartion graphs.
+In this Exercise you added and modified nodes and relationships in the graph by merging data. In some parts of the Exercise, you created duplicate nodes and relationships. You should take care not to create duplicate nodes and relationships in your real application graphs.
 
 pass:a[<a play-topic='{guides}/12.html'>Continue to Exercise 12</a>]

@@ -537,9 +537,6 @@ In this Exercise you write Cypher statements to add constraints to the graph tha
 . In Part 4, you create a node key.
 . In Part 5, you drop some constraints.
 
-*Tip:* Pin this Guide so that your Exercise instructions will always be displayed at the top of the result panes displayed. 
-When you have completed this Exercise, you can unpin this Guide.
-
 Go to the next page to perform the five Parts of this Exercise.
 
 == Instructions, Exercise 14, Part 1
@@ -584,6 +581,7 @@ The result returned should look something like this:
 [.thumb]
 image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=500]
 
+Existence
 
 Next, Part 2
 
@@ -669,7 +667,7 @@ Next, Part 3
 Suppose we want to ensure that every _ACTED_IN_ relationship must have a value for the _roles_ property.
 
 . Add the constraint to the _ACTED_IN_ relationship in the graph.
-. Write and execute a Cypher statemen t to add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set. What happens when you execute the statement?
+. Write and execute a Cypher statement to add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set. What happens when you execute the statement?
 
 == Solution, Exercise 14, Part 3
 .*Creating an existence constraint on a relationship.*
@@ -722,7 +720,7 @@ DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
 ----
 
 . Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.
-. Write and execute a Cypher statemen t to add the movie, _Back to the Future_ with a _released_ value of 1985 and a _tagline_ value of _Our future._.
+. Write and execute a Cypher statement to add the movie, _Back to the Future_ with a _released_ value of 1985 and a _tagline_ value of _Our future._.
 . Write and execute a Cypher statement to add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._. 
 . Try adding the _2018_ movie again. What happens when you attempt to add the movie?
 
@@ -816,7 +814,7 @@ Perform these tasks:
 
 [source, cypher]
 ----
-call db.constraints
+CALL db.constraints()
 ----
 
 The result returned should be:

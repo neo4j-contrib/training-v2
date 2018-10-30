@@ -1,5 +1,5 @@
 = Exercise 15
-== Exercise 15: Importing data
+== Exercise 15: Managing indexes
 
 .*Before you begin:*
 . Make sure you have completed Exercise 14. 
@@ -7,7 +7,7 @@
 .. You should see when you click the database icon: image:{guides}/img/AfterExercise14.png[200,200]
 .. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that _Enable multi-statement query editor_ is set. It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
 
-*Important:* This Cypher script will fail if your graph has any constraints defined as it creates the constraints you created in the previous Exercise. You must first drop any constraints in your graph before running this script. Use `call db.constraints` to see if you have any constraints in the graph and simply prefix the constraint definition with `DROP`.
+*Important:* This Cypher script will fail if your graph has any constraints defined as it creates the constraints you created in the previous Exercise. You must first drop any constraints in your graph before running this script. Use `CALL db.constraints` to see if you have any constraints in the graph and simply prefix the constraint definition with `DROP`.
 
 [source,cypher]
 ----
@@ -537,221 +537,91 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
        (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})
 ----
 
+
 == Exercise Overview
 
-In this Exercise you write Cypher statements to import data into your graph.
+In this Exercise you write Cypher statements create, view, and drop indexes.
 
-. In Part 1, you import actor data from a CSV file.
-. In Part 2, you import movie data from a CSV file.
-. In Part 3, you import data to relate actors to movies from a CSV file.
-
-*Tip:* Pin this Guide so that your Exercise instructions will always be displayed at the top of the result panes displayed. 
-When you have completed this Exercise, you can unpin this Guide.
+. In Part 1, you create an index.
+. In Part 2, you view index information.
+. In Part 3, you drop an index.
 
 Go to the next page to perform the three Parts of this Exercise.
 
 == Instructions, Exercise 15, Part 1
-.*Importing actor data*
+.*Creating an index*
 
-You are given the name of a file, http://data.neo4j.com/intro-neo4j/actors.csv that you must load into your graph.
-
-. Write the Cypher statement to return the data from the file.
-. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.
-. Write the Cypher statement to load the data into your graph.
-*Hint:* Use `MERGE` because the graph already contains some of these actors.
+Write the Cypher statement to create a single-property index on the _born_ property of a _Person_ node.
 
 == Solution, Exercise 15, Part 1
-.*Importing actor data*
+.*Creating an index*
 
-You are given the name of a file, http://data.neo4j.com/intro-neo4j/actors.csv that you must load into your graph.
-
-*1. Write the Cypher statement to return the data from the file.*
+Write the Cypher statement to create a single-property index on the _born_ property of a _Person_ node.
 
 [source, cypher]
 ----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/actors.csv'
-AS line
-RETURN line.id, line.name, line.birthYear
+CREATE INDEX ON :Person(born)
 ----
+
+[.thumb]
+image::{guides}/img/CreateIndex.png[CreateIndex,width=300,float="right"]
 
 The result should be:
 
-[.thumb]
-image::{guides}/img/LoadActorsToView.png[LoadActorsToView,width=600]
-
-*2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.*
-
-[source, cypher]
-----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/actors.csv'
-AS line
-RETURN line.id, line.name, toInteger(lTrim(line.birthYear))
-----
-
-The result should be:
-
-[.thumb]
-image::{guides}/img/LoadAndFormatActorData.png[LoadAndFormatActorData,width=600]
-
-*3. Write the Cypher statement to load the data into your graph.*
-
-*Hint:* Use `MERGE` because the graph already contains some of these actors.
-
-[source, cypher]
-----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/actors.csv'
-AS line
-MERGE (actor:Person {name: line.name})
-  ON CREATE SET actor.born = toInteger(lTrim(line.birthYear)), actor.actorId = line.id
-  ON MATCH SET actor.actorId = line.id
-----
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/LoadedActors.png[LoadedActors,width=600]
+++++
+<div style="clear: both;"></div>
+++++
 
 Next, Part 2
 
 == Instructions, Exercise 15, Part 2
-.*Importing movie data*
+.*Viewing indexes*
 
-You are given the name of a file, http://data.neo4j.com/intro-neo4j/movies.csv that you must load into your graph.
-
-. Write the Cypher statement to return the data from the file.
-. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.
-. Write the Cypher statement to load the data into your graph.
-*Hint:* Use `MERGE` because the graph already contains some of these movies.
+Write the Cypher statement to view the indexes defined for the graph. Do you see indexes that you did not create with the `CREATE INDEX` statement?
 
 == Solution, Exercise 15, Part 2
-.*Importing movie data*
+.*Viewing indexes*
 
-You are given the name of a file, http://data.neo4j.com/intro-neo4j/movies.csv that you must load into your graph.
-
-.*1. Write the Cypher statement to return the data from the file.*
+Write the Cypher statement to view the indexes defined for the graph. Do you see indexes that you did not create with the `CREATE INDEX` statement? The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.
 
 [source, cypher]
 ----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/movies.csv'
-AS line
-RETURN line.id, line.title, line.year, line.tagLine
+CALL db.indexes()
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/LoadMoviesToView.png[LoadMoviesToView,width=600]
-
-*2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.*
-
-[source, cypher]
-----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/movies.csv'
-AS line
-RETURN line.id, line.title, toInteger(line.year), lTrim(line.tagLine)
-----
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/LoadAndFormatMovies.png[LoadAndFormatMovies,width=600]
-
-*3. Write the Cypher statement to load the data into your graph.*
-
-*Hint:* Use `MERGE` because the graph already contains some of these movies.
-
-[source, cypher]
-----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/movies.csv'
-AS line
-MERGE (m:Movie {title: line.title})
-ON CREATE 
-  SET m.released = toInteger(lTrim(line.year)), 
-      m.movieId = line.id,
-      m.tagline = line.tagLine
-  ON MATCH SET m.movieId = line.id
-----
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/LoadedMovies.png[LoadedMovies,width=600]
+image::{guides}/img/ViewIndexes.png[ViewIndexes,width=600]
 
 Next, Part 3
 
 == Instructions, Exercise 15, Part 3
-.*Importing data to relate actors to movies*
+.*Dropping an index*
 
-You are given the name of a file, http://data.neo4j.com/intro-neo4j/roles.csv that you must load into your graph.
-
-. Write the Cypher statement to return the data from the file.
-. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.
-. Write the Cypher statement to load the data into your graph.
-
-*Hint:* Use `MERGE` because the graph already contains one of these relationships.
+Write Cypher code to drop the single-property index you just created for the _born_ property of the _Person_ nodes.
 
 == Solution, Exercise 15, Part 3
-.*Importing data to relate actors to movies*
+.*Dropping an index*
 
-You are given the name of a file, http://data.neo4j.com/intro-neo4j/roles.csv that you must load into your graph.
-
-*1. Write the Cypher statement to return the data from the file.*
+Write Cypher code to drop the single-property index you just created for the _born_ property of the _Person_ nodes.
 
 [source, cypher]
 ----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/roles.csv'
-AS line FIELDTERMINATOR ';'
-RETURN line.personId, line.movieId, line.Role
+DROP INDEX ON :Person(born)
 ----
+
+[.thumb]
+image::{guides}/img/DropIndex.png[DropIndex,width=300,float="right"]
 
 The result returned should be:
 
-[.thumb]
-image::{guides}/img/LoadRolesToView.png[LoadRolesToView,width=600]
-
-
-*2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.*
-
-[source, cypher]
-----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/roles.csv'
-AS line FIELDTERMINATOR ';'
-RETURN line.personId, line.movieId, split(line.Role,',')
-----
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/LoadAndFormatRoles.png[LoadAndFormatRoles,width=600]
-
-*3. Write the Cypher statement to load the data into your graph.*
-
-[source, cypher]
-----
-LOAD CSV WITH HEADERS
-FROM 'http://data.neo4j.com/intro-neo4j/roles.csv'
-AS line FIELDTERMINATOR ';'
-MATCH (movie:Movie { movieId: line.movieId })
-MATCH (person:Person { actorId: line.personId })
-MERGE (person)-[:ACTED_IN { roles: split(line.Role,',')}]->(movie)
-----
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/LoadedRoles.png[LoadedRoles,width=600]
-
+++++
+<div style="clear: both;"></div>
+++++
 
 == Exercise Summary
 
-In this Exercise you wrote Cypher statements to load data that is properly formatted into the graph.
+In this Exercise you wrote Cypher statements to create, view, and drop an index for the graph.
 
 pass:a[<a play-topic='{guides}/16.html'>Continue to Exercise 16</a>]

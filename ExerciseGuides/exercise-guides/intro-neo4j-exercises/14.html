@@ -628,10 +628,6 @@ SET m:OlderMovie<!--/code--></pre>
 </ol>
 </div>
 <div class="paragraph">
-<p><strong>Tip:</strong> Pin this Guide so that your Exercise instructions will always be displayed at the top of the result panes displayed.
-When you have completed this Exercise, you can unpin this Guide.</p>
-</div>
-<div class="paragraph">
 <p>Go to the next page to perform the five Parts of this Exercise.</p>
 </div>
 	</div>
@@ -709,6 +705,9 @@ When you have completed this Exercise, you can unpin this Guide.</p>
 <div class="content">
 <img src="http://guides.neo4j.com/intro-neo4j-exercises/img/CreateTomHanksFailed.png" alt="CreateTomHanksFailed" width="500">
 </div>
+</div>
+<div class="paragraph">
+<p>Existence</p>
 </div>
 <div class="paragraph">
 <p>Next, Part 2</p>
@@ -851,7 +850,7 @@ SET p.born = 0<!--/code--></pre>
 <p>Add the constraint to the <em>ACTED_IN</em> relationship in the graph.</p>
 </li>
 <li>
-<p>Write and execute a Cypher statemen t to add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set. What happens when you execute the statement?</p>
+<p>Write and execute a Cypher statement to add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set. What happens when you execute the statement?</p>
 </li>
 </ol>
 </div>
@@ -938,7 +937,7 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 <p>Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes.</p>
 </li>
 <li>
-<p>Write and execute a Cypher statemen t to add the movie, <em>Back to the Future</em> with a <em>released</em> value of 1985 and a <em>tagline</em> value of <em>Our future.</em>.</p>
+<p>Write and execute a Cypher statement to add the movie, <em>Back to the Future</em> with a <em>released</em> value of 1985 and a <em>tagline</em> value of <em>Our future.</em>.</p>
 </li>
 <li>
 <p>Write and execute a Cypher statement to add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em>.</p>
@@ -1086,7 +1085,7 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->call db.constraints<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.constraints()<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">

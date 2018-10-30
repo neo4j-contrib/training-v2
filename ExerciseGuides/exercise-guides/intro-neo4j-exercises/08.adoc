@@ -529,9 +529,6 @@ In this Exercise, you will write Cypher statements to create nodes. Then you wil
 . In Part 3, you add properties to nodes.
 . In Part 4, you remove properties from nodes.
 
-*Tip:* Pin this Guide so that your Exercise instructions will always be displayed at the top of the result panes displayed. 
-When you have completed this Exercise, you can unpin this Guide.
-
 Go to the next page to perform the four Parts of this Exercise.
 
 == Instructions, Exercise 8, Part 1
@@ -541,7 +538,6 @@ Write Cypher statements to:
 
 . Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.
 . Retrieve the node you just created by its _title_.
-. Retrieve the node you just created by its _id_.
 . Create a _Person_ node for the person with the _name_, _Robin Wright_.
 . Retrieve the _Person_ node you just created by its _name_.
 
@@ -581,33 +577,13 @@ image::{guides}/img/RetrieveForrestGump.png[RetrieveForrestGump,width=400,float=
 
 The result returned should be:
 
-*Note:* The value for the _id_ property for the newly-created node may be different for your graph. It this screen shot, it is _741_.
+*Note:* The value for the _id_ property for the newly created node may be different for your graph. It this screen shot, it is _741_.
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-*3. Retrieve the node you just created by its _id_.*
-
-[source, cypher]
-----
-MATCH (m:Movie)
-// the number you specify here depends on your particular graph
-// and is based upon what you see when you retrieve by _title_
-WHERE id(m) = 741
-RETURN m
-----
-
-[.thumb]
-image::{guides}/img/RetrieveForrestGumpByID.png[RetrieveForrestGumpByID,width=400,float="right"]
-
-The result returned should be:
-
-++++
-<div style="clear: both;"></div>
-++++
-
-*4. Create a _Person_ node for the person with the _name_, _Robin Wright_.*
+*3. Create a _Person_ node for the person with the _name_, _Robin Wright_.*
 
 [source, cypher]
 ----
@@ -788,6 +764,9 @@ Write Cypher statements to:
 * lengthInMinutes: 142
 
 *Hint:* This movie should also have the label _OlderMovie_.
+
+.*Taking it further (optional)*
+** Try adding or updating properties using the JSON-style syntax using `=` and `+=`.
 
 [start=2]
 . Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.
@@ -986,6 +965,6 @@ The result returned should be:
 
 == Exercise Summary
 
-In this Exercise, you wrote Cypher statemewnts to create nodes. Then you wrote Cypher statements to add and remove labels for nodes. Next, you used Cypher to add properties to nodes. Finally, you wrote Cypher statements to remove properties from nodes.
+In this Exercise, you wrote Cypher statements to create nodes. Then you wrote Cypher statements to add and remove labels for nodes. Next, you used Cypher to add properties to nodes. Finally, you wrote Cypher statements to remove properties from nodes.
 
 pass:a[<a play-topic='{guides}/09.html'>Continue to Exercise 9</a>]
