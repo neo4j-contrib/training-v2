@@ -444,8 +444,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_analyzing_cypher_execution">Analyzing Cypher execution</a></li>
-<li><a href="#_monitoring_queries">Monitoring queries</a></li>
+<li><a href="#_monitoring_queries">Monitoring queries</a>
+<ul class="sectlevel2">
 <li><a href="#_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></a></li>
+</ul>
+</li>
 <li><a href="#_managing_constraints_and_node_keys">Managing constraints and node keys</a>
 <ul class="sectlevel2">
 <li><a href="#_ensuring_that_a_property_value_for_a_node_is_unique">Ensuring that a property value for a node is unique</a></li>
@@ -572,37 +575,70 @@ RETURN m.released, m.title ORDER BY m.released DESC</pre>
 <div class="paragraph">
 <p><strong>Note</strong>: You can even specify a Cypher expression to the right of <code>&#8658;</code> to set the value of the parameter.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is the result of executing the <code>:param</code> command:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActorNameParameter.png" alt="SetActorNameParameter" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActorNameParameter.png" alt="SetActorNameParameter" width="400">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Notice here that <code>:param</code> is a client-side browser command. It takes a name and expression and stores the value of that expression for the name in the session.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>After the <em>actorName</em> parameter is set, you can run the query that uses the parameter:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UseParameter.png" alt="UseParameter" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Subsequently, you need only change the value of the parameter and not the Cypher statement to test with different values.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>After we have changed the <em>actorName</em> parameter to 'Tom Cruise', we get a different result with the same Cypher query:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TomCruiseParameter.png" alt="TomCruiseParameter" width="800">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You can also use the JSON-style syntax to set <span class="underline">all</span> of the parameters in your Neo4j Browser session. The values you can specify in this object are numbers, strings, and booleans. In this example we set two parameters for our session:</p>
 </div>
 <div class="listingblock">
@@ -617,18 +653,30 @@ RETURN m.released, m.title ORDER BY m.released DESC</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetAllParameters.png" alt="SetAllParameters" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If you want to remove an existing parameter from your session, you do by by using the JSON-style syntax and excluding the parameter for your session.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If you want to view the current parameters and their values, simply type <code>:params</code>:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ViewParams.png" alt="ViewParams" width="400">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_exercise_12_using_cypher_parameters"><strong>Exercise 12: Using Cypher parameters</strong></h3>
@@ -661,7 +709,13 @@ and follow the instructions for Exercise 12.</p>
 <div class="paragraph">
 <p>The <code>EXPLAIN</code> option provides the Cypher query plan. You can compare different Cypher statements to understand the stages of processing that will occur when the Cypher executes.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we have set the <em>actorName</em> and <em>year</em> parameters for our session and we execute this Cypher statement:</p>
 </div>
 <div class="listingblock">
@@ -679,14 +733,23 @@ RETURN p.name, m.title, m.released</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/EXPLAIN.png" alt="EXPLAIN" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>You can expand each phase of the Cypher execution to examine what code is expected to run. Each phase of the query presents you with an estimate of the number of rows expected to be returned. With <code>EXPLAIN</code>, the query does not run, the graph engine simply produces the query plan.</p>
 </div>
 <div class="paragraph">
 <p>For a better metric for analyzing how the Cypher statement will run you use the <code>PROFILE</code> keyword which runs the Cypher statement and gives you run-time performance metrics.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is the result returned using <code>PROFILE</code> for this Cypher statement:</p>
 </div>
 <div class="imageblock thumb">
@@ -696,8 +759,17 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="paragraph">
 <p>Here we see that for each phase of the graph engine processing, we can view the cache hits and most importantly the number of times the graph engine accessed the database (db hits). This is an important metric that will affect the performance of the Cypher statement at run-time.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example, if we were to change the Cypher statement so that the node labels are not specified, we see these metrics when we profile:</p>
 </div>
 <div class="imageblock thumb">
@@ -707,7 +779,10 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="paragraph">
 <p>Here we see more db hits which makes sense because all nodes need to be scanned for perform this query.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -743,7 +818,13 @@ RETURN p.name, m.title, m.released</pre>
 <div class="paragraph">
 <p>If the query executes and then <strong>returns a lot of data</strong>, there is no way to monitor it or kill the query. All that you can do is close your Neo4j Browser session and start a new one. If the server has many of these <strong>rogue</strong> queries running, it will slow down considerably so you should aim to limit these types of queries. If you are running Neo4j Desktop, you can simply restart the database to clear things up, but if you are using a Neo4j Sandbox, you cannot do so. The database server is always running and you cannot restart it. Your only option is to shut down the Neo4j Sandbox and create a new Neo4j Sandbox, but then you lose any data you have worked with.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If, however, the query is a <strong>long-running query</strong>, you can monitor it by using the <code>:queries</code> command. Here is a screenshot where we are monitoring a long-running query in another Neo4j Browser session:</p>
 </div>
 <div class="imageblock thumb">
@@ -758,8 +839,17 @@ RETURN p.name, m.title, m.released</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KillQuery.png" alt="KillQuery" width="800">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is what happens in the Neo4j Browser session where the long-running query was run:</p>
 </div>
 <div class="imageblock thumb">
@@ -769,15 +859,16 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> The <code>:queries</code> command is only available in the Enterprise Edition of Neo4j.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></h2>
-<div class="sectionbody">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></h3>
 <div class="paragraph">
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 13.</p>
+</div>
 </div>
 </div>
 </div>
@@ -817,7 +908,13 @@ and follow the instructions for Exercise 13.</p>
 <div class="paragraph">
 <p>You add a uniqueness constraint to the graph by creating a constraint that asserts that a particular node property is unique in the graph for a particular type of node.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example for ensuring that the <em>title</em> for a node of type <em>Movie</em> is unique:</p>
 </div>
 <div class="listingblock">
@@ -835,8 +932,17 @@ and follow the instructions for Exercise 13.</p>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddTitleConstraint.png" alt="AddTitleConstraint" width="300">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>And if we attempt to create a <em>Movie</em> with the <em>title</em>, <em>The Matrix</em>, the Cypher statement will fail because the graph already has a movie with that title:</p>
 </div>
 <div class="listingblock">
@@ -854,7 +960,10 @@ and follow the instructions for Exercise 13.</p>
 </div>
 <div class="paragraph">
 <p>In addition, if you attempt to modify the value of a property where the uniqueness assertion fails, the property will not be updated.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_ensuring_that_properties_exist">Ensuring that properties exist</h3>
@@ -864,7 +973,13 @@ and follow the instructions for Exercise 13.</p>
 <div class="paragraph">
 <p>You add an existence constraint to the graph by creating a constraint that asserts that a particular type of node or relationship property must exist in the graph when a node or relationship of that type is created or updated.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Recall that in the <em>Movie</em> graph, the movie, <em>Something&#8217;s Gotta Give</em> has no <em>tagline</em> property:</p>
 </div>
 <div class="imageblock thumb">
@@ -890,8 +1005,17 @@ and follow the instructions for Exercise 13.</p>
 </div>
 <div class="paragraph">
 <p>The constraint cannot be added to the graph because a node has been detected that violates the constraint.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>We know that in the <em>Movie</em> graph, all <em>:REVIEWED</em> relationships currently have a property, <em>rating</em>. We can create an existence constraint on that property as follows:</p>
 </div>
 <div class="listingblock">
@@ -907,8 +1031,17 @@ With the result:</p>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateRatingExistenceConstraint.png" alt="CreateRatingExistenceConstraint" width="400">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>So after creating this constraint, if we attempt to create a <em>:REVIEWED</em> relationship without setting the <em>rating</em> property:</p>
 </div>
 <div class="listingblock">
@@ -929,14 +1062,23 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 </div>
 <div class="paragraph">
 <p>You will also see this error if you attempt to remove a property from a node or relationship where the existence constraint has been created in the graph.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_retrieving_constraints_defined_for_the_graph">Retrieving  constraints defined for the graph</h3>
 <div class="paragraph">
 <p>You can run the browser command <code>:schema</code> to view existing indexes and constraints defined for the graph.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Just as you have used other <em>db</em> related methods to query the schema of the graph, you can query for the set of constraints defined in the graph as follows:</p>
 </div>
 <div class="listingblock">
@@ -954,14 +1096,23 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note</strong>: Using the method notation for the CALL statement enables you to use the call for returning results that may be used later in the Cypher statement.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_dropping_constraints">Dropping constraints</h3>
 <div class="paragraph">
 <p>You use similar syntax to drop an existence or uniqueness constraint, except that you use the <code>DROP</code> keyword rather than <code>CREATE</code></p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here we drop the existence constraint for the <em>rating</em> property for all <em>REVIEWED</em> relationships in the graph:</p>
 </div>
 <div class="listingblock">
@@ -976,14 +1127,23 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropConstraint.png" alt="DropConstraint" width="400">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_creating_node_keys">Creating node keys</h3>
 <div class="paragraph">
 <p>A node key is used to define the uniqueness constraint for <span class="underline">multiple</span> properties of a node of a certain type. A node key is  also used as a composite index in the graph.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Suppose that in our <em>Movie</em> graph, we will not allow a <em>Person</em> node to be created where both the <em>name</em> and <em>born</em> properties are the same. We can create a constraint that will be a node key to ensure that this uniqueness for the set of properties is asserted.</p>
 </div>
 <div class="paragraph">
@@ -1004,8 +1164,17 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 </div>
 <div class="paragraph">
 <p>This attempt to create the constraint failed because there are <em>Person</em> nodes in the graph that do not have the <em>born</em> property defined.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If we set these properties for all nodes in the graph that do not have <em>born</em> properties with:</p>
 </div>
 <div class="listingblock">
@@ -1022,11 +1191,20 @@ SET p.born = 0</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateNodeKey.png" alt="CreateNodeKey" width="400">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Any subsequent attempt to create or modify an existing <em>Person</em> node with <em>name</em> or <em>born</em> values that violate the uniqueness constraint as a node key will fail.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example, executing this Cypher statement will fail:</p>
 </div>
 <div class="listingblock">
@@ -1041,7 +1219,10 @@ SET p.born = 0</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateDuplicateJessicaFailure.png" alt="CreateDuplicateJessicaFailure" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_exercise_14_managing_constraints_and_node_keys"><strong>Exercise 14: Managing constraints and node keys</strong></h3>
@@ -1097,7 +1278,13 @@ and follow the instructions for Exercise 14.</p>
 <div class="paragraph">
 <p>When you add an index for a property of a node, it can greatly reduce the number of nodes the graph engine needs to visit in order to satisfy a query.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In this query we are testing the value of the <em>released</em> property of a <em>Movie</em> node using ranges:</p>
 </div>
 <div class="listingblock">
@@ -1114,14 +1301,23 @@ SET m.videoFormat = 'DVD'</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/IndexForRanges.png" alt="IndexForRanges" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_creating_indexes">Creating indexes</h3>
 <div class="paragraph">
 <p>You create an index to improve graph engine performance. A unique constraint on a property is an index so you need not create an index for any properties you have created uniqueness constraints for. An index on its own does <span class="underline">not</span> guarantee uniqueness.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example of how we would create a single-property index on the <em>released</em> property of all nodes of type <em>Movie</em>:</p>
 </div>
 <div class="listingblock">
@@ -1136,14 +1332,23 @@ SET m.videoFormat = 'DVD'</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateSingle-propertyIndex.png" alt="CreateSingle-propertyIndex" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If a set of properties for a node must be unique for every node, then you should create a constraint as a node key, rather than an index.</p>
 </div>
 <div class="paragraph">
 <p>If, however, there can be duplication for a set of property values, but you want faster access to them, then you can create a composite index. A composite index is based upon multiple properties for a node.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Suppose we added the property, <em>videoFormat</em> to every <em>Movie</em> node and set its value, based upon the released date of the movie as follows:</p>
 </div>
 <div class="listingblock">
@@ -1166,8 +1371,17 @@ SET m.videoFormat = 'VHS'</pre>
 </div>
 <div class="paragraph">
 <p><strong>Important:</strong> Notice that in the above Cypher statements we use the semi-colon <code>;</code> to separate Cypher statements. In general, you need not end a Cypher statement with a semi-colon, but if you want to execute multiple Cypher statements, you must separate them. You have already used the semi-colon to separate Cypher statements when you loaded the <em>Movie</em> database in the training exercises.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Now that the graph has <em>Movie</em> nodes with both the properties, <em>released</em> and <em>videoFormat</em>, we can create a composite index on these properties as follows:</p>
 </div>
 <div class="listingblock">
@@ -1182,11 +1396,20 @@ SET m.videoFormat = 'VHS'</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateCompositeIndex.png" alt="CreateCompositeIndex" width="400">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_retrieving_indexes">Retrieving indexes</h3>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Just as you can retrieve the constraints defined for the graph using <code>:schema</code> or <code>CALL db.constraints()</code>, you can retrieve the indexes:</p>
 </div>
 <div class="listingblock">
@@ -1204,14 +1427,23 @@ SET m.videoFormat = 'VHS'</pre>
 </div>
 <div class="paragraph">
 <p>Notice that the unique constraints and node keys are also shown as indexes in the graph.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_dropping_indexes">Dropping indexes</h3>
 <div class="paragraph">
 <p>You can drop an existing index that you created with  <code>CREATE INDEX</code>.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example of dropping the composite index that we just created:</p>
 </div>
 <div class="listingblock">
@@ -1226,7 +1458,10 @@ SET m.videoFormat = 'VHS'</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropCompositeIndex.png" alt="DropCompositeIndex" width="400">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_exercise_15_managing_indexes"><strong>Exercise 15: Managing indexes</strong></h3>
@@ -1310,7 +1545,13 @@ create-or-merge-clause</pre></div></td>
 <div class="paragraph">
 <p>As CSV files usually represent either node or relationship lists, you will run multiple passes to create nodes and relationships separately.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <strong>movies_to_load.csv</strong> file (sample below) contains the data that will add <em>Movie</em> nodes:</p>
 </div>
 <div class="listingblock">
@@ -1320,11 +1561,20 @@ create-or-merge-clause</pre></div></td>
 2,The American President,USA,1995, Why can't the most powerful man in the world have the one thing he wants most?
 3,The Shawshank Redemption,USA,1994, Fear can hold you prisoner. Hope can set you free.</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Before you load data from CSV files into your graph, you should first confirm that the data retrieved looks OK. Rather than creating nodes or relationships, you can simply return information about the data to be loaded.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example you can execute this Cypher statement to get a count of the data to be loaded from the <strong>movies_to_load.csv</strong> file so you have an idea of how much data will be loaded:</p>
 </div>
 <div class="listingblock">
@@ -1342,8 +1592,17 @@ RETURN count(*)</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/countOfMoviesToLoad.png" alt="countOfMoviesToLoad" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You might even want to visually inspect the data before you load it to see if it is what you were expecting:</p>
 </div>
 <div class="listingblock">
@@ -1364,8 +1623,17 @@ RETURN * LIMIT 1</pre>
 </div>
 <div class="paragraph">
 <p>Notice here that the <em>summary</em> column&#8217;s data has an extra space before the data in the file. In order to ensure that all <em>tagline</em> values in our graph do not have an extra space, we will trim the value before assigning it to the tagline property. Once we are sure you want to load the data into your graph, we do so by assigning values from each row read in to a new node.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You may want to format the data before it is loaded to confirm it matches what you want in your graph:</p>
 </div>
 <div class="listingblock">
@@ -1383,8 +1651,17 @@ RETURN line.id, line.title, toInteger(line.year), trim(line.summary)</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FormatMovieDataBeforeLoad.png" alt="FormatMovieDataBeforeLoad" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The following query creates the <em>Movie</em> nodes using some of the data from <strong>movies_to_load.csv</strong> as properties:</p>
 </div>
 <div class="listingblock">
@@ -1405,8 +1682,17 @@ CREATE (movie:Movie { movieId: line.id, title: line.title, released: toInteger(l
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadMovies.png" alt="loadMovies" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <strong>persons_to_load.csv</strong> file (sample below) holds the data that will populate the <em>Person</em> nodes.</p>
 </div>
 <div class="listingblock">
@@ -1418,8 +1704,17 @@ CREATE (movie:Movie { movieId: line.id, title: line.title, released: toInteger(l
 4,Martin Sheen, 1940
 5,Morgan Freeman, 1937</pre>
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In case you already have people in your database, you will want to avoid creating duplicates.
 That&#8217;s why instead of just creating them, we use <code>MERGE</code> to ensure unique entries after the import.
 We use the <code>ON CREATE</code> clause to set the values for <em>name</em> and <em>born</em>.</p>
@@ -1444,8 +1739,17 @@ ON CREATE SET actor.name = line.name,
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadPersons.png" alt="loadPersons" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <strong>roles_to_load.csv</strong> file (sample below) holds the data that will populate the relationships between the nodes.</p>
 </div>
 <div class="listingblock">
@@ -1458,8 +1762,17 @@ ON CREATE SET actor.name = line.name,
 3,2,President Andrew Shepherd
 5,3,Ellis Boyd 'Red' Redding</pre>
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The query below matches the entries of <em>line.personId</em> and <em>line.movieId</em> to their respective <em>Movie</em> and <em>Person</em> nodes, and creates an <em>ACTED_IN</em> relationship between the person and the movie.
 This model includes a relationship property of <em>role</em>, which is passed via <em>line.role</em>.</p>
 </div>
@@ -1480,14 +1793,23 @@ CREATE (person)-[:ACTED_IN { roles: [line.role]}]-&gt;(movie)</code></pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadRoles.png" alt="loadRoles" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_importing_denormalized_data">Importing denormalized data</h3>
 <div class="paragraph">
 <p>If your file contains denormalized data, you can run the same file with multiple passes and simple operations as shown above. Alternatively, you might have to use <code>MERGE</code> to create nodes and relationships uniquely.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For our use case, we can import the data using a CSV structure like this:</p>
 </div>
 <div class="paragraph">
@@ -1499,8 +1821,17 @@ CREATE (person)-[:ACTED_IN { roles: [line.role]}]-&gt;(movie)</code></pre>
 Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Michael J. Fox;1961;Marty McFly
 Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Christopher Lloyd;1938;Dr. Emmet Brown</pre>
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here are the Cypher statements to load this data:</p>
 </div>
 <div class="listingblock">
@@ -1527,7 +1858,10 @@ ON CREATE SET r.roles = split(line.characters,',')</code></pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadAll.png" alt="loadAll" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>For large denormalized files, it may still make sense to create nodes and relationships separately in multiple passes.
 That would depend on the complexity of the operations and the experienced performance.</p>
@@ -1673,7 +2007,7 @@ and follow the instructions for Exercise 16.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-30 10:17:39 CST
+Last updated 2018-11-01 14:30:17 CST
 </div>
 </div>
 </body>

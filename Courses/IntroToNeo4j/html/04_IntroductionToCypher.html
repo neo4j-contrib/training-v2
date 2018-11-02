@@ -561,14 +561,14 @@ The guiding goal is to make the simple things easy, and the complex things possi
 <div class="paragraph">
 <p>Optimized for being read by humans, Cypher&#8217;s construct uses English prose and iconography (called ASCII Art) to make queries more self-explanatory.</p>
 </div>
-<div class="paragraph">
+<div class="paragraph thumb">
 <p><span class="image"><img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ASCIIArt.png" alt="ASCIIArt" width="700"></span></p>
 </div>
 <div class="paragraph">
 <p>Being a declarative language, Cypher focuses on the clarity of expressing <strong>what</strong> to retrieve from a graph, not on <strong>how</strong> to retrieve it.
 You can think of Cypher as mapping English language sentence structure to patterns in a graph. For example, the nouns are nodes of the graph, the verbs are the relationships in the graph, and the adjectives and adverbs are the properties.</p>
 </div>
-<div class="paragraph">
+<div class="paragraph thumb">
 <p><span class="image"><img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Nouns.png" alt="Nouns" width="700"></span></p>
 </div>
 <div class="paragraph">
@@ -609,7 +609,7 @@ In the <em>Movie</em> database you will be working with, the nodes in this graph
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">For example, you can see the labels in the database by simply clicking the Database icon in Neo4j Browser:</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="imageblock" style="text-align: center">
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="imageblock thumb" style="text-align: center">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NodeLabels.png" alt="NodeLabels" width="300">
 </div>
@@ -651,7 +651,13 @@ A node can have zero or more labels.</p>
 <div class="paragraph">
 <p>Notice that a node must have the parentheses. The labels and the variable for a node are optional.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here are examples of specifying nodes in Cypher:</p>
 </div>
 <div class="listingblock">
@@ -665,7 +671,10 @@ A node can have zero or more labels.</p>
 </div>
 <div class="paragraph">
 <p>A node can have multiple labels. For example a node can be created with a label of <em>Person</em> and that same node can be modified to also have the label of <em>Actor</em> and/or <em>Director</em>.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_comments_in_cypher">Comments in Cypher</h4>
@@ -680,17 +689,26 @@ A node can have zero or more labels.</p>
 <p>When you are first learning about the data (nodes, labels, etc.) in a graph, it is helpful to examine the data model of the graph.
 You do so by executing <code>CALL db.schema</code>, which calls the Neo4j procedure that returns information about the nodes, labels, and relationships in the graph.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example, when we run this procedure in our training environment, we see the following in the result pane.
 Here we see that the graph has 2 labels defined for nodes, <em>Person</em> and <em>Movie</em>.
 Each type of nodes is displayed in a different color.
 The relationships between nodes are also displayed, which you will learn about later in this module.</p>
 </div>
-<div class="imageblock">
+<div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.schema.png" alt="call_db.schema" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_using_match_to_retrieve_nodes">Using MATCH to retrieve nodes</h3>
@@ -736,7 +754,13 @@ This coding convention is described in the <em>Cypher Style Guide</em> and will 
 This <code>MATCH</code> clause returns all nodes in the graph, where the optional <em>Label</em> is used to return a subgraph if the graph contains nodes of different types.
 The <em>variable</em> must be specified here, otherwise the query will have nothing to return.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here are example queries to the <em>Movie</em> database:</p>
 </div>
 <div class="listingblock">
@@ -762,20 +786,32 @@ The default view of the returned nodes are the nodes that were referenced by the
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PersonNodes-graph.png" alt="PersonNodes" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p><strong>Important:</strong> When you specify a pattern for a <code>MATCH</code> clause, you should always specify a node label if possible. In doing so, the graph engine uses an index to retrieve the nodes which will perform better than not using a label for the <code>MATCH</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_viewing_nodes_as_table_data">Viewing nodes as table data</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>We can also view the nodes as table data where the nodes and their associated property values are shown in a JSON-style format:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PersonNodes-table.png" alt="PersonNodes-table" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>When nodes are displayed as table values, the node labels and ids are not shown, only the property values for the nodes. Node ids are unique identifiers and are set by the graph engine when a node is created.</p>
 </div>
@@ -797,7 +833,13 @@ Recall that nodes are used to represent the entities of your business model.
 A property is defined for a node and not for a type of node.
 All nodes of the same type need not have the same properties.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example, in the <em>Movie</em> graph, all <em>Movie</em> nodes have both <em>title</em>  and <em>released</em> properties.
 However, it is not a requirement that every <em>Movie</em> node has a property, <em>tagline</em>.</p>
 </div>
@@ -805,7 +847,10 @@ However, it is not a requirement that every <em>Movie</em> node has a property, 
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MovieProperties.png" alt="MovieProperties" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Properties can be used to filter queries  so that a subset of the graph is retrieved.
 In addition, with the <code>RETURN</code> clause, you can return property values from the retrieved nodes, rather than the nodes.</p>
@@ -816,7 +861,13 @@ In addition, with the <code>RETURN</code> clause, you can return property values
 <p>As you prepare to create Cypher queries that use property values to filter a query, you can view the values for property keys of a graph by simply clicking the Database icon in Neo4j Browser.
 Alternatively, you can execute  <code>CALL db.propertyKeys</code>,  which calls the Neo4j library method that returns the property keys for the graph.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is what you will see in the result pane when you call the method to return the property keys in the <em>Movie</em> graph.
 This result stream contains all property keys in the graph. It does not display which nodes utilize these property keys.</p>
 </div>
@@ -824,7 +875,10 @@ This result stream contains all property keys in the graph. It does not display 
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.PropertyKeys.png" alt="call_db.PropertyKeys" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_retrieving_nodes_filtered_by_a_property_value">Retrieving nodes filtered by a property value</h4>
@@ -868,7 +922,13 @@ RETURN variable</pre></div></td>
 <div class="paragraph">
 <p></p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we filter the query results using a property value.
 We only retrieve <em>Person</em> nodes that have a <em>born</em> property value of <em>1970</em>.</p>
 </div>
@@ -885,8 +945,17 @@ RETURN p</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MatchPersonBorn1970.png" alt="MatchPersonBorn1970" width="500">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we specify two property values for the query.</p>
 </div>
 <div class="listingblock">
@@ -905,7 +974,10 @@ RETURN m</pre>
 </div>
 <div class="paragraph">
 <p>As it turns out, there is only one movie with the <em>tagline</em>, <em>Free your mind</em> in the <em>Movie</em> database, but if we had specified a different year, the query would not have returned a value because when you specify properties, both properties must match.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_returning_property_values">Returning property values</h4>
@@ -948,7 +1020,13 @@ RETURN variable.prop2, variable.prop3</pre></div></td>
 <div class="paragraph">
 <p></p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In this example, we use the <em>born</em> property to refine the query, but rather than returning the nodes, we return the <em>name</em>  and <em>born</em> values for every node that satisfies the query.</p>
 </div>
 <div class="listingblock">
@@ -960,11 +1038,14 @@ RETURN p.name, p.born</pre>
 <div class="paragraph">
 <p>The result returned is:</p>
 </div>
-<div class="imageblock">
+<div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MatchPersonBorn1965.png" alt="MatchPersonBorn1965" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_specifying_aliases">Specifying aliases</h4>
@@ -997,7 +1078,13 @@ RETURN variable.propertyKey2 AS alias2</pre></div></td>
 <div class="paragraph">
 <p><strong>Important:</strong> If you want a heading to contain a space between strings, you must specify the alias with the back tick <em>`</em> character, rather than a single or double quote character. In fact, you can specify any variable, label, relationship type, or property key with a space also by using the back tick <em>`</em> character.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here we specify aliases for the returned property values:</p>
 </div>
 <div class="listingblock">
@@ -1013,7 +1100,10 @@ RETURN p.name AS name, p.born AS `birth year`</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UsingAliases.png" alt="UsingAliases" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1119,7 +1209,13 @@ RETURN node1, node2</pre></div></td>
 <p>You can run <code>CALL db.schema</code> to view the relationship types in the graph.
 In the <em>Movie</em> graph, we see these relationships between the nodes:</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here we see that this graph has a total of 6 relationship types between the nodes. Some <em>Person</em> nodes are connected to other <em>Person</em> nodes using the <em>FOLLOWS</em> relationship type.
 All of the other relationships in this graph are from <em>Person</em> nodes to <em>Movie</em> nodes.</p>
 </div>
@@ -1130,11 +1226,20 @@ All of the other relationships in this graph are from <em>Person</em> nodes to <
 </div>
 <div class="paragraph">
 <p>The relationship types can also be viewed by selecting the arrow to the right in the relationship type row.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_using_a_relationship_in_a_query">Using a relationship in a query</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we retrieve the <em>Person</em> nodes that have the <em>ACTED_IN</em> relationship to the <em>Movie</em>, <em>The Matrix</em>.
 In other words, show me the actors that acted in <em>The Matrix</em>.</p>
 </div>
@@ -1155,8 +1260,17 @@ RETURN p, rel, m</pre>
 <div class="paragraph">
 <p>For this query, we are using the variable <em>p</em> to represent the <em>Person</em> nodes during the query, the variable <em>m</em> to represent the <em>Movie</em> node retrieved, and the variable <em>rel</em> to represent the relationship for the relationship type, <em>ACTED_IN</em>.
 We return a graph with the <em>Person</em> nodes, the <em>Movie</em> node and their <em>ACTED_IN</em> relationships.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><strong>Important:</strong> You specify node labels whenever possible in your queries as it optimizes the retrieval in the graph engine.
 That is, you should <strong>not</strong> specify this same query as:</p>
 </div>
@@ -1165,11 +1279,20 @@ That is, you should <strong>not</strong> specify this same query as:</p>
 <pre>MATCH (p)-[rel:ACTED_IN]-&gt;(m {title:'The Matrix'})
 RETURN p,m</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_querying_by_multiple_relationships">Querying by multiple relationships</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is another example where we want to know the movies that <em>Tom Hanks</em> acted in and directed:</p>
 </div>
 <div class="listingblock">
@@ -1188,11 +1311,20 @@ RETURN p.name, m.title</pre>
 </div>
 <div class="paragraph">
 <p>Notice that there are multiple rows returned for the movie, <em>That Thing You Do</em>. This is because <em>Tom Hanks</em> acted in and directed that movie.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_using_anonymous_nodes_in_a_query">Using anonymous nodes in a query</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Suppose you wanted to retrieve the actors that acted in <em>The Matrix</em>, but you do not need any information returned about the <em>Movie</em> node.
 You need not specify a variable for a node in a query if that node is not returned or used for later processing in the query.
 You can simply use the anonymous node in the query as follows:</p>
@@ -1213,11 +1345,20 @@ RETURN p.name</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> A best practice is to place named nodes (those with variables) before anonymous nodes in a <code>MATCH</code> clause.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_using_an_anonymous_relationship_for_a_query">Using an anonymous relationship for a query</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Suppose you want to find all people who are in any way connected to the movie, <em>The Matrix</em>.
 You can specify an empty relationship type in the query so that all relationships are traversed and the appropriate results are returned.
 In this example, we want to retrieve all <em>Person</em> nodes that have any type of connection to the <em>Movie</em> node, with the <em>title</em>, <em>The Matrix</em>.
@@ -1236,8 +1377,17 @@ RETURN p, m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllRelationshipsMatrix.png" alt="AllRelationshipsMatrix" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here are other examples of using the anonymous relationship:</p>
 </div>
 <div class="listingblock">
@@ -1254,13 +1404,24 @@ RETURN p, m</pre>
 </div>
 <div class="paragraph">
 <p>In this training, we will use <code>-&gt;</code>, <code>--</code>, and <code>&lt;-</code> to represent anonymous relationships as it is a Cypher best practice.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_retrieving_the_relationship_types">Retrieving the relationship types</h4>
 <div class="paragraph">
-<p>There is a built-in function, <code>type()</code> that returns the relationship type of a relationship.
-Here is an example where we use the <em>rel</em> variable to hold the relationships retrieved. We then use this variable to return the relationship types.</p>
+<p>There is a built-in function, <code>type()</code> that returns the relationship type of a relationship.</p>
+</div>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Here is an example where we use the <em>rel</em> variable to hold the relationships retrieved. We then use this variable to return the relationship types.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1275,7 +1436,10 @@ RETURN p.name, type(rel)</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MatrixRelationshipTypes.png" alt="MatrixRelationshipTypes" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_retrieving_properties_for_relationships">Retrieving properties for relationships</h4>
@@ -1284,7 +1448,13 @@ RETURN p.name, type(rel)</pre>
 Relationships can also have properties.
 This enables your graph model to provide more data about the relationships between the nodes.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example from the <em>Movie</em> graph.
 The movie, <em>The Da Vinci Code</em> has two people that reviewed it, <em>Jessica Thompson</em> and <em>James Thompson</em>. Each of these <em>Person</em> nodes has the <em>REVIEWED</em> relationship to the <em>Movie</em> node for <em>The Da Vinci Code</em>.
 Each relationship has properties that further describe the relationship using the <em>summary</em> and <em>rating</em> properties.</p>
@@ -1293,8 +1463,17 @@ Each relationship has properties that further describe the relationship using th
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/REVIEWEDProperties.png" alt="ReviewedProperties" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Just as you can specify property values for filtering nodes for a query, you can specify property values for a relationship. This query returns the name of of the person who gave the movie a rating of <em>65.</em></p>
 </div>
 <div class="listingblock">
@@ -1310,7 +1489,10 @@ RETURN p.name</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ReturnPersonRating65.png" alt="ReturnPersonRating65" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1319,7 +1501,13 @@ RETURN p.name</pre>
 <p>Thus far, you have learned how to specify nodes, properties, and relationships in your Cypher queries.
 Since relationships are directional, it is important to understand how patterns are used in graph traversal during query execution. How a graph is traversed for a query depends on what directions are defined for relationships and how the pattern is specified in the <code>MATCH</code> clause.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example of where the <em>FOLLOWS</em> relationship is used in the <em>Movie</em> graph.
 Notice that this relationship is directional.</p>
 </div>
@@ -1327,8 +1515,17 @@ Notice that this relationship is directional.</p>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowsRelationships.png" alt="FollowsRelationships" width="300">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>We can perform a query that returns all <em>Person</em> nodes who follow <em>Angela Scope</em>:</p>
 </div>
 <div class="listingblock">
@@ -1344,8 +1541,17 @@ RETURN p</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AngelaFollowers.png" alt="AngelaFollowers" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If we reverse the direction in the pattern, the query returns different results:</p>
 </div>
 <div class="listingblock">
@@ -1361,10 +1567,19 @@ RETURN p</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowedByAngela.png" alt="FollowedByAngela" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="sect3">
 <h4 id="_querying_by_any_direction_of_the_relationship">Querying by any direction of the relationship</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>We can also find out what <em>Person</em> nodes are connected by the <em>FOLLOWED</em> relationship in either direction by removing the directional arrow from the pattern.</p>
 </div>
 <div class="listingblock">
@@ -1380,13 +1595,24 @@ RETURN p1, p2</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AngelaFromTo.png" alt="AngelaFromTo" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_traversing_relationships">Traversing relationships</h4>
 <div class="paragraph">
-<p>Since we have a graph, we can traverse through nodes to obtain relationships further into the traversal.
-For example, we can write a Cypher query to return all followers of the followers of <em>Jessica Thompson</em>.</p>
+<p>Since we have a graph, we can traverse through nodes to obtain relationships further into the traversal.</p>
+</div>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>For example, we can write a Cypher query to return all followers of the followers of <em>Jessica Thompson</em>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1401,8 +1627,17 @@ RETURN p</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowersOfJessicaFollowers.png" alt="FollowersOfJessicaFollowers" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This query could also be modified to return each person along the path by specifying variables for the nodes and returning them. In addition, you can assign a variable to the path and return the path as follows:</p>
 </div>
 <div class="listingblock">
@@ -1418,7 +1653,10 @@ RETURN  path</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ReturnPath.png" alt="ReturnPath" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_using_relationship_direction_to_optimize_a_query">Using relationship direction to optimize a query</h4>
@@ -1426,7 +1664,13 @@ RETURN  path</pre>
 <p>When querying the relationships in a graph, you can take advantage of the direction of the relationship to traverse the graph.
 For example, suppose we wanted to get a result stream containing rows of actors and the movies they acted in, along with the director of the particular movie.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is the Cypher query to do this. Notice that the direction of the traversal is used to focus on a particular movie during the query:</p>
 </div>
 <div class="listingblock">
@@ -1445,7 +1689,10 @@ RETURN a.name, m.title, d.name</pre>
 </div>
 <div class="paragraph">
 <p>In this query, notice that there are multiple records returned for a movie, each with its set of values for the actor and director.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Later in this training, you will learn other ways to query data and how to control the results returned.</p>
 </div>
@@ -1484,7 +1731,13 @@ RETURN a.name, m.title, d.name</pre>
 </li>
 </ul>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example showing some best coding practices:</p>
 </div>
 <div class="listingblock">
@@ -1493,7 +1746,10 @@ RETURN a.name, m.title, d.name</pre>
 (:Movie {title:"Something's Gotta Give"})
 RETURN movRel.roles</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>We recommend that you follow the <a href="https://github.com/opencypher/openCypher/blob/master/docs/style-guide.adoc" target="_blank" rel="noopener">Cypher Style Guide</a> when writing your Cypher statements.</p>
 </div>
@@ -1618,7 +1874,7 @@ What Cypher query do you execute to return all of the products (by name) bought 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-26 15:53:48 CDT
+Last updated 2018-11-01 16:36:09 CST
 </div>
 </div>
 </body>

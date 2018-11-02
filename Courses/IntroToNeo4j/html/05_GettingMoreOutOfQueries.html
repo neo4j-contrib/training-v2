@@ -549,7 +549,13 @@ Most applications need more flexibility in how data is filtered.</p>
 <p>The most common clause you use to filter queries is the <code>WHERE</code> clause that follows a <code>MATCH</code> clause.
 In the <code>WHERE</code> clause, you can place conditions that are evaluated at runtime to filter the query.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Previously, you learned to write simple query as follows:</p>
 </div>
 <div class="listingblock">
@@ -567,12 +573,21 @@ RETURN p, m</pre>
 WHERE m.released = 2008
 RETURN p, m</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>In this example, you can only refer to named nodes or relationships in a <code>WHERE</code> clause so remember that you must specify a variable for any node or relationship you are testing in the <code>WHERE</code> clause.
 The benefit of using a <code>WHERE</code> clause is that you can specify potentially complex conditions for the query.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example:</p>
 </div>
 <div class="listingblock">
@@ -581,13 +596,22 @@ The benefit of using a <code>WHERE</code> clause is that you can specify potenti
 WHERE m.released = 2008 OR m.released = 2009
 RETURN p, m</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="sect3">
 <h4 id="_specifying_ranges_in_where_clauses">Specifying ranges in WHERE clauses</h4>
 <div class="paragraph">
 <p>Not only can the equality <code>=</code> be tested, but you can test ranges, existence, strings, as well as specify logical operations during the query.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example of specifying a range for filtering the query:</p>
 </div>
 <div class="listingblock">
@@ -604,8 +628,17 @@ RETURN p.name, m.title, m.released</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MoviesBetween2003And2004.png" alt="MoviesBetween2003And2004" width="800">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You can also specify the same query as:</p>
 </div>
 <div class="listingblock">
@@ -614,7 +647,10 @@ RETURN p.name, m.title, m.released</pre>
 WHERE 2003 &lt;= m.released &lt;= 2004
 RETURN p.name, m.title, m.released</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>You can specify conditions in a <code>WHERE</code> clause that return a value of <code>true</code> or <code>false</code> (for example predicates).
 For testing numeric values, you use the standard numeric comparison operators. Each condition can be combined for runtime evaluation using the boolean operators <code>AND</code>, <code>OR</code>, <code>XOR</code>, and <code>NOT</code>.
@@ -632,7 +668,13 @@ You should read the <em>Developer Manual&#8217;s</em> section <em>Working with n
 <p>Thus far, you have used the node labels to filter queries in a <code>MATCH</code> clause.
 You can filter node labels in the <code>WHERE</code> clause also:</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example, these two Cypher queries:</p>
 </div>
 <div class="listingblock">
@@ -663,7 +705,10 @@ RETURN p.name</pre>
 WHERE p:Person AND m:Movie AND m.title='The Matrix'
 RETURN p.name</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Not all node labels need to be tested during a query, but if your graph has multiple labels for the same node, filtering it by the node label will provide better query performance.</p>
 </div>
@@ -676,7 +721,13 @@ A property is not associated with a node with a particular label or relationship
 In one of our queries earlier, we saw that the movie "Something&#8217;s Gotta Give" is the only movie in the <em>Movie</em> database that does not have a <em>tagline</em> property.
 Suppose we only want to return the movies that the actor, <em>Jack Nicholson</em> acted in with the condition that they must all have a tagline.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is the query to retrieve the specified movies where we test the existence of the <em>tagline</em> property:</p>
 </div>
 <div class="listingblock">
@@ -693,7 +744,10 @@ RETURN m.title, m.tagline</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/JackNicholsonMoviesWithTaglines.png" alt="JackNicholsonMoviesWithTaglines" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_testing_strings">Testing strings</h4>
@@ -701,7 +755,13 @@ RETURN m.title, m.tagline</pre>
 <p>Cypher has a set of string-related keywords that you can use in your <code>WHERE</code> clauses to test string property values.
 You can specify <code>STARTS WITH</code>, <code>ENDS WITH</code>, and <code>CONTAINS</code>.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example, to find all actors in the <em>Movie</em> database whose first name is <em>Michael</em>, you would write:</p>
 </div>
 <div class="listingblock">
@@ -718,8 +778,17 @@ RETURN p.name</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ActorsNamedMichael.png" alt="ActorsNamedMichael" width="800">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Note that the comparison of strings is case-sensitive.
 There are a number of string-related functions you can use to further test strings.
 For example, if you want to test a value, regardless of its case, you could call the <code>toLower()</code> function to convert the string to lower case before it is compared.</p>
@@ -733,7 +802,10 @@ RETURN p.name</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> In this example where we are converting a property to lower case, if an index has been created for this property, it will not be used at runtime.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>See the <em>String functions</em> section of the <em>Developer Manual</em> for more information.
 It is sometimes useful to use the built-in string functions to modify the data that is returned in the query in the RETURN clause.</p>
@@ -741,7 +813,13 @@ It is sometimes useful to use the built-in string functions to modify the data t
 </div>
 <div class="sect3">
 <h4 id="_testing_with_regular_expressions">Testing with regular expressions</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If you prefer, you can test property values using regular expressions.
 You use the syntax <code>=~</code> to specify the regular expression you are testing with.
 Here is an example where we test the name of the <em>Person</em> using a regular expression to retrieve all <em>Person</em> nodes with a <em>name</em> property that begins with 'Tom':</p>
@@ -763,7 +841,10 @@ RETURN p.name</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> If you specify a regular expression. The index will never be used. In addition, the property value must fully match the regular expression.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_testing_with_patterns">Testing with patterns</h4>
@@ -771,7 +852,13 @@ RETURN p.name</pre>
 <p>Sometimes during a query, you may want to perform additional filtering using the relationships between nodes being visited during the query. For example, during retrieval, you may want to exclude certain paths traversed.
 You can specify a <code>NOT</code> specifier on a pattern in a <code>WHERE</code> clause.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we want to return all <em>Person</em> nodes of people who wrote movies:</p>
 </div>
 <div class="listingblock">
@@ -787,8 +874,17 @@ RETURN p.name, m.title</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/WroteMovies.png" alt="WroteMovies" width="800">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Next, we modify this query to exclude people who directed that movie:</p>
 </div>
 <div class="listingblock">
@@ -805,8 +901,17 @@ RETURN p.name, m.title</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/WroteMoviesNotDirected.png" alt="WroteMoviesNotDirected" width="800">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is another example where we want to find <em>Gene Hackman</em> and the movies that he acted in with another person who also directed the movie.</p>
 </div>
 <div class="listingblock">
@@ -824,7 +929,10 @@ RETURN  gene, other, m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistsPattern.png" alt="ExistsPattern" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_testing_with_list_values">Testing with list values</h4>
@@ -837,7 +945,13 @@ During the query, the graph engine will compare each property with the values <c
 You can place either numeric or string values in the list, but typically, elements of the list are of the same type of data.
 If you are testing with a property of a string type, then all the elements of the list should be strings.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In this example, we only want to retrieve <em>Person</em> nodes of people born in 1965 or 1970:</p>
 </div>
 <div class="listingblock">
@@ -854,11 +968,20 @@ RETURN p.name as name, p.born as yearBorn</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UsingIN.png" alt="UsingIN" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>You can also compare a value to an existing list in the graph.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>We know that the <em>:ACTED_IN</em> relationship has a property, <em>roles</em> that contains the list of roles an actor had in a particular movie they acted in.
 Here is the query we write to return the name of the actor who played <em>Neo</em> in the movie <em>The Matrix</em>:</p>
 </div>
@@ -879,7 +1002,10 @@ RETURN p.name</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify <code>CASE</code> logic in your conditional testing for your <code>WHERE</code> clauses. You can learn more about these syntax elements in the <em>Developer Manual</em>.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -896,9 +1022,14 @@ and follow the instructions for Exercise 4.</p>
 </div>
 <div class="sect3">
 <h4 id="_specifying_multiple_match_patterns">Specifying multiple <code>MATCH</code> patterns</h4>
-<div class="paragraph">
-<p>A best practice is to create your queries using a single MATCH pattern.
-This <code>MATCH</code> clause includes a pattern  specified by two paths separated by a comma:</p>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>This <code>MATCH</code> clause includes a pattern  specified by two paths separated by a comma:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -917,7 +1048,10 @@ RETURN a.name, m.title, d.name</pre>
 WHERE m.released = 2000
 RETURN a.name, m.title, d.name</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>There are, however, some queries where you will need to specify two or more patterns.
 Multiple patterns are used when a query is complex and cannot be satisfied with a single pattern.
@@ -927,7 +1061,13 @@ You will learn about creating nodes and relationships later in this training.</p
 </div>
 <div class="sect3">
 <h4 id="_example_1_using_two_match_patterns">Example 1: Using two MATCH patterns</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here are some examples of specifying two paths in a <code>MATCH</code> clause.
 In the first example, we want the actors that worked with <em>Keanu Reeves</em> to meet <em>Hugo Weaving</em>, who has worked with <em>Keanu Reeves</em>.
 Here we retrieve the actors who acted in the same movies as <em>Keanu Reeves</em>, but not when <em>Hugo Weaving</em> acted in the same movie.
@@ -957,21 +1097,30 @@ You should only perform these types of queries if you know the data well and the
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KeanuFriendsForHugo.png" alt="KeanuFriendsForHugo" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KeanuFriendsForHugo.png" alt="KeanuFriendsForHugo" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_example_2_using_two_match_patterns">Example 2: Using two MATCH patterns</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is another example where two patterns are necessary.
 Suppose we want to retrieve the movies that <em>Meg Ryan</em> acted in and their respective directors, as well as the other actors that acted in these movies.
 Here is the query to do this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>MATCH (meg:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(d:Person),
-      (other:Person)-[:ACTED_IN]-&gt;(m)
+<pre>MATCH (meg:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(:Person),
+      (:Person)-[:ACTED_IN]-&gt;(m)
 WHERE meg.name = 'Meg Ryan'
 RETURN m.title as movie, d.name AS director , other.name AS `co-actors`</pre>
 </div>
@@ -983,11 +1132,20 @@ RETURN m.title as movie, d.name AS director , other.name AS `co-actors`</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MegsCoActors.png" alt="MegsCoActors" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_setting_path_variables">Setting path variables</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You have previously seen how you can assign a path used in a <code>MATCH</code> clause to a variable. This is useful if you want to reuse the path later in the same query or if you want to return the path. So the previous Cypher statement could return the path as follows:</p>
 </div>
 <div class="listingblock">
@@ -1005,11 +1163,20 @@ RETURN megPath</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MegPath.png" alt="MegPath" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_specifying_varying_length_paths">Specifying varying length paths</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Any graph that represents social networking, trees, or hierarchies will most likely have multiple paths of varying lengths.
 Think of the <em>connected</em> relationship in <em>LinkedIn</em> and how connections are made by people connected to more people.
 The <em>Movie</em> database for this training does not have much depth of relationships, but it does have the <em>:FOLLOWS</em> relationship that you learned about earlier:</p>
@@ -1018,8 +1185,17 @@ The <em>Movie</em> database for this training does not have much depth of relati
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowsRelationships.png" alt="FollowsRelationships" width="500">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You write a <code>MATCH</code> clause where  you want to find all of the followers of the followers of a <em>Person</em> by specifying a numeric value for the number of hops in the path.
 Here is an example where we want to retrieve all <em>Person</em> nodes that are exactly two hops away:</p>
 </div>
@@ -1040,7 +1216,10 @@ RETURN p</pre>
 </div>
 <div class="paragraph">
 <p>If we had specified <code>[:FOLLOWS*]</code> rather than <code>[:FOLLOWS*2]</code>, the query would return all <em>Person</em> nodes that are two hops away in the <code>:FOLLOWS</code> path from <em>Paul Blythe</em>.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p></p>
 </div>
@@ -1102,7 +1281,13 @@ RETURN p</pre>
 <div class="paragraph">
 <p>A built-in function that you may find useful in a graph that has many ways of traversing the graph to get to the same node is the <code>shortestPath()</code> function. Using the shortest path between two nodes improves the performance of the query.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In this example, we want to discover a shortest path between the movies <em>The Matrix</em> and <em>A Few Good Men</em>. In our <code>MATCH</code> clause, we set the variable <em>p</em> to the result of calling <code>shortestPath()</code>, and then return <em>p</em>. In the call to <code>shortestPath()</code>, notice that we specify <code>*</code> for the relationship. This means any relationship; for the traversal.</p>
 </div>
 <div class="listingblock">
@@ -1123,7 +1308,10 @@ RETURN  p</pre>
 </div>
 <div class="paragraph">
 <p>Notice that the graph engine has traversed many types of relationships to get to the end node.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>When you use the <code>shortestPath()</code> function, the query editor will show a warning that this type of query could potentially run for a long time. You should heed the warning, especially for large graphs. Read the <em>Graph Algorithms</em> documentation about the shortest path algorithm.</p>
 </div>
@@ -1138,9 +1326,15 @@ RETURN  p</pre>
 The difference is that if no matches are found, <code>OPTIONAL MATCH</code> will use NULLs for missing parts of the pattern.
 <code>OPTIONAL MATCH</code> could be considered the Cypher equivalent of the outer join in SQL.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we query the graph for all people whose name starts with <em>James</em>.
-The <code>OPTIONAL MATCH</code> is specified to include people who have reviewed movies.</p>
+The <code>OPTIONAL MATCH</code> is specified to include people who have reviewed movies:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1160,11 +1354,20 @@ RETURN p.name, type(r), m.title</pre>
 </div>
 <div class="paragraph">
 <p>Notice that for all rows that do not have the <em>:REVIEWED</em> relationship, a <em>null</em> value is returned for the movie part of the query, as well as the relationship.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_collecting_results">Collecting results</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Cypher has a built-in function, <code>collect()</code> that enables you to aggregate a value into a list.
 Here is an example where we collect the list of movies that <em>Tom Cruise</em> acted in:</p>
 </div>
@@ -1185,7 +1388,10 @@ RETURN collect(m.title) AS `movies for Tom Cruise`</pre>
 </div>
 <div class="paragraph">
 <p>In Cypher, there is no "GROUP BY" clause as there is in SQL. The graph engine uses non-aggregated columns as an automatic grouping key.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_counting_results">Counting results</h4>
@@ -1195,7 +1401,13 @@ If you specify <code>count(n)</code>, the graph engine calculates the number of 
 If you specify <code>count(*)</code>, the graph engine calculates the number of rows retrieved, including those with <code>null</code> values.
 When you use <code>count(_)</code>, the graph engine does an implicit group by based upon the aggregation.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we count the paths retrieved where an actor and director collaborated in a movie and the <code>count()</code> function is used to count the number of paths found for each actor/director collaboration.</p>
 </div>
 <div class="listingblock">
@@ -1215,7 +1427,10 @@ RETURN actor.name, director.name, count(m) AS collaborations, collect(m.title) A
 <div class="paragraph">
 <p>There are more aggregating functions such as <code>min()</code> or <code>max()</code> that you can also use in your queries.
 These are described in the <em>Aggregating Functions</em> section of the <em>Developer Manual</em>.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_additional_processing_using_with">Additional processing using <code>WITH</code></h4>
@@ -1223,7 +1438,13 @@ These are described in the <em>Aggregating Functions</em> section of the <em>Dev
 <p>During the execution of a <code>MATCH</code> clause, you can specify that you want some intermediate calculations or values that will be used for further processing of the query, or for limiting the number of results before further processing is done.
 You use the <code>WITH</code> clause to perform intermediate processing or data flow operations.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we start the query processing by retrieving all actors and their movies.
 During the query processing, want to only return actors that have 2 or 3 movies.
 All other actors and the aggregated results are filtered out. This type of query is a replacement for SQL&#8217;s "HAVING" clause.
@@ -1252,8 +1473,17 @@ Notice that for the <code>RETURN</code> clause, <em>a</em>, <em>numMovies</em>, 
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> You have to name all expressions with an alias in a <code>WITH</code> that are not simple variables.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is another example where we want to find all actors who have acted in at least five movies, and find (optionally) the movies they directed and return the person and those movies.</p>
 </div>
 <div class="listingblock">
@@ -1275,7 +1505,10 @@ RETURN p.name, m.title</pre>
 </div>
 <div class="paragraph">
 <p>In this example, we first retrieve all people, but then specify a pattern in the <code>WITH</code> clause where we calculate the number of <code>:ACTED_IN</code> relationships retrieved using the <code>size()</code> function. If this value is greater than five, we then also retrieve the <code>:DIRECTED</code> paths to return the name of the person and the title of the movie they directed. In the result, we see that these actors acted in more than five movies, but <em>Tom Hanks</em> is the only actor who directed a movie and thus the only person to have a value for the movie.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1297,9 +1530,15 @@ and follow the instructions for Exercise 5.</p>
 In most cases, you want to eliminate duplicated results.
 You do so by using the <code>DISTINCT</code> keyword.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is a simple example where duplicate data is returned.
-<em>Tom Hanks</em> both acted in and directed the movie, <em>That Thing You Do</em>, so the movie is returned twice in the result stream.</p>
+<em>Tom Hanks</em> both acted in and directed the movie, <em>That Thing You Do</em>, so the movie is returned twice in the result stream:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1315,8 +1554,17 @@ RETURN m.released, collect(m.title) AS movies</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Duplication.png" alt="Duplication" width="800">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>We can eliminate the duplication by specifying the DISTINCT keyword as follows:</p>
 </div>
 <div class="listingblock">
@@ -1333,11 +1581,20 @@ RETURN m.released, collect(DISTINCT m.title) AS movies</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoDuplication.png" alt="NoDuplication" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_using_with_and_distinct_to_eliminate_duplication">Using WITH and DISTINCT to eliminate duplication</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Another way that you can avoid duplication is to with <code>WITH</code> and <code>DISTINCT</code> together as follows:</p>
 </div>
 <div class="listingblock">
@@ -1355,7 +1612,10 @@ RETURN m.released, m.title</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoDuplication2.png" alt="NoDuplication2" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_ordering_results">Ordering results</h4>
@@ -1365,7 +1625,13 @@ Ascending order is the default.
 Note that you can provide multiple sort expressions and the result will be sorted in that order.
 Just as you can use <code>DISTINCT</code> with <code>WITH</code> to eliminate duplication, you can use <code>ORDER BY</code> with <code>WITH</code> to control the sorting of results.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In this example, we specify that the release date of the movies for <em>Tom Hanks</em> will be returned in descending order.</p>
 </div>
 <div class="listingblock">
@@ -1382,7 +1648,10 @@ RETURN m.released, collect(DISTINCT m.title) AS movies ORDER BY m.released DESC<
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Ordering.png" alt="Ordering" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_limiting_the_number_of_results">Limiting the number of results</h4>
@@ -1391,7 +1660,13 @@ RETURN m.released, collect(DISTINCT m.title) AS movies ORDER BY m.released DESC<
 This is useful if you have very large result sets and you only need to see the beginning or end of a set of ordered results.
 You can use the <code>LIMIT</code> keyword to specify the number of results returned. Furthermore, you can use the <code>LIMIT</code> keyword with the <code>WITH</code> clause to limit results.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Suppose you want to see the titles of the ten most recently released movies.
 You could do so as follows where you limit the number of results using the <code>LIMIT</code> keyword as follows:</p>
 </div>
@@ -1408,15 +1683,24 @@ RETURN m.title as title, m.released as year ORDER BY m.released DESC LIMIT 10</p
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Limit.png" alt="Limit" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_controlling_the_number_of_results_using_with">Controlling the number of results using WITH</h4>
 <div class="paragraph">
 <p>Previously, you saw how you can use the <code>WITH</code> clause to perform some intermediate processing during a query. You can use the <code>WITH</code> clause to limit the number of results.</p>
 </div>
-<div class="paragraph">
-<p>In this example, we count the number of movies during the query and we return the results once we have reached 5 movies.</p>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>In this example, we count the number of movies during the query and we return the results once we have reached 5 movies:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1433,7 +1717,10 @@ RETURN a.name, numMovies, movies</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Count5Movies.png" alt="Count5Movies" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1460,7 +1747,13 @@ A Cypher <code>map</code> is list of key/value pairs where each element of the l
 <div class="paragraph">
 <p><code>{Jan: 31, Feb: 28, Mar: 31, Apr: 30 , May: 31, Jun: 30 , Jul: 31, Aug: 31, Sep: 30, Oct: 31, Nov: 30, Dec: 31}</code></p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You can collect values for a list during a query and when you return results, you can sort by the size of the list using the <code>size()</code> function as follows:</p>
 </div>
 <div class="listingblock">
@@ -1480,14 +1773,23 @@ RETURN m.title, cast, numCast ORDER BY size(cast)</pre>
 </div>
 <div class="paragraph">
 <p>You can read more about working with lists in the <em>List Functions</em> section of the <em>Developer Manual</em>.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_unwinding_lists">Unwinding lists</h4>
 <div class="paragraph">
 <p>There may be some situations where you want to perform the opposite of collecting results, but rather separate the lists into separate rows. This functionality is done using the <code>UNWIND</code> clause.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we create a list with three elements, unwind the list and then return the values. Since there are three elements, three rows are returned with the values:</p>
 </div>
 <div class="listingblock">
@@ -1510,7 +1812,10 @@ RETURN list, row</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> The <code>UNWIND</code> clause is frequently used when importing data into a graph.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_dates">Dates</h4>
@@ -1518,7 +1823,13 @@ RETURN list, row</pre>
 <p>Cypher has a built-in <code>date()</code> function, as well as other temporal values and functions that you can use to calculate temporal values. You use a combination of numeric, temporal, spatial, list and string functions to calculate values that are useful to your application.
 For example, suppose you wanted to calculate the age of a <em>Person</em> node, given a year they were born (the <em>born</em> property must exist and have a value).</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is example Cypher to retrieve all actors from the graph, and if they have a value for <em>born</em>, calculate the <em>age</em> value.
 Notice that the <code>date()</code> function is called and then converted to a string and then an integer to perform the age calculation.</p>
 </div>
@@ -1526,7 +1837,6 @@ Notice that the <code>date()</code> function is called and then converted to a s
 <div class="content">
 <pre>MATCH (actor:Person)-[:ACTED_IN]-&gt;(:Movie)
 WHERE exists(actor.born)
-// calculate the age
 with DISTINCT actor, date().year  - actor.born as age
 RETURN actor.name, age as `age today`
    	  ORDER BY actor.born DESC</pre>
@@ -1539,7 +1849,10 @@ RETURN actor.name, age as `age today`
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Age.png" alt="Age" width="800">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Consult the <em>Developer Manual</em> for more information about the built-in functions available for working with data of all types:</p>
 </div>
@@ -1715,7 +2028,7 @@ RETURN //??</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-29 06:46:57 CST
+Last updated 2018-11-01 16:19:00 CST
 </div>
 </div>
 </body>

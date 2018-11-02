@@ -646,7 +646,13 @@ RETURN m.title</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is what you see in Neo4j Browser when you create a node for the movie, <em>Batman Begins</em> where we have selected the node returned to view its properties.:</p>
 </div>
 <div class="imageblock thumb">
@@ -657,7 +663,10 @@ RETURN m.title</pre>
 <div class="paragraph">
 <p>When the graph engine creates a node, it automatically assigns a read-only, unique ID to the node.
 Here we see that the <em>id</em> of the node is <em>568</em>. This is not a property of a node, but rather an internal value.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>After you have created a node, you can add more properties or labels to it and most importantly, connect it to another node.</p>
 </div>
@@ -666,8 +675,14 @@ Here we see that the <em>id</em> of the node is <em>568</em>. This is not a prop
 <div class="paragraph">
 <p>You can create multiple nodes by simply separating the nodes specified with commas, or by specifying multiple CREATE statements.</p>
 </div>
-<div class="paragraph">
-<p>Here is an example, where we create some <em>Person</em> nodes that will represent some of the people associated with the movie <em>Batman Begins</em>.</p>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Here is an example, where we create some <em>Person</em> nodes that will represent some of the people associated with the movie <em>Batman Begins</em>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -685,7 +700,10 @@ Here we see that the <em>id</em> of the node is <em>568</em>. This is not a prop
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateMultiplePersonNodes.png" alt="CreateMultiplePersonNodes" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p><strong>Important:</strong> The graph engine will create a node with the same properties of a node that already exists. You can prevent this from happening in one of two ways:</p>
 </div>
@@ -736,7 +754,13 @@ Here we see that the <em>id</em> of the node is <em>568</em>. This is not a prop
 <div class="paragraph">
 <p>If you attempt to add a label to a node for which the label already exists, the <code>SET</code> processing is ignored.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we add the <em>Action</em> label to the node that has a label, <em>Movie</em>:</p>
 </div>
 <div class="listingblock">
@@ -757,7 +781,10 @@ RETURN labels(m)</pre>
 </div>
 <div class="paragraph">
 <p>Notice here that we call the built-in function, <code>labels()</code> that returns the set of labels for the node.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_removing_labels_from_a_node">Removing labels from a node</h3>
@@ -789,7 +816,13 @@ RETURN labels(m)</pre>
 <div class="paragraph">
 <p>If you attempt to remove a label from a node for which the label does not exist, the <code>SET</code> processing is ignored.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we remove the <em>Action</em> label from the node that has a labels, <em>Movie</em> and <em>Action</em>:</p>
 </div>
 <div class="listingblock">
@@ -807,7 +840,10 @@ RETURN labels(m)</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveActionLabel.png" alt="RemoveActionLabel" width="500">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_adding_properties_to_a_node">Adding properties to a node</h3>
@@ -855,7 +891,13 @@ That is, you can assign a string value to a property that was once a numeric val
 <div class="paragraph">
 <p>When specify the JSON-style object for assignment (using <code>=</code>) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify <code>+=</code> when assigning to a property, the value at <em>valueX</em> is updated if the <em>propertyNnameX</em> exists for the node. If the <em>propertyNameX</em> does not exist for the node, then the property is added to the node.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we add the properties <em>released</em>  and <em>lengthInMinutes</em> to the movie <em>Batman Begins</em>:</p>
 </div>
 <div class="listingblock">
@@ -873,8 +915,17 @@ RETURN m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddReleasedMinutesProperties.png" alt="AddReleasedMinutesProperties" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is another example where we set the property values to the movie node using the JSON-style object containing the property keys and values. Note that <span class="underline">all</span> properties must be included in the object.</p>
 </div>
 <div class="listingblock">
@@ -896,16 +947,34 @@ RETURN m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetPropertiesObject.png" alt="SetPropertiesObject" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Note that when you add a property to a node for the first time in the graph, the property key is added to the graph. So for example, in the previous example, we added the <em>videoFormat</em> and <em>grossMillions</em> property keys to the graph as they have never been used before for a node in the graph. Once a property key is added to the graph, it is <span class="underline">never</span> removed. When you examine the property keys in the database (by executing <code>CALL db.propertyKeys()</code>, you will see all property keys created for the graph, regardless of whether they are currently used for nodes and relationships.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllPropertyKeys.png" alt="AllPropertyKeys" width="700">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we use the JSON-style object to add the <em>awards</em> property to the node and update the <em>grossMillions</em> property:</p>
 </div>
 <div class="listingblock">
@@ -921,7 +990,10 @@ RETURN m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddAndUpdateProperties.png" alt="AddAndUpdateProperties" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_removing_properties_from_a_node">Removing properties from a node</h3>
@@ -953,7 +1025,13 @@ RETURN m</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Suppose we determined that no other <em>Movie</em> node in the graph has the properties, <em>videoFormat</em> and <em>grossMillions</em>. There is no restriction that nodes of the same type must have the same properties. However, we have decided that we want to remove these properties from this node. Here is example Cypher to remove this property from this <em>Batman Begins</em> node:</p>
 </div>
 <div class="listingblock">
@@ -972,7 +1050,10 @@ RETURN m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveProperties.png" alt="RemoveProperties" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_exercise_8_creating_nodes"><strong>Exercise 8: Creating Nodes</strong></h3>
@@ -1020,8 +1101,14 @@ and follow the instructions for Exercise 8.</p>
 <div class="paragraph">
 <p>In most cases, unless you are connecting nodes at creation time, you will retrieve the two nodes, each with  their own variables, for example, by specifying a <code>WHERE</code> clause to find them, and then use the variables to connect them.</p>
 </div>
-<div class="paragraph">
-<p>Here is an example. We want to connect the actor, <em>Michael Caine</em> with the movie, <em>Batman Begins</em>. We first retrieve the nodes of interest, then we create the relationship.</p>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Here is an example. We want to connect the actor, <em>Michael Caine</em> with the movie, <em>Batman Begins</em>. We first retrieve the nodes of interest, then we create the relationship:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1041,11 +1128,20 @@ RETURN a, m</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note</strong>: Before you run these Cypher statements, you may see a warning in Neo4j Browser that you are creating a query that is a cartesian product that could potentially be a performance issue.  You will see this warning if you have no unique constraint on the lookup keys. You will learn about uniqueness constraints later in the next module. If you are familiar with the data in the graph and can be sure that the <code>MATCH</code> clauses will not retrieve large amounts of data, you can continue. In our case, we are simply looking up a particular <em>Person</em> node and a particular <em>Movie</em> node so we can create the relationship.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>You can create multiple relationships at once by simply providing the pattern for the creation that includes the relationship types, their directions, and the nodes that you want to connect.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is an example where we have already created <em>Person</em> nodes for an actor, <em>Liam Neeson</em>, and a producer, <em>Benjamin Melniker</em>. We create two relationships in this example, one for <em>ACTED_IN</em> and one for <em>PRODUCED</em>.</p>
 </div>
 <div class="listingblock">
@@ -1068,7 +1164,10 @@ RETURN a, m, p</pre>
 </div>
 <div class="paragraph">
 <p><strong>Important</strong>:When you create relationships based upon a <code>MATCH</code> clause, you must be certain that only a single node is returned for the <code>MATCH</code>, otherwise multiple relationships will be created.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="sect2">
 <h3 id="_adding_properties_to_relationships">Adding properties to relationships</h3>
 <div class="paragraph">
@@ -1109,8 +1208,14 @@ RETURN a, m, p</pre>
 <p>If the property does not exist, it is added to the relationship. If the property exists, its value is updated for the relationship.
 When specify the JSON-style object for assignment to the relationship using <code>=</code>, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use <code>+=</code>, you can add or update properties, just as you do for nodes.</p>
 </div>
-<div class="paragraph">
-<p>Here is an example where we will add the <em>roles</em> property to the <em>ACTED_IN</em> relationship from <em>Christian Bale</em> to <em>Batman Begins</em> right after we have created the relationship.</p>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Here is an example where we will add the <em>roles</em> property to the <em>ACTED_IN</em> relationship from <em>Christian Bale</em> to <em>Batman Begins</em> right after we have created the relationship:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1126,13 +1231,22 @@ RETURN a, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddRelationshipWithRoles.png" alt="AddRelationshipWithRoles" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddRelationshipWithRoles.png" alt="AddRelationshipWithRoles" width="500">
 </div>
 </div>
 <div class="paragraph">
 <p>The <em>roles</em> property is a list so we add it as such. If the relationship had multiple properties, we could have added them as a comma separated list or as an object, like can do for node properties.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You can also add properties to a relationship when the relationship is created. Here is another way to create and add the properties for the relationship:</p>
 </div>
 <div class="listingblock">
@@ -1159,14 +1273,23 @@ RETURN a, rel, m</pre>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> You can prevent duplication of relationships by merging data using the <code>MERGE</code> clause, rather than the <code>CREATE</code> clause. You will learn about merging data later in this module.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_removing_properties_from_a_relationship">Removing properties from a relationship</h3>
 <div class="paragraph">
 <p>There are two ways that you can remove a property from a node. One way is to use the REMOVE keyword. The other way is to set the property&#8217;s value to <code>null</code>, just as you do for properties of nodes.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Suppose we have added the <em>ACTED_IN</em> relationship between <em>Christian Bale</em> and the movie, <em>Batman Returns</em> where the <em>roles</em> property is added to the relationship. Here is an example to remove the <em>roles</em> property, yet keep the <em>ACTED_IN</em> relationship:</p>
 </div>
 <div class="listingblock">
@@ -1184,7 +1307,10 @@ RETURN a, rel, m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveRoles.png" alt="RemoveRoles" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_exercise_9_creating_relationships"><strong>Exercise 9: Creating Relationships</strong></h3>
@@ -1207,19 +1333,34 @@ Relationships are also deleted using the <code>DELETE</code> clause.</p>
 </div>
 <div class="sect2">
 <h3 id="_deleting_relationships">Deleting relationships</h3>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here are the existing nodes and relationships for the <em>Batman Begins</em> movie:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships.png" alt="BatmanBeginsRelationships" width="700">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>You can delete a relationship between nodes by first finding it in the graph and then deleting it.</p>
 </div>
-<div class="paragraph">
-<p>In this example, we want to delete the <em>ACTED_IN</em> relationship between <em>Christian Bale</em> and the movie <em>Batman Begins</em>. We find the relationship, and then delete it.</p>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>In this example, we want to delete the <em>ACTED_IN</em> relationship between <em>Christian Bale</em> and the movie <em>Batman Begins</em>. We find the relationship, and then delete it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1239,24 +1380,51 @@ RETURN a, m</pre>
 </div>
 <div class="paragraph">
 <p>Notice that there no longer exists the relationship between <em>Christian Bale</em> and the movie <em>Batman Begins</em>.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>We can now query the nodes related to <em>Batman Begins</em> to see that this movie now only has two actors and one producer connected to it:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships2.png" alt="BatmanBeginsRelationships2" width="600">
 </div>
-</div>
-<div class="paragraph">
-<p>Even though, we have deleted the relationship between actor, <em>Christian Bale</em> and the movie <em>Batman Begins</em>, we note that this actor is connected to another movie in the graph, so we should not delete this <em>Christian Bale</em> node.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Even though we have deleted the relationship between actor, <em>Christian Bale</em> and the movie <em>Batman Begins</em>, we note that this actor is connected to another movie in the graph, so we should not delete this <em>Christian Bale</em> node.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ChristianBaleConnections.png" alt="ChristianBaleConnections" width="600">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In this example, we find the node for the producer, <em>Benjamin Melniker</em>, as well as his relationship to movie nodes. First, we delete the relationship(s), then we delete the node:</p>
 </div>
 <div class="listingblock">
@@ -1273,15 +1441,27 @@ DELETE rel, p</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteMelniker.png" alt="DeleteMelniker" width="600">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>And here we see that we now have only two connections to the <em>Batman Begins</em> movie:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships3.png" alt="BatmanBeginsRelationships3" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships3.png" alt="BatmanBeginsRelationships3" width="400">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_deleting_nodes_and_relationships_2">Deleting nodes and relationships</h3>
@@ -1289,7 +1469,13 @@ DELETE rel, p</pre>
 <p>The most efficient way to delete a node and its corresponding relationships is to specify <code>DETACH DELETE</code>.
 When you specify <code>DETACH DELETE</code> for a node, the relationships to and from the node are deleted, then the node is deleted.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If were were to attempt to delete the <em>Liam Neeson</em> node without first deleting its relationships:</p>
 </div>
 <div class="listingblock">
@@ -1306,8 +1492,17 @@ DELETE p</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/LiamNeesonDeleteError.png" alt="LiamNeesonDeleteError" width="600">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here we delete the <em>Liam Neeson</em> node and its relationships to any other nodes:</p>
 </div>
 <div class="listingblock">
@@ -1324,15 +1519,27 @@ DETACH DELETE  p</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteLiamNeeson.png" alt="DeleteLiamNeeson" width="600">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>And here is what the <em>Batman Begins</em> node and its relationships now look like. There is only one actor, <em>Michael Caine</em> connected to the movie.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships4.png" alt="BatmanBeginsRelationships4" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_exercise_10_deleting_nodes_and_relationships"><strong>Exercise 10: Deleting Nodes and Relationships</strong></h3>
@@ -1392,7 +1599,13 @@ and follow the instructions for Exercise 10.</p>
 <div class="paragraph">
 <p>The <code>MERGE</code> clause is used to find elements in the graph. But if the element is not found, it is created.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You use the <code>MERGE</code> clause to:</p>
 </div>
 <div class="ulist square">
@@ -1407,7 +1620,10 @@ and follow the instructions for Exercise 10.</p>
 <p>Create a node and relationship to it uniquely in the context of another node.</p>
 </li>
 </ul>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="sect2">
 <h3 id="_using_merge_to_create_nodes">Using <code>MERGE</code> to create nodes</h3>
 <div class="paragraph">
@@ -1439,7 +1655,13 @@ RETURN variable</pre></div></td>
 <div class="paragraph">
 <p>When you specify <em>nodeProperties</em> for <code>MERGE</code>, you should only use properties that satisfy some sort of uniqueness constraint. You will learn about uniqueness constraints in the next module.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is what we currently have in the graph for the <em>Person</em>, <em>Michael Caine</em>.
 This node has values for <em>name</em> and <em>born</em>. Notice also that the label for the node is <em>Person</em>.</p>
 </div>
@@ -1447,8 +1669,17 @@ This node has values for <em>name</em> and <em>born</em>. Notice also that the l
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MichaelCaine.png" alt="MichaelCaine" width="600">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here we use <code>MERGE</code> to find a node with the <em>Actor</em> label with the key property <em>name</em> of <em>Michael Caine</em>, and we set the <em>born</em> property to <em>1933</em>. Our data model has never used the label, <em>Actor</em> so this is a new entity type in our graph.</p>
 </div>
 <div class="listingblock">
@@ -1468,11 +1699,20 @@ RETURN a</pre>
 </div>
 <div class="paragraph">
 <p><strong>Important</strong>: When you specify the node to merge, you should only use properties that have a unique index. You will learn about uniqueness later in this training.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>If we were to repeat this <code>MERGE</code> clause, no additional <em>Actor</em> odes would be created in the graph.</p>
+<p>If we were to repeat this <code>MERGE</code> clause, no additional <em>Actor</em> nodes would be created in the graph.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>At this point, however, we have two <em>Michael Caine</em> nodes in the graph, one of type <em>Person</em>, and one of type <em>Actor</em>:</p>
 </div>
 <div class="imageblock thumb">
@@ -1482,7 +1722,10 @@ RETURN a</pre>
 </div>
 <div class="paragraph">
 <p><strong>Important:</strong> Be mindful that node labels and the properties for a node are significant when merging nodes.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_using_merge_to_create_relationships">Using <code>MERGE</code> to create relationships</h3>
@@ -1521,8 +1764,14 @@ RETURN variable</pre></div></td>
 <div class="paragraph">
 <p>You can use the <code>MERGE</code> clause, along with <code>ON CREATE</code> to assign specific values to a node being created as a result of an attempt to merge.</p>
 </div>
-<div class="paragraph">
-<p>Here is an example where create a new node, specifying property values for the new node.</p>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Here is an example where create a new node, specifying property values for the new node:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1542,8 +1791,17 @@ RETURN a</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllMichaelCaines.png" alt="AllMichaelCaines" width="600">
 </div>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>You can also specify an <code>ON MATCH</code> clause during merge processing. If the exact node is found, you can update its properties or labels. Here is an example:</p>
 </div>
 <div class="listingblock">
@@ -1562,14 +1820,23 @@ RETURN a</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UpdateToUK.png" alt="UpdateToUK" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_using_merge_to_create_relationships_2">Using <code>MERGE</code> to create relationships</h3>
 <div class="paragraph">
 <p>Using <code>MERGE</code> to create relationships is expensive and you should only do it when you need to ensure that a relationship is unique and you are not sure it it already exists.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In this example, we use the <code>MATCH</code> clause to find all <em>Person</em> nodes that represent <em>Michael Caine</em> and we find the movie, <em>Batman Begins</em> that we want to connect to all of these nodes. We already have a connection between one of the <em>Person</em> nodes and the <em>Movie</em> node. We do not want this relationship to be duplicated. This is where we can use <code>MERGE</code> as follows:</p>
 </div>
 <div class="listingblock">
@@ -1587,21 +1854,33 @@ RETURN p, m</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeRelationships.png" alt="MergeRelationships" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>You must be aware of the  behavior of the <code>MERGE</code> clause and how it will automatically create nodes and relationships. <code>MERGE</code> tries to find a full pattern and if it doesn&#8217;t find it, it creates that full pattern. That&#8217;s why in most cases you should first <code>MERGE</code> your nodes and then your relationship afterwards.</p>
 </div>
 <div class="paragraph">
 <p>Only if you intentionally want to create a node within the context of another (like a month within a year) then a MERGE pattern with one bound and one unbound node makes sense.</p>
 </div>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>MERGE (fromDate:Date {year: 2018})&lt;-[:IN_YEAR]-(toDate:Date {month: 'January'})</pre>
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_exercise_11_merging_data_in_the_graph"><strong>Exercise 11: Merging Data in the graph</strong></h3>
@@ -1762,7 +2041,7 @@ RETURN s</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-29 10:41:58 CST
+Last updated 2018-11-01 14:54:52 CST
 </div>
 </div>
 </body>
