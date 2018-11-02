@@ -97,11 +97,9 @@ RETURN m.title
 |===
 {set:cellbgcolor!}
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 Here is what you see in Neo4j Browser when you create a node for the movie, _Batman Begins_ where we have selected the node returned to view its properties.:
 
 [.thumb]
@@ -109,6 +107,7 @@ image::{imagedir}/CreateBatmanBegins.png[CreateBatmanBegins,width=500]
 
 When the graph engine creates a node, it automatically assigns a read-only, unique ID to the node.  
 Here we see that the _id_ of the node is _568_. This is not a property of a node, but rather an internal value.
+|===
 
 After you have created a node, you can add more properties or labels to it and most importantly, connect it to another node.
 
@@ -116,7 +115,10 @@ After you have created a node, you can add more properties or labels to it and m
 
 You can create multiple nodes by simply separating the nodes specified with commas, or by specifying multiple CREATE statements.
 
-Here is an example, where we create some _Person_ nodes that will represent some of the people associated with the movie _Batman Begins_. 
+[cols=1, frame="none"]
+|===
+a|
+Here is an example, where we create some _Person_ nodes that will represent some of the people associated with the movie _Batman Begins_: 
 
 ----
 CREATE 
@@ -126,15 +128,11 @@ CREATE
 (:Person {name: 'Benjamin Melniker', born: 1913})
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 Here is the result of running this Cypher statement:
 
 [.thumb]
 image::{imagedir}/CreateMultiplePersonNodes.png[CreateMultiplePersonNodes,width=500]
+|===
 
 *Important:* The graph engine will create a node with the same properties of a node that already exists. You can prevent this from happening in one of two ways:
 
@@ -160,6 +158,9 @@ a|
 
 If you attempt to add a label to a node for which the label already exists, the `SET` processing is ignored.
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we add the _Action_ label to the node that has a label, _Movie_:
 
 ----
@@ -169,17 +170,13 @@ SET m:Action
 RETURN labels(m)
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:
 
 [.thumb]
 image::{imagedir}/SetActionLabel.png[SetActionLabel,width=500]
 
 Notice here that we call the built-in function, `labels()` that returns the set of labels for the node.
+|===
 
 === Removing labels from a node
 
@@ -196,6 +193,9 @@ a|
 
 If you attempt to remove a label from a node for which the label does not exist, the `SET` processing is ignored.
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we remove the _Action_ label from the node that has a labels, _Movie_ and _Action_:
 
 ----
@@ -205,15 +205,11 @@ REMOVE m:Action
 RETURN labels(m)
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:
 
 [.thumb]
 image::{imagedir}/RemoveActionLabel.png[RemoveActionLabel,width=500]
+|===
 
 === Adding properties to a node
 
@@ -241,11 +237,9 @@ That is, you can assign a string value to a property that was once a numeric val
 
 When specify the JSON-style object for assignment (using `=`) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify `+=` when assigning to a property, the value at _valueX_ is updated if the _propertyNnameX_ exists for the node. If the _propertyNameX_ does not exist for the node, then the property is added to the node.
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we add the properties _released_  and _lengthInMinutes_ to the movie _Batman Begins_:
 
 ----
@@ -259,8 +253,12 @@ Assuming that we have previously created the node for the movie, here is the res
 
 [.thumb]
 image::{imagedir}/AddReleasedMinutesProperties.png[AddReleasedMinutesProperties,width=700]
+|===
 
-Here is another example where we set the property values to the movie node using the JSON-style object containing the property keys and values. Note that [.underline]#all# properties must be included in the object.
+
+[cols=1, frame="none"]
+|===
+a|Here is another example where we set the property values to the movie node using the JSON-style object containing the property keys and values. Note that [.underline]#all# properties must be included in the object.
 
 ----
 MATCH (m:Movie)
@@ -273,27 +271,24 @@ SET  m = {title: 'Batman Begins',
 RETURN m
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 Here is the result of running this Cypher statement:
 
 [.thumb]
 image::{imagedir}/SetPropertiesObject.png[SetPropertiesObject,width=700]
+|===
 
-Note that when you add a property to a node for the first time in the graph, the property key is added to the graph. So for example, in the previous example, we added the _videoFormat_ and _grossMillions_ property keys to the graph as they have never been used before for a node in the graph. Once a property key is added to the graph, it is [.underline]#never# removed. When you examine the property keys in the database (by executing `CALL db.propertyKeys()`, you will see all property keys created for the graph, regardless of whether they are currently used for nodes and relationships.
+[cols=1, frame="none"]
+|===
+a|Note that when you add a property to a node for the first time in the graph, the property key is added to the graph. So for example, in the previous example, we added the _videoFormat_ and _grossMillions_ property keys to the graph as they have never been used before for a node in the graph. Once a property key is added to the graph, it is [.underline]#never# removed. When you examine the property keys in the database (by executing `CALL db.propertyKeys()`, you will see all property keys created for the graph, regardless of whether they are currently used for nodes and relationships.
 
 [.thumb]
 image::{imagedir}/AllPropertyKeys.png[AllPropertyKeys,width=700]
+|===
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
 
-Here is an example where we use the JSON-style object to add the _awards_ property to the node and update the _grossMillions_ property:
+[cols=1, frame="none"]
+|===
+a|Here is an example where we use the JSON-style object to add the _awards_ property to the node and update the _grossMillions_ property:
 
 ----
 MATCH (m:Movie)
@@ -305,6 +300,7 @@ RETURN m
 
 [.thumb]
 image::{imagedir}/AddAndUpdateProperties.png[AddAndUpdateProperties,width=700]
+|===
 
 
 === Removing properties from a node
@@ -322,11 +318,9 @@ a|
 |===
 {set:cellbgcolor!}
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 Suppose we determined that no other _Movie_ node in the graph has the properties, _videoFormat_ and _grossMillions_. There is no restriction that nodes of the same type must have the same properties. However, we have decided that we want to remove these properties from this node. Here is example Cypher to remove this property from this _Batman Begins_ node:
 
 ----
@@ -341,6 +335,7 @@ Assuming that we have previously created the node for the movie with the these p
 
 [.thumb]
 image::{imagedir}/RemoveProperties.png[RemoveProperties,width=700]
+|===
 
 === *Exercise 8: Creating Nodes*
 
@@ -366,7 +361,10 @@ When you create the relationship, it [.underline]#must# have direction. You can 
 
 In most cases, unless you are connecting nodes at creation time, you will retrieve the two nodes, each with  their own variables, for example, by specifying a `WHERE` clause to find them, and then use the variables to connect them.
 
-Here is an example. We want to connect the actor, _Michael Caine_ with the movie, _Batman Begins_. We first retrieve the nodes of interest, then we create the relationship.
+[cols=1, frame="none"]
+|===
+a|
+Here is an example. We want to connect the actor, _Michael Caine_ with the movie, _Batman Begins_. We first retrieve the nodes of interest, then we create the relationship:
 
 ----
 MATCH (a:Person), (m:Movie)
@@ -381,9 +379,13 @@ Here is the result of running this Cypher statement:
 image::{imagedir}/CreateActedInRelationship.png[CreateActedInRelationship,width=600]
 
 *Note*: Before you run these Cypher statements, you may see a warning in Neo4j Browser that you are creating a query that is a cartesian product that could potentially be a performance issue.  You will see this warning if you have no unique constraint on the lookup keys. You will learn about uniqueness constraints later in the next module. If you are familiar with the data in the graph and can be sure that the `MATCH` clauses will not retrieve large amounts of data, you can continue. In our case, we are simply looking up a particular _Person_ node and a particular _Movie_ node so we can create the relationship.
+|===
 
 You can create multiple relationships at once by simply providing the pattern for the creation that includes the relationship types, their directions, and the nodes that you want to connect.
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we have already created _Person_ nodes for an actor, _Liam Neeson_, and a producer, _Benjamin Melniker_. We create two relationships in this example, one for _ACTED_IN_ and one for _PRODUCED_.
 
 ----
@@ -401,6 +403,7 @@ Here is the result of running this Cypher statement:
 image::{imagedir}/CreateTwoRelationships.png[CreateTwoRelationships,width=600]
 
 *Important*:When you create relationships based upon a `MATCH` clause, you must be certain that only a single node is returned for the `MATCH`, otherwise multiple relationships will be created.
+|===
 
 === Adding properties to relationships
 
@@ -424,7 +427,10 @@ a|
 If the property does not exist, it is added to the relationship. If the property exists, its value is updated for the relationship. 
 When specify the JSON-style object for assignment to the relationship using `=`, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use `+=`, you can add or update properties, just as you do for nodes.
 
-Here is an example where we will add the _roles_ property to the _ACTED_IN_ relationship from _Christian Bale_ to _Batman Begins_ right after we have created the relationship.
+[cols=1, frame="none"]
+|===
+a|
+Here is an example where we will add the _roles_ property to the _ACTED_IN_ relationship from _Christian Bale_ to _Batman Begins_ right after we have created the relationship:
 
 ----
 MATCH (a:Person), (m:Movie)
@@ -440,7 +446,11 @@ Here is the result of running this Cypher statement:
 image::{imagedir}/AddRelationshipWithRoles.png[AddRelationshipWithRoles,width=500]
 
 The _roles_ property is a list so we add it as such. If the relationship had multiple properties, we could have added them as a comma separated list or as an object, like can do for node properties.
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 You can also add properties to a relationship when the relationship is created. Here is another way to create and add the properties for the relationship:
 
 ----
@@ -463,11 +473,15 @@ RETURN a, rel, m
 ----
 
 *Note:* You can prevent duplication of relationships by merging data using the `MERGE` clause, rather than the `CREATE` clause. You will learn about merging data later in this module.
+|===
 
 === Removing properties from a relationship
 
 There are two ways that you can remove a property from a node. One way is to use the REMOVE keyword. The other way is to set the property's value to `null`, just as you do for properties of nodes.
 
+[cols=1, frame="none"]
+|===
+a|
 Suppose we have added the _ACTED_IN_ relationship between _Christian Bale_ and the movie, _Batman Returns_ where the _roles_ property is added to the relationship. Here is an example to remove the _roles_ property, yet keep the _ACTED_IN_ relationship:
 
 ----
@@ -477,15 +491,11 @@ REMOVE rel.roles
 RETURN a, rel, m
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 Here is the result returned. An alternative to `REMOVE rel.roles` would be `SET rel.roles = null`
 
 [.thumb]
 image::{imagedir}/RemoveRoles.png[RemoveRoles,width=700]
+|===
 
 === *Exercise 9: Creating Relationships*
 
@@ -501,14 +511,21 @@ Relationships are also deleted using the `DELETE` clause.
 
 === Deleting relationships
 
+[cols=1, frame="none"]
+|===
+a|
 Here are the existing nodes and relationships for the _Batman Begins_ movie:
 
 [.thumb]
 image::{imagedir}/BatmanBeginsRelationships.png[BatmanBeginsRelationships,width=700]
+|===
 
 You can delete a relationship between nodes by first finding it in the graph and then deleting it.
 
-In this example, we want to delete the _ACTED_IN_ relationship between _Christian Bale_ and the movie _Batman Begins_. We find the relationship, and then delete it.
+[cols=1, frame="none"]
+|===
+a|
+In this example, we want to delete the _ACTED_IN_ relationship between _Christian Bale_ and the movie _Batman Begins_. We find the relationship, and then delete it:
 
 ----
 MATCH (a:Person)-[rel:ACTED_IN]->(m:Movie)
@@ -523,22 +540,29 @@ Here is the result of running this Cypher statement:
 image::{imagedir}/DeleteRelationship.png[DeleteRelationship,width=600]
 
 Notice that there no longer exists the relationship between _Christian Bale_ and the movie _Batman Begins_.
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 We can now query the nodes related to _Batman Begins_ to see that this movie now only has two actors and one producer connected to it:
 
 [.thumb]
 image::{imagedir}/BatmanBeginsRelationships2.png[BatmanBeginsRelationships2,width=600]
+|===
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
-Even though, we have deleted the relationship between actor, _Christian Bale_ and the movie _Batman Begins_, we note that this actor is connected to another movie in the graph, so we should not delete this _Christian Bale_ node.
+[cols=1, frame="none"]
+|===
+a|
+Even though we have deleted the relationship between actor, _Christian Bale_ and the movie _Batman Begins_, we note that this actor is connected to another movie in the graph, so we should not delete this _Christian Bale_ node.
 
 [.thumb]
 image::{imagedir}/ChristianBaleConnections.png[ChristianBaleConnections,width=600]
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 In this example, we find the node for the producer, _Benjamin Melniker_, as well as his relationship to movie nodes. First, we delete the relationship(s), then we delete the node:
 
 ----
@@ -551,17 +575,25 @@ Here is the result of running this Cypher statement:
 
 [.thumb]
 image::{imagedir}/DeleteMelniker.png[DeleteMelniker,width=600]
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 And here we see that we now have only two connections to the _Batman Begins_ movie:
 
 [.thumb]
 image::{imagedir}/BatmanBeginsRelationships3.png[BatmanBeginsRelationships3,width=400]
+|===
 
 === Deleting nodes and relationships
 
 The most efficient way to delete a node and its corresponding relationships is to specify `DETACH DELETE`.  
 When you specify `DETACH DELETE` for a node, the relationships to and from the node are deleted, then the node is deleted.
 
+[cols=1, frame="none"]
+|===
+a|
 If were were to attempt to delete the _Liam Neeson_ node without first deleting its relationships:
 
 ----
@@ -574,7 +606,11 @@ We would see this error:
 
 [.thumb]
 image::{imagedir}/LiamNeesonDeleteError.png[LiamNeesonDeleteError,width=600]
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 Here we delete the _Liam Neeson_ node and its relationships to any other nodes:
 
 ----
@@ -587,16 +623,16 @@ Here is the result of running this Cypher statement:
 
 [.thumb]
 image::{imagedir}/DeleteLiamNeeson.png[DeleteLiamNeeson,width=600]
+|===
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 And here is what the _Batman Begins_ node and its relationships now look like. There is only one actor, _Michael Caine_ connected to the movie.
 
 [.thumb]
 image::{imagedir}/BatmanBeginsRelationships4.png[BatmanBeginsRelationships4,width=600]
+|===
 
 === *Exercise 10: Deleting Nodes and Relationships*
 
@@ -629,12 +665,16 @@ h|The result is:
 
 The `MERGE` clause is used to find elements in the graph. But if the element is not found, it is created. 
 
+[cols=1, frame="none"]
+|===
+a|
 You use the `MERGE` clause to:
 
 [square]
 * Create a unique node based on label and key information for a property and if it exists, optionally update it.
 * Create a unique relationship.
 * Create a node and relationship to it uniquely in the context of another node.
+|===
 
 === Using `MERGE` to create nodes
 
@@ -652,13 +692,20 @@ If there is an existing node with  _Label_ and _nodeProperties_  found in the gr
 
 When you specify _nodeProperties_ for `MERGE`, you should only use properties that satisfy some sort of uniqueness constraint. You will learn about uniqueness constraints in the next module. 
 
+[cols=1, frame="none"]
+|===
+a|
 Here is what we currently have in the graph for the _Person_, _Michael Caine_. 
 This node has values for _name_ and _born_. Notice also that the label for the node is _Person_.
 
 [.thumb]
 image::{imagedir}/MichaelCaine.png[MichaelCaine,width=600]
+|===
 
-Here we use `MERGE` to find a node with the _Actor_ label with the key property _name_ of _Michael Caine_, and we set the _born_ property to _1933_. Our data model has never used the label, _Actor_ so this is a new entity type in our graph.
+
+[cols=1, frame="none"]
+|===
+a|Here we use `MERGE` to find a node with the _Actor_ label with the key property _name_ of _Michael Caine_, and we set the _born_ property to _1933_. Our data model has never used the label, _Actor_ so this is a new entity type in our graph.
 
 ----
 MERGE (a:Actor {name: 'Michael Caine'})
@@ -672,20 +719,20 @@ Here is the result of running this Cypher example. We do not find a node with th
 image::{imagedir}/MergeActorMichaelCaine.png[MergeActorMichaelCaine,width=600]
 
 *Important*: When you specify the node to merge, you should only use properties that have a unique index. You will learn about uniqueness later in this training.
+|===
 
-If we were to repeat this `MERGE` clause, no additional _Actor_ odes would be created in the graph.
+If we were to repeat this `MERGE` clause, no additional _Actor_ nodes would be created in the graph.
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 At this point, however, we have two _Michael Caine_ nodes in the graph, one of type _Person_, and one of type _Actor_:
 
 [.thumb]
 image::{imagedir}/TwoMichaelCaines.png[TwoMichaelCaines,width=600]
 
 *Important:* Be mindful that node labels and the properties for a node are significant when merging nodes.
+|===
 
 === Using `MERGE` to create relationships
 
@@ -707,7 +754,10 @@ Although, you can leave out the direction of the relationship being created with
 
 You can use the `MERGE` clause, along with `ON CREATE` to assign specific values to a node being created as a result of an attempt to merge.
 
-Here is an example where create a new node, specifying property values for the new node.
+[cols=1, frame="none"]
+|===
+a|
+Here is an example where create a new node, specifying property values for the new node:
 
 ----
 MERGE (a:Person {name: 'Sir Michael Caine'})
@@ -722,7 +772,11 @@ Here is the resulting nodes that have anything to do with _Michael Caine_. The m
 
 [.thumb]
 image::{imagedir}/AllMichaelCaines.png[AllMichaelCaines,width=600]
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 You can also specify an `ON MATCH` clause during merge processing. If the exact node is found, you can update its properties or labels. Here is an example:
 
 ----
@@ -733,20 +787,19 @@ ON MATCH SET a.birthPlace = 'UK'
 RETURN a
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 And here we see that the found node (with the _<id>_ of _1920_) was updated with the new value for _birthPlace_.
 
 [.thumb]
 image::{imagedir}/UpdateToUK.png[UpdateToUK,width=600]
+|===
 
 === Using `MERGE` to create relationships
 
 Using `MERGE` to create relationships is expensive and you should only do it when you need to ensure that a relationship is unique and you are not sure it it already exists.
 
+[cols=1, frame="none"]
+|===
+a|
 In this example, we use the `MATCH` clause to find all _Person_ nodes that represent _Michael Caine_ and we find the movie, _Batman Begins_ that we want to connect to all of these nodes. We already have a connection between one of the _Person_ nodes and the _Movie_ node. We do not want this relationship to be duplicated. This is where we can use `MERGE` as follows:
 
 ----
@@ -756,25 +809,24 @@ MERGE (p)-[:ACTED_IN]->(m)
 RETURN p, m
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 Here is the result of executing this Cypher statement. It went through all the nodes and added the relationship to the nodes that didn't already have the relationship.
 
 [.thumb]
 image::{imagedir}/MergeRelationships.png[MergeRelationships,width=600]
+|===
 
 You must be aware of the  behavior of the `MERGE` clause and how it will automatically create nodes and relationships. `MERGE` tries to find a full pattern and if it doesn't find it, it creates that full pattern. That's why in most cases you should first `MERGE` your nodes and then your relationship afterwards.
 
 Only if you intentionally want to create a node within the context of another (like a month within a year) then a MERGE pattern with one bound and one unbound node makes sense.
 
+[cols=1, frame="none"]
+|===
+a|
 For example:
 ----
 MERGE (fromDate:Date {year: 2018})<-[:IN_YEAR]-(toDate:Date {month: 'January'})
 ----
-
+|===
 
 === *Exercise 11: Merging Data in the graph*
 

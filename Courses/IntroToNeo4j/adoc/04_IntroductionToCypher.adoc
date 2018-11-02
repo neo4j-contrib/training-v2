@@ -52,11 +52,13 @@ The guiding goal is to make the simple things easy, and the complex things possi
 
 Optimized for being read by humans, Cypher's construct uses English prose and iconography (called ASCII Art) to make queries more self-explanatory.
 
+[.thumb]
 image:{imagedir}/ASCIIArt.png[ASCIIArt,width=700]
 
 Being a declarative language, Cypher focuses on the clarity of expressing *what* to retrieve from a graph, not on *how* to retrieve it.
 You can think of Cypher as mapping English language sentence structure to patterns in a graph. For example, the nouns are nodes of the graph, the verbs are the relationships in the graph, and the adjectives and adverbs are the properties.
 
+[.thumb]
 image:{imagedir}/Nouns.png[Nouns,width=700]
 
 This is in contrast to imperative, programmatic APIs for database access. 
@@ -83,7 +85,8 @@ In the _Movie_ database you will be working with, the nodes in this graph are la
 [frame="none", cols="<.^,<.^"]
 |===
 |For example, you can see the labels in the database by simply clicking the Database icon in Neo4j Browser:
-a|image::{imagedir}/NodeLabels.png[width=300,align=center]
+a|[.thumb]
+image::{imagedir}/NodeLabels.png[width=300,align=center]
 |===
 
 
@@ -106,6 +109,9 @@ a|
 
 Notice that a node must have the parentheses. The labels and the variable for a node are optional.
 
+[cols=1, frame="none"]
+|===
+a|
 Here are examples of specifying nodes in Cypher:
 [listing]
 ----
@@ -117,7 +123,7 @@ Here are examples of specifying nodes in Cypher:
 ----
 
 A node can have multiple labels. For example a node can be created with a label of _Person_ and that same node can be modified to also have the label of _Actor_ and/or _Director_. 
-
+|===
 ==== Comments in Cypher
 
 In Cypher, you can place a comment (starts with `//`) anywhere in your Cypher to specify that the rest of the line is interpreted as a comment.
@@ -127,17 +133,17 @@ In Cypher, you can place a comment (starts with `//`) anywhere in your Cypher to
 When you are first learning about the data (nodes, labels, etc.) in a graph, it is helpful to examine the data model of the graph. 
 You do so by executing `CALL db.schema`, which calls the Neo4j procedure that returns information about the nodes, labels, and relationships in the graph.
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 For example, when we run this procedure in our training environment, we see the following in the result pane. 
 Here we see that the graph has 2 labels defined for nodes, _Person_ and _Movie_. 
 Each type of nodes is displayed in a different color.  
 The relationships between nodes are also displayed, which you will learn about later in this module.
 
+[.thumb]
 image::{imagedir}/call_db.schema.png[call_db.schema,width=700]
+|===
 
 === Using MATCH to retrieve nodes
 
@@ -167,6 +173,9 @@ This coding convention is described in the _Cypher Style Guide_ and will be used
 This `MATCH` clause returns all nodes in the graph, where the optional _Label_ is used to return a subgraph if the graph contains nodes of different types. 
 The _variable_ must be specified here, otherwise the query will have nothing to return.
 
+[cols=1, frame="none"]
+|===
+a|
 Here are example queries to the _Movie_ database:
 ----
 MATCH (n) 			// returns all nodes in the graph
@@ -185,20 +194,21 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/PersonNodes-graph.png[PersonNodes,width=500]
+|===
 
 *Important:* When you specify a pattern for a `MATCH` clause, you should always specify a node label if possible. In doing so, the graph engine uses an index to retrieve the nodes which will perform better than not using a label for the `MATCH`.
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
 
 ==== Viewing nodes as table data
 
+[cols=1, frame="none"]
+|===
+a|
 We can also view the nodes as table data where the nodes and their associated property values are shown in a JSON-style format:
 
 [.thumb]
 image::{imagedir}/PersonNodes-table.png[PersonNodes-table,width=500]
+|===
 
 When nodes are displayed as table values, the node labels and ids are not shown, only the property values for the nodes. Node ids are unique identifiers and are set by the graph engine when a node is created.
 
@@ -214,16 +224,15 @@ Recall that nodes are used to represent the entities of your business model.
 A property is defined for a node and not for a type of node. 
 All nodes of the same type need not have the same properties. 
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 For example, in the _Movie_ graph, all _Movie_ nodes have both _title_  and _released_ properties.  
 However, it is not a requirement that every _Movie_ node has a property, _tagline_. 
 
 [.thumb]
 image::{imagedir}/MovieProperties.png[MovieProperties,width=700]
+|===
 
 Properties can be used to filter queries  so that a subset of the graph is retrieved. 
 In addition, with the `RETURN` clause, you can return property values from the retrieved nodes, rather than the nodes. 
@@ -233,11 +242,15 @@ In addition, with the `RETURN` clause, you can return property values from the r
 As you prepare to create Cypher queries that use property values to filter a query, you can view the values for property keys of a graph by simply clicking the Database icon in Neo4j Browser. 
 Alternatively, you can execute  `CALL db.propertyKeys`,  which calls the Neo4j library method that returns the property keys for the graph.
 
+[cols=1, frame="none"]
+|===
+a|
 Here is what you will see in the result pane when you call the method to return the property keys in the _Movie_ graph. 
 This result stream contains all property keys in the graph. It does not display which nodes utilize these property keys.
 
 [.thumb]
 image::{imagedir}/call_db.PropertyKeys.png[call_db.PropertyKeys,width=500]
+|===
 
 ==== Retrieving nodes filtered by a property value
 
@@ -264,6 +277,9 @@ a|
 |===
 {set:cellbgcolor!}
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we filter the query results using a property value. 
 We only retrieve _Person_ nodes that have a _born_ property value of _1970_.
 
@@ -276,12 +292,12 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/MatchPersonBorn1970.png[MatchPersonBorn1970,width=500]
+|===
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we specify two property values for the query. 
 ----
 MATCH (m:Movie {released: 2003, tagline: 'Free your mind'}) 
@@ -294,6 +310,7 @@ Here is the result returned:
 image::{imagedir}/TwoPropertiesForFilter.png[TwoPropertiesForFilter,width=500]
 
 As it turns out, there is only one movie with the _tagline_, _Free your mind_ in the _Movie_ database, but if we had specified a different year, the query would not have returned a value because when you specify properties, both properties must match.
+|===
 
 ==== Returning property values
 
@@ -319,11 +336,9 @@ a|
 |===
 {set:cellbgcolor!}
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 In this example, we use the _born_ property to refine the query, but rather than returning the nodes, we return the _name_  and _born_ values for every node that satisfies the query.
 
 ----
@@ -333,7 +348,9 @@ RETURN p.name, p.born
 
 The result returned is:
 
+[.thumb]
 image::{imagedir}/MatchPersonBorn1965.png[MatchPersonBorn1965,width=500]
+|===
 
 ==== Specifying aliases
 
@@ -351,21 +368,20 @@ a|
 
 *Important:* If you want a heading to contain a space between strings, you must specify the alias with the back tick _`_ character, rather than a single or double quote character. In fact, you can specify any variable, label, relationship type, or property key with a space also by using the back tick _`_ character.
 
+[cols=1, frame="none"]
+|===
+a|
 Here we specify aliases for the returned property values:
 ----
 MATCH (p:Person {born: 1965}) 
 RETURN p.name AS name, p.born AS `birth year`
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 The result returned is:
 
 [.thumb]
 image::{imagedir}/UsingAliases.png[UsingAliases,width=700]
+|===
 
 === *Exercise 2: Filtering queries using property values*
 
@@ -395,11 +411,6 @@ You can specify nodes and their relationships to traverse the graph and quickly 
 ==== Querying using relationships
 
 In your `MATCH` clause, you specify how you want a relationship to be used to perform the query. The relationship can be specified with or without direction.
-
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
 
 {set:cellbgcolor:white}
 |===
@@ -435,6 +446,9 @@ _where:_
 You can run `CALL db.schema` to view the relationship types in the graph. 
 In the _Movie_ graph, we see these relationships between the nodes:
 
+[cols=1, frame="none"]
+|===
+a|
 Here we see that this graph has a total of 6 relationship types between the nodes. Some _Person_ nodes are connected to other _Person_ nodes using the _FOLLOWS_ relationship type. 
 All of the other relationships in this graph are from _Person_ nodes to _Movie_ nodes.
 
@@ -442,9 +456,18 @@ All of the other relationships in this graph are from _Person_ nodes to _Movie_ 
 image::{imagedir}/call_db.schema-relationships.png[call_db.schema-relationships,width=400]
 
 The relationship types can also be viewed by selecting the arrow to the right in the relationship type row.
+|===
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Using a relationship in a query
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we retrieve the _Person_ nodes that have the _ACTED_IN_ relationship to the _Movie_, _The Matrix_. 
 In other words, show me the actors that acted in _The Matrix_.
 
@@ -460,7 +483,12 @@ image::{imagedir}/ActorsInMatrix.png[ActorsInMatrix,width=700]
 
 For this query, we are using the variable _p_ to represent the _Person_ nodes during the query, the variable _m_ to represent the _Movie_ node retrieved, and the variable _rel_ to represent the relationship for the relationship type, _ACTED_IN_.
 We return a graph with the _Person_ nodes, the _Movie_ node and their _ACTED_IN_ relationships.
+|===
 
+
+[cols=1, frame="none"]
+|===
+a|
 *Important:* You specify node labels whenever possible in your queries as it optimizes the retrieval in the graph engine. 
 That is, you should *not* specify this same query as:
 
@@ -468,18 +496,18 @@ That is, you should *not* specify this same query as:
 MATCH (p)-[rel:ACTED_IN]->(m {title:'The Matrix'}) 
 RETURN p,m
 ----
-
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
+|===
 
 ==== Querying by multiple relationships
 
+[cols=1, frame="none"]
+|===
+a|
 Here is another example where we want to know the movies that _Tom Hanks_ acted in and directed:
 
+[listing]
 ----
-MATCH (p:Person {name: 'Tom Hanks'})-[:ACTED_IN |:DIRECTED]->(m:Movie)
+MATCH (p:Person {name: 'Tom Hanks'})-[:ACTED_IN \|:DIRECTED]->(m:Movie)
 RETURN p.name, m.title
 ----
 
@@ -489,9 +517,18 @@ The result returned is:
 image::{imagedir}/TomHanksActedDirected.png[ActorsInMatrix,width=700]
 
 Notice that there are multiple rows returned for the movie, _That Thing You Do_. This is because _Tom Hanks_ acted in and directed that movie.
+|===
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Using anonymous nodes in a query
 
+[cols=1, frame="none"]
+|===
+a|
 Suppose you wanted to retrieve the actors that acted in _The Matrix_, but you do not need any information returned about the _Movie_ node. 
 You need not specify a variable for a node in a query if that node is not returned or used for later processing in the query. 
 You can simply use the anonymous node in the query as follows:
@@ -501,20 +538,24 @@ MATCH (p:Person)-[:ACTED_IN]->(:Movie {title: 'The Matrix'})
 RETURN p.name
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 The result returned is:
 
 [.thumb]
 image::{imagedir}/AnonymousMovieNode.png[AnonymousMovieNode,width=700]
 
 *Note:* A best practice is to place named nodes (those with variables) before anonymous nodes in a `MATCH` clause.
+|===
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Using an anonymous relationship for a query
 
+[cols=1, frame="none"]
+|===
+a|
 Suppose you want to find all people who are in any way connected to the movie, _The Matrix_. 
 You can specify an empty relationship type in the query so that all relationships are traversed and the appropriate results are returned.  
 In this example, we want to retrieve all _Person_ nodes that have any type of connection to the _Movie_ node, with the _title_, _The Matrix_.
@@ -525,17 +566,16 @@ MATCH (p:Person)->(m:Movie {title: 'The Matrix'})
 RETURN p, m
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 The result returned is:
 
 [.thumb]
 image::{imagedir}/AllRelationshipsMatrix.png[AllRelationshipsMatrix,width=700]
+|===
 
 
+[cols=1, frame="none"]
+|===
+a|
 Here are other examples of using the anonymous relationship:
 ----
 MATCH (p:Person)--(m:Movie {title: 'The Matrix'}) 
@@ -548,10 +588,15 @@ RETURN p, m
 ----
 
 In this training, we will use `+->+`, `--`, and `+<-+` to represent anonymous relationships as it is a Cypher best practice.
+|===
 
 ==== Retrieving the relationship types
 
 There is a built-in function, `type()` that returns the relationship type of a relationship. 
+
+[cols=1, frame="none"]
+|===
+a|
 Here is an example where we use the _rel_ variable to hold the relationships retrieved. We then use this variable to return the relationship types.
 
 ----
@@ -563,6 +608,7 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/MatrixRelationshipTypes.png[MatrixRelationshipTypes,width=700]
+|===
 
 ==== Retrieving properties for relationships
 
@@ -570,13 +616,20 @@ Recall that a node can have as set of properties, each identified by its propert
 Relationships can also have properties. 
 This enables your graph model to provide more data about the relationships between the nodes.
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example from the _Movie_ graph. 
 The movie, _The Da Vinci Code_ has two people that reviewed it, _Jessica Thompson_ and _James Thompson_. Each of these _Person_ nodes has the _REVIEWED_ relationship to the _Movie_ node for _The Da Vinci Code_. 
 Each relationship has properties that further describe the relationship using the _summary_ and _rating_ properties.
 
 [.thumb]
 image::{imagedir}/REVIEWEDProperties.png[ReviewedProperties,width=700]
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 Just as you can specify property values for filtering nodes for a query, you can specify property values for a relationship. This query returns the name of of the person who gave the movie a rating of _65._
 
 ----
@@ -588,35 +641,42 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/ReturnPersonRating65.png[ReturnPersonRating65,width=800]
+|===
 
 === Using patterns for queries 
 
 Thus far, you have learned how to specify nodes, properties, and relationships in your Cypher queries. 
 Since relationships are directional, it is important to understand how patterns are used in graph traversal during query execution. How a graph is traversed for a query depends on what directions are defined for relationships and how the pattern is specified in the `MATCH` clause. 
 
+[cols=1, frame="none"]
+|===
+a|
 Here is an example of where the _FOLLOWS_ relationship is used in the _Movie_ graph. 
 Notice that this relationship is directional.
 
 [.thumb]
 image::{imagedir}/FollowsRelationships.png[FollowsRelationships,width=300]
+|===
 
-We can perform a query that returns all _Person_ nodes who follow _Angela Scope_:
+
+[cols=1, frame="none"]
+|===
+a|We can perform a query that returns all _Person_ nodes who follow _Angela Scope_:
 
 ----
 MATCH  (p:Person)-[:FOLLOWS]->(:Person {name:'Angela Scope'}) 
 RETURN p
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 The result returned is:
 
 [.thumb]
 image::{imagedir}/AngelaFollowers.png[AngelaFollowers,width=700]
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 If we reverse the direction in the pattern, the query returns different results:
 
 ----
@@ -628,9 +688,13 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/FollowedByAngela.png[FollowedByAngela,width=700]
+|===
 
 ==== Querying by any direction of the relationship
 
+[cols=1, frame="none"]
+|===
+a|
 We can also find out what _Person_ nodes are connected by the _FOLLOWED_ relationship in either direction by removing the directional arrow from the pattern.
 
 ----
@@ -638,19 +702,19 @@ MATCH  (p1:Person)-[:FOLLOWS]-(p2:Person {name:'Angela Scope'})
 RETURN p1, p2
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 The result returned is:
 
 [.thumb]
 image::{imagedir}/AngelaFromTo.png[AngelaFromTo,width=700]
+|===
 
 ==== Traversing relationships
 
 Since we have a graph, we can traverse through nodes to obtain relationships further into the traversal. 
+
+[cols=1, frame="none"]
+|===
+a|
 For example, we can write a Cypher query to return all followers of the followers of _Jessica Thompson_.
 
 ----
@@ -662,7 +726,11 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/FollowersOfJessicaFollowers.png[FollowersOfJessicaFollowers,width=700]
+|===
 
+[cols=1, frame="none"]
+|===
+a|
 This query could also be modified to return each person along the path by specifying variables for the nodes and returning them. In addition, you can assign a variable to the path and return the path as follows:
 
 ----
@@ -670,21 +738,20 @@ MATCH  path = (:Person)-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(:Person {name:'Jessic
 RETURN  path
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 The result returned is:
 
 [.thumb]
 image::{imagedir}/ReturnPath.png[ReturnPath,width=700]
+|===
 
 ==== Using relationship direction to optimize a query
 
 When querying the relationships in a graph, you can take advantage of the direction of the relationship to traverse the graph.
 For example, suppose we wanted to get a result stream containing rows of actors and the movies they acted in, along with the director of the particular movie.
 
+[cols=1, frame="none"]
+|===
+a|
 Here is the Cypher query to do this. Notice that the direction of the traversal is used to focus on a particular movie during the query:
 
 ----
@@ -692,17 +759,13 @@ MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person)
 RETURN a.name, m.title, d.name
 ----
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 The result returned is:
 
 [.thumb]
 image::{imagedir}/TraversalInTwoDirections.png[TraversalInTwoDirections,width=700]
 
 In this query, notice that there are multiple records returned for a movie, each with its set of values for the actor and director.
+|===
 
 Later in this training, you will learn other ways to query data and how to control the results returned.
 
@@ -720,11 +783,9 @@ Here are the *Neo4j-recommended* Cypher coding standards that we use in this tra
 * Place named nodes and relationships (that use variables) before anonymous nodes and relationships in your `MATCH` clauses when possible.
 * Specify anonymous relationships with `+->+`, `--`, or `+<-+`
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
+[cols=1, frame="none"]
+|===
+a|
 Here is an example showing some best coding practices:
 
 ----
@@ -732,6 +793,7 @@ MATCH (:Person {name: 'Diane Keaton'})-[movRel:ACTED_IN]->
 (:Movie {title:"Something's Gotta Give"}) 
 RETURN movRel.roles
 ----
+|===
 
 We recommend that you follow the https://github.com/opencypher/openCypher/blob/master/docs/style-guide.adoc[Cypher Style Guide^] when writing your Cypher statements.
 
