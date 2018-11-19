@@ -25,7 +25,7 @@ if [ "$1" == "publish" ]; then
   URL=guides.neo4j.com/intro-neo4j-exercises
   render http://$URL -a csv-url=https://guides.neo4j.com/intro-neo4j-exercises -a env-training
   if hash aws 2>/dev/null; then
-	  aws s3 cp --acl public-read --recursive --exclude "*" --include "*.html" --include "*.png" --include "*.jpg" --include "*.gif" --include "*.csv" s3://${URL}/
+	  aws s3 cp --acl public-read --recursive --exclude "*" --include "*.html" --include "*.png" --include "*.jpg" --include "*.gif" --include "*.csv" ./ s3://${URL}/
 	  aws s3 cp --acl public-read index.html s3://${URL}
   else
    # ${URL}/?cachebust=123456
