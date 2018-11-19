@@ -566,25 +566,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for creating a node:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for creating a node:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>CREATE (optionalVariable optionalLabels {optionalProperties})</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>CREATE (optionalVariable optionalLabels {optionalProperties})</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>If you plan on referencing the newly created node, you must provide a variable. Whether you provide labels or properties at node creation time is optional. In most cases, you will want to provide some label and property values for a node when created. This will enable you to later retrieve the node. Provided you have a reference to the node (for example, using a <code>MATCH</code> clause), you can always add, update, or remove labels and properties at a later time.</p>
 </div>
@@ -594,10 +590,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-none grid-none stretch">
+<table class="tableblock frame-none grid-none stripes-none stretch">
 <colgroup>
-<col style="width: 55%;">
-<col style="width: 45%;">
+<col style="width: 40%;">
+<col style="width: 60%;">
 </colgroup>
 <tbody>
 <tr>
@@ -657,7 +653,7 @@ RETURN m.title</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateBatmanBegins.png" alt="CreateBatmanBegins" width="500">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateBatmanBegins.png" alt="CreateBatmanBegins" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -698,24 +694,27 @@ Here we see that the <em>id</em> of the node is <em>568</em>. This is not a prop
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateMultiplePersonNodes.png" alt="CreateMultiplePersonNodes" width="500">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateMultiplePersonNodes.png" alt="CreateMultiplePersonNodes" width="600">
 </div>
 </div></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p><strong>Important:</strong> The graph engine will create a node with the same properties of a node that already exists. You can prevent this from happening in one of two ways:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>You can use <code>MERGE</code> rather than <code>CREATE</code> when creating the node.</p>
-</li>
-<li>
-<p>You can add constraints to your graph.</p>
-</li>
-</ol>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The graph engine will create a node with the same properties of a node that already exists. You can prevent this from happening in one of two ways:
+&#160;<br>
+1. You can use <code>MERGE</code> rather than <code>CREATE</code> when creating the node.
+&#160;<br>
+2. You can add constraints to your graph.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>You will learn about merging data later in this module. Constraints are configured globally for a graph and are covered later in this training.</p>
@@ -729,28 +728,24 @@ Here we see that the <em>id</em> of the node is <em>568</em>. This is not a prop
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for adding labels to a node:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for adding labels to a node:</span></p></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET x:Label					// adding one label to node referenced by the variable x</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET x:Label					// adding one label to node referenced by the variable x</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET x:Label1:Label2			// adding two labels to node referenced by the variable x</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET x:Label1:Label2			// adding two labels to node referenced by the variable x</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>If you attempt to add a label to a node for which the label already exists, the <code>SET</code> processing is ignored.</p>
 </div>
@@ -776,7 +771,7 @@ RETURN labels(m)</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActionLabel.png" alt="SetActionLabel" width="500">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActionLabel.png" alt="SetActionLabel" width="700">
 </div>
 </div>
 <div class="paragraph">
@@ -794,25 +789,21 @@ RETURN labels(m)</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for removing labels from a node:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for removing labels from a node:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>REMOVE x:Label	  // remove the label from the node referenced by the variable x</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>REMOVE x:Label	  // remove the label from the node referenced by the variable x</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>If you attempt to remove a label from a node for which the label does not exist, the <code>SET</code> processing is ignored.</p>
 </div>
@@ -838,7 +829,7 @@ RETURN labels(m)</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveActionLabel.png" alt="RemoveActionLabel" width="500">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveActionLabel.png" alt="RemoveActionLabel" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -853,34 +844,30 @@ RETURN labels(m)</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for adding properties to a node referenced by the variable x:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here are simplified syntax examples for adding properties to a node referenced by the variable x:</span></p></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET x.propertyName = value</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET x.propertyName = value</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET x.propertyName1 = value1	, x.propertyName2 = value2</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET x.propertyName1 = value1	, x.propertyName2 = value2</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET x = {propertyName1: value1, propertyName2: value2}</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET x = {propertyName1: value1, propertyName2: value2}</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET x += {propertyName1: value1, propertyName2: value2}</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET x += {propertyName1: value1, propertyName2: value2}</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>If the property does not exist, it is added to the node. If the property exists, its value is updated. If the value specified is <code>null</code>, the property is removed.</p>
 </div>
@@ -913,7 +900,7 @@ RETURN m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddReleasedMinutesProperties.png" alt="AddReleasedMinutesProperties" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddReleasedMinutesProperties.png" alt="AddReleasedMinutesProperties" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -945,7 +932,7 @@ RETURN m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetPropertiesObject.png" alt="SetPropertiesObject" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetPropertiesObject.png" alt="SetPropertiesObject" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -962,7 +949,7 @@ RETURN m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllPropertyKeys.png" alt="AllPropertyKeys" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllPropertyKeys.png" alt="AllPropertyKeys" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -988,7 +975,7 @@ RETURN m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddAndUpdateProperties.png" alt="AddAndUpdateProperties" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddAndUpdateProperties.png" alt="AddAndUpdateProperties" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1003,28 +990,24 @@ RETURN m</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for removing properties from a node referenced by the variable x:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here are simplified syntax examples for removing properties from a node referenced by the variable x:</span></p></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>REMOVE x.propertyName</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>REMOVE x.propertyName</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET x.propertyName = null</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET x.propertyName = null</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -1048,7 +1031,7 @@ RETURN m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveProperties.png" alt="RemoveProperties" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveProperties.png" alt="RemoveProperties" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1073,28 +1056,24 @@ and follow the instructions for Exercise 8.</p>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for creating a relationship between two nodes referenced by the variables x and y:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for creating a relationship between two nodes referenced by the variables x and y:</span></p></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>CREATE (x)-[:REL_TYPE]-&gt;(y)</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>CREATE (x)-[:REL_TYPE]-&gt;(y)</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>CREATE (x)&lt;-[:REL_TYPE]-(y)</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>CREATE (x)&lt;-[:REL_TYPE]-(y)</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>When you create the relationship, it <span class="underline">must</span> have direction. You can query nodes for a relationship in either direction, but you must create the relationship with a direction. An exception to this is when you create a node using <code>MERGE</code> that you will learn about later in this module.</p>
 </div>
@@ -1123,15 +1102,24 @@ RETURN a, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateActedInRelationship.png" alt="CreateActedInRelationship" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateActedInRelationship.png" alt="CreateActedInRelationship" width="800">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Note</strong>: Before you run these Cypher statements, you may see a warning in Neo4j Browser that you are creating a query that is a cartesian product that could potentially be a performance issue.  You will see this warning if you have no unique constraint on the lookup keys. You will learn about uniqueness constraints later in the next module. If you are familiar with the data in the graph and can be sure that the <code>MATCH</code> clauses will not retrieve large amounts of data, you can continue. In our case, we are simply looking up a particular <em>Person</em> node and a particular <em>Movie</em> node so we can create the relationship.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Before you run these Cypher statements, you may see a warning in Neo4j Browser that you are creating a query that is a cartesian product that could potentially be a performance issue.  You will see this warning if you have no unique constraint on the lookup keys. You will learn about uniqueness constraints later in the next module. If you are familiar with the data in the graph and can be sure that the <code>MATCH</code> clauses will not retrieve large amounts of data, you can continue. In our case, we are simply looking up a particular <em>Person</em> node and a particular <em>Movie</em> node so we can create the relationship.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>You can create multiple relationships at once by simply providing the pattern for the creation that includes the relationship types, their directions, and the nodes that you want to connect.</p>
 </div>
@@ -1159,15 +1147,24 @@ RETURN a, m, p</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateTwoRelationships.png" alt="CreateTwoRelationships" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateTwoRelationships.png" alt="CreateTwoRelationships" width="800">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Important</strong>:When you create relationships based upon a <code>MATCH</code> clause, you must be certain that only a single node is returned for the <code>MATCH</code>, otherwise multiple relationships will be created.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+When you create relationships based upon a <code>MATCH</code> clause, you must be certain that only a single node is returned for the <code>MATCH</code>, otherwise multiple relationships will be created.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="_adding_properties_to_relationships">Adding properties to relationships</h3>
 <div class="paragraph">
@@ -1176,34 +1173,30 @@ RETURN a, m, p</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for adding properties to a relationship referenced by the variable r:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for adding properties to a relationship referenced by the variable r:</span></p></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET r.propertyName = value</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET r.propertyName = value</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET r.propertyName1 = value1	, r.propertyName2 = value2</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET r.propertyName1 = value1	, r.propertyName2 = value2</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET r = {propertyName1: value1, propertyName2: value2}</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET r = {propertyName1: value1, propertyName2: value2}</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>SET r += {propertyName1: value1, propertyName2: value2}</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>SET r += {propertyName1: value1, propertyName2: value2}</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>If the property does not exist, it is added to the relationship. If the property exists, its value is updated for the relationship.
 When specify the JSON-style object for assignment to the relationship using <code>=</code>, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use <code>+=</code>, you can add or update properties, just as you do for nodes.</p>
@@ -1231,7 +1224,7 @@ RETURN a, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddRelationshipWithRoles.png" alt="AddRelationshipWithRoles" width="500">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddRelationshipWithRoles.png" alt="AddRelationshipWithRoles" width="700">
 </div>
 </div>
 <div class="paragraph">
@@ -1270,13 +1263,22 @@ CREATE (a)-[rel:ACTED_IN]-&gt;(m)
 SET rel.roles = ['Bruce Wayne','Batman']
 RETURN a, rel, m</pre>
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> You can prevent duplication of relationships by merging data using the <code>MERGE</code> clause, rather than the <code>CREATE</code> clause. You will learn about merging data later in this module.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+You can prevent duplication of relationships by merging data using the <code>MERGE</code> clause, rather than the <code>CREATE</code> clause. You will learn about merging data later in this module.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_removing_properties_from_a_relationship">Removing properties from a relationship</h3>
@@ -1328,8 +1330,17 @@ and follow the instructions for Exercise 9.</p>
 <p>If a node has no relationships to any other nodes, you can simply delete it from the graph using the <code>DELETE</code> clause.
 Relationships are also deleted using the <code>DELETE</code> clause.</p>
 </div>
-<div class="paragraph">
-<p><strong>Note:</strong> If you attempt to delete a node in the graph that has relationships in or out of the node, the graph engine will return an error because deleting such a node will leave <em>orphaned</em> relationships in the graph.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If you attempt to delete a node in the graph that has relationships in or out of the node, the graph engine will return an error because deleting such a node will leave <em>orphaned</em> relationships in the graph.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_deleting_relationships">Deleting relationships</h3>
@@ -1375,7 +1386,7 @@ RETURN a, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteRelationship.png" alt="DeleteRelationship" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteRelationship.png" alt="DeleteRelationship" width="700">
 </div>
 </div>
 <div class="paragraph">
@@ -1395,7 +1406,7 @@ RETURN a, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships2.png" alt="BatmanBeginsRelationships2" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships2.png" alt="BatmanBeginsRelationships2" width="700">
 </div>
 </div></div></td>
 </tr>
@@ -1412,7 +1423,7 @@ RETURN a, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ChristianBaleConnections.png" alt="ChristianBaleConnections" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ChristianBaleConnections.png" alt="ChristianBaleConnections" width="700">
 </div>
 </div></div></td>
 </tr>
@@ -1439,7 +1450,7 @@ DELETE rel, p</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteMelniker.png" alt="DeleteMelniker" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteMelniker.png" alt="DeleteMelniker" width="700">
 </div>
 </div></div></td>
 </tr>
@@ -1456,7 +1467,7 @@ DELETE rel, p</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships3.png" alt="BatmanBeginsRelationships3" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships3.png" alt="BatmanBeginsRelationships3" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1490,7 +1501,7 @@ DELETE p</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/LiamNeesonDeleteError.png" alt="LiamNeesonDeleteError" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/LiamNeesonDeleteError.png" alt="LiamNeesonDeleteError" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1534,7 +1545,7 @@ DETACH DELETE  p</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships4.png" alt="BatmanBeginsRelationships4" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships4.png" alt="BatmanBeginsRelationships4" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1562,14 +1573,14 @@ and follow the instructions for Exercise 10.</p>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-none grid-none" style="width: 90%;">
+<table class="tableblock frame-none grid-none stripes-none" style="width: 90%;">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 80%;">
+<col style="width: 35%;">
+<col style="width: 65%;">
 </colgroup>
 <tbody>
 <tr>
-<th class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">If you use CREATE:</p></th>
+<th class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">If you use <code>CREATE</code>:</p></th>
 <th class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">The result is:</p></th>
 </tr>
 <tr>
@@ -1582,7 +1593,9 @@ and follow the instructions for Exercise 10.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Property</p></td>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">If the node or relationship property already exists, it is updated with the new value.  <strong>Note:</strong> If you specify a set of properties to be created using <code>=</code> rather than <code>+=</code>, it could remove existing properties if they are not included in the set.</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">If the node or relationship property already exists, it is updated with the new value.
+&#160;<br>
+<strong>Note:</strong> If you specify a set of properties to be created using <code>=</code> rather than <code>+=</code>, it could remove existing properties if they are not included in the set.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Relationship</p></td>
@@ -1593,8 +1606,17 @@ and follow the instructions for Exercise 10.</p>
 <div class="paragraph">
 <p></p>
 </div>
-<div class="paragraph">
-<p><strong>Important:</strong> You should never create duplicate nodes or relationships in a graph.</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+You should never create duplicate nodes or relationships in a graph.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The <code>MERGE</code> clause is used to find elements in the graph. But if the element is not found, it is created.</p>
@@ -1629,26 +1651,22 @@ and follow the instructions for Exercise 10.</p>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for the <code>MERGE</code> clause for creating a node:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for the <code>MERGE</code> clause for creating a node:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MERGE (variable:Label{nodeProperties})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MERGE (variable:Label{nodeProperties})
 RETURN variable</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>If there is an existing node with  <em>Label</em> and <em>nodeProperties</em>  found in the graph, no node is created. If, however the node is not found in the graph, then the node is created.</p>
 </div>
@@ -1667,7 +1685,7 @@ This node has values for <em>name</em> and <em>born</em>. Notice also that the l
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MichaelCaine.png" alt="MichaelCaine" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MichaelCaine.png" alt="MichaelCaine" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1694,15 +1712,24 @@ RETURN a</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeActorMichaelCaine.png" alt="MergeActorMichaelCaine" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeActorMichaelCaine.png" alt="MergeActorMichaelCaine" width="800">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Important</strong>: When you specify the node to merge, you should only use properties that have a unique index. You will learn about uniqueness later in this training.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+When you specify the node to merge, you should only use properties that have a unique index. You will learn about uniqueness later in this training.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>If we were to repeat this <code>MERGE</code> clause, no additional <em>Actor</em> nodes would be created in the graph.</p>
 </div>
@@ -1717,43 +1744,48 @@ RETURN a</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoMichaelCaines.png" alt="TwoMichaelCaines" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoMichaelCaines.png" alt="TwoMichaelCaines" width="800">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Important:</strong> Be mindful that node labels and the properties for a node are significant when merging nodes.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Be mindful that node labels and the properties for a node are significant when merging nodes.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_using_merge_to_create_relationships">Using <code>MERGE</code> to create relationships</h3>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for the <code>MERGE</code> clause for creating relationships:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for the <code>MERGE</code> clause for creating relationships:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MERGE (variable:Label{nodeProperties})-[:REL_TYPE]-&gt;(otherNode)
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MERGE (variable:Label{nodeProperties})-[:REL_TYPE]-&gt;(otherNode)
 RETURN variable</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p></p>
-</div>
-<div class="paragraph">
-<p>If there is an existing node with  <em>Label</em> and <em>nodeProperties</em>  with the <em>REL_TYPE</em> to <em>otherNode</em> found in the graph, no relationship is created. If the relationship does not exist, it is created.</p>
+<p>If there is an existing node with  <em>Label</em> and <em>nodeProperties</em>  with the <em>:REL_TYPE</em> to <em>otherNode</em> found in the graph, no relationship is created. If the relationship does not exist, it is created.</p>
 </div>
 <div class="paragraph">
 <p>Although, you can leave out the direction of the relationship being created with the <code>MERGE</code>, in which case a left-to-right arrow will be assumed, a best practice is to always specify the direction of the relationship.</p>
@@ -1789,7 +1821,7 @@ RETURN a</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllMichaelCaines.png" alt="AllMichaelCaines" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllMichaelCaines.png" alt="AllMichaelCaines" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1818,7 +1850,7 @@ RETURN a</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UpdateToUK.png" alt="UpdateToUK" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UpdateToUK.png" alt="UpdateToUK" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1852,7 +1884,7 @@ RETURN p, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeRelationships.png" alt="MergeRelationships" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeRelationships.png" alt="MergeRelationships" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -2041,7 +2073,7 @@ RETURN s</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-01 14:54:52 CST
+Last updated 2018-11-19 10:49:55 CST
 </div>
 </div>
 </body>

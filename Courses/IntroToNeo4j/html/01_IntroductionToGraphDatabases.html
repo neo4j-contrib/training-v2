@@ -489,7 +489,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Describe some common use cases for using a graph database.</p>
 </li>
 <li>
-<p>Model a real-world scenario as a graph.</p>
+<p>Describe how real-world scenarios are modeled as a graph.</p>
 </li>
 </ul>
 </div>
@@ -543,25 +543,65 @@ Fortunately for today&#8217;s developers, that&#8217;s no longer the case, as gr
 <p>A graph is composed of two elements: <strong>nodes</strong> and <strong>relationships</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Each node represents an entity (a person, place, thing, category or other piece of data), and each relationship represents how two nodes are connected.
-For example, the two nodes <em>Person</em> and <em>Location</em>, might have the relationship <em>LIVES_AT</em> pointing from a <em>Person</em> node to <em>Location</em> node.
-A relationship represents the verb or action between two entities.</p>
-</div>
-<div class="paragraph">
-<p>This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population&#8217;s medical history, or anything else defined by relationships.</p>
-</div>
-<div class="paragraph">
-<p>With Neo4j, nodes can have <strong>labels</strong> that are used to define types for nodes.
+<p>Each node represents an entity (a person, place, thing, category or other piece of data). With Neo4j, nodes can have <strong>labels</strong> that are used to define types for nodes.
 For example, a <em>Location</em> node is a node with the label <em>Location</em>.
 That same node can also have a label, <em>Residence</em>. Another <em>Location</em> node can also have a label, <em>Business</em>.
 A label can be used to group nodes of the same type. For example, you may want to retrieve all of the <em>Business</em> nodes.</p>
 </div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Nodes.png" alt="Nodes" width="400">
+</div>
+</div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Each relationship represents how two nodes are connected.
+For example, the two nodes <em>Person</em> and <em>Location</em>, might have the relationship <em>LIVES_AT</em> pointing from a <em>Person</em> node to <em>Location</em> node.
+A relationship represents the verb or action between two entities.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Relationships.png" alt="Relationships" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br>
+This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population&#8217;s medical history, or anything else defined by relationships.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The Neo4j database is a property graph.
-You can add <strong>properties</strong> to nodes and relationships to further enrich the graph model.
+You can add <strong>properties</strong> to nodes and relationships to further enrich the graph model.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Properties.png" alt="Properties" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br>
 This enables you to closely align data and connections in the graph to your real-world application.
 For example, a <em>Person</em> node might have a property, <em>name</em> and a <em>Location</em> node might have a property, <em>address</em>.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>In this video, you will learn how to model property graphs containing nodes and relationships and how Cypher is used to access a graph database.</p>
 </div>
@@ -572,127 +612,178 @@ For example, a <em>Person</em> node might have a property, <em>name</em> and a <
 <div class="paragraph">
 <p>Many applications' data is modeled as relational data. There are some similarities between a relational model and a graph model:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle"><strong>Relational</strong></th>
+<th class="tableblock halign-left valign-middle"><strong>Graph</strong></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Relational</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Graph</strong></p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Rows</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Nodes</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Rows</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Nodes</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Joins</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Relationships</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Joins</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Relationships</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Table names</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Labels</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Table names</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Labels</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Columns</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Properties</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Columns</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Properties</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p></p>
+</div>
 <div class="paragraph">
 <p>But, there are some ways in which the relational model differs from the graph model:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle"><strong>Relational</strong></th>
+<th class="tableblock halign-left valign-middle"><strong>Graph</strong></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Relational</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Graph</strong></p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Rows in the same table have the same set of fields.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Nodes with the same label aren&#8217;t required to have the same set of properties.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Rows in the same table have the same set of fields.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Nodes with the same label aren&#8217;t required to have the same set of properties.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Joins are calculated at query time.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Relationships are stored on disk when they are created.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Joins are calculated at query time.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Relationships are stored on disk when they are created.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">A row can belong to one table.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">A node can have many labels.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">A row can belong to one table.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">A node can have many labels.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p></p>
+</div>
 <div class="sect3">
 <h4 id="_run_time_behavior_rdbms_vs_graph">Run-time behavior: RDBMS vs graph</h4>
-<div class="paragraph">
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>How data is retrieved is very different between an RDBMS and a graph database:</p>
 </div>
-<div class="imageblock" style="text-align: center">
+<div class="imageblock thumb" style="text-align: center">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDBvsGraphRuntime.png" alt="RDBvsGraphRuntime" width="600" height="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDBvsGraphRuntime.png" alt="RDBvsGraphRuntime" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_how_we_model_rdbms_vs_graph">How we model: RDBMS vs graph</h4>
 <div class="paragraph">
 <p>How you model data from relational vs graph differs:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle"><strong>Relational</strong></th>
+<th class="tableblock halign-left valign-middle"><strong>Graph</strong></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Relational</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Graph</strong></p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Try and get the schema defined and then make minimal changes to it after that.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">It&#8217;s common for the schema to evolve with the application.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Try and get the schema defined and then make minimal changes to it after that.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">It&#8217;s common for the schema to evolve with the application.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">More abstract focus when modeling i.e. focus on classes rather than objects.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Common to use actual data items when modeling.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">More abstract focus when modeling i.e. focus on classes rather than objects.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Common to use actual data items when modeling.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>If we were modeling a football transfers graph in relational and graph databases these diagrams show what common approaches might look like.</p>
+<p></p>
 </div>
 <div class="paragraph">
+<p>If we were modeling a football transfers graph in relational and graph databases these diagrams show what common approaches might look like.</p>
+</div>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Here is the relational model:</p>
 </div>
-<div class="imageblock" style="text-align: center">
+<div class="imageblock thumb" style="text-align: center">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDB.png" alt="RDB" width="600" height="400">
 </div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>and here is the corresponding graph model:</p>
 </div>
-<div class="paragraph">
-<p>And here is the corresponding graph model:</p>
-</div>
-<div class="imageblock" style="text-align: center">
+<div class="imageblock thumb" style="text-align: center">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDBToGraph.png" alt="RDBToGraph" width="600" height="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDBToGraph.png" alt="RDBToGraph" width="600">
 </div>
 </div>
 <div class="paragraph">
 <p>With the graph model we might sketch out examples with actual values and derive the 'schema' while doing that modeling process.</p>
-</div>
-<div class="paragraph">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>In Neo4j, the data model might evolve to something like this:</p>
 </div>
-<div class="imageblock" style="text-align: center">
+<div class="imageblock thumb" style="text-align: center">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/GraphModel.png" alt="GraphModel" width="600" height="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/GraphModel.png" alt="GraphModel" width="600">
 </div>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -812,7 +903,7 @@ For example, a <em>Person</em> node might have a property, <em>name</em> and a <
 <p>Describe some common use cases for using a graph database.</p>
 </li>
 <li>
-<p>Model a real-world scenario as a graph.</p>
+<p>Describe how real-world scenarios are modeled as a graph.</p>
 </li>
 </ul>
 </div>
@@ -821,7 +912,7 @@ For example, a <em>Person</em> node might have a property, <em>name</em> and a <
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-25 14:28:29 CDT
+Last updated 2018-11-19 11:53:05 CST
 </div>
 </div>
 </body>

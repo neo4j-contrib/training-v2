@@ -459,6 +459,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_specifying_varying_length_paths">Specifying varying length paths</a></li>
 <li><a href="#_finding_the_shortest_path">Finding the shortest path</a></li>
 <li><a href="#_specifying_optional_pattern_matching">Specifying optional pattern matching</a></li>
+<li><a href="#_aggregation_in_cypher">Aggregation in Cypher</a></li>
 <li><a href="#_collecting_results">Collecting results</a></li>
 <li><a href="#_counting_results">Counting results</a></li>
 <li><a href="#_additional_processing_using_with">Additional processing using <code>WITH</code></a></li>
@@ -742,7 +743,7 @@ RETURN m.title, m.tagline</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/JackNicholsonMoviesWithTaglines.png" alt="JackNicholsonMoviesWithTaglines" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/JackNicholsonMoviesWithTaglines.png" alt="JackNicholsonMoviesWithTaglines" width="900">
 </div>
 </div></div></td>
 </tr>
@@ -799,13 +800,22 @@ For example, if you want to test a value, regardless of its case, you could call
 WHERE toLower(p.name) STARTS WITH 'michael'
 RETURN p.name</pre>
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> In this example where we are converting a property to lower case, if an index has been created for this property, it will not be used at runtime.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+In this example where we are converting a property to lower case, if an index has been created for this property, it will not be used at runtime.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>See the <em>String functions</em> section of the <em>Developer Manual</em> for more information.
 It is sometimes useful to use the built-in string functions to modify the data that is returned in the query in the RETURN clause.</p>
@@ -838,13 +848,22 @@ RETURN p.name</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MatchTomsRegex.png" alt="MatchTomsRegex" width="800">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> If you specify a regular expression. The index will never be used. In addition, the property value must fully match the regular expression.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If you specify a regular expression. The index will never be used. In addition, the property value must fully match the regular expression.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_testing_with_patterns">Testing with patterns</h4>
@@ -927,7 +946,7 @@ RETURN  gene, other, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistsPattern.png" alt="ExistsPattern" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistsPattern.png" alt="ExistsPattern" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -999,13 +1018,22 @@ RETURN p.name</pre>
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UsingINRoles.png" alt="UsingINRoles" width="800">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify <code>CASE</code> logic in your conditional testing for your <code>WHERE</code> clauses. You can learn more about these syntax elements in the <em>Developer Manual</em>.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify <code>CASE</code> logic in your conditional testing for your <code>WHERE</code> clauses. You can learn more about these syntax elements in the <em>Developer Manual</em>.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1223,49 +1251,45 @@ RETURN p</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-topbot grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for how varying length patterns are specified in Cypher:</span></p></td>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for how varying length patterns are specified in Cypher:</span></th>
 </tr>
-</tbody>
+</thead>
 </table>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-topbot grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>(nodeA)-[:RELTYPE*]-&gt;(nodeB)</pre></div></td>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"><div class="paragraph">
-<p>Retrieve <span class="underline">all</span> paths of any length with the relationship, <code>RELTYPE</code> from <em>nodeA</em> to <em>nodeB</em> and beyond.</p>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>(nodeA)-[:RELTYPE*]-&gt;(nodeB)</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Retrieve <span class="underline">all</span> paths of any length with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em> and beyond.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>(nodeA)-[:RELTYPE*]-(nodeB)</pre></div></td>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"><div class="paragraph">
-<p>Retrieve <span class="underline">all</span> paths of any length with the relationship, <code>RELTYPE</code> from <em>nodeA</em> to <em>nodeB</em> or from <em>nodeB</em> to <em>nodeA</em> and beyond. This is usually a very expensive query so you should place limits on how many nodes are retrieved.</p>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>(nodeA)-[:RELTYPE*]-(nodeB)</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Retrieve <span class="underline">all</span> paths of any length with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em> or from <em>nodeB</em> to <em>nodeA</em> and beyond. This is usually a very expensive query so you should place limits on how many nodes are retrieved.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>(node1)-[:RELTYPE*3]-&gt;(node2)</pre></div></td>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"><div class="paragraph">
-<p>Retrieve the paths of length 3 with the relationship, <code>RELTYPE</code> from <em>nodeA</em> to <em>nodeB</em>.</p>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>(node1)-[:RELTYPE*3]-&gt;(node2)</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Retrieve the paths of length 3 with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em>.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>(node1)-[:RELTYPE*1..3]-&gt;(node2)</pre></div></td>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"><div class="paragraph">
-<p>Retrieve the paths of lengths 1, 2, or 3 with the relationship, <code>RELTYPE</code> from <em>nodeA</em> to <em>nodeB</em>, <em>nodeB</em> to <em>nodeC</em>, as well as, <em>nodeC</em> to _nodeD) (up to three hops).</p>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>(node1)-[:RELTYPE*1..3]-&gt;(node2)</pre></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Retrieve the paths of lengths 1, 2, or 3 with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em>, <em>nodeB</em> to <em>nodeC</em>, as well as, <em>nodeC</em> to _nodeD) (up to three hops).</p>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
@@ -1349,7 +1373,7 @@ RETURN p.name, type(r), m.title</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/OptionalMatch.png" alt="OptionalMatch" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/OptionalMatch.png" alt="OptionalMatch" width="800">
 </div>
 </div>
 <div class="paragraph">
@@ -1358,6 +1382,30 @@ RETURN p.name, type(r), m.title</pre>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect3">
+<h4 id="_aggregation_in_cypher">Aggregation in Cypher</h4>
+<div class="paragraph">
+<p>Aggregation in Cypher is different from aggregation in SQL. In Cypher, you need not specify a grouping key. As soon as an aggregation function is used, all non-aggregated properties become grouping keys. The grouping is explicitly done, based upon the fields in the <code>RETURN</code> clause.</p>
+</div>
+<div class="paragraph">
+<p>For example, in this Cypher statement, all rows returned with the same values for <em>a.name</em> and <em>d.name</em> are counted and only returned once.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>// implicitly groups by a.name and d.name
+MATCH (a)-[:ACTED_IN]-&gt;(m)&lt;-[:DIRECTED]-(d)
+RETURN a.name, d.name, count(*)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With this result returned:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Aggregation.png" alt="Aggregation" width="800">
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_collecting_results">Collecting results</h4>
@@ -1470,13 +1518,22 @@ RETURN a.name, numMovies, movies</pre>
 <p>When you use the <code>WITH</code> clause, you specify the variables from the previous part of the query you want to pass on to the next part of the query.
 In this example, the variable <em>a</em> is specified to be passed on in the query, but <em>m</em> is not. Since <em>m</em> is not specified to be passed on, <em>m</em> will not be available later in the query.
 Notice that for the <code>RETURN</code> clause, <em>a</em>, <em>numMovies</em>, and <em>movies</em> are available for use.</p>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> You have to name all expressions with an alias in a <code>WITH</code> that are not simple variables.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+You have to name all expressions with an alias in a <code>WITH</code> that are not simple variables.
+</td>
+</tr>
+</table>
+</div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -1809,13 +1866,22 @@ RETURN list, row</pre>
 </div>
 <div class="paragraph">
 <p>Notice that there is no <code>MATCH</code> clause. You need not query the database to execute Cypher statements, but you do need the <code>RETURN</code> clause here to return the calculated values from the Cypher query.</p>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> The <code>UNWIND</code> clause is frequently used when importing data into a graph.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The <code>UNWIND</code> clause is frequently used when importing data into a graph.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_dates">Dates</h4>
@@ -2028,7 +2094,7 @@ RETURN //??</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-01 16:19:00 CST
+Last updated 2018-11-19 10:06:54 CST
 </div>
 </div>
 </body>

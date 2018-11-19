@@ -561,18 +561,24 @@ The guiding goal is to make the simple things easy, and the complex things possi
 <div class="paragraph">
 <p>Optimized for being read by humans, Cypher&#8217;s construct uses English prose and iconography (called ASCII Art) to make queries more self-explanatory.</p>
 </div>
-<div class="paragraph thumb">
-<p><span class="image"><img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ASCIIArt.png" alt="ASCIIArt" width="700"></span></p>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ASCIIArt.png" alt="ASCIIArt" width="700">
+</div>
 </div>
 <div class="paragraph">
-<p>Being a declarative language, Cypher focuses on the clarity of expressing <strong>what</strong> to retrieve from a graph, not on <strong>how</strong> to retrieve it.
+<p>&#160;<br>
+Being a declarative language, Cypher focuses on the clarity of expressing <strong>what</strong> to retrieve from a graph, not on <strong>how</strong> to retrieve it.
 You can think of Cypher as mapping English language sentence structure to patterns in a graph. For example, the nouns are nodes of the graph, the verbs are the relationships in the graph, and the adjectives and adverbs are the properties.</p>
 </div>
-<div class="paragraph thumb">
-<p><span class="image"><img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Nouns.png" alt="Nouns" width="700"></span></p>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Nouns.png" alt="Nouns" width="700">
+</div>
 </div>
 <div class="paragraph">
-<p>This is in contrast to imperative, programmatic APIs for database access.
+<p>&#160;<br>
+This is in contrast to imperative, programmatic APIs for database access.
 This approach makes query optimization an implementation detail instead of a burden on the developer, removing the requirement to update all traversals just because the physical database structure has changed.</p>
 </div>
 <div class="paragraph">
@@ -624,30 +630,26 @@ A node can have zero or more labels.</p>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for specifying a node:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here are simplified syntax examples for specifying a node:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>()
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>()
 (variable)
 (:Label)
 (variable:Label)
 (:Label1:Label2)
 (variable:Label1:Label2)</pre></div></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
-</tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>Notice that a node must have the parentheses. The labels and the variable for a node are optional.</p>
 </div>
@@ -703,7 +705,7 @@ The relationships between nodes are also displayed, which you will learn about l
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.schema.png" alt="call_db.schema" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.schema.png" alt="call_db.schema" width="500">
 </div>
 </div></div></td>
 </tr>
@@ -713,7 +715,12 @@ The relationships between nodes are also displayed, which you will learn about l
 <div class="sect2">
 <h3 id="_using_match_to_retrieve_nodes">Using MATCH to retrieve nodes</h3>
 <div class="paragraph">
-<p>The most widely used Cypher clause is  <code>MATCH</code>.
+<p>In this video, you will be introduced to using the <code>MATCH</code> statement to retrieve nodes from the graph in Neo4j Browser.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Sz2C618QKN8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div class="paragraph">
+<p>&#160;<br>
+The most widely used Cypher clause is  <code>MATCH</code>.
 The <code>MATCH</code> clause performs a pattern match against the data in the graph.
 During the query processing, the graph engine traverses the graph to find all nodes that match the graph pattern.
 As part of query, you can return nodes or data from the nodes using the <code>RETURN</code> clause.
@@ -724,30 +731,26 @@ First, you will learn how to simply return nodes.</p>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for a query:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here are simplified syntax examples for a query:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable)
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable)
 RETURN variable</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable:Label)
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label)
 RETURN variable</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>Notice that the Cypher keywords <code>MATCH</code> and <code>RETURN</code> are upper-case.
 This coding convention is described in the <em>Cypher Style Guide</em> and will be used in this training.
@@ -790,8 +793,17 @@ The default view of the returned nodes are the nodes that were referenced by the
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p><strong>Important:</strong> When you specify a pattern for a <code>MATCH</code> clause, you should always specify a node label if possible. In doing so, the graph engine uses an index to retrieve the nodes which will perform better than not using a label for the <code>MATCH</code>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+When you specify a pattern for a <code>MATCH</code> clause, you should always specify a node label if possible. In doing so, the graph engine uses an index to retrieve the nodes which will perform better than not using a label for the <code>MATCH</code>.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_viewing_nodes_as_table_data">Viewing nodes as table data</h4>
@@ -843,9 +855,9 @@ All nodes of the same type need not have the same properties.</p>
 <p>For example, in the <em>Movie</em> graph, all <em>Movie</em> nodes have both <em>title</em>  and <em>released</em> properties.
 However, it is not a requirement that every <em>Movie</em> node has a property, <em>tagline</em>.</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MovieProperties.png" alt="MovieProperties" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MovieProperties.png" alt="MovieProperties" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -873,7 +885,7 @@ This result stream contains all property keys in the graph. It does not display 
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.PropertyKeys.png" alt="call_db.PropertyKeys" width="500">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.PropertyKeys.png" alt="call_db.PropertyKeys" width="700">
 </div>
 </div></div></td>
 </tr>
@@ -890,38 +902,34 @@ Any node that matches the value will be retrieved.</p>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here are  simplified syntax examples for a query where we specify one or more values for  properties that will be used to filter the query results and return a subset of the graph:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here are  simplified syntax examples for a query where we specify one or more values for  properties that will be used to filter the query results and return a subset of the graph:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable {propertyKey: propertyValue})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable {propertyKey: propertyValue})
 RETURN variable</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable:Label {propertyKey: propertyValue})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {propertyKey: propertyValue})
 RETURN variable</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable {propertyKey1: propertyValue1, propertyKey2: propertyValue2})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable {propertyKey1: propertyValue1, propertyKey2: propertyValue2})
 RETURN variable</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable:Label {propertyKey: propertyValue, propertyKey2: propertyValue2})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {propertyKey: propertyValue, propertyKey2: propertyValue2})
 RETURN variable</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -982,44 +990,45 @@ RETURN m</pre>
 <div class="sect3">
 <h4 id="_returning_property_values">Returning property values</h4>
 <div class="paragraph">
-<p>Thus far, you have seen how to retrieve nodes and return nodes (entire graph or a subset of the graph).
+<p>In this video, you will see how to return property values to the output stream when you retrieve nodes from the graph in  Neo4j Browser.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Nb9tSFVrQuc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div class="paragraph">
+<p>&#160;<br>
+Thus far, you have seen how to retrieve nodes and return nodes (entire graph or a subset of the graph).
 You can use the <code>RETURN</code> clause to return property values of nodes retrieved.</p>
 </div>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for returning property values, rather than nodes:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here are simplified syntax examples for returning property values, rather than nodes:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable {prop1: value})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable {prop1: value})
 RETURN variable.prop2</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable:Label {prop1: value})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {prop1: value})
 RETURN variable.prop2</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable:Label {prop1: value, prop2: value})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {prop1: value, prop2: value})
 RETURN variable.prop3</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable {prop1:value})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable {prop1:value})
 RETURN variable.prop2, variable.prop3</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -1055,28 +1064,33 @@ RETURN p.name, p.born</pre>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for specifying an alias for a property value:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for specifying an alias for a property value:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (variable:Label {propertyKey1: propertyValue1})
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {propertyKey1: propertyValue1})
 RETURN variable.propertyKey2 AS alias2</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
-<div class="paragraph">
-<p><strong>Important:</strong> If you want a heading to contain a space between strings, you must specify the alias with the back tick <em>`</em> character, rather than a single or double quote character. In fact, you can specify any variable, label, relationship type, or property key with a space also by using the back tick <em>`</em> character.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If you want a heading to contain a space between strings, you must specify the alias with the back tick <em>`</em> character, rather than a single or double quote character. In fact, you can specify any variable, label, relationship type, or property key with a space also by using the back tick <em>`</em> character.
+</td>
+</tr>
+</table>
 </div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
@@ -1145,37 +1159,33 @@ You can specify nodes and their relationships to traverse the graph and quickly 
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for retrieving a set of nodes that satisfy one or more directed and typed relationships:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here are simplified syntax examples for retrieving a set of nodes that satisfy one or more directed and typed relationships:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (node1)-[:REL_TYPE]-&gt;(node2)
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (node1)-[:REL_TYPE]-&gt;(node2)
 RETURN node1, node2</pre></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>MATCH (node1)-[:REL_TYPEA | :REL_TYPEB]-&gt;(node2)
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (node1)-[:REL_TYPEA | :REL_TYPEB]-&gt;(node2)
 RETURN node1, node2</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p><em>where:</em></p>
 </div>
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-none grid-none" style="width: 80%;">
+<table class="tableblock frame-none grid-all stripes-none" style="width: 80%;">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 80%;">
@@ -1221,7 +1231,7 @@ All of the other relationships in this graph are from <em>Person</em> nodes to <
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.schema-relationships.png" alt="call_db.schema-relationships" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db.schema-relationships.png" alt="call_db.schema-relationships" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -1340,15 +1350,24 @@ RETURN p.name</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AnonymousMovieNode.png" alt="AnonymousMovieNode" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AnonymousMovieNode.png" alt="AnonymousMovieNode" width="600">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> A best practice is to place named nodes (those with variables) before anonymous nodes in a <code>MATCH</code> clause.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+A best practice is to place named nodes (those with variables) before anonymous nodes in a <code>MATCH</code> clause.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_using_an_anonymous_relationship_for_a_query">Using an anonymous relationship for a query</h4>
@@ -1366,7 +1385,7 @@ This query returns more nodes with the relationships types, <em>DIRECTED</em>, <
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>MATCH (p:Person)-&gt;(m:Movie {title: 'The Matrix'})
+<pre>MATCH (p:Person)--&gt;(m:Movie {title: 'The Matrix'})
 RETURN p, m</pre>
 </div>
 </div>
@@ -1375,7 +1394,7 @@ RETURN p, m</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllRelationshipsMatrix.png" alt="AllRelationshipsMatrix" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllRelationshipsMatrix.png" alt="AllRelationshipsMatrix" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -1459,7 +1478,7 @@ This enables your graph model to provide more data about the relationships betwe
 The movie, <em>The Da Vinci Code</em> has two people that reviewed it, <em>Jessica Thompson</em> and <em>James Thompson</em>. Each of these <em>Person</em> nodes has the <em>REVIEWED</em> relationship to the <em>Movie</em> node for <em>The Da Vinci Code</em>.
 Each relationship has properties that further describe the relationship using the <em>summary</em> and <em>rating</em> properties.</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock" style="text-align: center">
 <div class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/REVIEWEDProperties.png" alt="ReviewedProperties" width="700">
 </div>
@@ -1513,7 +1532,7 @@ Notice that this relationship is directional.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowsRelationships.png" alt="FollowsRelationships" width="300">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowsRelationships.png" alt="FollowsRelationships" width="500">
 </div>
 </div></div></td>
 </tr>
@@ -1625,7 +1644,7 @@ RETURN p</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowersOfJessicaFollowers.png" alt="FollowersOfJessicaFollowers" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowersOfJessicaFollowers.png" alt="FollowersOfJessicaFollowers" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1684,7 +1703,7 @@ RETURN a.name, m.title, d.name</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TraversalInTwoDirections.png" alt="TraversalInTwoDirections" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TraversalInTwoDirections.png" alt="TraversalInTwoDirections" width="800">
 </div>
 </div>
 <div class="paragraph">
@@ -1727,7 +1746,7 @@ RETURN a.name, m.title, d.name</pre>
 <p>Place named nodes and relationships (that use variables) before anonymous nodes and relationships in your <code>MATCH</code> clauses when possible.</p>
 </li>
 <li>
-<p>Specify anonymous relationships with <code>-&gt;</code>, <code>--</code>, or <code>&lt;-</code></p>
+<p>Specify anonymous relationships with <code>--&gt;</code>, <code>--</code>, or <code>&lt;--</code></p>
 </li>
 </ul>
 </div>
@@ -1809,13 +1828,13 @@ What Cypher query do you execute to return all of the products (by name) bought 
 <p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>MATCH (c:Customer {customerName: 'ABCCO'}) RETURN c.BOUGHT.productName</code></span></p>
 </li>
 <li>
-<p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>MATCH (:Customer 'ABCCO')-[:BOUGHT]&#8594;(p:Product) RETURN p.productName</code></span></p>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>MATCH (:Customer 'ABCCO')-[:BOUGHT]->(p:Product) RETURN p.productName</code></span></p>
 </li>
 <li>
-<p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>MATCH (p:Product)&#8592;[:BOUGHT_BY]-(:Customer 'ABCCO') RETURN p.productName</code></span></p>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>MATCH (p:Product)<-[:BOUGHT_BY]-(:Customer 'ABCCO') RETURN p.productName</code></span></p>
 </li>
 <li>
-<p><input type="checkbox" data-item-complete="0"> <span class="required-answer"><code>MATCH (:Customer {customerName: 'ABCCO'})-[:BOUGHT]&#8594;(p:Product) RETURN p.productName</code></span></p>
+<p><input type="checkbox" data-item-complete="0"> <span class="required-answer"><code>MATCH (:Customer {customerName: 'ABCCO'})-[:BOUGHT]->(p:Product) RETURN p.productName</code></span></p>
 </li>
 </ul>
 </div>
@@ -1874,7 +1893,7 @@ What Cypher query do you execute to return all of the products (by name) bought 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-01 16:36:09 CST
+Last updated 2018-11-19 13:06:58 CST
 </div>
 </div>
 </body>

@@ -468,6 +468,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_exercise_15_managing_indexes"><strong>Exercise 15: Managing indexes</strong></a></li>
 </ul>
 </li>
+<li><a href="#_going_from_relational_to_graph_with_neo4j">Going from relational to graph with Neo4j</a></li>
 <li><a href="#_importing_data">Importing data</a>
 <ul class="sectlevel2">
 <li><a href="#_importing_normalized_data_using_load_csv">Importing normalized data using <code>LOAD CSV</code></a></li>
@@ -572,8 +573,17 @@ RETURN m.released, m.title ORDER BY m.released DESC</pre>
 <pre>:param actorName =&gt; 'Tom Hanks'</pre>
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Note</strong>: You can even specify a Cypher expression to the right of <code>&#8658;</code> to set the value of the parameter.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+You can even specify a Cypher expression to the right of <code>=&gt;</code> to set the value of the parameter.
+</td>
+</tr>
+</table>
 </div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
@@ -586,7 +596,7 @@ RETURN m.released, m.title ORDER BY m.released DESC</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActorNameParameter.png" alt="SetActorNameParameter" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActorNameParameter.png" alt="SetActorNameParameter" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -671,7 +681,7 @@ RETURN m.released, m.title ORDER BY m.released DESC</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ViewParams.png" alt="ViewParams" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ViewParams.png" alt="ViewParams" width="500">
 </div>
 </div></div></td>
 </tr>
@@ -731,7 +741,7 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/EXPLAIN.png" alt="EXPLAIN" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/EXPLAIN.png" alt="EXPLAIN" width="900">
 </div>
 </div></div></td>
 </tr>
@@ -754,7 +764,7 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE1.png" alt="PROFILE1" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE1.png" alt="PROFILE1" width="900">
 </div>
 </div>
 <div class="paragraph">
@@ -774,7 +784,7 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE2.png" alt="PROFILE2" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE2.png" alt="PROFILE2" width="900">
 </div>
 </div>
 <div class="paragraph">
@@ -829,7 +839,7 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ListQueries.png" alt="ListQueries" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ListQueries.png" alt="ListQueries" width="1000">
 </div>
 </div>
 <div class="paragraph">
@@ -837,7 +847,7 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KillQuery.png" alt="KillQuery" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KillQuery.png" alt="KillQuery" width="1000">
 </div>
 </div></div></td>
 </tr>
@@ -854,11 +864,20 @@ RETURN p.name, m.title, m.released</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/QueryKilled.png" alt="QueryKilled" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/QueryKilled.png" alt="QueryKilled" width="1000">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Note:</strong> The <code>:queries</code> command is only available in the Enterprise Edition of Neo4j.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The <code>:queries</code> command is only available in the Enterprise Edition of Neo4j.
+</td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 </tbody>
@@ -890,18 +909,30 @@ and follow the instructions for Exercise 13.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Add a constraint that ensures that a value for a property is unique for all nodes of that type.</p>
+<p>Add a <em>uniqueness constraint</em> that ensures that a value for a property is unique for all nodes of that type.</p>
 </li>
 <li>
-<p>Add a constraint that ensures that when a node or relationship is created or modified, it must have certain properties set. (<strong>Important</strong>: Not available in the Community Edition of Neo4j.)</p>
+<p>Add an <em>existence constraint</em> that ensures that when a node or relationship is created or modified, it must have certain properties set.</p>
 </li>
 <li>
-<p>Add a node key that ensures that a set of values for properties of a node of a given type is unique. (<strong>Important</strong>: Not available in the Community Edition of Neo4j.)</p>
+<p>Add a <em>node key</em> that ensures that a set of values for properties of a node of a given type is unique.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Constraints and node keys that enforce uniqueness are related to indexes which you will learn about later in this module.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Existence constraints and node keys are only available in Enterprise Edition of Neo4j.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_ensuring_that_a_property_value_for_a_node_is_unique">Ensuring that a property value for a node is unique</h3>
@@ -930,7 +961,7 @@ and follow the instructions for Exercise 13.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddTitleConstraint.png" alt="AddTitleConstraint" width="300">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddTitleConstraint.png" alt="AddTitleConstraint" width="500">
 </div>
 </div></div></td>
 </tr>
@@ -955,7 +986,7 @@ and follow the instructions for Exercise 13.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UniquenessFailed.png" alt="UniquenessFailed" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UniquenessFailed.png" alt="UniquenessFailed" width="700">
 </div>
 </div>
 <div class="paragraph">
@@ -1000,7 +1031,7 @@ and follow the instructions for Exercise 13.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ConstraintExistTaglineFailure.png" alt="ConstraintExistTaglineFailure" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ConstraintExistTaglineFailure.png" alt="ConstraintExistTaglineFailure" width="800">
 </div>
 </div>
 <div class="paragraph">
@@ -1029,7 +1060,7 @@ With the result:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateRatingExistenceConstraint.png" alt="CreateRatingExistenceConstraint" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateRatingExistenceConstraint.png" alt="CreateRatingExistenceConstraint" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -1057,7 +1088,7 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistenceConstraintFailed.png" alt="ExistenceConstraintFailed" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistenceConstraintFailed.png" alt="ExistenceConstraintFailed" width="800">
 </div>
 </div>
 <div class="paragraph">
@@ -1125,7 +1156,7 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropConstraint.png" alt="DropConstraint" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropConstraint.png" alt="DropConstraint" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -1159,7 +1190,7 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NodeKeyCreationFailed.png" alt="NodeKeyCreationFailed" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NodeKeyCreationFailed.png" alt="NodeKeyCreationFailed" width="800">
 </div>
 </div>
 <div class="paragraph">
@@ -1189,7 +1220,7 @@ SET p.born = 0</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateNodeKey.png" alt="CreateNodeKey" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateNodeKey.png" alt="CreateNodeKey" width="700">
 </div>
 </div></div></td>
 </tr>
@@ -1217,7 +1248,7 @@ SET p.born = 0</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateDuplicateJessicaFailure.png" alt="CreateDuplicateJessicaFailure" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateDuplicateJessicaFailure.png" alt="CreateDuplicateJessicaFailure" width="800">
 </div>
 </div></div></td>
 </tr>
@@ -1237,7 +1268,7 @@ and follow the instructions for Exercise 14.</p>
 <h2 id="_managing_indexes">Managing indexes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The uniqueness and node key constraints that you add to a graph are essentially single-property and composite indexes respectively. Indexes are used to improve initial node lookup performance, but they require additional storage in the graph to maintain and also add to the cost of creating or modifying property values that are indexed.</p>
+<p>The uniqueness and node key constraints that you add to a graph are essentially single-property and composite indexes respectively. Indexes are used to improve initial node lookup performance, but they require additional storage in the graph to maintain and also add to the cost of creating or modifying property values that are indexed. Indexes store redundant data that points to nodes with the specific property value or values. Unlike SQL, there is no such thing as a primary key in Neo4j. You can have multiple properties on nodes that must be unique.</p>
 </div>
 <div class="paragraph">
 <p>Here is a brief summary of when single-property and composite indexes are used:</p>
@@ -1270,8 +1301,17 @@ and follow the instructions for Exercise 14.</p>
 <div class="paragraph">
 <p>In this module, we introduce the basics of Neo4j indexes, but you should consult the Neo4j <em>Operations Manual</em> for more details about creating and maintaining indexes.</p>
 </div>
-<div class="paragraph">
-<p><strong>Note:</strong> Because index maintenance incurs additional overhead when nodes are created, We recommend that for large graphs, indexes are created after the data has been loaded into the graph. You can view the progress of the creation of an index when you use the <code>:schema</code> command.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Because index maintenance incurs additional overhead when nodes are created, We recommend that for large graphs, indexes are created after the data has been loaded into the graph. You can view the progress of the creation of an index when you use the <code>:schema</code> command.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_indexes_for_range_searches">Indexes for range searches</h3>
@@ -1297,9 +1337,9 @@ SET m.videoFormat = 'DVD'</pre>
 <div class="paragraph">
 <p>The graph engine, using an index, will find the pointers to all nodes that satisfy the query without having to visit all of the nodes:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/IndexForRanges.png" alt="IndexForRanges" width="500">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/IndexForRanges.png" alt="IndexForRanges" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -1366,15 +1406,24 @@ SET m.videoFormat = 'VHS'</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoStatements.png" alt="TwoStatements" width="600">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoStatements.png" alt="TwoStatements" width="900">
 </div>
-</div>
-<div class="paragraph">
-<p><strong>Important:</strong> Notice that in the above Cypher statements we use the semi-colon <code>;</code> to separate Cypher statements. In general, you need not end a Cypher statement with a semi-colon, but if you want to execute multiple Cypher statements, you must separate them. You have already used the semi-colon to separate Cypher statements when you loaded the <em>Movie</em> database in the training exercises.</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Notice that in the above Cypher statements we use the semi-colon <code>;</code> to separate Cypher statements. In general, you need not end a Cypher statement with a semi-colon, but if you want to execute multiple Cypher statements, you must separate them. You have already used the semi-colon to separate Cypher statements when you loaded the <em>Movie</em> database in the training exercises.
+</td>
+</tr>
+</table>
+</div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -1394,7 +1443,7 @@ SET m.videoFormat = 'VHS'</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateCompositeIndex.png" alt="CreateCompositeIndex" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateCompositeIndex.png" alt="CreateCompositeIndex" width="500">
 </div>
 </div></div></td>
 </tr>
@@ -1422,7 +1471,7 @@ SET m.videoFormat = 'VHS'</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Call_db-indexes.png" alt="Call_db-indexes" width="800">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Call_db-indexes.png" alt="Call_db-indexes" width="1000">
 </div>
 </div>
 <div class="paragraph">
@@ -1456,7 +1505,7 @@ SET m.videoFormat = 'VHS'</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropCompositeIndex.png" alt="DropCompositeIndex" width="400">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropCompositeIndex.png" alt="DropCompositeIndex" width="600">
 </div>
 </div></div></td>
 </tr>
@@ -1470,6 +1519,15 @@ SET m.videoFormat = 'VHS'</pre>
 and follow the instructions for Exercise 15.</p>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_going_from_relational_to_graph_with_neo4j">Going from relational to graph with Neo4j</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this video, you will learn how developers use Neo4j for implementing all or part of their relational models.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NO3C-CWykkY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 </div>
 <div class="sect1">
@@ -1518,27 +1576,22 @@ Then you can use whichever Cypher operations you want to either create nodes or 
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for using <code>LOAD CSV</code>:</span></th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><span class="red">Here is the simplified syntax for using <code>LOAD CSV</code>:</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="literal"><pre>LOAD CSV WITH HEADERS FROM url-value
-AS row        // row is a variable that is used to extract data from each row read
-create-or-merge-clause</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="literal"><pre>LOAD CSV WITH HEADERS FROM url-value
+AS row        // row is a variable that is used to extract data</pre></div></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p></p>
-</div>
 <div class="paragraph">
 <p>The first line of the file must contain a comma-separated list of column names. The <em>url-value</em> can be a resource or a file on your system. Each line contains data that is interpreted as values for each column name. When each line is read from the file, you can perform the necessary processing to create or merge data into the graph.</p>
 </div>
@@ -1590,7 +1643,7 @@ RETURN count(*)</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/countOfMoviesToLoad.png" alt="countOfMoviesToLoad" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/countOfMoviesToLoad.png" alt="countOfMoviesToLoad" width="900">
 </div>
 </div></div></td>
 </tr>
@@ -1618,7 +1671,7 @@ RETURN * LIMIT 1</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/examineMoviesBeforeLoad.png" alt="examineMoviesBeforeLoad" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/examineMoviesBeforeLoad.png" alt="examineMoviesBeforeLoad" width="900">
 </div>
 </div>
 <div class="paragraph">
@@ -1649,7 +1702,7 @@ RETURN line.id, line.title, toInteger(line.year), trim(line.summary)</pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FormatMovieDataBeforeLoad.png" alt="FormatMovieDataBeforeLoad" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FormatMovieDataBeforeLoad.png" alt="FormatMovieDataBeforeLoad" width="900">
 </div>
 </div></div></td>
 </tr>
@@ -1680,7 +1733,7 @@ CREATE (movie:Movie { movieId: line.id, title: line.title, released: toInteger(l
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadMovies.png" alt="loadMovies" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadMovies.png" alt="loadMovies" width="900">
 </div>
 </div></div></td>
 </tr>
@@ -1791,7 +1844,7 @@ CREATE (person)-[:ACTED_IN { roles: [line.role]}]-&gt;(movie)</code></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadRoles.png" alt="loadRoles" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadRoles.png" alt="loadRoles" width="900">
 </div>
 </div></div></td>
 </tr>
@@ -1856,7 +1909,7 @@ ON CREATE SET r.roles = split(line.characters,',')</code></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadAll.png" alt="loadAll" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadAll.png" alt="loadAll" width="900">
 </div>
 </div></div></td>
 </tr>
@@ -2007,7 +2060,7 @@ and follow the instructions for Exercise 16.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-01 14:30:17 CST
+Last updated 2018-11-19 11:39:44 CST
 </div>
 </div>
 </body>
