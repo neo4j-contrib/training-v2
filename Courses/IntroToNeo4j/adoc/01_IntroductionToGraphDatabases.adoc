@@ -32,7 +32,7 @@ At the end of this module, you should be able to:
 [square]
 * Describe what a graph database is.
 * Describe some common use cases for using a graph database.
-* Model a real-world scenario as a graph.
+* Describe how real-world scenarios are modeled as a graph.
 
 === The evolution of graph databases
 
@@ -98,21 +98,46 @@ endif::backend-html5[]
 
 A graph is composed of two elements: *nodes* and *relationships*.
 
-Each node represents an entity (a person, place, thing, category or other piece of data), and each relationship represents how two nodes are connected. 
-For example, the two nodes _Person_ and _Location_, might have the relationship _LIVES_AT_ pointing from a _Person_ node to _Location_ node.
-A relationship represents the verb or action between two entities.
-
-This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population's medical history, or anything else defined by relationships. 
-
-With Neo4j, nodes can have **labels** that are used to define types for nodes. 
+Each node represents an entity (a person, place, thing, category or other piece of data). With Neo4j, nodes can have **labels** that are used to define types for nodes. 
 For example, a _Location_ node is a node with the label _Location_. 
 That same node can also have a label, _Residence_. Another _Location_ node can also have a label, _Business_. 
 A label can be used to group nodes of the same type. For example, you may want to retrieve all of the _Business_ nodes.
 
+image::{imagedir}/Nodes.png[Nodes,width=400,align=center]
+
+// force line break
+
+{nbsp} + 
+
+[cols=1, frame="none"]
+|===
+a|
+Each relationship represents how two nodes are connected. 
+For example, the two nodes _Person_ and _Location_, might have the relationship _LIVES_AT_ pointing from a _Person_ node to _Location_ node.
+A relationship represents the verb or action between two entities.
+
+image::{imagedir}/Relationships.png[Relationships,width=400,align=center]
+// force line break
+
+{nbsp} +  
+This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population's medical history, or anything else defined by relationships. 
+|===
+
+
+[cols=1, frame="none"]
+|===
+a|
 The Neo4j database is a property graph. 
 You can add **properties** to nodes and relationships to further enrich the graph model. 
+
+image::{imagedir}/Properties.png[Properties,width=500,align=center]
+// force line break
+
+{nbsp} +  
 This enables you to closely align data and connections in the graph to your real-world application. 
 For example, a _Person_ node might have a property, _name_ and a _Location_ node might have a property, _address_.
+|===
+
 
 ifdef::backend-pdf[]
 
@@ -134,11 +159,13 @@ endif::backend-html5[]
 
 Many applications' data is modeled as relational data. There are some similarities between a relational model and a graph model:
 
-[cols="<.^,<.^"]
-|===
+[cols="<.^,<.^", options="header",stripes="none"]
+|====
  *Relational*
 | *Graph*
-| Rows
+|
+{set:cellbgcolor:white}
+Rows
 | Nodes
 | Joins
 | Relationships
@@ -146,7 +173,8 @@ Many applications' data is modeled as relational data. There are some similariti
 | Labels
 | Columns
 | Properties
-|===
+|====
+{set:cellbgcolor!}
 
 ifdef::backend-pdf[]
 // force page break
@@ -155,73 +183,80 @@ endif::backend-pdf[]
 
 But, there are some ways in which the relational model differs from the graph model:
 
-[cols="<.^,<.^"]
-|===
+[cols="<.^,<.^", options="header",stripes="none"]
+|====
  *Relational*
 | *Graph*
-| Rows in the same table have the same set of fields.
+| 
+{set:cellbgcolor:white}
+Rows in the same table have the same set of fields.
 | Nodes with the same label aren't required to have the same set of properties.
 | Joins are calculated at query time.
 | Relationships are stored on disk when they are created.
 | A row can belong to one table.
 | A node can have many labels.
-|===
+|====
+{set:cellbgcolor!}
 
 ==== Run-time behavior: RDBMS vs graph
 
 [cols=1, frame="none"]
-|===
+|====
 a|
 How data is retrieved is very different between an RDBMS and a graph database:
 
 [.thumb]
-image::{imagedir}/RDBvsGraphRuntime.png[RDBvsGraphRuntime,600,400,align=center]
-|===
+image::{imagedir}/RDBvsGraphRuntime.png[RDBvsGraphRuntime,600,align=center]
+|====
 
 ==== How we model: RDBMS vs graph
 
 How you model data from relational vs graph differs:
 
-[cols="<.^,<.^"]
-|===
+[cols="<.^,<.^", options="header",stripes="none"]
+|====
  *Relational*
 | *Graph*
-| Try and get the schema defined and then make minimal changes to it after that.
+| 
+{set:cellbgcolor:white}
+Try and get the schema defined and then make minimal changes to it after that.
 | It's common for the schema to evolve with the application.
 | More abstract focus when modeling i.e. focus on classes rather than objects.
 | Common to use actual data items when modeling.
-|===
+|====
+{set:cellbgcolor!}
 
 If we were modeling a football transfers graph in relational and graph databases these diagrams show what common approaches might look like.
 
 [cols=1, frame="none"]
-|===
+|====
 a|
 Here is the relational model:
 
 [.thumb]
 image::{imagedir}/RDB.png[RDB,600,400,align=center]
-|===
+|====
 
 [cols=1, frame="none"]
-|===
+|====
 a|
 and here is the corresponding graph model:
 
+
 [.thumb]
-image::{imagedir}/RDBToGraph.png[RDBToGraph,600,400,align=center]
+image::{imagedir}/RDBToGraph.png[RDBToGraph,width=600,align=center]
 
 With the graph model we might sketch out examples with actual values and derive the 'schema' while doing that modeling process.
-|===
+|====
 
 [cols=1, frame="none"]
-|===
+|====
 a|
 In Neo4j, the data model might evolve to something like this:
 
 [.thumb]
-image::{imagedir}/GraphModel.png[GraphModel,600,400,align=center]
-|===
+image::{imagedir}/GraphModel.png[GraphModel,width=600,align=center]
+|====
 
 === How does Neo4j support the property graph model?
 [square]
@@ -271,5 +306,5 @@ You should now be able to:
 [square]
 * Describe what a graph database is.
 * Describe some common use cases for using a graph database.
-* Model a real-world scenario as a graph.
+* Describe how real-world scenarios are modeled as a graph.
 

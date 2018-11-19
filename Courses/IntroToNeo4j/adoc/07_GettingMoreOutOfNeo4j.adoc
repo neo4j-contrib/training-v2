@@ -64,13 +64,14 @@ You can set the value of a single parameter in the query editor pane as shown in
 :param actorName => 'Tom Hanks'
 ----
 
-*Note*: You can even specify a Cypher expression to the right of `=>` to set the value of the parameter.
+[NOTE]
+You can even specify a Cypher expression to the right of `+=>+` to set the value of the parameter.
 
 [cols=1, frame="none"]
 |===
 a|Here is the result of executing the `:param` command:
 [.thumb]
-image::{imagedir}/SetActorNameParameter.png[SetActorNameParameter,width=400]
+image::{imagedir}/SetActorNameParameter.png[SetActorNameParameter,width=600]
 |===
 
 Notice here that `:param` is a client-side browser command. It takes a name and expression and stores the value of that expression for the name in the session.
@@ -110,7 +111,7 @@ If you want to remove an existing parameter from your session, you do by by usin
 |===
 a|If you want to view the current parameters and their values, simply type `:params`:
 [.thumb]
-image::{imagedir}/ViewParams.png[ViewParams,width=400]
+image::{imagedir}/ViewParams.png[ViewParams,width=500]
 |===
 
 === *Exercise 12: Using Cypher parameters*
@@ -141,7 +142,7 @@ RETURN p.name, m.title, m.released
 
 Here is the query plan returned:
 [.thumb]
-image::{imagedir}/EXPLAIN.png[EXPLAIN,width=800]
+image::{imagedir}/EXPLAIN.png[EXPLAIN,width=900]
 |===
 
 You can expand each phase of the Cypher execution to examine what code is expected to run. Each phase of the query presents you with an estimate of the number of rows expected to be returned. With `EXPLAIN`, the query does not run, the graph engine simply produces the query plan.
@@ -153,7 +154,7 @@ For a better metric for analyzing how the Cypher statement will run you use the 
 a|
 Here is the result returned using `PROFILE` for this Cypher statement:
 [.thumb]
-image::{imagedir}/PROFILE1.png[PROFILE1,width=800]
+image::{imagedir}/PROFILE1.png[PROFILE1,width=900]
 
 Here we see that for each phase of the graph engine processing, we can view the cache hits and most importantly the number of times the graph engine accessed the database (db hits). This is an important metric that will affect the performance of the Cypher statement at run-time.
 |===
@@ -163,7 +164,7 @@ Here we see that for each phase of the graph engine processing, we can view the 
 a|
 For example, if we were to change the Cypher statement so that the node labels are not specified, we see these metrics when we profile:
 [.thumb]
-image::{imagedir}/PROFILE2.png[PROFILE2,width=800]
+image::{imagedir}/PROFILE2.png[PROFILE2,width=900]
 
 Here we see more db hits which makes sense because all nodes need to be scanned for perform this query.
 |===
@@ -184,12 +185,12 @@ If the query executes and then *returns a lot of data*, there is no way to monit
 a|
 If, however, the query is a *long-running query*, you can monitor it by using the `:queries` command. Here is a screenshot where we are monitoring a long-running query in another Neo4j Browser session:
 [.thumb]
-image::{imagedir}/ListQueries.png[ListQueries,width=800]
+image::{imagedir}/ListQueries.png[ListQueries,width=1000]
 
 The `:queries` command calls `dbms.listQueries` under the hood, which is why we see two queries here. We have turned on *AUTO-REFRESH* so we can monitor the number of ms used by the graph engine thus far. You can kill the running query by double-clicking the icon in the _Kill_ column. Alternatively, you can execute the statement `CALL dbms.killQuery('query-id')`.
 
 [.thumb]
-image::{imagedir}/KillQuery.png[KillQuery,width=800]
+image::{imagedir}/KillQuery.png[KillQuery,width=1000]
 |===
 
 [cols=1, frame="none"]
@@ -197,9 +198,11 @@ image::{imagedir}/KillQuery.png[KillQuery,width=800]
 a|
 Here is what happens in the Neo4j Browser session where the long-running query was run:
 [.thumb]
-image::{imagedir}/QueryKilled.png[QueryKilled,width=800]
+image::{imagedir}/QueryKilled.png[QueryKilled,width=1000]
 
-*Note:* The `:queries` command is only available in the Enterprise Edition of Neo4j.
+[NOTE]
+The `:queries` command is only available in the Enterprise Edition of Neo4j.
+
 |===
 
 === *Exercise 13: Analyzing and monitoring queries*
@@ -217,11 +220,14 @@ A third scenario with graph data is where you want to ensure that a set of prope
 
 All of these scenarios are common in many graphs. In Neo4j, you can use Cypher to:
 
-* Add a constraint that ensures that a value for a property is unique for all nodes of that type.
-* Add a constraint that ensures that when a node or relationship is created or modified, it must have certain properties set. (*Important*: Not available in the Community Edition of Neo4j.)
-* Add a node key that ensures that a set of values for properties of a node of a given type is unique. (*Important*: Not available in the Community Edition of Neo4j.)
+* Add a _uniqueness constraint_ that ensures that a value for a property is unique for all nodes of that type.
+* Add an _existence constraint_ that ensures that when a node or relationship is created or modified, it must have certain properties set.
+* Add a _node key_ that ensures that a set of values for properties of a node of a given type is unique.
 
 Constraints and node keys that enforce uniqueness are related to indexes which you will learn about later in this module. 
+
+[IMPORTANT]
+Existence constraints and node keys are only available in Enterprise Edition of Neo4j.
 
 === Ensuring that a property value for a node is unique
 
@@ -240,7 +246,7 @@ This Cypher statement will fail if the graph already has multiple _Movie_ nodes 
 Here is the result of running this Cypher statement on the _Movie_ graph:
 
 [.thumb]
-image::{imagedir}/AddTitleConstraint.png[AddTitleConstraint,width=300]
+image::{imagedir}/AddTitleConstraint.png[AddTitleConstraint,width=500]
 |===
 
 [cols=1, frame="none"]
@@ -254,7 +260,7 @@ CREATE (:Movie {title: 'The Matrix'})
 Here is the result of running this Cypher statement on the _Movie_ graph:
 
 [.thumb]
-image::{imagedir}/UniquenessFailed.png[UniquenessFailed,width=600]
+image::{imagedir}/UniquenessFailed.png[UniquenessFailed,width=700]
 
 In addition, if you attempt to modify the value of a property where the uniqueness assertion fails, the property will not be updated.
 |===
@@ -281,7 +287,7 @@ CREATE CONSTRAINT ON (m:Movie) ASSERT exists(m.tagline)
 Here is the result of running this Cypher statement:
 
 [.thumb]
-image::{imagedir}/ConstraintExistTaglineFailure.png[ConstraintExistTaglineFailure,width=700]
+image::{imagedir}/ConstraintExistTaglineFailure.png[ConstraintExistTaglineFailure,width=800]
 
 The constraint cannot be added to the graph because a node has been detected that violates the constraint.
 |===
@@ -299,7 +305,7 @@ Notice that when you create the constraint on a relationship, you need not speci
 With the result:
 
 [.thumb]
-image::{imagedir}/CreateRatingExistenceConstraint.png[CreateRatingExistenceConstraint,width=400]
+image::{imagedir}/CreateRatingExistenceConstraint.png[CreateRatingExistenceConstraint,width=600]
 |===
 
 
@@ -316,7 +322,7 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]->(m)
 
 We see this error: 
 [.thumb]
-image::{imagedir}/ExistenceConstraintFailed.png[ExistenceConstraintFailed,width=700]
+image::{imagedir}/ExistenceConstraintFailed.png[ExistenceConstraintFailed,width=800]
 
 You will also see this error if you attempt to remove a property from a node or relationship where the existence constraint has been created in the graph.
 |===
@@ -355,7 +361,7 @@ DROP CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)
 
 With the result:
 [.thumb]
-image::{imagedir}/DropConstraint.png[DropConstraint,width=400]
+image::{imagedir}/DropConstraint.png[DropConstraint,width=600]
 |===
 
 === Creating node keys
@@ -375,7 +381,7 @@ CREATE CONSTRAINT ON (p:Person) ASSERT (p.name, p.born) IS NODE KEY
 Here is the result of running this Cypher statement on our _Movie_ graph:
 
 [.thumb]
-image::{imagedir}/NodeKeyCreationFailed.png[NodeKeyCreationFailed,width=700]
+image::{imagedir}/NodeKeyCreationFailed.png[NodeKeyCreationFailed,width=800]
 
 This attempt to create the constraint failed because there are _Person_ nodes in the graph that do not have the _born_ property defined. 
 |===
@@ -392,7 +398,7 @@ SET p.born = 0
 
 Then the creation of the node key succeeds:
 [.thumb]
-image::{imagedir}/CreateNodeKey.png[CreateNodeKey,width=400]
+image::{imagedir}/CreateNodeKey.png[CreateNodeKey,width=700]
 |===
 
 Any subsequent attempt to create or modify an existing _Person_ node with _name_ or _born_ values that violate the uniqueness constraint as a node key will fail.
@@ -407,7 +413,7 @@ CREATE (:Person {name: 'Jessica Thompson', born: 0})
 
 Here is the result:
 [.thumb]
-image::{imagedir}/CreateDuplicateJessicaFailure.png[CreateDuplicateJessicaFailure,width=700]
+image::{imagedir}/CreateDuplicateJessicaFailure.png[CreateDuplicateJessicaFailure,width=800]
 |===
 
 === *Exercise 14: Managing constraints and node keys*
@@ -417,7 +423,7 @@ and follow the instructions for Exercise 14.
 
 == Managing indexes
 
-The uniqueness and node key constraints that you add to a graph are essentially single-property and composite indexes respectively. Indexes are used to improve initial node lookup performance, but they require additional storage in the graph to maintain and also add to the cost of creating or modifying property values that are indexed.
+The uniqueness and node key constraints that you add to a graph are essentially single-property and composite indexes respectively. Indexes are used to improve initial node lookup performance, but they require additional storage in the graph to maintain and also add to the cost of creating or modifying property values that are indexed. Indexes store redundant data that points to nodes with the specific property value or values. Unlike SQL, there is no such thing as a primary key in Neo4j. You can have multiple properties on nodes that must be unique.
 
 Here is a brief summary of when single-property and composite indexes are used:
 
@@ -431,7 +437,8 @@ Here is a brief summary of when single-property and composite indexes are used:
 
 In this module, we introduce the basics of Neo4j indexes, but you should consult the Neo4j _Operations Manual_ for more details about creating and maintaining indexes.
 
-*Note:* Because index maintenance incurs additional overhead when nodes are created, We recommend that for large graphs, indexes are created after the data has been loaded into the graph. You can view the progress of the creation of an index when you use the `:schema` command.
+[NOTE]
+Because index maintenance incurs additional overhead when nodes are created, We recommend that for large graphs, indexes are created after the data has been loaded into the graph. You can view the progress of the creation of an index when you use the `:schema` command.
 
 === Indexes for range searches
 
@@ -450,8 +457,7 @@ SET m.videoFormat = 'DVD'
 
 The graph engine, using an index, will find the pointers to all nodes that satisfy the query without having to visit all of the nodes:
 
-[.thumb]
-image::{imagedir}/IndexForRanges.png[IndexForRanges,width=500]
+image::{imagedir}/IndexForRanges.png[IndexForRanges,width=600,align=center]
 |===
 
 === Creating indexes
@@ -490,10 +496,12 @@ SET m.videoFormat = 'VHS'
 
 With the result:
 [.thumb]
-image::{imagedir}/TwoStatements.png[TwoStatements,width=600]
+image::{imagedir}/TwoStatements.png[TwoStatements,width=900]
 
-*Important:* Notice that in the above Cypher statements we use the semi-colon `;` to separate Cypher statements. In general, you need not end a Cypher statement with a semi-colon, but if you want to execute multiple Cypher statements, you must separate them. You have already used the semi-colon to separate Cypher statements when you loaded the _Movie_ database in the training exercises.
 |===
+
+[IMPORTANT]
+Notice that in the above Cypher statements we use the semi-colon `;` to separate Cypher statements. In general, you need not end a Cypher statement with a semi-colon, but if you want to execute multiple Cypher statements, you must separate them. You have already used the semi-colon to separate Cypher statements when you loaded the _Movie_ database in the training exercises.
 
 [cols=1, frame="none"]
 |===
@@ -505,8 +513,13 @@ CREATE INDEX ON :Movie(released, videoFormat)
 
 With the result:
 [.thumb]
-image::{imagedir}/CreateCompositeIndex.png[CreateCompositeIndex,width=400]
+image::{imagedir}/CreateCompositeIndex.png[CreateCompositeIndex,width=500]
 |===
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Retrieving indexes
 
@@ -521,7 +534,7 @@ CALL db.indexes()
 
 With the result:
 [.thumb]
-image::{imagedir}/Call_db-indexes.png[Call_db-indexes,width=800]
+image::{imagedir}/Call_db-indexes.png[Call_db-indexes,width=1000]
 
 Notice that the unique constraints and node keys are also shown as indexes in the graph.
 |===
@@ -540,7 +553,7 @@ DROP INDEX ON :Movie(released, videoFormat)
 
 Here is the result:
 [.thumb]
-image::{imagedir}/DropCompositeIndex.png[DropCompositeIndex,width=400]
+image::{imagedir}/DropCompositeIndex.png[DropCompositeIndex,width=600]
 |===
 
 === *Exercise 15: Managing indexes*
@@ -548,9 +561,28 @@ image::{imagedir}/DropCompositeIndex.png[DropCompositeIndex,width=400]
 In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
 and follow the instructions for Exercise 15.
 
+== Going from relational to graph with Neo4j
+
+ifdef::backend-pdf[]
+
+In this video, you will learn how developers use Neo4j for implementing all or part of their relational models.
+
+https://youtu.be/NO3C-CWykkY
+
+endif::backend-pdf[]
+
+ifdef::backend-html5[]
+In this video, you will learn how developers use Neo4j for implementing all or part of their relational models.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NO3C-CWykkY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+endif::backend-html5[]
+
 == Importing data
 
 In many applications, it is the case that the data that you want to populate your graph with comes from data that was written to _.csv_ files or files of other types. There are many nuances and best practices for loading data into a graph from files. In this module, you will be introduced to some simple steps for loading CSV data into your graph with Cypher. If you are interested in direct loading of data from a relational DBMS into a graph, you should read about the Neo4j Extract Transform Load (ETL) tool at http://neo4j.com/developer/neo4j-etl/, as well as many of the useful pre-written procedures that are available for your use in the APOC library.
+
 
 In Cypher, you can:
 
@@ -570,16 +602,16 @@ Cypher provides an elegant built-in way to import tabular CSV data into graph st
 The `LOAD CSV` clause parses a local in the *import* directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
 Then you can use whichever Cypher operations you want to either create nodes or relationships or to merge with the existing graph.
 
-{set:cellbgcolor:white}
+// syntax table 
+{set:cellbgcolor!}
+[colums=1,options="header",stripes=none]
 |===
 d|[red]#Here is the simplified syntax for using `LOAD CSV`:#
 l|
 LOAD CSV WITH HEADERS FROM url-value 
-AS row        // row is a variable that is used to extract data from each row read
-create-or-merge-clause
-a|
+AS row        // row is a variable that is used to extract data 
 |===
-{set:cellbgcolor!}
+
 
 The first line of the file must contain a comma-separated list of column names. The _url-value_ can be a resource or a file on your system. Each line contains data that is interpreted as values for each column name. When each line is read from the file, you can perform the necessary processing to create or merge data into the graph.
 
@@ -612,7 +644,7 @@ RETURN count(*)
 
 Here is the count result for this particular file:
 [.thumb]
-image::{imagedir}/countOfMoviesToLoad.png[countOfMoviesToLoad,width=700]
+image::{imagedir}/countOfMoviesToLoad.png[countOfMoviesToLoad,width=900]
 |===
 
 [cols=1, frame="none"]
@@ -628,7 +660,7 @@ RETURN * LIMIT 1
 
 Here is the result of running the Cypher statement to visually inspect the data:
 [.thumb]
-image::{imagedir}/examineMoviesBeforeLoad.png[examineMoviesBeforeLoad,width=700]
+image::{imagedir}/examineMoviesBeforeLoad.png[examineMoviesBeforeLoad,width=900]
 
 Notice here that the _summary_ column's data has an extra space before the data in the file. In order to ensure that all _tagline_ values in our graph do not have an extra space, we will trim the value before assigning it to the tagline property. Once we are sure you want to load the data into your graph, we do so by assigning values from each row read in to a new node. 
 |===
@@ -648,7 +680,7 @@ RETURN line.id, line.title, toInteger(line.year), trim(line.summary)
 Here we see how the data will be formatted before it is loaded:
 
 [.thumb]
-image::{imagedir}/FormatMovieDataBeforeLoad.png[FormatMovieDataBeforeLoad,width=700]
+image::{imagedir}/FormatMovieDataBeforeLoad.png[FormatMovieDataBeforeLoad,width=900]
 |===
 
 [cols=1, frame="none"]
@@ -666,7 +698,7 @@ We assign a value to _movieId_ from the _id_ data in the CSV file. In addition, 
 
 Here is the result of loading the *movies_to_load. csv* data into the graph:
 [.thumb]
-image::{imagedir}/loadMovies.png[loadMovies,width=700]
+image::{imagedir}/loadMovies.png[loadMovies,width=900]
 |===
 
 [cols=1, frame="none"]
@@ -738,7 +770,7 @@ CREATE (person)-[:ACTED_IN { roles: [line.role]}]->(movie)
 
 Here is the result of loading the *roles_to_load. csv* data into the graph:
 [.thumb]
-image::{imagedir}/loadRoles.png[loadRoles,width=700]
+image::{imagedir}/loadRoles.png[loadRoles,width=900]
 |===
 
 === Importing denormalized data
@@ -779,7 +811,7 @@ Notice a couple of things in this Cypher statement. This file uses a semi-colon 
 
 Here is the result of loading the *movie_actor_roles_to_load. csv* data into the graph:
 [.thumb]
-image::{imagedir}/loadAll.png[loadAll,width=700]
+image::{imagedir}/loadAll.png[loadAll,width=900]
 |===
 
 For large denormalized files, it may still make sense to create nodes and relationships separately in multiple passes.
