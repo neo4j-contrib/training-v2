@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.7.1">
+<meta name="generator" content="Asciidoctor 1.5.6.1">
 <title>Getting More Out of Neo4j</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
-/* Uncomment @import statement below to use as custom stylesheet */
+/* Remove comment around @import statement below when using as a custom stylesheet */
 /*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
+[hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
 a{background:transparent}
@@ -43,10 +44,12 @@ button,select{text-transform:none}
 button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
 button[disabled],html input[disabled]{cursor:default}
 input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
 button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
 textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
-*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+*,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
 body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
@@ -64,7 +67,8 @@ img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
 .center{margin-left:auto;margin-right:auto}
-.stretch{width:100%}
+.spread{width:100%}
+p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
 .subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
 div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
 a{color:#2156a5;text-decoration:underline;line-height:inherit}
@@ -98,24 +102,24 @@ abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-
 abbr{text-transform:none}
 blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
 blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
-blockquote cite::before{content:"\2014 \0020"}
+blockquote cite:before{content:"\2014 \0020"}
 blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
 blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
-@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+@media only screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
 h1{font-size:2.75em}
 h2{font-size:2.3125em}
 h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
 h4{font-size:1.4375em}}
 table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
-table thead,table tfoot{background:#f7f8f7}
+table thead,table tfoot{background:#f7f8f7;font-weight:bold}
 table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
-.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
-.clearfix::after,.float-group::after{clear:both}
+.clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
+.clearfix:after,.float-group:after{clear:both}
 *:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
 *:not(pre)>code.nobreak{word-wrap:normal}
 *:not(pre)>code.nowrap{white-space:nowrap}
@@ -131,15 +135,15 @@ kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-bl
 .menuseq{word-spacing:-.02em}
 .menuseq b.caret{font-size:1.25em;line-height:.8}
 .menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
-b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
-b.button::before{content:"[";padding:0 3px 0 2px}
-b.button::after{content:"]";padding:0 2px 0 3px}
+b.button:before,b.button:after{position:relative;top:-1px;font-weight:400}
+b.button:before{content:"[";padding:0 3px 0 2px}
+b.button:after{content:"]";padding:0 2px 0 3px}
 p a>code:hover{color:rgba(0,0,0,.9)}
 #header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
-#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
-#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#header:before,#header:after,#content:before,#content:after,#footnotes:before,#footnotes:after,#footer:before,#footer:after{content:" ";display:table}
+#header:after,#content:after,#footnotes:after,#footer:after{clear:both}
 #content{margin-top:1.25em}
-#content::before{content:none}
+#content:before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #ddddd8}
 #header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #ddddd8;padding-bottom:8px}
@@ -147,11 +151,11 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
 #header .details br{display:none}
-#header .details br+span::before{content:"\00a0\2013\00a0"}
-#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
-#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header .details br+span:before{content:"\00a0\2013\00a0"}
+#header .details br+span.author:before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark:before{content:"\00a0|\00a0"}
 #header #revnumber{text-transform:capitalize}
-#header #revnumber::after{content:"\00a0"}
+#header #revnumber:after{content:"\00a0"}
 #content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #ddddd8;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
 #toc{border-bottom:1px solid #efefed;padding-bottom:.5em}
 #toc>ul{margin-left:.125em}
@@ -162,7 +166,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toc a{text-decoration:none}
 #toc a:active{text-decoration:underline}
 #toctitle{color:#7a2518;font-size:1.2em}
-@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+@media only screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
 #toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
@@ -171,7 +175,7 @@ body.toc2{padding-left:15em;padding-right:0}
 #toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
 body.toc2.toc-right{padding-left:0;padding-right:15em}
 body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
-@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
 #toc.toc2{width:20em}
 #toc.toc2 #toctitle{font-size:1.375em}
 #toc.toc2>ul{font-size:.95em}
@@ -182,25 +186,22 @@ body.toc2.toc-right{padding-left:0;padding-right:20em}}
 #content #toc>:last-child{margin-bottom:0}
 #footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
 #footer-text{color:rgba(255,255,255,.8);line-height:1.44}
-#content{margin-bottom:.625em}
 .sect1{padding-bottom:.625em}
-@media screen and (min-width:768px){#content{margin-bottom:1.25em}
-.sect1{padding-bottom:1.25em}}
-.sect1:last-child{padding-bottom:0}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
 .sect1+.sect1{border-top:1px solid #efefed}
 #content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
-#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
 #content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
 #content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
 #content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
 .audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
 .admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
-table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
-.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
-table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+table.tableblock>caption.title{white-space:nowrap;overflow:visible;max-width:0}
+.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inherit}
 .admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
 .admonitionblock>table td.icon{text-align:center;width:80px}
-.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon img{max-width:initial}
 .admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
@@ -216,17 +217,17 @@ table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font
 .sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
 .literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
 .literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
-@media screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
-@media screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
 .literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
 .listingblock pre.highlightjs{padding:0}
 .listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
 .listingblock pre.prettyprint{border-width:0}
 .listingblock>.content{position:relative}
-.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
-.listingblock:hover code[data-lang]::before{display:block}
-.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:#999}
-.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock code[data-lang]:before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]:before{display:block}
+.listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
 table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
 table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
 table.pyhltable td.code{padding-left:.75em;padding-right:0}
@@ -237,39 +238,35 @@ table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
 .quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
 .quoteblock blockquote,.quoteblock blockquote p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
 .quoteblock blockquote{margin:0;padding:0;border:0}
-.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote:before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
 .quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
 .quoteblock .attribution{margin-top:.5em;margin-right:.5ex;text-align:right}
 .quoteblock .quoteblock{margin-left:0;margin-right:0;padding:.5em 0;border-left:3px solid rgba(0,0,0,.6)}
 .quoteblock .quoteblock blockquote{padding:0 0 0 .75em}
-.quoteblock .quoteblock blockquote::before{display:none}
-.verseblock{margin:0 1em 1.25em}
+.quoteblock .quoteblock blockquote:before{display:none}
+.verseblock{margin:0 1em 1.25em 1em}
 .verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
 .verseblock pre strong{font-weight:400}
 .verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
 .quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
 .quoteblock .attribution br,.verseblock .attribution br{display:none}
 .quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
-.quoteblock.abstract{margin:0 1em 1.25em;display:block}
-.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
-.quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{word-spacing:0;line-height:1.6}
-.quoteblock.abstract blockquote::before,.quoteblock.abstract p::before{display:none}
+.quoteblock.abstract{margin:0 0 1.25em 0;display:block}
+.quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
+.quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
 table.tableblock{max-width:100%;border-collapse:separate}
-p.tableblock:last-child{margin-bottom:0}
-td.tableblock>.content{margin-bottom:-1.25em}
+table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
 table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
 table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
 table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
-table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
-table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px 0}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0 0}
 table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
 table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
 table.frame-all{border-width:1px}
 table.frame-sides{border-width:0 1px}
-table.frame-topbot,table.frame-ends{border-width:1px 0}
-table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd){background:#f8f8f7}
-table.stripes-none tr,table.stripes-odd tr:nth-of-type(even){background:none}
+table.frame-topbot{border-width:1px 0}
 th.halign-left,td.halign-left{text-align:left}
 th.halign-right,td.halign-right{text-align:right}
 th.halign-center,td.halign-center{text-align:center}
@@ -293,8 +290,9 @@ ul.unstyled,ol.unstyled{margin-left:0}
 ul.checklist{margin-left:.625em}
 ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
 ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
-ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
-ul.inline>li{margin-left:1.25em}
+ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
+ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
+ul.inline>li>*{display:block}
 .unstyled dl dt{font-weight:400;font-style:normal}
 ol.arabic{list-style-type:decimal}
 ol.decimal{list-style-type:decimal-leading-zero}
@@ -308,9 +306,9 @@ ol.lowergreek{list-style-type:lower-greek}
 td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
 td.hdlist1{font-weight:bold;padding-bottom:1.25em}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
-.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
-.colist td:not([class]):first-child img{max-width:none}
-.colist td:not([class]):last-child{padding:.25em 0}
+.colist>table tr>td:first-of-type{padding:.4em .75em 0 .75em;line-height:1;vertical-align:top}
+.colist>table tr>td:first-of-type img{max-width:initial}
+.colist>table tr>td:last-of-type{padding:.25em 0}
 .thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
 .imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
 .imageblock.right,.imageblock[style*="float: right"]{margin:.25em 0 1.25em .625em}
@@ -326,9 +324,9 @@ sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:sup
 sup.footnote a,sup.footnoteref a{text-decoration:none}
 sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
-#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
-#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
-#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
 #footnotes .footnote:last-of-type{margin-bottom:0}
 #content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
 .gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
@@ -374,15 +372,15 @@ div.unbreakable{page-break-inside:avoid}
 span.icon>.fa{cursor:default}
 a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
-.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
-.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
-.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
-.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
-.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
 .conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
 .conum[data-value] *{color:#fff!important}
 .conum[data-value]+b{display:none}
-.conum[data-value]::after{content:attr(data-value)}
+.conum[data-value]:after{content:attr(data-value)}
 pre .conum[data-value]{position:relative;top:-.125em}
 b.conum *{color:inherit!important}
 .conum:not([data-value]):empty{display:none}
@@ -394,13 +392,12 @@ p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
 .print-only{display:none!important}
-@page{margin:1.25cm .75cm}
-@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
-html{font-size:80%}
+@media print{@page{margin:1.25cm .75cm}
+*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
 a{color:inherit!important;text-decoration:underline!important}
 a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
-a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
-abbr[title]::after{content:" (" attr(title) ")"}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]:after{content:" (" attr(title) ")"}
 pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
 thead{display:table-header-group}
 svg{max-width:100%}
@@ -408,26 +405,24 @@ p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
 h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
 #toc,.sidebarblock,.exampleblock>.content{background:none!important}
 #toc{border-bottom:1px solid #ddddd8!important;padding-bottom:0!important}
+.sect1{padding-bottom:0!important}
+.sect1+.sect1{border:0!important}
+#header>h1:first-child{margin-top:1.25rem}
 body.book #header{text-align:center}
-body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em 0}
 body.book #header .details{border:0!important;display:block;padding:0!important}
 body.book #header .details span:first-child{margin-left:0!important}
 body.book #header .details br{display:block}
-body.book #header .details br+span::before{content:none!important}
+body.book #header .details br+span:before{content:none!important}
 body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
 body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
-.listingblock code[data-lang]::before{display:block}
-#footer{padding:0 .9375em}
+.listingblock code[data-lang]:before{display:block}
+#footer{background:none!important;padding:0 .9375em}
+#footer-text{color:rgba(0,0,0,.6)!important;font-size:.9em}
 .hide-on-print{display:none!important}
 .print-only{display:block!important}
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
-@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
-.sect1{padding:0!important}
-.sect1+.sect1{border:0}
-#footer{background:none}
-#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
-@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
 <body class="book toc2 toc-left">
@@ -440,13 +435,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_cypher_parameters">Cypher parameters</a>
 <ul class="sectlevel2">
 <li><a href="#_using_cypher_parameters">Using Cypher parameters</a></li>
-<li><a href="#_exercise_12_using_cypher_parameters"><strong>Exercise 12: Using Cypher parameters</strong></a></li>
+<li><a href="#_strong_exercise_12_using_cypher_parameters_strong"><strong>Exercise 12: Using Cypher parameters</strong></a></li>
 </ul>
 </li>
 <li><a href="#_analyzing_cypher_execution">Analyzing Cypher execution</a></li>
 <li><a href="#_monitoring_queries">Monitoring queries</a>
 <ul class="sectlevel2">
-<li><a href="#_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></a></li>
+<li><a href="#_strong_exercise_13_analyzing_and_monitoring_queries_strong"><strong>Exercise 13: Analyzing and monitoring queries</strong></a></li>
 </ul>
 </li>
 <li><a href="#_managing_constraints_and_node_keys">Managing constraints and node keys</a>
@@ -456,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_retrieving_constraints_defined_for_the_graph">Retrieving  constraints defined for the graph</a></li>
 <li><a href="#_dropping_constraints">Dropping constraints</a></li>
 <li><a href="#_creating_node_keys">Creating node keys</a></li>
-<li><a href="#_exercise_14_managing_constraints_and_node_keys"><strong>Exercise 14: Managing constraints and node keys</strong></a></li>
+<li><a href="#_strong_exercise_14_managing_constraints_and_node_keys_strong"><strong>Exercise 14: Managing constraints and node keys</strong></a></li>
 </ul>
 </li>
 <li><a href="#_managing_indexes">Managing indexes</a>
@@ -465,16 +460,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_creating_indexes">Creating indexes</a></li>
 <li><a href="#_retrieving_indexes">Retrieving indexes</a></li>
 <li><a href="#_dropping_indexes">Dropping indexes</a></li>
-<li><a href="#_exercise_15_managing_indexes"><strong>Exercise 15: Managing indexes</strong></a></li>
+<li><a href="#_strong_exercise_15_managing_indexes_strong"><strong>Exercise 15: Managing indexes</strong></a></li>
 </ul>
 </li>
 <li><a href="#_going_from_relational_to_graph_with_neo4j">Going from relational to graph with Neo4j</a></li>
 <li><a href="#_importing_data">Importing data</a>
 <ul class="sectlevel2">
-<li><a href="#_importing_normalized_data_using_load_csv">Importing normalized data using <code>LOAD CSV</code></a></li>
+<li><a href="#_importing_normalized_data_using_code_load_csv_code">Importing normalized data using <code>LOAD CSV</code></a></li>
 <li><a href="#_importing_denormalized_data">Importing denormalized data</a></li>
 <li><a href="#_importing_a_large_dataset">Importing a large dataset</a></li>
-<li><a href="#_exercise_16_importing_data"><strong>Exercise 16: Importing data</strong></a></li>
+<li><a href="#_strong_exercise_16_importing_data_strong"><strong>Exercise 16: Importing data</strong></a></li>
 </ul>
 </li>
 <li><a href="#_accessing_neo4j_resources">Accessing Neo4j resources</a></li>
@@ -492,14 +487,78 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-	<script type='text/javascript'>
+<script src="https://browser.sentry-cdn.com/4.0.6/bundle.min.js" crossorigin="anonymous"></script>
+
+<script>
+  Sentry.init({ dsn: 'https://7df45f54b1e844b49d9f603100930bd7@sentry.io/1294106' });
+</script>
+
+<script type='text/javascript'>
 	var loc = window.location;
-	if (loc.hostname == "neo4j.com" && loc.search.indexOf("aliId=") == -1 ) {
-	 loc.pathname = "/graphacademy/online-training/XXXX/"
-	}
 	document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script>Munchkin.init('773-GON-065');</script>
+</script>
+
+<script>Munchkin.init('773-GON-065');</script>
+
+
+<style>
+    @import "/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
+    .modal {
+        width: 775px;
+        height: 775px;
+        padding: 10px;
+        margin: 0;
+    }
+    .blocker {
+        height: initial;
+        background-color: transparent;
+    }
+</style>
+<script src="/online_training/cypher-gadget/libs/underscore.js"></script>
+<script src="/online_training/cypher-gadget/libs/jquery.js"></script>
+<script src="/online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
+<script src="/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
+<!--script src="/online_training/gadgetUtils.js"></script-->
+<script src="/online_training/tasks.js"></script>
+<script type="text/javascript">
+function renderGadget(containerSelector, options) {
+  if (!options.cypherSetup) return;
+  var frameId = _.uniqueId("exmodal");
+  $(containerSelector).append('<button onclick="setGadgetUrl(\'#' + frameId +
+    '\')" rel="modal:open" class="btn">' + (options.label || 'Gadget') + '</button>');
+
+    $(containerSelector).append(modalWindow(frameId,options));
+  }
+
+function modalWindow(frameId, options) {
+   return `<div id="${frameId}" class="modal-dialog modal fade draggable" style="display:none;text-align:center;vertical-align:middle;" >
+            <iframe data-src="/online_training/cypher-gadget/test.html?cypherSetup=${options.cypherSetup}&${formatTask(options)}" width="725" height="725" frameborder="0" style="margin:5px;"
+              webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+           <div>`;
+}
+/*
+    .modal {
+        width: 775px;
+        height: 675px;
+        padding: 10px;
+        margin: 0;
+    }
+*/
+
+function formatTask(options) {
+  if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
+  if (options.taskName) return "cypherTask="+options.taskName;
+  return "";
+}
+
+
+function setGadgetUrl(sel) {
+  $(sel).modal();
+  $(sel).draggable();
+  var $iframe = $(sel).find("iframe");
+  $iframe.attr("src", $iframe.data("src"));
+}
+</script>
 </div>
 </div>
 <div class="sect1">
@@ -585,13 +644,13 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </tr>
 </table>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here is the result of executing the <code>:param</code> command:</p>
 </div>
 <div class="imageblock thumb">
@@ -605,13 +664,13 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 <div class="paragraph">
 <p>Notice here that <code>:param</code> is a client-side browser command. It takes a name and expression and stores the value of that expression for the name in the session.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>After the <em>actorName</em> parameter is set, you can run the query that uses the parameter:</p>
 </div>
 <div class="imageblock thumb">
@@ -625,13 +684,13 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 <div class="paragraph">
 <p>Subsequently, you need only change the value of the parameter and not the Cypher statement to test with different values.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>After we have changed the <em>actorName</em> parameter to 'Tom Cruise', we get a different result with the same Cypher query:</p>
 </div>
 <div class="imageblock thumb">
@@ -642,13 +701,13 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>You can also use the JSON-style syntax to set <span class="underline">all</span> of the parameters in your Neo4j Browser session. The values you can specify in this object are numbers, strings, and booleans. In this example we set two parameters for our session:</p>
 </div>
 <div class="listingblock">
@@ -670,13 +729,13 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 <div class="paragraph">
 <p>If you want to remove an existing parameter from your session, you do by by using the JSON-style syntax and excluding the parameter for your session.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>If you want to view the current parameters and their values, simply type <code>:params</code>:</p>
 </div>
 <div class="imageblock thumb">
@@ -689,7 +748,7 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </table>
 </div>
 <div class="sect2">
-<h3 id="_exercise_12_using_cypher_parameters"><strong>Exercise 12: Using Cypher parameters</strong></h3>
+<h3 id="_strong_exercise_12_using_cypher_parameters_strong"><strong>Exercise 12: Using Cypher parameters</strong></h3>
 <div class="paragraph">
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 12.</p>
@@ -719,13 +778,13 @@ and follow the instructions for Exercise 12.</p>
 <div class="paragraph">
 <p>The <code>EXPLAIN</code> option provides the Cypher query plan. You can compare different Cypher statements to understand the stages of processing that will occur when the Cypher executes.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here is an example where we have set the <em>actorName</em> and <em>year</em> parameters for our session and we execute this Cypher statement:</p>
 </div>
 <div class="listingblock">
@@ -753,13 +812,13 @@ RETURN p.name, m.title, m.released</pre>
 <div class="paragraph">
 <p>For a better metric for analyzing how the Cypher statement will run you use the <code>PROFILE</code> keyword which runs the Cypher statement and gives you run-time performance metrics.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here is the result returned using <code>PROFILE</code> for this Cypher statement:</p>
 </div>
 <div class="imageblock thumb">
@@ -773,13 +832,13 @@ RETURN p.name, m.title, m.released</pre>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>For example, if we were to change the Cypher statement so that the node labels are not specified, we see these metrics when we profile:</p>
 </div>
 <div class="imageblock thumb">
@@ -828,13 +887,13 @@ RETURN p.name, m.title, m.released</pre>
 <div class="paragraph">
 <p>If the query executes and then <strong>returns a lot of data</strong>, there is no way to monitor it or kill the query. All that you can do is close your Neo4j Browser session and start a new one. If the server has many of these <strong>rogue</strong> queries running, it will slow down considerably so you should aim to limit these types of queries. If you are running Neo4j Desktop, you can simply restart the database to clear things up, but if you are using a Neo4j Sandbox, you cannot do so. The database server is always running and you cannot restart it. Your only option is to shut down the Neo4j Sandbox and create a new Neo4j Sandbox, but then you lose any data you have worked with.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>If, however, the query is a <strong>long-running query</strong>, you can monitor it by using the <code>:queries</code> command. Here is a screenshot where we are monitoring a long-running query in another Neo4j Browser session:</p>
 </div>
 <div class="imageblock thumb">
@@ -853,13 +912,13 @@ RETURN p.name, m.title, m.released</pre>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here is what happens in the Neo4j Browser session where the long-running query was run:</p>
 </div>
 <div class="imageblock thumb">
@@ -883,7 +942,7 @@ The <code>:queries</code> command is only available in the Enterprise Edition of
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></h3>
+<h3 id="_strong_exercise_13_analyzing_and_monitoring_queries_strong"><strong>Exercise 13: Analyzing and monitoring queries</strong></h3>
 <div class="paragraph">
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 13.</p>
@@ -939,13 +998,13 @@ Existence constraints and node keys are only available in Enterprise Edition of 
 <div class="paragraph">
 <p>You add a uniqueness constraint to the graph by creating a constraint that asserts that a particular node property is unique in the graph for a particular type of node.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here is an example for ensuring that the <em>title</em> for a node of type <em>Movie</em> is unique:</p>
 </div>
 <div class="listingblock">
@@ -967,13 +1026,13 @@ Existence constraints and node keys are only available in Enterprise Edition of 
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>And if we attempt to create a <em>Movie</em> with the <em>title</em>, <em>The Matrix</em>, the Cypher statement will fail because the graph already has a movie with that title:</p>
 </div>
 <div class="listingblock">
@@ -1004,13 +1063,13 @@ Existence constraints and node keys are only available in Enterprise Edition of 
 <div class="paragraph">
 <p>You add an existence constraint to the graph by creating a constraint that asserts that a particular type of node or relationship property must exist in the graph when a node or relationship of that type is created or updated.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Recall that in the <em>Movie</em> graph, the movie, <em>Something&#8217;s Gotta Give</em> has no <em>tagline</em> property:</p>
 </div>
 <div class="imageblock thumb">
@@ -1040,13 +1099,13 @@ Existence constraints and node keys are only available in Enterprise Edition of 
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>We know that in the <em>Movie</em> graph, all <em>:REVIEWED</em> relationships currently have a property, <em>rating</em>. We can create an existence constraint on that property as follows:</p>
 </div>
 <div class="listingblock">
@@ -1066,13 +1125,13 @@ With the result:</p>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>So after creating this constraint, if we attempt to create a <em>:REVIEWED</em> relationship without setting the <em>rating</em> property:</p>
 </div>
 <div class="listingblock">
@@ -1103,13 +1162,13 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 <div class="paragraph">
 <p>You can run the browser command <code>:schema</code> to view existing indexes and constraints defined for the graph.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Just as you have used other <em>db</em> related methods to query the schema of the graph, you can query for the set of constraints defined in the graph as follows:</p>
 </div>
 <div class="listingblock">
@@ -1137,13 +1196,13 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 <div class="paragraph">
 <p>You use similar syntax to drop an existence or uniqueness constraint, except that you use the <code>DROP</code> keyword rather than <code>CREATE</code></p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here we drop the existence constraint for the <em>rating</em> property for all <em>REVIEWED</em> relationships in the graph:</p>
 </div>
 <div class="listingblock">
@@ -1168,13 +1227,13 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 <div class="paragraph">
 <p>A node key is used to define the uniqueness constraint for <span class="underline">multiple</span> properties of a node of a certain type. A node key is  also used as a composite index in the graph.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Suppose that in our <em>Movie</em> graph, we will not allow a <em>Person</em> node to be created where both the <em>name</em> and <em>born</em> properties are the same. We can create a constraint that will be a node key to ensure that this uniqueness for the set of properties is asserted.</p>
 </div>
 <div class="paragraph">
@@ -1199,13 +1258,13 @@ MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]-&gt;(m)</pre>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>If we set these properties for all nodes in the graph that do not have <em>born</em> properties with:</p>
 </div>
 <div class="listingblock">
@@ -1229,13 +1288,13 @@ SET p.born = 0</pre>
 <div class="paragraph">
 <p>Any subsequent attempt to create or modify an existing <em>Person</em> node with <em>name</em> or <em>born</em> values that violate the uniqueness constraint as a node key will fail.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>For example, executing this Cypher statement will fail:</p>
 </div>
 <div class="listingblock">
@@ -1256,7 +1315,7 @@ SET p.born = 0</pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_exercise_14_managing_constraints_and_node_keys"><strong>Exercise 14: Managing constraints and node keys</strong></h3>
+<h3 id="_strong_exercise_14_managing_constraints_and_node_keys_strong"><strong>Exercise 14: Managing constraints and node keys</strong></h3>
 <div class="paragraph">
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 14.</p>
@@ -1318,13 +1377,13 @@ Because index maintenance incurs additional overhead when nodes are created, We 
 <div class="paragraph">
 <p>When you add an index for a property of a node, it can greatly reduce the number of nodes the graph engine needs to visit in order to satisfy a query.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>In this query we are testing the value of the <em>released</em> property of a <em>Movie</em> node using ranges:</p>
 </div>
 <div class="listingblock">
@@ -1351,13 +1410,13 @@ SET m.videoFormat = 'DVD'</pre>
 <div class="paragraph">
 <p>You create an index to improve graph engine performance. A unique constraint on a property is an index so you need not create an index for any properties you have created uniqueness constraints for. An index on its own does <span class="underline">not</span> guarantee uniqueness.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here is an example of how we would create a single-property index on the <em>released</em> property of all nodes of type <em>Movie</em>:</p>
 </div>
 <div class="listingblock">
@@ -1382,13 +1441,13 @@ SET m.videoFormat = 'DVD'</pre>
 <div class="paragraph">
 <p>If, however, there can be duplication for a set of property values, but you want faster access to them, then you can create a composite index. A composite index is based upon multiple properties for a node.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Suppose we added the property, <em>videoFormat</em> to every <em>Movie</em> node and set its value, based upon the released date of the movie as follows:</p>
 </div>
 <div class="listingblock">
@@ -1424,13 +1483,13 @@ Notice that in the above Cypher statements we use the semi-colon <code>;</code> 
 </tr>
 </table>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Now that the graph has <em>Movie</em> nodes with both the properties, <em>released</em> and <em>videoFormat</em>, we can create a composite index on these properties as follows:</p>
 </div>
 <div class="listingblock">
@@ -1452,13 +1511,13 @@ Notice that in the above Cypher statements we use the semi-colon <code>;</code> 
 </div>
 <div class="sect2">
 <h3 id="_retrieving_indexes">Retrieving indexes</h3>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Just as you can retrieve the constraints defined for the graph using <code>:schema</code> or <code>CALL db.constraints()</code>, you can retrieve the indexes:</p>
 </div>
 <div class="listingblock">
@@ -1486,13 +1545,13 @@ Notice that in the above Cypher statements we use the semi-colon <code>;</code> 
 <div class="paragraph">
 <p>You can drop an existing index that you created with  <code>CREATE INDEX</code>.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here is an example of dropping the composite index that we just created:</p>
 </div>
 <div class="listingblock">
@@ -1513,7 +1572,7 @@ Notice that in the above Cypher statements we use the semi-colon <code>;</code> 
 </table>
 </div>
 <div class="sect2">
-<h3 id="_exercise_15_managing_indexes"><strong>Exercise 15: Managing indexes</strong></h3>
+<h3 id="_strong_exercise_15_managing_indexes_strong"><strong>Exercise 15: Managing indexes</strong></h3>
 <div class="paragraph">
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 15.</p>
@@ -1565,7 +1624,7 @@ and follow the instructions for Exercise 15.</p>
 <p>CSV import is commonly used to import data into a graph. If you want to import data from CSV, you will need to first develop a model that describes how data from your CSV maps to data in your graph.</p>
 </div>
 <div class="sect2">
-<h3 id="_importing_normalized_data_using_load_csv">Importing normalized data using <code>LOAD CSV</code></h3>
+<h3 id="_importing_normalized_data_using_code_load_csv_code">Importing normalized data using <code>LOAD CSV</code></h3>
 <div class="paragraph">
 <p>Cypher provides an elegant built-in way to import tabular CSV data into graph structures.</p>
 </div>
@@ -1576,7 +1635,7 @@ Then you can use whichever Cypher operations you want to either create nodes or 
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-all grid-all stripes-none stretch">
+<table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
@@ -1598,13 +1657,13 @@ AS row        // row is a variable that is used to extract data</pre></div></td>
 <div class="paragraph">
 <p>As CSV files usually represent either node or relationship lists, you will run multiple passes to create nodes and relationships separately.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>The <strong>movies_to_load.csv</strong> file (sample below) contains the data that will add <em>Movie</em> nodes:</p>
 </div>
 <div class="listingblock">
@@ -1621,13 +1680,13 @@ AS row        // row is a variable that is used to extract data</pre></div></td>
 <div class="paragraph">
 <p>Before you load data from CSV files into your graph, you should first confirm that the data retrieved looks OK. Rather than creating nodes or relationships, you can simply return information about the data to be loaded.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>For example you can execute this Cypher statement to get a count of the data to be loaded from the <strong>movies_to_load.csv</strong> file so you have an idea of how much data will be loaded:</p>
 </div>
 <div class="listingblock">
@@ -1649,13 +1708,13 @@ RETURN count(*)</pre>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>You might even want to visually inspect the data before you load it to see if it is what you were expecting:</p>
 </div>
 <div class="listingblock">
@@ -1680,13 +1739,13 @@ RETURN * LIMIT 1</pre>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>You may want to format the data before it is loaded to confirm it matches what you want in your graph:</p>
 </div>
 <div class="listingblock">
@@ -1708,13 +1767,13 @@ RETURN line.id, line.title, toInteger(line.year), trim(line.summary)</pre>
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>The following query creates the <em>Movie</em> nodes using some of the data from <strong>movies_to_load.csv</strong> as properties:</p>
 </div>
 <div class="listingblock">
@@ -1739,13 +1798,13 @@ CREATE (movie:Movie { movieId: line.id, title: line.title, released: toInteger(l
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>The <strong>persons_to_load.csv</strong> file (sample below) holds the data that will populate the <em>Person</em> nodes.</p>
 </div>
 <div class="listingblock">
@@ -1761,13 +1820,13 @@ CREATE (movie:Movie { movieId: line.id, title: line.title, released: toInteger(l
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>In case you already have people in your database, you will want to avoid creating duplicates.
 That&#8217;s why instead of just creating them, we use <code>MERGE</code> to ensure unique entries after the import.
 We use the <code>ON CREATE</code> clause to set the values for <em>name</em> and <em>born</em>.</p>
@@ -1796,13 +1855,13 @@ ON CREATE SET actor.name = line.name,
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>The <strong>roles_to_load.csv</strong> file (sample below) holds the data that will populate the relationships between the nodes.</p>
 </div>
 <div class="listingblock">
@@ -1819,13 +1878,13 @@ ON CREATE SET actor.name = line.name,
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>The query below matches the entries of <em>line.personId</em> and <em>line.movieId</em> to their respective <em>Movie</em> and <em>Person</em> nodes, and creates an <em>ACTED_IN</em> relationship between the person and the movie.
 This model includes a relationship property of <em>role</em>, which is passed via <em>line.role</em>.</p>
 </div>
@@ -1856,13 +1915,13 @@ CREATE (person)-[:ACTED_IN { roles: [line.role]}]-&gt;(movie)</code></pre>
 <div class="paragraph">
 <p>If your file contains denormalized data, you can run the same file with multiple passes and simple operations as shown above. Alternatively, you might have to use <code>MERGE</code> to create nodes and relationships uniquely.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>For our use case, we can import the data using a CSV structure like this:</p>
 </div>
 <div class="paragraph">
@@ -1878,13 +1937,13 @@ Back to the Future;1985;17 year old Marty McFly got home early last night. 30 ye
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-none grid-all stretch">
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
 <p>Here are the Cypher statements to load this data:</p>
 </div>
 <div class="listingblock">
@@ -1928,7 +1987,7 @@ This allows the database to regularly commit the import transactions to avoid me
 </div>
 </div>
 <div class="sect2">
-<h3 id="_exercise_16_importing_data"><strong>Exercise 16: Importing data</strong></h3>
+<h3 id="_strong_exercise_16_importing_data_strong"><strong>Exercise 16: Importing data</strong></h3>
 <div class="paragraph">
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 16.</p>
@@ -2055,12 +2114,112 @@ and follow the instructions for Exercise 16.</p>
 </li>
 </ul>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="//js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
+
+<script src="http://graphacademy.neo4j.com/training-classes/js/classes.js" type="text/javascript"></script>
+<script src="http://graphacademy.neo4j.com/training-quizes/js/quizes.js" type="text/javascript"></script>
+
+ <link rel='stylesheet' id='neo-codemirror-css'
+    href="http://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css'
+    media='screen'/>
+
+ <script type='text/javascript'
+   src='http://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
+
+ <script type='text/javascript'>
+  if (!CodeMirror.colorize) CodeMirror.colorize=function() {};
+  $( document ).ready(function() {
+    CodeMirror.colorize();
+  });
+ </script>
+
+
+<script>
+  window.intercomSettings = {
+    app_id: "dt0ig5ab",
+    hide_default_launcher: true
+  };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+<!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
+<script src="//neo4jsandbox.com/js/jwt-decode.min.js"></script>
+
+
+<script>
+const SITE_URL = window.location;
+
+var getTimeDiff = function(time1, time2) {
+  var hourDiff = time2 - time1;
+  var diffDays = Math.floor(hourDiff / 86400000);
+  var diffHrs = Math.floor((hourDiff % 86400000) / 3600000);
+  var diffMins = Math.floor(((hourDiff % 86400000) % 3600000) / 60000);
+  return {"days": diffDays, "hours": diffHrs, "mins": diffMins};
+}
+
+var attemptRenewToken = function(silent, nextTimeout, nextTimeoutSilent) {
+  console.log('renewAuth attempting');
+  var iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  iframe.src = 'https://neo4j.com/accounts/login?targetUrl=' + encodeURIComponent(SITE_URL);
+  document.body.appendChild(iframe);
+  if (nextTimeout) {
+      setTimeout(
+        function () {
+          attemptRenewToken(nextTimeoutSilent, nextTimeout, nextTimeoutSilent);
+        }, nextTimeout
+      );
+  }
+}
+
+var logout = function() {
+  window.location = 'https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/'
+}
+
+$( document ).ready(function() {
+    var id_token = Cookies.get("com.neo4j.accounts.idToken");
+    var decoded_token = jwt_decode(id_token);
+    var expiresIn = getTimeDiff(Date.now(), (decoded_token.exp) * 1000);
+    if (expiresIn.days > 0 || expiresIn.hours > 0) {
+      // token is good.
+    } else if (expiresIn.days == 0 && expiresIn.hours == 0 && expiresIn.mins > 1 && expiresIn.mins < 60) {
+        // expiring soon, let's immediately get a new token
+        attemptRenewToken(true, 1000*60*30, false);
+    } else {
+        // token is already expired, log user out in UI; token won't work
+        logout();
+    }
+
+
+    var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
+    if (userInfoIntercom) {
+      try {
+        window.Intercom("update", {
+          app_id: "dt0ig5ab",
+          name: userInfoIntercom.name,
+          email: userInfoIntercom.email,
+          user_id: userInfoIntercom.sub,
+          hide_default_launcher: true
+        });;
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    Intercom('trackEvent','training-introv2-view');
+});
+</script>
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part7');
+});
+</script>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-19 11:39:44 CST
+Last updated 2018-11-26 11:15:59 PST
 </div>
 </div>
 </body>
