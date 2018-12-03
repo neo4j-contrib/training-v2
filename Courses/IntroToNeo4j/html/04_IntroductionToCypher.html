@@ -254,7 +254,7 @@ The guiding goal is to make the simple things easy, and the complex things possi
 
 <div class="imageblock" style="text-align: center;">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ASCIIArt.png" alt="ASCIIArt" width="700">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AsciiArt.png" alt="AsciiArt" width="700">
 </p>
 </div>
 
@@ -1002,8 +1002,8 @@ You can specify nodes and their relationships to traverse the graph and quickly 
 <div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
 <pre>()			// a node
 ()--()	    // 2 nodes have some type of relationship
-()-&gt;()	    // the first node has a relationship to the second node
-()&lt;-()	    // the second node has a relationship to the first node</pre>
+()--&gt;()	    // the first node has a relationship to the second node
+()&lt;--()	    // the second node has a relationship to the first node</pre>
 </div>
 </div>
 <!--
@@ -1354,7 +1354,7 @@ data-lang=”{language}” class=””
 -->
 <div class="listingblock">
 <div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
-<pre>MATCH (m:Movie)&lt;-(p:Person {name: 'Keanu Reeves'})
+<pre>MATCH (m:Movie)&lt;--(p:Person {name: 'Keanu Reeves'})
 RETURN p, m</pre>
 </div>
 </div>
@@ -1364,7 +1364,7 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>In this training, we will use <code>-&gt;</code>, <code>--</code>, and <code>&lt;-</code> to represent anonymous relationships as it is a Cypher best practice.</p>
+<p>In this training, we will use <code>--&gt;</code>, <code>--</code>, and <code>&lt;--</code> to represent anonymous relationships as it is a Cypher best practice.</p>
 </div>
 </div></td>
 </tr>

@@ -87,6 +87,10 @@ image::{imagedir}/StartInstance.png[StartInstance,width=800,align=center]
 
 When the Neo4j instance starts, it creates the database and writes to the folders for the instance.
 
+At any time, you can check the status of the Neo4j instance with the status command of the `neo4j` tool as shown here:
+
+image::{imagedir}/Neo4jStatus.png[Neo4jStatus,width=800,align=center]
+
 Here are some important files to note after you have started the Neo4j instance:
 
 image::{imagedir}/Neo4jFilesAfterStart.png[Neo4jFilesAfterStart,width=800,align=center]
@@ -100,11 +104,16 @@ As an administrator, you should become familiar with the types of records that a
 
 image::{imagedir}/FirstNeo4jLog.png[FirstNeo4jLog,width=800,align=center]
 
-When the Neo4j instance starts, you should confirm that it is started by seeing the _Started_ record in the log file.
+When the Neo4j instance starts, you can also confirm that it is started by seeing the _Started_ record in the log file.
 
 After the Neo4j instance is started, you can access the database with Neo4j Browser using port _7474_. In Neo4j Browser, when you attempt to access the Neo4j database, you must first enter the credentials for the _neo4j_ user that you configured when you set the password:
 
 image::{imagedir}/InitialNeo4jBrowser.png[InitialNeo4jBrowser,width=800,align=center]
+
+In Neo4j Browser, once you are connected, it is sometimes helpful to view information about the the Neo4j instance using the `:sysinfo` command. This provides you with information about the size of the database and how much activity has occurred against the database since it was started.
+
+image::{imagedir}/Sysinfo.png[Sysinfo,width=800,align=center]
+
 
 === *Exercise #2: Start the Neo4j instance*
 
@@ -296,4 +305,13 @@ Inconsistencies in a database are a serious matter that should be looked into wi
 
 === *Exercise #6: Checking consistency of a database*
 
-TBD
+== Scripting with Cypher
+
+There may be situations where you want to modify the database or add or remove indexes or constraints from the database. Rather than doing this from Neo4j Browser, you can create scripts that use the `cypher-shell` tool.  When using `cypher-shell`, you must provide your credentials for accessing the Neo4j instance. Once authenticated, the Cypher statements execute just as they would in Neo4j Browser. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`.
+
+In this example, we log into `cypher-shell` with our credentials. Then we execute the Cypher statement to create a unique constraint. Notice that we specify `;` at the end of the Cypher statement. Finally, we specify `:exit` to log out of `cypher-shell`.
+
+image::{imagedir}/Cypher-shell.png[Cypher-shell,width=800,align=center]
+
+Maintenance types of scripts can be created for the database. In this example, we have added these lines to our *DropConstraints.sh* script:
+

@@ -18,7 +18,11 @@
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
+ifdef::backend-html5[]
+
 include::scripts.txt[]
+
+endif::backend-html5[]
 
 === About this module
 
@@ -49,7 +53,7 @@ The guiding goal is to make the simple things easy, and the complex things possi
 Optimized for being read by humans, Cypher's construct uses English prose and iconography (called ASCII Art) to make queries more self-explanatory.
 
 
-image::{imagedir}/ASCIIArt.png[ASCIIArt,width=700,align=center]
+image::{imagedir}/AsciiArt.png[AsciiArt,width=700,align=center]
 // force line break
 
 {nbsp} +  
@@ -437,8 +441,8 @@ You can specify nodes and their relationships to traverse the graph and quickly 
 ----
 ()			// a node
 ()--()	    // 2 nodes have some type of relationship
-()->()	    // the first node has a relationship to the second node
-()<-()	    // the second node has a relationship to the first node
+()-->()	    // the first node has a relationship to the second node
+()<--()	    // the second node has a relationship to the first node
 ----
 
 ==== Querying using relationships
@@ -619,11 +623,11 @@ RETURN p, m
 ----
 
 ----
-MATCH (m:Movie)<-(p:Person {name: 'Keanu Reeves'}) 
+MATCH (m:Movie)<--(p:Person {name: 'Keanu Reeves'}) 
 RETURN p, m
 ----
 
-In this training, we will use `+->+`, `--`, and `+<-+` to represent anonymous relationships as it is a Cypher best practice.
+In this training, we will use `+-->+`, `--`, and `+<--+` to represent anonymous relationships as it is a Cypher best practice.
 |===
 
 ==== Retrieving the relationship types
@@ -899,6 +903,8 @@ You should now be able to write Cypher statements to:
 * Retrieve property values from nodes in the graph.
 * Filter nodes retrieved using relationships.
 
+ifdef::backend-html5[]
+
 include::scripts-end.txt[]
 
 ++++
@@ -908,3 +914,5 @@ $( document ).ready(function() {
 });
 </script>
 ++++
+
+endif::backend-html5[]
