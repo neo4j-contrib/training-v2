@@ -24,5 +24,5 @@ asciidoctor -T _templates_v2 adoc/08_Summary.adoc -o html/08_Summary.html
 #open html/05_GettingMoreOutOfQueries.html
 #open html/06_CreatingNodesAndRelationships.html
 #open html/07_GettingMoreOutOfNeo4j.html
-open html/00_AboutThisCourse.html
-open html/08_Summary.html
+#open html/00_AboutThisCourse.html
+#open html/08_Summary.html

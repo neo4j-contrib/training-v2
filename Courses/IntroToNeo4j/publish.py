@@ -34,6 +34,7 @@ def update_wordpress_page(pageId, content):
     return pr.content
 
 if 'PUBLISH_DOCS_USERNAME' in os.environ and 'PUBLISH_DOCS_PASSWORD' in os.environ:
+  pageContent = update_wordpress_page(88656, get_page_content('00_AboutThisCourse.html'))
   pageContent = update_wordpress_page(88159, get_page_content('01_IntroductionToGraphDatabases.html'))
   pageContent = update_wordpress_page(88161, get_page_content('02_IntroductionToNeo4j.html'))
   pageContent = update_wordpress_page(88163, get_page_content('03_SettingUpYourDevelopmentEnvironment.html'))
@@ -41,6 +42,7 @@ if 'PUBLISH_DOCS_USERNAME' in os.environ and 'PUBLISH_DOCS_PASSWORD' in os.envir
   pageContent = update_wordpress_page(88167, get_page_content('05_GettingMoreOutOfQueries.html'))
   pageContent = update_wordpress_page(88169, get_page_content('06_CreatingNodesAndRelationships.html'))
   pageContent = update_wordpress_page(88171, get_page_content('07_GettingMoreOutOfNeo4j.html'))
+  pageContent = update_wordpress_page(88694, get_page_content('08_Summary.html'))
 else:
   print "Environment varisbles for PUBLISH_DOCS_USERNAME and PUBLISH_DOCS_PASSWORD must be set"
   sys.exit()
