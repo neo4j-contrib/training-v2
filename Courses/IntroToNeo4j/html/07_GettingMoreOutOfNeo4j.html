@@ -80,7 +80,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">8</strong>
               </span>
-              Summary</a>
+              The End</a>
             </li>
          </ul>
          <nav id="header-nav">
@@ -150,6 +150,10 @@
 
   .button a hover {
       background-color: #4ac084;
+  }
+
+  pre.cypher-syntax {
+    background-color: #d6e3f2;
   }
 </style>
 <script src="/online_training/cypher-gadget/libs/underscore.js"></script>
@@ -263,7 +267,7 @@ Access Neo4j resources.
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE p.name = $actorName
 RETURN m.released, m.title ORDER BY m.released DESC</pre>
@@ -291,7 +295,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:param actorName =&gt; 'Tom Hanks'</pre>
 </div>
 </div>
@@ -395,7 +399,7 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:params {actorName: 'Tom Cruise', movieName: 'Top Gun'}</pre>
 </div>
 </div>
@@ -497,7 +501,7 @@ and follow the instructions for Exercise 12.</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">EXPLAIN MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE p.name = $actorName AND
       m.released &lt;  $year
@@ -776,7 +780,7 @@ Existence constraints and node keys are only available in Enterprise Edition of 
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE</pre>
 </div>
 </div>
@@ -816,7 +820,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE (:Movie {title: 'The Matrix'})</pre>
 </div>
 </div>
@@ -882,7 +886,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE CONSTRAINT ON (m:Movie) ASSERT exists(m.tagline)</pre>
 </div>
 </div>
@@ -922,7 +926,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)</pre>
 </div>
 </div>
@@ -957,7 +961,7 @@ With the result:</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (p:Person), (m:Movie)
 WHERE p.name = 'Jessica Thompson' AND
 	  m.title = 'The Matrix'
@@ -1009,7 +1013,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CALL db.constraints()</pre>
 </div>
 </div>
@@ -1058,7 +1062,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>DROP CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)</pre>
 </div>
 </div>
@@ -1107,7 +1111,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CREATE CONSTRAINT ON (p:Person) ASSERT (p.name, p.born) IS NODE KEY</pre>
 </div>
 </div>
@@ -1147,7 +1151,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (p:Person)
 WHERE NOT exists(p.born)
 SET p.born = 0</pre>
@@ -1189,7 +1193,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CREATE (:Person {name: 'Jessica Thompson', born: 0})</pre>
 </div>
 </div>
@@ -1300,7 +1304,7 @@ Because index maintenance incurs additional overhead when nodes are created, We 
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (m:Movie)
 WHERE 1990 &lt; m.released &lt; 2000
 SET m.videoFormat = 'DVD'</pre>
@@ -1345,7 +1349,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CREATE INDEX ON :Movie(released)</pre>
 </div>
 </div>
@@ -1391,7 +1395,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (m:Movie)
 WHERE m.released &gt;= 2000
 SET m.videoFormat = 'DVD';
@@ -1442,7 +1446,7 @@ Notice that in the above Cypher statements we use the semi-colon <code>;</code> 
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CREATE INDEX ON :Movie(released, videoFormat)</pre>
 </div>
 </div>
@@ -1479,7 +1483,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CALL db.indexes()</pre>
 </div>
 </div>
@@ -1528,7 +1532,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>DROP INDEX ON :Movie(released, videoFormat)</pre>
 </div>
 </div>
@@ -1675,7 +1679,7 @@ AS row        // row is a variable that is used to extract data</pre></div></td>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>id,title,country,year,summary
 1,Wall Street,USA,1987, Every dream has a price.
 2,The American President,USA,1995, Why can't the most powerful man in the world have the one thing he wants most?
@@ -1707,7 +1711,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>LOAD CSV WITH HEADERS
 FROM 'http://data.neo4j.com/intro-neo4j/movies_to_load.csv'
 AS line
@@ -1744,7 +1748,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>LOAD CSV WITH HEADERS
 FROM 'https://data.neo4j.com/intro-neo4j/movies_to_load.csv'
 AS line
@@ -1787,7 +1791,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>LOAD CSV WITH HEADERS
 FROM 'http://data.neo4j.com/intro-neo4j/movies_to_load.csv'
 AS line
@@ -1824,7 +1828,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
 FROM 'https://data.neo4j.com/intro-neo4j/movies_to_load.csv'
 AS line
@@ -1867,7 +1871,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>Id,name,birthyear
 1,Charlie Sheen, 1965
 2,Oliver Stone, 1946
@@ -1897,7 +1901,7 @@ We use the <code>ON CREATE</code> clause to set the values for <em>name</em> and
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
 FROM 'https://data.neo4j.com/intro-neo4j/persons_to_load.csv'
 AS line
@@ -1942,7 +1946,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>personId,movieId,role
 1,1,Bud Fox
 4,1,Carl Fox
@@ -1972,7 +1976,7 @@ This model includes a relationship property of <em>role</em>, which is passed vi
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
 FROM 'https://data.neo4j.com/intro-neo4j/roles_to_load.csv'
 AS line
@@ -2026,7 +2030,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>title;released;summary;actor;birthyear;characters
 Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Michael J. Fox;1961;Marty McFly
 Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Christopher Lloyd;1938;Dr. Emmet Brown</pre>
@@ -2051,7 +2055,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
 FROM 'https://data.neo4j.com/intro-neo4j/movie_actor_roles_to_load.csv'
 AS line FIELDTERMINATOR ';'
@@ -2284,8 +2288,13 @@ window.trainingClassName = 'online-training-v2';
     if (!collection) collection = document.body.getElementsByTagName("pre");
 
     for (var i = 0; i < collection.length; ++i) {
+      var syntax = false;
       var node = collection[i];
       var mode = node.getAttribute("data-lang") || defaultMode;
+      if (mode == "cypher-syntax") {
+        syntax = true;
+        mode = "cypher";
+      }
       if (!mode) continue;
 
       var text = [];
@@ -2294,6 +2303,9 @@ window.trainingClassName = 'online-training-v2';
       CodeMirror.runMode(text.join(""), mode, node);
 
       node.className += " cm-s-default";
+      if (syntax) {
+        node.className += " cypher-syntax";
+      }
     }
   };
 

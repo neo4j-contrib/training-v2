@@ -98,28 +98,21 @@ You can filter the types of nodes that you are querying, by specifying a **label
 A node can have zero or more labels. 
 
 
-
-// syntax table 
-{set:cellbgcolor!}
-[colums=1,options="header",stripes=none]
-|===
-d|[red]#Here are simplified syntax examples for specifying a node:#
-l|
+*Here are simplified syntax examples for specifying a node:*
+[source,cypher-syntax]
+----
 ()
 (variable) 
 (:Label)
 (variable:Label) 
 (:Label1:Label2) 
 (variable:Label1:Label2)
-|===
-{set:cellbgcolor!}
+----
+
 Notice that a node must have the parentheses. The labels and the variable for a node are optional.
 
-[cols=1, frame="none"]
-|===
-a|
-Here are examples of specifying nodes in Cypher:
-[listing,source,cypher]
+*Here are examples of specifying nodes in Cypher:*
+[source,cypher-syntax]
 ----
 ()					// anonymous node not be referenced later in the query 
 (p)					// variable p, a reference to a node used later 
@@ -129,7 +122,7 @@ Here are examples of specifying nodes in Cypher:
 ----
 
 A node can have multiple labels. For example a node can be created with a label of _Person_ and that same node can be modified to also have the label of _Actor_ and/or _Director_. 
-|===
+
 ==== Comments in Cypher
 
 In Cypher, you can place a comment (starts with `//`) anywhere in your Cypher to specify that the rest of the line is interpreted as a comment.
@@ -172,21 +165,18 @@ Later in this training, you will learn how to use `MATCH` to select nodes and da
 First, you will learn how to simply return nodes.
 
 // syntax table 
-{set:cellbgcolor!}
-[colums=1,options="header",stripes=none]
-|===
-d|[red]#Here are simplified syntax examples for a query:#
-l|
+*Here are simplified syntax examples for a query:*
+[source,cypher-syntax]
 ----
 MATCH (variable) 
 RETURN variable 
 ----
-l|
+
+[source,cypher-syntax]
 ----
 MATCH (variable:Label) 
 RETURN variable
 ----
-|===
 
 
 Notice that the Cypher keywords `MATCH` and `RETURN` are upper-case. 
@@ -194,17 +184,14 @@ This coding convention is described in the _Cypher Style Guide_ and will be used
 This `MATCH` clause returns all nodes in the graph, where the optional _Label_ is used to return a subgraph if the graph contains nodes of different types. 
 The _variable_ must be specified here, otherwise the query will have nothing to return.
 
-[cols=1, frame="none"]
-|===
-a|
-Here are example queries to the _Movie_ database:
-[source,cypher]
+*Here are example queries to the _Movie_ database:*
+[source,cypher-syntax]
 ----
 MATCH (n) 			// returns all nodes in the graph
 RETURN n
 ----
 
-[source,cypher]
+[source,cypher-syntax]
 ----
 MATCH (p:Person) 	// returns all Person nodes in the graph
 RETURN p
@@ -217,7 +204,6 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/PersonNodes-graph.png[PersonNodes,width=500]
-|===
 
 [NOTE]
 When you specify a pattern for a `MATCH` clause, you should always specify a node label if possible. In doing so, the graph engine uses an index to retrieve the nodes which will perform better than not using a label for the `MATCH`.
@@ -287,30 +273,33 @@ You have learned previously that you can filter node retrieval by specifying a l
 Another way you can filter a retrieval is to specify a value for a property. 
 Any node that matches the value will be retrieved.
 
-// syntax table
-{set:cellbgcolor!}
-[colums=1,options="header",stripes=none]
-|===
-d|[red]#Here are  simplified syntax examples for a query where we specify one or more values for  properties that will be used to filter the query results and return a subset of the graph:#
-l|
+*Here are  simplified syntax examples for a query where we specify one or more values for  properties that will be used to filter the query results and return a subset of the graph:*
+[source,cypher-syntax]
+----
 MATCH (variable {propertyKey: propertyValue}) 
-RETURN variable 
-l|
+RETURN variable
+----
+
+[source,cypher-syntax]
+----
 MATCH (variable:Label {propertyKey: propertyValue}) 
 RETURN variable 
-l|
+----
+
+[source,cypher-syntax]
+----
 MATCH (variable {propertyKey1: propertyValue1, propertyKey2: propertyValue2}) 
 RETURN variable  
-l|
+----
+
+[source,cypher-syntax]
+----
 MATCH (variable:Label {propertyKey: propertyValue, propertyKey2: propertyValue2}) 
 RETURN variable
-|===
+----
 
 
-[cols=1, frame="none"]
-|===
-a|
-Here is an example where we filter the query results using a property value. 
+*Here is an example where we filter the query results using a property value.*
 We only retrieve _Person_ nodes that have a _born_ property value of _1970_.
 
 [source,cypher]
@@ -323,13 +312,9 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/MatchPersonBorn1970.png[MatchPersonBorn1970,width=500]
-|===
 
 
-[cols=1, frame="none"]
-|===
-a|
-Here is an example where we specify two property values for the query. 
+*Here is an example where we specify two property values for the query. *
 [source,cypher]
 ----
 MATCH (m:Movie {released: 2003, tagline: 'Free your mind'}) 
@@ -342,7 +327,6 @@ Here is the result returned:
 image::{imagedir}/TwoPropertiesForFilter.png[TwoPropertiesForFilter,width=500]
 
 As it turns out, there is only one movie with the _tagline_, _Free your mind_ in the _Movie_ database, but if we had specified a different year, the query would not have returned a value because when you specify properties, both properties must match.
-|===
 
 ==== Returning property values
 
@@ -361,31 +345,30 @@ Thus far, you have seen how to retrieve nodes and return nodes (entire graph or 
 You can use the `RETURN` clause to return property values of nodes retrieved. 
 
 // syntax table 
-{set:cellbgcolor!}
-[colums=1,options="header",stripes=none]
-|===
-d|[red]#Here are simplified syntax examples for returning property values, rather than nodes:#
-l|
+*Here are simplified syntax examples for returning property values, rather than nodes:*
+[source,cypher-syntax]
 ----
 MATCH (variable {prop1: value}) 
 RETURN variable.prop2 
 ----
-l|
+
+[source,cypher-syntax]
 ----
 MATCH (variable:Label {prop1: value}) 
 RETURN variable.prop2
 ----
-l|
+
+[source,cypher-syntax]
 ----
 MATCH (variable:Label {prop1: value, prop2: value}) 
 RETURN variable.prop3
 ----
-l|
+
+[source,cypher-syntax]
 ----
 MATCH (variable {prop1:value}) 
 RETURN variable.prop2, variable.prop3 
 ----
-|===
 
 
 [cols=1, frame="none"]
@@ -409,15 +392,12 @@ image::{imagedir}/MatchPersonBorn1965.png[MatchPersonBorn1965,width=500]
 
 If you want to customize the headings for a table containing property values, you can specify *aliases* for column headers.
 
-// syntax table 
-{set:cellbgcolor!}
-[colums=1,options="header",stripes=none]
-|===
-d|[red]#Here is the simplified syntax for specifying an alias for a property value:#
-l|
+*Here is the simplified syntax for specifying an alias for a property value:*
+[source,cypher-syntax]
+----
 MATCH (variable:Label {propertyKey1: propertyValue1}) 
 RETURN variable.propertyKey2 AS alias2 
-|===
+----
 
 [NOTE]
 If you want a heading to contain a space between strings, you must specify the alias with the back tick _`_ character, rather than a single or double quote character. In fact, you can specify any variable, label, relationship type, or property key with a space also by using the back tick _`_ character.
@@ -456,7 +436,7 @@ Thus far, you have learned how to specify a node in a `MATCH` clause.
 You can specify nodes and their relationships to traverse the graph and quickly find the data of interest. 
 
 .Here is how Cypher uses ASCII art to specify path used for a query:
-[source,cypher]
+[source,cypher-syntax]
 ----
 ()			// a node
 ()--()	    // 2 nodes have some type of relationship
@@ -468,21 +448,18 @@ You can specify nodes and their relationships to traverse the graph and quickly 
 
 In your `MATCH` clause, you specify how you want a relationship to be used to perform the query. The relationship can be specified with or without direction.
 
-// syntax table 
-{set:cellbgcolor!}
-[colums=1,options="header",stripes=none]
-|===
-d|[red]#Here are simplified syntax examples for retrieving a set of nodes that satisfy one or more directed and typed relationships:#
-l|
+*Here are simplified syntax examples for retrieving a set of nodes that satisfy one or more directed and typed relationships:*
+[source,cypher-syntax]
 ----
 MATCH (node1)-[:REL_TYPE]->(node2) 
 RETURN node1, node2
 ----
-l|
+
+[source,cypher-syntax]
 ----
 MATCH (node1)-[:REL_TYPEA \| :REL_TYPEB]->(node2) 
 RETURN node1, node2
-|===
+----
 
 
 _where:_

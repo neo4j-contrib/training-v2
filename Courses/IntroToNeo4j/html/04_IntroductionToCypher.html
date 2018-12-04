@@ -80,7 +80,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">8</strong>
               </span>
-              Summary</a>
+              The End</a>
             </li>
          </ul>
          <nav id="header-nav">
@@ -150,6 +150,10 @@
 
   .button a hover {
       background-color: #4ac084;
+  }
+
+  pre.cypher-syntax {
+    background-color: #d6e3f2;
   }
 </style>
 <script src="/online_training/cypher-gadget/libs/underscore.js"></script>
@@ -361,50 +365,37 @@ A node can have zero or more labels.</p>
 
 
 <div class="paragraph">
-<p></p>
+<p><strong>Here are simplified syntax examples for specifying a node:</strong></p>
 </div>
 
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for specifying a node:</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>()
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">()
 (variable)
 (:Label)
 (variable:Label)
 (:Label1:Label2)
-(variable:Label1:Label2)</pre></div></td>
-</tr>
-</tbody>
-</table>
+(variable:Label1:Label2)</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
 
 
 <div class="paragraph">
 <p>Notice that a node must have the parentheses. The labels and the variable for a node are optional.</p>
 </div>
 
-<table class="tableblock frame-none grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div>
+
 
 <div class="paragraph">
-<p>Here are examples of specifying nodes in Cypher:</p>
+<p><strong>Here are examples of specifying nodes in Cypher:</strong></p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
-<pre>()					// anonymous node not be referenced later in the query
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">()					// anonymous node not be referenced later in the query
 (p)					// variable p, a reference to a node used later
 (:Person)			// anonymous node of type Person
 (p:Person)			// p, a reference to a node of type Person
@@ -419,10 +410,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>A node can have multiple labels. For example a node can be created with a label of <em>Person</em> and that same node can be modified to also have the label of <em>Actor</em> and/or <em>Director</em>.</p>
 </div>
-</div></td>
-</tr>
-</tbody>
-</table>
+
 </div>
 <div  id="_comments_in_cypher" class="sect3 "  >
 <h4>Comments in Cypher</h4>
@@ -492,33 +480,27 @@ First, you will learn how to simply return nodes.</p>
 
 
 <div class="paragraph">
-<p></p>
+<p><strong>Here are simplified syntax examples for a query:</strong></p>
 </div>
 
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for a query:</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (variable)
-RETURN variable
-----</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (variable:Label)
-RETURN variable
-----</pre></div></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable)
+RETURN variable</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable:Label)
+RETURN variable</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
 
 
 <div class="paragraph">
@@ -528,21 +510,15 @@ This <code>MATCH</code> clause returns all nodes in the graph, where the optiona
 The <em>variable</em> must be specified here, otherwise the query will have nothing to return.</p>
 </div>
 
-<table class="tableblock frame-none grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div>
+
 
 <div class="paragraph">
-<p>Here are example queries to the <em>Movie</em> database:</p>
+<p><strong>Here are example queries to the <em>Movie</em> database:</strong></p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
-<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (n) 			// returns all nodes in the graph
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (n) 			// returns all nodes in the graph
 RETURN n</pre>
 </div>
 </div>
@@ -550,8 +526,8 @@ RETURN n</pre>
 data-lang=”{language}” class=””
 -->
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
-<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person) 	// returns all Person nodes in the graph
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (p:Person) 	// returns all Person nodes in the graph
 RETURN p</pre>
 </div>
 </div>
@@ -575,10 +551,7 @@ The default view of the returned nodes are the nodes that were referenced by the
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PersonNodes-graph.png" alt="PersonNodes" width="500">
 </p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -715,52 +688,54 @@ Any node that matches the value will be retrieved.</p>
 
 
 <div class="paragraph">
-<p></p>
+<p><strong>Here are  simplified syntax examples for a query where we specify one or more values for  properties that will be used to filter the query results and return a subset of the graph:</strong></p>
 </div>
 
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><span class="red">Here are  simplified syntax examples for a query where we specify one or more values for  properties that will be used to filter the query results and return a subset of the graph:</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable {propertyKey: propertyValue})
-RETURN variable</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {propertyKey: propertyValue})
-RETURN variable</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable {propertyKey1: propertyValue1, propertyKey2: propertyValue2})
-RETURN variable</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {propertyKey: propertyValue, propertyKey2: propertyValue2})
-RETURN variable</pre></div></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-none grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable {propertyKey: propertyValue})
+RETURN variable</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable:Label {propertyKey: propertyValue})
+RETURN variable</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable {propertyKey1: propertyValue1, propertyKey2: propertyValue2})
+RETURN variable</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable:Label {propertyKey: propertyValue, propertyKey2: propertyValue2})
+RETURN variable</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+
 
 <div class="paragraph">
-<p>Here is an example where we filter the query results using a property value.
+<p><strong>Here is an example where we filter the query results using a property value.</strong>
 We only retrieve <em>Person</em> nodes that have a <em>born</em> property value of <em>1970</em>.</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person {born: 1970})
 RETURN p</pre>
 </div>
@@ -778,24 +753,15 @@ data-lang=”{language}” class=””
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MatchPersonBorn1970.png" alt="MatchPersonBorn1970" width="500">
 </p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-none grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div>
+</div>
+
 
 <div class="paragraph">
-<p>Here is an example where we specify two property values for the query.</p>
+<p>*Here is an example where we specify two property values for the query. *</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie {released: 2003, tagline: 'Free your mind'})
 RETURN m</pre>
 </div>
@@ -819,10 +785,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>As it turns out, there is only one movie with the <em>tagline</em>, <em>Free your mind</em> in the <em>Movie</em> database, but if we had specified a different year, the query would not have returned a value because when you specify properties, both properties must match.</p>
 </div>
-</div></td>
-</tr>
-</tbody>
-</table>
+
 </div>
 <div  id="_returning_property_values" class="sect3 "  >
 <h4>Returning property values</h4>
@@ -844,45 +807,45 @@ You can use the <code>RETURN</code> clause to return property values of nodes re
 
 
 <div class="paragraph">
-<p></p>
+<p><strong>Here are simplified syntax examples for returning property values, rather than nodes:</strong></p>
 </div>
 
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for returning property values, rather than nodes:</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (variable {prop1: value})
-RETURN variable.prop2
-----</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (variable:Label {prop1: value})
-RETURN variable.prop2
-----</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (variable:Label {prop1: value, prop2: value})
-RETURN variable.prop3
-----</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (variable {prop1:value})
-RETURN variable.prop2, variable.prop3
-----</pre></div></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable {prop1: value})
+RETURN variable.prop2</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable:Label {prop1: value})
+RETURN variable.prop2</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable:Label {prop1: value, prop2: value})
+RETURN variable.prop3</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable {prop1:value})
+RETURN variable.prop2, variable.prop3</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
 <table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
@@ -896,7 +859,7 @@ RETURN variable.prop2, variable.prop3
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person {born: 1965})
 RETURN p.name, p.born</pre>
 </div>
@@ -930,25 +893,18 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p></p>
+<p><strong>Here is the simplified syntax for specifying an alias for a property value:</strong></p>
 </div>
 
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><span class="red">Here is the simplified syntax for specifying an alias for a property value:</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>MATCH (variable:Label {propertyKey1: propertyValue1})
-RETURN variable.propertyKey2 AS alias2</pre></div></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (variable:Label {propertyKey1: propertyValue1})
+RETURN variable.propertyKey2 AS alias2</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -974,7 +930,7 @@ If you want a heading to contain a space between strings, you must specify the a
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person {born: 1965})
 RETURN p.name AS name, p.born AS `birth year`</pre>
 </div>
@@ -1030,8 +986,8 @@ You can specify nodes and their relationships to traverse the graph and quickly 
 
 <div class="listingblock">
 <div class="title">Here is how Cypher uses ASCII art to specify path used for a query:</div>
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
-<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">()			// a node
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">()			// a node
 ()--()	    // 2 nodes have some type of relationship
 ()--&gt;()	    // the first node has a relationship to the second node
 ()&lt;--()	    // the second node has a relationship to the first node</pre>
@@ -1052,32 +1008,27 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p></p>
+<p><strong>Here are simplified syntax examples for retrieving a set of nodes that satisfy one or more directed and typed relationships:</strong></p>
 </div>
 
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><span class="red">Here are simplified syntax examples for retrieving a set of nodes that satisfy one or more directed and typed relationships:</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (node1)-[:REL_TYPE]-&gt;(node2)
-RETURN node1, node2
-----</pre></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="literal"><pre>----
-MATCH (node1)-[:REL_TYPEA | :REL_TYPEB]-&gt;(node2)
-RETURN node1, node2</pre></div></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (node1)-[:REL_TYPE]-&gt;(node2)
+RETURN node1, node2</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (node1)-[:REL_TYPEA \| :REL_TYPEB]-&gt;(node2)
+RETURN node1, node2</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
 
 
 <div class="paragraph">
@@ -1174,7 +1125,7 @@ In other words, show me the actors that acted in <em>The Matrix</em>.</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[rel:ACTED_IN]-&gt;(m:Movie {title: 'The Matrix'})
 RETURN p, rel, m</pre>
 </div>
@@ -1217,7 +1168,7 @@ That is, you should <strong>not</strong> specify this same query as:</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p)-[rel:ACTED_IN]-&gt;(m {title:'The Matrix'})
 RETURN p,m</pre>
 </div>
@@ -1244,7 +1195,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person {name: 'Tom Hanks'})-[:ACTED_IN |:DIRECTED]-&gt;(m:Movie)
 RETURN p.name, m.title</pre>
 </div>
@@ -1290,7 +1241,7 @@ You can simply use the anonymous node in the query as follows:</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(:Movie {title: 'The Matrix'})
 RETURN p.name</pre>
 </div>
@@ -1343,7 +1294,7 @@ This query returns more nodes with the relationships types, <em>DIRECTED</em>, <
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)--&gt;(m:Movie {title: 'The Matrix'})
 RETURN p, m</pre>
 </div>
@@ -1378,7 +1329,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)--(m:Movie {title: 'The Matrix'})
 RETURN p, m</pre>
 </div>
@@ -1387,7 +1338,7 @@ RETURN p, m</pre>
 data-lang=”{language}” class=””
 -->
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)&lt;--(p:Person {name: 'Keanu Reeves'})
 RETURN p, m</pre>
 </div>
@@ -1426,7 +1377,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[rel]-&gt;(:Movie {title:'The Matrix'})
 RETURN p.name, type(rel)</pre>
 </div>
@@ -1494,7 +1445,7 @@ Each relationship has properties that further describe the relationship using th
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:REVIEWED {rating: 65}]-&gt;(:Movie {title: 'The Da Vinci Code'})
 RETURN p.name</pre>
 </div>
@@ -1561,7 +1512,7 @@ Notice that this relationship is directional.</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH  (p:Person)-[:FOLLOWS]-&gt;(:Person {name:'Angela Scope'})
 RETURN p</pre>
 </div>
@@ -1596,7 +1547,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH  (p:Person)&lt;-[:FOLLOWS]-(:Person {name:'Angela Scope'})
 RETURN p</pre>
 </div>
@@ -1633,7 +1584,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH  (p1:Person)-[:FOLLOWS]-(p2:Person {name:'Angela Scope'})
 RETURN p1, p2</pre>
 </div>
@@ -1677,7 +1628,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH  (p:Person)-[:FOLLOWS]-&gt;(:Person)-[:FOLLOWS]-&gt;(:Person {name:'Jessica Thompson'})
 RETURN p</pre>
 </div>
@@ -1712,7 +1663,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH  path = (:Person)-[:FOLLOWS]-&gt;(:Person)-[:FOLLOWS]-&gt;(:Person {name:'Jessica Thompson'})
 RETURN  path</pre>
 </div>
@@ -1757,7 +1708,7 @@ For example, suppose we wanted to get a result stream containing rows of actors 
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(d:Person)
 RETURN a.name, m.title, d.name</pre>
 </div>
@@ -1842,7 +1793,7 @@ Specify anonymous relationships with <code>--&gt;</code>, <code>--</code>, or <c
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (:Person {name: 'Diane Keaton'})-[movRel:ACTED_IN]-&gt;
 (:Movie {title:"Something's Gotta Give"})
 RETURN movRel.roles</pre>
@@ -2031,8 +1982,13 @@ window.trainingClassName = 'online-training-v2';
     if (!collection) collection = document.body.getElementsByTagName("pre");
 
     for (var i = 0; i < collection.length; ++i) {
+      var syntax = false;
       var node = collection[i];
       var mode = node.getAttribute("data-lang") || defaultMode;
+      if (mode == "cypher-syntax") {
+        syntax = true;
+        mode = "cypher";
+      }
       if (!mode) continue;
 
       var text = [];
@@ -2041,6 +1997,9 @@ window.trainingClassName = 'online-training-v2';
       CodeMirror.runMode(text.join(""), mode, node);
 
       node.className += " cm-s-default";
+      if (syntax) {
+        node.className += " cypher-syntax";
+      }
     }
   };
 

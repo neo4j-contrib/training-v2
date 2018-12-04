@@ -80,7 +80,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">8</strong>
               </span>
-              Summary</a>
+              The End</a>
             </li>
          </ul>
          <nav id="header-nav">
@@ -150,6 +150,10 @@
 
   .button a hover {
       background-color: #4ac084;
+  }
+
+  pre.cypher-syntax {
+    background-color: #d6e3f2;
   }
 </style>
 <script src="/online_training/cypher-gadget/libs/underscore.js"></script>
@@ -264,7 +268,7 @@ In the <code>WHERE</code> clause, you can place conditions that are evaluated at
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie {released: 2008})
 RETURN p, m</pre>
 </div>
@@ -279,7 +283,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE m.released = 2008
 RETURN p, m</pre>
@@ -311,7 +315,7 @@ The benefit of using a <code>WHERE</code> clause is that you can specify potenti
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE m.released = 2008 OR m.released = 2009
 RETURN p, m</pre>
@@ -344,7 +348,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE m.released &gt;= 2003 AND m.released &lt;= 2004
 RETURN p.name, m.title, m.released</pre>
@@ -380,7 +384,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE 2003 &lt;= m.released &lt;= 2004
 RETURN p.name, m.title, m.released</pre>
@@ -431,7 +435,7 @@ You can filter node labels in the <code>WHERE</code> clause also:</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
 RETURN p.name</pre>
 </div>
@@ -440,7 +444,7 @@ RETURN p.name</pre>
 data-lang=”{language}” class=””
 -->
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(:Movie {title: 'The Matrix'})
 RETURN p.name</pre>
 </div>
@@ -455,7 +459,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p)
 WHERE p:Person
 RETURN p.name</pre>
@@ -465,7 +469,7 @@ RETURN p.name</pre>
 data-lang=”{language}” class=””
 -->
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p)-[:ACTED_IN]-&gt;(m)
 WHERE p:Person AND m:Movie AND m.title='The Matrix'
 RETURN p.name</pre>
@@ -508,7 +512,7 @@ Suppose we only want to return the movies that the actor, <em>Jack Nicholson</em
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE p.name='Jack Nicholson' AND exists(m.tagline)
 RETURN m.title, m.tagline</pre>
@@ -554,7 +558,7 @@ You can specify <code>STARTS WITH</code>, <code>ENDS WITH</code>, and <code>CONT
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;()
 WHERE p.name STARTS WITH 'Michael'
 RETURN p.name</pre>
@@ -592,7 +596,7 @@ For example, if you want to test a value, regardless of its case, you could call
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;()
 WHERE toLower(p.name) STARTS WITH 'michael'
 RETURN p.name</pre>
@@ -641,7 +645,7 @@ Here is an example where we test the name of the <em>Person</em> using a regular
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
 WHERE p.name =~'Tom.*'
 RETURN p.name</pre>
@@ -699,7 +703,7 @@ You can specify a <code>NOT</code> specifier on a pattern in a <code>WHERE</code
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:WROTE]-&gt;(m:Movie)
 RETURN p.name, m.title</pre>
 </div>
@@ -734,7 +738,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:WROTE]-&gt;(m:Movie)
 WHERE NOT exists( (p)-[:DIRECTED]-&gt;() )
 RETURN p.name, m.title</pre>
@@ -770,7 +774,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (gene:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(other:Person)
 WHERE gene.name= 'Gene Hackman'
 AND exists( (other)-[:DIRECTED]-&gt;() )
@@ -825,7 +829,7 @@ If you are testing with a property of a string type, then all the elements of th
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
 WHERE p.born IN [1965, 1970]
 RETURN p.name as name, p.born as yearBorn</pre>
@@ -868,7 +872,7 @@ Here is the query we write to return the name of the actor who played <em>Neo</e
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[r:ACTED_IN]-&gt;(m:Movie)
 WHERE  'Neo' IN r.roles AND m.title='The Matrix'
 RETURN p.name</pre>
@@ -938,7 +942,7 @@ and follow the instructions for Exercise 4.</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie),
       (m:Movie)&lt;-[:DIRECTED]-(d:Person)
 WHERE m.released = 2000
@@ -955,7 +959,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(d:Person)
 WHERE m.released = 2000
 RETURN a.name, m.title, d.name</pre>
@@ -995,7 +999,7 @@ To do this, we specify two paths for the <code>MATCH</code>:</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (keanu:Person)-[:ACTED_IN]-&gt;(movie:Movie)&lt;-[:ACTED_IN]-(n:Person),
      (hugo:Person)
 WHERE keanu.name='Keanu Reeves' AND
@@ -1051,7 +1055,7 @@ Here is the query to do this:</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (meg:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(:Person),
       (:Person)-[:ACTED_IN]-&gt;(m)
 WHERE meg.name = 'Meg Ryan'
@@ -1091,7 +1095,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH megPath = (meg:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(d:Person),
       (other:Person)-[:ACTED_IN]-&gt;(m)
 WHERE meg.name = 'Meg Ryan'
@@ -1154,7 +1158,7 @@ Here is an example where we want to retrieve all <em>Person</em> nodes that are 
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (follower:Person)-[:FOLLOWS*2]-&gt;(p:Person)
 WHERE follower.name = 'Paul Blythe'
 RETURN p</pre>
@@ -1277,7 +1281,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH p = shortestPath((m1:Movie)-[*]-(m2:Movie))
 WHERE m1.title = 'A Few Good Men' AND
       m2.title = 'The Matrix'
@@ -1344,7 +1348,7 @@ The <code>OPTIONAL MATCH</code> is specified to include people who have reviewed
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
 WHERE p.name STARTS WITH 'James'
 OPTIONAL MATCH (p)-[r:REVIEWED]-&gt;(m:Movie)
@@ -1390,7 +1394,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">// implicitly groups by a.name and d.name
 MATCH (a)-[:ACTED_IN]-&gt;(m)&lt;-[:DIRECTED]-(d)
 RETURN a.name, d.name, count(*)</pre>
@@ -1427,7 +1431,7 @@ Here is an example where we collect the list of movies that <em>Tom Cruise</em> 
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE p.name ='Tom Cruise'
 RETURN collect(m.title) AS `movies for Tom Cruise`</pre>
@@ -1481,7 +1485,7 @@ When you use <code>count(_)</code>, the graph engine does an implicit group by b
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (actor:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(director:Person)
 RETURN actor.name, director.name, count(m) AS collaborations, collect(m.title) AS movies</pre>
 </div>
@@ -1536,7 +1540,7 @@ The <code>WITH</code> clause does the counting and collecting, but is then used 
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WITH  a, count(a) AS numMovies, collect(m.title) as movies
 WHERE numMovies &gt; 1 AND numMovies &lt; 4
@@ -1593,7 +1597,7 @@ You have to name all expressions with an alias in a <code>WITH</code> that are n
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
 WITH p, size((p)-[:ACTED_IN]-&gt;(:Movie)) AS movies
 WHERE movies &gt;= 5
@@ -1668,7 +1672,7 @@ You do so by using the <code>DISTINCT</code> keyword.</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
 WHERE p.name = 'Tom Hanks'
 RETURN m.released, collect(m.title) AS movies</pre>
@@ -1704,7 +1708,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
 WHERE p.name = 'Tom Hanks'
 RETURN m.released, collect(DISTINCT m.title) AS movies</pre>
@@ -1743,7 +1747,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
 WHERE p.name = 'Tom Hanks'
 WITH DISTINCT m
@@ -1792,7 +1796,7 @@ Just as you can use <code>DISTINCT</code> with <code>WITH</code> to eliminate du
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
 WHERE p.name = 'Tom Hanks'
 RETURN m.released, collect(DISTINCT m.title) AS movies ORDER BY m.released DESC</pre>
@@ -1840,7 +1844,7 @@ You could do so as follows where you limit the number of results using the <code
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
 RETURN m.title as title, m.released as year ORDER BY m.released DESC LIMIT 10</pre>
 </div>
@@ -1884,7 +1888,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WITH a, count(*) AS numMovies, collect(m.title) as movies
 WHERE numMovies = 5
@@ -1959,7 +1963,7 @@ A Cypher <code>map</code> is list of key/value pairs where each element of the l
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WITH  m, count(m) AS numCast, collect(a.name) as cast
 RETURN m.title, cast, numCast ORDER BY size(cast)</pre>
@@ -2010,7 +2014,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">WITH [1, 2, 3] AS list
 UNWIND list AS row
 RETURN list, row</pre>
@@ -2075,7 +2079,7 @@ Notice that the <code>date()</code> function is called and then converted to a s
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (actor:Person)-[:ACTED_IN]-&gt;(:Movie)
 WHERE exists(actor.born)
 with DISTINCT actor, date().year  - actor.born as age
@@ -2155,7 +2159,7 @@ and follow the instructions for Exercise 7.</p>
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[rel]-&gt;(m:Movie)&lt;-[:PRODUCED]-(:Person)</pre>
 </div>
 </div>
@@ -2200,7 +2204,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
 WHERE m.released XX [2000, 2002, 2004, 2006, 2008]
 RETURN m.title</pre>
@@ -2247,7 +2251,7 @@ data-lang=”{language}” class=””
 </div>
 
 <div class="listingblock">
-<div class="content code-panel" style="width: 100%; height: auto; border: medium 1px;">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WITH  m, count(m) AS numMovies, collect(m.title) as movies
 WHERE numMovies &gt; 1 AND numMovies &lt; 4
@@ -2344,8 +2348,13 @@ window.trainingClassName = 'online-training-v2';
     if (!collection) collection = document.body.getElementsByTagName("pre");
 
     for (var i = 0; i < collection.length; ++i) {
+      var syntax = false;
       var node = collection[i];
       var mode = node.getAttribute("data-lang") || defaultMode;
+      if (mode == "cypher-syntax") {
+        syntax = true;
+        mode = "cypher";
+      }
       if (!mode) continue;
 
       var text = [];
@@ -2354,6 +2363,9 @@ window.trainingClassName = 'online-training-v2';
       CodeMirror.runMode(text.join(""), mode, node);
 
       node.className += " cm-s-default";
+      if (syntax) {
+        node.className += " cypher-syntax";
+      }
     }
   };
 

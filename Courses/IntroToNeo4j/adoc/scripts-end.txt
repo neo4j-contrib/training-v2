@@ -28,8 +28,13 @@ window.trainingClassName = 'online-training-v2';
     if (!collection) collection = document.body.getElementsByTagName("pre");
 
     for (var i = 0; i < collection.length; ++i) {
+      var syntax = false;
       var node = collection[i];
       var mode = node.getAttribute("data-lang") || defaultMode;
+      if (mode == "cypher-syntax") {
+        syntax = true;
+        mode = "cypher";
+      }
       if (!mode) continue;
 
       var text = [];
@@ -38,6 +43,9 @@ window.trainingClassName = 'online-training-v2';
       CodeMirror.runMode(text.join(""), mode, node);
 
       node.className += " cm-s-default";
+      if (syntax) {
+        node.className += " cypher-syntax";
+      }
     }
   };
 
