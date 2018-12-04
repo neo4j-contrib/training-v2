@@ -67,6 +67,7 @@ Here are some examples of creating a single node in Cypher:
 [frame="none",stripes=none,grid=none,width="100%"cols="40,60"]
 |===
 a|
+[source,cypher]
 ----
 CREATE (:Movie 
    {title: 'Batman Begins'}
@@ -74,6 +75,7 @@ CREATE (:Movie
 ----
 |Adds a node to the graph of type _Movie_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the label _Movie_ can also be retrieved which will contain this node.
 a|
+[source,cypher]
 ----
 CREATE (:Movie:Action 
    {title: 'Batman Begins'}
@@ -81,6 +83,7 @@ CREATE (:Movie:Action
 ----
 |Adds a node with two labels to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node.
 a|
+[source,cypher]
 ----
 CREATE (m:Movie:Action 
    {title: 'Batman Begins'}
@@ -88,6 +91,7 @@ CREATE (m:Movie:Action
 ----
 |Adds a node to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. The variable _m_ can be used for later processing after the `CREATE` clause.
 a|
+[source,cypher]
 ----
 CREATE` (m:Movie:Action 
    {title: ' Batman Begins'}
@@ -121,6 +125,7 @@ You can create multiple nodes by simply separating the nodes specified with comm
 a|
 Here is an example, where we create some _Person_ nodes that will represent some of the people associated with the movie _Batman Begins_: 
 
+[source,cypher]
 ----
 CREATE 
 (:Person {name: 'Michael Caine', born: 1933}),
@@ -168,6 +173,7 @@ If you attempt to add a label to a node for which the label already exists, the 
 a|
 Here is an example where we add the _Action_ label to the node that has a label, _Movie_:
 
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE m.title = 'Batman Begins'
@@ -203,6 +209,7 @@ If you attempt to remove a label from a node for which the label does not exist,
 a|
 Here is an example where we remove the _Action_ label from the node that has a labels, _Movie_ and _Action_:
 
+[source,cypher]
 ----
 MATCH (m:Movie:Action)
 WHERE m.title = 'Batman Begins'
@@ -247,6 +254,7 @@ When specify the JSON-style object for assignment (using `=`) of the property va
 a|
 Here is an example where we add the properties _released_  and _lengthInMinutes_ to the movie _Batman Begins_:
 
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE m.title = 'Batman Begins'
@@ -265,6 +273,7 @@ image::{imagedir}/AddReleasedMinutesProperties.png[AddReleasedMinutesProperties,
 |===
 a|Here is another example where we set the property values to the movie node using the JSON-style object containing the property keys and values. Note that [.underline]#all# properties must be included in the object.
 
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE m.title = 'Batman Begins'
@@ -295,6 +304,7 @@ image::{imagedir}/AllPropertyKeys.png[AllPropertyKeys,width=800]
 |===
 a|Here is an example where we use the JSON-style object to add the _awards_ property to the node and update the _grossMillions_ property:
 
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE m.title = 'Batman Begins'
@@ -329,6 +339,7 @@ SET x.propertyName = null
 a|
 Suppose we determined that no other _Movie_ node in the graph has the properties, _videoFormat_ and _grossMillions_. There is no restriction that nodes of the same type must have the same properties. However, we have decided that we want to remove these properties from this node. Here is example Cypher to remove this property from this _Batman Begins_ node:
 
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE m.title = 'Batman Begins'
@@ -372,6 +383,7 @@ In most cases, unless you are connecting nodes at creation time, you will retrie
 a|
 Here is an example. We want to connect the actor, _Michael Caine_ with the movie, _Batman Begins_. We first retrieve the nodes of interest, then we create the relationship:
 
+[source,cypher]
 ----
 MATCH (a:Person), (m:Movie)
 WHERE a.name = 'Michael Caine' AND m.title = 'Batman Begins'
@@ -395,6 +407,7 @@ You can create multiple relationships at once by simply providing the pattern fo
 a|
 Here is an example where we have already created _Person_ nodes for an actor, _Liam Neeson_, and a producer, _Benjamin Melniker_. We create two relationships in this example, one for _ACTED_IN_ and one for _PRODUCED_.
 
+[source,cypher]
 ----
 MATCH (a:Person), (m:Movie), (p:Person)
 WHERE a.name = 'Liam Neeson' AND 
@@ -446,6 +459,7 @@ When specify the JSON-style object for assignment to the relationship using `=`,
 a|
 Here is an example where we will add the _roles_ property to the _ACTED_IN_ relationship from _Christian Bale_ to _Batman Begins_ right after we have created the relationship:
 
+[source,cypher]
 ----
 MATCH (a:Person), (m:Movie)
 WHERE a.name = 'Christian Bale' AND m.title = 'Batman Begins'
@@ -467,6 +481,7 @@ The _roles_ property is a list so we add it as such. If the relationship had mul
 a|
 You can also add properties to a relationship when the relationship is created. Here is another way to create and add the properties for the relationship:
 
+[source,cypher]
 ----
 MATCH (a:Person), (m:Movie)
 WHERE a.name = 'Christian Bale' AND m.title = 'Batman Begins'
@@ -476,6 +491,7 @@ RETURN a, m
 
 By default, the graph engine will create a relationship between two nodes, even if one already exists. You can test to see if the relationship exists before you create it as follows:
 
+[source,cypher]
 ----
 MATCH (a:Person),(m:Movie)
 WHERE a.name = 'Christian Bale' AND
@@ -500,6 +516,7 @@ There are two ways that you can remove a property from a node. One way is to use
 a|
 Suppose we have added the _ACTED_IN_ relationship between _Christian Bale_ and the movie, _Batman Returns_ where the _roles_ property is added to the relationship. Here is an example to remove the _roles_ property, yet keep the _ACTED_IN_ relationship:
 
+[source,cypher]
 ----
 MATCH (a:Person)-[rel:ACTED_IN]->(m:Movie)
 WHERE a.name = 'Christian Bale' AND m.title = 'Batman Begins'
@@ -544,6 +561,7 @@ You can delete a relationship between nodes by first finding it in the graph and
 a|
 In this example, we want to delete the _ACTED_IN_ relationship between _Christian Bale_ and the movie _Batman Begins_. We find the relationship, and then delete it:
 
+[source,cypher]
 ----
 MATCH (a:Person)-[rel:ACTED_IN]->(m:Movie)
 WHERE a.name = 'Christian Bale' AND m.title = 'Batman Begins'
@@ -582,6 +600,7 @@ image::{imagedir}/ChristianBaleConnections.png[ChristianBaleConnections,width=70
 a|
 In this example, we find the node for the producer, _Benjamin Melniker_, as well as his relationship to movie nodes. First, we delete the relationship(s), then we delete the node:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[rel:PRODUCED]->(:Movie)
 WHERE p.name = 'Benjamin Melniker'
@@ -613,6 +632,7 @@ When you specify `DETACH DELETE` for a node, the relationships to and from the n
 a|
 If were were to attempt to delete the _Liam Neeson_ node without first deleting its relationships:
 
+[source,cypher]
 ----
 MATCH (p:Person)
 WHERE p.name = 'Liam Neeson'
@@ -630,6 +650,7 @@ image::{imagedir}/LiamNeesonDeleteError.png[LiamNeesonDeleteError,width=800]
 a|
 Here we delete the _Liam Neeson_ node and its relationships to any other nodes:
 
+[source,cypher]
 ----
 MATCH (p:Person)
 WHERE p.name = 'Liam Neeson'
@@ -728,6 +749,7 @@ image::{imagedir}/MichaelCaine.png[MichaelCaine,width=800]
 |===
 a|Here we use `MERGE` to find a node with the _Actor_ label with the key property _name_ of _Michael Caine_, and we set the _born_ property to _1933_. Our data model has never used the label, _Actor_ so this is a new entity type in our graph.
 
+[source,cypher]
 ----
 MERGE (a:Actor {name: 'Michael Caine'})
 SET a.born = 1933
@@ -784,6 +806,7 @@ You can use the `MERGE` clause, along with `ON CREATE` to assign specific values
 a|
 Here is an example where create a new node, specifying property values for the new node:
 
+[source,cypher]
 ----
 MERGE (a:Person {name: 'Sir Michael Caine'})
 ON CREATE SET a.birthPlace = 'London',
@@ -804,6 +827,7 @@ image::{imagedir}/AllMichaelCaines.png[AllMichaelCaines,width=800]
 a|
 You can also specify an `ON MATCH` clause during merge processing. If the exact node is found, you can update its properties or labels. Here is an example:
 
+[source,cypher]
 ----
 MERGE (a:Person {name: 'Sir Michael Caine'})
 ON CREATE SET a.born = 1934, 
@@ -827,6 +851,7 @@ Using `MERGE` to create relationships is expensive and you should only do it whe
 a|
 In this example, we use the `MATCH` clause to find all _Person_ nodes that represent _Michael Caine_ and we find the movie, _Batman Begins_ that we want to connect to all of these nodes. We already have a connection between one of the _Person_ nodes and the _Movie_ node. We do not want this relationship to be duplicated. This is where we can use `MERGE` as follows:
 
+[source,cypher]
 ----
 MATCH (p:Person), (m:Movie)
 WHERE m.title = 'Batman Begins' AND p.name ENDS WITH 'Caine'
@@ -848,6 +873,7 @@ Only if you intentionally want to create a node within the context of another (l
 |===
 a|
 For example:
+[source,cypher]
 ----
 MERGE (fromDate:Date {year: 2018})<-[:IN_YEAR]-(toDate:Date {month: 'January'})
 ----
@@ -858,8 +884,8 @@ MERGE (fromDate:Date {year: 2018})<-[:IN_YEAR]-(toDate:Date {month: 'January'})
 In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
 and follow the instructions for Exercise 11.
 
+[#module-6.quiz]
 == Check your understanding
-
 === Question 1
 
 What Cypher clauses can you use to create a node? 
@@ -877,6 +903,7 @@ Select the correct answers.
 
 Suppose that you have retrieved a node, _s_ with a property, _color_:
 
+[source,cypher]
 ----
 MATCH (s:Shape {location: [20,30]})
 ???
@@ -920,6 +947,12 @@ You should now be able to write Cypher statements to:
 * Merge data in a graph
 ** Creating nodes
 ** Creating relationships
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-7/">Continue to Module 7</a>
+++++
 
 ifdef::backend-html5[]
 

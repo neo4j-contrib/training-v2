@@ -48,6 +48,7 @@ In a deployed application, you should not *hard code*  values in your Cypher sta
 In your Cypher statements, a parameter name begins with the `$` symbol. 
 
 Here is an example where we have parameterized the query:
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
 WHERE p.name = $actorName
@@ -60,6 +61,7 @@ In Neo4j Browser, you can set values for Cypher parameters that will be in effec
 
 You can set the value of a single parameter in the query editor pane as shown in this example where the value _Tom Hanks_ is set for the parameter `actorName`:
 
+[source,cypher]
 ----
 :param actorName => 'Tom Hanks'
 ----
@@ -96,6 +98,7 @@ image::{imagedir}/TomCruiseParameter.png[TomCruiseParameter,width=800]
 [cols=1, frame="none"]
 |===
 a|You can also use the JSON-style syntax to set [.underline]#all# of the parameters in your Neo4j Browser session. The values you can specify in this object are numbers, strings, and booleans. In this example we set two parameters for our session:
+[source,cypher]
 ----
 :params {actorName: 'Tom Cruise', movieName: 'Top Gun'}
 ----
@@ -133,6 +136,7 @@ The `EXPLAIN` option provides the Cypher query plan. You can compare different C
 [cols=1, frame="none"]
 |===
 a|Here is an example where we have set the _actorName_ and _year_ parameters for our session and we execute this Cypher statement:
+[source,cypher]
 ----
 EXPLAIN MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
 WHERE p.name = $actorName AND
@@ -237,6 +241,7 @@ You add a uniqueness constraint to the graph by creating a constraint that asser
 |===
 a|
 Here is an example for ensuring that the _title_ for a node of type _Movie_ is unique:
+[source,cypher]
 ----
 CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
 ----
@@ -253,6 +258,7 @@ image::{imagedir}/AddTitleConstraint.png[AddTitleConstraint,width=500]
 |===
 a|
 And if we attempt to create a _Movie_ with the _title_, _The Matrix_, the Cypher statement will fail because the graph already has a movie with that title:
+[source,cypher]
 ----
 CREATE (:Movie {title: 'The Matrix'})
 ----
@@ -280,6 +286,7 @@ Recall that in the _Movie_ graph, the movie, _Something's Gotta Give_ has no _ta
 image::{imagedir}/NoTaglineSomething.png[NoTaglineSomething,width=600]
 
 Here is an example for adding the existence constraint to the _tagline_ property of all _Movie_ nodes in the graph:
+[source,cypher]
 ----
 CREATE CONSTRAINT ON (m:Movie) ASSERT exists(m.tagline)
 ----
@@ -297,6 +304,7 @@ The constraint cannot be added to the graph because a node has been detected tha
 a|
 We know that in the _Movie_ graph, all _:REVIEWED_ relationships currently have a property, _rating_. We can create an existence constraint on that property as follows:
 
+[source,cypher]
 ----
 CREATE CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)
 ----
@@ -832,8 +840,8 @@ and follow the instructions for Exercise 16.
 There are many ways that you can learn more about Neo4j. A good starting point for learning about the resources available to you is the *Neo4j Learning Resources* page at  https://neo4j.com/developer/resources/.
 
 
+[#module-7.quiz]
 == Check your understanding
-
 === Question 1
 
 What Cypher keyword can you use to prefix any Cypher statement to examine how many db hits occurred when the statement executed?
@@ -882,6 +890,10 @@ You should now be able to:
 * Import data into a graph from CSV files.
 * Manage indexes for the graph.
 * Access Neo4j resources.
+
+++++
+<a class="next-section medium button" href="../part-8/">Continue to Module 8</a>
+++++
 
 ifdef::backend-html5[]
 

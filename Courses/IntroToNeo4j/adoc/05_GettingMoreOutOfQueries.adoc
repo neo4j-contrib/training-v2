@@ -53,6 +53,8 @@ In the `WHERE` clause, you can place conditions that are evaluated at runtime to
 |===
 a|
 Previously, you learned to write simple query as follows:
+
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie {released: 2008}) 
 RETURN p, m
@@ -60,6 +62,7 @@ RETURN p, m
 
 Here is one way you specify the same query using the `WHERE` clause:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie) 
 WHERE m.released = 2008
@@ -75,6 +78,7 @@ The benefit of using a `WHERE` clause is that you can specify potentially comple
 a|
 For example:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
 WHERE m.released = 2008 OR m.released = 2009
@@ -91,6 +95,7 @@ Not only can the equality `=` be tested, but you can test ranges, existence, str
 a|
 Here is an example of specifying a range for filtering the query:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie) 
 WHERE m.released >= 2003 AND m.released <= 2004
@@ -108,6 +113,7 @@ image::{imagedir}/MoviesBetween2003And2004.png[MoviesBetween2003And2004,width=80
 a|
 You can also specify the same query as:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie) 
 WHERE 2003 <= m.released <= 2004
@@ -133,11 +139,13 @@ You can filter node labels in the `WHERE` clause also:
 a|
 For example, these two Cypher queries:
 
+[source,cypher]
 ----
 MATCH (p:Person) 
 RETURN p.name
 ----
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(:Movie {title: 'The Matrix'}) 
 RETURN p.name
@@ -145,12 +153,14 @@ RETURN p.name
 
 can be rewritten using `WHERE` clauses as follows:
 
+[source,cypher]
 ----
 MATCH (p)
 WHERE p:Person
 RETURN p.name
 ----
 
+[source,cypher]
 ----
 MATCH (p)-[:ACTED_IN]->(m)
 WHERE p:Person AND m:Movie AND m.title='The Matrix'
@@ -172,6 +182,7 @@ Suppose we only want to return the movies that the actor, _Jack Nicholson_ acted
 a|
 Here is the query to retrieve the specified movies where we test the existence of the _tagline_ property:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
 WHERE p.name='Jack Nicholson' AND exists(m.tagline)
@@ -194,6 +205,7 @@ You can specify `STARTS WITH`, `ENDS WITH`, and `CONTAINS`.
 a|
 For example, to find all actors in the _Movie_ database whose first name is _Michael_, you would write:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->()
 WHERE p.name STARTS WITH 'Michael'
@@ -213,6 +225,7 @@ Note that the comparison of strings is case-sensitive.
 There are a number of string-related functions you can use to further test strings. 
 For example, if you want to test a value, regardless of its case, you could call the `toLower()` function to convert the string to lower case before it is compared.
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:ACTED_IN]->()
 WHERE toLower(p.name) STARTS WITH 'michael'
@@ -236,6 +249,7 @@ If you prefer, you can test property values using regular expressions.
 You use the syntax `=~` to specify the regular expression you are testing with.
 Here is an example where we test the name of the _Person_ using a regular expression to retrieve all _Person_ nodes with a _name_ property that begins with 'Tom':
 
+[source,cypher]
 ----
 MATCH (p:Person)
 WHERE p.name =~'Tom.*'
@@ -262,6 +276,7 @@ You can specify a `NOT` specifier on a pattern in a `WHERE` clause.
 |===
 a|
 Here is an example where we want to return all _Person_ nodes of people who wrote movies:
+[source,cypher]
 ----
 MATCH (p:Person)-[:WROTE]->(m:Movie)
 RETURN p.name, m.title
@@ -278,6 +293,7 @@ image::{imagedir}/WroteMovies.png[WroteMovies,width=800]
 a|
 Next, we modify this query to exclude people who directed that movie:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[:WROTE]->(m:Movie)
 WHERE NOT exists( (p)-[:DIRECTED]->() )
@@ -295,6 +311,7 @@ image::{imagedir}/WroteMoviesNotDirected.png[WroteMoviesNotDirected,width=800]
 a|
 Here is another example where we want to find _Gene Hackman_ and the movies that he acted in with another person who also directed the movie. 
 
+[source,cypher]
 ----
 MATCH (gene:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(other:Person)
 WHERE gene.name= 'Gene Hackman'
@@ -322,6 +339,7 @@ If you are testing with a property of a string type, then all the elements of th
 a|
 In this example, we only want to retrieve _Person_ nodes of people born in 1965 or 1970:
 
+[source,cypher]
 ----
 MATCH (p:Person)
 WHERE p.born IN [1965, 1970]
@@ -342,6 +360,7 @@ a|
 We know that the _:ACTED_IN_ relationship has a property, _roles_ that contains the list of roles an actor had in a particular movie they acted in. 
 Here is the query we write to return the name of the actor who played _Neo_ in the movie _The Matrix_:
 
+[source,cypher]
 ----
 MATCH (p:Person)-[r:ACTED_IN]->(m:Movie)
 WHERE  'Neo' IN r.roles AND m.title='The Matrix'
@@ -374,6 +393,7 @@ Now that you have learned how to provide filters for your queries by testing pro
 a|
 This `MATCH` clause includes a pattern  specified by two paths separated by a comma:
 
+[source,cypher]
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie), 
       (m:Movie)<-[:DIRECTED]-(d:Person)
@@ -383,6 +403,7 @@ RETURN a.name, m.title, d.name
 
 If possible, you should write the same query as follows:
 
+[source,cypher]
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person)
 WHERE m.released = 2000
@@ -411,6 +432,7 @@ In the first example, we want the actors that worked with _Keanu Reeves_ to meet
 Here we retrieve the actors who acted in the same movies as _Keanu Reeves_, but not when _Hugo Weaving_ acted in the same movie. 
 To do this, we specify two paths for the `MATCH`:
 
+[source,cypher]
 ----
 MATCH (keanu:Person)-[:ACTED_IN]->(movie:Movie)<-[:ACTED_IN]-(n:Person),
      (hugo:Person)
@@ -441,6 +463,7 @@ Here is another example where two patterns are necessary.
 Suppose we want to retrieve the movies that _Meg Ryan_ acted in and their respective directors, as well as the other actors that acted in these movies. 
 Here is the query to do this:
 
+[source,cypher]
 ----
 MATCH (meg:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(:Person),
       (:Person)-[:ACTED_IN]->(m)
@@ -466,6 +489,7 @@ endif::backend-pdf[]
 a|
 You have previously seen how you can assign a path used in a `MATCH` clause to a variable. This is useful if you want to reuse the path later in the same query or if you want to return the path. So the previous Cypher statement could return the path as follows:
 
+[source,cypher]
 ----
 MATCH megPath = (meg:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),
       (other:Person)-[:ACTED_IN]->(m)
@@ -504,6 +528,7 @@ a|
 You write a `MATCH` clause where  you want to find all of the followers of the followers of a _Person_ by specifying a numeric value for the number of hops in the path. 
 Here is an example where we want to retrieve all _Person_ nodes that are exactly two hops away:
 
+[source,cypher]
 ----
 MATCH (follower:Person)-[:FOLLOWS*2]->(p:Person)
 WHERE follower.name = 'Paul Blythe'
@@ -548,6 +573,7 @@ A built-in function that you may find useful in a graph that has many ways of tr
 a|
 In this example, we want to discover a shortest path between the movies _The Matrix_ and _A Few Good Men_. In our `MATCH` clause, we set the variable _p_ to the result of calling `shortestPath()`, and then return _p_. In the call to `shortestPath()`, notice that we specify `*` for the relationship. This means any relationship; for the traversal.
 
+[source,cypher]
 ----
 MATCH p = shortestPath((m1:Movie)-[*]-(m2:Movie))
 WHERE m1.title = 'A Few Good Men' AND
@@ -579,6 +605,7 @@ a|
 Here is an example where we query the graph for all people whose name starts with _James_.  
 The `OPTIONAL MATCH` is specified to include people who have reviewed movies: 
 
+[source,cypher]
 ----
 MATCH (p:Person)
 WHERE p.name STARTS WITH 'James'
@@ -605,6 +632,7 @@ Aggregation in Cypher is different from aggregation in SQL. In Cypher, you need 
 
 For example, in this Cypher statement, all rows returned with the same values for _a.name_ and _d.name_ are counted and only returned once.
 
+[source,cypher]
 ----
 // implicitly groups by a.name and d.name
 MATCH (a)-[:ACTED_IN]->(m)<-[:DIRECTED]-(d)
@@ -655,6 +683,7 @@ When you use `count(_)`, the graph engine does an implicit group by based upon t
 a|
 Here is an example where we count the paths retrieved where an actor and director collaborated in a movie and the `count()` function is used to count the number of paths found for each actor/director collaboration.
 
+[source,cypher]
 ----
 MATCH (actor:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(director:Person)
 RETURN actor.name, director.name, count(m) AS collaborations, collect(m.title) AS movies
@@ -683,6 +712,7 @@ During the query processing, want to only return actors that have 2 or 3 movies.
 All other actors and the aggregated results are filtered out. This type of query is a replacement for SQL's "HAVING" clause.
 The `WITH` clause does the counting and collecting, but is then used in the subsequent `WHERE` clause to limit how many paths are visited. 
 
+[source,cypher]
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WITH  a, count(a) AS numMovies, collect(m.title) as movies
@@ -710,6 +740,7 @@ You have to name all expressions with an alias in a `WITH` that are not simple v
 a|
 Here is another example where we want to find all actors who have acted in at least five movies, and find (optionally) the movies they directed and return the person and those movies.
 
+[source,cypher]
 ----
 MATCH (p:Person)
 WITH p, size((p)-[:ACTED_IN]->(:Movie)) AS movies
@@ -747,7 +778,7 @@ a|
 Here is a simple example where duplicate data is returned. 
 _Tom Hanks_ both acted in and directed the movie, _That Thing You Do_, so the movie is returned twice in the result stream:
 
-[listing]
+[listing,source,cypher]
 ----
 MATCH (p:Person)-[:DIRECTED \| :ACTED_IN]->(m:Movie)
 WHERE p.name = 'Tom Hanks'
@@ -765,7 +796,7 @@ image::{imagedir}/Duplication.png[Duplication,width=800]
 a|
 We can eliminate the duplication by specifying the DISTINCT keyword as follows:
 
-[listing]
+[listing,source,cypher]
 ----
 MATCH (p:Person)-[:DIRECTED \| :ACTED_IN]->(m:Movie)
 WHERE p.name = 'Tom Hanks'
@@ -790,7 +821,7 @@ endif::backend-pdf[]
 a|
 Another way that you can avoid duplication is to with `WITH` and `DISTINCT` together as follows:
 
-[listing]
+[listing,source,cypher]
 ----
 MATCH (p:Person)-[:DIRECTED \| :ACTED_IN]->(m:Movie)
 WHERE p.name = 'Tom Hanks'
@@ -816,7 +847,7 @@ Just as you can use `DISTINCT` with `WITH` to eliminate duplication, you can use
 a|
 In this example, we specify that the release date of the movies for _Tom Hanks_ will be returned in descending order.
 
-[listing]
+[listing,source,cypher]
 ----
 MATCH (p:Person)-[:DIRECTED \| :ACTED_IN]->(m:Movie)
 WHERE p.name = 'Tom Hanks'
@@ -841,6 +872,7 @@ You can use the `LIMIT` keyword to specify the number of results returned. Furth
 a|Suppose you want to see the titles of the ten most recently released movies. 
 You could do so as follows where you limit the number of results using the `LIMIT` keyword as follows:
 
+[source,cypher]
 ----
 MATCH (m:Movie)
 RETURN m.title as title, m.released as year ORDER BY m.released DESC LIMIT 10
@@ -861,6 +893,7 @@ Previously, you saw how you can use the `WITH` clause to perform some intermedia
 |===
 a|In this example, we count the number of movies during the query and we return the results once we have reached 5 movies:
 
+[source,cypher]
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WITH a, count(*) AS numMovies, collect(m.title) as movies
@@ -898,6 +931,7 @@ A Cypher `map` is list of key/value pairs where each element of the list is of t
 a|
 You can collect values for a list during a query and when you return results, you can sort by the size of the list using the `size()` function as follows:
 
+[source,cypher]
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WITH  m, count(m) AS numCast, collect(a.name) as cast
@@ -921,6 +955,7 @@ There may be some situations where you want to perform the opposite of collectin
 |===
 a|Here is an example where we create a list with three elements, unwind the list and then return the values. Since there are three elements, three rows are returned with the values:
 
+[source,cypher]
 ----
 WITH [1, 2, 3] AS list
 UNWIND list AS row
@@ -949,6 +984,7 @@ For example, suppose you wanted to calculate the age of a _Person_ node, given a
 a|Here is example Cypher to retrieve all actors from the graph, and if they have a value for _born_, calculate the _age_ value.
 Notice that the `date()` function is called and then converted to a string and then an integer to perform the age calculation.
 
+[source,cypher]
 ----
 MATCH (actor:Person)-[:ACTED_IN]->(:Movie)
 WHERE exists(actor.born)
@@ -979,12 +1015,13 @@ Consult the _Developer Manual_ for more information about the built-in functions
 In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
 and follow the instructions for Exercise 7.
 
+[#module-5.quiz]
 == Check your understanding
-
 === Question 1
 
 Suppose you want to add a `WHERE` clause at the end of this statement to filter the results retrieved. 
 
+[source,cypher]
 ----
 MATCH (p:Person)-[rel]->(m:Movie)<-[:PRODUCED]-(:Person)
 ----
@@ -1004,6 +1041,7 @@ Select the correct answers.
 
 Suppose you want to retrieve all movies that have a _released_ property value that is 2000, 2002, 2004, 2006, or 2008.  Here is an incomplete Cypher example to return the _title_ property values of all movies released in these years.
 
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE m.released XX [2000, 2002, 2004, 2006, 2008]
@@ -1029,6 +1067,7 @@ endif::backend-pdf[]
 
 Given this Cypher query:
 
+[source,cypher]
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WITH  m, count(m) AS numMovies, collect(m.title) as movies
@@ -1054,6 +1093,12 @@ You should now be able to write Cypher statements to:
 * Control query processing
 * Control what results are returned
 * Work with Cypher lists and dates
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
+++++
 
 ifdef::backend-html5[]
 
