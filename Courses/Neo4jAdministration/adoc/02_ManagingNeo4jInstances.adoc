@@ -305,13 +305,33 @@ Inconsistencies in a database are a serious matter that should be looked into wi
 
 === *Exercise #6: Checking consistency of a database*
 
-== Scripting with Cypher
+== Using cypher=shell
 
-There may be situations where you want to modify the database or add or remove indexes or constraints from the database. Rather than doing this from Neo4j Browser, you can create scripts that use the `cypher-shell` tool.  When using `cypher-shell`, you must provide your credentials for accessing the Neo4j instance. Once authenticated, the Cypher statements execute just as they would in Neo4j Browser. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`.
+Cypher-shell enables you to access the Neo4j database without using Neo4j Browser. There may be situations where you want to modify the database or add or remove indexes or constraints from the database. Rather than doing this from Neo4j Browser, you can access the database from a terminal window. You simply log into the database using cypher-shell with your credentials.
+Once authenticated, the Cypher statements execute just as they would in Neo4j Browser. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`.
 
-In this example, we log into `cypher-shell` with our credentials. Then we execute the Cypher statement to create a unique constraint. Notice that we specify `;` at the end of the Cypher statement. Finally, we specify `:exit` to log out of `cypher-shell`.
+In this example, we log into `cypher-shell` with our credentials. Then we execute the Cypher statement to create a unique constraint. Notice that we specify `;` at the end of the Cypher statement.  We then execute another Cypher statement to create a different unique constraint. Finally, we specify `:exit` to log out of `cypher-shell`.
 
 image::{imagedir}/Cypher-shell.png[Cypher-shell,width=800,align=center]
 
-Maintenance types of scripts can be created for the database. In this example, we have added these lines to our *DropConstraints.sh* script:
+=== Scripting with cypher-shell
+
+As a database administrator, you may need to automate changes to the database. You can create scripts that send the Cypher statements to `cypher-shell`.  To do this, you create 2 files:
+
+. *ScriptName.sh* that will invoke `cypher-shell`.
+. *CypherStatements.cypher* that will contain the Cypher statements to execute in `cypher-shell`.
+
+In this example, we have created a script, *DropConstraints.sh*. This script forwards the Cypher statements in *DropConstraints.cypher* to `cypher-shell`.  In the *.cypher* file, you must ensure that a semi-colon ends every Cypher statement. 
+
+Here is the *PrepareDB.sh* file:
+
+image::{imagedir}/PrepareDB.sh.png[PrepareDB.sh,width=800,align=center]
+
+Here is the *DropConstraints.cypher* file:
+
+image::{imagedir}/DropConstraints.cypher.png[DropConstraints.cypher,width=800,align=center]
+
+After the script runs, we verify it  by accessing a cypher-script session that indeed the constraints no longer exist in the database.
+
+image::{imagedir}/Cypher-shell2.png[Cypher-shell2,width=800,align=center]
 

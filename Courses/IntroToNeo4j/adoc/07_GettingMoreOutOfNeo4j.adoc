@@ -69,35 +69,53 @@ You can set the value of a single parameter in the query editor pane as shown in
 [NOTE]
 You can even specify a Cypher expression to the right of `+=>+` to set the value of the parameter.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|Here is the result of executing the `:param` command:
+a|
+endif::backend-pdf[]
+Here is the result of executing the `:param` command:
 [.thumb]
 image::{imagedir}/SetActorNameParameter.png[SetActorNameParameter,width=600]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 Notice here that `:param` is a client-side browser command. It takes a name and expression and stores the value of that expression for the name in the session.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|After the _actorName_ parameter is set, you can run the query that uses the parameter:
+a|
+endif::backend-pdf[]
+After the _actorName_ parameter is set, you can run the query that uses the parameter:
 [.thumb]
 image::{imagedir}/UseParameter.png[UseParameter,width=800]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 Subsequently, you need only change the value of the parameter and not the Cypher statement to test with different values.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|After we have changed the _actorName_ parameter to 'Tom Cruise', we get a different result with the same Cypher query:
+a|
+endif::backend-pdf[]
+After we have changed the _actorName_ parameter to 'Tom Cruise', we get a different result with the same Cypher query:
 [.thumb]
 image::{imagedir}/TomCruiseParameter.png[TomCruiseParameter,width=800]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|You can also use the JSON-style syntax to set [.underline]#all# of the parameters in your Neo4j Browser session. The values you can specify in this object are numbers, strings, and booleans. In this example we set two parameters for our session:
+a|
+endif::backend-pdf[]
+You can also use the JSON-style syntax to set [.underline]#all# of the parameters in your Neo4j Browser session. The values you can specify in this object are numbers, strings, and booleans. In this example we set two parameters for our session:
 [source,cypher]
 ----
 :params {actorName: 'Tom Cruise', movieName: 'Top Gun'}
@@ -106,16 +124,23 @@ a|You can also use the JSON-style syntax to set [.underline]#all# of the paramet
 With the result:
 [.thumb]
 image::{imagedir}/SetAllParameters.png[SetAllParameters,width=600]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 If you want to remove an existing parameter from your session, you do by by using the JSON-style syntax and excluding the parameter for your session.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|If you want to view the current parameters and their values, simply type `:params`:
+a|
+endif::backend-pdf[]
+If you want to view the current parameters and their values, simply type `:params`:
 [.thumb]
 image::{imagedir}/ViewParams.png[ViewParams,width=500]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === *Exercise 12: Using Cypher parameters*
 
@@ -133,9 +158,12 @@ There are two Cypher keywords you can prefix a Cypher statement with to analyze 
 
 The `EXPLAIN` option provides the Cypher query plan. You can compare different Cypher statements to understand the stages of processing that will occur when the Cypher executes.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|Here is an example where we have set the _actorName_ and _year_ parameters for our session and we execute this Cypher statement:
+a|
+endif::backend-pdf[]
+Here is an example where we have set the _actorName_ and _year_ parameters for our session and we execute this Cypher statement:
 [source,cypher]
 ----
 EXPLAIN MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
@@ -147,31 +175,41 @@ RETURN p.name, m.title, m.released
 Here is the query plan returned:
 [.thumb]
 image::{imagedir}/EXPLAIN.png[EXPLAIN,width=900]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 You can expand each phase of the Cypher execution to examine what code is expected to run. Each phase of the query presents you with an estimate of the number of rows expected to be returned. With `EXPLAIN`, the query does not run, the graph engine simply produces the query plan.
 
 For a better metric for analyzing how the Cypher statement will run you use the `PROFILE` keyword which runs the Cypher statement and gives you run-time performance metrics.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Here is the result returned using `PROFILE` for this Cypher statement:
 [.thumb]
 image::{imagedir}/PROFILE1.png[PROFILE1,width=900]
 
 Here we see that for each phase of the graph engine processing, we can view the cache hits and most importantly the number of times the graph engine accessed the database (db hits). This is an important metric that will affect the performance of the Cypher statement at run-time.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 For example, if we were to change the Cypher statement so that the node labels are not specified, we see these metrics when we profile:
 [.thumb]
 image::{imagedir}/PROFILE2.png[PROFILE2,width=900]
 
 Here we see more db hits which makes sense because all nodes need to be scanned for perform this query.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 == Monitoring queries
 
@@ -184,9 +222,11 @@ If you are testing an application and have run several queries against the graph
 
 If the query executes and then *returns a lot of data*, there is no way to monitor it or kill the query. All that you can do is close your Neo4j Browser session and start a new one. If the server has many of these *rogue* queries running, it will slow down considerably so you should aim to limit these types of queries. If you are running Neo4j Desktop, you can simply restart the database to clear things up, but if you are using a Neo4j Sandbox, you cannot do so. The database server is always running and you cannot restart it. Your only option is to shut down the Neo4j Sandbox and create a new Neo4j Sandbox, but then you lose any data you have worked with. 
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 If, however, the query is a *long-running query*, you can monitor it by using the `:queries` command. Here is a screenshot where we are monitoring a long-running query in another Neo4j Browser session:
 [.thumb]
 image::{imagedir}/ListQueries.png[ListQueries,width=1000]
@@ -195,19 +235,23 @@ The `:queries` command calls `dbms.listQueries` under the hood, which is why we 
 
 [.thumb]
 image::{imagedir}/KillQuery.png[KillQuery,width=1000]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Here is what happens in the Neo4j Browser session where the long-running query was run:
 [.thumb]
 image::{imagedir}/QueryKilled.png[QueryKilled,width=1000]
-
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
 [NOTE]
 The `:queries` command is only available in the Enterprise Edition of Neo4j.
-
-|===
 
 === *Exercise 13: Analyzing and monitoring queries*
 
@@ -237,9 +281,11 @@ Existence constraints and node keys are only available in Enterprise Edition of 
 
 You add a uniqueness constraint to the graph by creating a constraint that asserts that a particular node property is unique in the graph for a particular type of node.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Here is an example for ensuring that the _title_ for a node of type _Movie_ is unique:
 [source,cypher]
 ----
@@ -252,11 +298,15 @@ Here is the result of running this Cypher statement on the _Movie_ graph:
 
 [.thumb]
 image::{imagedir}/AddTitleConstraint.png[AddTitleConstraint,width=500]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 And if we attempt to create a _Movie_ with the _title_, _The Matrix_, the Cypher statement will fail because the graph already has a movie with that title:
 [source,cypher]
 ----
@@ -269,7 +319,9 @@ Here is the result of running this Cypher statement on the _Movie_ graph:
 image::{imagedir}/UniquenessFailed.png[UniquenessFailed,width=700]
 
 In addition, if you attempt to modify the value of a property where the uniqueness assertion fails, the property will not be updated.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === Ensuring that properties exist
 
@@ -277,9 +329,11 @@ Having uniqueness for a property value is only useful in the graph if the proper
 
 You add an existence constraint to the graph by creating a constraint that asserts that a particular type of node or relationship property must exist in the graph when a node or relationship of that type is created or updated.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Recall that in the _Movie_ graph, the movie, _Something's Gotta Give_ has no _tagline_ property:
 
 [.thumb]
@@ -297,11 +351,15 @@ Here is the result of running this Cypher statement:
 image::{imagedir}/ConstraintExistTaglineFailure.png[ConstraintExistTaglineFailure,width=800]
 
 The constraint cannot be added to the graph because a node has been detected that violates the constraint.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 We know that in the _Movie_ graph, all _:REVIEWED_ relationships currently have a property, _rating_. We can create an existence constraint on that property as follows:
 
 [source,cypher]
@@ -314,13 +372,17 @@ With the result:
 
 [.thumb]
 image::{imagedir}/CreateRatingExistenceConstraint.png[CreateRatingExistenceConstraint,width=600]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
-
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|So after creating this constraint, if we attempt to create a _:REVIEWED_ relationship without setting the _rating_ property: 
-
+a|
+endif::backend-pdf[]
+So after creating this constraint, if we attempt to create a _:REVIEWED_ relationship without setting the _rating_ property: 
+[source,cypher]
 ----
 MATCH (p:Person), (m:Movie)
 WHERE p.name = 'Jessica Thompson' AND
@@ -333,17 +395,21 @@ We see this error:
 image::{imagedir}/ExistenceConstraintFailed.png[ExistenceConstraintFailed,width=800]
 
 You will also see this error if you attempt to remove a property from a node or relationship where the existence constraint has been created in the graph.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === Retrieving  constraints defined for the graph
 
 You can run the browser command `:schema` to view existing indexes and constraints defined for the graph. 
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Just as you have used other _db_ related methods to query the schema of the graph, you can query for the set of constraints defined in the graph as follows:
-
+[source,cypher]
 ----
 CALL db.constraints()
 ----
@@ -352,17 +418,25 @@ And here is what is returned from the graph:
 [.thumb]
 image::{imagedir}/call_db_constraints.png[call_db_constraints,width=700]
 
-*Note*: Using the method notation for the CALL statement enables you to use the call for returning results that may be used later in the Cypher statement.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
+
+[NOTE]
+Using the method notation for the CALL statement enables you to use the call for returning results that may be used later in the Cypher statement.
+
 
 === Dropping constraints
 
 You use similar syntax to drop an existence or uniqueness constraint, except that you use the `DROP` keyword rather than `CREATE`
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Here we drop the existence constraint for the _rating_ property for all _REVIEWED_ relationships in the graph:
+[source,cypher]
 ----
 DROP CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)
 ----
@@ -370,18 +444,23 @@ DROP CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)
 With the result:
 [.thumb]
 image::{imagedir}/DropConstraint.png[DropConstraint,width=600]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === Creating node keys
 
 A node key is used to define the uniqueness constraint for [.underline]#multiple# properties of a node of a certain type. A node key is  also used as a composite index in the graph.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Suppose that in our _Movie_ graph, we will not allow a _Person_ node to be created where both the _name_ and _born_ properties are the same. We can create a constraint that will be a node key to ensure that this uniqueness for the set of properties is asserted. 
 
 Here is an example to create this node key:
+[source,cypher]
 ----
 CREATE CONSTRAINT ON (p:Person) ASSERT (p.name, p.born) IS NODE KEY
 ----
@@ -392,12 +471,17 @@ Here is the result of running this Cypher statement on our _Movie_ graph:
 image::{imagedir}/NodeKeyCreationFailed.png[NodeKeyCreationFailed,width=800]
 
 This attempt to create the constraint failed because there are _Person_ nodes in the graph that do not have the _born_ property defined. 
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 If we set these properties for all nodes in the graph that do not have _born_ properties with:
+[source,cypher]
 ----
 MATCH (p:Person) 
 WHERE NOT exists(p.born)
@@ -407,14 +491,19 @@ SET p.born = 0
 Then the creation of the node key succeeds:
 [.thumb]
 image::{imagedir}/CreateNodeKey.png[CreateNodeKey,width=700]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 Any subsequent attempt to create or modify an existing _Person_ node with _name_ or _born_ values that violate the uniqueness constraint as a node key will fail.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 For example, executing this Cypher statement will fail:
+[source,cypher]
 ----
 CREATE (:Person {name: 'Jessica Thompson', born: 0})
 ----
@@ -422,7 +511,9 @@ CREATE (:Person {name: 'Jessica Thompson', born: 0})
 Here is the result:
 [.thumb]
 image::{imagedir}/CreateDuplicateJessicaFailure.png[CreateDuplicateJessicaFailure,width=800]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === *Exercise 14: Managing constraints and node keys*
 
@@ -452,11 +543,13 @@ Because index maintenance incurs additional overhead when nodes are created, We 
 
 When you add an index for a property of a node, it can greatly reduce the number of nodes the graph engine needs to visit in order to satisfy a query.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 In this query we are testing the value of the _released_ property of a _Movie_ node using ranges:
-
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE 1990 < m.released < 2000
@@ -466,16 +559,21 @@ SET m.videoFormat = 'DVD'
 The graph engine, using an index, will find the pointers to all nodes that satisfy the query without having to visit all of the nodes:
 
 image::{imagedir}/IndexForRanges.png[IndexForRanges,width=600,align=center]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === Creating indexes
 
 You create an index to improve graph engine performance. A unique constraint on a property is an index so you need not create an index for any properties you have created uniqueness constraints for. An index on its own does [.underline]#not# guarantee uniqueness.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Here is an example of how we would create a single-property index on the _released_ property of all nodes of type _Movie_:
+[source,cypher]
 ----
 CREATE INDEX ON :Movie(released)
 ----
@@ -483,16 +581,21 @@ CREATE INDEX ON :Movie(released)
 With the result:
 [.thumb]
 image::{imagedir}/CreateSingle-propertyIndex.png[CreateSingle-propertyIndex,width=600]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 If a set of properties for a node must be unique for every node, then you should create a constraint as a node key, rather than an index. 
 
 If, however, there can be duplication for a set of property values, but you want faster access to them, then you can create a composite index. A composite index is based upon multiple properties for a node.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Suppose we added the property, _videoFormat_ to every _Movie_ node and set its value, based upon the released date of the movie as follows:
+[source,cypher]
 ----
 MATCH (m:Movie)
 WHERE m.released >= 2000
@@ -505,16 +608,20 @@ SET m.videoFormat = 'VHS'
 With the result:
 [.thumb]
 image::{imagedir}/TwoStatements.png[TwoStatements,width=900]
-
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 [IMPORTANT]
 Notice that in the above Cypher statements we use the semi-colon `;` to separate Cypher statements. In general, you need not end a Cypher statement with a semi-colon, but if you want to execute multiple Cypher statements, you must separate them. You have already used the semi-colon to separate Cypher statements when you loaded the _Movie_ database in the training exercises.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Now that the graph has _Movie_ nodes with both the properties, _released_ and _videoFormat_, we can create a composite index on these properties as follows:
+[source,cypher]
 ----
 CREATE INDEX ON :Movie(released, videoFormat)
 ----
@@ -522,7 +629,9 @@ CREATE INDEX ON :Movie(released, videoFormat)
 With the result:
 [.thumb]
 image::{imagedir}/CreateCompositeIndex.png[CreateCompositeIndex,width=500]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 ifdef::backend-pdf[]
 // force page break
@@ -531,11 +640,13 @@ endif::backend-pdf[]
 
 === Retrieving indexes
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Just as you can retrieve the constraints defined for the graph using `:schema` or `CALL db.constraints()`, you can retrieve the indexes:
-
+[source,cypher]
 ----
 CALL db.indexes()
 ----
@@ -545,16 +656,21 @@ With the result:
 image::{imagedir}/Call_db-indexes.png[Call_db-indexes,width=1000]
 
 Notice that the unique constraints and node keys are also shown as indexes in the graph.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === Dropping indexes
 
 You can drop an existing index that you created with  `CREATE INDEX`.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Here is an example of dropping the composite index that we just created:
+[source,cypher]
 ----
 DROP INDEX ON :Movie(released, videoFormat)
 ----
@@ -562,7 +678,9 @@ DROP INDEX ON :Movie(released, videoFormat)
 Here is the result:
 [.thumb]
 image::{imagedir}/DropCompositeIndex.png[DropCompositeIndex,width=600]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === *Exercise 15: Managing indexes*
 
@@ -610,24 +728,22 @@ Cypher provides an elegant built-in way to import tabular CSV data into graph st
 The `LOAD CSV` clause parses a local in the *import* directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
 Then you can use whichever Cypher operations you want to either create nodes or relationships or to merge with the existing graph.
 
-// syntax table 
-{set:cellbgcolor!}
-[colums=1,options="header",stripes=none]
-|===
-d|[red]#Here is the simplified syntax for using `LOAD CSV`:#
-l|
+Here is the simplified syntax for using `LOAD CSV`:
+[source,cypher-syntax]
+----
 LOAD CSV WITH HEADERS FROM url-value 
 AS row        // row is a variable that is used to extract data 
-|===
-
+----
 
 The first line of the file must contain a comma-separated list of column names. The _url-value_ can be a resource or a file on your system. Each line contains data that is interpreted as values for each column name. When each line is read from the file, you can perform the necessary processing to create or merge data into the graph.
 
 As CSV files usually represent either node or relationship lists, you will run multiple passes to create nodes and relationships separately.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 The *movies_to_load.csv* file (sample below) contains the data that will add _Movie_ nodes:
 ----
 id,title,country,year,summary
@@ -635,14 +751,19 @@ id,title,country,year,summary
 2,The American President,USA,1995, Why can't the most powerful man in the world have the one thing he wants most?
 3,The Shawshank Redemption,USA,1994, Fear can hold you prisoner. Hope can set you free.
 ----
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 Before you load data from CSV files into your graph, you should first confirm that the data retrieved looks OK. Rather than creating nodes or relationships, you can simply return information about the data to be loaded. 
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 For example you can execute this Cypher statement to get a count of the data to be loaded from the *movies_to_load.csv* file so you have an idea of how much data will be loaded:
+[source,cypher]
 ----
 LOAD CSV WITH HEADERS
 FROM 'http://data.neo4j.com/intro-neo4j/movies_to_load.csv'
@@ -653,12 +774,17 @@ RETURN count(*)
 Here is the count result for this particular file:
 [.thumb]
 image::{imagedir}/countOfMoviesToLoad.png[countOfMoviesToLoad,width=900]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 You might even want to visually inspect the data before you load it to see if it is what you were expecting:
+[source,cypher]
 ----
 LOAD CSV WITH HEADERS
 FROM 'https://data.neo4j.com/intro-neo4j/movies_to_load.csv'
@@ -671,13 +797,17 @@ Here is the result of running the Cypher statement to visually inspect the data:
 image::{imagedir}/examineMoviesBeforeLoad.png[examineMoviesBeforeLoad,width=900]
 
 Notice here that the _summary_ column's data has an extra space before the data in the file. In order to ensure that all _tagline_ values in our graph do not have an extra space, we will trim the value before assigning it to the tagline property. Once we are sure you want to load the data into your graph, we do so by assigning values from each row read in to a new node. 
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
-
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|You may want to format the data before it is loaded to confirm it matches what you want in your graph:
-
+a|
+endif::backend-pdf[]
+You may want to format the data before it is loaded to confirm it matches what you want in your graph:
+[source,cypher]
 ----
 LOAD CSV WITH HEADERS
 FROM 'http://data.neo4j.com/intro-neo4j/movies_to_load.csv'
@@ -689,11 +819,16 @@ Here we see how the data will be formatted before it is loaded:
 
 [.thumb]
 image::{imagedir}/FormatMovieDataBeforeLoad.png[FormatMovieDataBeforeLoad,width=900]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|The following query creates the _Movie_ nodes using some of the data from *movies_to_load.csv* as properties:
+a|
+endif::backend-pdf[]
+The following query creates the _Movie_ nodes using some of the data from *movies_to_load.csv* as properties:
 [source, cypher]
 ----
 LOAD CSV WITH HEADERS
@@ -707,12 +842,16 @@ We assign a value to _movieId_ from the _id_ data in the CSV file. In addition, 
 Here is the result of loading the *movies_to_load. csv* data into the graph:
 [.thumb]
 image::{imagedir}/loadMovies.png[loadMovies,width=900]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|The *persons_to_load.csv* file (sample below) holds the data that will populate the _Person_ nodes.
-
+a|
+endif::backend-pdf[]
+The *persons_to_load.csv* file (sample below) holds the data that will populate the _Person_ nodes.
 ----
 Id,name,birthyear
 1,Charlie Sheen, 1965
@@ -721,11 +860,16 @@ Id,name,birthyear
 4,Martin Sheen, 1940
 5,Morgan Freeman, 1937
 ----
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|In case you already have people in your database, you will want to avoid creating duplicates.
+a|
+endif::backend-pdf[]
+In case you already have people in your database, you will want to avoid creating duplicates.
 That's why instead of just creating them, we use `MERGE` to ensure unique entries after the import.
 We use the `ON CREATE` clause to set the values for _name_ and _born_.
 
@@ -744,12 +888,16 @@ There are a couple of things to note here. The name of the column is case-sensit
 Here is the result of loading the *persons_to_load. csv* data into the graph:
 [.thumb]
 image::{imagedir}/loadPersons.png[loadPersons,width=700]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|The *roles_to_load.csv* file (sample below) holds the data that will populate the relationships between the nodes.
-
+a|
+endif::backend-pdf[]
+The *roles_to_load.csv* file (sample below) holds the data that will populate the relationships between the nodes.
 ----
 personId,movieId,role
 1,1,Bud Fox
@@ -759,11 +907,16 @@ personId,movieId,role
 3,2,President Andrew Shepherd
 5,3,Ellis Boyd 'Red' Redding
 ----
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|The query below matches the entries of _line.personId_ and _line.movieId_ to their respective _Movie_ and _Person_ nodes, and creates an _ACTED_IN_ relationship between the person and the movie.
+a|
+endif::backend-pdf[]
+The query below matches the entries of _line.personId_ and _line.movieId_ to their respective _Movie_ and _Person_ nodes, and creates an _ACTED_IN_ relationship between the person and the movie.
 This model includes a relationship property of _role_, which is passed via _line.role_.
 
 [source,cypher]
@@ -779,15 +932,19 @@ CREATE (person)-[:ACTED_IN { roles: [line.role]}]->(movie)
 Here is the result of loading the *roles_to_load. csv* data into the graph:
 [.thumb]
 image::{imagedir}/loadRoles.png[loadRoles,width=900]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 === Importing denormalized data
 
 If your file contains denormalized data, you can run the same file with multiple passes and simple operations as shown above. Alternatively, you might have to use `MERGE` to create nodes and relationships uniquely.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 For our use case, we can import the data using a CSV structure like this:
 
 *movie_actor_roles_to_load.csv*:
@@ -796,11 +953,16 @@ title;released;summary;actor;birthyear;characters
 Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Michael J. Fox;1961;Marty McFly
 Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Christopher Lloyd;1938;Dr. Emmet Brown
 ----
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
-a|Here are the Cypher statements to load this data:
+a|
+endif::backend-pdf[]
+Here are the Cypher statements to load this data:
 [source, cypher]
 ----
 LOAD CSV WITH HEADERS
@@ -820,7 +982,9 @@ Notice a couple of things in this Cypher statement. This file uses a semi-colon 
 Here is the result of loading the *movie_actor_roles_to_load. csv* data into the graph:
 [.thumb]
 image::{imagedir}/loadAll.png[loadAll,width=900]
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 For large denormalized files, it may still make sense to create nodes and relationships separately in multiple passes.
 That would depend on the complexity of the operations and the experienced performance.
