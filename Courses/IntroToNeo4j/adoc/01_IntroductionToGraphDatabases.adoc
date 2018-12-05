@@ -107,9 +107,11 @@ image::{imagedir}/Nodes.png[Nodes,width=400,align=center]
 
 {nbsp} + 
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 Each relationship represents how two nodes are connected. 
 For example, the two nodes _Person_ and _Location_, might have the relationship _LIVES_AT_ pointing from a _Person_ node to _Location_ node.
 A relationship represents the verb or action between two entities.
@@ -119,12 +121,16 @@ image::{imagedir}/Relationships.png[Relationships,width=400,align=center]
 
 {nbsp} +  
 This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population's medical history, or anything else defined by relationships. 
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
+endif::backend-pdf[]
 The Neo4j database is a property graph. 
 You can add **properties** to nodes and relationships to further enrich the graph model. 
 
@@ -134,7 +140,9 @@ image::{imagedir}/Properties.png[Properties,width=500,align=center]
 {nbsp} +  
 This enables you to closely align data and connections in the graph to your real-world application. 
 For example, a _Person_ node might have a property, _name_ and a _Location_ node might have a property, _address_.
+ifdef::backend-pdf[]
 |===
+endif::backend-pdf[]
 
 
 ifdef::backend-pdf[]
@@ -198,14 +206,18 @@ Rows in the same table have the same set of fields.
 
 ==== Run-time behavior: RDBMS vs graph
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
-|====
+|===
 a|
+endif::backend-pdf[]
 How data is retrieved is very different between an RDBMS and a graph database:
 
 [.thumb]
 image::{imagedir}/RDBvsGraphRuntime.png[RDBvsGraphRuntime,600,align=center]
-|====
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
 
 ==== How we model: RDBMS vs graph
 
@@ -226,18 +238,24 @@ Try and get the schema defined and then make minimal changes to it after that.
 
 If we were modeling a football transfers graph in relational and graph databases these diagrams show what common approaches might look like.
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
-|====
+|===
 a|
+endif::backend-pdf[]
 Here is the relational model:
 
 [.thumb]
 image::{imagedir}/RDB.png[RDB,600,400,align=center]
-|====
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
-|====
+|===
 a|
+endif::backend-pdf[]
 and here is the corresponding graph model:
 
 
@@ -245,16 +263,22 @@ and here is the corresponding graph model:
 image::{imagedir}/RDBToGraph.png[RDBToGraph,width=600,align=center]
 
 With the graph model we might sketch out examples with actual values and derive the 'schema' while doing that modeling process.
-|====
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
 
+ifdef::backend-pdf[]
 [cols=1, frame="none"]
-|====
+|===
 a|
+endif::backend-pdf[]
 In Neo4j, the data model might evolve to something like this:
 
 [.thumb]
 image::{imagedir}/GraphModel.png[GraphModel,width=600,align=center]
-|====
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
 
 === How does Neo4j support the property graph model?
 [square]
