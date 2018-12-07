@@ -480,10 +480,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_managing_plugins_required_for_the_database">Managing plugins required for the database</a>
 <ul class="sectlevel2">
 <li><a href="#_adding_a_plugin_to_the_neo4j_instance">Adding a plugin to the Neo4j instance</a></li>
-<li><a href="#_exercise_8_install_a_plugin"><strong>Exercise #8: Install a plugin</strong></a></li>
+<li><a href="#_installing_the_graph_algorithms_plugin">Installing the Graph Algorithms plugin</a></li>
+<li><a href="#_installing_the_apoc_plugin">Installing the APOC plugin</a></li>
+<li><a href="#_exercise_8_install_some_plugins"><strong>Exercise #8: Install some plugins</strong></a></li>
 </ul>
 </li>
-<li><a href="#_configuring_ports_for_the_neo4j_instance">Configuring ports for the Neo4j instance</a></li>
+<li><a href="#_configuring_connector_ports_for_the_neo4j_instance">Configuring connector ports for the Neo4j instance</a>
+<ul class="sectlevel2">
+<li><a href="#_exercise_9_modify_the_http_port"><strong>Exercise #9: Modify the HTTP port</strong></a></li>
+</ul>
+</li>
+<li><a href="#_check_your_understanding">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
 </ul>
 </div>
 </div>
@@ -533,7 +547,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Create scripts for modifying a Neo4j database.</p>
 </li>
 <li>
-<p>Manage application-specific plugins for a Neo4j database.</p>
+<p>Manage plugins for a Neo4j database.</p>
 </li>
 <li>
 <p>Configure ports used by the Neo4j instance.</p>
@@ -1193,23 +1207,7 @@ DROP CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;</pre>
 <div class="sect2">
 <h3 id="_adding_a_plugin_to_the_neo4j_instance">Adding a plugin to the Neo4j instance</h3>
 <div class="paragraph">
-<p>To add a plugin to your Neo4j instance, you must first obtain the <strong>.jar</strong> file. It is important to confirm that the <strong>.jar</strong> file you will use is compatible with the version of Neo4j that you are using.</p>
-</div>
-<div class="paragraph">
-<p>For example, suppose we wanted to install the graph algorithms library that is compatible with Neo4j 3.5. We find the library in GitHub and simply download the <strong>.jar</strong> file. Here is the release areas in GitHub for the graph algorithms library:</p>
-</div>
-<div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="../img/GitHubGraphAlgos.png" alt="GitHubGraphAlgos" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>After you have downloaded the <strong>.jar</strong> file, you simply place it in the <strong>$NEO4J_HOME/plugins</strong> folder:</p>
-</div>
-<div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="../img/GraphAlgos.png" alt="GraphAlgos" width="800">
-</div>
+<p>To add a plugin to your Neo4j instance, you must first obtain the <strong>.jar</strong> file. It is important to confirm that the <strong>.jar</strong> file you will use is compatible with the version of Neo4j that you are using. For example, a plugin released for release 3.4 of Neo4j can be used by a Neo4j 3.5 instance, but the converse <strong>may</strong> not be true. You must check with the developers of the plugin for compatibility.</p>
 </div>
 <div class="paragraph">
 <p>Some plugins require a configuration change. You should understand the configuration changes required for any plugin you are installing.</p>
@@ -1226,8 +1224,30 @@ The configuration setting <em>dbms.security.procedures.whitelist</em> is used to
 available from a library. It defines a comma-separated list of procedures that are to be loaded.
 The list may contain both fully-qualified procedure names, and partial names with the wildcard *.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_installing_the_graph_algorithms_plugin">Installing the Graph Algorithms plugin</h3>
 <div class="paragraph">
-<p>For example, the graph algorithms plugin requires <em>sandboxing</em>.
+<p>Suppose we wanted to install the Graph Algorithms library that is compatible with Neo4j 3.5. We find the library in GitHub and simply download the <strong>.jar</strong> file. Here is the <a href="https://github.com/neo4j-contrib/neo4j-graph-algorithms/releases">release area</a> in GitHub for the graph algorithms library:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/GitHubGraphAlgos.png" alt="GitHubGraphAlgos" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>The main page for <a href="https://github.com/neo4j-contrib/neo4j-graph-algorithms">Graph Algorithms</a> in GitHub contains details about the plugin and instructions for installing it.</p>
+</div>
+<div class="paragraph">
+<p>After you have downloaded the <strong>.jar</strong> file, you simply place it in the <strong>$NEO4J_HOME/plugins</strong> folder:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/GraphAlgos.png" alt="GraphAlgos" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>The graph algorithms plugin requires <em>sandboxing</em>.
 Here is how we enable the procedures in the graph algorithms plugin. We modify the <strong>neo4j.conf</strong> file as follows:</p>
 </div>
 <div class="listingblock">
@@ -1253,21 +1273,250 @@ Here is how we enable the procedures in the graph algorithms plugin. We modify t
 </div>
 </div>
 <div class="sect2">
-<h3 id="_exercise_8_install_a_plugin"><strong>Exercise #8: Install a plugin</strong></h3>
+<h3 id="_installing_the_apoc_plugin">Installing the APOC plugin</h3>
+<div class="paragraph">
+<p><a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures">APOC</a> (Awesome Procedures on Cypher) is a very popular plugin used by many applications. It contains over 450 user-defined procedures that make accessing a graph incredibly efficient and much easier than writing your own Cypher statements to do the same thing.</p>
+</div>
+<div class="paragraph">
+<p>You obtain the plugin from the APOC <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases">releases</a> page:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/APOCDownloadPage.png" alt="APOCDownloadPage" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>After you have placed the <strong>.jar</strong> file into the <strong>plugins</strong> folder, you must modify the configuration for the instance as described in the main page for APOC. As described on this page, you have an option of either <em>sandboxing</em> or <em>whitelisting</em> the procedures of the plugin. How much of the APOC library is used by your application is determined by the developers so you should use them as a resource for this type of configuration change.</p>
+</div>
+<div class="paragraph">
+<p>Suppose we want to allow <span class="underline">all</span> APOC procedures to be available to this Neo4j instance. We would sandbox the plugin in the <strong>neo4j.conf</strong> file as follows, similar to how we sandboxed the graph algorithms:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>dbms.security.procedures.unrestricted=algo.*, apoc.*</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since APOC is large, you will most likely want to whitebox specific procedures so that only the procedures needed by the application are loaded into the Neo4j instance at runtime.</p>
+</div>
+<div class="paragraph">
+<p>And here we see the results after restarting the Neo4j instance and running the script to list the procedures loaded in the instance:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/APOCLoaded.png" alt="APOCLoaded" width="800">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercise_8_install_some_plugins"><strong>Exercise #8: Install some plugins</strong></h3>
 
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuring_ports_for_the_neo4j_instance">Configuring ports for the Neo4j instance</h2>
+<h2 id="_configuring_connector_ports_for_the_neo4j_instance">Configuring connector ports for the Neo4j instance</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The Neo4j instance uses <a href="https://neo4j.com/docs/operations-manual/current/configuration/ports/">default port numbers</a> that may conflict with other processes on your system. The ports used frequently are the connector ports:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 10%;">
+<col style="width: 10%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Name</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Port Number</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"> HTTP</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">7474</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Used by Neo4j Browser and REST API. It is <strong>not</strong> encrypted so it should never be exposed externally.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">HTTPS</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">7473</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Used by REST API. Requires additional SSL configuration.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Bolt</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">7687</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Bolt connection used by Neo4j Browser, cypher-shell</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p></p>
+</div>
+<div class="paragraph">
+<p>If any of these ports conflict with ports already used on your system, you can change these connector ports by modifying these property values in the <strong>neo4j.conf</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># Bolt connector
+dbms.connector.bolt.enabled=true
+#dbms.connector.bolt.tls_level=OPTIONAL
+#dbms.connector.bolt.listen_address=:*7687*
 
+# HTTP Connector. There can be zero or one HTTP connectors.
+dbms.connector.http.enabled=true
+#dbms.connector.http.listen_address=:*7474*
+
+# HTTPS Connector. There can be zero or one HTTPS connectors.
+dbms.connector.https.enabled=true
+#dbms.connector.https.listen_address=:*7473*</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you learn more about some of the other administrative tasks for a Neo4j instance, you will work with other ports.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+It is not possible to disable the HTTP connector. See the <a href="https://neo4j.com/docs/operations-manual/current/configuration/connectors/">connectors</a> section of the <em>Operations Manual</em> for more information.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_exercise_9_modify_the_http_port"><strong>Exercise #9: Modify the HTTP port</strong></h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_check_your_understanding">Check your understanding</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_question_1">Question 1</h3>
+<div class="paragraph">
+<p>Suppose that you have installed Neo4j Enterprise Edition and have changed the password for the user, <em>neo4j</em>. What script and command do you run to create a Neo4j database for the instance?</p>
+</div>
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>neo4j-admin create-database</code></span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>neo4j-admin initialize</code></span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>neo4j create-database</code></span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="required-answer"><code>neo4j start</code></span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_question_2">Question 2</h3>
+<div class="paragraph">
+<p>Suppose that you want the existing Neo4j database to have the name <strong>ABCRecommendations.db</strong>. Assuming that you have stopped the Neo4j instance, what steps must you perform to modify the name of the database, which currently has a default name of <strong>graph.db</strong>:</p>
+</div>
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="required-answer">Rename the <strong>$NEO4J_HOME/graph.db</strong> folder to <strong>$NEO4J_HOME/ABCRecommendations.db</strong>.</span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="required-answer">Modify <strong>neo4j.conf</strong> to use <em>dbms.active_database=ABCRecommendations.db</em>.</span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer">Run <code>neo4j-admin rename graph.db ABCRecommendations.db</code>.</span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer">Run <code>neo4j-admin move graph.db ABCRecommendations.db</code>.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_question_3">Question 3</h3>
+<div class="paragraph">
+<p>How do you copy a database that you want to give to another user?</p>
+</div>
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer">With the Neo4j instance started, <code>run neo4j-admin copy</code> providing the location where the copy will be created.</span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer">With the Neo4j instance stopped, <code>run neo4j-admin copy</code> providing the location where the copy will be created.</span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="false-answer">With the Neo4j instance started, <code>run neo4j-admin dump</code> providing the location where the dump file will be created.</span></p>
+</li>
+<li>
+<p><input type="checkbox" data-item-complete="0"> <span class="required-answer">With the Neo4j instance stopped, <code>run neo4j-admin dump</code> providing the location where the dump file will be created.</span></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary">Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You should now be able to:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p>Set the password for the <em>neo4j</em> user.</p>
+</li>
+<li>
+<p>Start a Neo4j instance.</p>
+</li>
+<li>
+<p>Stop the Neo4j instance.</p>
+</li>
+<li>
+<p>Copy a Neo4j database.</p>
+</li>
+<li>
+<p>Modify the location for a Neo4j database.</p>
+</li>
+<li>
+<p>Check the consistency of a Neo4j database.</p>
+</li>
+<li>
+<p>Create scripts for modifying a Neo4j database.</p>
+</li>
+<li>
+<p>Manage plugins for a Neo4j database.</p>
+</li>
+<li>
+<p>Configure ports used by the Neo4j instance.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-06 17:25:07 CST
+Last updated 2018-12-07 13:30:08 CST
 </div>
 </div>
 </body>
