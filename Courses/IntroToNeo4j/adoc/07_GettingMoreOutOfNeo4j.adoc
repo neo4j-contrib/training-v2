@@ -524,7 +524,7 @@ and follow the instructions for Exercise 14.
 
 The uniqueness and node key constraints that you add to a graph are essentially single-property and composite indexes respectively. Indexes are used to improve initial node lookup performance, but they require additional storage in the graph to maintain and also add to the cost of creating or modifying property values that are indexed. Indexes store redundant data that points to nodes with the specific property value or values. Unlike SQL, there is no such thing as a primary key in Neo4j. You can have multiple properties on nodes that must be unique.
 
-Here is a brief summary of when single-property and composite indexes are used:
+Here is a brief summary of when single-property indexes are used:
 
 * Equality checks `=`
 * Range comparisons `>`,`+>=+`,`<`, `+<=+`
@@ -533,6 +533,8 @@ Here is a brief summary of when single-property and composite indexes are used:
 * Existence checks `exists()`
 * Spatial distance searches `distance()`
 * Spatial bounding searches `point()`
+
+Composite indexes are used only for equality checks and list membership.
 
 In this module, we introduce the basics of Neo4j indexes, but you should consult the Neo4j _Operations Manual_ for more details about creating and maintaining indexes.
 
