@@ -53,7 +53,7 @@ The guiding goal is to make the simple things easy, and the complex things possi
 Optimized for being read by humans, Cypher's construct uses English prose and iconography (called ASCII Art) to make queries more self-explanatory.
 
 
-image::{imagedir}/AsciiArt.png[AsciiArt,width=700,align=center]
+image::{imagedir}/AsciiArt.png[AsciiArt,width=600,align=center]
 // force line break
 
 {nbsp} +  
@@ -138,7 +138,7 @@ Each type of nodes is displayed in a different color.
 The relationships between nodes are also displayed, which you will learn about later in this module.
 
 [.thumb]
-image::{imagedir}/call_db.schema.png[call_db.schema,width=500]
+image::{imagedir}/call_db.schema.png[call_db.schema,width=500,role="thumb"]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -320,7 +320,7 @@ RETURN p
 The result returned is:
 
 [.thumb]
-image::{imagedir}/MatchPersonBorn1970.png[MatchPersonBorn1970,width=500]
+image::{imagedir}/MatchPersonBorn1970.png[MatchPersonBorn1970,width=600]
 
 
 Here is an example where we specify two property values for the query. 
@@ -396,7 +396,7 @@ RETURN p.name, p.born
 The result returned is:
 
 [.thumb]
-image::{imagedir}/MatchPersonBorn1965.png[MatchPersonBorn1965,width=500]
+image::{imagedir}/MatchPersonBorn1965.png[MatchPersonBorn1965,width=600]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -477,9 +477,7 @@ RETURN node1, node2
 MATCH (node1)-[:REL_TYPEA \| :REL_TYPEB]->(node2) 
 RETURN node1, node2
 ----
-
 _where:_
-
 {set:cellbgcolor:white}
 [frame="none",,width="80%"cols="20,80",stripes=none]
 |===
@@ -539,7 +537,7 @@ RETURN p, rel, m
 The result returned is:
 
 [.thumb]
-image::{imagedir}/ActorsInMatrix.png[ActorsInMatrix,width=700]
+image::{imagedir}/ActorsInMatrix.png[ActorsInMatrix,width=600]
 
 For this query, we are using the variable _p_ to represent the _Person_ nodes during the query, the variable _m_ to represent the _Movie_ node retrieved, and the variable _rel_ to represent the relationship for the relationship type, _ACTED_IN_.
 We return a graph with the _Person_ nodes, the _Movie_ node and their _ACTED_IN_ relationships.

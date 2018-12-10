@@ -123,7 +123,7 @@ You can also use the JSON-style syntax to set [.underline]#all# of the parameter
 
 With the result:
 [.thumb]
-image::{imagedir}/SetAllParameters.png[SetAllParameters,width=600]
+image::{imagedir}/SetAllParameters.png[SetAllParameters,width=500]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -246,7 +246,7 @@ a|
 endif::backend-pdf[]
 Here is what happens in the Neo4j Browser session where the long-running query was run:
 [.thumb]
-image::{imagedir}/QueryKilled.png[QueryKilled,width=1000]
+image::{imagedir}/QueryKilled.png[QueryKilled,width=800]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -274,7 +274,7 @@ All of these scenarios are common in many graphs. In Neo4j, you can use Cypher t
 
 Constraints and node keys that enforce uniqueness are related to indexes which you will learn about later in this module. 
 
-[IMPORTANT]
+[NOTE]
 Existence constraints and node keys are only available in Enterprise Edition of Neo4j.
 
 === Ensuring that a property value for a node is unique
@@ -416,7 +416,7 @@ CALL db.constraints()
 
 And here is what is returned from the graph:
 [.thumb]
-image::{imagedir}/call_db_constraints.png[call_db_constraints,width=700]
+image::{imagedir}/call_db_constraints.png[call_db_constraints,width=600]
 
 ifdef::backend-pdf[]
 |===
@@ -524,7 +524,7 @@ and follow the instructions for Exercise 14.
 
 The uniqueness and node key constraints that you add to a graph are essentially single-property and composite indexes respectively. Indexes are used to improve initial node lookup performance, but they require additional storage in the graph to maintain and also add to the cost of creating or modifying property values that are indexed. Indexes store redundant data that points to nodes with the specific property value or values. Unlike SQL, there is no such thing as a primary key in Neo4j. You can have multiple properties on nodes that must be unique.
 
-Here is a brief summary of when single-property and composite indexes are used:
+Here is a brief summary of when single-property indexes are used:
 
 * Equality checks `=`
 * Range comparisons `>`,`+>=+`,`<`, `+<=+`
@@ -533,6 +533,8 @@ Here is a brief summary of when single-property and composite indexes are used:
 * Existence checks `exists()`
 * Spatial distance searches `distance()`
 * Spatial bounding searches `point()`
+
+Composite indexes are used only for equality checks and list membership.
 
 In this module, we introduce the basics of Neo4j indexes, but you should consult the Neo4j _Operations Manual_ for more details about creating and maintaining indexes.
 
@@ -612,7 +614,7 @@ ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-[IMPORTANT]
+[NOTE]
 Notice that in the above Cypher statements we use the semi-colon `;` to separate Cypher statements. In general, you need not end a Cypher statement with a semi-colon, but if you want to execute multiple Cypher statements, you must separate them. You have already used the semi-colon to separate Cypher statements when you loaded the _Movie_ database in the training exercises.
 
 ifdef::backend-pdf[]

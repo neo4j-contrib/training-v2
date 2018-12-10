@@ -224,7 +224,7 @@ RETURN labels(m)
 Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:
 
 [.thumb]
-image::{imagedir}/RemoveActionLabel.png[RemoveActionLabel,width=800]
+image::{imagedir}/RemoveActionLabel.png[RemoveActionLabel,width=700]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -321,7 +321,7 @@ endif::backend-pdf[]
 Note that when you add a property to a node for the first time in the graph, the property key is added to the graph. So for example, in the previous example, we added the _videoFormat_ and _grossMillions_ property keys to the graph as they have never been used before for a node in the graph. Once a property key is added to the graph, it is [.underline]#never# removed. When you examine the property keys in the database (by executing `CALL db.propertyKeys()`, you will see all property keys created for the graph, regardless of whether they are currently used for nodes and relationships.
 
 [.thumb]
-image::{imagedir}/AllPropertyKeys.png[AllPropertyKeys,width=800]
+image::{imagedir}/AllPropertyKeys.png[AllPropertyKeys,width=700]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -342,6 +342,8 @@ SET  m += { grossMillions: 300,
             awards: 66}
 RETURN m
 ----
+
+Here is the result:
 
 [.thumb]
 image::{imagedir}/AddAndUpdateProperties.png[AddAndUpdateProperties,width=800]
@@ -433,7 +435,7 @@ RETURN a, m
 Here is the result of running this Cypher statement:
 
 [.thumb]
-image::{imagedir}/CreateActedInRelationship.png[CreateActedInRelationship,width=800]
+image::{imagedir}/CreateActedInRelationship.png[CreateActedInRelationship,width=700]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -463,7 +465,7 @@ RETURN a, m, p
 Here is the result of running this Cypher statement:
 
 [.thumb]
-image::{imagedir}/CreateTwoRelationships.png[CreateTwoRelationships,width=800]
+image::{imagedir}/CreateTwoRelationships.png[CreateTwoRelationships,width=700]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -524,7 +526,7 @@ RETURN a, m
 Here is the result of running this Cypher statement:
 
 [.thumb]
-image::{imagedir}/AddRelationshipWithRoles.png[AddRelationshipWithRoles,width=700]
+image::{imagedir}/AddRelationshipWithRoles.png[AddRelationshipWithRoles,width=600]
 
 The _roles_ property is a list so we add it as such. If the relationship had multiple properties, we could have added them as a comma separated list or as an object, like can do for node properties.
 ifdef::backend-pdf[]
@@ -690,7 +692,7 @@ DELETE rel, p
 Here is the result of running this Cypher statement:
 
 [.thumb]
-image::{imagedir}/DeleteMelniker.png[DeleteMelniker,width=700]
+image::{imagedir}/DeleteMelniker.png[DeleteMelniker,width=800]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -765,7 +767,7 @@ endif::backend-pdf[]
 And here is what the _Batman Begins_ node and its relationships now look like. There is only one actor, _Michael Caine_ connected to the movie.
 
 [.thumb]
-image::{imagedir}/BatmanBeginsRelationships4.png[BatmanBeginsRelationships4,width=800]
+image::{imagedir}/BatmanBeginsRelationships4.png[BatmanBeginsRelationships4,width=700]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -838,7 +840,7 @@ Here is what we currently have in the graph for the _Person_, _Michael Caine_.
 This node has values for _name_ and _born_. Notice also that the label for the node is _Person_.
 
 [.thumb]
-image::{imagedir}/MichaelCaine.png[MichaelCaine,width=800]
+image::{imagedir}/MichaelCaine.png[MichaelCaine,width=600]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -861,12 +863,12 @@ RETURN a
 Here is the result of running this Cypher example. We do not find a node with the label _Actor_ so the graph engine creates one. 
 
 [.thumb]
-image::{imagedir}/MergeActorMichaelCaine.png[MergeActorMichaelCaine,width=800]
+image::{imagedir}/MergeActorMichaelCaine.png[MergeActorMichaelCaine,width=600]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-[IMPORTANT]
+[NOTE]
 When you specify the node to merge, you should only use properties that have a unique index. You will learn about uniqueness later in this training.
 
 If we were to repeat this `MERGE` clause, no additional _Actor_ nodes would be created in the graph.
@@ -884,7 +886,7 @@ ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-[IMPORTANT]
+[NOTE]
 Be mindful that node labels and the properties for a node are significant when merging nodes.
 
 === Using `MERGE` to create relationships
@@ -949,7 +951,7 @@ RETURN a
 And here we see that the found node (with the _<id>_ of _1920_) was updated with the new value for _birthPlace_.
 
 [.thumb]
-image::{imagedir}/UpdateToUK.png[UpdateToUK,width=800]
+image::{imagedir}/UpdateToUK.png[UpdateToUK,width=700]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
