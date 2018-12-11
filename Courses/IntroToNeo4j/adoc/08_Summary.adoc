@@ -20,9 +20,14 @@
 include::scripts.txt[]
 
 [#module-8.quiz]
-== Quiz Results   
+== Quiz Results 
 ++++
 <span id="quizes-result"></span>
+++++
+
+== Course Completion Certificate
+++++
+<span id="cert-result"></span>
 ++++
 
 == Course Summary
@@ -123,3 +128,17 @@ $( document ).ready(function() {
 </script>
 ++++
 
+++++
+<script>
+$( document ).ready(function() {
+  getClassCertificate().then( function( value ) {
+    if ('url' in value) {
+      $('#cert-result').html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
+    } else {
+      $('#cert-result').html( "Certificate not available yet." );
+    }
+  });
+
+});
+</script>
+++++
