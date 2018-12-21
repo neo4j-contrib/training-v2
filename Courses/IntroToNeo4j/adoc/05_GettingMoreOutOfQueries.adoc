@@ -427,7 +427,7 @@ ifdef::backend-pdf[]
 endif::backend-pdf[]
 
 [NOTE]
-There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify `CASE` logic in your conditional testing for your `WHERE` clauses. You can learn more about these syntax elements in the _Developer Manual_.
+There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify `CASE` logic in your conditional testing for your `WHERE` clauses. You can learn more about these syntax elements in the _Developer Manual_ and the _Cypher Refcard_.
 
 === *Exercise 4: Filtering queries using the `WHERE` clause*
 
@@ -719,7 +719,7 @@ endif::backend-pdf[]
 
 ==== Aggregation in Cypher
 
-Aggregation in Cypher is different from aggregation in SQL. In Cypher, you need not specify a grouping key. As soon as an aggregation function is used, all non-aggregated properties become grouping keys. The grouping is explicitly done, based upon the fields in the `RETURN` clause.
+Aggregation in Cypher is different from aggregation in SQL. In Cypher, you need not specify a grouping key. As soon as an aggregation function is used, all non-aggregated result columns become grouping keys. The grouping is implicitly done, based upon the fields in the `RETURN` clause.
 
 For example, in this Cypher statement, all rows returned with the same values for _a.name_ and _d.name_ are counted and only returned once.
 
@@ -747,7 +747,7 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Cypher has a built-in function, `collect()` that enables you to aggregate a value into a list. 
+Cypher has a built-in function, `collect( )` that enables you to aggregate a value into a list. 
 Here is an example where we collect the list of movies that _Tom Cruise_ acted in:
 [source,cypher]
 ----
@@ -768,17 +768,17 @@ endif::backend-pdf[]
 
 ==== Counting results
 
-The Cypher `count()` function is very useful when you want to count the number of occurrences of a particular query result. 
+The Cypher `count( )` function is very useful when you want to count the number of occurrences of a particular query result. 
 If you specify `count(n)`, the graph engine calculates the number of occurrences of _n_. 
 If you specify `count(*)`, the graph engine calculates the number of rows retrieved, including those with `null` values.
-When you use `count(_)`, the graph engine does an implicit group by based upon the aggregation.
+When you use `count( )`, the graph engine does an implicit group by based upon the aggregation.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
 endif::backend-pdf[]
-Here is an example where we count the paths retrieved where an actor and director collaborated in a movie and the `count()` function is used to count the number of paths found for each actor/director collaboration.
+Here is an example where we count the paths retrieved where an actor and director collaborated in a movie and the `count( )` function is used to count the number of paths found for each actor/director collaboration.
 
 [source,cypher]
 ----
@@ -1054,7 +1054,7 @@ Next, you will learn more about working with lists and dates in Cypher.
 ==== Lists
 
 There are many built-in Cypher functions that you can use to build or access elements in lists.  
-A Cypher `map` is list of key/value pairs where each element of the list is of the format key: value. For example, a list of months and the number of days per month could be:
+A Cypher `map` is list of key/value pairs where each element of the list is of the format key: value. For example, a map of months and the number of days per month could be:
 
 `{Jan: 31, Feb: 28, Mar: 31, Apr: 30 , May: 31, Jun: 30 , Jul: 31, Aug: 31, Sep: 30, Oct: 31, Nov: 30, Dec: 31}`
 
@@ -1126,7 +1126,6 @@ ifdef::backend-pdf[]
 a|
 endif::backend-pdf[]
 Here is example Cypher to retrieve all actors from the graph, and if they have a value for _born_, calculate the _age_ value.
-Notice that the `date()` function is called and then converted to a string and then an integer to perform the age calculation.
 
 [source,cypher]
 ----

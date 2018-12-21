@@ -221,11 +221,9 @@ Cypher provides a rich set of <code>MATCH</code> clauses and keywords you can us
 </div>
 
 
-
 <div class="paragraph">
 <p>At the end of this module, you should be able to write Cypher statements to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -242,7 +240,7 @@ Work with Cypher lists and dates
 </li>
 </ul>
 </div>
-<div  id="_filtering_queries_using_code_where_code" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_filtering_queries_using_where" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Filtering queries using <code>WHERE</code></h3>
 
 
@@ -255,18 +253,15 @@ Most applications need more flexibility in how data is filtered.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>The most common clause you use to filter queries is the <code>WHERE</code> clause that follows a <code>MATCH</code> clause.
 In the <code>WHERE</code> clause, you can place conditions that are evaluated at runtime to filter the query.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Previously, you learned to write simple query as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie {released: 2008})
@@ -281,7 +276,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is one way you specify the same query using the <code>WHERE</code> clause:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -300,11 +294,9 @@ The benefit of using a <code>WHERE</code> clause is that you can specify potenti
 </div>
 
 
-
 <div class="paragraph">
 <p>For example:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -324,11 +316,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example of specifying a range for filtering the query:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -344,7 +334,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MoviesBetween2003And2004.png" alt="MoviesBetween2003And2004" width="800">
@@ -355,7 +344,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You can also specify the same query as:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -376,12 +364,10 @@ See the <em>Developer Manual&#8217;s</em> section <em>Mathematical Functions</em
 </div>
 
 
-
 <div class="paragraph">
 <p>A special condition in a query is when the retrieval returns an unknown value called <code>null</code>.
 You should read the <em>Developer Manual&#8217;s</em> section <em>Working with null</em> to understand how  <code>null</code> values are used at runtime.</p>
 </div>
-
 </div>
 <div  id="_testing_labels" class="sect3 "  >
 <h4>Testing labels</h4>
@@ -393,11 +379,9 @@ You can filter node labels in the <code>WHERE</code> clause also:</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>For example, these two Cypher queries:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -421,7 +405,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>can be rewritten using <code>WHERE</code> clauses as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p)
@@ -447,7 +430,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Not all node labels need to be tested during a query, but if your graph has multiple labels for the same node, filtering it by the node label will provide better query performance.</p>
 </div>
-
 </div>
 <div  id="_testing_the_existence_of_a_property" class="sect3 "  >
 <h4>Testing the existence of a property</h4>
@@ -461,11 +443,9 @@ Suppose we only want to return the movies that the actor, <em>Jack Nicholson</em
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is the query to retrieve the specified movies where we test the existence of the <em>tagline</em> property:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -481,7 +461,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/JackNicholsonMoviesWithTaglines.png" alt="JackNicholsonMoviesWithTaglines" width="900">
@@ -498,11 +477,9 @@ You can specify <code>STARTS WITH</code>, <code>ENDS WITH</code>, and <code>CONT
 </div>
 
 
-
 <div class="paragraph">
 <p>For example, to find all actors in the <em>Movie</em> database whose first name is <em>Michael</em>, you would write:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;()
@@ -518,7 +495,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ActorsNamedMichael.png" alt="ActorsNamedMichael" width="800">
@@ -531,7 +507,6 @@ data-lang=”{language}” class=””
 There are a number of string-related functions you can use to further test strings.
 For example, if you want to test a value, regardless of its case, you could call the <code>toLower()</code> function to convert the string to lower case before it is compared.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;()
@@ -560,7 +535,6 @@ In this example where we are converting a property to lower case, if an index ha
 <p>See the <em>String functions</em> section of the <em>Developer Manual</em> for more information.
 It is sometimes useful to use the built-in string functions to modify the data that is returned in the query in the RETURN clause.</p>
 </div>
-
 </div>
 <div  id="_testing_with_regular_expressions" class="sect3 "  >
 <h4>Testing with regular expressions</h4>
@@ -571,7 +545,6 @@ It is sometimes useful to use the built-in string functions to modify the data t
 You use the syntax <code>=~</code> to specify the regular expression you are testing with.
 Here is an example where we test the name of the <em>Person</em> using a regular expression to retrieve all <em>Person</em> nodes with a <em>name</em> property that begins with 'Tom':</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -587,7 +560,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MatchTomsRegex.png" alt="MatchTomsRegex" width="800">
@@ -616,11 +588,9 @@ You can specify a <code>NOT</code> specifier on a pattern in a <code>WHERE</code
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example where we want to return all <em>Person</em> nodes of people who wrote movies:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:WROTE]-&gt;(m:Movie)
@@ -635,7 +605,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/WroteMovies.png" alt="WroteMovies" width="800">
@@ -646,7 +615,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Next, we modify this query to exclude people who directed that movie:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:WROTE]-&gt;(m:Movie)
@@ -662,7 +630,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/WroteMoviesNotDirected.png" alt="WroteMoviesNotDirected" width="800">
@@ -673,7 +640,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is another example where we want to find <em>Gene Hackman</em> and the movies that he acted in with another person who also directed the movie.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (gene:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(other:Person)
@@ -690,7 +656,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistsPattern.png" alt="ExistsPattern" width="700">
@@ -706,7 +671,6 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>You can define the list in the <code>WHERE</code> clause.
 During the query, the graph engine will compare each property with the values <code>IN</code> the list.
@@ -715,11 +679,9 @@ If you are testing with a property of a string type, then all the elements of th
 </div>
 
 
-
 <div class="paragraph">
 <p>In this example, we only want to retrieve <em>Person</em> nodes of people born in 1965 or 1970:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -735,7 +697,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UsingIN.png" alt="UsingIN" width="800">
@@ -748,12 +709,10 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>We know that the <em>:ACTED_IN</em> relationship has a property, <em>roles</em> that contains the list of roles an actor had in a particular movie they acted in.
 Here is the query we write to return the name of the actor who played <em>Neo</em> in the movie <em>The Matrix</em>:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[r:ACTED_IN]-&gt;(m:Movie)
@@ -769,7 +728,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UsingINRoles.png" alt="UsingINRoles" width="800">
@@ -782,14 +740,14 @@ data-lang=”{language}” class=””
 <div class="title label"></div>
 </td>
 <td class="content">
-There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify <code>CASE</code> logic in your conditional testing for your <code>WHERE</code> clauses. You can learn more about these syntax elements in the <em>Developer Manual</em>.
+There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify <code>CASE</code> logic in your conditional testing for your <code>WHERE</code> clauses. You can learn more about these syntax elements in the <em>Developer Manual</em> and the <em>Cypher Refcard</em>.
 </td>
 </tr>
 </table>
 </div>
 </div>
 </div>
-<div  id="_strong_exercise_4_filtering_queries_using_the_code_where_code_clause_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_4_filtering_queries_using_the_where_clause" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 4: Filtering queries using the <code>WHERE</code> clause</strong></h3>
 
 
@@ -797,7 +755,6 @@ There are a number of syntax elements of Cypher that we have not covered in this
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 4.</p>
 </div>
-
 </div>
 <div  id="_controlling_query_processing" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Controlling query processing</h3>
@@ -806,15 +763,13 @@ and follow the instructions for Exercise 4.</p>
 <div class="paragraph">
 <p>Now that you have learned how to provide filters for your queries by testing properties, relationships, and patterns using the <code>WHERE</code> clause, you will learn some additional Cypher techniques for controlling what the graph engine does during the query.</p>
 </div>
-
-<div  id="_specifying_multiple_code_match_code_patterns" class="sect3 "  >
+<div  id="_specifying_multiple_match_patterns" class="sect3 "  >
 <h4>Specifying multiple <code>MATCH</code> patterns</h4>
 
 
 <div class="paragraph">
 <p>This <code>MATCH</code> clause includes a pattern  specified by two paths separated by a comma:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie),
@@ -831,7 +786,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>If possible, you should write the same query as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(d:Person)
@@ -850,7 +804,6 @@ Multiple patterns are used when a query is complex and cannot be satisfied with 
 This is useful when you are looking for a specific node in the graph and want to connect it to a different node.
 You will learn about creating nodes and relationships later in this training.</p>
 </div>
-
 </div>
 <div  id="_example_1_using_two_match_patterns" class="sect3 "  >
 <h4>Example 1: Using two MATCH patterns</h4>
@@ -862,7 +815,6 @@ In the first example, we want the actors that worked with <em>Keanu Reeves</em> 
 Here we retrieve the actors who acted in the same movies as <em>Keanu Reeves</em>, but not when <em>Hugo Weaving</em> acted in the same movie.
 To do this, we specify two paths for the <code>MATCH</code>:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (keanu:Person)-[:ACTED_IN]-&gt;(movie:Movie)&lt;-[:ACTED_IN]-(n:Person),
@@ -882,7 +834,6 @@ data-lang=”{language}” class=””
 <p>When you perform this type of query, you may see a warning in the query edit pane stating that the pattern represents a cartesian product and may require a lot of resources to perform the query.
 You should only perform these types of queries if you know the data well and the implications of doing the query.</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CartesionProductWarning.png" alt="CartesionProductWarning" width="800">
@@ -893,7 +844,6 @@ You should only perform these types of queries if you know the data well and the
 <div class="paragraph">
 <p>Here is the result of executing this query:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KeanuFriendsForHugo.png" alt="KeanuFriendsForHugo" width="700">
@@ -909,7 +859,6 @@ You should only perform these types of queries if you know the data well and the
 Suppose we want to retrieve the movies that <em>Meg Ryan</em> acted in and their respective directors, as well as the other actors that acted in these movies.
 Here is the query to do this:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (meg:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(:Person),
@@ -926,7 +875,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MegsCoActors.png" alt="MegsCoActors" width="800">
@@ -940,7 +888,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You have previously seen how you can assign a path used in a <code>MATCH</code> clause to a variable. This is useful if you want to reuse the path later in the same query or if you want to return the path. So the previous Cypher statement could return the path as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH megPath = (meg:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(d:Person),
@@ -957,7 +904,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MegPath.png" alt="MegPath" width="800">
@@ -973,7 +919,6 @@ data-lang=”{language}” class=””
 Think of the <em>connected</em> relationship in <em>LinkedIn</em> and how connections are made by people connected to more people.
 The <em>Movie</em> database for this training does not have much depth of relationships, but it does have the <em>:FOLLOWS</em> relationship that you learned about earlier:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowsRelationships.png" alt="FollowsRelationships" width="400">
@@ -985,7 +930,6 @@ The <em>Movie</em> database for this training does not have much depth of relati
 <p>You write a <code>MATCH</code> clause where  you want to find all of the followers of the followers of a <em>Person</em> by specifying a numeric value for the number of hops in the path.
 Here is an example where we want to retrieve all <em>Person</em> nodes that are exactly two hops away:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (follower:Person)-[:FOLLOWS*2]-&gt;(p:Person)
@@ -1001,7 +945,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoHopRelationship.png" alt="TwoHopRelationship" width="700">
@@ -1014,17 +957,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here are simplified syntax examples for how varying length patterns are specified in Cypher:</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Retrieve <span class="underline">all</span> paths of any length with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em> and beyond:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">(nodeA)-[:RELTYPE*]-&gt;(nodeB)</pre>
@@ -1038,7 +978,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Retrieve <span class="underline">all</span> paths of any length with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em> or from <em>nodeB</em> to <em>nodeA</em> and beyond. This is usually a very expensive query so you should place limits on how many nodes are retrieved:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">(nodeA)-[:RELTYPE*]-(nodeB)</pre>
@@ -1052,7 +991,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Retrieve the paths of length 3 with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em>:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">(node1)-[:RELTYPE*3]-&gt;(node2)</pre>
@@ -1066,7 +1004,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Retrieve the paths of lengths 1, 2, or 3 with the relationship, <em>:RELTYPE</em> from <em>nodeA</em> to <em>nodeB</em>, <em>nodeB</em> to <em>nodeC</em>, as well as, <em>nodeC</em> to _nodeD) (up to three hops):</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">(node1)-[:RELTYPE*1..3]-&gt;(node2)</pre>
@@ -1080,7 +1017,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You can learn more about varying paths in the <em>Patterns</em> section of the <em>Developer Manual</em>.</p>
 </div>
-
 </div>
 <div  id="_finding_the_shortest_path" class="sect3 "  >
 <h4>Finding the shortest path</h4>
@@ -1091,11 +1027,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>In this example, we want to discover a shortest path between the movies <em>The Matrix</em> and <em>A Few Good Men</em>. In our <code>MATCH</code> clause, we set the variable <em>p</em> to the result of calling <code>shortestPath()</code>, and then return <em>p</em>. In the call to <code>shortestPath()</code>, notice that we specify <code>*</code> for the relationship. This means any relationship; for the traversal.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH p = shortestPath((m1:Movie)-[*]-(m2:Movie))
@@ -1112,7 +1046,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ShortestPath1.png" alt="ShortestPath1" width="800">
@@ -1125,17 +1058,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>When you use the <code>shortestPath()</code> function, the query editor will show a warning that this type of query could potentially run for a long time. You should heed the warning, especially for large graphs. Read the <em>Graph Algorithms</em> documentation about the shortest path algorithm.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>When you use <code>ShortestPath()</code>, you can specify a upper limits for the shortest path. In addition, you should aim to provide the patterns for the from an to nodes that execute efficiently. For example, use labels and indexes.</p>
 </div>
-
 </div>
 <div  id="_specifying_optional_pattern_matching" class="sect3 "  >
 <h4>Specifying optional pattern matching</h4>
@@ -1148,12 +1078,10 @@ The difference is that if no matches are found, <code>OPTIONAL MATCH</code> will
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example where we query the graph for all people whose name starts with <em>James</em>.
 The <code>OPTIONAL MATCH</code> is specified to include people who have reviewed movies:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -1170,7 +1098,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/OptionalMatch.png" alt="OptionalMatch" width="800">
@@ -1181,22 +1108,19 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Notice that for all rows that do not have the <em>:REVIEWED</em> relationship, a <em>null</em> value is returned for the movie part of the query, as well as the relationship.</p>
 </div>
-
 </div>
 <div  id="_aggregation_in_cypher" class="sect3 "  >
 <h4>Aggregation in Cypher</h4>
 
 
 <div class="paragraph">
-<p>Aggregation in Cypher is different from aggregation in SQL. In Cypher, you need not specify a grouping key. As soon as an aggregation function is used, all non-aggregated properties become grouping keys. The grouping is explicitly done, based upon the fields in the <code>RETURN</code> clause.</p>
+<p>Aggregation in Cypher is different from aggregation in SQL. In Cypher, you need not specify a grouping key. As soon as an aggregation function is used, all non-aggregated result columns become grouping keys. The grouping is implicitly done, based upon the fields in the <code>RETURN</code> clause.</p>
 </div>
-
 
 
 <div class="paragraph">
 <p>For example, in this Cypher statement, all rows returned with the same values for <em>a.name</em> and <em>d.name</em> are counted and only returned once.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">// implicitly groups by a.name and d.name
@@ -1212,7 +1136,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With this result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Aggregation.png" alt="Aggregation" width="800">
@@ -1224,10 +1147,9 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>Cypher has a built-in function, <code>collect()</code> that enables you to aggregate a value into a list.
+<p>Cypher has a built-in function, <code>collect( )</code> that enables you to aggregate a value into a list.
 Here is an example where we collect the list of movies that <em>Tom Cruise</em> acted in:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -1243,7 +1165,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TomCruiseMovieCollection.png" alt="TomCruiseMovieCollection" width="800">
@@ -1254,25 +1175,22 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>In Cypher, there is no "GROUP BY" clause as there is in SQL. The graph engine uses non-aggregated columns as an automatic grouping key.</p>
 </div>
-
 </div>
 <div  id="_counting_results" class="sect3 "  >
 <h4>Counting results</h4>
 
 
 <div class="paragraph">
-<p>The Cypher <code>count()</code> function is very useful when you want to count the number of occurrences of a particular query result.
+<p>The Cypher <code>count( )</code> function is very useful when you want to count the number of occurrences of a particular query result.
 If you specify <code>count(n)</code>, the graph engine calculates the number of occurrences of <em>n</em>.
 If you specify <code>count(*)</code>, the graph engine calculates the number of rows retrieved, including those with <code>null</code> values.
-When you use <code>count(_)</code>, the graph engine does an implicit group by based upon the aggregation.</p>
+When you use <code>count( )</code>, the graph engine does an implicit group by based upon the aggregation.</p>
 </div>
-
 
 
 <div class="paragraph">
-<p>Here is an example where we count the paths retrieved where an actor and director collaborated in a movie and the <code>count()</code> function is used to count the number of paths found for each actor/director collaboration.</p>
+<p>Here is an example where we count the paths retrieved where an actor and director collaborated in a movie and the <code>count( )</code> function is used to count the number of paths found for each actor/director collaboration.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (actor:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(director:Person)
@@ -1287,7 +1205,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ActorDirectorCollaborations.png" alt="ActorDirectorCollaborations" width="900">
@@ -1299,9 +1216,8 @@ data-lang=”{language}” class=””
 <p>There are more aggregating functions such as <code>min()</code> or <code>max()</code> that you can also use in your queries.
 These are described in the <em>Aggregating Functions</em> section of the <em>Developer Manual</em>.</p>
 </div>
-
 </div>
-<div  id="_additional_processing_using_code_with_code" class="sect3 "  >
+<div  id="_additional_processing_using_with" class="sect3 "  >
 <h4>Additional processing using <code>WITH</code></h4>
 
 
@@ -1311,14 +1227,12 @@ You use the <code>WITH</code> clause to perform intermediate processing or data 
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example where we start the query processing by retrieving all actors and their movies.
 During the query processing, want to only return actors that have 2 or 3 movies.
 All other actors and the aggregated results are filtered out. This type of query is a replacement for SQL&#8217;s "HAVING" clause.
 The <code>WITH</code> clause does the counting and collecting, but is then used in the subsequent <code>WHERE</code> clause to limit how many paths are visited.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -1335,7 +1249,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ActorsWith2or3Movies.png" alt="ActorsWith2or3Movies" width="800">
@@ -1348,7 +1261,6 @@ data-lang=”{language}” class=””
 In this example, the variable <em>a</em> is specified to be passed on in the query, but <em>m</em> is not. Since <em>m</em> is not specified to be passed on, <em>m</em> will not be available later in the query.
 Notice that for the <code>RETURN</code> clause, <em>a</em>, <em>numMovies</em>, and <em>movies</em> are available for use.</p>
 </div>
-
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1366,7 +1278,6 @@ You have to name all expressions with an alias in a <code>WITH</code> that are n
 <div class="paragraph">
 <p>Here is another example where we want to find all actors who have acted in at least five movies, and find (optionally) the movies they directed and return the person and those movies.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -1384,7 +1295,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PopularActorsWithAtLeast5Movies.png" alt="PopularActorsWithAtLeast5Movies" width="800">
@@ -1395,10 +1305,9 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>In this example, we first retrieve all people, but then specify a pattern in the <code>WITH</code> clause where we calculate the number of <code>:ACTED_IN</code> relationships retrieved using the <code>size()</code> function. If this value is greater than five, we then also retrieve the <code>:DIRECTED</code> paths to return the name of the person and the title of the movie they directed. In the result, we see that these actors acted in more than five movies, but <em>Tom Hanks</em> is the only actor who directed a movie and thus the only person to have a value for the movie.</p>
 </div>
-
 </div>
 </div>
-<div  id="_strong_exercise_5_controlling_query_processing_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_5_controlling_query_processing" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 5: Controlling query processing</strong></h3>
 
 
@@ -1406,7 +1315,6 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 5.</p>
 </div>
-
 </div>
 <div  id="_controlling_how_results_are_returned" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Controlling how results are returned</h3>
@@ -1415,7 +1323,6 @@ and follow the instructions for Exercise 5.</p>
 <div class="paragraph">
 <p>Next, you will learn some additional Cypher techniques for controlling how results are returned from a query.</p>
 </div>
-
 <div  id="_eliminating_duplication" class="sect3 "  >
 <h4>Eliminating duplication</h4>
 
@@ -1427,12 +1334,10 @@ You do so by using the <code>DISTINCT</code> keyword.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is a simple example where duplicate data is returned.
 <em>Tom Hanks</em> both acted in and directed the movie, <em>That Thing You Do</em>, so the movie is returned twice in the result stream:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
@@ -1448,7 +1353,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Duplication.png" alt="Duplication" width="800">
@@ -1459,7 +1363,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>We can eliminate the duplication by specifying the DISTINCT keyword as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
@@ -1475,7 +1378,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoDuplication.png" alt="NoDuplication" width="800">
@@ -1489,7 +1391,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Another way that you can avoid duplication is to with <code>WITH</code> and <code>DISTINCT</code> together as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
@@ -1506,7 +1407,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoDuplication2.png" alt="NoDuplication2" width="800">
@@ -1525,11 +1425,9 @@ Just as you can use <code>DISTINCT</code> with <code>WITH</code> to eliminate du
 </div>
 
 
-
 <div class="paragraph">
 <p>In this example, we specify that the release date of the movies for <em>Tom Hanks</em> will be returned in descending order.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:DIRECTED | :ACTED_IN]-&gt;(m:Movie)
@@ -1545,7 +1443,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Ordering.png" alt="Ordering" width="800">
@@ -1563,12 +1460,10 @@ You can use the <code>LIMIT</code> keyword to specify the number of results retu
 </div>
 
 
-
 <div class="paragraph">
 <p>Suppose you want to see the titles of the ten most recently released movies.
 You could do so as follows where you limit the number of results using the <code>LIMIT</code> keyword as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -1583,7 +1478,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Limit.png" alt="Limit" width="600">
@@ -1599,11 +1493,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>In this example, we count the number of movies during the query and we return the results once we have reached 5 movies:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -1620,7 +1512,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Count5Movies.png" alt="Count5Movies" width="900">
@@ -1628,7 +1519,7 @@ data-lang=”{language}” class=””
 </div>
 </div>
 </div>
-<div  id="_strong_exercise_6_controlling_results_returned_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_6_controlling_results_returned" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 6: Controlling results returned</strong></h3>
 
 
@@ -1636,7 +1527,6 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 6.</p>
 </div>
-
 </div>
 <div  id="_working_with_cypher_data" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Working with Cypher data</h3>
@@ -1648,16 +1538,14 @@ You have also learned that nodes and relationships can have properties, whose va
 You have also learned that the <code>collect()</code> function can create lists of values or objects where a list is comma-separated and you can use the <code>IN</code> keyword to search for a value in a list.
 Next, you will learn more about working with lists and dates in Cypher.</p>
 </div>
-
 <div  id="_lists" class="sect3 "  >
 <h4>Lists</h4>
 
 
 <div class="paragraph">
 <p>There are many built-in Cypher functions that you can use to build or access elements in lists.
-A Cypher <code>map</code> is list of key/value pairs where each element of the list is of the format key: value. For example, a list of months and the number of days per month could be:</p>
+A Cypher <code>map</code> is list of key/value pairs where each element of the list is of the format key: value. For example, a map of months and the number of days per month could be:</p>
 </div>
-
 
 
 <div class="paragraph">
@@ -1665,11 +1553,9 @@ A Cypher <code>map</code> is list of key/value pairs where each element of the l
 </div>
 
 
-
 <div class="paragraph">
 <p>You can collect values for a list during a query and when you return results, you can sort by the size of the list using the <code>size()</code> function as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -1685,7 +1571,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CastList.png" alt="CastList" width="900">
@@ -1696,7 +1581,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You can read more about working with lists in the <em>List Functions</em> section of the <em>Developer Manual</em>.</p>
 </div>
-
 </div>
 <div  id="_unwinding_lists" class="sect3 "  >
 <h4>Unwinding lists</h4>
@@ -1707,11 +1591,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example where we create a list with three elements, unwind the list and then return the values. Since there are three elements, three rows are returned with the values:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">WITH [1, 2, 3] AS list
@@ -1727,7 +1609,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Unwind3.png" alt="Unwind3" width="700">
@@ -1738,7 +1619,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Notice that there is no <code>MATCH</code> clause. You need not query the database to execute Cypher statements, but you do need the <code>RETURN</code> clause here to return the calculated values from the Cypher query.</p>
 </div>
-
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1762,12 +1642,9 @@ For example, suppose you wanted to calculate the age of a <em>Person</em> node, 
 </div>
 
 
-
 <div class="paragraph">
-<p>Here is example Cypher to retrieve all actors from the graph, and if they have a value for <em>born</em>, calculate the <em>age</em> value.
-Notice that the <code>date()</code> function is called and then converted to a string and then an integer to perform the age calculation.</p>
+<p>Here is example Cypher to retrieve all actors from the graph, and if they have a value for <em>born</em>, calculate the <em>age</em> value.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (actor:Person)-[:ACTED_IN]-&gt;(:Movie)
@@ -1786,7 +1663,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Age.png" alt="Age" width="800">
@@ -1797,7 +1673,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Consult the <em>Developer Manual</em> for more information about the built-in functions available for working with data of all types:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -1825,7 +1700,7 @@ Spatial
 </div>
 </div>
 </div>
-<div  id="_strong_exercise_7_working_with_cypher_data_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_7_working_with_cypher_data" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 7: Working with Cypher data</strong></h3>
 
 
@@ -1833,7 +1708,6 @@ Spatial
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 7.</p>
 </div>
-
 </div>
 </div>
 <div  id="module-5" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
@@ -1845,7 +1719,6 @@ and follow the instructions for Exercise 7.</p>
 <div class="paragraph">
 <p>Suppose you want to add a <code>WHERE</code> clause at the end of this statement to filter the results retrieved.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[rel]-&gt;(m:Movie)&lt;-[:PRODUCED]-(:Person)</pre>
@@ -1861,11 +1734,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1890,7 +1761,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Suppose you want to retrieve all movies that have a <em>released</em> property value that is 2000, 2002, 2004, 2006, or 2008.  Here is an incomplete Cypher example to return the <em>title</em> property values of all movies released in these years.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -1908,11 +1778,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answer.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1937,7 +1805,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Given this Cypher query:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -1956,11 +1823,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1986,7 +1851,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You should now be able to write Cypher statements to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -2153,7 +2017,7 @@ $( document ).ready(function() {
         <ul class="sectlevel1">
 <li><a href="#_about_this_module">About this module</a>
 <ul class="sectlevel2">
-<li><a href="#_filtering_queries_using_code_where_code">Filtering queries using <code>WHERE</code></a>
+<li><a href="#_filtering_queries_using_where">Filtering queries using <code>WHERE</code></a>
 <ul class="sectlevel3">
 <li><a href="#_specifying_ranges_in_where_clauses">Specifying ranges in WHERE clauses</a></li>
 <li><a href="#_testing_labels">Testing labels</a></li>
@@ -2164,10 +2028,10 @@ $( document ).ready(function() {
 <li><a href="#_testing_with_list_values">Testing with list values</a></li>
 </ul>
 </li>
-<li><a href="#_strong_exercise_4_filtering_queries_using_the_code_where_code_clause_strong"><strong>Exercise 4: Filtering queries using the <code>WHERE</code> clause</strong></a></li>
+<li><a href="#_exercise_4_filtering_queries_using_the_where_clause"><strong>Exercise 4: Filtering queries using the <code>WHERE</code> clause</strong></a></li>
 <li><a href="#_controlling_query_processing">Controlling query processing</a>
 <ul class="sectlevel3">
-<li><a href="#_specifying_multiple_code_match_code_patterns">Specifying multiple <code>MATCH</code> patterns</a></li>
+<li><a href="#_specifying_multiple_match_patterns">Specifying multiple <code>MATCH</code> patterns</a></li>
 <li><a href="#_example_1_using_two_match_patterns">Example 1: Using two MATCH patterns</a></li>
 <li><a href="#_example_2_using_two_match_patterns">Example 2: Using two MATCH patterns</a></li>
 <li><a href="#_setting_path_variables">Setting path variables</a></li>
@@ -2177,10 +2041,10 @@ $( document ).ready(function() {
 <li><a href="#_aggregation_in_cypher">Aggregation in Cypher</a></li>
 <li><a href="#_collecting_results">Collecting results</a></li>
 <li><a href="#_counting_results">Counting results</a></li>
-<li><a href="#_additional_processing_using_code_with_code">Additional processing using <code>WITH</code></a></li>
+<li><a href="#_additional_processing_using_with">Additional processing using <code>WITH</code></a></li>
 </ul>
 </li>
-<li><a href="#_strong_exercise_5_controlling_query_processing_strong"><strong>Exercise 5: Controlling query processing</strong></a></li>
+<li><a href="#_exercise_5_controlling_query_processing"><strong>Exercise 5: Controlling query processing</strong></a></li>
 <li><a href="#_controlling_how_results_are_returned">Controlling how results are returned</a>
 <ul class="sectlevel3">
 <li><a href="#_eliminating_duplication">Eliminating duplication</a></li>
@@ -2190,7 +2054,7 @@ $( document ).ready(function() {
 <li><a href="#_controlling_the_number_of_results_using_with">Controlling the number of results using WITH</a></li>
 </ul>
 </li>
-<li><a href="#_strong_exercise_6_controlling_results_returned_strong"><strong>Exercise 6: Controlling results returned</strong></a></li>
+<li><a href="#_exercise_6_controlling_results_returned"><strong>Exercise 6: Controlling results returned</strong></a></li>
 <li><a href="#_working_with_cypher_data">Working with Cypher data</a>
 <ul class="sectlevel3">
 <li><a href="#_lists">Lists</a></li>
@@ -2198,7 +2062,7 @@ $( document ).ready(function() {
 <li><a href="#_dates">Dates</a></li>
 </ul>
 </li>
-<li><a href="#_strong_exercise_7_working_with_cypher_data_strong"><strong>Exercise 7: Working with Cypher data</strong></a></li>
+<li><a href="#_exercise_7_working_with_cypher_data"><strong>Exercise 7: Working with Cypher data</strong></a></li>
 </ul>
 </li>
 <li><a href="#module-5">Check your understanding</a>

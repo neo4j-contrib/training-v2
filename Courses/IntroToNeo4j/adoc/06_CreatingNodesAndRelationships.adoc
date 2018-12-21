@@ -891,17 +891,16 @@ Be mindful that node labels and the properties for a node are significant when m
 
 === Using `MERGE` to create relationships
 
-Here is the simplified syntax for the `MERGE` clause for creating relationships:
+Here is the syntax for the `MERGE` clause for creating relationships:
 [source,cypher-syntax]
-MERGE (variable:Label
 ----
-{nodeProperties})-[:REL_TYPE]->(otherNode)
+MERGE (variable:Label {nodeProperties})-[:REL_TYPE]->(otherNode)
 RETURN variable
 ----
 
 If there is an existing node with  _Label_ and _nodeProperties_  with the _:REL_TYPE_ to _otherNode_ found in the graph, no relationship is created. If the relationship does not exist, it is created. 
 
-Although, you can leave out the direction of the relationship being created with the `MERGE`, in which case a left-to-right arrow will be assumed, a best practice is to always specify the direction of the relationship.
+Although, you can leave out the direction of the relationship being created with the `MERGE`, in which case a left-to-right arrow will be assumed, a best practice is to always specify the direction of the relationship. However, if you have  bidirectional relationships and you want to avoid creating duplicate relationships, you [.underline]#must# leave off the arrow.
 
 === Specifying creation behavior when merging
 
