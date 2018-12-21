@@ -1050,7 +1050,7 @@ RETURN  m.title as Movie, r.summary as Review, r.rating as Rating<!--/code--></p
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:PRODUCED]-&gt;(m:Movie)
-WHERE NOT (a)-[:DIRECTED]-&gt;(m)
+WHERE NOT ((a)-[:DIRECTED]-&gt;(:Movie))
 RETURN a.name, m.title<!--/code--></pre>
 </div>
 </div>
