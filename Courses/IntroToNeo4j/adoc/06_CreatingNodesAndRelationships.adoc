@@ -63,33 +63,25 @@ Here are some examples of creating a single node in Cypher:
 Add a node to the graph of type _Movie_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the label _Movie_ can also be retrieved which will contain this node:
 [source,cypher]
 ----
-CREATE (:Movie 
-   {title: 'Batman Begins'}
-   )
+CREATE (:Movie {title: 'Batman Begins'})
 ----
 
 Add a node with two labels to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node:
 [source,cypher]
 ----
-CREATE (:Movie:Action 
-   {title: 'Batman Begins'}
-   )
+CREATE (:Movie:Action {title: 'Batman Begins'})
 ----
 
 Add a node to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. The variable _m_ can be used for later processing after the `CREATE` clause:
 [source,cypher]
 ----
-CREATE (m:Movie:Action 
-   {title: 'Batman Begins'}
-   )
+CREATE (m:Movie:Action {title: 'Batman Begins'})
 ----
 
 Add a node to the graph of types_Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. Here we return the title of the node:
 [source,cypher]
 ----
-CREATE` (m:Movie:Action 
-   {title: ' Batman Begins'}
-   ) 
+CREATE` (m:Movie:Action {title: ' Batman Begins'}) 
 RETURN m.title
 ----
 

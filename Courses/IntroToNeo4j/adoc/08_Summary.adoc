@@ -131,11 +131,12 @@ $( document ).ready(function() {
 ++++
 <script>
 $( document ).ready(function() {
+  $('#cert-result').html("<i>... Checking for certificate ...</i>");
   getClassCertificate().then( function( value ) {
     if ('url' in value) {
       $('#cert-result').html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
     } else {
-      $('#cert-result').html( "Certificate not available yet." );
+      $('#cert-result').html( "Certificate not available yet.  Did you complete the quizes at the end of each section?" );
     }
   });
 
