@@ -58,7 +58,7 @@ Regardless of which library your application requires, you must ensure that Neo4
 
 Your application will include at least one Neo4j database, but it could include multiple databases, each with their own Neo4j instance. A Neo4j instance can only support one active database. 
 
-Many deployed applications use Casual Clustering which you will learn about later in this training. Casual Clustering is an architecture which provides data safety and performance for critical systems that could be distributed all over the world. 
+Many deployed applications use Causal Clustering which you will learn about later in this training. Causal Clustering is an architecture which provides data safety and performance for critical systems that could be distributed all over the world. 
 
 === Example architecture #1: Using Neo4j as the primary database
 
@@ -82,19 +82,19 @@ image::{imagedir}/Microservices.png[Microservices,width=600,align=center]
 
 As a Neo4j database administrator, you are responsible for the availability and consistency of the Neo4j database, and for making the data accessible by applications. Application developers are responsible for the logic in transferring and manipulating data between the databases.
 
-=== Example architecture #3: Using Neo4j Casual Clustering 
+=== Example architecture #3: Using Neo4j Causal Clustering 
 
 Causal Clustering is used in production environments where high throughput, continuous availability, and reliability are important factors. This feature is available with Neo4j Enterprise Edition. 
 
-With Casual Clusters, you configure multiple Neo4j instances that communicate with each other about updates to the database. Casual Clusters are used when data needs to reside in multiple physical locations, or if you want to implement a high availability architecture where access to data will not be affected if a Neo4j instance goes down. 
+With Causal Clusters, you configure multiple Neo4j instances that communicate with each other about updates to the database. Causal Clusters are used when data needs to reside in multiple physical locations, or if you want to implement a high availability architecture where access to data will not be affected if a Neo4j instance goes down. 
 
-image::{imagedir}/ClustersHighLevel.png[CasualClustersHighLevel,width=700,align=center]
+image::{imagedir}/ClustersHighLevel.png[ClustersHighLevel,width=700,align=center]
 
-A common use for Neo4j is when different data is required in a set of geographic locations. For example, an  online retailer may have different data in the US and Europe. Some data could be shared between different geographically located data centers, but the most heavily updated data needs to physically reside closer to the end-user applications. Neo4j Casual Clusters can be configured to span geographic locations.
+A common use for Neo4j is when different data is required in a set of geographic locations. For example, an  online retailer may have different data in the US and Europe. Some data could be shared between different geographically located data centers, but the most heavily updated data needs to physically reside closer to the end-user applications. Neo4j Causal Clusters can be configured to span geographic locations.
 
-image::{imagedir}/ClustersHighLevelDistributed.png[CasualClustersHighLevelDistributed,width=800,align=center]
+image::{imagedir}/ClustersHighLevelDistributed.png[ClustersHighLevelDistributed,width=800,align=center]
 
-As a Neo4j database administrator, you will be responsible for configuring and monitoring Casual Clusters. You will work with architects to determine the appropriate configuration of the Causal Cluster, taking into account aspects such as: uptime requirements, performance requirements, and redundancy required in order to handle events of Neo4j instance failure or data center failure. 
+As a Neo4j database administrator, you will be responsible for configuring and monitoring Causal Clusters. You will work with architects to determine the appropriate configuration of the Causal Cluster, taking into account aspects such as: uptime requirements, performance requirements, and redundancy required in order to handle events of Neo4j instance failure or data center failure. 
 
 Some decisions you may need to make are:
 [square]
@@ -242,7 +242,7 @@ In this training, you will learn how to perform these common administrative task
 * Managing caching
 * Monitoring queries
 * Backing up and restoring databases
-* Managing Casual Clusters
+* Managing Causal Clusters
 * Managing database security
 * Performance tuning
 * Troubleshooting problems
@@ -298,7 +298,7 @@ Which features below are available [.underline]#only# in the Enterprise Edition 
 Select the correct answers.
 [%interactive]
 - [ ] [.false-answer]#ACID transactions#
-- [ ] [.required-answer]#Casual Clusters#
+- [ ] [.required-answer]#Causal Clusters#
 - [ ] [.false-answer]#Bolt protocol#
 - [ ] [.required-answer]#Hot backups#
 
