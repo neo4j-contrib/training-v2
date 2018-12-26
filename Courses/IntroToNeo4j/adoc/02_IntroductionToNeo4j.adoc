@@ -53,7 +53,7 @@ In addition, Neo4j provides APIs and drivers that enable you to create applicati
 |===
 a|image::{imagedir}/IndexFreeAdjacency.png[IndexFreeAdjancency,width=300,align=center]
 a|
-With index free adjacency, when a node or relationship is written to the database, it is stored in the database as connected and any subsequent access to the data is done using pointer navigation which is very fast. Since Neo4j is a native graph database, it supports very large graphs where connected data can be traversed in constant time without the need for an index. 
+With index free adjacency, when a node or relationship is written to the database, it is stored in the database as connected and any subsequent access to the data is done using pointer navigation which is very fast. Since Neo4j is a native graph database (i.e. it has a graph as its core data model), it supports very large graphs where connected data can be traversed in constant time without the need for an index. 
 |===
 
 ==== Neo4j Database: ACID (Atomic, Consistent, Isolated, Durable)
@@ -62,7 +62,7 @@ With index free adjacency, when a node or relationship is written to the databas
 |===
 a|image::{imagedir}/ACID.png[ACID,width=400,align=center]
 a|
-ACID is extremely important for an application that requires ACID transactions. 
+Tranasactionality is very important for robust applications that require an ACID (atomicity, consistency, isolation, and durability) guarantes for their data.
 If a relationship between nodes is created, not only is the relationship created, but the nodes are updated as connected. 
 All of these updates to the database must [.underline]#all# succeed or fail. 
 |===
@@ -78,17 +78,13 @@ endif::backend-pdf[]
 |===
 a|image::{imagedir}/Clustering.png[Neo4j Clustering,width=300,align=center]
 a|
-Neo4j fully supports ACID transactions that update data across locations. 
-For some applications, this is critical. 
-Updates to graphs that span locations must also support ACID in many applications. 
-That is where other NoSQL databases fall short and cannot provide the propagation of transactions across clusters (locations) as Neo4j can.
+Neo4j supports clusters that provide high availablity, scalability for read access to the data, and failover which is important to many enterprises.
 |===
 
 ==== Graph engine
 
 The Neo4j graph engine is used to interpret Cypher statements and also executes kernel-level code to store and retrieve data, whether it is on disk, or cached in memory. 
 The graph engine has been improved with every release of Neo4j to provide the most efficient access to an application's graph data. There are many ways that you can tune the performance of the engine to suit your particular application needs. 
-
 
 ==== Language and driver support
 

@@ -116,7 +116,7 @@ a|
 endif::backend-pdf[]
 Each relationship represents how two nodes are connected. 
 For example, the two nodes _Person_ and _Location_, might have the relationship _LIVES_AT_ pointing from a _Person_ node to _Location_ node.
-A relationship represents the verb or action between two entities.
+A relationship represents the verb or action between two entities. The _MARRIED_ relationship is defined from one _Person_ node to another _Person_ node. Although the relationship is defined as directional, it can be queried in a non-directional manner. That is, you can query if two _Person_ nodes have a _MARRIED_ relationship, regardless of the direction of the relationship. For some data models, the direction of the relationship is significant. For example, in Facebook, using the _KNOWS_ relationship is used to indicate which _Person_ invited the other _Person_ to be a friend.
 
 image::{imagedir}/Relationships.png[Relationships,width=400,align=center]
 // force line break
@@ -141,7 +141,7 @@ image::{imagedir}/Properties.png[Properties,width=500,align=center]
 
 {nbsp} +  
 This enables you to closely align data and connections in the graph to your real-world application. 
-For example, a _Person_ node might have a property, _name_ and a _Location_ node might have a property, _address_.
+For example, a _Person_ node might have a property, _name_ and a _Location_ node might have a property, _address_. In addition, a relationship, _MARRIED_ , might have a property, _since_.
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -197,7 +197,7 @@ But, there are some ways in which the relational model differs from the graph mo
 | *Graph*
 | 
 {set:cellbgcolor:white}
-Rows in the same table have the same set of fields.
+Each column must have a field value.
 | Nodes with the same label aren't required to have the same set of properties.
 | Joins are calculated at query time.
 | Relationships are stored on disk when they are created.
@@ -277,7 +277,7 @@ endif::backend-pdf[]
 In Neo4j, the data model might evolve to something like this:
 
 [.thumb]
-image::{imagedir}/GraphModel.png[GraphModel,width=600,align=center]
+image::{imagedir}/GraphModel.png[GraphModel,width=1000,align=center]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]

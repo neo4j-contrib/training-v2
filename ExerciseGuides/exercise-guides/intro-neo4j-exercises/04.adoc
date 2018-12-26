@@ -795,7 +795,7 @@ Write Cypher queries using a `WHERE` clause to:
 [source, cypher]
 ----
 MATCH (a:Person)-[:PRODUCED]->(m:Movie)
-WHERE NOT (a)-[:DIRECTED]->(m)
+WHERE NOT ((a)-[:DIRECTED]->(:Movie))
 RETURN a.name, m.title
 ----
 

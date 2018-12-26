@@ -272,7 +272,7 @@ In addition, Neo4j provides APIs and drivers that enable you to create applicati
 <td class="tableblock halign-left valign-middle"><div>
 
 <div class="paragraph">
-<p>With index free adjacency, when a node or relationship is written to the database, it is stored in the database as connected and any subsequent access to the data is done using pointer navigation which is very fast. Since Neo4j is a native graph database, it supports very large graphs where connected data can be traversed in constant time without the need for an index.</p>
+<p>With index free adjacency, when a node or relationship is written to the database, it is stored in the database as connected and any subsequent access to the data is done using pointer navigation which is very fast. Since Neo4j is a native graph database (i.e. it has a graph as its core data model), it supports very large graphs where connected data can be traversed in constant time without the need for an index.</p>
 </div>
 </div></td>
 </tr>
@@ -296,7 +296,7 @@ In addition, Neo4j provides APIs and drivers that enable you to create applicati
 <td class="tableblock halign-left valign-middle"><div>
 
 <div class="paragraph">
-<p>ACID is extremely important for an application that requires ACID transactions.
+<p>Tranasactionality is very important for robust applications that require an ACID (atomicity, consistency, isolation, and durability) guarantes for their data.
 If a relationship between nodes is created, not only is the relationship created, but the nodes are updated as connected.
 All of these updates to the database must <span class="underline">all</span> succeed or fail.</p>
 </div>
@@ -322,10 +322,7 @@ All of these updates to the database must <span class="underline">all</span> suc
 <td class="tableblock halign-left valign-middle"><div>
 
 <div class="paragraph">
-<p>Neo4j fully supports ACID transactions that update data across locations.
-For some applications, this is critical.
-Updates to graphs that span locations must also support ACID in many applications.
-That is where other NoSQL databases fall short and cannot provide the propagation of transactions across clusters (locations) as Neo4j can.</p>
+<p>Neo4j supports clusters that provide high availablity, scalability for read access to the data, and failover which is important to many enterprises.</p>
 </div>
 </div></td>
 </tr>

@@ -1578,16 +1578,13 @@ Be mindful that node labels and the properties for a node are significant when m
 
 
 <div class="paragraph">
-<p>Here is the simplified syntax for the <code>MERGE</code> clause for creating relationships:</p>
+<p>Here is the syntax for the <code>MERGE</code> clause for creating relationships:</p>
 </div>
 
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
-<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MERGE (variable:Label
-----
-{nodeProperties})-[:REL_TYPE]-&gt;(otherNode)
-RETURN variable
-----</pre>
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MERGE (variable:Label {nodeProperties})-[:REL_TYPE]-&gt;(otherNode)
+RETURN variable</pre>
 </div>
 </div>
 <!--
@@ -1602,7 +1599,7 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>Although, you can leave out the direction of the relationship being created with the <code>MERGE</code>, in which case a left-to-right arrow will be assumed, a best practice is to always specify the direction of the relationship.</p>
+<p>Although, you can leave out the direction of the relationship being created with the <code>MERGE</code>, in which case a left-to-right arrow will be assumed, a best practice is to always specify the direction of the relationship. However, if you have  bidirectional relationships and you want to avoid creating duplicate relationships, you <span class="underline">must</span> leave off the arrow.</p>
 </div>
 
 </div>

@@ -318,7 +318,34 @@ If you have an existing database that you want to reside in a different location
 
 === *Exercise #5: Modifying the location of the database*
 
-TBD
+In this Exercise, you will set up a different location for the database in your local filesystem and start the Neo4j instance using the database from this new location.
+
+In this Exercise, you will create a database in a new location. The database you create will be created from a previously dumped database.
+
+*Before you begin*
+
+. You should have created the dump file for the database (Exercise #4).
+. Stop the Neo4j instance.
+
+*Exercise steps*:
+
+. Open a terminal on your system.
+. Create a folder named *~/databases*. This is the folder where the database will reside which is different from the default location used by Neo4j.
+. Modify the *neo4j.conf* file to use *movie3.db* as the active database, and *~/* as the data directory that will be used. Your *neo4j.conf* file should look something like this:
+
+image::{imagedir}/Ex5-LocationConfig.png[Ex5-LocationConfig,width=800,align=center]
+
+[start=4]
+. Use the `neo4j-admin` script to load the database from the dump file you created in Exercise 4. Name the database *movie3.db* You should do something like this:
+
+image::{imagedir}/Ex5-LoadDB.png[Ex5-LoadDB,width=800,align=center]
+
+[start=5]
+. Confirm that the *~/databases/movie3.db* folder now exists.
+. Start the Neo4j instance.
+. Access the database using Neo4j Browser. Can you see the movie data in the database? 
+
+image::{imagedir}/Ex5-browser.png[Ex5-browser,width=800,align=center]
 
 == Checking the consistency of a database
 
@@ -330,7 +357,7 @@ Here is how you use the `neo4j-admin` tool to check the consistency of the datab
 
 `neo4j-admin check-consistency --database=db-name --report-dir=report-location [--verbose=true]`
 
-The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tools comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the _Operations Manual_ for more options. For example, you can check the consistency of a backup. 
+The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the _Operations Manual_ for more options. For example, you can check the consistency of a backup. 
 
 Here is what a successful run of the consistency checker should produce:
 
@@ -348,7 +375,25 @@ Inconsistencies in a database are a serious matter that should be looked into wi
 
 === *Exercise #6: Checking consistency of a database*
 
-TBD
+In this Exercise, you check the consistency of a database that is consistent. Then you remove some files that causes the database to become inconsistent and then check its consistency.
+
+*Before you begin*
+
+. You should have created and started the *movie3.db* database (Exercise #6).
+. Stop the Neo4j instance.
+
+*Exercise steps*:
+
+. Open a terminal on your system.
+. Run the consistency check tool on *movie3.db* using neo4j-admin specifying *reports* as the folder where the report will be written. The admin-tool should return the following:
+
+image::{imagedir}/Ex6-Consistent.png[Ex6-Consistent,width=800,align=center]
+
+[start=3]
+. Next, you will corrupt the database. Modify the file *movie3.db/neostore.nodestore.db*.
+. Run the consistency check tool on *movie3.db* using neo4j-admin specifying *reports* as the folder where the report will be written. The admin-tool should return something like the following:
+
+image::{imagedir}/Ex6-Inconsistent.png[Ex6-Inconsistent,width=800,align=center]
 
 == Using cypher-shell
 
@@ -365,17 +410,6 @@ As a database administrator, you may need to automate changes to the database. T
 
 For example, on a OS X using _bash_, we create 3 files:
 
-*PrepareDB.sh* that initializes the log file, *PrepareDB.log*, and calls the script to drop the constraints:
-----
-rm -rf $NEO4J_HOME/work/PrepareDB.log
-$NEO4J_HOME/work/DropConstraints.sh 2>&1 >> $NEO4J_HOME/work/PrepareDB.log
-----
-
-*DropConstraints.sh* that invokes `cypher-shell` using a set of Cypher statements and appends its output to the log file:
-----
-at $NEO4J_HOME/work/DropConstraints.cypher | $NEO4J_HOME/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> $NEO4J_HOME/work/PrepareDB.log
-----
-
 *DropConstraints.cypher* that contains the Cypher statements to execute in `cypher-shell`:
 ----
 DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
@@ -384,12 +418,70 @@ DROP CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
 
 Each Cypher statement must end with a `;`. 
 
+*DropConstraints.sh* that invokes `cypher-shell` using a set of Cypher statements and appends its output to the log file:
+----
+cat $NEO4J_HOME/work/DropConstraints.cypher | $NEO4J_HOME/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> $NEO4J_HOME/work/PrepareDB.log
+----
+
+*PrepareDB.sh* that initializes the log file, *PrepareDB.log*, and calls the script to drop the constraints:
+----
+rm -rf $NEO4J_HOME/work/PrepareDB.log
+$NEO4J_HOME/work/DropConstraints.sh 2>&1 >> $NEO4J_HOME/work/PrepareDB.log
+----
+
 When the *PrepareDB.sh* script runs its scripts, all output will be written to the log file, including error output. Then you can simply check the log file to make sure it ran as expected.
 
 
 ===  *Exercise #7: Scripting changes to the database*
 
-TBD
+In this Exercise, you will gain experience using Cypher-shell for executing Cypher code manually and also scripting with Cypher shell.
+
+*Before you begin*
+
+. Remove the *~/databases/movie3.db* folder as this database is now corrupt.
+. Recreate the *movie3.db* by loading it from the dump file you created in Exercise 4.
+. Start the Neo4j instance.
+
+*Exercise steps*:
+
+. Open a terminal on your system.
+. Start Cypher-shell, providing the credentials for the neo4j user.
+
+image::{imagedir}/Ex7-StartCypher-shell.png[Ex7-StartCypher-shell,width=800,align=center]
+
+[start=3]
+. Enter some simple Cypher statements to confirm that you can access the database. For example:
+.. CALL db.schema();
+.. CALL db.constraints();
+
+image::{imagedir}/Ex7-CypherCommands.png[Ex7-CypherCommands,width=800,align=center]
+
+[start=4]
+. Exit Cypher-shell by typing *:exit*.
+. Create a Cypher script in the *$NEO4J_HOME/work* folder named *AddConstraints.cypher* with the following statements:
+----
+CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
+CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE; 
+----
+
+[start=6]
+. Create a shell script in the *$NEO4J_HOME/work* folder named *AddConstraints.sh* that will forward *AddConstraints.cypher* to cypher-shell. This file should have the following contents:
+
+----
+cat $NEO4J_HOME/work/AddConstraints.cypher | $NEO4J_HOME/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> $NEO4J_HOME/work/MaintainDB.log
+----
+
+[start=7]
+. Create a shell script in the *$NEO4J_HOME/work* folder named *MaintainDB.sh* that will initialize the log file and then call *AddConstraings.sh*. This file should have the following contents:
+
+----
+rm -rf $NEO4J_HOME/work/MaintainDB.log
+$NEO4J_HOME/work/AddConstraints.sh 2>&1 >> $NEO4J_HOME/work/MaintainDB.log
+----
+
+[start=8]
+. Run the *MaintailDB.sh* script and and confirm that it created the constraints in the database. (Check using cypher-shell (CALL db.constraings();))
+
 
 == Managing plugins required for the database
 
@@ -483,6 +575,8 @@ image::{imagedir}/APOCLoaded.png[APOCLoaded,width=800,align=center]
 
 ===  *Exercise #8: Install some plugins*
 
+TBD
+
 == Configuring connector ports for the Neo4j instance
 
 The Neo4j instance uses https://neo4j.com/docs/operations-manual/current/configuration/ports/[default port numbers] that may conflict with other processes on your system. The ports used frequently are the connector ports:
@@ -529,6 +623,8 @@ As you learn more about some of the other administrative tasks for a Neo4j insta
 It is not possible to disable the HTTP connector. See the https://neo4j.com/docs/operations-manual/current/configuration/connectors/[connectors] section of the _Operations Manual_ for more information.
 
 ===  *Exercise #9: Modify the HTTP port*
+
+TBD
 
 == Check your understanding
 === Question 1
