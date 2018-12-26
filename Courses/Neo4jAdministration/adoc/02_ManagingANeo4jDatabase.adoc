@@ -42,7 +42,7 @@ At the end of this module, you should be able to:
 
 == Neo4j instance files
 
-Here is the file structure for a Neo4j installation which is commonly referred to as _NEO4J_HOME_:
+Here is the file structure for a Neo4j installation which is commonly referred to as *NEO4J_HOME*:
 
 image::{imagedir}/Neo4jInstallFiles.png[Neo4jInstallFiles,width=600,align=center]
 
@@ -52,7 +52,7 @@ In this training, you will be working in some of these folders. The *bin* folder
 
 Before you do anything with Neo4j, you should change the default password for the user, _neo4j_. Doing so enables you to, at a minimum, control who can manage this Neo4j instance. Later in this training, you will learn more about securing Neo4j.
 
-You change the password with the *neo4j-admin* tool that is found in the *bin* folder of your Neo4j Enterprise Edition installation (NEO4J_HOME). Here is the command you use to change the password:
+You change the password with the *neo4j-admin* tool that is found in the *bin* folder of your Neo4j Enterprise Edition installation (*NEO4J_HOME*). Here is the command you use to change the password:
 
 `neo4j-admin set-initial-password thePassword`
 
@@ -67,12 +67,12 @@ Using `set-initial-password` to change the Neo4j password for the default _neo4j
 
 *Before you begin*
 
-You should have installed Neo4j Enterprise Edition on your system and made a note of where you installed it. We refer to this location as NEO4J_HOME.
+You should have installed Neo4j Enterprise Edition on your system and made a note of where you installed it. We refer to this location as *NEO4J_HOME*.
 
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Navigate to the *bin* folder of NEO4J_HOME.
+. Navigate to the *bin* folder of *NEO4J_HOME*.
 . Use the admin-tool to change the _neo4j_ user password to something you will remember.
 
 == Starting the Neo4j instance
@@ -83,7 +83,7 @@ You use the the `neo4j` script to start the Neo4j instance as follows:
 
 `neo4j start`
 
-Here is an example where in a terminal window, we start Neo4j instance:
+Here is an example where in a terminal window, we start the Neo4j instance:
 
 image::{imagedir}/StartInstance.png[StartInstance,width=800,align=center]
 
@@ -128,7 +128,7 @@ You should have changed the _neo4j_ user password to something you will remember
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Navigate to the *bin* folder of NEO4J_HOME.
+. Navigate to the *bin* folder of *NEO4J_HOME*.
 . Use the `neo4j` script to start the Neo4j instance.
 . Examine the files and folders created for this initial start of the Neo4j instance.
 . Examine the contents of *neo4j.log*.
@@ -136,7 +136,6 @@ You should have changed the _neo4j_ user password to something you will remember
 . Enter the password for the _neo4j_ user and then click *Connect*. You now have access to a started and empty database.
 . In the query edit pane of Neo4j Browser enter `:play movie graph` which will open the Browser Guide for working with the Movie graph. It should look like this:
 
-[.thumb]
 image::{imagedir}/PlayMovieGraph.png[PlayMovieGraph,width=800,align=center]
 
 [start=9]
@@ -171,16 +170,16 @@ The Neo4j instance should be started.
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Navigate to the *bin* folder of NEO4J_HOME.
+. Navigate to the *bin* folder of *NEO4J_HOME*.
 . Use the `neo4j` script to stop the Neo4j instance.
 . Examine the *neo4j.log* file to confirm that the Neo4j instance is stopped.
 . Confirm that you no longer have access to the database with Neo4j Browser.
 
 == Renaming a Neo4j database
 
-By default, the Neo4j database is located in the *$NEO4J_HOME/data/databases* folder. The database is represented by a subfolder with the default name, *graph.db*. You should never modify, copy, or move any files or folders under *graph.db*.
+By default, the Neo4j database is located in the *NEO4J_HOME/data/databases* folder. The database is represented by a subfolder with the default name, *graph.db*. You should never modify, copy, or move any files or folders under *graph.db*.
 
-A key file for a Neo4j instance is *$NEO4J_HOME/conf/neo4j.conf*. This file contains all settings used by Neo4j at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db* Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j assumes that the default will be used a runtime.
+A key file for a Neo4j instance is *NEO4J_HOME/conf/neo4j.conf*. This file contains all settings used by Neo4j at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db* Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j assumes that the default will be used a runtime.
 
 image::{imagedir}/DefaultNeo4jConfig.png[DefaultNeo4jConfig,width=800,align=center]
 
@@ -241,7 +240,7 @@ _where:_
 
 Here is an example where we have renamed the database to be _movie.db_ and we have created a folder named _dumps_. We dump the _movie.db_ using `neo4j-admin`:
 
-image::{imagedir}/DumpDatabase.png[DumpDatabase,width=800,align=center]
+image::{imagedir}/DumpDatabase.png[DumpDatabase,width=1000,align=center]
 
 After the dump file, _movie-dump_ is created, you can move it anywhere on filesystem or network.
 
@@ -268,7 +267,7 @@ _where:_
 
 Here is an example where we load the contents of *movie-dump* into a database named *movie2.db*. 
 
-image::{imagedir}/LoadDatabase.png[LoadDatabase,width=800,align=center]
+image::{imagedir}/LoadDatabase.png[LoadDatabase,width=1000,align=center]
 
 In order to access this newly created and loaded database, we must modify *neo4j.conf* to use *movie2.db* as the active database before starting the Neo4j instance.
 
@@ -283,16 +282,16 @@ You should have loaded the database with the movie data (Exercise #3) and stoppe
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Create a folder named *$NEO4J_HOME/work*.
+. Create a folder named *NEO4J_HOME/work*.
 . Use the `neo4j-admin` script to dump the database to the *work* folder. You should do something like this:
 
-image::{imagedir}/Ex4-movie-dump.png[Ex4-movie-dump,width=800,align=center]
+image::{imagedir}/Ex4-movie-dump.png[Ex4-movie-dump,width=1000,align=center]
 
 [start=4]
 . Notice that this dump file is simply a file that can be copied to any location.
 . Use the `neo4j-admin` script to load the database from the dump file you just created. Name the database *movie.db* You should do something like this:
 
-image::{imagedir}/Ex4-movie-load.png[Ex4-movie-load,width=800,align=center]
+image::{imagedir}/Ex4-movie-load.png[Ex4-movie-load,width=1000,align=center]
 
 [start=6]
 . Delete the *graph.db* database.
@@ -345,7 +344,7 @@ image::{imagedir}/Ex5-LoadDB.png[Ex5-LoadDB,width=800,align=center]
 . Start the Neo4j instance.
 . Access the database using Neo4j Browser. Can you see the movie data in the database? 
 
-image::{imagedir}/Ex5-browser.png[Ex5-browser,width=800,align=center]
+image::{imagedir}/Ex5-browser.png[Ex5-browser,width=1000,align=center]
 
 == Checking the consistency of a database
 
@@ -361,17 +360,17 @@ The database named _db-name_ is found in the data location specified in *neo4j.c
 
 Here is what a successful run of the consistency checker should produce:
 
-image::{imagedir}/ConsistentPassed.png[ConsistentPassed,width=800,align=center]
+image::{imagedir}/ConsistentPassed.png[ConsistentPassed,width=1000,align=center]
 
 Here is an example of what an unsuccessful run of the consistency checker should produce:
 
-image::{imagedir}/Inconsistencies1.png[Inconsistencies1,width=800,align=center]
+image::{imagedir}/Inconsistencies1.png[Inconsistencies1,width=1000,align=center]
 
 If inconsistencies are found, are report is generated and placed in the folder specified for the report location:
 
 image::{imagedir}/Inconsistencies2.png[Inconsistencies2,width=800,align=center]
 
-Inconsistencies in a database are a serious matter that should be looked into with the help of Technical support. Later in this training you will learn more about troubleshooting problems that are detected.
+Inconsistencies in a database are a serious matter that should be looked into with the help of Neo4j Technical Support. Later in this training you will learn more about troubleshooting problems that are detected.
 
 === *Exercise #6: Checking consistency of a database*
 
@@ -387,13 +386,13 @@ In this Exercise, you check the consistency of a database that is consistent. Th
 . Open a terminal on your system.
 . Run the consistency check tool on *movie3.db* using neo4j-admin specifying *reports* as the folder where the report will be written. The admin-tool should return the following:
 
-image::{imagedir}/Ex6-Consistent.png[Ex6-Consistent,width=800,align=center]
+image::{imagedir}/Ex6-Consistent.png[Ex6-Consistent,width=1000,align=center]
 
 [start=3]
 . Next, you will corrupt the database. Modify the file *movie3.db/neostore.nodestore.db*.
 . Run the consistency check tool on *movie3.db* using neo4j-admin specifying *reports* as the folder where the report will be written. The admin-tool should return something like the following:
 
-image::{imagedir}/Ex6-Inconsistent.png[Ex6-Inconsistent,width=800,align=center]
+image::{imagedir}/Ex6-Inconsistent.png[Ex6-Inconsistent,width=1000,align=center]
 
 == Using cypher-shell
 
@@ -402,7 +401,7 @@ Once authenticated, the Cypher statements execute just as they would in Neo4j Br
 
 In this example, we log into `cypher-shell` with our credentials. Then we execute the Cypher statement to create a unique constraint. Notice that we specify `;` at the end of the Cypher statement.  We then execute another Cypher statement to create a different unique constraint. Finally, we specify `:exit` to log out of `cypher-shell`.
 
-image::{imagedir}/Cypher-shell.png[Cypher-shell,width=800,align=center]
+image::{imagedir}/Cypher-shell.png[Cypher-shell,width=1000,align=center]
 
 === Scripting with cypher-shell
 
@@ -465,14 +464,14 @@ CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
 ----
 
 [start=6]
-. Create a shell script in the *$NEO4J_HOME/work* folder named *AddConstraints.sh* that will forward *AddConstraints.cypher* to cypher-shell. This file should have the following contents:
+. Create a shell script in the *NEO4J_HOME/work* folder named *AddConstraints.sh* that will forward *AddConstraints.cypher* to cypher-shell. This file should have the following contents:
 
 ----
 cat $NEO4J_HOME/work/AddConstraints.cypher | $NEO4J_HOME/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> $NEO4J_HOME/work/MaintainDB.log
 ----
 
 [start=7]
-. Create a shell script in the *$NEO4J_HOME/work* folder named *MaintainDB.sh* that will initialize the log file and then call *AddConstraings.sh*. This file should have the following contents:
+. Create a shell script in the *NEO4J_HOME/work* folder named *MaintainDB.sh* that will initialize the log file and then call *AddConstraings.sh*. This file should have the following contents:
 
 ----
 rm -rf $NEO4J_HOME/work/MaintainDB.log
@@ -504,7 +503,7 @@ This script calls dbms.procedures to return the name of each procedure in the li
 
 Here is a view of *Procedures.txt*:
 
-image::{imagedir}/DefaultProcedures.png[DefaultProcedures,width=800,align=center]
+image::{imagedir}/DefaultProcedures.png[DefaultProcedures,width=400,align=center]
 
 By default, the procedures available to the Neo4j instance are the built-in procedures that are named _db.*_ and _dbms.*_.
 
@@ -532,7 +531,7 @@ image::{imagedir}/GitHubGraphAlgos.png[GitHubGraphAlgos,width=800,align=center]
 
 The main page for https://github.com/neo4j-contrib/neo4j-graph-algorithms[Graph Algorithms] in GitHub contains details about the plugin and instructions for installing it.
 
-After you have downloaded the *.jar* file, you simply place it in the *$NEO4J_HOME/plugins* folder:
+After you have downloaded the *.jar* file, you simply place it in the *NEO4J_HOME/plugins* folder:
 
 image::{imagedir}/GraphAlgos.png[GraphAlgos,width=800,align=center]
 
@@ -549,7 +548,7 @@ image::{imagedir}/RestartNeo4j.png[RestartNeo4j,width=800,align=center]
 
 Once started, you can then run the script to return the names of the procedures that are available to the Neo4j instance. Here we see that we have the additional procedures for the graph algorithms plugin:
 
-image::{imagedir}/GraphAlgosInstalled.png[GraphAlgosInstalled,width=800,align=center]
+image::{imagedir}/GraphAlgosInstalled.png[GraphAlgosInstalled,width=600,align=center]
 
 === Installing the APOC plugin
 
@@ -571,11 +570,42 @@ Since APOC is large, you will most likely want to whitebox specific procedures s
 
 And here we see the results after restarting the Neo4j instance and running the script to list the procedures loaded in the instance:
 
-image::{imagedir}/APOCLoaded.png[APOCLoaded,width=800,align=center]
+image::{imagedir}/APOCLoaded.png[APOCLoaded,width=400,align=center]
 
-===  *Exercise #8: Install some plugins*
+===  *Exercise #8: Install a plugin*
 
-TBD
+In this Exercise, you will install the Spatial library for use by your Neo4j instance and you will create and execute a script to report all of the procedures available to the Neo4j instance.
+
+*Before you begin*:
+
+. Stop the Neo4j instance.
+. Make sure you have a terminal window open for executing test commands.
+
+*Exercise steps*:
+
+. In a Web browser, go to the GitHub repository for the https://github.com/neo4j-contrib/spatial[Neo4j Spacial Library].
+. On the main page for this repository, find the latest release of the library that is compatible with your version of Neo4j Enterprise Edition.
+. Download the already-built *.jar* file and follow the instructions for installing and testing the library.
+
+For example, you should see the following in the repository main page:
+
+image::{imagedir}/GetSpatialLibrary.png[GetSpatialLibrary,width=800,align=center]
+
+Here is what you should see when you execute the first `curl` command:
+
+image::{imagedir}/SpatialQuery1.png[SpatialQuery1,width=800,align=center]
+
+Here is what you should see when you execute the second `curl` command:
+
+image::{imagedir}/SpatialQuery2.png[SpatialQuery2,width=800,align=center]
+
+[start=4]
+. In the *NEO4J_HOME/work* folder, create a script named *ListProcedures.sh* that will write the list of procedures available to the Neo4j instance to the *$NEO4j/work/Procedures.txt* file.
+. Run the ListProcedures.sh script and examine the contents to also verify that the plugin has been installed.
+
+The *Procedures.txt* file should contain these items:
+
+image::{imagedir}/ListProceduresSpatial.png[ListProceduresSpatial,width=800,align=center]
 
 == Configuring connector ports for the Neo4j instance
 
@@ -624,7 +654,19 @@ It is not possible to disable the HTTP connector. See the https://neo4j.com/docs
 
 ===  *Exercise #9: Modify the HTTP port*
 
-TBD
+In this Exercise, you will modify the default HTTP port used by the HTTP instance and use the new port.
+
+*Exercise steps*:
+
+. Change the HTTP port to a value that is not in use on your system, for example 9999.
+
+For example, your *neo4j.conf* file should look something like this:
+
+image::{imagedir}/HTTP9999.png[HTTP9999,width=800,align=center]
+
+. Restart the Neo4j instance.
+. Confirm that the port works by either going to localhost:9999 from a Web browser or using the previous `curl` command using the new port number.
+. Change the HTTP port back to its default.
 
 == Check your understanding
 === Question 1
@@ -644,7 +686,7 @@ Suppose that you want the existing Neo4j database to have the name *ABCRecommend
 
 Select the correct answers.
 [%interactive]
-- [ ] [.required-answer]#Rename the *$NEO4J_HOME/graph.db* folder to *$NEO4J_HOME/ABCRecommendations.db*.#
+- [ ] [.required-answer]#Rename the *NEO4J_HOME/graph.db* folder to *NEO4J_HOME/ABCRecommendations.db*.#
 - [ ] [.required-answer]#Modify *neo4j.conf* to use _dbms.active_database=ABCRecommendations.db_.#
 - [ ] [.false-answer]#Run `neo4j-admin rename graph.db ABCRecommendations.db`.#
 - [ ] [.false-answer]#Run `neo4j-admin move graph.db ABCRecommendations.db`.#

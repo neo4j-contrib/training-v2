@@ -1,5 +1,5 @@
 echo "Rendering Training"
-asciidoctor -T s adoc/01_OverviewOfNeo4jAdministration.adoc -o html/01_OverviewOfNeo4jAdministration.html
+#asciidoctor -T s adoc/01_OverviewOfNeo4jAdministration.adoc -o html/01_OverviewOfNeo4jAdministration.html
 asciidoctor -T s adoc/02_ManagingANeo4jDatabase.adoc -o html/02_ManagingANeo4jDatabase.html
 #asciidoctor -T s adoc/03_SettingUpYourDevelopmentEnvironment.adoc -o html/03_SettingUpYourDevelopmentEnvironment.html
 #asciidoctor -T s adoc/04_IntroductionToCypher.adoc -o html/04_IntroductionToCypher.html
@@ -15,7 +15,7 @@ asciidoctor -T s adoc/02_ManagingANeo4jDatabase.adoc -o html/02_ManagingANeo4jDa
 #asciidoctor-pdf -T s adoc/06_CreatingNodesAndRelationships.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/06.yml -o pdf/06_CreatingNodesAndRelationships.pdf
 #asciidoctor-pdf -T s adoc/07_GettingMoreOutOfNeo4j.adoc -a allow-uri-read  -a pdf-style=asciidoc-themes/07.yml   -o pdf/07_GettingMoreOutOfNeo4j.pdf
 
-open html/01_OverviewOfNeo4jAdministration.html
+#open html/01_OverviewOfNeo4jAdministration.html
 open html/02_ManagingANeo4jDatabase.html
 #open html/03_SettingUpYourDevelopmentEnvironment.html
 #open html/04_IntroductionToCypher.html
