@@ -26,7 +26,7 @@
 
 == About this module
 
-Now that you have installed the Neo4j Enterprise Edition, you will learn how to perform some administrative tasks with the Neo4j instance.
+Now that you have installed the Neo4j Enterprise Edition, you will learn how to perform some administrative tasks (on Debian) with the Neo4j instance.
 
 At the end of this module, you should be able to:
 [square]
@@ -42,144 +42,162 @@ At the end of this module, you should be able to:
 
 == Neo4j instance files
 
-Here is the file structure for a Neo4j installation which is commonly referred to as *NEO4J_HOME*:
+Depending on your platform, a Neo4j instance's files are, by default, placed as described https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/[here]. 
 
-image::{imagedir}/Neo4jInstallFiles.png[Neo4jInstallFiles,width=600,align=center]
+[cols="20,80", options="header",stripes="none"]
+|====
+ *Purpose of folder*
+|*Description*
+| 
+{set:cellbgcolor:white}
+Tools
+|The  */usr/bin* folder contains the tooling scripts you will typically run to manage the Neo4j instance. 
+|Configuration
+|*Neo4j.conf* is the primary configuration file for the Neo4j instance and resides in the */etc/neo4j* folder. 
+|Logging
+|The */var/log/neo4j folder contains log files that you can monitor.
+|Database(s)
+|The */var/lib/neo4j/data* folder contains the database(s).
+|====
+{set:cellbgcolor!}
 
-In this training, you will be working in some of these folders. The *bin* folder contains the tooling scripts you will typically run to manage the Neo4j instance. The *conf* folder contains configuration files that you will be modifying. The *data* folder contains the database(s). The *logs* folder contains log files that you can monitor.
+== Post-installation preparation
 
-== Changing the password for Neo4j
+When Neo4j is installed on Debian, the neo4j service is enabled and the Neo4j instance is automatically started. 
+When you are setting up the production environment, you want to control when the Neo4j instance starts as you will performing some configuration changes and database operations may require that the instance to be stopped.
 
-Before you do anything with Neo4j, you should change the default password for the user, _neo4j_. Doing so enables you to, at a minimum, control who can manage this Neo4j instance. Later in this training, you will learn more about securing Neo4j.
+Initially, you should disable neo4j as a service that is started automatically when the system starts. You do this with this command:
 
-You change the password with the *neo4j-admin* tool that is found in the *bin* folder of your Neo4j Enterprise Edition installation (*NEO4J_HOME*). Here is the command you use to change the password:
+`sudo systemctrl disable neo4j`
 
-`neo4j-admin set-initial-password thePassword`
+== Managing the Neo4j instance
 
-Here is an example where in a terminal window, we have navigated to the *bin* folder in our Neo4j installation and have entered the command to set the initial password for the _neo4j_ user to be _training-helps_.
+When the instance is started, it creates a database named *graph.db* in the default location which is a folder under */var/lib/neo4j/data/databases*. You can start and stop the instance regardless of whether the neo4j service is enabled.
 
-image::{imagedir}/SetInitialPassword.png[SetInitialPassword,width=800,align=center]
+You start, stop, and restart the Neo4j instance as follows:
 
-[NOTE]
-Using `set-initial-password` to change the Neo4j password for the default _neo4j_ user can be done at any time, not just initially as the command name might imply.
+`sudo systemctl start neo4j`
+`sudo systemctl stop neo4j`
+`sudo systemctl restart neo4j`
 
-=== *Exercise #1: Change the password for Neo4j*
+When the Neo4j instance starts, it opens the database, and writes to the folders for the database and to the log file.
 
-*Before you begin*
+=== Checking the status of the instance
 
-You should have installed Neo4j Enterprise Edition on your system and made a note of where you installed it. We refer to this location as *NEO4J_HOME*.
+At any time, you can check the status of the Neo4j instance.
 
-*Exercise steps*:
+You check the status of the instance as follows:
 
-. Open a terminal on your system.
-. Navigate to the *bin* folder of *NEO4J_HOME*.
-. Use the admin-tool to change the _neo4j_ user password to something you will remember.
+`systemctl status neo4j`
 
-== Starting the Neo4j instance
+Here is an example where we check the status of the Neo4j instance:
 
-When you start the Neo4j instance for the first time, it automatically creates a database in the *data/databases* folder. Subsequent starts of the Neo4j instance simply uses the default database created.
+image::{imagedir}/Neo4jStatus-Debian.png[Neo4jStatus-Debian,width=800,align=center]
 
-You use the the `neo4j` script to start the Neo4j instance as follows:
+Here we see that the instance is started. Notice that the service is disabled as well.
+After the instance is started you can identify the process ID (Main PID) from the status command on Debian. It is sometimes helpful to know the process ID of the Neo4j instance (JVM) in the event that it is unresponsive and you must kill it.
 
-`neo4j start`
+=== Viewing the neo4j log
 
-Here is an example where in a terminal window, we start the Neo4j instance:
+The status command gives you a short glimpse of the status of the Neo4j instance. In some cases, although the instance is _active_, it may not have started successfully. You may want to examine more information about the instance, such as the folders it is using at runtime and information about activity against the instance, and especially if any errors occurred during startup. As an administrator, you should become familiar with the types of records that are written to the log file(s) for the Neo4j instance. 
 
-image::{imagedir}/StartInstance.png[StartInstance,width=800,align=center]
+You can view the log file for the instance on Debian as follows:
 
-When the Neo4j instance starts, it creates the database and writes to the folders for the instance.
+`journalctl -u neo4j`  to view the entire neo4j log file
+`journalctl -e -u neo4j` to view the end of the neo4j log file
 
-At any time, you can check the status of the Neo4j instance with the status command of the `neo4j` tool as shown here:
+Here is the result from journalctl:
 
-image::{imagedir}/Neo4jStatus.png[Neo4jStatus,width=800,align=center]
-
-Here are some important files to note after you have started the Neo4j instance:
-
-image::{imagedir}/Neo4jFilesAfterStart.png[Neo4jFilesAfterStart,width=800,align=center]
-
-[square]
-* A new database has been created which is named *graph.db*.
-* Information has been written to *neo4j.log*.
-* The PID for the Neo4j instance is written in the *run* folder. This is helpful since on systems with multiple JVMs, you need to know which one is the Neo4j instance JVM in the event that you need to kill it.
-
-As an administrator, you should become familiar with the types of records that are written to *neo4j.log*.  Here is the tail of that file:
-
-image::{imagedir}/FirstNeo4jLog.png[FirstNeo4jLog,width=800,align=center]
+image::{imagedir}/FirstNeo4jLog-Debian.png[FirstNeo4jLog-Debian,width=800,align=center]
 
 When the Neo4j instance starts, you can also confirm that it is started by seeing the _Started_ record in the log file.
 
-After the Neo4j instance is started, you can access the database with Neo4j Browser using port _7474_. In Neo4j Browser, when you attempt to access the Neo4j database, you must first enter the credentials for the _neo4j_ user that you configured when you set the password:
+=== *Exercise #1: Managing the Neo4j instance*
 
-image::{imagedir}/InitialNeo4jBrowser.png[InitialNeo4jBrowser,width=800,align=center]
-
-In Neo4j Browser, once you are connected, it is sometimes helpful to view information about the the Neo4j instance using the `:sysinfo` command. This provides you with information about the size of the database and how much activity has occurred against the database since it was started.
-
-image::{imagedir}/Sysinfo.png[Sysinfo,width=800,align=center]
-
-
-=== *Exercise #2: Start the Neo4j instance*
-
-In this Exercise, you will start the Neo4j instance for the first time and confirm that it is started. You will connect to the started database with Neo4j Browser and load some data into the newly created database.
+In this Exercise, you will stop and start the Neo4j instance and view its status and log file.
 
 *Before you begin*
 
-You should have changed the _neo4j_ user password to something you will remember.
+You should disable the neo4j service `sudo systemctrl disable neo4j`.
 
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Navigate to the *bin* folder of *NEO4J_HOME*.
-. Use the `neo4j` script to start the Neo4j instance.
-. Examine the files and folders created for this initial start of the Neo4j instance.
-. Examine the contents of *neo4j.log*.
-. In a Web browser, access the Neo4j database with Neo4j Browser at port 7474 on your local host.
-. Enter the password for the _neo4j_ user and then click *Connect*. You now have access to a started and empty database.
-. In the query edit pane of Neo4j Browser enter `:play movie graph` which will open the Browser Guide for working with the Movie graph. It should look like this:
+. View the status of the Neo4j instance.
+. Stop the Neo4j instance.
+. View the status of the Neoj instance.
+. Examine the Neo4j log file.
+. Examine the files and folders created for this Neo4j instance.
 
-image::{imagedir}/PlayMovieGraph.png[PlayMovieGraph,width=800,align=center]
+== Using `cypher-shell`
 
-[start=9]
-. Go to page two of the Browser Guide.
-. Click the Cypher code box. This should bring the Cypher code to the query edit pane. The Cypher statements for loading the database should now be in the query edit pane:
+`cypher-shell` enables you to access the Neo4j database from a terminal window.  You simply log into the database using `cypher-shell` with your credentials:
 
-image::{imagedir}/LoadMovieData.png[LoadMovieData,width=800,align=center]
+`/usr/bin/cypher-shell -u neo4j -p neo4j`
+
+Once authenticated, you enter Cypher statements to execute just as they would in Neo4j Browser. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`. You exit `cypher-shell` with the command `:exit`.
+
+Here is an example showing that we can successfully log in to the database for the Neo4j instance, provide the default credentials _neo4j/neo4j_:
+
+image::{imagedir}/InitialCypherShellLogin-Debian.png[InitialCypherShellLogin-Debian,width=800,align=center]
+
+=== Changing the default password
+
+If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials neo4j/neo4j [underline]#must# be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the _neo4j_ user. Later in this training, you will learn more about securing Neo4j. 
+
+While logged into the database in `cypher-shell`, you execute the procedure to change the password:
+
+`CALL dbms.changePassword('newPassword');
+
+In this example, we log into `cypher-shell` with our credentials. Then we execute the Cypher command to change the password. Finally, we specify `:exit` to log out of `cypher-shell`.
+
+image::{imagedir}/ChangePassword-Debian.png[ChangePassword-Debian,width=1000,align=center]
+
+After changing the default password for the Neo4j instance (database), we are now able to access the database after logging in with the new credentials. 
+
+=== Accessing the database
+
+Here is an example where we execute a Cypher statement against the empty database where we list all active queries:
+
+image::{imagedir}/CypherShellStatement-Debian.png[CypherShellStatement-Debian,width=1000,align=center]
+
+When you are done with `cypher-shell`, you enter `:exit` to exit.
+
+=== *Exercise #2: Using `cypher-shell` to change the password*
+
+In this Exercise, you will log in to the database with `cypher-shell`, change the password for the database, and execute a Cypher statement to load the database.
+
+*Before you begin*
+
+You should ensure that the Neo4j instance is started.
+
+*Exercise steps*:
+
+. Open a terminal on your system.
+. Log into the database with `cypher-shell` using the default credentials of _neo4j/neo4j_.
+. Execute the Cypher statement, `CALL dbms.listQueries();`. Do you get an error?
+. Execute the Cypher statement to change the password to something you will remember.
+. Exit out of `cypher-shell`.
+. Log into the database with `cypher-shell` using the new credentials.
+. Execute the Cypher statement, `CALL dbms.listQueries();`.
+. Open this Cypher https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/movieDB.cypher[file]. This file contains the Cypher statements to load the database with movie data. Copy the contents of this file onto your clipboard.
+. Paste the contents of the file into your `cypher-shell` session and press the `ENTER` key to execute the statements. You should see something like the following:
+
+image::{imagedir}/Ex2-LoadMovieDB-cypher-shell.png[Ex2-LoadMovieDB-cypher-shell,width=1000,align=center]
+
+[start=10]
+. The database is now populated with the _Movie_ data. Execute a Cypher statement to retrieve data from the database, for example: `MATCH (p:Person) WHERE p.name="Tom Cruise" RETURN p.name, p.born;` You should see the following:
+
+image::{imagedir}/Ex2-RetrieveData.png[Ex2-RetrieveData,width=1000,align=center]
 
 [start=11]
-. Click the *Play* button. This loads data into the graph.db database for your Neo4j instance. You should have 171 nodes in this database.
-
-image::{imagedir}/MovieDataLoaded.png[MovieDataLoaded,width=800,align=center]
-
-== Stopping the Neo4j instance
-
-You use the same script for stopping the Neo4j instance, providing `stop` as the command:
-
-`neo4j stop`
-
-image::{imagedir}/StopInstance.png[StopInstance,width=800,align=center]
-
-And we can view and confirm that the Neo4j instance is stopped in the log file:
-
-image::{imagedir}/StopLog.png[StopLog,width=800,align=center]
-
-=== *Exercise #3: Stop the Neo4j instance*
-
-*Before you begin*
-
-The Neo4j instance should be started.
-
-*Exercise steps*:
-
-. Open a terminal on your system.
-. Navigate to the *bin* folder of *NEO4J_HOME*.
-. Use the `neo4j` script to stop the Neo4j instance.
-. Examine the *neo4j.log* file to confirm that the Neo4j instance is stopped.
-. Confirm that you no longer have access to the database with Neo4j Browser.
+. Exit `cypher-shell`.
 
 == Renaming a Neo4j database
 
-By default, the Neo4j database is located in the *NEO4J_HOME/data/databases* folder. The database is represented by a subfolder with the default name, *graph.db*. You should never modify, copy, or move any files or folders under *graph.db*.
+By default, the Neo4j database is located in the */var/lib/neo4j/data/databases* folder. The database is represented by a subfolder with the default name, *graph.db*. You should never modify, copy, or move any files or folders under *graph.db*.
 
-A key file for a Neo4j instance is *NEO4J_HOME/conf/neo4j.conf*. This file contains all settings used by Neo4j at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db* Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j assumes that the default will be used a runtime.
+A key file for a Neo4j instance is */etc/neo4j/neo4j.conf*. This file contains all settings used by the Neo4j instance at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db* Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j assumes that the default will be used a runtime.
 
 image::{imagedir}/DefaultNeo4jConfig.png[DefaultNeo4jConfig,width=800,align=center]
 
@@ -197,14 +215,15 @@ To delete a Neo4j database you must:
 
 . Stop the Neo4j instance.
 . Remove the folder for the active database.
+.. . For example, delete the *graph.db* database: `rm -rf /var/lib/neo4j/data/databases/graph.db`
 
-If you were to start the Neo4j instance, it would recreate an empty database. If you want to copy an existing database for use with this Neo4j instance, you will dump and load an existing database to be used as the active database. Then you can start the Neo4j instance. You will learn about dumping an loading a database next.
+If you were to start the Neo4j instance, it would recreate an empty database. If you want to copy an existing database for use with this Neo4j instance, you dump and load an existing database to be used as the active database. Then you can start the Neo4j instance. You will learn about dumping an loading a database next.
 
 == Copying a database
 
-The structure of a Neo4j database is proprietary and could change from one release to another. You should [underline]#never# copy the database from one location in the filesystem/network to another location using terminal shell commands or GUI tools such as File Explorer on Windows or Finder on OS X.
+The structure of a Neo4j database is proprietary and could change from one release to another. You should [underline]#never# copy the database from one location in the filesystem/network to another location.
 
-To copy a database that, perhaps you want to have as a backup or you want to give  to another user for use on their system, you must:
+To copy a database that, perhaps you want to have as an additional copy or you want to give  to another user for use on their system, you must:
 
 . Stop the Neo4j instance.
 . Ensure that the folder where you will dump the database exists.
@@ -214,7 +233,7 @@ Then, if you want to create a database from the dump file to use in a Neo4j inst
 
 . Stop the Neo4j instance.
 . Determine what you will call the new database and adjust *neo4j.conf* to use this database as the active database.
-. Use the *load* command of the `neo4j-admin` tool to create the database from the dump file.
+. Use the *load* command of the `neo4j-admin` tool to create the database from the dump file using the same name you specify in the *neo4j.conf* file.
 . Start the Neo4j instance.
 
 === Dumping a database
@@ -238,7 +257,7 @@ _where:_
 |===
 {set:cellbgcolor!}
 
-Here is an example where we have renamed the database to be _movie.db_ and we have created a folder named _dumps_. We dump the _movie.db_ using `neo4j-admin`:
+Here is an example where we have previously renamed the database to be _movie.db_ and we have created a folder named _dumps_. We dump the _movie.db_ using `neo4j-admin`:
 
 image::{imagedir}/DumpDatabase.png[DumpDatabase,width=1000,align=center]
 
@@ -246,7 +265,10 @@ After the dump file, _movie-dump_ is created, you can move it anywhere on filesy
 
 === Loading a database
 
-Assuming that you have a dump file to use, you must first determine what the name of the target database will be. If you use an existing database name, the load command, can overwrite the database. If you want to create a new database, then you specify a database name that does not already exist. To perform the load command, the Neo4j instance must be stopped.
+Assuming that you have a dump file to use, you must first determine what the name of the target database will be. If you use an existing database name, the load command, can overwrite the database. If you want to create a new database, then you specify a database name that does not already exist. To perform the load command, the Neo4j instance must be stopped. In addition, the user:group permissions of the files created must be neo4j:neo4j. 
+
+[NOTE]
+You must either perform the load operation as the neo4j user, or after the load, you must change the owner of all files and folders created to neo4j:neo4j.
 
 Here is how to use the *load* command of the  `neo4j-admin` tool to load a database from a file:
 
@@ -269,82 +291,131 @@ Here is an example where we load the contents of *movie-dump* into a database na
 
 image::{imagedir}/LoadDatabase.png[LoadDatabase,width=1000,align=center]
 
-In order to access this newly created and loaded database, we must modify *neo4j.conf* to use *movie2.db* as the active database before starting the Neo4j instance.
+In order to access this newly created and loaded database, we must modify *neo4j.conf* to use *movie2.db* as the active database before starting the Neo4j instance:
 
-=== *Exercise #4: Copying a database*
+image::{imagedir}/Movie2ActiveDatabase.png[Movie2ActiveDatabase,width=1000,align=center]
+
+A best practice is to examine the log file for the Neo4j instance after you have made any configuration changes.
+
+=== *Exercise #3: Copying a database*
 
 In this Exercise, you will make a copy of your active database that has the movie data in it and use the dump file to create a database.
 
 *Before you begin*
 
-You should have loaded the database with the movie data (Exercise #3) and stopped the Neo4j instance (Exercise #4).
+You should have loaded the *graph.db* database with the movie data (Exercise #2) and stopped the Neo4j instance.
 
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Create a folder named *NEO4J_HOME/work*.
-. Use the `neo4j-admin` script to dump the database to the *work* folder. You should do something like this:
+. Create a folder named /usr/local/work*.
+. Use the `neo4j-admin` script to dump the *graph.db* database to the *work* folder. You should do something like this:
 
-image::{imagedir}/Ex4-movie-dump.png[Ex4-movie-dump,width=1000,align=center]
+image::{imagedir}/Ex3-movie-dump.png[Ex3-movie-dump,width=1000,align=center]
 
 [start=4]
 . Notice that this dump file is simply a file that can be copied to any location.
-. Use the `neo4j-admin` script to load the database from the dump file you just created. Name the database *movie.db* You should do something like this:
-
-image::{imagedir}/Ex4-movie-load.png[Ex4-movie-load,width=1000,align=center]
-
-[start=6]
 . Delete the *graph.db* database.
-. Modify *neo4j.conf* to use *movie.db* as the active database.
-. Start the Neo4j instance.
-. Access the database using Neo4j Browser. Can you see the movie data in the database?
+. Use the `neo4j-admin` script to load the database from the dump file you just created. Name the database *movie.db*. Note that you should perform the load as the _neo4j_ user. If you do not have the credentials to log in as the _neo4j_ users, then you can change the owner of the files later. You should do something like this:
 
-image::{imagedir}/Ex4-browser.png[Ex4-browser,width=800,align=center]
+image::{imagedir}/Ex3-movie-load.png[Ex3-movie-load,width=1000,align=center]
+
+[start=7]
+. Modify *neo4j.conf* to use *movie.db* as the active database.
+
+image::{imagedir}/Ex3-movie-cfg.png[x3-movie-cfg,width=1000,align=center]
+
+[start=8]
+. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie.db* to be _neo4j:neo4j_. For example, change directory to the *movie.db* folder and  then enter the command: 
+       `sudo chown -R neo4j:neo4j *`.  
+	   This will recursively change the owner and group to all files and folders under *movie.db*.
+
+. Start the Neo4j instance.
+. Examine the log file to ensure that the instance started with no errors.
+. Access the database using `cypher-shell`. Can you see the movie data in the database?
+
+image::{imagedir}/Ex3-AccessDB.png[Ex3-AccessDB,width=800,align=center]
 
 == Modifying the location of the database
 
-If you do not want the database used by the Neo4j instance to reside in the same location as the Neo4j installation, you can modify it in the *neo4j.conf* file. If you specify a new location for the data, it must exist in the filesystem.
+If you do not want the database used by the Neo4j instance to reside in the same location as the Neo4j installation, you can modify its location in the *neo4j.conf* file. If you specify a new location for the data, it must exist in the filesystem and the folder must be owned by _neo4j:neo4j_.
 
 Here we have specified a new location for the data in the configuration file:
 
 image::{imagedir}/ModifyDataLocation.png[ModifyDataLocation,width=800,align=center]
 
-We ensure that the location for the data exists and then we can start the Neo4j instance. If this is the first time Neo4j has been started for this location, a new database named *graph.db* will be created.
+We ensure that the location for the data exists and then we can start the Neo4j instance. If this is the first time Neo4j has been started for this location, a new database named *graph.db* will be created. This is because we are using the default database name in the configuration file.
 
 image::{imagedir}/UsingNewDataLocation.png[UsingNewDataLocation,width=800,align=center]
 
 If you have an existing database that you want to reside in a different location for the Neo4j instance, remember that you must dump and load the database to safely copy it to the new location.
 
-=== *Exercise #5: Modifying the location of the database*
+=== Using a name other than graph.db
+
+If you are starting the Neo4j instance with a new location and you are not using the default *graph.db* database name, you must follow these steps to ensure that the folders for the database are set up properly:
+
+. Specify the new location in the configuration file, but do not specify the active database name.
+. Start or restart the Neo4j instance. A new *graph.db* folder will be created as well as the other folders required by the instance.
+. Examine the log file to ensure that it started without errors.
+. Stop the Neo4j instance.
+. Specify the name of the active database in the configuration file.
+. Load the data into the database name that will be the active database. 
+. If you did not load the database the the user _neo4j_, recursively change the owner:group to _neo4j:neo4j_.
+. Start the Neo4j instance.
+. Examine the log file to ensure it started without errors.
+
+=== *Exercise #4: Modifying the location of the database*
 
 In this Exercise, you will set up a different location for the database in your local filesystem and start the Neo4j instance using the database from this new location.
 
-In this Exercise, you will create a database in a new location. The database you create will be created from a previously dumped database.
-
 *Before you begin*
 
-. You should have created the dump file for the database (Exercise #4).
+. You should have created the dump file for the movie database (Exercise #3).
 . Stop the Neo4j instance.
 
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Create a folder named *~/databases*. This is the folder where the database will reside which is different from the default location used by Neo4j.
-. Modify the *neo4j.conf* file to use *movie3.db* as the active database, and *~/* as the data directory that will be used. Your *neo4j.conf* file should look something like this:
+. Create a folder named */usr/local/data*. This is the folder where the database will reside which is different from the default location used by Neo4j. 
+. Make sure that this *data* folder is owned by _neo4j:neo4j_. For example, navigate to the */usr/local* folder and enter `sudo chown neo4j:neo4j data`. 
+. Modify the *neo4j.conf* file to use */usr/local/data* as the data directory. Also ensure that there is no active database specified. Your *neo4j.conf* file should look something like this:
 
-image::{imagedir}/Ex5-LocationConfig.png[Ex5-LocationConfig,width=800,align=center]
-
-[start=4]
-. Use the `neo4j-admin` script to load the database from the dump file you created in Exercise 4. Name the database *movie3.db* You should do something like this:
-
-image::{imagedir}/Ex5-LoadDB.png[Ex5-LoadDB,width=800,align=center]
+image::{imagedir}/Ex4-LocationConfig.png[Ex4-LocationConfig,width=800,align=center]
 
 [start=5]
-. Confirm that the *~/databases/movie3.db* folder now exists.
 . Start the Neo4j instance.
-. Access the database using Neo4j Browser. Can you see the movie data in the database? 
+. Examine the log file to ensure that the instance started without errors.
+. Examine the files in the */usr/local/data* location. The instance should have created the *databases* and *dbms* folders. They should look as follows:
 
-image::{imagedir}/Ex5-browser.png[Ex5-browser,width=1000,align=center]
+image::{imagedir}/Ex4-LocationInUse.png[Ex4-LocationInUse,width=800,align=center]
+
+[start=8]
+. Stop the Neo4j instance.
+. Modify the *neo4j.conf* file to use *movie3.db* as the active database. Your *neo4j.conf* file should look something like this:
+
+image::{imagedir}/Ex4-ActiveDatabase.png[Ex4-ActiveDatabase,width=800,align=center]
+
+[start=10]
+. Use the `neo4j-admin` script to load the database from the dump file you created in Exercise 3. Name the database *movie3.db* You should do something like this:
+
+image::{imagedir}/Ex4-LoadDB.png[Ex4-LoadDB,width=800,align=center]
+
+[start=11]
+. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie3.db* to be _neo4j:neo4j_. For example, change directory to the *databases* folder and  then enter the command: 
+       `sudo chown -R neo4j:neo4j movie3.db`.  
+	   This will recursively change the owner and group to all files and folders under *movie3.db*.
+. Start the Neo4j instance.
+. Examine the log file to ensure that no errors occurred.
+. Access the database using `cypher-shell`. Do you get an authentication error?  This is because the database is now located in a different location and the default credentials of neo4j/neo4j are used.
+
+image::{imagedir}/Ex4-Access.png[Ex4-Access,width=1000,align=center]
+
+[start=15]
+. Enter the Cypher statement to change the password: `CALL dbms.changePassword('newPassword');`
+. Enter a Cypher statement to retrieve some data: `MATCH (p:Person) WHERE p.name="Meg Ryan" RETURN p.name, p.born;`
+. Exit `cypher-shell`.
+
+image::{imagedir}/Ex4-Access2.png[Ex4-Access2,width=1000,align=center]
 
 == Checking the consistency of a database
 
@@ -372,7 +443,7 @@ image::{imagedir}/Inconsistencies2.png[Inconsistencies2,width=800,align=center]
 
 Inconsistencies in a database are a serious matter that should be looked into with the help of Neo4j Technical Support. Later in this training you will learn more about troubleshooting problems that are detected.
 
-=== *Exercise #6: Checking consistency of a database*
+=== *Exercise #5: Checking consistency of a database*
 
 In this Exercise, you check the consistency of a database that is consistent. Then you remove some files that causes the database to become inconsistent and then check its consistency.
 
@@ -394,16 +465,7 @@ image::{imagedir}/Ex6-Consistent.png[Ex6-Consistent,width=1000,align=center]
 
 image::{imagedir}/Ex6-Inconsistent.png[Ex6-Inconsistent,width=1000,align=center]
 
-== Using cypher-shell
-
-Cypher-shell enables you to access the Neo4j database without using Neo4j Browser. There may be situations where you want to modify the database or add or remove indexes or constraints from the database. Rather than doing this from Neo4j Browser, you can access the database from a terminal window. You simply log into the database using cypher-shell with your credentials.
-Once authenticated, the Cypher statements execute just as they would in Neo4j Browser. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`.
-
-In this example, we log into `cypher-shell` with our credentials. Then we execute the Cypher statement to create a unique constraint. Notice that we specify `;` at the end of the Cypher statement.  We then execute another Cypher statement to create a different unique constraint. Finally, we specify `:exit` to log out of `cypher-shell`.
-
-image::{imagedir}/Cypher-shell.png[Cypher-shell,width=1000,align=center]
-
-=== Scripting with cypher-shell
+== Scripting with cypher-shell
 
 As a database administrator, you may need to automate changes to the database. The most common types of changes that administrators may want to do are operations such as adding/dropping constraints or indexes. You can create scripts that forward the Cypher statements to `cypher-shell`.  The number of supporting script files you create will depend upon the tasks you want to perform against the database.
 
@@ -431,7 +493,7 @@ $NEO4J_HOME/work/DropConstraints.sh 2>&1 >> $NEO4J_HOME/work/PrepareDB.log
 When the *PrepareDB.sh* script runs its scripts, all output will be written to the log file, including error output. Then you can simply check the log file to make sure it ran as expected.
 
 
-===  *Exercise #7: Scripting changes to the database*
+===  *Exercise #6: Scripting changes to the database*
 
 In this Exercise, you will gain experience using Cypher-shell for executing Cypher code manually and also scripting with Cypher shell.
 
@@ -572,7 +634,7 @@ And here we see the results after restarting the Neo4j instance and running the 
 
 image::{imagedir}/APOCLoaded.png[APOCLoaded,width=400,align=center]
 
-===  *Exercise #8: Install a plugin*
+===  *Exercise #7: Install a plugin*
 
 In this Exercise, you will install the Spatial library for use by your Neo4j instance and you will create and execute a script to report all of the procedures available to the Neo4j instance.
 
@@ -652,7 +714,7 @@ As you learn more about some of the other administrative tasks for a Neo4j insta
 [NOTE]
 It is not possible to disable the HTTP connector. See the https://neo4j.com/docs/operations-manual/current/configuration/connectors/[connectors] section of the _Operations Manual_ for more information.
 
-===  *Exercise #9: Modify the HTTP port*
+===  *Exercise #8: Modify the HTTP port*
 
 In this Exercise, you will modify the default HTTP port used by the HTTP instance and use the new port.
 

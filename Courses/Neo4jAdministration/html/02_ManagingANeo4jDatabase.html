@@ -445,6 +445,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_starting_the_neo4j_instance">Starting the Neo4j instance</a>
 <ul class="sectlevel2">
+<li><a href="#_neo4j_instance_database">Neo4j instance database</a></li>
+<li><a href="#_starting_the_instance">Starting the instance</a></li>
+<li><a href="#_checking_the_status_of_the_instance">Checking the status of the instance</a></li>
 <li><a href="#_exercise_2_start_the_neo4j_instance"><strong>Exercise #2: Start the Neo4j instance</strong></a></li>
 </ul>
 </li>
@@ -561,15 +564,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_neo4j_instance_files">Neo4j instance files</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Here is the file structure for a Neo4j installation which is commonly referred to as <strong>NEO4J_HOME</strong>:</p>
+<p>Depending on your platform, a Neo4j instance&#8217;s files are placed as described <a href="https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/">here</a>. For example, on OS X, all files are placed under one folder that is commonly referred to as <strong>NEO4J_HOME</strong>:</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
 <img src="../img/Neo4jInstallFiles.png" alt="Neo4jInstallFiles" width="600">
 </div>
 </div>
+<table class="tableblock frame-all grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Purpose of folder</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Tools</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">The <strong>bin</strong> or the <strong>/usr/bin</strong> (Debian) folder contains the tooling scripts you will typically run to manage the Neo4j instance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Configuration</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><strong>Neo4j.conf</strong> is the primary configuration file for the Neo4j instance and resides in the <strong>conf</strong> or the <strong>/etc/neo4j</strong> (Debian) folder.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Logging</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">The <strong>logs</strong> or the <strong>/var/log/neo4j/Data</strong> (Debian) folder contains log files that you can monitor.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Database(s)</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">The <strong>data</strong> or <strong>/var/lib/neo4j/data</strong> (Debian) folder contains the database(s).</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>In this training, you will be working in some of these folders. The <strong>bin</strong> folder contains the tooling scripts you will typically run to manage the Neo4j instance. The <strong>conf</strong> folder contains configuration files that you will be modifying. The <strong>data</strong> folder contains the database(s). The <strong>logs</strong> folder contains log files that you can monitor.</p>
+<p></p>
 </div>
 </div>
 </div>
@@ -580,7 +613,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Before you do anything with Neo4j, you should change the default password for the user, <em>neo4j</em>. Doing so enables you to, at a minimum, control who can manage this Neo4j instance. Later in this training, you will learn more about securing Neo4j.</p>
 </div>
 <div class="paragraph">
-<p>You change the password with the <strong>neo4j-admin</strong> tool that is found in the <strong>bin</strong> folder of your Neo4j Enterprise Edition installation (<strong>NEO4J_HOME</strong>). Here is the command you use to change the password:</p>
+<p>You change the password with the <strong>neo4j-admin</strong> tool that is found in the <strong>bin</strong> or <strong>/usr/bin</strong> folder of your Neo4j Enterprise Edition installation. Here is the command you use to change the password:</p>
 </div>
 <div class="paragraph">
 <p><code>neo4j-admin set-initial-password thePassword</code></p>
@@ -590,7 +623,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/SetInitialPassword.png" alt="SetInitialPassword" width="800">
+<img src="../img/SetInitialPassword-Debian.png" alt="SetInitialPassword" width="800">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -611,7 +644,7 @@ Using <code>set-initial-password</code> to change the Neo4j password for the def
 <p><strong>Before you begin</strong></p>
 </div>
 <div class="paragraph">
-<p>You should have installed Neo4j Enterprise Edition on your system and made a note of where you installed it. We refer to this location as <strong>NEO4J_HOME</strong>.</p>
+<p>You should have installed Neo4j Enterprise Edition on your system and made a note of where you installed it.</p>
 </div>
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
@@ -620,9 +653,6 @@ Using <code>set-initial-password</code> to change the Neo4j password for the def
 <ol class="arabic">
 <li>
 <p>Open a terminal on your system.</p>
-</li>
-<li>
-<p>Navigate to the <strong>bin</strong> folder of <strong>NEO4J_HOME</strong>.</p>
 </li>
 <li>
 <p>Use the admin-tool to change the <em>neo4j</em> user password to something you will remember.</p>
@@ -636,31 +666,76 @@ Using <code>set-initial-password</code> to change the Neo4j password for the def
 <h2 id="_starting_the_neo4j_instance">Starting the Neo4j instance</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>When you start the Neo4j instance for the first time, it automatically creates a database in the <strong>data/databases</strong> folder. Subsequent starts of the Neo4j instance simply uses the default database created.</p>
+<p>How you start the Neo4j instance will depend on your platform and whether Neo4j is configured as a service. For example, on Linux/Debian systems where <em>systemd</em> is installed, you manage the Neo4j instance using <code>systemctl</code> and on OS X, you manage the Neo4j instance using the <code>neo4j</code> tool.</p>
+</div>
+<div class="sect2">
+<h3 id="_neo4j_instance_database">Neo4j instance database</h3>
+<div class="paragraph">
+<p>The default location for the Neo4j database is the <strong>data/databases/graph.db</strong> folder. Depending on your platform, you may already have a database created for you when you install Neo4j. For example, on Debian, the default database folder named <strong>graph.db</strong> is created for you.
+When you start the Neo4j instance for the first time on OS X, it automatically creates the <strong>data/databases/graph.db</strong> folder.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_starting_the_instance">Starting the instance</h3>
+<div class="paragraph">
+<p>On Linux/Debian, you use the <code>neo4j</code> service to start the instance as follows:</p>
 </div>
 <div class="paragraph">
-<p>You use the the <code>neo4j</code> script to start the Neo4j instance as follows:</p>
+<p><code>systemctl start neo4j</code></p>
+</div>
+<div class="paragraph">
+<p>Here is an example on Debian where in a terminal window, we start the Neo4j instance:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/StartInstance-Debian.png" alt="StartInstance-Debian" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>On OS X, y use the the <code>neo4j</code> script to start the Neo4j instance as follows:</p>
 </div>
 <div class="paragraph">
 <p><code>neo4j start</code></p>
 </div>
 <div class="paragraph">
-<p>Here is an example where in a terminal window, we start the Neo4j instance:</p>
+<p>Here is an example on OS X where in a terminal window, we start the Neo4j instance:</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/StartInstance.png" alt="StartInstance" width="800">
+<img src="../img/StartInstance-MAC.png" alt="StartInstance-MAC" width="800">
 </div>
 </div>
 <div class="paragraph">
-<p>When the Neo4j instance starts, it creates the database and writes to the folders for the instance.</p>
+<p>When the Neo4j instance starts, it optionally creates the database, opens it, and writes to the folders for the instance.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_checking_the_status_of_the_instance">Checking the status of the instance</h3>
+<div class="paragraph">
+<p>At any time, you can check the status of the Neo4j instance.</p>
 </div>
 <div class="paragraph">
-<p>At any time, you can check the status of the Neo4j instance with the status command of the <code>neo4j</code> tool as shown here:</p>
+<p>On Linux/Debian, you use the <code>neo4j</code> service to check the status of the instance as follows:</p>
+</div>
+<div class="paragraph">
+<p><code>systemctl status neo4j</code></p>
+</div>
+<div class="paragraph">
+<p>Here is an example on Debian where in a terminal window, we check the status of the Neo4j instance:</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/Neo4jStatus.png" alt="Neo4jStatus" width="800">
+<img src="../img/Neo4jStatus-Debian.png" alt="Neo4jStatus-Debian" width="800">
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>And here is an example on OS X where we use the status command of the `neo4j` tool as shown here:</pre>
+</div>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Neo4jStatus-MAC.png" alt="Neo4jStatus-MAC" width="800">
 </div>
 </div>
 <div class="paragraph">
@@ -709,6 +784,7 @@ Using <code>set-initial-password</code> to change the Neo4j password for the def
 <div class="imageblock" style="text-align: center">
 <div class="content">
 <img src="../img/Sysinfo.png" alt="Sysinfo" width="800">
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1937,7 +2013,7 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-26 10:19:19 CST
+Last updated 2018-12-27 11:41:42 CST
 </div>
 </div>
 </body>
