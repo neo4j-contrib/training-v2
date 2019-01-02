@@ -429,65 +429,69 @@ Here is how you use the `neo4j-admin` tool to check the consistency of the datab
 
 The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the _Operations Manual_ for more options. For example, you can check the consistency of a backup. 
 
-Here is what a successful run of the consistency checker should produce:
+Suppose we had loaded the *movie4.db* database with `neo4j-admin`. Here is what a successful run of the consistency checker should produce:
 
 image::{imagedir}/ConsistentPassed.png[ConsistentPassed,width=1000,align=center]
 
+No report is written to the reports folder because the consistency check passed.
+
 Here is an example of what an unsuccessful run of the consistency checker should produce:
 
-image::{imagedir}/Inconsistencies1.png[Inconsistencies1,width=1000,align=center]
+image::{imagedir}/Inconsistencies.png[Inconsistencies,width=1000,align=center]
 
-If inconsistencies are found, are report is generated and placed in the folder specified for the report location:
-
-image::{imagedir}/Inconsistencies2.png[Inconsistencies2,width=800,align=center]
+If inconsistencies are found, a report is generated and placed in the folder specified for the report location.
 
 Inconsistencies in a database are a serious matter that should be looked into with the help of Neo4j Technical Support. Later in this training you will learn more about troubleshooting problems that are detected.
 
 === *Exercise #5: Checking consistency of a database*
 
-In this Exercise, you check the consistency of a database that is consistent. Then you remove some files that causes the database to become inconsistent and then check its consistency.
+In this Exercise, you check the consistency of a database that is consistent. Then you modify a file that causes the database to become inconsistent and then check its consistency.
 
 *Before you begin*
 
 . You should have created and started the *movie3.db* database (Exercise #6).
 . Stop the Neo4j instance.
+. Create a folder named */usr/local/work/reports*.
 
 *Exercise steps*:
 
 . Open a terminal on your system.
 . Run the consistency check tool on *movie3.db* using neo4j-admin specifying *reports* as the folder where the report will be written. The admin-tool should return the following:
 
-image::{imagedir}/Ex6-Consistent.png[Ex6-Consistent,width=1000,align=center]
+image::{imagedir}/Ex5-Consistent.png[Ex5-Consistent,width=1000,align=center]
 
 [start=3]
-. Next, you will corrupt the database. Modify the file *movie3.db/neostore.nodestore.db*.
-. Run the consistency check tool on *movie3.db* using neo4j-admin specifying *reports* as the folder where the report will be written. The admin-tool should return something like the following:
+. Modify the neo4j configuration to use a database named *movie3-copy.db*, rather than *movie3.db*.
+. Use `neo4j-admin` to create and load *movie3-copy.db* from the movie dump file you created earlier.
+. Ensure that the owner of the *movie3-copy.db* is _neo4j:neo4j_.
+. Next, you will corrupt the database. Modify the file *movie3-copy.db/neostore.nodestore.db* by adding some text to the file.
+. Run the consistency check tool on *movie3-copy.db* using neo4j-admin specifying */usr/local/work/reports* as the folder where the report will be written. The admin-tool should return something like the following:
 
-image::{imagedir}/Ex6-Inconsistent.png[Ex6-Inconsistent,width=1000,align=center]
+image::{imagedir}/Ex5-Inconsistent.png[Ex5-Inconsistent,width=1000,align=center]
 
 == Scripting with cypher-shell
 
-As a database administrator, you may need to automate changes to the database. The most common types of changes that administrators may want to do are operations such as adding/dropping constraints or indexes. You can create scripts that forward the Cypher statements to `cypher-shell`.  The number of supporting script files you create will depend upon the tasks you want to perform against the database.
+As a database administrator, you may need to automate changes to the database. The most common types of changes that administrators may want to perform are operations such as adding/dropping constraints or indexes. You can create scripts that forward the Cypher statements to `cypher-shell`.  The number of supporting script files you create will depend upon the tasks you want to perform against the database.
 
-For example, on a OS X using _bash_, we create 3 files:
+Suppose that we use _bash_. We create 3 files:
 
-*DropConstraints.cypher* that contains the Cypher statements to execute in `cypher-shell`:
+*1. AddConstraints.cypher* that contains the Cypher statements to execute in `cypher-shell`:
 ----
-DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
-DROP CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
+CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
+CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
 ----
 
 Each Cypher statement must end with a `;`. 
 
-*DropConstraints.sh* that invokes `cypher-shell` using a set of Cypher statements and appends its output to the log file:
+*2. DropConstraints.sh* that invokes `cypher-shell` using a set of Cypher statements and appends its output to the log file:
 ----
-cat $NEO4J_HOME/work/DropConstraints.cypher | $NEO4J_HOME/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> $NEO4J_HOME/work/PrepareDB.log
+cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> /usr/local/work/PrepareDB.log
 ----
 
-*PrepareDB.sh* that initializes the log file, *PrepareDB.log*, and calls the script to drop the constraints:
+*3. PrepareDB.sh* that initializes the log file, *PrepareDB.log*, and calls the script to add the constraints:
 ----
-rm -rf $NEO4J_HOME/work/PrepareDB.log
-$NEO4J_HOME/work/DropConstraints.sh 2>&1 >> $NEO4J_HOME/work/PrepareDB.log
+rm -rf /usr/local/work/PrepareDB.log
+/usr/local/work/AddConstraints.sh 2>&1 >> /usr/local/work/PrepareDB.log
 ----
 
 When the *PrepareDB.sh* script runs its scripts, all output will be written to the log file, including error output. Then you can simply check the log file to make sure it ran as expected.
@@ -495,12 +499,16 @@ When the *PrepareDB.sh* script runs its scripts, all output will be written to t
 
 ===  *Exercise #6: Scripting changes to the database*
 
-In this Exercise, you will gain experience using Cypher-shell for executing Cypher code manually and also scripting with Cypher shell.
+In this Exercise, you will gain experience scripting with Cypher shell. You will create three files in the */usr/local/work* folder:
+
+. *AddConstraints.cypher*
+. *AddConstraints.sh*
+. *MaintainDB.sh*
 
 *Before you begin*
 
-. Remove the *~/databases/movie3.db* folder as this database is now corrupt.
-. Recreate the *movie3.db* by loading it from the dump file you created in Exercise 4.
+. Remove the *~/databases/movie3-copy.db* folder as this database is now corrupt.
+. Ensure that the Neo4j configuration uses *movie3.db* for the database.
 . Start the Neo4j instance.
 
 *Exercise steps*:
@@ -508,41 +516,44 @@ In this Exercise, you will gain experience using Cypher-shell for executing Cyph
 . Open a terminal on your system.
 . Start Cypher-shell, providing the credentials for the neo4j user.
 
-image::{imagedir}/Ex7-StartCypher-shell.png[Ex7-StartCypher-shell,width=800,align=center]
+image::{imagedir}/Ex6-StartCypher-shell.png[Ex6-StartCypher-shell,width=800,align=center]
 
 [start=3]
 . Enter some simple Cypher statements to confirm that you can access the database. For example:
-.. CALL db.schema();
-.. CALL db.constraints();
-
-image::{imagedir}/Ex7-CypherCommands.png[Ex7-CypherCommands,width=800,align=center]
-
-[start=4]
-. Exit Cypher-shell by typing *:exit*.
-. Create a Cypher script in the *$NEO4J_HOME/work* folder named *AddConstraints.cypher* with the following statements:
+.. `CALL db.schema();`
+.. `CALL db.constraints();`
+. Exit Cypher-shell by typing `:exit`.
+. Create a Cypher script in the */usr/local/work* folder named *AddConstraints.cypher* with the following statements:
 ----
 CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
 CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE; 
 ----
 
 [start=6]
-. Create a shell script in the *NEO4J_HOME/work* folder named *AddConstraints.sh* that will forward *AddConstraints.cypher* to cypher-shell. This file should have the following contents:
+. Create a shell script in the */usr/local/work* folder named *AddConstraints.sh* that will forward *AddConstraints.cypher* to cypher-shell. This file should have the following contents:
 
 ----
-cat $NEO4J_HOME/work/AddConstraints.cypher | $NEO4J_HOME/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> $NEO4J_HOME/work/MaintainDB.log
+cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> /usr/local/work/MaintainDB.log
 ----
 
 [start=7]
-. Create a shell script in the *NEO4J_HOME/work* folder named *MaintainDB.sh* that will initialize the log file and then call *AddConstraings.sh*. This file should have the following contents:
+. Create a shell script in the */usr/local/work* folder named *MaintainDB.sh* that will initialize the log file and then call *AddConstraints.sh*. This file should have the following contents:
 
 ----
-rm -rf $NEO4J_HOME/work/MaintainDB.log
-$NEO4J_HOME/work/AddConstraints.sh 2>&1 >> $NEO4J_HOME/work/MaintainDB.log
+rm -rf /usr/local/work/MaintainDB.log
+/usr/local/work/AddConstraints.sh 2>&1 >> /usr/local/work/MaintainDB.log
 ----
 
 [start=8]
-. Run the *MaintailDB.sh* script and and confirm that it created the constraints in the database. (Check using cypher-shell (CALL db.constraings();))
+. Ensure that the scripts you created have execute permissions.
+. Run the *MaintainDB.sh* script and  view the log file.
 
+image::{imagedir}/Ex6-RunMaintainDB.png[Ex6-RunMaintainDB,width=800,align=center]
+
+[start=10]
+. Confirm that it created the constraints in the database. (Check using cypher-shell (`CALL db.constraints();`))
+
+image::{imagedir}/Ex6-ConfirmConstraints.png[Ex6-ConfirmConstraints,width=800,align=center]
 
 == Managing plugins required for the database
 
@@ -558,7 +569,7 @@ We refer to this additional functionality as a _plugin_ that contains specific p
 Here is an example of a script you can run to produce a file, *Procedures.txt* that contain the names of the procedures currently available for the Neo4j instance:
 
 ----
-echo "CALL dbms.procedures() YIELD name;" | $NEO4J_HOME/bin/cypher-shell -u neo4j -p training-helps --format plain > $NEO4J_HOME/work/Procedures.txt
+echo "CALL dbms.procedures() YIELD name;" | /usr/bin/cypher-shell -u neo4j -p training-helps --format plain > /usr/local/work/Procedures.txt
 ----
 
 This script calls dbms.procedures to return the name of each procedure in the list returned. 
@@ -593,22 +604,18 @@ image::{imagedir}/GitHubGraphAlgos.png[GitHubGraphAlgos,width=800,align=center]
 
 The main page for https://github.com/neo4j-contrib/neo4j-graph-algorithms[Graph Algorithms] in GitHub contains details about the plugin and instructions for installing it.
 
-After you have downloaded the *.jar* file, you simply place it in the *NEO4J_HOME/plugins* folder:
+You download any plugins that your application will use to the /var/lib/neo4j/plugins folder:
 
 image::{imagedir}/GraphAlgos.png[GraphAlgos,width=800,align=center]
 
+Ensure that the *.jar* file is owned by _neo4j:neo4j_ and that it has execute permissions.
+
 The graph algorithms plugin requires _sandboxing_.
-Here is how we enable the procedures in the graph algorithms plugin. We modify the *neo4j.conf* file as follows:
+Here is how we enable the procedures in the graph algorithms plugin. We modify the _Miscellaneous Configuration_ section of the *neo4j.conf* file as follows:
 
-----
-dbms.security.procedures.unrestricted=algo.*
-----
+image::{imagedir}/ConfigGraphAlgos.png[ConfigGraphAlgos,width=800,align=center]
 
-You must then start or restart the Neo4j instance. You can restart the Neo4j instance using the restart command:
-
-image::{imagedir}/RestartNeo4j.png[RestartNeo4j,width=800,align=center]
-
-Once started, you can then run the script to return the names of the procedures that are available to the Neo4j instance. Here we see that we have the additional procedures for the graph algorithms plugin:
+You must then start or restart the Neo4j instance. Once started, you can then run the script to return the names of the procedures that are available to the Neo4j instance. Here we see that we have the additional procedures for the graph algorithms plugin:
 
 image::{imagedir}/GraphAlgosInstalled.png[GraphAlgosInstalled,width=600,align=center]
 
@@ -620,13 +627,15 @@ You obtain the plugin from the APOC https://github.com/neo4j-contrib/neo4j-apoc-
 
 image::{imagedir}/APOCDownloadPage.png[APOCDownloadPage,width=800,align=center]
 
+Here we download the *.jar* file, change its permissions to execute, and change the owner to be _neo4j:neo4j_.
+
+image::{imagedir}/APOC.png[APOC,width=800,align=center]
+
 After you have placed the *.jar* file into the *plugins* folder, you must modify the configuration for the instance as described in the main page for APOC. As described on this page, you have an option of either _sandboxing_ or _whitelisting_ the procedures of the plugin. How much of the APOC library is used by your application is determined by the developers so you should use them as a resource for this type of configuration change. 
 
 Suppose we want to allow [.underline]#all# APOC procedures to be available to this Neo4j instance. We would sandbox the plugin in the *neo4j.conf* file as follows, similar to how we sandboxed the graph algorithms:
 
-----
-dbms.security.procedures.unrestricted=algo.*, apoc.*
-----
+image::{imagedir}/APOCConfig.png[APOCConfig,width=800,align=center]
 
 Since APOC is large, you will most likely want to whitebox specific procedures so that only the procedures needed by the application are loaded into the Neo4j instance at runtime.
 
@@ -647,27 +656,37 @@ In this Exercise, you will install the Spatial library for use by your Neo4j ins
 
 . In a Web browser, go to the GitHub repository for the https://github.com/neo4j-contrib/spatial[Neo4j Spacial Library].
 . On the main page for this repository, find the latest release of the library that is compatible with your version of Neo4j Enterprise Edition.
-. Download the already-built *.jar* file and follow the instructions for installing and testing the library.
+. Download the already-built *.jar* file into the */var/lib/neo4j/plugins* folder.
+. Ensure that the file size is correct and that the file name ends with *.jar*.
+. Change the owner of the *.jar* file to _neo4j:neo4j_ and add execute permissions to the file.
+. Restart the Neo4j instance.
+. Follow the steps on the GitHub page for testing the library.
 
 For example, you should see the following in the repository main page:
 
-image::{imagedir}/GetSpatialLibrary.png[GetSpatialLibrary,width=800,align=center]
+image::{imagedir}/Ex7-GetSpatialLibrary.png[Ex7-GetSpatialLibrary,width=800,align=center]
+
+Here is how you download the *.jar* file into the */var/lib/neo4j/plugins* folder. You should confirm that the file size is correct and that the owner is _neo4j:neo4j_ with execute permissions.
+
+image::{imagedir}/Ex7-SpatialLibrary.png[Ex7-SpatialLibrary,width=800,align=center]
+
 
 Here is what you should see when you execute the first `curl` command:
 
-image::{imagedir}/SpatialQuery1.png[SpatialQuery1,width=800,align=center]
+image::{imagedir}/Ex7-SpatialQuery1.png[Ex7-SpatialQuery1,width=800,align=center]
 
 Here is what you should see when you execute the second `curl` command:
 
-image::{imagedir}/SpatialQuery2.png[SpatialQuery2,width=800,align=center]
+image::{imagedir}/Ex7-SpatialQuery2.png[Ex7-SpatialQuery2,width=800,align=center]
 
-[start=4]
+[start=8]
 . In the *NEO4J_HOME/work* folder, create a script named *ListProcedures.sh* that will write the list of procedures available to the Neo4j instance to the *$NEO4j/work/Procedures.txt* file.
 . Run the ListProcedures.sh script and examine the contents to also verify that the plugin has been installed.
 
 The *Procedures.txt* file should contain these items:
 
-image::{imagedir}/ListProceduresSpatial.png[ListProceduresSpatial,width=800,align=center]
+image::{imagedir}/Ex7-SpatialLibraryLoaded.png[Ex7-SpatialLibraryLoaded,width=800,align=center]
+
 
 == Configuring connector ports for the Neo4j instance
 
@@ -724,11 +743,17 @@ In this Exercise, you will modify the default HTTP port used by the HTTP instanc
 
 For example, your *neo4j.conf* file should look something like this:
 
-image::{imagedir}/HTTP9999.png[HTTP9999,width=800,align=center]
+image::{imagedir}/Ex8-HTTP9999.png[Ex8-HTTP9999,width=800,align=center]
 
+[start=2]
 . Restart the Neo4j instance.
 . Confirm that the port works by either going to localhost:9999 from a Web browser or using the previous `curl` command using the new port number.
+
+image::{imagedir}/Ex8-HTTP9999-used.png[Ex8-HTTP9999-used,width=800,align=center]
+
+[start=4]
 . Change the HTTP port back to its default.
+. Restart the Neo4j instance
 
 == Check your understanding
 === Question 1
