@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_about_this_module">About this module</a></li>
 <li><a href="#_neo4j_instance_files">Neo4j instance files</a></li>
-<li><a href="#_post_installation_preparation">Post-installation preparation</a></li>
+<li><a href="#_post_installation_preparation_debian">Post-installation preparation - Debian</a></li>
 <li><a href="#_managing_the_neo4j_instance">Managing the Neo4j instance</a>
 <ul class="sectlevel2">
 <li><a href="#_checking_the_status_of_the_instance">Checking the status of the instance</a></li>
@@ -464,7 +464,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_modifying_the_location_of_the_database">Modifying the location of the database</a>
 <ul class="sectlevel2">
-<li><a href="#_using_a_name_other_than_graph_db">Using a name other than graph.db</a></li>
+<li><a href="#_using_a_name_other_than_graph_db">Using a name other than <strong>graph.db</strong></a></li>
 <li><a href="#_exercise_4_modifying_the_location_of_the_database"><strong>Exercise #4: Modifying the location of the database</strong></a></li>
 </ul>
 </li>
@@ -527,13 +527,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist square">
 <ul class="square">
 <li>
-<p>Set the password for the <em>neo4j</em> user.</p>
-</li>
-<li>
 <p>Start a Neo4j instance.</p>
 </li>
 <li>
 <p>Stop the Neo4j instance.</p>
+</li>
+<li>
+<p>Set the password for the <em>neo4j</em> user.</p>
 </li>
 <li>
 <p>Copy a Neo4j database.</p>
@@ -561,7 +561,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_neo4j_instance_files">Neo4j instance files</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Depending on your platform, a Neo4j instance&#8217;s files are, by default, placed as described <a href="https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/">here</a>.</p>
+<p>Depending on your platform, a Neo4j instance&#8217;s files are, by default, placed as described <a href="https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/">here</a>. Here is a brief overview of the default folders you will frequently use for managing the Neo4j instance.</p>
 </div>
 <table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
@@ -599,17 +599,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_post_installation_preparation">Post-installation preparation</h2>
+<h2 id="_post_installation_preparation_debian">Post-installation preparation - Debian</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>When Neo4j is installed on Debian, the neo4j service is enabled and the Neo4j instance is automatically started.
-When you are setting up the production environment, you want to control when the Neo4j instance starts as you will performing some configuration changes and database operations may require that the instance to be stopped.</p>
+<p>When Neo4j is installed as a Debian package, the <em>neo4j</em> service is enabled and the Neo4j instance is automatically started. Other platforms behave differently.</p>
 </div>
 <div class="paragraph">
-<p>Initially, you should disable neo4j as a service that is started automatically when the system starts. You do this with this command:</p>
+<p>When you are setting up the production environment, you want to control when the Neo4j instance starts as you will performing some configuration changes and database operations that may require that the instance to be stopped.</p>
 </div>
 <div class="paragraph">
-<p><code>sudo systemctrl disable neo4j</code></p>
+<p>Initially and on Debian, you should disable <em>neo4j</em> as a service that is started automatically when the system starts. You do this with this command:</p>
+</div>
+<div class="paragraph">
+<p><code>[sudo] systemctrl disable neo4j</code></p>
 </div>
 </div>
 </div>
@@ -617,15 +619,23 @@ When you are setting up the production environment, you want to control when the
 <h2 id="_managing_the_neo4j_instance">Managing the Neo4j instance</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>When the instance is started, it creates a database named <strong>graph.db</strong> in the default location which is a folder under <strong>/var/lib/neo4j/data/databases</strong>. You can start and stop the instance regardless of whether the neo4j service is enabled.</p>
+<p>When the instance is started, it creates a database named <strong>graph.db</strong> in the default location which is a folder under <strong>/var/lib/neo4j/data/databases</strong>. You can start and stop the instance regardless of whether the <em>neo4j</em> service is enabled.</p>
 </div>
 <div class="paragraph">
 <p>You start, stop, and restart the Neo4j instance as follows:</p>
 </div>
-<div class="paragraph">
-<p><code>sudo systemctl start neo4j</code>
-<code>sudo systemctl stop neo4j</code>
-<code>sudo systemctl restart neo4j</code></p>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><code>[sudo] systemctl start neo4j</code></p>
+</li>
+<li>
+<p><code>[sudo] systemctl stop neo4j</code></p>
+</li>
+<li>
+<p><code>[sudo] systemctl restart neo4j</code></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>When the Neo4j instance starts, it opens the database, and writes to the folders for the database and to the log file.</p>
@@ -653,18 +663,27 @@ When you are setting up the production environment, you want to control when the
 <p>Here we see that the instance is started. Notice that the service is disabled as well.
 After the instance is started you can identify the process ID (Main PID) from the status command on Debian. It is sometimes helpful to know the process ID of the Neo4j instance (JVM) in the event that it is unresponsive and you must kill it.</p>
 </div>
+<div class="paragraph">
+<p>However, knowing whether the instance is started (active) is generally not sufficient, especially if you have made some configuration changes. You can view details of the Neo4j instance by examining the log file.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_viewing_the_neo4j_log">Viewing the neo4j log</h3>
 <div class="paragraph">
-<p>The status command gives you a short glimpse of the status of the Neo4j instance. In some cases, although the instance is <em>active</em>, it may not have started successfully. You may want to examine more information about the instance, such as the folders it is using at runtime and information about activity against the instance, and especially if any errors occurred during startup. As an administrator, you should become familiar with the types of records that are written to the log file(s) for the Neo4j instance.</p>
+<p>The status command gives you a short glimpse of the status of the Neo4j instance. In some cases, although the instance is <em>active</em>, it may not have started successfully. You may want to examine more information about the instance, such as the folders it is using at runtime and information about activity against the instance, and especially if any errors occurred during startup. As an administrator, you should become familiar with the types of records that are written to the log files for the Neo4j instance.</p>
 </div>
 <div class="paragraph">
 <p>You can view the log file for the instance on Debian as follows:</p>
 </div>
-<div class="paragraph">
-<p><code>journalctl -u neo4j</code>  to view the entire neo4j log file
-<code>journalctl -e -u neo4j</code> to view the end of the neo4j log file</p>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><code>journalctl -u neo4j</code>  to view the entire neo4j log file.</p>
+</li>
+<li>
+<p><code>journalctl -e -u neo4j</code> to view the end of the neo4j log file.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Here is the result from journalctl:</p>
@@ -687,7 +706,7 @@ After the instance is started you can identify the process ID (Main PID) from th
 <p><strong>Before you begin</strong></p>
 </div>
 <div class="paragraph">
-<p>You should disable the neo4j service <code>sudo systemctrl disable neo4j</code>.</p>
+<p>You should disable the <em>neo4j</em> service <code>[sudo] systemctrl disable neo4j</code>.</p>
 </div>
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
@@ -730,7 +749,7 @@ After the instance is started you can identify the process ID (Main PID) from th
 <p>Once authenticated, you enter Cypher statements to execute just as they would in Neo4j Browser. One caveat with <code>cypher-shell</code>, however is that all Cypher commands <span class="underline">must</span> end with <code>;</code>. You exit <code>cypher-shell</code> with the command <code>:exit</code>.</p>
 </div>
 <div class="paragraph">
-<p>Here is an example showing that we can successfully log in to the database for the Neo4j instance, provide the default credentials <em>neo4j/neo4j</em>:</p>
+<p>Here is an example showing that we can successfully log in to the database for the Neo4j instance, providing the default credentials <em>neo4j/neo4j</em>:</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -740,13 +759,13 @@ After the instance is started you can identify the process ID (Main PID) from th
 <div class="sect2">
 <h3 id="_changing_the_default_password">Changing the default password</h3>
 <div class="paragraph">
-<p>If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials neo4j/neo4j <span class="underline">must</span> be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the <em>neo4j</em> user. Later in this training, you will learn more about securing Neo4j.</p>
+<p>If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials <em>neo4j/neo4j</em> <span class="underline">must</span> be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the <em>neo4j</em> user. Later in this training, you will learn more about securing Neo4j by managing users and their access.</p>
 </div>
 <div class="paragraph">
 <p>While logged into the database in <code>cypher-shell</code>, you execute the procedure to change the password:</p>
 </div>
 <div class="paragraph">
-<p>`CALL dbms.changePassword('newPassword');</p>
+<p><code>CALL dbms.changePassword('newPassword');</code></p>
 </div>
 <div class="paragraph">
 <p>In this example, we log into <code>cypher-shell</code> with our credentials. Then we execute the Cypher command to change the password. Finally, we specify <code>:exit</code> to log out of <code>cypher-shell</code>.</p>
@@ -827,7 +846,7 @@ After the instance is started you can identify the process ID (Main PID) from th
 <div class="olist arabic">
 <ol class="arabic" start="10">
 <li>
-<p>The database is now populated with the <em>Movie</em> data. Execute a Cypher statement to retrieve data from the database, for example: <code>MATCH (p:Person) WHERE p.name="Tom Cruise" RETURN p.name, p.born;</code> You should see the following:</p>
+<p>The database is now populated with the <em>Movie</em> data. Execute a Cypher statement to retrieve data from the database, for example: <code>MATCH (p:Person) WHERE p.name='Tom Cruise' RETURN p.name, p.born;</code> You should see the following:</p>
 </li>
 </ol>
 </div>
@@ -894,7 +913,7 @@ After the instance is started you can identify the process ID (Main PID) from th
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>. For example, delete the <strong>graph.db</strong> database: <code>rm -rf /var/lib/neo4j/data/databases/graph.db</code></p>
+<p>For example, delete the <strong>graph.db</strong> database: <code>[sudo] rm -rf /var/lib/neo4j/data/databases/graph.db</code></p>
 </li>
 </ol>
 </div>
@@ -924,12 +943,12 @@ After the instance is started you can identify the process ID (Main PID) from th
 <p>Ensure that the folder where you will dump the database exists.</p>
 </li>
 <li>
-<p>Use the <strong>dump</strong> command of the <code>neo4j-admin</code> tool to create the dump file.</p>
+<p>Use the <code>dump</code> command of the <code>neo4j-admin</code> tool to create the dump file.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Then, if you want to create a database from the dump file to use in a Neo4j instance, you must:</p>
+<p>Then, if you want to create a database from the dump file to use for a Neo4j instance, you must:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -940,7 +959,7 @@ After the instance is started you can identify the process ID (Main PID) from th
 <p>Determine what you will call the new database and adjust <strong>neo4j.conf</strong> to use this database as the active database.</p>
 </li>
 <li>
-<p>Use the <strong>load</strong> command of the <code>neo4j-admin</code> tool to create the database from the dump file using the same name you specify in the <strong>neo4j.conf</strong> file.</p>
+<p>Use the <code>load</code> command of the <code>neo4j-admin</code> tool to create the database from the dump file using the same name you specify in the <strong>neo4j.conf</strong> file.</p>
 </li>
 <li>
 <p>Start the Neo4j instance.</p>
@@ -951,10 +970,10 @@ After the instance is started you can identify the process ID (Main PID) from th
 <h3 id="_dumping_a_database">Dumping a database</h3>
 <div class="paragraph">
 <p>To dump a database, the Neo4j instance must be stopped.
-Here is how to use the <strong>dump</strong> command of the  <code>neo4j-admin</code> tool to dump a database to a file:</p>
+Here is how to use the <code>dump</code> command of the  <code>neo4j-admin</code> tool to dump a database to a file:</p>
 </div>
 <div class="paragraph">
-<p><code>neo4j-admin dump --database=db-folder --to=db-target-folder/db-dump-file</code></p>
+<p><code>[sudo] neo4j-admin dump --database=db-folder --to=db-target-folder/db-dump-file</code></p>
 </div>
 <div class="paragraph">
 <p><em>where:</em></p>
@@ -1000,7 +1019,7 @@ Here is how to use the <strong>dump</strong> command of the  <code>neo4j-admin</
 <div class="sect2">
 <h3 id="_loading_a_database">Loading a database</h3>
 <div class="paragraph">
-<p>Assuming that you have a dump file to use, you must first determine what the name of the target database will be. If you use an existing database name, the load command, can overwrite the database. If you want to create a new database, then you specify a database name that does not already exist. To perform the load command, the Neo4j instance must be stopped. In addition, the user:group permissions of the files created must be neo4j:neo4j.</p>
+<p>Assuming that you have a dump file to use, you must first determine what the name of the target database will be. If you use an existing database name, the <code>load</code> command, can overwrite the database. If you want to create a new database, then you specify a database name that does not already exist. To perform the <code>load</code> command, the Neo4j instance must be stopped. In addition, the user:group permissions of the files created must be <em>neo4j:neo4j</em>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1009,16 +1028,16 @@ Here is how to use the <strong>dump</strong> command of the  <code>neo4j-admin</
 <div class="title">Note</div>
 </td>
 <td class="content">
-You must either perform the load operation as the neo4j user, or after the load, you must change the owner of all files and folders created to neo4j:neo4j.
+You must either perform the <code>load</code> operation as the neo4j user, or after the load, you must change the owner of all files and folders created to <em>neo4j:neo4j</em>.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Here is how to use the <strong>load</strong> command of the  <code>neo4j-admin</code> tool to load a database from a file:</p>
+<p>Here is how to use the <code>load</code> command of the  <code>neo4j-admin</code> tool to load a database from a file:</p>
 </div>
 <div class="paragraph">
-<p><code>neo4j-admin load --from=path/db-dump-file --database=db-folder [--force=true]</code>
+<p><code>[sudo] neo4j-admin load --from=path/db-dump-file --database=db-folder [--force=true]</code>
 <em>where:</em></p>
 </div>
 <div class="paragraph">
@@ -1036,7 +1055,7 @@ You must either perform the load operation as the neo4j user, or after the load,
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><em>db-dump-file</em></p></td>
-<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">is the file previously created with the <strong>dump</strong> command of <code>neo4j-admin</code>.</p></td>
+<td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">is the file previously created with the <code>dump</code> command of <code>neo4j-admin</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock"><em>db-folder</em></p></td>
@@ -1064,7 +1083,10 @@ You must either perform the load operation as the neo4j user, or after the load,
 </div>
 </div>
 <div class="paragraph">
-<p>A best practice is to examine the log file for the Neo4j instance after you have made any configuration changes.</p>
+<p>In addition, we must change the owner:group for the database folder and its sub-folders to <em>neo4j:neo4j</em> before we start the Neo4j imstance.</p>
+</div>
+<div class="paragraph">
+<p>A best practice is to examine the log file for the Neo4j instance after you have made any configuration changes to ensure that the instance starts with no errors.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1087,7 +1109,7 @@ You must either perform the load operation as the neo4j user, or after the load,
 <p>Open a terminal on your system.</p>
 </li>
 <li>
-<p>Create a folder named /usr/local/work*.</p>
+<p>Create a folder named <strong>/usr/local/work</strong>.</p>
 </li>
 <li>
 <p>Use the <code>neo4j-admin</code> script to dump the <strong>graph.db</strong> database to the <strong>work</strong> folder. You should do something like this:</p>
@@ -1108,7 +1130,7 @@ You must either perform the load operation as the neo4j user, or after the load,
 <p>Delete the <strong>graph.db</strong> database.</p>
 </li>
 <li>
-<p>Use the <code>neo4j-admin</code> script to load the database from the dump file you just created. Name the database <strong>movie.db</strong>. Note that you should perform the load as the <em>neo4j</em> user. If you do not have the credentials to log in as the <em>neo4j</em> users, then you can change the owner of the files later. You should do something like this:</p>
+<p>Use the <code>neo4j-admin</code> script to load the database from the dump file you just created. Name the database <strong>movie.db</strong>.  You should do something like this:</p>
 </li>
 </ol>
 </div>
@@ -1132,10 +1154,22 @@ You must either perform the load operation as the neo4j user, or after the load,
 <div class="olist arabic">
 <ol class="arabic" start="8">
 <li>
-<p>If you did not perform the load as the user <em>neo4j</em>, you must change the owner:group of all files and folders under <strong>movie.db</strong> to be <em>neo4j:neo4j</em>. For example, change directory to the <strong>movie.db</strong> folder and  then enter the command:
-   <code>sudo chown -R neo4j:neo4j <strong></code>.
-This will recursively change the owner and group to all files and folders under *movie.db</strong>.</p>
+<p>If you did not perform the load as the user <em>neo4j</em>, you must change the owner:group of all files and folders under <strong>movie.db</strong> to be <em>neo4j:neo4j</em>. For example, change directory to the <strong>movie.db</strong> folder and  then enter the command:</p>
 </li>
+</ol>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><code>[sudo] chown -R neo4j:neo4j *</code></p>
+</li>
+<li>
+<p>This will recursively change the owner and group to all files and folders including and under <strong>movie.db</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="9">
 <li>
 <p>Start the Neo4j instance.</p>
 </li>
@@ -1181,7 +1215,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>If you have an existing database that you want to reside in a different location for the Neo4j instance, remember that you must dump and load the database to safely copy it to the new location.</p>
 </div>
 <div class="sect2">
-<h3 id="_using_a_name_other_than_graph_db">Using a name other than graph.db</h3>
+<h3 id="_using_a_name_other_than_graph_db">Using a name other than <strong>graph.db</strong></h3>
 <div class="paragraph">
 <p>If you are starting the Neo4j instance with a new location and you are not using the default <strong>graph.db</strong> database name, you must follow these steps to ensure that the folders for the database are set up properly:</p>
 </div>
@@ -1206,7 +1240,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>Load the data into the database name that will be the active database.</p>
 </li>
 <li>
-<p>If you did not load the database the the user <em>neo4j</em>, recursively change the owner:group to <em>neo4j:neo4j</em>.</p>
+<p>Ensure that the database folder and its sub-folders are owned by  <em>neo4j:neo4j</em>.</p>
 </li>
 <li>
 <p>Start the Neo4j instance.</p>
@@ -1247,7 +1281,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>Create a folder named <strong>/usr/local/data</strong>. This is the folder where the database will reside which is different from the default location used by Neo4j.</p>
 </li>
 <li>
-<p>Make sure that this <strong>data</strong> folder is owned by <em>neo4j:neo4j</em>. For example, navigate to the <strong>/usr/local</strong> folder and enter <code>sudo chown neo4j:neo4j data</code>.</p>
+<p>Make sure that this <strong>data</strong> folder is owned by <em>neo4j:neo4j</em>. For example, navigate to the <strong>/usr/local</strong> folder and enter <code>[sudo ]chown neo4j:neo4j data</code>.</p>
 </li>
 <li>
 <p>Modify the <strong>neo4j.conf</strong> file to use <strong>/usr/local/data</strong> as the data directory. Also ensure that there is no active database specified. Your <strong>neo4j.conf</strong> file should look something like this:</p>
@@ -1307,10 +1341,22 @@ This will recursively change the owner and group to all files and folders under 
 <div class="olist arabic">
 <ol class="arabic" start="11">
 <li>
-<p>If you did not perform the load as the user <em>neo4j</em>, you must change the owner:group of all files and folders under <strong>movie3.db</strong> to be <em>neo4j:neo4j</em>. For example, change directory to the <strong>databases</strong> folder and  then enter the command:
-   <code>sudo chown -R neo4j:neo4j movie3.db</code>.
-This will recursively change the owner and group to all files and folders under <strong>movie3.db</strong>.</p>
+<p>Ensure that all files and folders including and under <strong>movie3.db</strong> are owned by <em>neo4j:neo4j</em>. For example, change directory to the <strong>databases</strong> folder and  then enter the command:</p>
 </li>
+</ol>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p><code>[sudo] chown -R neo4j:neo4j movie3.db</code></p>
+</li>
+<li>
+<p>This will recursively change the owner and group to all files and folders under <strong>movie3.db</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="12">
 <li>
 <p>Start the Neo4j instance.</p>
 </li>
@@ -1318,7 +1364,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>Examine the log file to ensure that no errors occurred.</p>
 </li>
 <li>
-<p>Access the database using <code>cypher-shell</code>. Do you get an authentication error?  This is because the database is now located in a different location and the default credentials of neo4j/neo4j are used.</p>
+<p>Access the database using <code>cypher-shell</code>. Do you get an authentication error?  This is because the database is now located in a different location and the default credentials of <em>neo4j/neo4j</em> are used.</p>
 </li>
 </ol>
 </div>
@@ -1333,7 +1379,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>Enter the Cypher statement to change the password: <code>CALL dbms.changePassword('newPassword');</code></p>
 </li>
 <li>
-<p>Enter a Cypher statement to retrieve some data: <code>MATCH (p:Person) WHERE p.name="Meg Ryan" RETURN p.name, p.born;</code></p>
+<p>Enter a Cypher statement to retrieve some data: <code>MATCH (p:Person) WHERE p.name='Meg Ryan' RETURN p.name, p.born;</code></p>
 </li>
 <li>
 <p>Exit <code>cypher-shell</code>.</p>
@@ -1361,7 +1407,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>Here is how you use the <code>neo4j-admin</code> tool to check the consistency of the database:</p>
 </div>
 <div class="paragraph">
-<p><code>neo4j-admin check-consistency --database=db-name --report-dir=report-location [--verbose=true]</code></p>
+<p><code>[sudo] neo4j-admin check-consistency --database=db-name --report-dir=report-location [--verbose=true]</code></p>
 </div>
 <div class="paragraph">
 <p>The database named <em>db-name</em> is found in the data location specified in <strong>neo4j.conf</strong> file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to <em>report-location</em>. You can specify verbose reporting. See the <em>Operations Manual</em> for more options. For example, you can check the consistency of a backup.</p>
@@ -1421,7 +1467,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>Open a terminal on your system.</p>
 </li>
 <li>
-<p>Run the consistency check tool on <strong>movie3.db</strong> using neo4j-admin specifying <strong>reports</strong> as the folder where the report will be written. The admin-tool should return the following:</p>
+<p>Run the consistency check tool on <strong>movie3.db</strong> using <code>neo4j-admin</code> specifying <strong>reports</strong> as the folder where the report will be written. The consistency check tool should return the following:</p>
 </li>
 </ol>
 </div>
@@ -1445,7 +1491,7 @@ This will recursively change the owner and group to all files and folders under 
 <p>Next, you will corrupt the database. Modify the file <strong>movie3-copy.db/neostore.nodestore.db</strong> by adding some text to the file.</p>
 </li>
 <li>
-<p>Run the consistency check tool on <strong>movie3-copy.db</strong> using neo4j-admin specifying <strong>/usr/local/work/reports</strong> as the folder where the report will be written. The admin-tool should return something like the following:</p>
+<p>Run the consistency check tool on <strong>movie3-copy.db</strong> using <code>neo4j-admin</code> specifying <strong>/usr/local/work/reports</strong> as the folder where the report will be written. The consistency check tool should return something like the following:</p>
 </li>
 </ol>
 </div>
@@ -1522,7 +1568,7 @@ CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;</pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Remove the <strong>~/databases/movie3-copy.db</strong> folder as this database is now corrupt.</p>
+<p>Remove the <strong>databases/movie3-copy.db</strong> folder as this database is now corrupt.</p>
 </li>
 <li>
 <p>Ensure that the Neo4j configuration uses <strong>movie3.db</strong> for the database.</p>
@@ -1541,7 +1587,7 @@ CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;</pre>
 <p>Open a terminal on your system.</p>
 </li>
 <li>
-<p>Start Cypher-shell, providing the credentials for the neo4j user.</p>
+<p>Start <code>cypher-shell</code>, providing the credentials for the <em>neo4j</em> user.</p>
 </li>
 </ol>
 </div>
@@ -1582,7 +1628,7 @@ CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;</pre>
 <div class="olist arabic">
 <ol class="arabic" start="6">
 <li>
-<p>Create a shell script in the <strong>/usr/local/work</strong> folder named <strong>AddConstraints.sh</strong> that will forward <strong>AddConstraints.cypher</strong> to cypher-shell. This file should have the following contents:</p>
+<p>Create a shell script in the <strong>/usr/local/work</strong> folder named <strong>AddConstraints.sh</strong> that will forward <strong>AddConstraints.cypher</strong> to <code>cypher-shell</code>. This file should have the following contents:</p>
 </li>
 </ol>
 </div>
@@ -1672,7 +1718,7 @@ CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;</pre>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/DefaultProcedures.png" alt="DefaultProcedures" width="400">
+<img src="../img/DefaultProcedures.png" alt="DefaultProcedures" width="800">
 </div>
 </div>
 <div class="paragraph">
@@ -1737,7 +1783,7 @@ Here is how we enable the procedures in the graph algorithms plugin. We modify t
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/GraphAlgosInstalled.png" alt="GraphAlgosInstalled" width="600">
+<img src="../img/GraphAlgosInstalled.png" alt="GraphAlgosInstalled" width="700">
 </div>
 </div>
 </div>
@@ -1781,7 +1827,7 @@ Here is how we enable the procedures in the graph algorithms plugin. We modify t
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/APOCLoaded.png" alt="APOCLoaded" width="400">
+<img src="../img/APOCLoaded.png" alt="APOCLoaded" width="700">
 </div>
 </div>
 </div>
@@ -1866,10 +1912,10 @@ Here is how we enable the procedures in the graph algorithms plugin. We modify t
 <div class="olist arabic">
 <ol class="arabic" start="8">
 <li>
-<p>In the <strong>NEO4J_HOME/work</strong> folder, create a script named <strong>ListProcedures.sh</strong> that will write the list of procedures available to the Neo4j instance to the <strong>$NEO4j/work/Procedures.txt</strong> file.</p>
+<p>In the <strong>/usr/local/work</strong> folder, create a script named <strong>ListProcedures.sh</strong> that will write the list of procedures available to the Neo4j instance to the <strong>/usr/local/work/Procedures.txt</strong> file.</p>
 </li>
 <li>
-<p>Run the ListProcedures.sh script and examine the contents to also verify that the plugin has been installed.</p>
+<p>Run the <strong>ListProcedures.sh</strong> script and examine the contents to also verify that the plugin has been installed.</p>
 </li>
 </ol>
 </div>
@@ -1993,7 +2039,7 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/Ex8-HTTP9999-used.png" alt="Ex8-HTTP9999-used" width="800">
+<img src="../img/Ex8-HTTP9999-used.png" alt="Ex8-HTTP9999-used" width="1000">
 </div>
 </div>
 <div class="olist arabic">
@@ -2015,7 +2061,7 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 <div class="sect2">
 <h3 id="_question_1">Question 1</h3>
 <div class="paragraph">
-<p>Suppose that you have installed Neo4j Enterprise Edition and have changed the password for the user, <em>neo4j</em>. What script and command do you run to create a Neo4j database for the instance?</p>
+<p>Suppose that you have installed Neo4j Enterprise Edition and have modified the name of the active database in the Neo4j comfiguratioon file. What tool and command do you run to create the new database?</p>
 </div>
 <div class="paragraph">
 <p>Select the correct answer.</p>
@@ -2098,13 +2144,13 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 <div class="ulist square">
 <ul class="square">
 <li>
-<p>Set the password for the <em>neo4j</em> user.</p>
-</li>
-<li>
 <p>Start a Neo4j instance.</p>
 </li>
 <li>
 <p>Stop the Neo4j instance.</p>
+</li>
+<li>
+<p>Set the password for the <em>neo4j</em> user.</p>
 </li>
 <li>
 <p>Copy a Neo4j database.</p>
@@ -2131,7 +2177,7 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-02 12:53:43 CST
+Last updated 2019-01-02 15:25:59 CST
 </div>
 </div>
 </body>
