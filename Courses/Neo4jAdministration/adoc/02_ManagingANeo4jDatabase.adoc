@@ -61,11 +61,25 @@ Tools
 |====
 {set:cellbgcolor!}
 
-== Post-installation preparation - Debian
+== Post-installation preparation 
 
-When Neo4j is installed as a Debian package, the _neo4j_ service is enabled and the Neo4j instance is automatically started. Other platforms behave differently.
+In this training, all screenshots and examples are shown using Neo4j Enterprise Edition installed as a Debian package. If your system is different, you will need to adjust file locations as described later in this training.
 
-When you are setting up the production environment, you want to control when the Neo4j instance starts as you will performing some configuration changes and database operations that may require that the instance to be stopped.
+When you are setting up a production environment, you want to control who can manage the Neo4j instance. You will also want to control when the Neo4j instance starts as you will performing some configuration changes and database operations that may require that the instance to be stopped.
+
+When Neo4j is installed as a Debian package, the _neo4j_ service is enabled and the Neo4j instance is automatically started. Other platforms do not start the Neo4j instance automatically.
+
+=== Changing the _neo4j_ password (non-Debian)
+
+After you install Neo4j and before you start the Neo4j instance, a best practice is to change the default password for the user _neo4j_. You do this on all platforms, except when you have installed a Debian package. You will learn about changing the _neo4j_ password on Debian later in this training.
+
+You change the password for the _neo4j_ user by executing the following command:
+
+`[sudo] bin/neo4j-admin set-initial-password newPassword`
+
+where _newPassword_ is a password you will remember.
+
+=== Disabling the _neo4j_ service (Debian)
 
 Initially and on Debian, you should disable _neo4j_ as a service that is started automatically when the system starts. You do this with this command:
 
@@ -75,12 +89,19 @@ Initially and on Debian, you should disable _neo4j_ as a service that is started
 
 When the instance is started, it creates a database named *graph.db* in the default location which is a folder under */var/lib/neo4j/data/databases*. You can start and stop the instance regardless of whether the _neo4j_ service is enabled.
 
-You start, stop, and restart the Neo4j instance as follows:
+You start, stop, and restart the Neo4j instance on Debian as follows:
 
 [square]
 * `[sudo] systemctl start neo4j`
 * `[sudo] systemctl stop neo4j`
 * `[sudo] systemctl restart neo4j`
+
+You start, stop, and restart the Neo4j instance on non-Debian systems as follows:
+
+[square]
+* `[sudo] bin/neo4j start`
+* `[sudo] bin/neo4j stop`
+* `[sudo] bin/neo4j restart`
 
 When the Neo4j instance starts, it opens the database, and writes to the folders for the database and to the log file.
 
@@ -110,12 +131,16 @@ You can view the log file for the instance on Debian as follows:
 [square]
 * `journalctl -u neo4j`  to view the entire neo4j log file.
 * `journalctl -e -u neo4j` to view the end of the neo4j log file.
+* `journalctl -u neo4j -b > neo4j.log` where you can view *neo4j.log* in an editor.
 
 Here is the result from journalctl:
 
 image::{imagedir}/FirstNeo4jLog-Debian.png[FirstNeo4jLog-Debian,width=800,align=center]
 
 When the Neo4j instance starts, you can also confirm that it is started by seeing the _Started_ record in the log file.
+
+[NOTE]
+On non-Debian systems, you simply view the log file in the _logs_ folder.
 
 === *Exercise #1: Managing the Neo4j instance*
 
@@ -130,7 +155,7 @@ You should disable the _neo4j_ service `[sudo] systemctrl disable neo4j`.
 . Open a terminal on your system.
 . View the status of the Neo4j instance.
 . Stop the Neo4j instance.
-. View the status of the Neoj instance.
+. View the status of the Neo4j instance.
 . Examine the Neo4j log file.
 . Examine the files and folders created for this Neo4j instance.
 
@@ -146,7 +171,7 @@ Here is an example showing that we can successfully log in to the database for t
 
 image::{imagedir}/InitialCypherShellLogin-Debian.png[InitialCypherShellLogin-Debian,width=800,align=center]
 
-=== Changing the default password
+=== Changing the default password (Debian only)
 
 If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials _neo4j/neo4j_ [underline]#must# be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the _neo4j_ user. Later in this training, you will learn more about securing Neo4j by managing users and their access. 
 
@@ -185,7 +210,7 @@ You should ensure that the Neo4j instance is started.
 . Exit out of `cypher-shell`.
 . Log into the database with `cypher-shell` using the new credentials.
 . Execute the Cypher statement, `CALL dbms.listQueries();`.
-. Open this Cypher https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/movieDB.cypher[file]. This file contains the Cypher statements to load the database with movie data. Copy the contents of this file onto your clipboard.
+. Download this https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/movieDB.cypher[file]. This file contains the Cypher statements to load the database with movie data.  Open this file with an editor and copy the contents of this file onto your clipboard.
 . Paste the contents of the file into your `cypher-shell` session and press the `ENTER` key to execute the statements. You should see something like the following:
 
 image::{imagedir}/Ex2-LoadMovieDB-cypher-shell.png[Ex2-LoadMovieDB-cypher-shell,width=1000,align=center]
@@ -220,7 +245,10 @@ To delete a Neo4j database you must:
 
 . Stop the Neo4j instance.
 . Remove the folder for the active database.
-.. For example, delete the *graph.db* database: `[sudo] rm -rf /var/lib/neo4j/data/databases/graph.db`
+
+For example, delete the *graph.db* database: 
+
+`[sudo] rm -rf /var/lib/neo4j/data/databases/graph.db`
 
 If you were to start the Neo4j instance, it would recreate an empty database. If you want to copy an existing database for use with this Neo4j instance, you dump and load an existing database to be used as the active database. Then you can start the Neo4j instance. You will learn about dumping an loading a database next.
 
@@ -240,6 +268,9 @@ Then, if you want to create a database from the dump file to use for a Neo4j ins
 . Determine what you will call the new database and adjust *neo4j.conf* to use this database as the active database.
 . Use the `load` command of the `neo4j-admin` tool to create the database from the dump file using the same name you specify in the *neo4j.conf* file.
 . Start the Neo4j instance.
+
+[NOTE]
+Dumping and loading a database is done when the Neo4j instance is stopped. Later in this training, you will learn about backup and restore that can be done with the Neo4j instance started. Dump and load is typically done for initial setup and development purposes. Backup and restore is done in a production environment.
 
 === Dumping a database
 
@@ -333,11 +364,9 @@ image::{imagedir}/Ex3-movie-load.png[Ex3-movie-load,width=1000,align=center]
 image::{imagedir}/Ex3-movie-cfg.png[x3-movie-cfg,width=1000,align=center]
 
 [start=8]
-. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie.db* to be _neo4j:neo4j_. For example, change directory to the *movie.db* folder and  then enter the command: 
+. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie.db* to be _neo4j:neo4j_. For example, change directory to the *movie.db* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j *`  
 
-[square]
-*  `[sudo] chown -R neo4j:neo4j *` 
-* This will recursively change the owner and group to all files and folders including and under *movie.db*.
+This will recursively change the owner and group to all files and folders including and under *movie.db*.
 
 [start=9]
 . Start the Neo4j instance.
@@ -411,11 +440,9 @@ image::{imagedir}/Ex4-ActiveDatabase.png[Ex4-ActiveDatabase,width=800,align=cent
 image::{imagedir}/Ex4-LoadDB.png[Ex4-LoadDB,width=800,align=center]
 
 [start=11]
-. Ensure that all files and folders including and under *movie3.db* are owned by _neo4j:neo4j_. For example, change directory to the *databases* folder and  then enter the command: 
+. Ensure that all files and folders including and under *movie3.db* are owned by _neo4j:neo4j_. For example, change directory to the *databases* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j movie3.db` 
 
-[square]
-* `[sudo] chown -R neo4j:neo4j movie3.db` 
-* This will recursively change the owner and group to all files and folders under *movie3.db*.
+This will recursively change the owner and group to all files and folders under *movie3.db*.
 
 [start=12]
 . Start the Neo4j instance.
@@ -704,7 +731,7 @@ image::{imagedir}/Ex7-SpatialLibraryLoaded.png[Ex7-SpatialLibraryLoaded,width=80
 
 == Configuring connector ports for the Neo4j instance
 
-The Neo4j instance uses https://neo4j.com/docs/operations-manual/current/configuration/ports/[default port numbers] that may conflict with other processes on your system. The ports used frequently are the connector ports:
+The Neo4j instance uses https://neo4j.com/docs/operations-manual/3.5/configuration/ports/[default port numbers] that may conflict with other processes on your system. The ports used frequently are the connector ports:
 
 [cols="10,10,80", options="header",stripes="none"]
 |====
@@ -745,7 +772,7 @@ dbms.connector.https.enabled=true
 As you learn more about some of the other administrative tasks for a Neo4j instance, you will work with other ports.
 
 [NOTE]
-It is not possible to disable the HTTP connector. See the https://neo4j.com/docs/operations-manual/current/configuration/connectors/[connectors] section of the _Operations Manual_ for more information.
+It is not possible to disable the HTTP connector. See the https://neo4j.com/docs/operations-manual/3.5/configuration/connectors/[connectors] section of the _Operations Manual_ for more information.
 
 ===  *Exercise #8: Modify the HTTP port*
 
