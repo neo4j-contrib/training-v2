@@ -526,8 +526,8 @@ Here is the query to do this:
 
 [source,cypher]
 ----
-MATCH (meg:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(:Person),
-      (:Person)-[:ACTED_IN]->(m)
+MATCH (meg:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),
+      (other:Person)-[:ACTED_IN]->(m)
 WHERE meg.name = 'Meg Ryan'
 RETURN m.title as movie, d.name AS director , other.name AS `co-actors`
 ----

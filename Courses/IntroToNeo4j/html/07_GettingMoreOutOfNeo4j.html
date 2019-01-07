@@ -223,11 +223,9 @@ function setGadgetUrl(sel) {
 </div>
 
 
-
 <div class="paragraph">
 <p>At the end of this module, you should be able to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -261,7 +259,6 @@ Access Neo4j resources.
 <div class="paragraph">
 <p>In a deployed application, you should not <strong>hard code</strong>  values in your Cypher statements. You use a variety values when you are testing your Cypher statements.  But you don&#8217;t want to change the Cypher statement every time you test. In addition, you typically include  Cypher statements in an application where parameters are passed in to the Cypher statement before it executes. For these scenarios, you should parameterize values in your Cypher statements.</p>
 </div>
-
 <div  id="_using_cypher_parameters" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Using Cypher parameters</h3>
 
@@ -271,11 +268,9 @@ Access Neo4j resources.
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example where we have parameterized the query:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -293,17 +288,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>In Neo4j Browser, you can set values for Cypher parameters that will be in effect during your session.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>You can set the value of a single parameter in the query editor pane as shown in this example where the value <em>Tom Hanks</em> is set for the parameter <code>actorName</code>:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:param actorName =&gt; 'Tom Hanks'</pre>
@@ -329,7 +321,6 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 <div class="paragraph">
 <p>Here is the result of executing the <code>:param</code> command:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActorNameParameter.png" alt="SetActorNameParameter" width="600">
@@ -342,11 +333,9 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </div>
 
 
-
 <div class="paragraph">
 <p>After the <em>actorName</em> parameter is set, you can run the query that uses the parameter:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UseParameter.png" alt="UseParameter" width="800">
@@ -359,11 +348,9 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </div>
 
 
-
 <div class="paragraph">
 <p>After we have changed the <em>actorName</em> parameter to 'Tom Cruise', we get a different result with the same Cypher query:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TomCruiseParameter.png" alt="TomCruiseParameter" width="800">
@@ -374,7 +361,6 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 <div class="paragraph">
 <p>You can also use the JSON-style syntax to set <span class="underline">all</span> of the parameters in your Neo4j Browser session. The values you can specify in this object are numbers, strings, and booleans. In this example we set two parameters for our session:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:params {actorName: 'Tom Cruise', movieName: 'Top Gun'}</pre>
@@ -388,7 +374,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetAllParameters.png" alt="SetAllParameters" width="500">
@@ -401,18 +386,16 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>If you want to view the current parameters and their values, simply type <code>:params</code>:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ViewParams.png" alt="ViewParams" width="500">
 </p>
 </div>
 </div>
-<div  id="_strong_exercise_12_using_cypher_parameters_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_12_using_cypher_parameters" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 12: Using Cypher parameters</strong></h3>
 
 
@@ -420,7 +403,6 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 12.</p>
 </div>
-
 </div>
 </div>
 <div  id="_analyzing_cypher_execution" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -432,11 +414,9 @@ and follow the instructions for Exercise 12.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>There are two Cypher keywords you can prefix a Cypher statement with to analyze a query:</p>
 </div>
-
 <div class="ulist">
 <ul>
 <li>
@@ -454,11 +434,9 @@ and follow the instructions for Exercise 12.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example where we have set the <em>actorName</em> and <em>year</em> parameters for our session and we execute this Cypher statement:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">EXPLAIN MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
@@ -475,7 +453,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the query plan returned:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/EXPLAIN.png" alt="EXPLAIN" width="900">
@@ -488,17 +465,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>For a better metric for analyzing how the Cypher statement will run you use the <code>PROFILE</code> keyword which runs the Cypher statement and gives you run-time performance metrics.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is the result returned using <code>PROFILE</code> for this Cypher statement:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE1.png" alt="PROFILE1" width="900">
@@ -511,11 +485,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>For example, if we were to change the Cypher statement so that the node labels are not specified, we see these metrics when we profile:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE2.png" alt="PROFILE2" width="900">
@@ -526,7 +498,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here we see more db hits which makes sense because all nodes need to be scanned for perform this query.</p>
 </div>
-
 </div>
 <div  id="_monitoring_queries" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Monitoring queries</h3>
@@ -535,7 +506,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>If you are testing an application and have run several queries against the graph, there may be times when your Neo4j Browser session hangs with what seems to be a very long-running query. There are two reasons why a Cypher query may take a long time:</p>
 </div>
-
 <div class="ulist">
 <ul>
 <li>
@@ -567,11 +537,9 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 </div>
 
 
-
 <div class="paragraph">
 <p>If, however, the query is a <strong>long-running query</strong>, you can monitor it by using the <code>:queries</code> command. Here is a screenshot where we are monitoring a long-running query in another Neo4j Browser session:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ListQueries.png" alt="ListQueries" width="1000">
@@ -582,7 +550,6 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 <div class="paragraph">
 <p>The <code>:queries</code> command calls <code>dbms.listQueries</code> under the hood, which is why we see two queries here. We have turned on <strong>AUTO-REFRESH</strong> so we can monitor the number of ms used by the graph engine thus far. You can kill the running query by double-clicking the icon in the <em>Kill</em> column. Alternatively, you can execute the statement <code>CALL dbms.killQuery('query-id')</code>.</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KillQuery.png" alt="KillQuery" width="1000">
@@ -593,7 +560,6 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 <div class="paragraph">
 <p>Here is what happens in the Neo4j Browser session where the long-running query was run:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/QueryKilled.png" alt="QueryKilled" width="800">
@@ -611,7 +577,7 @@ The <code>:queries</code> command is only available in the Enterprise Edition of
 </tr>
 </table>
 </div>
-<div  id="_strong_exercise_13_analyzing_and_monitoring_queries_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_13_analyzing_and_monitoring_queries" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 13: Analyzing and monitoring queries</strong></h3>
 
 
@@ -619,7 +585,6 @@ The <code>:queries</code> command is only available in the Enterprise Edition of
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 13.</p>
 </div>
-
 </div>
 </div>
 <div  id="_managing_constraints_and_node_keys" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -631,11 +596,9 @@ and follow the instructions for Exercise 13.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>In addition, you have learned that a node or relationship need not have a particular property. What if you want to ensure that all nodes or relationships of a specific type (label) <span class="underline">must</span> set values for certain properties?</p>
 </div>
-
 
 
 <div class="paragraph">
@@ -643,11 +606,9 @@ and follow the instructions for Exercise 13.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>All of these scenarios are common in many graphs. In Neo4j, you can use Cypher to:</p>
 </div>
-
 <div class="ulist">
 <ul>
 <li>
@@ -666,7 +627,6 @@ Add a <em>node key</em> that ensures that a set of values for properties of a no
 <div class="paragraph">
 <p>Constraints and node keys that enforce uniqueness are related to indexes which you will learn about later in this module.</p>
 </div>
-
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -688,11 +648,9 @@ Existence constraints and node keys are only available in Enterprise Edition of 
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example for ensuring that the <em>title</em> for a node of type <em>Movie</em> is unique:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE</pre>
@@ -708,11 +666,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement on the <em>Movie</em> graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddTitleConstraint.png" alt="AddTitleConstraint" width="500">
@@ -723,7 +679,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>And if we attempt to create a <em>Movie</em> with the <em>title</em>, <em>The Matrix</em>, the Cypher statement will fail because the graph already has a movie with that title:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE (:Movie {title: 'The Matrix'})</pre>
@@ -737,7 +692,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement on the <em>Movie</em> graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UniquenessFailed.png" alt="UniquenessFailed" width="700">
@@ -748,7 +702,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>In addition, if you attempt to modify the value of a property where the uniqueness assertion fails, the property will not be updated.</p>
 </div>
-
 </div>
 <div  id="_ensuring_that_properties_exist" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Ensuring that properties exist</h3>
@@ -759,17 +712,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>You add an existence constraint to the graph by creating a constraint that asserts that a particular type of node or relationship property must exist in the graph when a node or relationship of that type is created or updated.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Recall that in the <em>Movie</em> graph, the movie, <em>Something&#8217;s Gotta Give</em> has no <em>tagline</em> property:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoTaglineSomething.png" alt="NoTaglineSomething" width="600">
@@ -780,7 +730,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is an example for adding the existence constraint to the <em>tagline</em> property of all <em>Movie</em> nodes in the graph:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE CONSTRAINT ON (m:Movie) ASSERT exists(m.tagline)</pre>
@@ -794,7 +743,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ConstraintExistTaglineFailure.png" alt="ConstraintExistTaglineFailure" width="800">
@@ -807,11 +755,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>We know that in the <em>Movie</em> graph, all <em>:REVIEWED</em> relationships currently have a property, <em>rating</em>. We can create an existence constraint on that property as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)</pre>
@@ -826,7 +772,6 @@ data-lang=”{language}” class=””
 <p>Notice that when you create the constraint on a relationship, you need not specify the direction of the relationship.
 With the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateRatingExistenceConstraint.png" alt="CreateRatingExistenceConstraint" width="600">
@@ -837,7 +782,6 @@ With the result:</p>
 <div class="paragraph">
 <p>So after creating this constraint, if we attempt to create a <em>:REVIEWED</em> relationship without setting the <em>rating</em> property:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person), (m:Movie)
@@ -854,7 +798,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>We see this error:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistenceConstraintFailed.png" alt="ExistenceConstraintFailed" width="800">
@@ -865,7 +808,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You will also see this error if you attempt to remove a property from a node or relationship where the existence constraint has been created in the graph.</p>
 </div>
-
 </div>
 <div  id="_retrieving_constraints_defined_for_the_graph" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Retrieving  constraints defined for the graph</h3>
@@ -876,11 +818,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Just as you have used other <em>db</em> related methods to query the schema of the graph, you can query for the set of constraints defined in the graph as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CALL db.constraints()</pre>
@@ -894,7 +834,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>And here is what is returned from the graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db_constraints.png" alt="call_db_constraints" width="600">
@@ -922,11 +861,9 @@ Using the method notation for the CALL statement enables you to use the call for
 </div>
 
 
-
 <div class="paragraph">
 <p>Here we drop the existence constraint for the <em>rating</em> property for all <em>REVIEWED</em> relationships in the graph:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">DROP CONSTRAINT ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)</pre>
@@ -940,7 +877,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropConstraint.png" alt="DropConstraint" width="600">
@@ -956,17 +892,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Suppose that in our <em>Movie</em> graph, we will not allow a <em>Person</em> node to be created where both the <em>name</em> and <em>born</em> properties are the same. We can create a constraint that will be a node key to ensure that this uniqueness for the set of properties is asserted.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example to create this node key:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE CONSTRAINT ON (p:Person) ASSERT (p.name, p.born) IS NODE KEY</pre>
@@ -980,7 +913,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement on our <em>Movie</em> graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NodeKeyCreationFailed.png" alt="NodeKeyCreationFailed" width="800">
@@ -993,11 +925,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>If we set these properties for all nodes in the graph that do not have <em>born</em> properties with:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -1013,7 +943,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Then the creation of the node key succeeds:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateNodeKey.png" alt="CreateNodeKey" width="700">
@@ -1026,11 +955,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>For example, executing this Cypher statement will fail:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE (:Person {name: 'Jessica Thompson', born: 0})</pre>
@@ -1044,14 +971,13 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateDuplicateJessicaFailure.png" alt="CreateDuplicateJessicaFailure" width="800">
 </p>
 </div>
 </div>
-<div  id="_strong_exercise_14_managing_constraints_and_node_keys_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_14_managing_constraints_and_node_keys" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 14: Managing constraints and node keys</strong></h3>
 
 
@@ -1059,7 +985,6 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 14.</p>
 </div>
-
 </div>
 </div>
 <div  id="_managing_indexes" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1071,11 +996,9 @@ and follow the instructions for Exercise 14.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is a brief summary of when single-property indexes are used:</p>
 </div>
-
 <div class="ulist">
 <ul>
 <li>
@@ -1108,11 +1031,9 @@ Spatial bounding searches <code>point()</code>
 </div>
 
 
-
 <div class="paragraph">
 <p>In this module, we introduce the basics of Neo4j indexes, but you should consult the Neo4j <em>Operations Manual</em> for more details about creating and maintaining indexes.</p>
 </div>
-
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1134,11 +1055,9 @@ Because index maintenance incurs additional overhead when nodes are created, We 
 </div>
 
 
-
 <div class="paragraph">
 <p>In this query we are testing the value of the <em>released</em> property of a <em>Movie</em> node using ranges:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -1154,7 +1073,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>The graph engine, using an index, will find the pointers to all nodes that satisfy the query without having to visit all of the nodes:</p>
 </div>
-
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/IndexForRanges.png" alt="IndexForRanges" width="600">
@@ -1170,11 +1088,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example of how we would create a single-property index on the <em>released</em> property of all nodes of type <em>Movie</em>:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE INDEX ON :Movie(released)</pre>
@@ -1188,7 +1104,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateSingle-propertyIndex.png" alt="CreateSingle-propertyIndex" width="600">
@@ -1201,17 +1116,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>If, however, there can be duplication for a set of property values, but you want faster access to them, then you can create a composite index. A composite index is based upon multiple properties for a node.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Suppose we added the property, <em>videoFormat</em> to every <em>Movie</em> node and set its value, based upon the released date of the movie as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -1230,7 +1142,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoStatements.png" alt="TwoStatements" width="900">
@@ -1253,7 +1164,6 @@ Notice that in the above Cypher statements we use the semi-colon <code>;</code> 
 <div class="paragraph">
 <p>Now that the graph has <em>Movie</em> nodes with both the properties, <em>released</em> and <em>videoFormat</em>, we can create a composite index on these properties as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE INDEX ON :Movie(released, videoFormat)</pre>
@@ -1267,7 +1177,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateCompositeIndex.png" alt="CreateCompositeIndex" width="500">
@@ -1281,7 +1190,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Just as you can retrieve the constraints defined for the graph using <code>:schema</code> or <code>CALL db.constraints()</code>, you can retrieve the indexes:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CALL db.indexes()</pre>
@@ -1295,7 +1203,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Call_db-indexes.png" alt="Call_db-indexes" width="1000">
@@ -1306,7 +1213,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Notice that the unique constraints and node keys are also shown as indexes in the graph.</p>
 </div>
-
 </div>
 <div  id="_dropping_indexes" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Dropping indexes</h3>
@@ -1317,11 +1223,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example of dropping the composite index that we just created:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">DROP INDEX ON :Movie(released, videoFormat)</pre>
@@ -1335,14 +1239,13 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropCompositeIndex.png" alt="DropCompositeIndex" width="600">
 </p>
 </div>
 </div>
-<div  id="_strong_exercise_15_managing_indexes_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_15_managing_indexes" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 15: Managing indexes</strong></h3>
 
 
@@ -1350,7 +1253,6 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 15.</p>
 </div>
-
 </div>
 </div>
 <div  id="_going_from_relational_to_graph_with_neo4j" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1360,7 +1262,6 @@ and follow the instructions for Exercise 15.</p>
 <div class="paragraph">
 <p>In this video, you will learn how developers use Neo4j for implementing all or part of their relational models.</p>
 </div>
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NO3C-CWykkY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div  id="_importing_data" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1372,11 +1273,9 @@ and follow the instructions for Exercise 15.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>In Cypher, you can:</p>
 </div>
-
 <div class="ulist">
 <ul>
 <li>
@@ -1404,8 +1303,7 @@ Load up to 10M nodes and relationships.
 <div class="paragraph">
 <p>CSV import is commonly used to import data into a graph. If you want to import data from CSV, you will need to first develop a model that describes how data from your CSV maps to data in your graph.</p>
 </div>
-
-<div  id="_importing_normalized_data_using_code_load_csv_code" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_importing_normalized_data_using_load_csv" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Importing normalized data using <code>LOAD CSV</code></h3>
 
 
@@ -1414,18 +1312,15 @@ Load up to 10M nodes and relationships.
 </div>
 
 
-
 <div class="paragraph">
 <p>The <code>LOAD CSV</code> clause parses a local in the <strong>import</strong> directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
 Then you can use whichever Cypher operations you want to either create nodes or relationships or to merge with the existing graph.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is the simplified syntax for using <code>LOAD CSV</code>:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">LOAD CSV WITH HEADERS FROM url-value
@@ -1442,17 +1337,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>As CSV files usually represent either node or relationship lists, you will run multiple passes to create nodes and relationships separately.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>The <strong>movies_to_load.csv</strong> file (sample below) contains the data that will add <em>Movie</em> nodes:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>id,title,country,year,summary
@@ -1471,11 +1363,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>For example you can execute this Cypher statement to get a count of the data to be loaded from the <strong>movies_to_load.csv</strong> file so you have an idea of how much data will be loaded:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
@@ -1492,7 +1382,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the count result for this particular file:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/countOfMoviesToLoad.png" alt="countOfMoviesToLoad" width="900">
@@ -1503,7 +1392,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You might even want to visually inspect the data before you load it to see if it is what you were expecting:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
@@ -1520,7 +1408,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running the Cypher statement to visually inspect the data:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/examineMoviesBeforeLoad.png" alt="examineMoviesBeforeLoad" width="900">
@@ -1533,11 +1420,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>You may want to format the data before it is loaded to confirm it matches what you want in your graph:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
@@ -1554,7 +1439,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here we see how the data will be formatted before it is loaded:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FormatMovieDataBeforeLoad.png" alt="FormatMovieDataBeforeLoad" width="900">
@@ -1565,7 +1449,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>The following query creates the <em>Movie</em> nodes using some of the data from <strong>movies_to_load.csv</strong> as properties:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
@@ -1584,11 +1467,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is the result of loading the <strong>movies_to_load. csv</strong> data into the graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadMovies.png" alt="loadMovies" width="900">
@@ -1599,7 +1480,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>The <strong>persons_to_load.csv</strong> file (sample below) holds the data that will populate the <em>Person</em> nodes.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>Id,name,birthyear
@@ -1620,7 +1500,6 @@ data-lang=”{language}” class=””
 That&#8217;s why instead of just creating them, we use <code>MERGE</code> to ensure unique entries after the import.
 We use the <code>ON CREATE</code> clause to set the values for <em>name</em> and <em>born</em>.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
@@ -1641,11 +1520,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is the result of loading the <strong>persons_to_load. csv</strong> data into the graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadPersons.png" alt="loadPersons" width="700">
@@ -1656,7 +1533,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>The <strong>roles_to_load.csv</strong> file (sample below) holds the data that will populate the relationships between the nodes.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>personId,movieId,role
@@ -1677,7 +1553,6 @@ data-lang=”{language}” class=””
 <p>The query below matches the entries of <em>line.personId</em> and <em>line.movieId</em> to their respective <em>Movie</em> and <em>Person</em> nodes, and creates an <em>ACTED_IN</em> relationship between the person and the movie.
 This model includes a relationship property of <em>role</em>, which is passed via <em>line.role</em>.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
@@ -1696,7 +1571,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of loading the <strong>roles_to_load. csv</strong> data into the graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadRoles.png" alt="loadRoles" width="900">
@@ -1712,17 +1586,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>For our use case, we can import the data using a CSV structure like this:</p>
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>movie_actor_roles_to_load.csv</strong>:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>title;released;summary;actor;birthyear;characters
@@ -1738,7 +1609,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here are the Cypher statements to load this data:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">LOAD CSV WITH HEADERS
@@ -1763,11 +1633,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is the result of loading the <strong>movie_actor_roles_to_load. csv</strong> data into the graph:</p>
 </div>
-
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadAll.png" alt="loadAll" width="900">
@@ -1779,7 +1647,6 @@ data-lang=”{language}” class=””
 <p>For large denormalized files, it may still make sense to create nodes and relationships separately in multiple passes.
 That would depend on the complexity of the operations and the experienced performance.</p>
 </div>
-
 </div>
 <div  id="_importing_a_large_dataset" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Importing a large dataset</h3>
@@ -1789,9 +1656,8 @@ That would depend on the complexity of the operations and the experienced perfor
 <p>If you import a larger amount of data (more than 10,000 rows), it is recommended to prefix your <code>LOAD CSV</code> clause with a <code>PERIODIC COMMIT</code> hint.
 This allows the database to regularly commit the import transactions to avoid memory churn for large transaction-states.</p>
 </div>
-
 </div>
-<div  id="_strong_exercise_16_importing_data_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_16_importing_data" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 16: Importing data</strong></h3>
 
 
@@ -1799,7 +1665,6 @@ This allows the database to regularly commit the import transactions to avoid me
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 16.</p>
 </div>
-
 </div>
 </div>
 <div  id="_accessing_neo4j_resources" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1809,7 +1674,6 @@ and follow the instructions for Exercise 16.</p>
 <div class="paragraph">
 <p>There are many ways that you can learn more about Neo4j. A good starting point for learning about the resources available to you is the <strong>Neo4j Learning Resources</strong> page at  <a href="https://neo4j.com/developer/resources/" class="bare">https://neo4j.com/developer/resources/</a>.</p>
 </div>
-
 </div>
 <div  id="module-7" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
 <h3>Check your understanding</h3>
@@ -1822,11 +1686,9 @@ and follow the instructions for Exercise 16.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answer.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1853,11 +1715,9 @@ and follow the instructions for Exercise 16.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1884,11 +1744,9 @@ and follow the instructions for Exercise 16.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answer.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1914,7 +1772,6 @@ and follow the instructions for Exercise 16.</p>
 <div class="paragraph">
 <p>You should now be able to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -2089,13 +1946,13 @@ $( document ).ready(function() {
 <li><a href="#_cypher_parameters">Cypher parameters</a>
 <ul class="sectlevel2">
 <li><a href="#_using_cypher_parameters">Using Cypher parameters</a></li>
-<li><a href="#_strong_exercise_12_using_cypher_parameters_strong"><strong>Exercise 12: Using Cypher parameters</strong></a></li>
+<li><a href="#_exercise_12_using_cypher_parameters"><strong>Exercise 12: Using Cypher parameters</strong></a></li>
 </ul>
 </li>
 <li><a href="#_analyzing_cypher_execution">Analyzing Cypher execution</a></li>
 <li><a href="#_monitoring_queries">Monitoring queries</a>
 <ul class="sectlevel2">
-<li><a href="#_strong_exercise_13_analyzing_and_monitoring_queries_strong"><strong>Exercise 13: Analyzing and monitoring queries</strong></a></li>
+<li><a href="#_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></a></li>
 </ul>
 </li>
 <li><a href="#_managing_constraints_and_node_keys">Managing constraints and node keys</a>
@@ -2105,7 +1962,7 @@ $( document ).ready(function() {
 <li><a href="#_retrieving_constraints_defined_for_the_graph">Retrieving  constraints defined for the graph</a></li>
 <li><a href="#_dropping_constraints">Dropping constraints</a></li>
 <li><a href="#_creating_node_keys">Creating node keys</a></li>
-<li><a href="#_strong_exercise_14_managing_constraints_and_node_keys_strong"><strong>Exercise 14: Managing constraints and node keys</strong></a></li>
+<li><a href="#_exercise_14_managing_constraints_and_node_keys"><strong>Exercise 14: Managing constraints and node keys</strong></a></li>
 </ul>
 </li>
 <li><a href="#_managing_indexes">Managing indexes</a>
@@ -2114,16 +1971,16 @@ $( document ).ready(function() {
 <li><a href="#_creating_indexes">Creating indexes</a></li>
 <li><a href="#_retrieving_indexes">Retrieving indexes</a></li>
 <li><a href="#_dropping_indexes">Dropping indexes</a></li>
-<li><a href="#_strong_exercise_15_managing_indexes_strong"><strong>Exercise 15: Managing indexes</strong></a></li>
+<li><a href="#_exercise_15_managing_indexes"><strong>Exercise 15: Managing indexes</strong></a></li>
 </ul>
 </li>
 <li><a href="#_going_from_relational_to_graph_with_neo4j">Going from relational to graph with Neo4j</a></li>
 <li><a href="#_importing_data">Importing data</a>
 <ul class="sectlevel2">
-<li><a href="#_importing_normalized_data_using_code_load_csv_code">Importing normalized data using <code>LOAD CSV</code></a></li>
+<li><a href="#_importing_normalized_data_using_load_csv">Importing normalized data using <code>LOAD CSV</code></a></li>
 <li><a href="#_importing_denormalized_data">Importing denormalized data</a></li>
 <li><a href="#_importing_a_large_dataset">Importing a large dataset</a></li>
-<li><a href="#_strong_exercise_16_importing_data_strong"><strong>Exercise 16: Importing data</strong></a></li>
+<li><a href="#_exercise_16_importing_data"><strong>Exercise 16: Importing data</strong></a></li>
 </ul>
 </li>
 <li><a href="#_accessing_neo4j_resources">Accessing Neo4j resources</a></li>
