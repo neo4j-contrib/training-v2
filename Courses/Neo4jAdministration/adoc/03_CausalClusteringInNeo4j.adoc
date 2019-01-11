@@ -38,6 +38,210 @@ At the end of this module, you should be able to:
 
 == What is Causal Clustering?
 
+Neo4j's Causal Clustering architecture enables an enterprise to utilize a Neo4j database in production. First, it provides a high-available solution whereby if a Neo4j instance has a failure, another Neo4j instance can take over automatically. Secondly, it provides a highly-scalable database whereby some parts of the application update the data, but other parts of the application are widely distributed and do not need immediate access to new or updated data. That is, read latency is acceptable. Causal consistency in Neo4j means that an application is guaranteed to be able to consistently read all data that it has written.
+
+Most Neo4j applications use Causal Clustering to ensure high-availability. The scalability of the Neo4j database is used by applications that utilize multiple data centers.
+
+=== Causal Cluster architecture
+
+There are two types of Neo4j instances in a Causal Clustering architecture: core servers and read replica servers. 
+
+==== Core servers
+
+Core servers are used for read and write access to the database. The core servers are used to synchronize updates to the database, regardless of the number and physical locations of the Neo4j instances. By default, in a Causal Clustering architecture, a transaction is committed if a majority of the core servers have written the data to the physical database. This coordination  between core servers is implemented using the Raft protocol. You can have a large number of core servers, but the more core servers in the application architecture, the longer a "majority" commit will take. At a minimum, an application should use three core servers to be considered _fault tolerant_. If you want an architecture that can support two servers failing, then you must configure five core servers. An architecture that is configured with two core servers is not fault tolerant because if one server fails, the second server is automatically set to be read-only.
+
+==== Read replica servers
+
+Read replica servers are used to scale data across a distributed network. They only support read access to the data. The read replica servers regularly poll the core servers for updates to the database by obtaining the transaction log from a core server. You can think of a read replica as a highly scalable and distributed cache of the database.  If a read replica fails, a new read replica can be started with no impact on the data and just a slight impact for the application that can be written to re-connect to a different read replica server.
+
+=== How causal consistency works
+
+An application can create a bookmark that is used to mark the the last transaction committed to the database. In a subsequent read, the bookmark can be used to ensure that the appropriate core servers are used to ensure that only committed data will be read by the application.
+
+== Causal clustering at runtime
+
+As an administrator, you must determine the physical locations of the servers that will be used as core servers and read replica servers.  You configure the casual cluster by updating the *neo4j.conf* file on each server so that they can operate together as a causal cluster. The types of properties that you configure for causal cluster include, but are not limited to:
+
+[square]
+* Whether the server will be a core server or a read replica server 
+* Public address for the server
+* Names/addresses of the servers in the core server membership
+* Ports used for communicating between the members
+* Published ports for bolt, http, https (non-conflicting port numbers)
+* Number of core servers in the causal cluster
+
+=== Core server startup
+
+When a core server starts, it first uses a discovery protocol to join the network. At some point it will be running with the other members of the core membership. In a causal cluster, exactly one core server is designated at the _leader_. The _leader_ is the coordinator of all communication between the core servers. All of the other core servers are _raft followers_ as the servers in the causal cluster use the raft protocol to synchronize updates.  If a core server joins the network after the other core servers have been running and updating data, the late-joining core server must use the catchup protocol to get to a point where it is synchronized as the other _raft followers_ are.
+
+=== Core server shutdown
+
+When a core server shuts down, it may be initiated by an administrator, or it may be due to a hardware or network failure. If the core server that is a _raft follower_ shuts down, the _leader_ detects and incorporates into its operations with the other core servers. If a core server shutdown leaves the causal cluster below a threshold for the number of core servers required for the cluster, then the _leader_ may become inoperable for writing to the database.
+
+=== Core server updates database
+
+The core server updates its database based upon the requests from clients. The client's transaction is not complete until a quorum of core servers have updated their databases. Subsequent to the completion of the transaction, the remaining core servers will also be updated. Core servers use a _raft protocol_ to share updates. 
+
+=== Read replica server startup
+
+There can be many read replica servers in a causal cluster. When they start, they register with a core server that maintains a shared whiteboard (cache) that can be used by multiple read replica servers. The read replicas do not use the _raft protocol_. Instead they poll the core servers to obtain the updates to the database that they must apply locally.
+
+=== Read replica server shutdown
+
+Since the read replica servers are considered "transient", when they shut down, there is no effect to the operation of the causal cluster. Of course, detection of a shutdown when it is related to a hardware or network failure must be detected so that a new read replica server can be started so that clients that depend on read access can continue their work.
+
+== Initial administrative tasks for causal clustering
+
+Here are some common tasks for managing and monitoring causal clustering:
+
+. Modify the *neo4j.conf* files for each core server.
+. Start the core servers in the causal cluster.
+. Seed the core server (add initial data).
+. Ensure each core server has the data.
+. Modify the *neo4j.conf* files for each read replica server.
+. Start the read replica servers.
+. Ensure each read replica server has the data.
+. Test updates to the database.
+
+For this course, you will gain experience managing and monitoring causal clustering using Docker. You will create and run Docker containers using a Neo4j Enterprise Docker image. This will enable you to start and manage multiple Neo4j instances used for causal clustering on your local machine. With Docker Neo4j containers, the configuration for the Neo4j instance is specified in parameters when the container is created. You learned previously how to start and stop Neo4j instances. Using Neo4j Docker containers, you start and stop the container, rather than the Neo4j instance using the `neo4j` tool.
+
+In your real application, you will set up each core and read replica Neo4j instances on separate physical servers that are networked and where you have installed Enterprise Edition of Neo4j. In a real application, all configuration is done by modifying the *neo4j.conf* file.
+
+
+=== Core server settings
+
+Please refer to the https://neo4j.com/docs/operations-manual/3.5/clustering/[Neo4j Operations Manual] for greater detail about configuring causal clustering.
+
+When setting up causal clustering, you should first identify at least three machines that will serve as core servers. For these machines, you should make sure these properties are set in *neo4j.conf* where XXXX is the IP address of the machine on the network and XXX1, XXX2, XXX3 are the IP addresses of the machines that will participate in the cluster.
+
+----
+dbms.connectors.default_listen_address=0.0.0.0
+
+dbms.connector.https.listen_address=0.0.0.0:7473
+dbms.connector.http.listen_address=0.0.0.0:7474
+dbms.connector.bolt.listen_address=0.0.0.0:7687
+
+dbms.connector.bolt.advertised_address=localhost:18687 ????? what do we do on a real system
+
+causal_clustering.transaction_listen_address=0.0.0.0:6000
+causal_clustering.transaction_advertised_address=XXXX:6000
+causal_clustering.raft_listen_address=0.0.0.0:7000
+causal_clustering.raft_advertised_address=XXXX:7000
+causal_clustering.discovery_listen_address=0.0.0.0:5000
+causal_clustering.discovery_advertised_address=XXXX:5000
+
+causal_clustering.minimum_core_cluster_size_at_formation=3
+causal_clustering.minimum_core_cluster_size_at_runtime=3
+causal_clustering.initial_discovery_members=XXX1:5000,XXX2:5000,XXX3:5000 
+
+dbms.mode=CORE 
+----
+
+The minimum number of core servers in a fault-tolerant causal cluster is three. If you require more than three core servers, you must adjust the values in the causal clustering configuration section.  
+
+=== Viewing the status of the cluster
+
+After you have started the servers in the cluster, you can access status information about the cluster from `cypher-shell`. You simply enter `CALL dbms.cluster.overview();` and it returns information about the servers in the cluster, specifically, which ones are followers and which one is the leader.
+
+image::{imagedir}/clusterOverview.png[clusterOverview,width=800,align=center]
+
+
+=== Using the Neo4j Enterprise Edition Docker image
+
+The published Docker image (from DockerHub.com) is designed to be an instance that can be easily replicated in a Docker environment. For example, here are the additional settings in its *neo4j.conf* file that are a starting point for the Neo4j instance container named _core3_ when it starts:
+
+----
+#********************************************************************
+# Other Neo4j system properties
+#********************************************************************
+dbms.jvm.additional=-Dunsupported.dbms.udc.source=tarball
+wrapper.java.additional=-Dneo4j.ext.udc.source=docker
+ha.host.data=core3:6001
+ha.host.coordination=core3:5001
+dbms.tx_log.rotation.retention_policy=100M size
+dbms.memory.pagecache.size=512M
+dbms.memory.heap.max_size=512M
+dbms.memory.heap.initial_size=512M
+dbms.connectors.default_listen_address=0.0.0.0
+dbms.connector.https.listen_address=0.0.0.0:7473
+dbms.connector.http.listen_address=0.0.0.0:7474
+dbms.connector.bolt.listen_address=0.0.0.0:7687
+causal_clustering.transaction_listen_address=0.0.0.0:6000
+causal_clustering.transaction_advertised_address=core3:6000
+causal_clustering.raft_listen_address=0.0.0.0:7000
+causal_clustering.raft_advertised_address=core3:7000
+causal_clustering.discovery_listen_address=0.0.0.0:5000
+causal_clustering.discovery_advertised_address=core3:5000
+EDITION=enterprise
+ACCEPT.LICENSE.AGREEMENT=yes
+----
+
+Some of these settings are for applications that use the _high availability (ha)_ features of Neo4j. With causal clustering, we use the core servers for fault tolerance rather than the high availability features of Neo4j. The setting _dbms.connectors.default_listen_address=0.0.0.0_ is important. This setting enables the instance to communicate with other applications and servers in the network. Notice that the instance has a number of _causal_clustering_ settings that are pre-configured. These are default settings for causal clustering that you can override when you run the Docker instance for the first time. Some of the other default settings are recommended settings for a Neo4j instance, whether it is part of a causal cluster or not.  Next you will learn about specific settings required for a core server.
+
+As you will see in the exercise that follows, in Docker, you create containers by running them where you specify parameters that are passed in to the instance when it is created. That is, in Docker, you specify many of the causal clustering properties when you create the container, rather than in the *neo4j.conf* file as you would do in a real application.
+
+===  *Exercise #1: Getting started with causal clustering*
+
+In this Exercise, you will gain experience with a simple causal cluster using Docker containers.  You will [underline]#not# use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers.
+
+*Before you begin*
+
+. Ensure that Docker Desktop (MAC/Windows) or Docker CE (Debian) is installed (`docker --version`). Here is information about https://hub.docker.com/search/?type=edition&offering=community[downloading and installing Docker].
+. Download the file https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/neo4j-docker.zip[neo4j-docker.zip] and unzip it to a folder that will be used to saving Neo4j configuration changes for causal clusters.
+. Download the Docker image for Neo4j ( `docker pull neo4j:3.5.0-enterprise`).
+. Ensure that your user ID has docker privileges: `sudo usermod -aG docker <username>`. You will have to log in and log out to use the new privileges.
+
+*Exercise steps*:
+
+. Open a terminal on your system.
+. Confirm that you have the Neo4j 3.5.0 image: `docker images` 
+
+image::{imagedir}/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=center]
+
+[start=3]
+. Navigate to the neo4j-docker folder. This is the folder that will contain all configuration changes for the Neo4j instances you will be running in the cluster. You will be working with three core servers and two read replica servers. Here you can see that you have a folder for each server.
+. Modify the  *docker-setup.sh* script and replace XXImage ID hereXX with the IMAGE ID for Neo4j 3.5.0 Enterprise that you downloaded.
+
+image::{imagedir}/L03-Ex1-docker-setup.png[L03-Ex1-docker-setup,width=800,align=center]
+
+[start=5]
+. Run the docker setup script as root `sudo ./docker-setup.sh`. This script will create five containers that you will use for working with causal clusters.
+
+image::{imagedir}/L03-Ex1-docker-setup-run.png[L03-Ex1-docker-setup-run,width=800,align=center]
+
+[start=6]
+. Confirm that the five containers exist: `docker ps -a`
+
+image::{imagedir}/L03-Ex1-containersCreated.png[L03-Ex1-containersCreated,width=800,align=center]
+
+[start=7]
+. For now, you will be working with the core servers. Open a terminal window for each of the core servers. (three of them)
+. In each core server window, start the instance: `docker start -a coreX`. The instance should be started. These instances are set up so that the default browser port on localhost will be 7474, 7475, and 7476. Notice that each instance uses it's own database as the active database. For example, here is the result of starting the core server containers. Notice that each server starts as part of the cluster. The servers are not fully started until all catchup has been done between the servers
+
+image::{imagedir}/L03-Ex1-CoresStarted.png[L03-Ex1-CoresStarted,width=800,align=center]
+
+[start=9]
+. In your non-core server terminal window, confirm that all core servers are running in the network by typing `docker ps -a`.
+
+image::{imagedir}/L03-Ex1-AllCoreServersStarted.png[L03-Ex1-AllCoreServersStarted,width=800,align=center]
+
+[start=10]
+. In your non-core server terminal window, log in to the core1 server as follows `docker exec -it core1 /bin/bash`
+. When you start the Neo4j Docker container, it starts the Neo4j instance. Since the Neo4j instance has already been started, you must log in to the database with `cypher-shell` and change the password. Do this for each core server. Here is an example where we change the password for core1:
+
+image::{imagedir}/L03-Ex1-ChangePassword.png[L03-Ex1-ChangePassword,width=800,align=center]
+
+[start=12]
+. repeat the previous two steps for core2 and core3 to change the password for the _neo4j_ user.
+. Log in to any of the servers and get the cluster overview information in `cypher-shell`.
+
+You have now successfully configured, started, and accessed core servers running in a causal cluster.
+
+== Seeding the data for the cluster
+
+When setting up a causal cluster for your application, you must ensure that the database that will be used in the cluster has been populated with your application data. Recall that in a causal cluster, each Neo4j instance has its own database, but the data in the databases for the core servers must be identical. Of course there will be some latency, depending on the number of core servers and their locations. When you set up the data for the cluster, you can do any of the following:
+
+
 
 
 == Summary
