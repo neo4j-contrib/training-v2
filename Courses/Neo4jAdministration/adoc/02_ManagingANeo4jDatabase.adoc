@@ -39,6 +39,8 @@ At the end of this module, you should be able to:
 * Create scripts for modifying a Neo4j database.
 * Manage plugins for a Neo4j database.
 * Configure ports used by the Neo4j instance.
+* Perform an online backup of a Neo4j database.
+* Create a database with the import tool.
 
 == Neo4j instance files
 
@@ -83,7 +85,9 @@ where _newPassword_ is a password you will remember.
 
 Initially and on Debian, you should disable _neo4j_ as a service that is started automatically when the system starts. You do this with this command:
 
-`[sudo] systemctrl disable neo4j`
+`[sudo] systemctl disable neo4j`
+
+In addition, you should create the folder */var/run/neo4j* that is owned by _neo4j:neo4j_.
 
 == Managing the Neo4j instance
 
@@ -140,7 +144,7 @@ image::{imagedir}/FirstNeo4jLog-Debian.png[FirstNeo4jLog-Debian,width=800,align=
 When the Neo4j instance starts, you can also confirm that it is started by seeing the _Started_ record in the log file.
 
 [NOTE]
-On non-Debian systems, you simply view the log file in the _logs_ folder.
+You can also view the log file in the _logs_ folder on all platforms.
 
 === *Exercise #1: Managing the Neo4j instance*
 
@@ -210,17 +214,18 @@ You should ensure that the Neo4j instance is started.
 . Exit out of `cypher-shell`.
 . Log into the database with `cypher-shell` using the new credentials.
 . Execute the Cypher statement, `CALL dbms.listQueries();`.
-. Download this https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/movieDB.cypher[file]. This file contains the Cypher statements to load the database with movie data.  Open this file with an editor and copy the contents of this file onto your clipboard.
-. Paste the contents of the file into your `cypher-shell` session and press the `ENTER` key to execute the statements. You should see something like the following:
+. Exit out of `cypher-shell`.
+. Download this https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/movieDB.cypher[file]. This file contains the Cypher statements to load the database with movie data.
+. Invoke `cypher-shell` sending movieDB.cypher as input. You should see something like the following:
 
 image::{imagedir}/Ex2-LoadMovieDB-cypher-shell.png[Ex2-LoadMovieDB-cypher-shell,width=1000,align=center]
 
-[start=10]
+[start=11]
 . The database is now populated with the _Movie_ data. Execute a Cypher statement to retrieve data from the database, for example: `MATCH (p:Person) WHERE p.name='Tom Cruise' RETURN p.name, p.born;` You should see the following:
 
 image::{imagedir}/Ex2-RetrieveData.png[Ex2-RetrieveData,width=1000,align=center]
 
-[start=11]
+[start=12]
 . Exit `cypher-shell`.
 
 == Renaming a Neo4j database
@@ -254,15 +259,16 @@ If you were to start the Neo4j instance, it would recreate an empty database. If
 
 == Copying a database
 
-The structure of a Neo4j database is proprietary and could change from one release to another. You should [underline]#never# copy the database from one location in the filesystem/network to another location.
+The structure of a Neo4j database is proprietary and could change from one release to another. You should [underline]#never# copy the database from one location in the filesystem/network to another location. You copy a Neo4j database by creating an offline backup.
 
-To copy a database that, perhaps you want to have as an additional copy or you want to give  to another user for use on their system, you must:
+To create an offline backup of a database that, perhaps you want to have as an additional copy or you want to give  to another user for use on their system, you must:
 
 . Stop the Neo4j instance.
 . Ensure that the folder where you will dump the database exists.
 . Use the `dump` command of the `neo4j-admin` tool to create the dump file.
+. You can now copy the dump file between systems.
 
-Then, if you want to create a database from the dump file to use for a Neo4j instance, you must:
+Then, if you want to create a database from any dump file to use for a Neo4j instance, you must:
 
 . Stop the Neo4j instance.
 . Determine what you will call the new database and adjust *neo4j.conf* to use this database as the active database.
@@ -270,11 +276,11 @@ Then, if you want to create a database from the dump file to use for a Neo4j ins
 . Start the Neo4j instance.
 
 [NOTE]
-Dumping and loading a database is done when the Neo4j instance is stopped. Later in this training, you will learn about backup and restore that can be done with the Neo4j instance started. Dump and load is typically done for initial setup and development purposes. Backup and restore is done in a production environment.
+Dumping and loading a database is done when the Neo4j instance is stopped. Later in this training, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
 
-=== Dumping a database
+=== Creating and offline backup
 
-To dump a database, the Neo4j instance must be stopped.
+To create an offline backup, the Neo4j instance must be stopped.
 Here is how to use the `dump` command of the  `neo4j-admin` tool to dump a database to a file:
 
 `[sudo] neo4j-admin dump --database=db-folder --to=db-target-folder/db-dump-file`
@@ -364,9 +370,8 @@ image::{imagedir}/Ex3-movie-load.png[Ex3-movie-load,width=1000,align=center]
 image::{imagedir}/Ex3-movie-cfg.png[x3-movie-cfg,width=1000,align=center]
 
 [start=8]
-. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie.db* to be _neo4j:neo4j_. For example, change directory to the *movie.db* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j *`  
-
-This will recursively change the owner and group to all files and folders including and under *movie.db*.
+. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie.db* to be _neo4j:neo4j_. For example, change directory to the *movie.db* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j movie.db`  
+This will recursively change the owner and group to all files and folders including and under the *movie.db* folder.
 
 [start=9]
 . Start the Neo4j instance.
@@ -440,9 +445,7 @@ image::{imagedir}/Ex4-ActiveDatabase.png[Ex4-ActiveDatabase,width=800,align=cent
 image::{imagedir}/Ex4-LoadDB.png[Ex4-LoadDB,width=800,align=center]
 
 [start=11]
-. Ensure that all files and folders including and under *movie3.db* are owned by _neo4j:neo4j_. For example, change directory to the *databases* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j movie3.db` 
-
-This will recursively change the owner and group to all files and folders under *movie3.db*.
+. Ensure that all files and folders including and under *movie3.db* are owned by _neo4j:neo4j_. For example, change directory to the *databases* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j movie3.db` This will recursively change the owner and group to all files and folders under *movie3.db*.
 
 [start=12]
 . Start the Neo4j instance.
@@ -780,8 +783,7 @@ In this Exercise, you will modify the default HTTP port used by the HTTP instanc
 
 *Exercise steps*:
 
-. Change the HTTP port to a value that is not in use on your system, for example 9999.
-
+. Change the HTTP port to a value that is not in use on your system, for example *9999*.
 For example, your *neo4j.conf* file should look something like this:
 
 image::{imagedir}/Ex8-HTTP9999.png[Ex8-HTTP9999,width=800,align=center]
@@ -793,13 +795,212 @@ image::{imagedir}/Ex8-HTTP9999.png[Ex8-HTTP9999,width=800,align=center]
 image::{imagedir}/Ex8-HTTP9999-used.png[Ex8-HTTP9999-used,width=1000,align=center]
 
 [start=4]
-. Change the HTTP port back to its default.
-. Restart the Neo4j instance
+. Change the HTTP port back to its default (7474).
+. Restart the Neo4j instance.
+
+
+== Performing online backup and restore
+
+Online backup is used in production where the application cannot tolerate the database being unavailable. In this part of the training, you will learn how to back up and restore a stand-alone Neo4j database. Later in this training, you will learn about backup and restore in a causal clustering environment.
+
+=== Online backup
+
+A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server.
+
+To enable a Neo4j instance to be backed up online, you must add these two properties to your *neo4j.conf* file:
+
+----
+dbms.backup.enabled=true
+dbms.backup.address=<host-address>:<6362-6372>
+----
+
+Where _host-address_ is the address of a server from which you will run the backup tool from. You must specify a port number that will not conflict with existing ports used on the backup server.
+
+After you restart the Neo4j instance, you can then perform the backup on the server you specified in _host_address_ as follows with consistency checking:
+
+[listing]
+----
+neo4j-admin backup --backup-dir=<backup-folder>
+                    --name=<file-name>
+					--from=<Neo4j-instance-host-address:<port>
+					--check-consistency=true
+					--cc-report-dir=<report-directory>
+----
+
+This will perform a full backup to _file-name_ for the Neo4j instance running on _Neo4j-instance-host-address_.
+
+=== Restoring from a backup
+
+If you need to restore a database from a backup, you must first stop the Neo4j instance. Since the instance is down, you can restore the database on the same server that runs the instance, provided the server has access to the backup location in the network.
+
+Here is how you restore the database from a backup:
+
+[listing]
+----
+neo4j-admin restore  
+                   --from=<absolute-path-to-backup-file>
+                    --database=<database-name>
+					--force=true
+----
+
+You specify _true_ for force so that the existing database will be replaced.
+
+There are many ways for performing online backups, including incremental backups. See the https://neo4j.com/docs/operations-manual/3.5/backup/[Neo4j Operations Manual] for details.
+
+===  *Exercise #9: Performing online backup and restore*
+
+In this Exercise, you will perform an online backup of your database where you use the same host for the backup process. Then you will modify the database. Finally, you will restore the database from the backup.
+
+[NOTE]
+In your real application, if you were to back up a production stand-alone Neo4j instance, you would use a different host. 
+
+*Exercise steps*:
+
+. Stop the Neo4j instance.
+. Modify the Neo4j configuration so that online backup is enabled and will be done on this same host.
+For example, your *neo4j.conf* file should look something like this:
+
+image::{imagedir}/Ex9-Backup-config.png[Ex9-Backup-config,width=800,align=center]
+
+[start=3]
+. Restart the Neo4j instance.
+. Create a folder named */usr/local/backup* and ensure that it is owned by _neo4j:neo4j_.
+. Perform an online backup of the active database (movie3.db).
+The result of the backup should look something like this:
+
+image::{imagedir}/Ex9-Backup1.png[Ex9-Backup1,width=800,align=center]
+
+image::{imagedir}/Ex9-Backup2.png[Ex9-Backup2,width=800,align=center]
+
+[start=6]
+. Stop the Neo4j instance.
+. Corrupt the database like you did earlier in this lesson. Modify the file *movie3.db/neostore.nodestore.db* by adding some text to the file.
+. Run the consistency check tool on *movie3.db* using `neo4j-admin` specifying */usr/local/work/reports* as the folder where the report will be written.  `neo4j-admin check-consistency --database=movie3.db --report-dir=/usr/local/reports --verbose=true` The consistency check tool should return that inconsistencies were found.
+
+image::{imagedir}/Ex9-Inconsistency.png[Ex9-Inconsistency,width=800,align=center]
+
+[start=9]
+
+. Restore the *movie3.db* database from the backup.
+. Check its consistency.
+
+image::{imagedir}/Ex9-Restore.png[Ex9-Restore,width=800,align=center]
+
+[start=11]
+. Confirm that the Neo4j instance starts without error.
+
+== Using the import tool to create a database
+
+In the course _Introduction to Neo4j_, you learned how to import *.csv* data using `LOAD CSV` in Cypher. This works fine for datasets containing fewer than 10M nodes. 
+
+Data import for a graph database is resource-intensive because it needs to pre-compute joins (relationships) between records (nodes). For large datasets, a best practice is to import the data  using the `import` command of the `neo4j-admin` tool. This tool creates the database from a set of *.csv* files.
+
+You can read details about using the import tool in the https://neo4j.com/docs/operations-manual/3.5/tools/import/[Neo4j Operations Manual].
+
+=== Creating CSV files for the import
+
+The format of the *.csv* files is important. For both nodes and relationships, header information must be associated with the data. Header information contains an ID to uniquely identify the record, node labels or relationship types, and names for the properties representing the imported data. A *.csv* can have a header row, or you can place the header information in a separate file. In addition, you can specify node labels and relationship types explicitly when you import the data.
+
+In this training, you will used data that has been created for you that represents crimes.
+Here is an example of a *.csv* file with embedded header information for loading nodes of type _Beat_:
+
+----
+:ID(Beat),id,:LABEL
+1132,1132,Beat
+0813,0813,Beat
+0513,0513,Beat
+----
+
+These records represent data that will be loaded into a node with the label _Beat_. In this example the record ID is the same as the id property value that will be used to create the node in the graph.
+
+Here is an example of a *.csv* header file for loading nodes of type _Crime_:
+
+----
+:ID(Crime),id,:LABEL,date,description
+----
+
+The nodes will have the label, _:LABEL_. In addition, the data in the associated *.csv* file will have values for the ID of the record, and property values for _id_, _date_, and _description_. 
+
+An here is the associated *.csv* file for loading nodes of type _Crime_:
+
+----
+8920441,8920441,Crime,12/07/2012 07:50:00 AM,AUTOMOBILE
+4730813,4730813,Crime,05/09/2006 08:20:00 AM,POCKET-PICKING
+7150780,7150780,Crime,09/28/2009 01:00:00 AM,CHILD ABANDONMENT
+4556970,4556970,Crime,12/16/2005 08:39:24 PM,POSS: CANNABIS 30GMS OR LESS
+9442492,9442492,Crime,12/28/2013 12:15:00 PM,OVER $500
+----
+
+*.csv* files for loading relationships contain a row for every relationship where the ID for the starting and ending node is specified, as well as the relationship type.
+
+Here is and example *.csv* file that is used to create the _:ON_BEAT_ relationships between _Crime_ and _Beat_ nodes.
+
+----
+:START_ID(Crime),:END_ID(Beat),:TYPE
+6978096,0911,ON_BEAT
+3170923,2511,ON_BEAT
+3073515,1012,ON_BEAT
+8157905,0113,ON_BEAT
+----
+
+=== Importing the data
+
+After you have created or obtained the *.csv* files for the data, you import the data. The data import creates a database and you must run the import tool with the Neo4j instance stopped.
+
+Here is a version of the simplified syntax for creating a database from *.csv* files:
+
+----
+neo4j-admin import  --database <database-name>
+                    --nodes[:Label1:Label2] [<rheader-csv-file-1>,]<csv-file-1>
+					--nodes[:Label1:Label2] [<rheader-csv-file-2>,]<csv-file-2>
+					--nodes[:Label1:Label2] [<rheader-csv-file-n>,]<csv-file-n>
+					--relationships[:REL_TYPE] [<jheader-csv-file-1>,]<join-csv-file-1>
+					--relationships[:REL_TYPE] [<jheader-csv-file-2>,]<join-csv-file-2>
+					--relationships[:REL_TYPE] [<jheader-csv-file-n>,]<join-csv-file-n>
+					--report-file <report-file-path>
+----
+
+Here is the result of using the `import` command of `neo4j-admin` to create a database and import *.csv* files. 
+
+image::{imagedir}/Import2.png[Import2,width=800,align=center]
+
+===  *Exercise #10: Importing data with the import command*
+
+In this Exercise, you create a new database by importing data using *.csv* files. Data import is very common when preparing a database for production where the data originally comes from relational tables.
+
+
+*Exercise steps*:
+
+. Stop the Neo4j instance.
+. In a terminal window, create the */usr/local/import* folder.
+. Navigate to the *import* folder and download this file: https://s3.amazonaws.com/example-data.neo4j.org/files/production-import.zip. (Hint: use curl or wget)
+. Unzip the file. You should have six *.csv* files. 
+. Examine the contents of the files to become familiar with their format and data.
+. Use the `import` command to import the data into a new database named *crimes.db*, using these guidelines:
+----
+--nodes crimes_header.csv,crimes.csv 
+--nodes beats.csv 
+--nodes primaryTypes.csv 
+--relationships crimesBeats.csv 
+--relationships:PRIMARY_TYPE crimesPrimaryTypes.csv
+----
+
+image::{imagedir}/Ex10-Import1.png[Ex10-Import1,width=800,align=center]
+
+image::{imagedir}/Ex10-Import2.png[Ex10-Import2,width=800,align=center]
+
+[start=7]
+. Modify the *neo4j.conf* file to use *crimes.db* as the active database.
+. Start the Neo4j instance.
+. Run `cypher-shell` to retrieve the schema of the database and also count the number of _Crime_ nodes in the graph.
+
+image::{imagedir}/Ex10-QueryCrimesDB.png[Ex10-QueryCrimesDB,width=800,align=center]
 
 == Check your understanding
+
 === Question 1
 
-Suppose that you have installed Neo4j Enterprise Edition and have modified the name of the active database in the Neo4j comfiguratioon file. What tool and command do you run to create the new database?
+Suppose that you have installed Neo4j Enterprise Edition and have modified the name of the active database in the Neo4j configuratioon file. What tool and command do you run to create the new database?
 
 Select the correct answer.
 [%interactive]
@@ -844,3 +1045,5 @@ You should now be able to:
 * Create scripts for modifying a Neo4j database.
 * Manage plugins for a Neo4j database.
 * Configure ports used by the Neo4j instance.
+* Perform an online backup of a Neo4j database.
+* Create a database with the import tool.

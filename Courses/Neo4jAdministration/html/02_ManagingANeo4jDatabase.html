@@ -462,7 +462,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_deleting_a_neo4j_database">Deleting a Neo4j database</a></li>
 <li><a href="#_copying_a_database">Copying a database</a>
 <ul class="sectlevel2">
-<li><a href="#_dumping_a_database">Dumping a database</a></li>
+<li><a href="#_creating_and_offline_backup">Creating and offline backup</a></li>
 <li><a href="#_loading_a_database">Loading a database</a></li>
 <li><a href="#_exercise_3_copying_a_database"><strong>Exercise #3: Copying a database</strong></a></li>
 </ul>
@@ -494,6 +494,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configuring_connector_ports_for_the_neo4j_instance">Configuring connector ports for the Neo4j instance</a>
 <ul class="sectlevel2">
 <li><a href="#_exercise_8_modify_the_http_port"><strong>Exercise #8: Modify the HTTP port</strong></a></li>
+</ul>
+</li>
+<li><a href="#_performing_online_backup_and_restore">Performing online backup and restore</a>
+<ul class="sectlevel2">
+<li><a href="#_online_backup">Online backup</a></li>
+<li><a href="#_restoring_from_a_backup">Restoring from a backup</a></li>
+<li><a href="#_exercise_9_performing_online_backup_and_restore"><strong>Exercise #9: Performing online backup and restore</strong></a></li>
+</ul>
+</li>
+<li><a href="#_using_the_import_tool_to_create_a_database">Using the import tool to create a database</a>
+<ul class="sectlevel2">
+<li><a href="#_creating_csv_files_for_the_import">Creating CSV files for the import</a></li>
+<li><a href="#_importing_the_data">Importing the data</a></li>
+<li><a href="#_exercise_10_importing_data_with_the_import_command"><strong>Exercise #10: Importing data with the import command</strong></a></li>
 </ul>
 </li>
 <li><a href="#_check_your_understanding">Check your understanding</a>
@@ -557,6 +571,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>Configure ports used by the Neo4j instance.</p>
+</li>
+<li>
+<p>Perform an online backup of a Neo4j database.</p>
+</li>
+<li>
+<p>Create a database with the import tool.</p>
 </li>
 </ul>
 </div>
@@ -636,7 +656,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Initially and on Debian, you should disable <em>neo4j</em> as a service that is started automatically when the system starts. You do this with this command:</p>
 </div>
 <div class="paragraph">
-<p><code>[sudo] systemctrl disable neo4j</code></p>
+<p><code>[sudo] systemctl disable neo4j</code></p>
+</div>
+<div class="paragraph">
+<p>In addition, you should create the folder <strong>/var/run/neo4j</strong> that is owned by <em>neo4j:neo4j</em>.</p>
 </div>
 </div>
 </div>
@@ -748,7 +771,7 @@ After the instance is started you can identify the process ID (Main PID) from th
 <div class="title">Note</div>
 </td>
 <td class="content">
-On non-Debian systems, you simply view the log file in the <em>logs</em> folder.
+You can also view the log file in the <em>logs</em> folder on all platforms.
 </td>
 </tr>
 </table>
@@ -888,10 +911,13 @@ On non-Debian systems, you simply view the log file in the <em>logs</em> folder.
 <p>Execute the Cypher statement, <code>CALL dbms.listQueries();</code>.</p>
 </li>
 <li>
-<p>Download this <a href="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/movieDB.cypher">file</a>. This file contains the Cypher statements to load the database with movie data.  Open this file with an editor and copy the contents of this file onto your clipboard.</p>
+<p>Exit out of <code>cypher-shell</code>.</p>
 </li>
 <li>
-<p>Paste the contents of the file into your <code>cypher-shell</code> session and press the <code>ENTER</code> key to execute the statements. You should see something like the following:</p>
+<p>Download this <a href="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/movieDB.cypher">file</a>. This file contains the Cypher statements to load the database with movie data.</p>
+</li>
+<li>
+<p>Invoke <code>cypher-shell</code> sending movieDB.cypher as input. You should see something like the following:</p>
 </li>
 </ol>
 </div>
@@ -901,7 +927,7 @@ On non-Debian systems, you simply view the log file in the <em>logs</em> folder.
 </div>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="10">
+<ol class="arabic" start="11">
 <li>
 <p>The database is now populated with the <em>Movie</em> data. Execute a Cypher statement to retrieve data from the database, for example: <code>MATCH (p:Person) WHERE p.name='Tom Cruise' RETURN p.name, p.born;</code> You should see the following:</p>
 </li>
@@ -913,7 +939,7 @@ On non-Debian systems, you simply view the log file in the <em>logs</em> folder.
 </div>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="11">
+<ol class="arabic" start="12">
 <li>
 <p>Exit <code>cypher-shell</code>.</p>
 </li>
@@ -985,10 +1011,10 @@ On non-Debian systems, you simply view the log file in the <em>logs</em> folder.
 <h2 id="_copying_a_database">Copying a database</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The structure of a Neo4j database is proprietary and could change from one release to another. You should <span class="underline">never</span> copy the database from one location in the filesystem/network to another location.</p>
+<p>The structure of a Neo4j database is proprietary and could change from one release to another. You should <span class="underline">never</span> copy the database from one location in the filesystem/network to another location. You copy a Neo4j database by creating an offline backup.</p>
 </div>
 <div class="paragraph">
-<p>To copy a database that, perhaps you want to have as an additional copy or you want to give  to another user for use on their system, you must:</p>
+<p>To create an offline backup of a database that, perhaps you want to have as an additional copy or you want to give  to another user for use on their system, you must:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1001,10 +1027,13 @@ On non-Debian systems, you simply view the log file in the <em>logs</em> folder.
 <li>
 <p>Use the <code>dump</code> command of the <code>neo4j-admin</code> tool to create the dump file.</p>
 </li>
+<li>
+<p>You can now copy the dump file between systems.</p>
+</li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Then, if you want to create a database from the dump file to use for a Neo4j instance, you must:</p>
+<p>Then, if you want to create a database from any dump file to use for a Neo4j instance, you must:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1029,15 +1058,15 @@ On non-Debian systems, you simply view the log file in the <em>logs</em> folder.
 <div class="title">Note</div>
 </td>
 <td class="content">
-Dumping and loading a database is done when the Neo4j instance is stopped. Later in this training, you will learn about backup and restore that can be done with the Neo4j instance started. Dump and load is typically done for initial setup and development purposes. Backup and restore is done in a production environment.
+Dumping and loading a database is done when the Neo4j instance is stopped. Later in this training, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
 </td>
 </tr>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_dumping_a_database">Dumping a database</h3>
+<h3 id="_creating_and_offline_backup">Creating and offline backup</h3>
 <div class="paragraph">
-<p>To dump a database, the Neo4j instance must be stopped.
+<p>To create an offline backup, the Neo4j instance must be stopped.
 Here is how to use the <code>dump</code> command of the  <code>neo4j-admin</code> tool to dump a database to a file:</p>
 </div>
 <div class="paragraph">
@@ -1222,12 +1251,10 @@ You must either perform the <code>load</code> operation as the neo4j user, or af
 <div class="olist arabic">
 <ol class="arabic" start="8">
 <li>
-<p>If you did not perform the load as the user <em>neo4j</em>, you must change the owner:group of all files and folders under <strong>movie.db</strong> to be <em>neo4j:neo4j</em>. For example, change directory to the <strong>movie.db</strong> folder and  then enter the command: <code>[sudo] chown -R neo4j:neo4j *</code></p>
+<p>If you did not perform the load as the user <em>neo4j</em>, you must change the owner:group of all files and folders under <strong>movie.db</strong> to be <em>neo4j:neo4j</em>. For example, change directory to the <strong>movie.db</strong> folder and  then enter the command: <code>[sudo] chown -R neo4j:neo4j movie.db</code>
+This will recursively change the owner and group to all files and folders including and under the <strong>movie.db</strong> folder.</p>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p>This will recursively change the owner and group to all files and folders including and under <strong>movie.db</strong>.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="9">
@@ -1402,12 +1429,9 @@ You must either perform the <code>load</code> operation as the neo4j user, or af
 <div class="olist arabic">
 <ol class="arabic" start="11">
 <li>
-<p>Ensure that all files and folders including and under <strong>movie3.db</strong> are owned by <em>neo4j:neo4j</em>. For example, change directory to the <strong>databases</strong> folder and  then enter the command: <code>[sudo] chown -R neo4j:neo4j movie3.db</code></p>
+<p>Ensure that all files and folders including and under <strong>movie3.db</strong> are owned by <em>neo4j:neo4j</em>. For example, change directory to the <strong>databases</strong> folder and  then enter the command: <code>[sudo] chown -R neo4j:neo4j movie3.db</code> This will recursively change the owner and group to all files and folders under <strong>movie3.db</strong>.</p>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p>This will recursively change the owner and group to all files and folders under <strong>movie3.db</strong>.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="12">
@@ -2069,12 +2093,10 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Change the HTTP port to a value that is not in use on your system, for example 9999.</p>
+<p>Change the HTTP port to a value that is not in use on your system, for example <strong>9999</strong>.
+For example, your <strong>neo4j.conf</strong> file should look something like this:</p>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p>For example, your <strong>neo4j.conf</strong> file should look something like this:</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -2099,12 +2121,347 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 <div class="olist arabic">
 <ol class="arabic" start="4">
 <li>
-<p>Change the HTTP port back to its default.</p>
+<p>Change the HTTP port back to its default (7474).</p>
 </li>
 <li>
-<p>Restart the Neo4j instance</p>
+<p>Restart the Neo4j instance.</p>
 </li>
 </ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_performing_online_backup_and_restore">Performing online backup and restore</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Online backup is used in production where the application cannot tolerate the database being unavailable. In this part of the training, you will learn how to back up and restore a stand-alone Neo4j database. Later in this training, you will learn about backup and restore in a causal clustering environment.</p>
+</div>
+<div class="sect2">
+<h3 id="_online_backup">Online backup</h3>
+<div class="paragraph">
+<p>A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server.</p>
+</div>
+<div class="paragraph">
+<p>To enable a Neo4j instance to be backed up online, you must add these two properties to your <strong>neo4j.conf</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>dbms.backup.enabled=true
+dbms.backup.address=&lt;host-address&gt;:&lt;6362-6372&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <em>host-address</em> is the address of a server from which you will run the backup tool from. You must specify a port number that will not conflict with existing ports used on the backup server.</p>
+</div>
+<div class="paragraph">
+<p>After you restart the Neo4j instance, you can then perform the backup on the server you specified in <em>host_address</em> as follows with consistency checking:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>neo4j-admin backup --backup-dir=&lt;backup-folder&gt;
+                    --name=&lt;file-name&gt;
+					--from=&lt;Neo4j-instance-host-address:&lt;port&gt;
+					--check-consistency=true
+					--cc-report-dir=&lt;report-directory&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will perform a full backup to <em>file-name</em> for the Neo4j instance running on <em>Neo4j-instance-host-address</em>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_restoring_from_a_backup">Restoring from a backup</h3>
+<div class="paragraph">
+<p>If you need to restore a database from a backup, you must first stop the Neo4j instance. Since the instance is down, you can restore the database on the same server that runs the instance, provided the server has access to the backup location in the network.</p>
+</div>
+<div class="paragraph">
+<p>Here is how you restore the database from a backup:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>neo4j-admin restore
+                   --from=&lt;absolute-path-to-backup-file&gt;
+                    --database=&lt;database-name&gt;
+					--force=true</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You specify <em>true</em> for force so that the existing database will be replaced.</p>
+</div>
+<div class="paragraph">
+<p>There are many ways for performing online backups, including incremental backups. See the <a href="https://neo4j.com/docs/operations-manual/3.5/backup/">Neo4j Operations Manual</a> for details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercise_9_performing_online_backup_and_restore"><strong>Exercise #9: Performing online backup and restore</strong></h3>
+<div class="paragraph">
+<p>In this Exercise, you will perform an online backup of your database where you use the same host for the backup process. Then you will modify the database. Finally, you will restore the database from the backup.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+In your real application, if you were to back up a production stand-alone Neo4j instance, you would use a different host.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Exercise steps</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop the Neo4j instance.</p>
+</li>
+<li>
+<p>Modify the Neo4j configuration so that online backup is enabled and will be done on this same host.
+For example, your <strong>neo4j.conf</strong> file should look something like this:</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex9-Backup-config.png" alt="Ex9-Backup-config" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Restart the Neo4j instance.</p>
+</li>
+<li>
+<p>Create a folder named <strong>/usr/local/backup</strong> and ensure that it is owned by <em>neo4j:neo4j</em>.</p>
+</li>
+<li>
+<p>Perform an online backup of the active database (movie3.db).
+The result of the backup should look something like this:</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex9-Backup1.png" alt="Ex9-Backup1" width="800">
+</div>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex9-Backup2.png" alt="Ex9-Backup2" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>Stop the Neo4j instance.</p>
+</li>
+<li>
+<p>Corrupt the database like you did earlier in this lesson. Modify the file <strong>movie3.db/neostore.nodestore.db</strong> by adding some text to the file.</p>
+</li>
+<li>
+<p>Run the consistency check tool on <strong>movie3.db</strong> using <code>neo4j-admin</code> specifying <strong>/usr/local/work/reports</strong> as the folder where the report will be written.  <code>neo4j-admin check-consistency --database=movie3.db --report-dir=/usr/local/reports --verbose=true</code> The consistency check tool should return that inconsistencies were found.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex9-Inconsistency.png" alt="Ex9-Inconsistency" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="9">
+<li>
+<p>Restore the <strong>movie3.db</strong> database from the backup.</p>
+</li>
+<li>
+<p>Check its consistency.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex9-Restore.png" alt="Ex9-Restore" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="11">
+<li>
+<p>Confirm that the Neo4j instance starts without error.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_the_import_tool_to_create_a_database">Using the import tool to create a database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the course <em>Introduction to Neo4j</em>, you learned how to import <strong>.csv</strong> data using <code>LOAD CSV</code> in Cypher. This works fine for datasets containing fewer than 10M nodes.</p>
+</div>
+<div class="paragraph">
+<p>Data import for a graph database is resource-intensive because it needs to pre-compute joins (relationships) between records (nodes). For large datasets, a best practice is to import the data  using the <code>import</code> command of the <code>neo4j-admin</code> tool. This tool creates the database from a set of <strong>.csv</strong> files.</p>
+</div>
+<div class="paragraph">
+<p>You can read details about using the import tool in the <a href="https://neo4j.com/docs/operations-manual/3.5/tools/import/">Neo4j Operations Manual</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_creating_csv_files_for_the_import">Creating CSV files for the import</h3>
+<div class="paragraph">
+<p>The format of the <strong>.csv</strong> files is important. For both nodes and relationships, header information must be associated with the data. Header information contains an ID to uniquely identify the record, node labels or relationship types, and names for the properties representing the imported data. A <strong>.csv</strong> can have a header row, or you can place the header information in a separate file. In addition, you can specify node labels and relationship types explicitly when you import the data.</p>
+</div>
+<div class="paragraph">
+<p>In this training, you will used data that has been created for you that represents crimes.
+Here is an example of a <strong>.csv</strong> file with embedded header information for loading nodes of type <em>Beat</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:ID(Beat),id,:LABEL
+1132,1132,Beat
+0813,0813,Beat
+0513,0513,Beat</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These records represent data that will be loaded into a node with the label <em>Beat</em>. In this example the record ID is the same as the id property value that will be used to create the node in the graph.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of a <strong>.csv</strong> header file for loading nodes of type <em>Crime</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:ID(Crime),id,:LABEL,date,description</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The nodes will have the label, <em>:LABEL</em>. In addition, the data in the associated <strong>.csv</strong> file will have values for the ID of the record, and property values for <em>id</em>, <em>date</em>, and <em>description</em>.</p>
+</div>
+<div class="paragraph">
+<p>An here is the associated <strong>.csv</strong> file for loading nodes of type <em>Crime</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>8920441,8920441,Crime,12/07/2012 07:50:00 AM,AUTOMOBILE
+4730813,4730813,Crime,05/09/2006 08:20:00 AM,POCKET-PICKING
+7150780,7150780,Crime,09/28/2009 01:00:00 AM,CHILD ABANDONMENT
+4556970,4556970,Crime,12/16/2005 08:39:24 PM,POSS: CANNABIS 30GMS OR LESS
+9442492,9442492,Crime,12/28/2013 12:15:00 PM,OVER $500</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>.csv</strong> files for loading relationships contain a row for every relationship where the ID for the starting and ending node is specified, as well as the relationship type.</p>
+</div>
+<div class="paragraph">
+<p>Here is and example <strong>.csv</strong> file that is used to create the <em>:ON_BEAT</em> relationships between <em>Crime</em> and <em>Beat</em> nodes.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:START_ID(Crime),:END_ID(Beat),:TYPE
+6978096,0911,ON_BEAT
+3170923,2511,ON_BEAT
+3073515,1012,ON_BEAT
+8157905,0113,ON_BEAT</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_importing_the_data">Importing the data</h3>
+<div class="paragraph">
+<p>After you have created or obtained the <strong>.csv</strong> files for the data, you import the data. The data import creates a database and you must run the import tool with the Neo4j instance stopped.</p>
+</div>
+<div class="paragraph">
+<p>Here is a version of the simplified syntax for creating a database from <strong>.csv</strong> files:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>neo4j-admin import  --database &lt;database-name&gt;
+                    --nodes[:Label1:Label2] [&lt;rheader-csv-file-1&gt;,]&lt;csv-file-1&gt;
+					--nodes[:Label1:Label2] [&lt;rheader-csv-file-2&gt;,]&lt;csv-file-2&gt;
+					--nodes[:Label1:Label2] [&lt;rheader-csv-file-n&gt;,]&lt;csv-file-n&gt;
+					--relationships[:REL_TYPE] [&lt;jheader-csv-file-1&gt;,]&lt;join-csv-file-1&gt;
+					--relationships[:REL_TYPE] [&lt;jheader-csv-file-2&gt;,]&lt;join-csv-file-2&gt;
+					--relationships[:REL_TYPE] [&lt;jheader-csv-file-n&gt;,]&lt;join-csv-file-n&gt;
+					--report-file &lt;report-file-path&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is the result of using the <code>import</code> command of <code>neo4j-admin</code> to create a database and import <strong>.csv</strong> files.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Import2.png" alt="Import2" width="800">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercise_10_importing_data_with_the_import_command"><strong>Exercise #10: Importing data with the import command</strong></h3>
+<div class="paragraph">
+<p>In this Exercise, you create a new database by importing data using <strong>.csv</strong> files. Data import is very common when preparing a database for production where the data originally comes from relational tables.</p>
+</div>
+<div class="paragraph">
+<p><strong>Exercise steps</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop the Neo4j instance.</p>
+</li>
+<li>
+<p>In a terminal window, create the <strong>/usr/local/import</strong> folder.</p>
+</li>
+<li>
+<p>Navigate to the <strong>import</strong> folder and download this file: <a href="https://s3.amazonaws.com/example-data.neo4j.org/files/production-import.zip" class="bare">https://s3.amazonaws.com/example-data.neo4j.org/files/production-import.zip</a>. (Hint: use curl or wget)</p>
+</li>
+<li>
+<p>Unzip the file. You should have six <strong>.csv</strong> files.</p>
+</li>
+<li>
+<p>Examine the contents of the files to become familiar with their format and data.</p>
+</li>
+<li>
+<p>Use the <code>import</code> command to import the data into a new database named <strong>crimes.db</strong>, using these guidelines:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>--nodes crimes_header.csv,crimes.csv
+--nodes beats.csv
+--nodes primaryTypes.csv
+--relationships crimesBeats.csv
+--relationships:PRIMARY_TYPE crimesPrimaryTypes.csv</pre>
+</div>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex10-Import1.png" alt="Ex10-Import1" width="800">
+</div>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex10-Import2.png" alt="Ex10-Import2" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>Modify the <strong>neo4j.conf</strong> file to use <strong>crimes.db</strong> as the active database.</p>
+</li>
+<li>
+<p>Start the Neo4j instance.</p>
+</li>
+<li>
+<p>Run <code>cypher-shell</code> to retrieve the schema of the database and also count the number of <em>Crime</em> nodes in the graph.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/Ex10-QueryCrimesDB.png" alt="Ex10-QueryCrimesDB" width="800">
+</div>
 </div>
 </div>
 </div>
@@ -2115,7 +2472,7 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 <div class="sect2">
 <h3 id="_question_1">Question 1</h3>
 <div class="paragraph">
-<p>Suppose that you have installed Neo4j Enterprise Edition and have modified the name of the active database in the Neo4j comfiguratioon file. What tool and command do you run to create the new database?</p>
+<p>Suppose that you have installed Neo4j Enterprise Edition and have modified the name of the active database in the Neo4j configuratioon file. What tool and command do you run to create the new database?</p>
 </div>
 <div class="paragraph">
 <p>Select the correct answer.</p>
@@ -2224,6 +2581,12 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 <li>
 <p>Configure ports used by the Neo4j instance.</p>
 </li>
+<li>
+<p>Perform an online backup of a Neo4j database.</p>
+</li>
+<li>
+<p>Create a database with the import tool.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -2231,7 +2594,7 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-04 11:23:59 CST
+Last updated 2019-01-15 15:08:54 CST
 </div>
 </div>
 </body>
