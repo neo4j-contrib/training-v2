@@ -270,38 +270,89 @@ If the the amount of application data is relatively small (less than 10M nodes) 
 
 ===  *Exercise #2: Seeding the cluster databases*
 
-In this Exercise, you will populate the databases in the cluster that you created earlier. Because you are using Docker containers for learning about causal clustering, you cannot perform the normal seeding procedures because when using the Neo4j Docker containers, the Neo4j instance is started. Instead, you will simply start the core servers in the cluster and connect to one of them. Then you will use `cypher-shell` to load the _Movie_ data into the database. What you will observe is that when 
+In this Exercise, you will populate the databases in the cluster that you created earlier. Because you are using Docker containers for learning about causal clustering, you cannot perform the normal seeding procedures as you would in your real production environment because when using the Neo4j Docker containers, the Neo4j instance is started. Instead, you will simply start the core servers in the cluster and connect to one of them. Then you will use `cypher-shell` to load the _Movie_ data into the database. 
 
 *Before you begin*
 
-Ensure that you have performed the steps in Exercise 1 where you set up the core servers as Docker containers.
+Ensure that you have performed the steps in Exercise 1 where you set up the core servers as Docker containers. Note that you can perform the steps of this exercise in a single terminal window.
+
 
 *Exercise steps*:
 
-. Start the three core server containers if you have not already started them.
-. Log in to the core2 server.
-. Run `cypher-shell` specifying that the *movie.cypher* statements will be run.
+. In a terminal window, if the core servers are not started, start them:  `docker start core1 core2 core3`.
+. By default, all writes must be performed by the _LEADER_ of the cluster.  Determine which core server is the _LEADER_. *Hint:* You can do this by logging in to any core server that is running and entering the following command: `echo "CALL dbms.cluster.overview();" | /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps`. In this example, core1 is the _LEADER_:
+
+image::{imagedir}/L03-Ex2-Core1IsLeader.png[L03-Ex2-Core1IsLeader,width=800,align=center]
+
+[start=2]
+. Log in to the core server that is the _LEADER_.
+. Run `cypher-shell` specifying that the *movie.cypher* statements will be run. *Hint:* You can do this with a single command line: `/var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps < /var/lib/neo4j/conf/movieDB.cypher`
 
 image::{imagedir}/L03-Ex2-LoadMovieData.png[L03-Ex2-LoadMovieData,width=800,align=center]
 
 [start=4]
-. In `cypher-shell` confirm that the data has been loaded into the database for the core2 server.
+. Log in to `cypher-shell` and confirm that the data has been loaded into the database for the core1 server.
 
-image::{imagedir}/L03-Ex2-MovieData-core2.png[L03-Ex2-MovieData-core2,width=800,align=center]
+image::{imagedir}/L03-Ex2-Data-loaded.png[L03-Ex2-Data-loaded,width=800,align=center]
 
 [start=5]
-. Log out of core2 server and log in to core1 server.
-. Verify that the _Movie_ data is in this database.
+. Log out of core server.
+. Log in to a _FOLLOWER_ core server with `cypher-shell`. *Hint:* For example, you can log in to core2 with `cypher-shell` with the following command: `docker exec -it core2 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps --format plain`
+. Verify that the _Movie_ data is in the database for this core server.
 
-image::{imagedir}/L03-Ex2-MovieData-core1.png[L03-Ex2-MovieData-core1,width=800,align=center]
+image::{imagedir}/L03-Ex2-Core2-loaded.png[L03-Ex2-Core2-loaded,width=800,align=center]
 
-[start=7]
-. Log out of core1 server and log in to core3 server.
-. Verify that the _Movie_ data is in this database.
+[start=8]
+. Log out of the core server.
+. Log in to the remaining core server that is the _FOLLOWER_ with `cypher-shell`. 
+. Verify that the _Movie_ data is in the database for this core server.
 
-image::{imagedir}/L03-Ex2-MovieData-core3.png[L03-Ex2-MovieData-core3,width=800,align=center]
+image::{imagedir}/L03-Ex2-Core3-loaded.png[L03-Ex2-Core3-loaded,width=800,align=center]
 
-You have seen the cluster in action. Any modification to one database in the core server cluster is propagated to the other core servers.
+You have now seen the cluster in action. Any modification to one database in the core server cluster is propagated to the other core servers. Even though each server has a different database name for the active database, each database has the same data. In a real production environment, you would use the same name for the active database on each server in the cluster.
+
+== bolt+routing protocol
+
+In a causal cluster, all write operations must be coordinated by the _LEADER_ in the cluster. Which core server is designated as the leader could change at any time in the event of a failure. Applications that access the database can automatically route their write operations to whatever _LEADER_ is available as this functionality is built into the Neo4j driver libraries. To implement the automatic routing, application clients must use the _bolt+routing_ protocol when they connect to any of the core servers in the cluster. There are other advanced routing schemes that you can configure that are related to physical locations of servers and client IDs which will be covered later in this training.
+
+For example, if you have a cluster with three core servers and _core1_ is the _LEADER_, Your application can only write to _core1_ using the _bolt_ protocol and bolt port for _core1_. An easy way to see this restriction is if you use the default address for `cypher-shell` on the system where a _FOLLOWER_ is running. If you attempt to connect via `cypher-shell` to the server on _core2_ and attempt to update the database, you receive an error:
+
+image::{imagedir}/CannotWriteFollower.png[CannotWriteFollower,width=800,align=center]
+
+When using causal clustering, all application code should use the _bolt+routing_ protocol which will enable applications to be able to write the the database, even in the event of a failure.
+
+===  *Exercise #3: Working with bolt+routing*
+
+In this Exercise, you gain some experience with _bolt+routing_ by running two stand-alone Java applications: one that reads from the database and one that writes to the database.
+
+*Before you begin*
+
+Ensure that you have performed the steps in Exercise 2 where you have populated the database used for the cluster and all three core servers are running. Note that you can perform the steps of this exercise in a single terminal window.
+
+
+*Exercise steps*:
+
+. In the neo4j-docker/testApps folder, there are two Java applications as well as scripts for running them. These scripts enable you to run a read-only application or a write application against the database where you specify the protocol and the port for connecting to the Neo4j instance.
+. Unless you modified port numbers in the *docker-setup.sh* script when you create the containers, the bolt ports used for core1, core2, and core3 are 17687, 18687, and 19687 respectively. What this means is that you can read from the database using these ports and the _bolt_ protocol. Try running *testRead.sh*, providing bolt as the protocol and one of the above port numbers. You should be able to successfully ready from each server. Here is an example of running the script against the core2 server which currently is a _FOLLOWER_ in the cluster:
+
+image::{imagedir}/L03-Ex3_ReadFollower.png[L03-Ex3_ReadFollower,width=800,align=center]
+
+[start=3]
+. Next, run the script against the other servers in the network. All reads should be successful.
+. Next, run the *testWrite.sh* script against the same port using the _bolt_ protocol. What you should see is that you can only use the _bolt_ protocol for writing against the _LEADER_.
+
+image::{imagedir}/L03-Ex3_CannotWriteFollower.png[L03-Ex3_CannotWriteFollower,width=800,align=center]
+
+image::{imagedir}/L03-Ex3_CanWriteLeader.png[L03-Ex3_CanWriteLeader,width=800,align=center]
+
+. Next, change the protocol from _bolt_ to _bolt+routing_ and write to all of the core servers that are _FOLOWER_ servers. With this protocol, all writes are routed to the _LEADER_ and the application can write to the database.
+
+image::{imagedir}/L03-Ex3_AllCanWriteLeader.png[L03-Ex3_AllCanWriteLeader,width=800,align=center]
+
+Now, you have seen how the updates to the core servers in a cluster must be coordinated by the server that is currently the _LEADER_.
+
+
+
 
 == Summary
 
