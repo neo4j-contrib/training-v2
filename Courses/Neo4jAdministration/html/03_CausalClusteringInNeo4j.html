@@ -437,9 +437,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_about_this_module">About this module</a></li>
-<li><a href="#_what_is_causal_clustering">What is Causal Clustering?</a>
+<li><a href="#_what_is_clustering">What is Clustering?</a>
 <ul class="sectlevel2">
-<li><a href="#_causal_cluster_architecture">Causal Cluster architecture</a>
+<li><a href="#_cluster_architecture">Cluster architecture</a>
 <ul class="sectlevel3">
 <li><a href="#_core_servers">Core servers</a></li>
 <li><a href="#_read_replica_servers">Read replica servers</a></li>
@@ -448,22 +448,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_how_causal_consistency_works">How causal consistency works</a></li>
 </ul>
 </li>
-<li><a href="#_causal_clustering_at_runtime">Causal clustering at runtime</a>
+<li><a href="#_configuring_clustering">Configuring clustering</a>
 <ul class="sectlevel2">
 <li><a href="#_core_server_startup">Core server startup</a></li>
 <li><a href="#_core_server_shutdown">Core server shutdown</a></li>
 <li><a href="#_core_server_updates_database">Core server updates database</a></li>
-<li><a href="#_read_replica_server_startup">Read replica server startup</a></li>
-<li><a href="#_read_replica_server_shutdown">Read replica server shutdown</a></li>
 </ul>
 </li>
-<li><a href="#_initial_administrative_tasks_for_causal_clustering">Initial administrative tasks for causal clustering</a>
+<li><a href="#_initial_administrative_tasks_for_clustering">Initial administrative tasks for clustering</a>
 <ul class="sectlevel2">
-<li><a href="#_basic_core_server_settings">Basic core server settings</a></li>
+<li><a href="#_configuring_core_servers">Configuring core servers</a></li>
 <li><a href="#_starting_the_core_servers">Starting the core servers</a></li>
 <li><a href="#_viewing_the_status_of_the_cluster">Viewing the status of the cluster</a></li>
 <li><a href="#_using_the_neo4j_enterprise_edition_docker_image_for_this_training">Using the Neo4j Enterprise Edition Docker image for this training</a></li>
-<li><a href="#_exercise_1_getting_started_with_causal_clustering"><strong>Exercise #1: Getting started with causal clustering</strong></a></li>
+<li><a href="#_exercise_1_getting_started_with_clustering"><strong>Exercise #1: Getting started with clustering</strong></a></li>
 </ul>
 </li>
 <li><a href="#_seeding_the_data_for_the_cluster">Seeding the data for the cluster</a>
@@ -471,12 +469,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_exercise_2_seeding_the_cluster_databases"><strong>Exercise #2: Seeding the cluster databases</strong></a></li>
 </ul>
 </li>
-<li><a href="#_using_the_boltrouting_protocol">Using the bolt+routing protocol</a>
+<li><a href="#_basic_routing_in_a_cluster">Basic routing in a cluster</a>
 <ul class="sectlevel2">
-<li><a href="#_exercise_3_using_the_boltrouting_protocol"><strong>Exercise #3: Using the bolt+routing</strong> protocol</a></li>
+<li><a href="#_exercise_3_accessing_the_core_servers_in_a_cluster">*Exercise #3: Accessing the core servers in a cluster</a></li>
 </ul>
 </li>
-<li><a href="#_core_server_failure">Core server failure</a></li>
+<li><a href="#_configuring_read_replica_servers">Configuring read replica servers</a>
+<ul class="sectlevel2">
+<li><a href="#_configuration_settings_for_read_replica_servers">Configuration settings for read replica servers</a></li>
+<li><a href="#_read_replica_server_startup">Read replica server startup</a></li>
+<li><a href="#_read_replica_server_shutdown">Read replica server shutdown</a></li>
+<li><a href="#_exercise_4_accessing_the_read_replica_servers_in_a_cluster">*Exercise #4: Accessing the read replica servers in a cluster</a></li>
+</ul>
+</li>
+<li><a href="#_core_server_lifecycle">Core server lifecycle</a>
+<ul class="sectlevel2">
+<li><a href="#_recovering_a_core_server">Recovering a core server</a></li>
+<li><a href="#_monitoring_core_servers">Monitoring core servers</a></li>
+<li><a href="#_exercise_5_understanding_quorum">*Exercise #5: Understanding quorum</a></li>
+</ul>
+</li>
 <li><a href="#_summary">Summary</a></li>
 </ul>
 </div>
@@ -506,16 +518,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist square">
 <ul class="square">
 <li>
-<p>Describe why you would use Neo4j Causal Clusters.</p>
+<p>Describe why you would use clusters.</p>
 </li>
 <li>
-<p>Describe the components of a Neo4j Causal Cluster.</p>
+<p>Describe the components of a  cluster.</p>
 </li>
 <li>
-<p>Configure and use a Neo4j Causal Cluster.</p>
+<p>Configure and use a cluster.</p>
 </li>
 <li>
-<p>Seed a Causal Cluster with data.</p>
+<p>Seed a cluster with data.</p>
 </li>
 <li>
 <p>Monitor and manage core servers in the cluster.</p>
@@ -526,28 +538,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p>This module covers the basics of Causal Clusters in Neo4j. Later in this training, you will learn more about security related to clusters.</p>
+<p>This module covers the basics of clusters in Neo4j. Later in this training, you will learn more about security related to clusters.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_what_is_causal_clustering">What is Causal Clustering?</h2>
+<h2 id="_what_is_clustering">What is Clustering?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Neo4j&#8217;s Causal Clustering architecture enables an enterprise to utilize a Neo4j database in production. First, it provides a high-available solution whereby if a Neo4j instance has a failure, another Neo4j instance can take over automatically. Secondly, it provides a highly-scalable database whereby some parts of the application update the data, but other parts of the application are widely distributed and do not need immediate access to new or updated data. That is, read latency is acceptable. Causal consistency in Neo4j means that an application is guaranteed to be able to consistently read all data that it has written.</p>
+<p>Neo4j&#8217;s clustering architecture enables an enterprise to utilize a Neo4j database in production. First, it provides a high-available solution whereby if a Neo4j instance has a failure, another Neo4j instance can take over automatically. Secondly, it provides a highly-scalable database whereby some parts of the application update the data, but other parts of the application are widely distributed and do not need immediate access to new or updated data. That is, read latency is acceptable. Causal consistency in Neo4j means that an application is guaranteed to be able to consistently read all data that it has written.</p>
 </div>
 <div class="paragraph">
-<p>Most Neo4j applications use Causal Clustering to ensure high-availability. The scalability of the Neo4j database is used by applications that utilize multiple data centers.</p>
+<p>Most Neo4j applications use clustering to ensure high-availability. The scalability of the Neo4j database is used by applications that utilize multiple data centers.</p>
 </div>
 <div class="sect2">
-<h3 id="_causal_cluster_architecture">Causal Cluster architecture</h3>
+<h3 id="_cluster_architecture">Cluster architecture</h3>
 <div class="paragraph">
-<p>There are two types of Neo4j instances in a Causal Clustering architecture: core servers and read replica servers.</p>
+<p>There are two types of Neo4j instances in a cluster architecture: core servers and read replica servers.</p>
 </div>
 <div class="sect3">
 <h4 id="_core_servers">Core servers</h4>
 <div class="paragraph">
-<p>Core servers are used for read and write access to the database. The core servers are used to synchronize updates to the database, regardless of the number and physical locations of the Neo4j instances. By default, in a Causal Clustering architecture, a transaction is committed if a majority (quorum) of the core servers have written the data to the physical database. This coordination  between core servers is implemented using the Raft protocol. You can have a large number of core servers, but the more core servers in the application architecture, the longer a "majority" commit will take. At a minimum, an application should use three core servers to be considered <em>fault tolerant</em>. If you want an architecture that can support two servers failing, then you must configure five core servers. An architecture that is configured with two core servers is not fault tolerant because if one server fails, the second server is automatically set to be read-only.</p>
+<p>Core servers are used for read and write access to the database. The core servers are used to synchronize updates to the database, regardless of the number and physical locations of the Neo4j instances. By default, in a cluster architecture, a transaction is committed if a majority (<em>quorum</em>) of the core servers defined as the minimum required for the cluster have written the data to the physical database.  This coordination  between core servers is implemented using the Raft protocol. You can have a large number of core servers, but the more core servers in the application architecture, the longer a "majority" commit will take. At a minimum, an application should use three core servers to be considered fault-tolerant. If one of the three servers fail, the cluster is still operable for updates to the database. If you want an architecture that can support two servers failing, then you must configure five core servers. You cannot configure a cluster with two core servers because if one server fails, the second server is automatically set to be read-only, leaving your database to be inoperable for updates.</p>
 </div>
 </div>
 <div class="sect3">
@@ -566,10 +578,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_causal_clustering_at_runtime">Causal clustering at runtime</h2>
+<h2 id="_configuring_clustering">Configuring clustering</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As an administrator, you must determine the physical locations of the servers that will be used as core servers and read replica servers.  You configure the casual cluster by updating the <strong>neo4j.conf</strong> file on each server so that they can operate together as a causal cluster. The types of properties that you configure for causal cluster include, but are not limited to:</p>
+<p>As an administrator, you must determine the physical locations of the servers that will be used as core servers and read replica servers.  You configure the casual cluster by updating the <strong>neo4j.conf</strong> file on each server so that they can operate together as a cluster. The types of properties that you configure for cluster include, but are not limited to:</p>
 </div>
 <div class="ulist square">
 <ul class="square">
@@ -589,20 +601,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Published ports for bolt, http, https (non-conflicting port numbers)</p>
 </li>
 <li>
-<p>Number of core servers in the causal cluster</p>
+<p>Number of core servers in the cluster</p>
 </li>
 </ul>
 </div>
 <div class="sect2">
 <h3 id="_core_server_startup">Core server startup</h3>
 <div class="paragraph">
-<p>When a core server starts, it first uses a discovery protocol to join the network. At some point it will be running with the other members of the core membership. In a causal cluster, exactly one core server is eleected to b the <em>LEADER</em>. The <em>LEADER</em> is the coordinator of all communication between the core servers. All of the other core servers are <em>FOLLOWERS</em> as the servers in the causal cluster use the raft protocol to synchronize updates.  If a core server joins the network after the other core servers have been running and updating data, the late-joining core server must use the catchup protocol to get to a point where it is synchronized as the other <em>FOLLOWERS</em> are.</p>
+<p>When a core server starts, it first uses a discovery protocol to join the network. At some point it will be running with the other members of the core membership. In a cluster, exactly one core server is elected to b the <em>LEADER</em>. The <em>LEADER</em> is the coordinator of all communication between the core servers. All of the other core servers are <em>FOLLOWERS</em> as the servers in the cluster use the raft protocol to synchronize updates.  If a core server joins the network after the other core servers have been running and updating data, the late-joining core server must use the catchup protocol to get to a point where it is synchronized as the other <em>FOLLOWERS</em> are.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_core_server_shutdown">Core server shutdown</h3>
 <div class="paragraph">
-<p>When a core server shuts down, it may be initiated by an administrator, or it may be due to a hardware or network failure. If the core server that is a <em>FOLLOWER</em> shuts down, the <em>LEADER</em> detects and incorporates into its operations with the other core servers. If the core server that is the <em>LEADER</em> shuts down, the remaining core servers communicate with each other and an existing <em>FOLLOWER</em> is promoted to the <em>LEADER</em>. If a core server shutdown leaves the causal cluster below a configured threshold for the number of core servers required for the cluster, then the <em>LEADER</em> becomes inoperable for writing to the database. This is a serious matter that needs to be addressed by you as the administrator.</p>
+<p>When a core server shuts down, the shutdown may be initiated by an administrator, or it may be due to a hardware or network failure. If the core server that is a <em>FOLLOWER</em> shuts down, the <em>LEADER</em> detects and incorporates into its operations with the other core servers. If the core server that is the <em>LEADER</em> shuts down, the remaining core servers communicate with each other and an existing <em>FOLLOWER</em> is promoted to the <em>LEADER</em>. If a core server shutdown leaves the cluster below a configured threshold for the number of core servers required for the cluster, then the <em>LEADER</em> becomes inoperable for writing to the database. This is a serious matter that needs to be addressed by you as the administrator.</p>
 </div>
 </div>
 <div class="sect2">
@@ -611,25 +623,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>A core server updates its database based upon the requests from clients. The client&#8217;s transaction is not complete until a quorum of core servers have updated their databases. Subsequent to the completion of the transaction, the remaining core servers will also be updated. Core servers use a <em>raft protocol</em> to share updates. Application clients can use the <em>bolt</em> protocol to send updates to a particular core server&#8217;s database, but the preferred protocol for an cluster is the <em>bolt+routing</em> protocol. With this protocol, applications can write to any core server in the cluster, but the <em>LEADER</em> will always coordinate updates.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_read_replica_server_startup">Read replica server startup</h3>
-<div class="paragraph">
-<p>There can be many read replica servers in a causal cluster. When they start, they register with a core server that maintains a shared whiteboard (cache) that can be used by multiple read replica servers. The read replicas do not use the <em>raft protocol</em>. Instead they poll the core servers to obtain the updates to the database that they must apply locally.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_read_replica_server_shutdown">Read replica server shutdown</h3>
-<div class="paragraph">
-<p>Since the read replica servers are considered "transient", when they shut down, there is no effect to the operation of the causal cluster. Of course, detection of a shutdown when it is related to a hardware or network failure must be detected so that a new read replica server can be started so that clients that depend on read access can continue their work.</p>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_initial_administrative_tasks_for_causal_clustering">Initial administrative tasks for causal clustering</h2>
+<h2 id="_initial_administrative_tasks_for_clustering">Initial administrative tasks for clustering</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Here are some common tasks for managing and monitoring causal clustering:</p>
+<p>Here are some common tasks for managing and monitoring clustering:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -637,7 +637,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Modify the <strong>neo4j.conf</strong> files for each core server.</p>
 </li>
 <li>
-<p>Start the core servers in the causal cluster.</p>
+<p>Start the core servers in the cluster.</p>
 </li>
 <li>
 <p>Seed the core server (add initial data).</p>
@@ -660,15 +660,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ol>
 </div>
 <div class="paragraph">
-<p>In your real application, you  set up each core and read replica Neo4j instances on separate physical servers that are networked and where you have installed Enterprise Edition of Neo4j. In a real application, <span class="underline">all</span> configuration for causal clustering is done by modifying the <strong>neo4j.conf</strong> file.</p>
+<p>In your real application, you set up the core and read replica Neo4j instances on separate physical servers that are networked and where you have installed Enterprise Edition of Neo4j. In a real application, <span class="underline">all</span> configuration for clustering is done by modifying the <strong>neo4j.conf</strong> file.</p>
 </div>
 <div class="sect2">
-<h3 id="_basic_core_server_settings">Basic core server settings</h3>
+<h3 id="_configuring_core_servers">Configuring core servers</h3>
 <div class="paragraph">
-<p>Please refer to the <a href="https://neo4j.com/docs/operations-manual/3.5/clustering/settings/">Neo4j Operations Manual</a> for greater detail about the settings for configuring causal clustering.</p>
+<p>Please refer to the <a href="https://neo4j.com/docs/operations-manual/3.5/clustering/settings/">Neo4j Operations Manual</a> for greater detail about the settings for configuring clustering.</p>
 </div>
 <div class="paragraph">
-<p>When setting up causal clustering, you should first identify at least three machines that will host core servers. For these machines, you should make sure these properties are set in <strong>neo4j.conf</strong> where XXXX is the IP address of the machine on the network and XXX1, XXX2, XXX3 are the IP addresses of the machines that will participate in the cluster.</p>
+<p>When setting up clustering, you should first identify at least three machines that will host core servers. For these machines, you should make sure these properties are set in <strong>neo4j.conf</strong> where XXXX is the IP address of the machine on the network and XXX1, XXX2, XXX3 are the IP addresses of the machines that will participate in the cluster.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -678,7 +678,7 @@ dbms.connector.https.listen_address=0.0.0.0:7473
 dbms.connector.http.listen_address=0.0.0.0:7474
 dbms.connector.bolt.listen_address=0.0.0.0:7687
 
-dbms.connector.bolt.advertised_address=localhost:18687 ????? what do we do on a real system
+dbms.connector.bolt.advertised_address=localhost:18687 ?????Question for SME: what do we do on a real system
 
 causal_clustering.transaction_listen_address=0.0.0.0:6000
 causal_clustering.transaction_advertised_address=XXXX:6000
@@ -695,13 +695,22 @@ dbms.mode=CORE</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The minimum number of core servers in a fault-tolerant causal cluster is three. If you require more than three core servers, you must adjust the values in the causal clustering configuration section where you specify the size and the members of the cluster. A best practice is to specify more members in the cluster. This will enable you to later add core servers to the cluster.</p>
+<p>The <em>minimum_core_cluster_size_at_formation</em> property specifies the number of core servers that must be running before the database is operable for updates. These core servers, when started, ensure that they are caught up with each other.</p>
+</div>
+<div class="paragraph">
+<p>The <em>minimum_core_cluster_size_at_runtime</em> property specifies the number of servers that will actively participate in the cluster at runtime.</p>
+</div>
+<div class="paragraph">
+<p>If the number of core servers started at formation is greater than the number required at runtime, then some started core servers will be voted out and will not be part of the cluster. They will be available immediately if a core server goes down, but will not participate in transaction commits for the cluster. Most deployments set these two properties to be the same.</p>
+</div>
+<div class="paragraph">
+<p>The minimum number of core servers at runtime in a fault-tolerant cluster is three, which is the default setting for clustering.  If you require more than three core servers, you must adjust the values in the clustering configuration section where you specify the size and the members of the cluster. A best practice is to specify more members in the cluster, but not require them to be started when the cluster forms. This will enable you to later add core servers to the cluster.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_starting_the_core_servers">Starting the core servers</h3>
 <div class="paragraph">
-<p>After you have modified the <strong>neo4j.conf</strong> files for the cluster, you start each Neo4j instance. When you start a set of core servers, it doesn&#8217;t matter what order they are started. One of the members of the core group will automatically be elected at the <em>LEADER</em>. You should observe the log output for each core server instance to ensure that it started with no errors.</p>
+<p>After you have modified the <strong>neo4j.conf</strong> files for the cluster, you start each Neo4j instance. When you start a set of core servers, it doesn&#8217;t matter what order they are started. One of the members of the core group will automatically be elected at the <em>LEADER</em>. Note that which core server is the leader could change at any time. You should observe the log output for each core server instance to ensure that it started with no errors.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -719,7 +728,7 @@ There is a configuration property (<em>causal_clustering.refuse_to_be_leader</em
 <div class="sect2">
 <h3 id="_viewing_the_status_of_the_cluster">Viewing the status of the cluster</h3>
 <div class="paragraph">
-<p>After you have started the servers in the cluster, you can access status information about the cluster from <code>cypher-shell</code> on any of the core servers in the cluster. You simply enter <code>CALL dbms.cluster.overview();</code> and it returns information about the servers in the cluster, specifically, which ones are followers and which one is the leader.</p>
+<p>After you have started the core servers in the cluster, you can access status information about the cluster from <code>cypher-shell</code> on any of the core servers in the cluster. You simply enter <code>CALL dbms.cluster.overview();</code> and it returns information about the servers in the cluster, specifically, which ones are followers and which one is the leader.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -730,8 +739,8 @@ There is a configuration property (<em>causal_clustering.refuse_to_be_leader</em
 <div class="sect2">
 <h3 id="_using_the_neo4j_enterprise_edition_docker_image_for_this_training">Using the Neo4j Enterprise Edition Docker image for this training</h3>
 <div class="paragraph">
-<p>For this training, you will gain experience managing and monitoring causal clustering using Docker. You will create and run Docker containers using a Neo4j Enterprise Docker image. This will enable you to start and manage multiple Neo4j instances used for causal clustering on your local machine.
-The published Neo4j Enterprise Edition 3.5.0 Docker image (from DockerHub.com) is pre-configured so that its instances can be easily replicated in a Docker environment that uses causal clustering. Using a Docker image, you create Docker containers that run on your local system. Each Docker container is a Neo4j instance.</p>
+<p>For this training, you will gain experience managing and monitoring clustering using Docker. You will create and run Docker containers using a Neo4j Enterprise Docker image. This will enable you to start and manage multiple Neo4j instances used for clustering on your local machine.
+The published Neo4j Enterprise Edition 3.5.0 Docker image (from DockerHub.com) is pre-configured so that its instances can be easily replicated in a Docker environment that uses clustering. Using a Docker image, you create Docker containers that run on your local system. Each Docker container is a Neo4j instance.</p>
 </div>
 <div class="paragraph">
 <p>For example, here are the settings in the <strong>neo4j.conf</strong> file for the Neo4j instance container named <em>core3</em> when it starts as a Docker container:</p>
@@ -764,10 +773,10 @@ ACCEPT.LICENSE.AGREEMENT=yes</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Some of these settings are for applications that use the <em>high availability (ha)</em> features of Neo4j. With causal clustering, we use the core servers for fault tolerance rather than the high availability features of Neo4j. The setting <em>dbms.connectors.default_listen_address=0.0.0.0</em> is important. This setting enables the instance to communicate with other applications and servers in the network. Notice that the instance has a number of <em>causal_clustering</em> settings that are pre-configured. These are default settings for causal clustering that you can override when you create the Docker container for the first time. Some of the other default settings are recommended settings for a Neo4j instance, whether it is part of a causal cluster or not.</p>
+<p>Some of these settings are for applications that use the <em>high availability (ha)</em> features of Neo4j. With clustering, we use the core servers for fault-tolerance rather than the high availability features of Neo4j. The setting <em>dbms.connectors.default_listen_address=0.0.0.0</em> is important. This setting enables the instance to communicate with other applications and servers in the network. Notice that the instance has a number of <em>causal_clustering</em> settings that are pre-configured. These are default settings for clustering that you can override when you create the Docker container for the first time. Some of the other default settings are recommended settings for a Neo4j instance, whether it is part of a cluster or not.</p>
 </div>
 <div class="paragraph">
-<p>When you create Docker Neo4j containers using <code>docker run</code>, you specify additional causal clustering configuration as parameters, rather than specifying them in the <strong>neo4j.conf</strong> file. Here is an example of the parameters that are specified when creating the Docker container named <em>core3</em> in a script:</p>
+<p>When you create Docker Neo4j containers using <code>docker run</code>, you specify additional clustering configuration as parameters, rather than specifying them in the <strong>neo4j.conf</strong> file. Here is an example of the parameters that are specified when creating the Docker container named <em>core3</em> in a script:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -786,13 +795,13 @@ ACCEPT.LICENSE.AGREEMENT=yes</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The name of the Docker container is <em>core3</em>. We map the conf, data, and logs folders for the Neo4j instance when it starts to our local filesystem. We map the http and bolt ports to values that will be unique on our system (13474 and 13687). We specify the bolt address to use. The name of the Docker network that is used for this cluster is <em>training-cluster</em>. <em>ACCEPT_LICENSE_AGREEMENT</em> is required. The size of the cluster is three core servers and the names of the [potential] members are specified as <em>core1</em>, <em>core2</em>, , <em>core3</em>, core4_, and <em>core5</em>. These servers use port 5000 for the discovery listen address. This instance will be used as a core server. The container is started in this script detached, meaning that no output or interaction will be produced. And finally the ID of the Neo4j Enterprise 3.5.0 container is specified.</p>
+<p>In this example, the name of the Docker container is <em>core3</em>. We map the conf, data, and logs folders for the Neo4j instance when it starts to our local filesystem. We map the http and bolt ports to values that will be unique on our system (13474 and 13687). We specify the bolt address to use. The name of the Docker network that is used for this cluster is <em>training-cluster</em>. <em>ACCEPT_LICENSE_AGREEMENT</em> is required. The size of the cluster is three core servers and the names of the [potential] members are specified as <em>core1</em>, <em>core2</em>, , <em>core3</em>, core4_, and <em>core5</em>. These servers use port 5000 for the discovery listen address. This instance will be used as a core server. The container is started in this script detached, meaning that no output or interaction will be produced. And finally the ID of the Neo4j Enterprise 3.5.0 container is specified.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_exercise_1_getting_started_with_causal_clustering"><strong>Exercise #1: Getting started with causal clustering</strong></h3>
+<h3 id="_exercise_1_getting_started_with_clustering"><strong>Exercise #1: Getting started with clustering</strong></h3>
 <div class="paragraph">
-<p>In this Exercise, you will gain experience with a simple causal cluster using Docker containers.  You will <span class="underline">not</span> use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers.</p>
+<p>In this Exercise, you will gain experience with a simple cluster using Docker containers.  You will <span class="underline">not</span> use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers.</p>
 </div>
 <div class="paragraph">
 <p><strong>Before you begin</strong></p>
@@ -803,7 +812,7 @@ ACCEPT.LICENSE.AGREEMENT=yes</pre>
 <p>Ensure that Docker Desktop (MAC/Windows) or Docker CE (Debian) is installed (<code>docker --version</code>). Here is information about <a href="https://hub.docker.com/search/?type=edition&amp;offering=community">downloading and installing Docker</a>.</p>
 </li>
 <li>
-<p>Download the file <a href="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/neo4j-docker.zip">neo4j-docker.zip</a> and unzip it to a folder that will be used to saving Neo4j configuration changes for causal clusters. This will be your working directory for the causal cluster Exercises in this training.</p>
+<p>Download the file <a href="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/neo4j-docker.zip">neo4j-docker.zip</a> and unzip it to a folder that will be used to saving Neo4j configuration changes for clusters. This will be your working directory for the cluster Exercises in this training. <strong>Hint:</strong> <code>curl -O <a href="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/neo4j-docker.zip" class="bare">https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/neo4j-docker.zip</a></code></p>
 </li>
 <li>
 <p>Download the Docker image for Neo4j ( <code>docker pull neo4j:3.5.0-enterprise</code>).</p>
@@ -822,17 +831,14 @@ ACCEPT.LICENSE.AGREEMENT=yes</pre>
 <p>Open a terminal on your system.</p>
 </li>
 <li>
-<p>Confirm that you have the Neo4j 3.5.0 image: <code>docker images</code></p>
-<div class="ulist">
-<ul>
-<li>
-<p>ELAINE RESUME HERE*<strong>*</strong>
-image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=center]</p>
-</li>
-</ul>
-</div>
+<p>Confirm that you have the Neo4j 3.5.0 Docker image: <code>docker images</code></p>
 </li>
 </ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex1-DockerImages.png" alt="L03-Ex1-DockerImages" width="800">
+</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="3">
@@ -840,25 +846,25 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <p>Navigate to the neo4j-docker folder. This is the folder that will contain all configuration changes for the Neo4j instances you will be running in the cluster. Initially, you will be working with three core servers. Here you can see that you have a folder for each core server and each read replica server.</p>
 </li>
 <li>
-<p>Examine the <strong>create_initial_cores.sh</strong> file. This script creates the network that will be used in your Docker environment and then creates three Docker container instances from the Neo4j image. Each instance will represent a core server. Finally, the script stop the three instances.</p>
+<p>Examine the <strong>create_initial_cores.sh</strong> file. This script creates the network that will be used in your Docker environment and then creates three Docker container instances from the Neo4j image. Each instance will represent a core server. Finally, the script stops the three instances.</p>
 </li>
 </ol>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/L03-Ex1-docker-setup.png" alt="L03-Ex1-docker-setup" width="800">
+<img src="../img/L03-Ex1-create_cores.png" alt="L03-Ex1-create_cores" width="800">
 </div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="5">
 <li>
-<p>Run <strong>create_initial_cores.sh</strong> as root <code>sudo ./create_initial_cores.sh &lt;Image ID&gt;</code> providing as an argument the Image ID of the Neod4j Docker image.</p>
+<p>Run <strong>create_initial_cores.sh</strong> as root <code>sudo ./create_initial_cores.sh &lt;Image ID&gt;</code> providing as an argument the Image ID of the Neo4j Docker image.</p>
 </li>
 </ol>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/L03-Ex1-docker-setup-run.png" alt="L03-Ex1-docker-setup-run" width="800">
+<img src="../img/L03-Ex1-create_cores-run.png" alt="L03-Ex1-create_cores-run" width="800">
 </div>
 </div>
 <div class="olist arabic">
@@ -879,7 +885,7 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <p>Open a terminal window for each of the core servers. (three of them)</p>
 </li>
 <li>
-<p>In each core server window, start the instance: <code>docker start -a coreX</code>. The instance should be started. These instances are set up so that the default browser port on localhost will be 11474, 12474, and 13474. Notice that each instance uses it&#8217;s own database as the active database. For example, here is the result of starting the core server containers. Notice that each server starts as part of the cluster. The servers are not fully started until all catchup has been done between the servers</p>
+<p>In each core server window, start the instance: <code>docker start -a coreX</code>. The instance should be started. These instances are set up so that the default browser port on localhost will be 11474, 12474, and 13474. Notice that each instance uses it&#8217;s own database as the active database. For example, here is the result of starting the core server containers. Notice that each server starts as part of the cluster. The servers are not fully started until all catchup has been done between the servers and the <em>Started</em> record is shown. The databases will not be accessible by clients until <em>all</em> core members of the cluster have successfully started.</p>
 </li>
 </ol>
 </div>
@@ -921,13 +927,7 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <p>repeat the previous two steps for core2 and core3 to change the password for the <em>neo4j</em> user.</p>
 </li>
 <li>
-<p>Log in to any of the servers and get the cluster overview information in <code>cypher-shell</code>.</p>
-</li>
-<li>
-<p>Shut down all core servers by typing this in a non-core server terminal window: <code>docker stop core1 core2 core3</code></p>
-</li>
-<li>
-<p>You can now close the terminal windows you used for each of the core servers,  but keep the non-core server window open.</p>
+<p>Log in to any of the servers and get the cluster overview information in <code>cypher-shell</code>. In this image, <em>core1</em> is the <em>LEADER</em>:</p>
 </li>
 </ol>
 </div>
@@ -935,6 +935,25 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <div class="content">
 <img src="../img/L03-Ex1-ClusterOverview.png" alt="L03-Ex1-ClusterOverview" width="800">
 </div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="14">
+<li>
+<p>Shut down all core servers by typing this in a non-core server terminal window: <code>docker stop core1 core2 core3</code></p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex1-StopCores.png" alt="L03-Ex1-StopCores" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="15">
+<li>
+<p>You can now close the terminal windows you used for each of the core servers,  but keep the non-core server window open.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>You have now successfully configured, started, and accessed core servers (as Docker containers) running in a causal cluster.</p>
@@ -946,7 +965,7 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <h2 id="_seeding_the_data_for_the_cluster">Seeding the data for the cluster</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>When setting up a causal cluster for your application, you must ensure that the database that will be used in the cluster has been populated with your application data. Recall that in a causal cluster, each Neo4j instance has its own database, but the data in the databases for each core servers is identical. When you set up the data for the cluster, you can do any of the following, but you must do the same on <span class="underline">each</span> of the core servers of the cluster to create the production database. Note that the core servers must be down for these tasks. You learned how to do these tasks in the previous module.</p>
+<p>When setting up a cluster for your application, you must ensure that the database that will be used in the cluster has been populated with your application data. In a cluster, each Neo4j instance has its own database, but the data in the databases for each core server that is actively running in the cluster is identical. When you set up the data for the cluster, you can do any of the following, but you must do the same on <span class="underline">each</span> of the core servers of the cluster to create the production database. Note that the core servers must be down for these tasks. You learned how to do these tasks in the previous module.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -962,12 +981,12 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </ul>
 </div>
 <div class="paragraph">
-<p>If the the amount of application data is relatively small (less than 10M nodes) you can also load <strong>.csv</strong> data into a running core server in the cluster where all core servers are started. This will propagate the data to all databases in the cluster.</p>
+<p>If the the amount of application data is relatively small (less than 10M nodes) you can also load <strong>.csv</strong> data into a running core server in the cluster where all core servers are started and actively part of the cluster. This will propagate the data to all databases in the cluster.</p>
 </div>
 <div class="sect2">
 <h3 id="_exercise_2_seeding_the_cluster_databases"><strong>Exercise #2: Seeding the cluster databases</strong></h3>
 <div class="paragraph">
-<p>In this Exercise, you will populate the databases in the cluster that you created earlier. Because you are using Docker containers for learning about causal clustering, you cannot perform the normal seeding procedures as you would in your real production environment because when using the Neo4j Docker containers, the Neo4j instance is started. Instead, you will simply start the core servers in the cluster and connect to one of them. Then you will use <code>cypher-shell</code> to load the <em>Movie</em> data into the database.</p>
+<p>In this Exercise, you will populate the databases in the cluster that you created earlier. Because you are using Docker containers for learning about clustering, you cannot perform the normal seeding procedures as you would in your real production environment because when using the Neo4j Docker containers, the Neo4j instance is started. Instead, you will simply start the core servers in the cluster and connect to one of them. Then you will use <code>cypher-shell</code> to load the <em>Movie</em> data into the database.</p>
 </div>
 <div class="paragraph">
 <p><strong>Before you begin</strong></p>
@@ -981,7 +1000,7 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In a terminal window, start the core servers:  <code>docker start core1 core2 core3</code>.</p>
+<p>In a terminal window, start the core servers:  <code>docker start core1 core2 core3</code>. This will start the core servers in background mode where the log is not attached to STDOUT. If you want to see what is happening with a particular core server, you can always view the messages in <strong>&lt;coreX&gt;/logs/debug.log</strong>.</p>
 </li>
 <li>
 <p>By default, all writes must be performed by the <em>LEADER</em> of the cluster.  Determine which core server is the <em>LEADER</em>. <strong>Hint:</strong> You can do this by logging in to any core server that is running (<code>docker exec -it &lt;core server&gt; /bin/bash</code>) and entering the following command: <code>echo "CALL dbms.cluster.overview();" | /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps</code>. In this example, core1 is the <em>LEADER</em>:</p>
@@ -994,7 +1013,7 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </div>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="2">
+<ol class="arabic" start="3">
 <li>
 <p>Log in to the core server that is the <em>LEADER</em>.</p>
 </li>
@@ -1009,9 +1028,9 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </div>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="4">
+<ol class="arabic" start="5">
 <li>
-<p>Log in to <code>cypher-shell</code> and confirm that the data has been loaded into the database for the core1 server.</p>
+<p>Log in to <code>cypher-shell</code> and confirm that the data has been loaded into the database.</p>
 </li>
 </ol>
 </div>
@@ -1021,9 +1040,9 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </div>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="5">
+<ol class="arabic" start="6">
 <li>
-<p>Log out of core server.</p>
+<p>Log out of the core server.</p>
 </li>
 <li>
 <p>Log in to a <em>FOLLOWER</em> core server with <code>cypher-shell</code>. <strong>Hint:</strong> For example, you can log in to core2 with <code>cypher-shell</code> with the following command: <code>docker exec -it core2 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps</code></p>
@@ -1039,7 +1058,7 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </div>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="8">
+<ol class="arabic" start="9">
 <li>
 <p>Log out of the core server.</p>
 </li>
@@ -1056,6 +1075,13 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <img src="../img/L03-Ex2-Core3-loaded.png" alt="L03-Ex2-Core3-loaded" width="800">
 </div>
 </div>
+<div class="olist arabic">
+<ol class="arabic" start="12">
+<li>
+<p>Log out of the core server.</p>
+</li>
+</ol>
+</div>
 <div class="paragraph">
 <p>You have now seen the cluster in action. Any modification to one database in the core server cluster is propagated to the other core servers.</p>
 </div>
@@ -1063,10 +1089,29 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_the_boltrouting_protocol">Using the bolt+routing protocol</h2>
+<h2 id="_basic_routing_in_a_cluster">Basic routing in a cluster</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In a causal cluster, all write operations must be coordinated by the <em>LEADER</em> in the cluster. Which core server is designated as the leader could change at any time in the event of a failure. Applications that access the database can automatically route their write operations to whatever <em>LEADER</em> is available as this functionality is built into the Neo4j driver libraries. To implement the automatic routing, application clients must use the <em>bolt+routing</em> protocol when they connect to any of the core servers in the cluster.</p>
+<p>In a cluster, all write operations must be coordinated by the <em>LEADER</em> in the cluster. Which core server is designated as the <em>LEADER</em> could change at any time in the event of a failure or a network slowdown. Applications that access the database can automatically route their write operations to whatever <em>LEADER</em> is available as this functionality is built into the Neo4j driver libraries. To implement the automatic routing, application clients must use the <em>bolt+routing</em> protocol when they connect to any of the core servers in the cluster.</p>
+</div>
+<div class="paragraph">
+<p>Applications should <span class="underline">always</span> use <em>bolt+routing</em> when accessing both core and read replica servers in a cluster. Using this protocol, applications gain:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Automatic routing to an available server.</p>
+</li>
+<li>
+<p>Load balancing of requests between the available servers.</p>
+</li>
+<li>
+<p>Automatic retries.</p>
+</li>
+<li>
+<p>Causal chaining (bookmarks)</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>For example, if you have a cluster with three core servers and <em>core1</em> is the <em>LEADER</em>, your application can only write to <em>core1</em> using the <em>bolt</em> protocol and bolt port for <em>core1</em>. An easy way to see this restriction is if you use the default address for <code>cypher-shell</code> on the system where a <em>FOLLOWER</em> is running. If you connect via <code>cypher-shell</code> to the server on <em>core2</em> and attempt to update the database, you receive an error:</p>
@@ -1077,18 +1122,28 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </div>
 </div>
 <div class="paragraph">
-<p>When using causal clustering, <span class="underline">all</span> application code should use the <em>bolt+routing</em> protocol which will enable applications to be able to write to the database, even in the event of a failure.</p>
+<p>When using clustering, <span class="underline">all</span> application code should use the <em>bolt+routing</em> protocol which will enable applications to be able to write to the database, even in the event of a failure.</p>
 </div>
 <div class="sect2">
-<h3 id="_exercise_3_using_the_boltrouting_protocol"><strong>Exercise #3: Using the bolt+routing</strong> protocol</h3>
+<h3 id="_exercise_3_accessing_the_core_servers_in_a_cluster">*Exercise #3: Accessing the core servers in a cluster</h3>
 <div class="paragraph">
 <p>In this Exercise, you gain some experience with <em>bolt+routing</em> by running two stand-alone Java applications: one that reads from the database and one that writes to the database.</p>
 </div>
 <div class="paragraph">
 <p><strong>Before you begin</strong></p>
 </div>
-<div class="paragraph">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
 <p>Ensure that you have performed the steps in Exercise 2 where you have populated the database used for the cluster and all three core servers are running. Note that you can perform the steps of this exercise in a single terminal window.</p>
+</li>
+<li>
+<p>Ensure that the three core servers are started.</p>
+</li>
+<li>
+<p>Log out of the core server if you have not done so already. You should be in a terminal window where you manage Docker.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
@@ -1096,10 +1151,10 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the neo4j-docker/testApps folder, there are two Java applications as well as scripts for running them. These scripts enable you to run a read-only application or a write application against the database where you specify the protocol and the port for connecting to the Neo4j instance.</p>
+<p>Navigate to the <strong>neo4j-docker/testApps</strong> folder.</p>
 </li>
 <li>
-<p>Unless you modified port numbers in the <strong>create_initial_cores.sh</strong> script when you create the containers, the bolt ports used for core1, core2, and core3 are 11687, 12687, and 13687 respectively. What this means is that you can read from the database using these ports and the <em>bolt</em> protocol. Try running <strong>testRead.sh</strong>, providing bolt as the protocol and one of the above port numbers. You should be able to successfully ready from each server. Here is an example of running the script against the core2 server which currently is a <em>FOLLOWER</em> in the cluster:</p>
+<p>There are three Java applications as well as scripts for running them. These scripts enable you to run a read-only client or write client against the database where you specify the protocol and the port for connecting to the Neo4j instance. Unless you modified port numbers in the <strong>create_initial_cores.sh</strong> script when you created the containers, the bolt ports used for core1, core2, and core3 are 11687, 12687, and 13687 respectively. What this means is that clients can read from the database using these ports using the <em>bolt</em> protocol. Try running <strong>testRead.sh</strong>, providing bolt as the protocol and one of the above port numbers. For example, type <code>./testRead.sh bolt 12687</code>. You should be able to successfully read from each server. Here is an example of running the script against the core2 server which currently is a <em>FOLLOWER</em> in the cluster:</p>
 </li>
 </ol>
 </div>
@@ -1114,24 +1169,19 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <p>Next, run the script against the other servers in the network. All reads should be successful.</p>
 </li>
 <li>
-<p>Next, run the <strong>testWrite.sh</strong> script against the same port using the <em>bolt</em> protocol. What you should see is that you can only use the <em>bolt</em> protocol for writing against the <em>LEADER</em>.</p>
+<p>Next, run the <strong>testWrite.sh</strong> script against the same port using the <em>bolt</em> protocol. For example, type <code>./testWrite.sh bolt 11687</code>. What you should see is that you can only use the <em>bolt</em> protocol for writing against the <em>LEADER</em>.</p>
 </li>
 </ol>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="../img/L03-Ex3_CannotWriteFollower.png" alt="L03-Ex3_CannotWriteFollower" width="800">
-</div>
-</div>
-<div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="../img/L03-Ex3_CanWriteLeader.png" alt="L03-Ex3_CanWriteLeader" width="800">
+<img src="../img/L03-Ex3_WriteLeaderFollower.png" alt="L03-Ex3_WriteLeaderFollower" width="800">
 </div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="5">
 <li>
-<p>Next, change the protocol from <em>bolt</em> to <em>bolt+routing</em> and write to all of the core servers that are <em>FOLOWER</em> servers. With this protocol, all writes are routed to the <em>LEADER</em> and the application can write to the database.</p>
+<p>Next, change the protocol from <em>bolt</em> to <em>bolt+routing</em> and write to the core servers that are <em>FOLLOWER</em> servers.  For example, type <code>./testWrite.sh bolt+routing 12687</code>. With this protocol, all writes are routed to the <em>LEADER</em> and the application can write to the database.</p>
 </li>
 </ol>
 </div>
@@ -1140,16 +1190,355 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 <img src="../img/L03-Ex3_AllCanWriteLeader.png" alt="L03-Ex3_AllCanWriteLeader" width="800">
 </div>
 </div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>Next, you will add data to the database with a client that sends the request to a <em>FOLLOWER</em> core server. Run the <strong>addPerson.sh</strong> script against any port  representing a <em>FOLLOWER</em> using the <em>bolt</em> protocol. For example, type <code>./addPerson.sh bolt+routing 13687 "Willie"</code>. This will add a <em>Person</em> node to the database for core3.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex3_AddPerson.png" alt="L03-Ex3_AddPerson" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>Verify that this newly-added <em>Person</em> node is written to the other servers in the cluster by using the <em>bolt</em> protocol to request specific servers. For example, type <code>./readPerson.sh bolt 12687 "Willie"</code> to confirm that the data was added to core2.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex3_ReadPerson.png" alt="L03-Ex3_ReadPerson" width="800">
+</div>
+</div>
 <div class="paragraph">
-<p>You have now seen how the updates to the core servers in a cluster must be coordinated by the server that is currently the <em>LEADER</em>.</p>
+<p>You have now seen how updates to the core servers in a cluster must be coordinated by the server that is currently the <em>LEADER</em> and how reads and writes are performed in a cluster using the <em>bolt</em> and <em>bolt+routing</em> protocols.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_core_server_failure">Core server failure</h2>
+<h2 id="_configuring_read_replica_servers">Configuring read replica servers</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>You configure read replica servers on host systems where you want the data to be distributed. Read replica servers know about the cluster, but whether they are running or not has no effect on the health of the cluster.</p>
+</div>
+<div class="sect2">
+<h3 id="_configuration_settings_for_read_replica_servers">Configuration settings for read replica servers</h3>
+<div class="paragraph">
+<p>Here are the configuration settings you use for a read replica server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>dbms.connectors.default_listen_address=0.0.0.0
 
+dbms.connector.https.listen_address=0.0.0.0:7473
+dbms.connector.http.listen_address=0.0.0.0:7474
+dbms.connector.bolt.listen_address=0.0.0.0:7687
+
+dbms.connector.bolt.advertised_address=localhost:18687 ?????Question for SME: what do we do on a real system
+
+causal_clustering.initial_discovery_members=XXX1:5000,XXX2:5000,XXX3:5000,XXX4:5000,XXX5:5000
+
+dbms.mode=CORE</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Just like the configuration for a core server, you must specify the bolt advertised address, as well as the addresses for the servers that are the members of the cluster. However, you can add as many read replica servers and they will not impact the functioning of the cluster.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_read_replica_server_startup">Read replica server startup</h3>
+<div class="paragraph">
+<p>There can be many read replica servers in a cluster. When they start, they register with a core server that maintains a shared whiteboard (cache) that can be used by multiple read replica servers. As part of the startup process, the read replica catches up to the core server. The read replicas do not use the <em>raft protocol</em>. Instead they poll the core servers to obtain the updates to the database that they must apply locally.</p>
+</div>
+<div class="paragraph">
+<p>Here is what you would see if you had a cluster with three core servers and two read replica servers running:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/ThreeCoresAndTwoReplicas.png" alt="ThreeCoresAndTwoReplicas" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Unlike core servers where applications use <em>bolt+routing</em> to access the database, clients of read replica servers use <em>bolt</em>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_read_replica_server_shutdown">Read replica server shutdown</h3>
+<div class="paragraph">
+<p>Since the read replica servers are considered "transient", when they shut down, there is no effect to the operation of the cluster. Of course, detection of a shutdown when it is related to a hardware or network failure must be detected so that a new read replica server can be started as clients  depend on read access can continue their work.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercise_4_accessing_the_read_replica_servers_in_a_cluster">*Exercise #4: Accessing the read replica servers in a cluster</h3>
+<div class="paragraph">
+<p>In this Exercise, you will see how replica servers can be used to retrieve changed data from the core servers.</p>
+</div>
+<div class="paragraph">
+<p><strong>Before you begin</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Ensure that the three core servers are started.</p>
+</li>
+<li>
+<p>Open a terminal window where you will be managing Docker containers.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Exercise steps</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>neo4j-docker</strong>.</p>
+</li>
+<li>
+<p>Run the script to create the initial replica servers, providing the Image ID of the Neo4j Docker image.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex4_CreateReplicaServers.png" alt="L03-Ex4_CreateReplicaServers" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Start replica1 and replica2: <code>docker start replica1 replica2</code>.</p>
+</li>
+<li>
+<p>Log in to each of read replica server and change the password.</p>
+</li>
+<li>
+<p>Use Cypher to retrieve the cluster overview. For example in a terminal window type: <code>docker exec -it replica2 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps  "CALL dbms.cluster.overview();"</code>. Do you see all three core servers and the two read replica servers?</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex4_Overview.png" alt="L03-Ex4_Overview" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>Navigate to the <strong>neo4j-docker/testApps</strong> folder.</p>
+</li>
+<li>
+<p>Run the <strong>addPerson.sh</strong> script against any port for a core server using the <em>bolt+routing</em> protocol. For example, type <code>./addPerson.sh bolt+routing 13687 "Kong"</code>. This will add a <em>Person</em> node to the database.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex4_AddPerson.png" alt="L03-Ex4_AddPerson" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="8">
+<li>
+<p>Verify that this newly-added <em>Person</em> node is readable by a read replica server in the cluster by using the <em>bolt</em> protocol to request specific servers. For example, type <code>./readPerson.sh bolt 22687 "Kong"</code> to confirm that the data is available.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex4_ReadPerson.png" alt="L03-Ex4_ReadPerson" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>You have now seen how updates to the core servers in a cluster must be coordinated by the server that is currently the <em>LEADER</em> and how reads and writes are performed in a cluster using the <em>bolt</em> and <em>bolt+routing</em> protocols against the core servers and reads are performed in a cluster using the <em>bolt</em> protocol against the read replica servers.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_core_server_lifecycle">Core server lifecycle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <em>minimum_core_cluster_size_at_runtime</em> property specifies the number of servers that will actively participate in the cluster at runtime. This number is used to calculate what the <em>quorum</em> is for the cluster. For example, if this value is three, then quorum is two. If this value is four, then quorum is three. If this value is five, then quorum is three. Quorum is important in a cluster as it dictates the behavior of the cluster when core servers are added to or removed from the cluster at runtime.</p>
+</div>
+<div class="paragraph">
+<p>In a running cluster, if more than <em>minimum_core_cluster_size_at_runtime</em> core servers are running, some core servers will not be used in the membership of the cluster. That is, the extra core servers are voted out because there is a <em>quorum</em> to vote out members. As an administrator, you must understand which core servers are participating in the cluster.</p>
+</div>
+<div class="paragraph">
+<p>If a core server shuts down, the cluster can still operate provided the number of core servers is equal to or greater than quorum. For example, if the minimum number of core servers is three, quorum is two. Provided the cluster has two core servers, it is considered operational. If the cluster maintains quorum, then it is possible to add a different core server to the cluster since a quorum exists for voting in a new core server.</p>
+</div>
+<div class="paragraph">
+<p>If the <em>LEADER</em> core server shuts down, then one of the other <em>FOLLOWER</em> core servers assumes the role of <em>LEADER</em>, provided a quorum still exists for the cluster. If a cluster is left with only <em>FOLLOWER</em> core servers, this is because quorum no longer exists and as a result,the database is read-only.  As an administrator, you must ensure that your cluster always has a <em>LEADER</em>.</p>
+</div>
+<div class="paragraph">
+<p>The core servers that are used to start the cluster that are part of the quorum are important. With quorum, any of the core servers that originally participated in the cluster must be running in order to add a new core server to the cluster.</p>
+</div>
+<div class="sect2">
+<h3 id="_recovering_a_core_server">Recovering a core server</h3>
+<div class="paragraph">
+<p>If a core server goes down and you cannot start it, you have two options:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start a new core server that has not yet been part of the cluster, but is specified in the membership list of the cluster. This will only work if the cluster currently has a quorum so the existing core servers can vote to add the core server to the cluster.</p>
+</li>
+<li>
+<p>Start a new parallel cluster with backup from current read only cluster.  This requires that client applications must adjust port numbers they use.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Option (1) is much easier so a best practice is to always specify additional hosts that could be used as replacement core servers in the membership list for a cluster.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_monitoring_core_servers">Monitoring core servers</h3>
+<div class="paragraph">
+<p>In addition to using Cypher to retrieve the overview state of the cluster, there are also REST APIs for accessing information about a particular server.  For example, you can query the status of the cluster as follows: <code>curl -u neo4j:training-helps localhost:11474/db/manage/server/causalclustering/status</code> where the query is made against the core1 server:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/RESTStatus.png" alt="RESTStatus" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Or if you want to see it a particular server is writable (part of a "healthy" cluster), for example, you can get that information as follows: <code>curl -u neo4j:training-helps localhost:11474/db/manage/server/causalclustering/writable</code> where the query is made against the core1 server:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/RESTWritable.png" alt="RESTWritable" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Using the REST API enables you as an administrator to script checks against the cluster to ensure that it is running properly and available to the clients.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercise_5_understanding_quorum">*Exercise #5: Understanding quorum</h3>
+<div class="paragraph">
+<p>In this Exercise, you gain some experience monitoring the cluster as servers shut down and as servers are added.</p>
+</div>
+<div class="paragraph">
+<p><strong>Before you begin</strong></p>
+</div>
+<div class="paragraph">
+<p>Ensure that you have performed the steps in Exercise 4 and you have a cluster with core1, core2, ns core3 started, as well as replica1 and replica2.</p>
+</div>
+<div class="paragraph">
+<p><strong>Exercise steps</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>View the cluster overview using core1: <code>docker exec -it core1 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps  "CALL dbms.cluster.overview();"</code>. Make a note of which core server is the <em>LEADER</em>.  In this example, core3 is the <em>LEADER</em>.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex5_Overview.png" alt="L03-Ex5_Overview" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop the core server that is the <em>LEADER</em>.</p>
+</li>
+<li>
+<p>View the cluster overview using replica1: <code>docker exec -it replica1 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps  "CALL dbms.cluster.overview();"</code>. Do you see that another core server has assumed the <em>LEADER</em> role?</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex5_Core3Shutown.png" alt="L03-Ex5_Core3Shutown" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the testApps folder, run the script <strong>testWrite.sh</strong> providing the protocol of <em>bolt+routing</em> and a port for one of the core servers that is running.  Can the client write to the database?</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex5_WriteTwoCores.png" alt="L03-Ex5_WriteTwoCores" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop the core server that is the <em>LEADER</em>.</p>
+</li>
+<li>
+<p>Confirm that the only core server running is now a <em>FOLLOWER</em>.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex5_OneCore.png" alt="L03-Ex5_OneCore" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the script to write to the database using <em>bolt+routing</em> and the port number for the remaining core server. Can you write to the database?</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex5_OneCoreNoWrite.png" alt="L03-Ex5_OneCoreNoWrite" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start a core server that you previously stopped.</p>
+</li>
+<li>
+<p>View the cluster overview. Is there now a <em>LEADER</em>? This cluster is operational because it now has a <em>LEADER</em></p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex5_NewLeader.png" alt="L03-Ex5_NewLeader" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The cluster is now back to quorum. What this means is that a new core server can be added (elected) that was not part of the original cluster.</p>
+</li>
+<li>
+<p>Navigate to neo4j-docker and run the script to create core4, providing the Image ID of the Neo4j Docker image.</p>
+</li>
+<li>
+<p>Start the core4 server.</p>
+</li>
+<li>
+<p>Change the password of the core4 server.</p>
+</li>
+<li>
+<p>Retrieve the overview information for the cluster. Does it have two <em>FOLLOWERS</em> and one <em>LEADER</em>? It was possible to add a new core server to the cluster because the cluster had a quorum and the core5 server was specified in the original configuration of the member list of the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../img/L03-Ex5_AddedCore4.png" alt="L03-Ex5_AddedCore4" width="800">
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1163,7 +1552,7 @@ image::../img/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=cent
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-17 17:05:29 CST
+Last updated 2019-01-22 18:14:10 CST
 </div>
 </div>
 </body>
