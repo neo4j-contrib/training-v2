@@ -8,8 +8,8 @@ asciidoctor -T s adoc/03_CausalClusteringInNeo4j.adoc -o html/03_CausalClusterin
 #asciidoctor -T s adoc/07_GettingMoreOutOfNeo4j.adoc -o html/07_GettingMoreOutOfNeo4j.html
 
 #asciidoctor-pdf -T s adoc/01_OverviewOfNeo4jAdministration.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/01.yml -o pdf/01_OverviewOfNeo4jAdministration.pdf
-#asciidoctor-pdf -T s adoc/02_ManagingANeo4jDatabase.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/02.yml -o pdf/02_ManagingANeo4jDatabase.pdf
-#asciidoctor-pdf -T s adoc/03_CausalClusteringInNeo4j.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/03.yml -o pdf/03_CausalClusteringInNeo4j.pdf
+asciidoctor-pdf -T s adoc/02_ManagingANeo4jDatabase.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/02.yml -o pdf/02_ManagingANeo4jDatabase.pdf
+asciidoctor-pdf -T s adoc/03_CausalClusteringInNeo4j.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/03.yml -o pdf/03_CausalClusteringInNeo4j.pdf
 #asciidoctor-pdf -T s adoc/04_IntroductionToCypher.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/04.yml -o pdf/04_IntroductionToCypher.pdf
 #asciidoctor-pdf -T s adoc/05_GettingMoreOutOfQueries.adoc -a allow-uri-read  -a pdf-style=asciidoc-themes/05.yml -o pdf/05_GettingMoreOutOfQueries.pdf
 #asciidoctor-pdf -T s adoc/06_CreatingNodesAndRelationships.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/06.yml -o pdf/06_CreatingNodesAndRelationships.pdf
