@@ -189,7 +189,7 @@ The minimum number of core servers at runtime in a fault-tolerant cluster is thr
 
 === Starting the core servers
 
-After you have modified the *neo4j.conf* files for the cluster, you start each Neo4j instance. When you start a set of core servers, it doesn't matter what order they are started. One of the members of the core group will automatically be elected as the _LEADER_ once quorum is attained.  Note that which core server is the _LEADER__ could change at any time. You should observe the log output for each core server instance to ensure that it started with no errors. 
+After you have modified the *neo4j.conf* files for the cluster, you start each Neo4j instance. When you start a set of core servers, it doesn't matter what order they are started. The cluster is not considered _started_ until the number of core servers specified in _causal_clustering.minimum_core_cluster_size_at_formation_. One of the members of the core group will automatically be elected as the _LEADER_.  Note that which core server is the _LEADER__ could change at any time. You should observe the log output for each core server instance to ensure that it started with no errors. 
 
 [NOTE]
 There is a configuration property (_causal_clustering.refuse_to_be_leader_) that you can set to true in the *neo4j.conf* file that specifies that this particular core server will [under]#never# be a leader. It is [underline]#not# recommended that you set this property.
@@ -525,26 +525,38 @@ You have now seen how updates to the core servers in a cluster must be coordinat
 == Core server lifecycle
 
 The _minimum_core_cluster_size_at_runtime_ property specifies the number of servers that will actively participate in the cluster at runtime. The number of core servers that start and join the cluster is used to calculate what the _quorum_ is for the cluster. For example, if the number of core servers started is three, then quorum is two. If the number of core servers started is four, then quorum is three. If the number of core server stated is five, then quorum is three. Quorum is important in a cluster as it dictates the behavior of the cluster when core servers are added to or removed from the cluster at runtime.
+
 As an administrator, you must understand which core servers are participating in the cluster and in particular, what the current _quorum_ is for the cluster.
 
-If a core server shuts down, the cluster can still operate provided the number of core servers is equal to or greater than quorum. For example, if the current number of core servers is three, quorum is two. Provided the cluster has two core servers, it is considered operational for updates. If the cluster maintains quorum, then it is possible to add a different core server to the cluster since a quorum must exist for voting in a new core server.
+If a core server shuts down, the cluster can still operate provided the number of core servers is equal to or greater than _quorum_. For example, if the current number of core servers is three, _quorum_ is two. Provided the cluster has two core servers, it is considered operational for updates. If the cluster maintains quorum, then it is possible to add a different core server to the cluster since a quorum must exist for voting in a new core server.
 
-If the _LEADER_ core server shuts down, then one of the other _FOLLOWER_ core servers assumes the role of _LEADER_, provided a quorum still exists for the cluster. If a cluster is left with only _FOLLOWER_ core servers, this is because quorum no longer exists and as a result,the database is read-only.  As an administrator, you must ensure that your cluster always has a _LEADER_.
+If the _LEADER_ core server shuts down, then one of the other _FOLLOWER_ core servers assumes the role of _LEADER_, provided a quorum still exists for the cluster. If a cluster is left with only _FOLLOWER_ core servers, this is because _quorum_ no longer exists and as a result,the database is read-only.  As an administrator, you must ensure that your cluster always has a _LEADER_.
 
-The core servers that are used to start the cluster that are part of the quorum are important. With quorum, only core servers that originally participated in the cluster can be running in order to add a new core server to the cluster.
+The core servers that are used to start the cluster (membership) are important. Only core servers that originally participated in the cluster can be running in order to add a new core server to the cluster.
 
-Follow this video to understand the life-cycle of a cluster and how quorum is used:
+ifdef::backend-pdf[]
 
-*CONCEPTUAL ANIMATION - TBD*
+Follow this video to understand the life-cycle of a cluster and how _quorum_ is used for fault-tolerance for a cluster:
 
-=== Recovering a core server
+https://youtu.be/0ug7Cpswjio
 
-If a core server goes down and you cannot start it, you have two options:
+endif::backend-pdf[]
+
+ifdef::backend-html5[]
+
+Follow this video to understand the life-cycle of a cluster and how _quorum_ is used for fault-tolerance for a cluster:
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0ug7Cpswjio" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
+endif::backend-html5[]
+
+If a core server goes down and you cannot restart it, you have two options:
 
 . Start a new core server that has not yet been part of the cluster, but is specified in the membership list of the cluster. This will only work if the cluster currently has a quorum so the existing core servers can vote to add the core server to the cluster.
 . Start a new parallel cluster with backup from current read only cluster.  This requires that client applications must adjust port numbers they use.
 
-Option (1) is much easier so a best practice is to always specify additional hosts that could be used as replacement core servers in the membership list for a cluster. This will enable you to add core servers to the cluster without needing to stop the running core servers.
+Option (1) is much easier so a best practice is to always specify additional hosts that could be used as replacement core servers in the membership list for a cluster. This will enable you to add core servers to the cluster without needing to stop the cluster.
 
 === Monitoring core servers
 

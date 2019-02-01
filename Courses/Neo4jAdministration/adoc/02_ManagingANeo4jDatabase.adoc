@@ -337,7 +337,7 @@ In order to access this newly created and loaded database, we must modify *neo4j
 
 image::{imagedir}/Movie2ActiveDatabase.png[Movie2ActiveDatabase,width=1000,align=center]
 
-In addition, we must change the owner:group for the database folder and its sub-folders to _neo4j:neo4j_ before we start the Neo4j imstance.
+In addition, we must change the owner:group for the database folder and its sub-folders to _neo4j:neo4j_ before we start the Neo4j instance.
 
 A best practice is to examine the log file for the Neo4j instance after you have made any configuration changes to ensure that the instance starts with no errors.
 
@@ -973,7 +973,8 @@ In this Exercise, you create a new database by importing data using *.csv* files
 
 . Stop the Neo4j instance.
 . In a terminal window, create the */usr/local/import* folder.
-. Navigate to the *import* folder and download this file: https://s3.amazonaws.com/data.neo4j.com/admin-neo4j/crime-data.zip. (Hint: use `curl -O` or `wget`)
+. Navigate to the *import* folder and download this file: https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/crime-data.zip
+. (Hint: use `curl -O` or `wget`)
 . Unzip the file. You should have six *.csv* files. 
 . Examine the contents of the files to become familiar with their format and data.
 . Use the `import` command to import the data into a new database named *crimes.db*, using these guidelines:
@@ -991,6 +992,7 @@ image::{imagedir}/Ex10-Import2.png[Ex10-Import2,width=800,align=center]
 
 [start=7]
 . Modify the *neo4j.conf* file to use *crimes.db* as the active database.
+. Ensure that the ownership of the crimes.db directory and everything under it is owned by neo4j:neo4j.
 . Start the Neo4j instance.
 . Run `cypher-shell` to retrieve the schema of the database and also count the number of _Crime_ nodes in the graph.
 

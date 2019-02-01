@@ -493,7 +493,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_core_server_lifecycle">Core server lifecycle</a>
 <ul class="sectlevel2">
-<li><a href="#_recovering_a_core_server">Recovering a core server</a></li>
 <li><a href="#_monitoring_core_servers">Monitoring core servers</a></li>
 <li><a href="#_helpful_configuration_settings">Helpful configuration settings</a></li>
 <li><a href="#_exercise_5_understanding_quorum"><strong>Exercise #5: Understanding quorum</strong></a></li>
@@ -833,7 +832,7 @@ dbms.mode=CORE</pre>
 <div class="sect2">
 <h3 id="_starting_the_core_servers">Starting the core servers</h3>
 <div class="paragraph">
-<p>After you have modified the <strong>neo4j.conf</strong> files for the cluster, you start each Neo4j instance. When you start a set of core servers, it doesn&#8217;t matter what order they are started. One of the members of the core group will automatically be elected as the <em>LEADER</em> once quorum is attained.  Note that which core server is the <em>LEADER_</em> could change at any time. You should observe the log output for each core server instance to ensure that it started with no errors.</p>
+<p>After you have modified the <strong>neo4j.conf</strong> files for the cluster, you start each Neo4j instance. When you start a set of core servers, it doesn&#8217;t matter what order they are started. The cluster is not considered <em>started</em> until the number of core servers specified in <em>causal_clustering.minimum_core_cluster_size_at_formation</em>. One of the members of the core group will automatically be elected as the <em>LEADER</em>.  Note that which core server is the <em>LEADER_</em> could change at any time. You should observe the log output for each core server instance to ensure that it started with no errors.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1520,28 +1519,26 @@ dbms.mode=CORE</pre>
 <h2 id="_core_server_lifecycle">Core server lifecycle</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <em>minimum_core_cluster_size_at_runtime</em> property specifies the number of servers that will actively participate in the cluster at runtime. The number of core servers that start and join the cluster is used to calculate what the <em>quorum</em> is for the cluster. For example, if the number of core servers started is three, then quorum is two. If the number of core servers started is four, then quorum is three. If the number of core server stated is five, then quorum is three. Quorum is important in a cluster as it dictates the behavior of the cluster when core servers are added to or removed from the cluster at runtime.
-As an administrator, you must understand which core servers are participating in the cluster and in particular, what the current <em>quorum</em> is for the cluster.</p>
+<p>The <em>minimum_core_cluster_size_at_runtime</em> property specifies the number of servers that will actively participate in the cluster at runtime. The number of core servers that start and join the cluster is used to calculate what the <em>quorum</em> is for the cluster. For example, if the number of core servers started is three, then quorum is two. If the number of core servers started is four, then quorum is three. If the number of core server stated is five, then quorum is three. Quorum is important in a cluster as it dictates the behavior of the cluster when core servers are added to or removed from the cluster at runtime.</p>
 </div>
 <div class="paragraph">
-<p>If a core server shuts down, the cluster can still operate provided the number of core servers is equal to or greater than quorum. For example, if the current number of core servers is three, quorum is two. Provided the cluster has two core servers, it is considered operational for updates. If the cluster maintains quorum, then it is possible to add a different core server to the cluster since a quorum must exist for voting in a new core server.</p>
+<p>As an administrator, you must understand which core servers are participating in the cluster and in particular, what the current <em>quorum</em> is for the cluster.</p>
 </div>
 <div class="paragraph">
-<p>If the <em>LEADER</em> core server shuts down, then one of the other <em>FOLLOWER</em> core servers assumes the role of <em>LEADER</em>, provided a quorum still exists for the cluster. If a cluster is left with only <em>FOLLOWER</em> core servers, this is because quorum no longer exists and as a result,the database is read-only.  As an administrator, you must ensure that your cluster always has a <em>LEADER</em>.</p>
+<p>If a core server shuts down, the cluster can still operate provided the number of core servers is equal to or greater than <em>quorum</em>. For example, if the current number of core servers is three, <em>quorum</em> is two. Provided the cluster has two core servers, it is considered operational for updates. If the cluster maintains quorum, then it is possible to add a different core server to the cluster since a quorum must exist for voting in a new core server.</p>
 </div>
 <div class="paragraph">
-<p>The core servers that are used to start the cluster that are part of the quorum are important. With quorum, only core servers that originally participated in the cluster can be running in order to add a new core server to the cluster.</p>
+<p>If the <em>LEADER</em> core server shuts down, then one of the other <em>FOLLOWER</em> core servers assumes the role of <em>LEADER</em>, provided a quorum still exists for the cluster. If a cluster is left with only <em>FOLLOWER</em> core servers, this is because <em>quorum</em> no longer exists and as a result,the database is read-only.  As an administrator, you must ensure that your cluster always has a <em>LEADER</em>.</p>
 </div>
 <div class="paragraph">
-<p>Follow this video to understand the life-cycle of a cluster and how quorum is used:</p>
+<p>The core servers that are used to start the cluster (membership) are important. Only core servers that originally participated in the cluster can be running in order to add a new core server to the cluster.</p>
 </div>
 <div class="paragraph">
-<p><strong>CONCEPTUAL ANIMATION - TBD</strong></p>
+<p>Follow this video to understand the life-cycle of a cluster and how <em>quorum</em> is used for fault-tolerance for a cluster:</p>
 </div>
-<div class="sect2">
-<h3 id="_recovering_a_core_server">Recovering a core server</h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0ug7Cpswjio" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <div class="paragraph">
-<p>If a core server goes down and you cannot start it, you have two options:</p>
+<p>If a core server goes down and you cannot restart it, you have two options:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1554,8 +1551,7 @@ As an administrator, you must understand which core servers are participating in
 </ol>
 </div>
 <div class="paragraph">
-<p>Option (1) is much easier so a best practice is to always specify additional hosts that could be used as replacement core servers in the membership list for a cluster. This will enable you to add core servers to the cluster without needing to stop the running core servers.</p>
-</div>
+<p>Option (1) is much easier so a best practice is to always specify additional hosts that could be used as replacement core servers in the membership list for a cluster. This will enable you to add core servers to the cluster without needing to stop the cluster.</p>
 </div>
 <div class="sect2">
 <h3 id="_monitoring_core_servers">Monitoring core servers</h3>
@@ -2025,7 +2021,7 @@ dbms.backup.address=bcoreX:6362</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-25 14:25:55 CST
+Last updated 2019-01-28 10:26:54 CST
 </div>
 </div>
 </body>
