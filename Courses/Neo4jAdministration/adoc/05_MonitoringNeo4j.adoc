@@ -1,0 +1,101 @@
+= Monitoring  Neo4j
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.5
+:currentyear: 2018
+:doctype: book
+:toc: left
+:toclevels: 3
+:experimental:
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
+:imagedir: ../img
+
+
+++++
+	<script type='text/javascript'>
+	var loc = window.location;
+	if (loc.hostname == "neo4j.com" && loc.search.indexOf("aliId=") == -1 ) {
+	 loc.pathname = "/graphacademy/online-training/XXXX/"	
+	}
+	document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script>Munchkin.init('773-GON-065');</script>
+++++
+
+== About this module
+
+Now that you have gained experience managing a Neo4j instance and database,  managing Neo4j Causal Clusters, and the steps you must take to secure your deployed Neo4j application, you will learn how to monitor Neo4j application activities.
+
+At the end of this module, you should be able to:
+[square]
+* Describe the categories of monitoring and measurement you can perform with Neo4j.
+* Manage the collection of Neo4j events.
+* Monitor security.
+* Monitor queries.
+* Monitor transactions.
+* Monitor connections.
+* Monitor the JVM.
+* Monitor clusters.
+* Manage the collection of Neo4j metrics.
+* Visualize metrics.
+* Use JMX to monitor Neo4j.
+
+
+== What can be monitored and measured in Neo4j?
+
+As an administrator, you should configure your deployed Neo4j application so that you can perform routine monitoring of activity, as well as being prepared to more deeply monitor and possibly re-configure Neo4j. 
+
+The Neo4j instance writes events to log files where you can configure the level of logging you want to perform. In addition, you can configure Neo4j to write  metrics to a directory that is dedicated for collecting runtime data. The https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/[Neo4j Operations Manual] describes these files and locations that you will be working with in this lesson.
+
+You have already seen some of the events that are written to the *neo4j.log* file (journalctl -u neo4j on Debian)  when the Neo4j instance starts and you want to confirm that it started successfully. In addition, you have seen error events written to *debug.log* when attempting to start a Neo4j instance in a Causal Cluster. You have also seen authentication events that are written to the *security.log* file when users connect to the Neo4j instance.
+
+The categories of events that you configure for and monitor in log files that you will learn about in this lesson includes:
+
+[square]
+* Authentication 
+* Queries
+* Transactions
+* Connections
+* JVM
+** Garbage collection
+** Page cache
+** Server threads
+* Cluster
+
+In addition, you can configure the Neo4j instance to collect metrics that are related to events, but can be viewed in tools (such as Grafana) that use the Graphite or Prometheus protocols to help you monitor your application.
+
+== Monitoring queries
+
+In a production environment, you want to know if a query is taking a long time as it may be preventing other users from accessing the database and a user may not even be aware that their query is hung. For example, if they started a query and then walked away from their computer.
+
+=== Configuring query logging
+
+You can configure Neo4j to log an event if a query runs more than xx milliseconds. There is no standard for what a reasonable period of time is for a query, but in most databases, a query that runs for minutes is not a good thing.
+
+The https://neo4j.com/docs/operations-manual/3.5/monitoring/logging/query-logging/[Neo4j Operations Manual] has a section on the configuration settings you can specify to log query events to the *query.log* file. 
+
+=== Viewing currently running queries
+
+In the _Introduction to Neo4j_ course you learned that long-running Cypher queries can be monitored  and killed from a Neo4j browser session. In Neo4j Browser you can use the `:queries` command to see all currently running queries:
+
+image::{imagedir}/ListQueriesBrowser.png[ListQueriesBrowser,width=1000]
+
+In cypher-shell you execute `CALL dbms.listQueries() yield username, queryId, query, elapsedTimeMillis;`.
+
+image::{imagedir}/ListQueriesCypher-shell.png[ListQueriesCypher-shell,width=1000]
+
+If you have the _admin_ role, you can view (and kill) queries from all users.
+
+=== Killing a long-running query
+
+Recall that a user (or application) that issues a long-running query may not be able to stop the query. You would need to intervene and kill the query for the user.
+
+Once you have identified the long-running query that you want to kill, in Neo4j Browser, you can kill it by double-clicking the icon in the _Kill_ column. 
+
+image::{imagedir}/KillQueryBrowser.png[KillQueryBrowser,width=1000]
+
+Alternatively, in cypher-shell you can execute the statement `CALL dbms.killQuery('query-id');`.
+
+image::{imagedir}/KillQueryCypher-shell.png[KillQueryCypher-shell,width=1000]
+
