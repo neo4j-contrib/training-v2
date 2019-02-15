@@ -276,7 +276,7 @@ Then, if you want to create a database from any dump file to use for a Neo4j ins
 . Start the Neo4j instance.
 
 [NOTE]
-Dumping and loading a database is done when the Neo4j instance is stopped. Later in this training, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
+Dumping and loading a database is done when the Neo4j instance is stopped. Later in this lesson, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
 
 === Creating and offline backup
 
@@ -805,7 +805,7 @@ Online backup is used in production where the application cannot tolerate the da
 
 === Online backup
 
-A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server.
+A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server. A common practice for many enterprises is to back up their databases to Amazon S3 sites. In addition, if any backups are to be stored in S3, they should  be encrypted as well as the channel used to create send the backup to S3.
 
 To enable a Neo4j instance to be backed up online, you must add these two properties to your *neo4j.conf* file:
 

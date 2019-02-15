@@ -30,8 +30,6 @@ Now that you have gained experience managing a Neo4j instance and database,  man
 At the end of this module, you should be able to:
 [square]
 * Describe the categories of monitoring and measurement you can perform with Neo4j.
-* Manage the collection of Neo4j events.
-* Monitor security.
 * Monitor queries.
 * Monitor transactions.
 * Monitor connections.
@@ -41,7 +39,6 @@ At the end of this module, you should be able to:
 * Visualize metrics.
 * Use JMX to monitor Neo4j.
 
-
 == What can be monitored and measured in Neo4j?
 
 As an administrator, you should configure your deployed Neo4j application so that you can perform routine monitoring of activity, as well as being prepared to more deeply monitor and possibly re-configure Neo4j. 
@@ -50,10 +47,9 @@ The Neo4j instance writes events to log files where you can configure the level 
 
 You have already seen some of the events that are written to the *neo4j.log* file (journalctl -u neo4j on Debian)  when the Neo4j instance starts and you want to confirm that it started successfully. In addition, you have seen error events written to *debug.log* when attempting to start a Neo4j instance in a Causal Cluster. You have also seen authentication events that are written to the *security.log* file when users connect to the Neo4j instance.
 
-The categories of events that you configure for and monitor in log files that you will learn about in this lesson includes:
+In the previous lesson a about security, you learned about the authentication events that are written to the *security.log* file. The categories of events that you configure for and monitor in log files that you will learn about in this lesson includes:
 
 [square]
-* Authentication 
 * Queries
 * Transactions
 * Connections
@@ -61,29 +57,48 @@ The categories of events that you configure for and monitor in log files that yo
 ** Garbage collection
 ** Page cache
 ** Server threads
-* Cluster
+* Servers in a Causal Cluster
 
-In addition, you can configure the Neo4j instance to collect metrics that are related to events, but can be viewed in tools (such as Grafana) that use the Graphite or Prometheus protocols to help you monitor your application.
+In addition, you can configure the Neo4j instance to collect metrics that are related to events, but can be viewed in tools (such as Grafana) that use the Graphite or Prometheus protocols to help you monitor your application. In most cases, you will want to configure a tool such as Nagios to provide alerts when certain metrics or events are detected in Neo4j. Note that you can also set up alerts in Grafana, but Nagios is a better choice for alerts. CloudWatch is another UI that is commonly use for monitoring and alerting with AWS deployments.
 
 == Monitoring queries
 
-In a production environment, you want to know if a query is taking a long time as it may be preventing other users from accessing the database and a user may not even be aware that their query is hung. For example, if they started a query and then walked away from their computer.
+In a production environment, you want to know if a query is taking a long time and using too many resources. A user/application may not even be aware that their query is hung. For example, if they started a query and then walked away from their computer.
+
+As an administrator, you can configure Neo4j to write information about queries that completed to the *query.log* file. You can provide settings that will log information about queries that took a long time to complete. You can also monitor currently running queries and if need be, kill them if they are taking too long.
 
 === Configuring query logging
 
-You can configure Neo4j to log an event if a query runs more than xx milliseconds. There is no standard for what a reasonable period of time is for a query, but in most databases, a query that runs for minutes is not a good thing.
+You can configure Neo4j to log an event if a query runs more than xx milliseconds. There is no standard for what a reasonable period of time is for a query, but in most databases, a query that runs for minutes is not a good thing. At a minimum, you should enable logging for queries and set a threshold for the length of time queries take. Then as part of your monitoring, you could regularly inspect the *query.log* file to determine if a certain set of queries or users are possibly performing queries that tax the resources of the Neo4j instance.
+
+For example, here are the properties you would set in the Neo4j configuration to log a message and provide information when a query takes more than 1000ms to complete:
+
+----
+dbms.logs.query.enabled=true
+dbms.logs.query.threshold=1000ms
+dbms.logs.query.parameter_logging_enabled=true
+dbms.logs.query.time_logging_enabled=true
+dbms.logs.query.allocation_logging_enabled=true
+dbms.logs.query.page_logging_enabled=true
+dbms.track_query_cpu_time=true
+dbms.track_query_allocation=true
+----
 
 The https://neo4j.com/docs/operations-manual/3.5/monitoring/logging/query-logging/[Neo4j Operations Manual] has a section on the configuration settings you can specify to log query events to the *query.log* file. 
 
 === Viewing currently running queries
 
-In the _Introduction to Neo4j_ course you learned that long-running Cypher queries can be monitored  and killed from a Neo4j browser session. In Neo4j Browser you can use the `:queries` command to see all currently running queries:
+Inspecting the log file for queries that completed in more than XX milliseconds provides historical information, but what if you suspect that a query is running too long or is hung?
+
+In the _Introduction to Neo4j_ course you learned that long-running Cypher queries can be monitored  and killed from a Neo4j browser session. There is a difference between a query that runs in the Neo4j instance for a long time and a query that has run an returns a large result set. You should focus on the queries that run for a long time. In Neo4j Browser you can use the `:queries` command to see all currently running queries:
 
 image::{imagedir}/ListQueriesBrowser.png[ListQueriesBrowser,width=1000]
 
 In cypher-shell you execute `CALL dbms.listQueries() yield username, queryId, query, elapsedTimeMillis;`.
 
 image::{imagedir}/ListQueriesCypher-shell.png[ListQueriesCypher-shell,width=1000]
+
+Another useful statement, you can used to view long-running queries and any type of transaction running in the Neo4j instance is by calling `dbms.listTransactions()` which you will use in the next Exercise.
 
 If you have the _admin_ role, you can view (and kill) queries from all users.
 
@@ -98,4 +113,76 @@ image::{imagedir}/KillQueryBrowser.png[KillQueryBrowser,width=1000]
 Alternatively, in cypher-shell you can execute the statement `CALL dbms.killQuery('query-id');`.
 
 image::{imagedir}/KillQueryCypher-shell.png[KillQueryCypher-shell,width=1000]
+
+=== *Exercise #1: Monitoring queries*
+
+In this Exercise, you enable query logging where an event will be written to the *query.log* file for a query that took more than 1000ms to complete. Then you will monitor and detect a long-running query and kill it.
+
+*Before you begin:*
+
+. For this exercise, you will be using the stand-alone Neo4j instance that you configured for authentication in the previous lesson.
+. In a terminal window, modify the *neo4j.conf* file for the stand-alone Neo4j instance to use the *movie3.db*, rather than the *crime.db*.
+
+*Exercise steps*:
+
+. Modify the *neo4j.conf* file to create a log record if a query exceeds 1000 ms.
+
+image::{imagedir}/L05-Ex1-LogQueriesTooLong.png[L05-Ex1-LogQueriesTooLong,width=800,align=center]
+
+[start=2]
+. Start/restart the Neo4j stand-alone instance.
+. Open a new terminal window and log in to cypher-shell with the _reader/reader_ credentials. (Suggestion: specify --format plain)
+. In this cypher-shell session, enter the following statement which will execute a query that runs for longer than 1000 ms: `MATCH (a), (b), (c), (d) RETURN count(id(a));`
+. Wait about a minute, it should complete.
+
+image::{imagedir}/L05-Ex1-LongQuery.png[L05-Ex1-LongQuery,width=800,align=center]
+
+[start=6]
+. In the terminal window where you started the Neo4j instance, view the *query.log*. Is there a record for this query?
+
+image::{imagedir}/L05-Ex1-QueryLog.png[L05-Ex1-QueryLog,width=800,align=center]
+
+[start=7]
+. In cypher-shell session for _reader_, enter a query that will execute for an even longer period of time:  `MATCH (a), (b), (c), (d), (e) RETURN count(id(a));`
+Open a new terminal window and log in to cypher-shell with the _admin/admin_ credentials. (Suggestion: specify --format plain)
+. In this second _admin_ cypher-shell session, execute the Cypher statement to list transactions. Do you see the query from _reader_?
+. Then execute the same statement returning the username, currentQueryId, currentQuery, and elapsedTimeMillis. 
+
+image::{imagedir}/L05-Ex1-ListTransactions.png[L05-Ex1-ListTransactions,width=800,align=center]
+
+[start=10]
+. In the second _admin_ cypher-shell session, execute the Cypher statement to kill the long-running query.
+
+image::{imagedir}/L05-Ex1-KillQuery.png[L05-Ex1-KillQuery,width=800,align=center]
+
+[start=11]
+. Observe in the _reader__ cypher-shell session that the query has been killed.
+
+
+== Monitoring transactions
+
+Transactions and their successful completion are important for any production Neo4j instance. As an administrator, you must be able to confirm through monitoring and configuration settings that transactions are completing within a specified period of time.
+
+A transaction is either a read-only transaction or a read-write transaction. Read-only transactions are never blocked, but can take a long period of time to execute as you saw in the previous Exercise. A read-write transaction acquires locks during the transaction and may be blocked by other transactions that have acquired locks on the same data. In some scenarios, a deadlock could occur if one transaction is blocked and is also blocking another transaction from acquiring the locks it needs.
+
+In a multi-user read-write transactional application, you should should configure the Neo4j instance so that a transaction will be aborted if it cannot obtain locks after a certain period of time. This will eliminate an "infinite" deadlock situation. 
+
+In addition, you should configure an upper limit for how long a transaction can run. This will depend on your particular application, but it should be set to a value that is greater than the lock timeout value. This is called a _transaction guard_ which is a good thing in a production system. In fact, you can use _transaction guard_ to automatically kill queries that take longer than xx minutes to execute.
+
+Here are the configuration settings for lock acquisition timeout and _transaction guard_:
+
+----
+# transaction guard: max duration of any transaction
+dbms.transaction.timeout=1s
+# max time to acquire write lock
+dbms.lock.acquisition.timeout=10ms
+----
+
+If a transaction fails due to transaction timeout or lock acquisition timeout, the client receives this type of error:
+
+image::{imagedir}/TransactionTimeOut.png[TransactionTimeOut,width=800,align=center]
+
+Additionally, a record is written to debug.log:
+
+image::{imagedir}/TransactionTimeOutLog.png[TransactionTimeOutLog,width=800,align=center]
 
