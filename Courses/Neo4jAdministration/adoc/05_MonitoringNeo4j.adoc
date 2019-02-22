@@ -30,13 +30,14 @@ Now that you have gained experience managing a Neo4j instance and database,  man
 At the end of this module, you should be able to:
 [square]
 * Describe the categories of monitoring and measurement you can perform with Neo4j.
-* Monitor queries.
-* Monitor transactions.
-* Monitor connections.
-* Monitor memory usage.
+* Monitor:
+** queries
+** transactions
+** connections
+** memory usage
 * Manage log files.
 * Manage the collection of Neo4j metrics.
-* Use JMX to monitor Neo4j.
+* Use JMX queries.
 
 == What can be monitored and measured in Neo4j?
 
@@ -53,7 +54,9 @@ In the previous lesson a about security, you learned about the authentication ev
 * Transactions
 * Connections
 * Memory
-* Servers in a Causal Cluster
+
+[NOTE]
+You have learned how to monitor core and read replica servers in a Neo4j Causal Cluster in the module, _Causal Clustering in Neo4j_.
 
 In addition, you can configure the Neo4j instance to collect metrics that are related to events, but can be viewed in tools (such as Grafana) that use the Graphite or Prometheus protocols to help you monitor your application. In most cases, you will want to configure a tool such as Nagios to provide alerts when certain metrics or events are detected in Neo4j. Note that you can also set up alerts in Grafana, but Nagios is a better choice for alerts. CloudWatch is another UI that is commonly use for monitoring and alerting with AWS deployments.
 
@@ -65,7 +68,7 @@ As an administrator, you can configure Neo4j to write information about queries 
 
 === Configuring query logging
 
-You can configure Neo4j to log an event if a query runs more than xx milliseconds. There is no standard for what a reasonable period of time is for a query, but in most databases, a query that runs for minutes is not a good thing. At a minimum, you should enable logging for queries and set a threshold for the length of time queries take. Then as part of your monitoring, you could regularly inspect the *query.log* file to determine if a certain set of queries or users are possibly performing queries that tax the resources of the Neo4j instance.
+You can configure Neo4j to log an event if a query runs more than xx milliseconds. There is no standard for what a reasonable period of time is for a query, but in most databases, a query that runs for minutes is not a good thing! At a minimum, you should enable logging for queries and set a threshold for the length of time queries take. Then, as part of your monitoring, you could regularly inspect the *query.log* file to determine if a certain set of queries or users are possibly performing queries that tax the resources of the Neo4j instance.
 
 For example, here are the properties you would set in the Neo4j configuration to log a message and provide information when a query takes more than 1000ms to complete:
 
@@ -90,7 +93,7 @@ In the _Introduction to Neo4j_ course you learned that long-running Cypher queri
 
 image::{imagedir}/ListQueriesBrowser.png[ListQueriesBrowser,width=1000]
 
-In cypher-shell you execute `CALL dbms.listQueries() yield username, queryId, query, elapsedTimeMillis;`.
+In `cypher-shell` you execute `CALL dbms.listQueries() YIELD username, queryId, query, elapsedTimeMillis;`.
 
 image::{imagedir}/ListQueriesCypher-shell.png[ListQueriesCypher-shell,width=1000]
 
@@ -106,7 +109,7 @@ Once you have identified the long-running query that you want to kill, in Neo4j 
 
 image::{imagedir}/KillQueryBrowser.png[KillQueryBrowser,width=1000]
 
-Alternatively, in cypher-shell you can execute the statement `CALL dbms.killQuery('query-id');`.
+Alternatively, in `cypher-shell` you can execute the statement `CALL dbms.killQuery('query-id');`.
 
 image::{imagedir}/KillQueryCypher-shell.png[KillQueryCypher-shell,width=1000]
 
@@ -117,7 +120,7 @@ In this Exercise, you enable query logging where an event will be written to the
 *Before you begin:*
 
 . For this exercise, you will be using the stand-alone Neo4j instance that you configured for authentication in the previous lesson.
-. In a terminal window, modify the *neo4j.conf* file for the stand-alone Neo4j instance to use the *movie3.db*, rather than the *crime.db*.
+. In a terminal window, modify the *neo4j.conf* file for the stand-alone Neo4j instance to use the *movie3.db*, rather than the *crimes.db*.
 
 *Exercise steps*:
 
@@ -127,8 +130,8 @@ image::{imagedir}/L05-Ex1-LogQueriesTooLong.png[L05-Ex1-LogQueriesTooLong,width=
 
 [start=2]
 . Start/restart the Neo4j stand-alone instance.
-. Open a new terminal window and log in to cypher-shell with the _reader/reader_ credentials. (Suggestion: specify --format plain)
-. In this cypher-shell session, enter the following statement which will execute a query that runs for longer than 1000 ms: `MATCH (a), (b), (c), (d) RETURN count(id(a));`
+. Open a new terminal window and log in to `cypher-shell` with the _reader/reader_ credentials. (*Suggestion*: specify --format plain)
+. In this `cypher-shell` session, enter the following statement which will execute a query that runs for longer than 1000 ms: `MATCH (a), (b), (c), (d) RETURN count(id(a));`
 . Wait about a minute, it should complete.
 
 image::{imagedir}/L05-Ex1-LongQuery.png[L05-Ex1-LongQuery,width=800,align=center]
@@ -139,20 +142,20 @@ image::{imagedir}/L05-Ex1-LongQuery.png[L05-Ex1-LongQuery,width=800,align=center
 image::{imagedir}/L05-Ex1-QueryLog.png[L05-Ex1-QueryLog,width=800,align=center]
 
 [start=7]
-. In cypher-shell session for _reader_, enter a query that will execute for an even longer period of time:  `MATCH (a), (b), (c), (d), (e) RETURN count(id(a));`
-Open a new terminal window and log in to cypher-shell with the _admin/admin_ credentials. (Suggestion: specify --format plain)
-. In this second _admin_ cypher-shell session, execute the Cypher statement to list transactions. Do you see the query from _reader_?
+. In `cypher-shell` session for _reader_, enter a query that will execute for an even longer period of time:  `MATCH (a), (b), (c), (d), (e) RETURN count(id(a));`.
+. Open a new terminal window and log in to cypher-shell with the _admin/admin_ credentials. (*Suggestion*: specify --format plain)
+. In this second _admin_ `cypher-shell` session, execute the Cypher statement to list transactions. Do you see the query from _reader_?
 . Then execute the same statement returning the username, currentQueryId, currentQuery, and elapsedTimeMillis. 
 
 image::{imagedir}/L05-Ex1-ListTransactions.png[L05-Ex1-ListTransactions,width=800,align=center]
 
-[start=10]
-. In the second _admin_ cypher-shell session, execute the Cypher statement to kill the long-running query.
+[start=11]
+. In the second _admin_ `cypher-shell` session, execute the Cypher statement to kill the long-running query.
 
 image::{imagedir}/L05-Ex1-KillQuery.png[L05-Ex1-KillQuery,width=800,align=center]
 
 [start=11]
-. Observe in the _reader__ cypher-shell session that the query has been killed.
+. Observe in the _reader__ `cypher-shell` session that the query has been killed.
 
 === Automating monitoring of queries
 
@@ -164,7 +167,7 @@ WHERE  NOT query CONTAINS toLower('LOAD')
 AND elapsedTimeMillis > 30000
 WITH query, collect(queryId) AS q
 CALL dbms.killQueries(q) YIELD queryId
-RETURN query, queryId
+RETURN query, queryId;
 ----
 
 This Cypher statement will retrieve all queries that are running for longer than 30000 ms that do not perform a LOAD operation and kill them. You could place this code into a script that is run at regular intervals.
@@ -191,11 +194,11 @@ dbms.lock.acquisition.timeout=10ms
 When a lock timeout occurs or when a transaction times out, the client will receive an error and a record is written to the *debug.log* file. 
 
 [NOTE]
-If you set a transaction timeout without setting the lock timeout, the client session may be deadlocked and the transaction cannot be terminated. This is why it is important to set both of these properties in your Neo4j configuration.
+If you set a transaction timeout without setting the lock timeout, the client session may be deadlocked and the transaction cannot be terminated. This is why it is important to set [underline]#both# of these properties in your Neo4j configuration.
 
 === *Exercise #2: Monitoring transactions*
 
-In this Exercise, you configure Neo4j to not allow transactions that take longer than one second to complete.
+In this Exercise, you configure Neo4j to [underline]#not# allow transactions that take longer than one second to complete.
 
 *Before you begin:*
 
@@ -205,7 +208,7 @@ For this exercise, you will be using the stand-alone Neo4j instance that you use
 
 . Modify the *neo4j.conf* file to terminate transactions where the client cannot obtain a write lock after 10 milliseconds or the transaction time exceeds 1 second.
 . Start or restart the Neo4j instance.
-. In a terminal window, log in to cypher-shell with the credentials _publisher/publisher_.
+. In a terminal window, log in to `cypher-shell` with the credentials _publisher/publisher_.
 . Enter this Cypher statement which will attempt to execute a write transaction to create a million _Person_ nodes: `FOREACH (i IN RANGE(1,1000000) | CREATE (:Person {name:'Person' + i}));`. Do you receive an error? 
 
 image::{imagedir}/L05-Ex2-LongTransactionTimeOut.png[L05-Ex2-LongTransactionTimeOut,width=800,align=center]
@@ -226,22 +229,22 @@ You can query the Neo4j instance's currently running transactions. If you see tr
 
 A Neo4j instance (stand-alone or in a Causal Cluster) uses a set of ports for inter-cluster communication as well as client communication. When you configure the Neo4j instance, you should ensure that the configured ports are available and are not blocked by a firewall.
 
-The default ports used by a Neo4j instance are documented in the https://neo4j.com/docs/operations-manual/3.5/configuration/ports/[Neo4j Operations Manual]. And you have learned that you can modify the port numbers used by a Neo4j instance.
+The default ports used by a Neo4j instance are documented in the https://neo4j.com/docs/operations-manual/3.5/configuration/ports/[Neo4j Operations Manual]. And you have learned that you can modify the port numbers used by a Neo4j instance. In fact, for a secure Neo4j application, you should [underline]#not# use any default port numbers.
 
-As an administrator, you can view the current connections to a Neo4j instance from cypher-shell by executing the call to listConnections();
+As an administrator, you can view the current connections to a Neo4j instance from `cypher-shell` by executing the call to `dbms.listConnections();`:
 
 image::{imagedir}/listConnections.png[listConnections,width=800,align=center]
 
 The connection with the userAgent value of _neo4j-java/dev_ is the cypher-shell session. Any connections that are _javascript_ are from the Web interface to Neo4j Browser. The other connections are for a _java_ application. You could write a query to screen for connections from certain IP addresses that are forbidden. How you identify these IP addresses will depend on your security administrator for your application.
 
-With _dbms.listConnections()_, you can identify a connection that:
+With `dbms.listConnections()`, you can identify a connection that:
 
 [square]
  * has been connected to the Neo4j instance for too long a time period.
  * is from a user that you do not want connecting to the Neo4j instance.
  * is from a suspect IP address. 
  
- You terminate the connection to the Neo4j instance with a call to _dbms.killConnection()_ where you can provide the connection ID or a comma-separated list of connection IDs with the format _['connectID-xx','connectID-yy']_
+You terminate the connection to the Neo4j instance with a call to `dbms.killConnection()` where you can provide the connection ID or a comma-separated list of connection IDs with the format `['connectID-xx','connectID-yy']`.
 
 === *Exercise #3: Monitoring connections*
 
@@ -249,40 +252,40 @@ In this Exercise, you access the Neo4j instance from multiple clients and monito
 
 *Before you begin:*
 
-. Make sure that you have exited out of any cypher-shell sessions.
+. Make sure that you have exited out of any `cypher-shell` sessions.
 . Download the writeApp java application zip file located https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/writeApp.zip[here]. *Hint*: Enter `wget https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/writeApp.zip`. 
-. Unzip writeApp.zip which will create the folder *writeApp*.
-. Make sure write.sh has execute permissions (`chmod +x write.sh`)
+. Unzip *writeApp.zip* which will create the folder *writeApp*.
+. Make sure the *write.sh* has execute permissions (`chmod +x write.sh`)
 
 *Exercise steps*:
 
-. In a terminal window, log in to cypher-shell with the credentials _admin/admin_.
+. In a terminal window, log in to `cypher-shell` with the credentials _admin/admin_.
 . Enter the Cypher statement to list all connections to the Neo4j instance.
 
 image::{imagedir}/L05-Ex3-ListConnections1.png[L05-Ex3-ListConnections1,width=800,align=center]
 
 [start=3]
-. In a different terminal window, log in to cypher-shell with the credentials _publisher/publisher_.
+. In a different terminal window, log in to `cypher-shell` with the credentials _publisher/publisher_.
 . Enter the Cypher statement to list all connections to the Neo4j instance. Do you only see the connections for your user ID?
 
 image::{imagedir}/L05-Ex3-ListConnections2.png[L05-Ex3-ListConnections2,width=800,align=center]
 
 [start=5]
-. In the first terminal _admin_ window, enter the Cypher statement to list all connections to the Neo4j instance.  Do you see all of the connections?
+. In the first _admin_ `cypher-shell` session, enter the Cypher statement to list all connections to the Neo4j instance.  Do you see all of the connections?
 
 image::{imagedir}/L05-Ex3-ListConnections3.png[L05-Ex3-ListConnections3,width=800,align=center]
 
 [start=6]
-. In a third terminal window navigate to the writeApp folder you created when you unzipped the java application.
+. In a third terminal window navigate to the *writeApp* folder you created when you unzipped the java application.
 . Enter `./write.sh localhost 7687`. This java application will open a connection to the Neo4j instance and will ask you to press *Enter* to continue. Do [underline]#not# press *Enter*.
-. In the _admin_ cypher-shell session, enter the Cypher statement to list all connections.
+. In the _admin_ `cypher-shell` session, enter the Cypher statement to list all connections.
 
 image::{imagedir}/L05-Ex3-ListConnections4.png[L05-Ex3-ListConnections4,width=800,align=center]
 
 [start=9]
-. In the _admin_ cypher-shell session, enter the Cypher statement to kill the java client connections for _publisher_.
+. In the _admin_ `cypher-shell` session, enter the Cypher statement to kill the java client connections for _publisher_.
 
-image::{imagedir}/L05-Ex3-KillConnection1.png[L05-Ex3-KillConnection1,width=800,align=center]
+image::{imagedir}/L05-Ex3-KillConnection.png[L05-Ex3-KillConnection,width=800,align=center]
 
 [start=10]
 . In the window where the write Java application is waiting for you to press *Enter*, press the *Enter* key. You should see a message that the connection was closed.
@@ -293,7 +296,7 @@ image::{imagedir}/L05-Ex3-KillConnection2.png[L05-Ex3-KillConnection2,width=800,
 
 You may want to monitor requests that come into the Neo4j instance from browser clients as these types of requests are typically not part of an application, but rather a user connecting to the server with their credentials.
 
-You can set these properties in *neo4j.conf* to log these requests:
+You can set this property in *neo4j.conf* to log these requests:
 
 ----
 # To enable HTTP logging, uncomment this line
@@ -319,7 +322,7 @@ In this Exercise, you enable the Neo4j instance for logging HTTP requests and mo
 . View the schema of the database by executing: `CALL db.schema();`
 . View the records in the *HTTP.log* file.
 
-image::{imagedir}/L05-Ex4-HTTPLog.png[L05-Ex4-HTTPLog,width=800,align=center]
+image::{imagedir}/L05-Ex4-HTTPLog.png[L05-Ex4-HTTPLog,width=1200,align=center]
 
 == Monitoring memory usage
 
@@ -356,7 +359,7 @@ image::{imagedir}/Neo4j-memoryConsumption.png[Neo4j-memoryConsumption,width=800,
 
 A Neo4j instance consumes memory as follows:
 
- [cols="<.^,<.^", options="header",stripes="none"]
+[cols="<.^,<.^", options="header",stripes="none"]
 |====
  *Neo4j Instance Memory Usage*
 | *Description*
@@ -379,15 +382,31 @@ The amount of memory the Neo4j instance will need may change over time and will 
 
 Initially, you can obtain a recommendation for property settings related to memory from information in the database using the `memrec` command of `neo4j-admin`:
 
-image::{imagedir}/Neo4j-memrec.png[Neo4j-memrec,width=800,align=center]
+image::{imagedir}/Neo4j-memrec.png[Neo4j-memrec,width=1000,align=center]
 
 This tool provides recommended memory settings based upon information in your database and also information about available memory on your system.
 
 === Monitoring memory consumption
 
-If you suspect that there is a memory issue with your Neo4j instance, you should temporarily turn on GC logging in the Neo4j configuration: `dbms.logs.gc.enabled=true`.  In addition, records will be written to *debug.log* if an out of memory event occurs in the Neo4j instance. When trying to resolve out of memory issues with your application, you should work with Neo4j technical support to determine the cause and solution of the problem.
+If you suspect that there is a memory issue with your Neo4j instance, you should temporarily turn on GC logging in the Neo4j configuration: `dbms.logs.gc.enabled=true`.  In addition, records will be written to *debug.log* if an out of memory event occurs in the Neo4j instance. When trying to resolve out of memory issues with your application, you should work with Neo4j Technical Support to determine the cause and solution of the problem.
 
 One way that you can monitor memory usage for a running Neo4j instance is with the `jcmd` utility which is described in this https://support.neo4j.com/hc/en-us/articles/360014270873-Understanding-memory-consumption[Neo4j KB article]. To monitor memory usage with this utility, you must set `dbms.jvm.additional=-XX:NativeMemoryTracking=detail` in your Neo4j configuration.
+
+Here is an example of a `jcmd` execution to get summary information about memory usage on the system:
+
+image::{imagedir}/jcmd.png[jcmd,width=800,align=center]
+
+If you suspect that certain parts of the application or a transaction is consuming too much memory, you can run `jcmd` to get a baseline, and then run it again to compare the differences in memory consumption as follows:
+
+----
+jcmd <PID for Neo4j instance> VM.native_memory baseline
+// wait for some time during transaction
+jcmd <PID for Neo4j instance> VM.native_memory summary.diff
+----
+
+[NOTE]
+In order to use jcmd for a Neo4j instance, you must ensure that the instance is started with the `dbms.jvm.additional` property set and you must run it as the user _neo4j_.  *Hint*: `sudo su - neo4j`.
+
 
 Refer to the https://neo4j.com/docs/operations-manual/3.5/performance/[Neo4j Operations Manual] for guidance about configuring memory, indexes, etc. for the Neo4j instance. In a production environment, you should work with Neo4j technical support to ensure that you are monitoring memory usage and have the appropriate settings. The _Performance_ section of the documentation has guidelines that you should consider when configuring your Neo4j instance that are beyond the scope of this training.
 
@@ -397,7 +416,7 @@ In this Exercise, you will execute a query that exhausts memory, then you will c
 
 *Before you begin:*
 
-. Make sure that you have exited out of any cypher-shell sessions.
+. Make sure that you have exited out of any `cypher-shell` sessions.
 . Stop the Neo4j instance.
 . Modify the Neo4j configuration to [underline]#not# time out if a query takes a long time to execute. Simply comment out the settings you set previously in Exercise 2.
 
@@ -405,26 +424,33 @@ In this Exercise, you will execute a query that exhausts memory, then you will c
 
 . Start the Neo4j instance.
 . In `cypher-shell`, connect to the Neo4j instance as _publisher/publisher_.
-. Enter the following Cypher statement that will attempt to create 1.3 million _Person_ nodes: `FOREACH (i IN RANGE(1,1300000) | CREATE (:Person {name:'Person' + i}));`
+. Enter the following Cypher statement that will attempt to create 1.3 million _Person_ nodes: `FOREACH (i IN RANGE(1,1300000) | CREATE (:Person {name:'Person' + i}));`.
 . Wait a few minutes. Eventually, you should receive an error.
 
-image::{imagedir}/L05-Ex5-OutOfMemory.png[L05-Ex5-OutOfMemory,width=800,align=center]
+image::{imagedir}/L05-Ex5-OutOfMemory.png[L05-Ex5-OutOfMemory,width=1000,align=center]
 
+[start=5]
 . View the the Neo4j log *Hint*: journalctl -e -u neo4j on Debian. It should also have an error logged as well as an error in *debug.log*.
 
 image::{imagedir}/L05-Ex5-OutOfMemory2.png[L05-Ex5-OutOfMemory2,width=800,align=center]
 
-. Exit out of cypher shell .
+[start=6]
+. Exit out of `cypher shell`.
 . Stop the Neo4j instance. It may take a few minutes to stop the Neo4j instance as it is cleaning up the transaction log.
 . Execute the command to display the memory requirements for your system specifing the current database which is *movie3.db*.
 
 image::{imagedir}/L05-Ex5-memrec.png[L05-Ex5-memrec,width=800,align=center]
 
-. If we want to add 1.3 million nodes to this database, we need to adjust the memory requirements to be at a minimum what we see from `memrec`.  In *neo4j.conf*, modify  _dbms.memory.heap.initial_size_, _dbms.memory.heap.max_size_ , and _dbms.memory.pagecache.size_ values to reflect what you see from `memrec`.
+[start=9]
+. If we want to add 1.3 million nodes to this database, we need to adjust the memory requirements to be at a minimum what we see from `memrec`.  In *neo4j.conf*, modify  `dbms.memory.heap.initial_size`, `dbms.memory.heap.max_size` , and `dbms.memory.pagecache.size` values to reflect what you see from `memrec`.
 . Restart the Neo4j instance. This may take a few minutes because the Neo4j instance is cleaning up the transaction log from the previous failed transaction.
 . Log in to `cypher-shell` as _publisher/publisher_ and try the Cypher statement again that creates 1.3 million nodes.
 
 image::{imagedir}/L05-Ex5-success.png[L05-Ex5-success,width=800,align=center]
+
+*Taking it further*:
+
+Perform the above steps while using `jcmd` to monitor memory consumption.
 
 In your production application, you must work with developers and users of the application to understand the size of the transactions. You may need to temporarily set the heap and pagecache sizes higher during a special operation. In most cases, you will set these properties to a value that will be sufficient for all transactions. You must with with Neo4j Technical Support if you run into problems with running out of memory or even with starting the Neo4j instance. If the heap and pagecache sizes are too large, the Neo4j instance will not start.
 
@@ -470,63 +496,145 @@ As an administrator, you will configure the Neo4j instance to log at the appropr
 
 === Collecting metrics
 
-The Neo4j instance automatically collects metrics in the default location for metrics (for example, on Debian, all metrics are placed in /var/lib/neo4j/metrics). If for some reason, you do not want metrics collected, you can disable them by setting `metrics.enabled=false` in the Neo4j configuration.
+The Neo4j instance automatically collects metrics in the default location for metrics (for example, on Debian, all metrics are placed in */var/lib/neo4j/metrics*). If for some reason, you do not want metrics collected, you can disable them by setting `metrics.enabled=false` in the Neo4j configuration.
 
-All metrics are written to CSV files in the *metrics* directory. With these files, you can use a visualization tool such as Halin or Grafana to view historical or current metrics for the Neo4j instance.
+All metrics are written to CSV files in the *metrics* directory. With these files, you can use a visualization tool to view historical or current metrics for the Neo4j instance.
 
-Here are a couple of screen shots when using Halin for viewing metrics:
+There are other options for collecting and viewing metrics which are described in the https://neo4j.com/docs/operations-manual/3.5/monitoring/metrics/[Neo4j Operations Manual] which include:
+
+[square]
+* Publishing to an endpoint using the Graphite protocol.
+* Publishing to an endpoint using the Prometheus protocol.
+* Querying the Neo4j instance using `dbms.queryJMX`.
+
+https://halin.graphapp.io/[Halin] has been developed for querying the Neo4j instance. Here are a couple of screen shots when using Halin for viewing metrics:
 
 image::{imagedir}/Halin1.png[Halin1,width=800,align=center]
 
 image::{imagedir}/Halin2.png[Halin2,width=800,align=center]
 
 
-If you will be accessing the metrics CSV files, please see the https://neo4j.com/docs/operations-manual/3.5/monitoring/metrics/expose/[Neo4j Operations Manual] for instructions.
+==== Using JMX queries
 
-=== Using JMX for monitoring
+A Neo4j instance can be monitored with Java Management Extensions (JMX). JMX is a low-level mechanism for monitoring the Neo4j instance. However, a best practice is [underline]#not# to use it for remote monitoring as it is a security vulnerability. In addition, running a tool such as `jconsole` that uses JMX can use production system resources which is also not recommended. 
 
-Another option for monitoring the Neo4j instance is using Java Management Extentions (JMX). JMX is a low-level mechanism for monitoring the Neo4j instance. To use JMX, you must first install it on the system and then configure Neo4j to allow JMX access.
+Neo4j supports the use of JMX in Cypher queries. This is something that is safe to do remotely and does not consume resources locally.
 
-
+For example, here is a rather long Cypher statement that retrieves the same information that you would expect to see when you run the `:sysinfo` command in Neo4j browser:
 
 ----
-call dbms.queryJmx("org.neo4j:instance=kernel#0,name=Store file sizes") yield attributes
-       with  keys(attributes) as k , attributes
-       unwind k as row
-       return "StoreSizes" as type,row,attributes[row]["value"]
+CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Store file sizes") YIELD attributes
+       WITH  keys(attributes) AS k , attributes
+       UNWIND k AS row
+       RETURN "StoreSizes" AS type,row,attributes[row]["value"]
 
-union all
+UNION ALL
 
-call dbms.queryJmx("org.neo4j:instance=kernel#0,name=Page cache") yield attributes
-       with  keys(attributes) as k , attributes
-       unwind k as row
-       return "PageCache" as type,row,attributes[row]["value"]
+CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Page cache") YIELD attributes
+       WITH  keys(attributes) AS k , attributes
+       UNWIND k AS row
+       RETURN "PageCache" AS type,row,attributes[row]["value"]
 
-union all
+UNION ALL
 
-call dbms.queryJmx("org.neo4j:instance=kernel#0,name=Primitive count") yield attributes
-       with  keys(attributes) as k , attributes
-       unwind k as row
-       return "ID Allocations" as type,row,attributes[row]["value"]
+CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Primitive count") YIELD attributes
+       WITH  keys(attributes) AS k , attributes
+       UNWIND k AS row
+       RETURN "ID Allocations" AS type,row,attributes[row]["value"]
 
-union all
+UNION ALL
 
-call dbms.queryJmx("org.neo4j:instance=kernel#0,name=Transactions") yield attributes
-       with  keys(attributes) as k , attributes
-       unwind k as row
-       return "Transactions" as type,row,attributes[row]["value"]
+CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Transactions") YIELD attributes
+       WITH  keys(attributes) AS k , attributes
+       UNWIND k AS row
+       RETURN "Transactions" AS type,row,attributes[row]["value"]
 
-union all
+UNION ALL
 
-call dbms.queryJmx("org.neo4j:instance=kernel#0,name=High Availability") yield attributes
-       with  keys(attributes) as k , attributes
-       unwind k as row
-       return "High Availability" as type,row,attributes[row]["value"]
+CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=High Availability") YIELD attributes
+       WITH  keys(attributes) AS k , attributes
+       UNWIND k AS row
+       RETURN "High Availability" AS type,row,attributes[row]["value"]
 
-union all
+UNION ALL
 
-call dbms.queryJmx("org.neo4j:instance=kernel#0,name=Causal Clustering") yield attributes
-       with  keys(attributes) as k , attributes
-       unwind k as row
-       return "Causal Cluster" as type,row,attributes[row]["value"];
+CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Causal Clustering") YIELD attributes
+       WITH  keys(attributes) AS k , attributes
+       UNWIND k AS row
+       RETURN "Causal Cluster" AS type,row,attributes[row]["value"];
 ----
+
+Here is the result of executing this Cypher statement:
+
+image::{imagedir}/CypherJMX.png[CyperJMX,width=800,align=center]
+
+==== *Exercise #6: Querying with JMX*
+
+In this Exercise, you will execute a JMX query to view metrics about the Neo4j instance.
+
+*Before you begin:*
+
+. Make sure you have a started Neo4j instance.
+. Open a terminal window.
+
+*Exercise steps*:
+
+. Log in to the Neo4j instance with `cypher-shell` using the credentials _publisher/publisher_.
+. Execute the Cypher statement shown above for querying for metrics.
+
+image::{imagedir}/L05-Ex6-CypherJMX1.png[L05-Ex6-CypherJMX1,width=800,align=center]
+
+[start=3]
+. Execute the Cypher statement for creating 1.3 million nodes: `FOREACH (i IN RANGE(1,1300000) | CREATE (:Person {name:'Person' + i}));`.
+. Execute the Cypher statement shown above for querying for metrics.
+
+image::{imagedir}/L05-Ex6-CypherJMX2.png[L05-Ex6-CypherJMX2,width=800,align=center]
+
+== Check your understanding
+
+=== Question 1
+
+What Cypher statements can you run to determine if a query is taking too long to execute?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#CALL dbms.getStats();#
+- [ ] [.false-answer]#CALL dbms.listStats();#
+- [ ] [.required-answer]#CALL dbms.listTransactions();#
+- [ ] [.required-answer]#CALL dbms.listQueries();#
+
+=== Question 2
+
+What tool can you use to determine how much virtual memory you should configure for the Neo4j instance?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#jcmd#
+- [ ] [.false-answer]#vmstat#
+- [ ] [.required-answer]#neo4j-admin memrec#
+- [ ] [.false-answer]#neo4j-admin analyze#
+
+=== Question 3
+
+How can Neo4j metrics be collected?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.required-answer]#Placed in CSV files for tools to use.#
+- [ ] [.required-answer]#Publish to an endpoint using the Graphite protocol.#
+- [ ] [.required-answer]#Publish to an endpoint using the Prometheus protocol.#
+- [ ] [.required-answer]#Queried using dbms.queryJMX().#
+
+== Summary
+
+You should now be able to:
+[square]
+* Describe the categories of monitoring and measurement you can perform with Neo4j.
+* Monitor:
+** queries
+** transactions
+** connections
+** memory usage
+* Manage log files.
+* Manage the collection of Neo4j metrics.
+* Use JMX queries.
