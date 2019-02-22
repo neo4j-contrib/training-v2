@@ -678,7 +678,7 @@ In this Part of the Exercise, you merge data to create relationships.
 MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump'})
 ----
 
-This statement first finds all _Person_ nodes that have [.underline[#only# the _name_ property value of _Robert Zemeckis_. It then finds all nodes with [.underline[#only# the _title_ property set to _Forrest Gump_. There are no _Person_ or other nodes that have only these properties so the graph engine creates them.  Then the graph engine creates the relationship between these two nodes. That is, this `MERGE` operation creates two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.
+This statement first finds all _Person_ nodes that have only the _name_ property value of _Robert Zemeckis_. It then finds all nodes with only the _title_ property set to _Forrest Gump_. There are no _Person_ or other nodes that have only these properties so the graph engine creates them.  Then the graph engine creates the relationship between these two nodes. That is, this `MERGE` operation creates two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.
 
 In fact, you should *never* create nodes and relationships together like this! This example is here to show you how powerful Cypher can be. A best practice is to create nodes first, then relationships.
 

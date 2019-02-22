@@ -845,6 +845,9 @@ neo4j-admin restore
 
 You specify _true_ for force so that the existing database will be replaced.
 
+[NOTE]
+If you restore a database as _root_, make sure that you change the ownership (recursively) of the database directory to _neo4j:neo4j_ before starting the Neo4j instance.
+
 There are many ways for performing online backups, including incremental backups. See the https://neo4j.com/docs/operations-manual/3.5/backup/[Neo4j Operations Manual] for details.
 
 ===  *Exercise #9: Performing online backup and restore*
