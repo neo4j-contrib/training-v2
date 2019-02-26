@@ -478,13 +478,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ssl_for_causal_clusters">SSL for Causal Clusters</a></li>
 <li><a href="#_ssl_for_backups">SSL for backups</a></li>
 <li><a href="#_additional_settings_related_to_data_in_transit">Additional settings related to data-in-transit</a></li>
+<li><a href="#_best_practices_for_developers">Best practices for developers</a></li>
 </ul>
 </li>
 <li><a href="#_securing_data_at_rest">Securing data-at-rest</a>
 <ul class="sectlevel2">
 <li><a href="#_securing_files_at_the_os_level">Securing files at the OS level</a></li>
 <li><a href="#_ensure_that_neo4j_does_not_run_as_root">Ensure that Neo4j does not run as root</a></li>
-<li><a href="#_securing_shared_memory">Securing shared memory</a></li>
 </ul>
 </li>
 <li><a href="#_security_auditing">Security auditing</a>
@@ -665,9 +665,6 @@ Fixing a security breach may require significant updates to your application, es
 <p>OS level resources — securing networks and filesystems.</p>
 </li>
 <li>
-<p>Shared memory — securing Neo4j cached data in shared memory</p>
-</li>
-<li>
 <p>Server processes — Neo4j instances, application servers, connectors, and Web servers.</p>
 </li>
 <li>
@@ -718,7 +715,7 @@ Fixing a security breach may require significant updates to your application, es
 <p>A SPA is highly recommended by Neo4j because it is easier to maintain and is more secure than an enterprise that uses multiple sources of user accounts.
 Examples of a SPA are Lightweight Directory Access Protocol (LDAP), Active Directory (AD), and Kerberos which can be used for single sign-on.
 The SPA is the only service in your enterprise that stores user names and passwords.
-What we focus on for  this lesson is using an LDAP provider for authentication.</p>
+For training purposes, we will use an LDAP provider for authentication, but in your real application, you will need to configure Neo4j for whatever provider you use for user authentcation.</p>
 </div>
 <div class="paragraph">
 <p>You will use OpenLDAP for the hands-on exercises.
@@ -1186,7 +1183,7 @@ dbms.security.ldap.authorization.group_to_role_mapping="user" = reader</pre>
 <div class="sect3">
 <h4 id="_exercise_2_configuring_authentication_for_a_stand_alone_instance"><strong>Exercise #2: Configuring authentication for a stand-alone instance</strong></h4>
 <div class="paragraph">
-<p>In this Exercise, you will modify the configuration for the stand-alone Neo4j instance that you have worked with prior to using Docker for Causal Clustering. This is the Neo4j database you imported, <strong>crimes.db</strong> previously when you imported the crime data. Then you will test that the authentication is working.</p>
+<p>In this Exercise, you will modify the configuration for the stand-alone Neo4j instance that you have worked with prior to using Docker for Causal Clustering. You will use the movies3.db that you worked with previously with the Neo4j stand-alone instance.  Then you will test that the authentication is working.</p>
 </div>
 <div class="paragraph">
 <p><strong>Before you begin</strong></p>
@@ -1197,7 +1194,7 @@ dbms.security.ldap.authorization.group_to_role_mapping="user" = reader</pre>
 <p>Make sure you have completed Exercise 1 that confirms that you can access the LDAP Server.</p>
 </li>
 <li>
-<p>Open a terminal window on your system where you have worked with a stand-alone Neo4j instance from Lesson 2.</p>
+<p>Open a terminal window on your system where you have worked with a stand-alone Neo4j instance from Lesson 2 using the <strong>crimes.db</strong> database.</p>
 </li>
 <li>
 <p>Stop the Neo4j instance.</p>
@@ -1543,6 +1540,22 @@ dbms.udc.enabled=false</pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_best_practices_for_developers">Best practices for developers</h3>
+<div class="paragraph">
+<p>Here are some guidelines that developers of your application should follow to ensure that data-in-transit is secure:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p>Never include private data in a Cypher statement, but use parameters to avoid Cypher injections at runtime.</p>
+</li>
+<li>
+<p>??? MORE HERE</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1644,15 +1657,6 @@ on the operating system.</p>
 <p>You should also set the log files to only be writable by neo4j and readable by root.
 encryption of files/passwords
 locking down files</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_securing_shared_memory">Securing shared memory</h3>
-<div class="paragraph">
-<p>When the database is accessed, the records of the database are temporarily stored in shared memory on the host system where the Neo4j instance runs.  If a malicious actor can access data in shared memory, private information is at risk of being exposed. To secure shared memory, you must lock it down by setting OS-level permissions on the database files to restrict access</p>
-</div>
-<div class="paragraph">
-<p><strong>Question for SME: What is the best practice here?</strong></p>
 </div>
 </div>
 </div>
@@ -1932,7 +1936,7 @@ a different port to “fly under the radar”.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-02-08 15:30:56 CST
+Last updated 2019-02-26 14:39:04 CST
 </div>
 </div>
 </body>

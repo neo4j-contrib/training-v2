@@ -836,6 +836,18 @@ You can also view the log file in the <em>logs</em> folder on all platforms.
 <img src="../img/InitialCypherShellLogin-Debian.png" alt="InitialCypherShellLogin-Debian" width="800">
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If you set the environment variables NEO4J_USER and NEO4J_PASSWORD with their respective values, then you need not enter your credentials when logging into <code>cypher-shell</code>.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="_changing_the_default_password_debian_only">Changing the default password (Debian only)</h3>
 <div class="paragraph">
@@ -1058,7 +1070,7 @@ You can also view the log file in the <em>logs</em> folder on all platforms.
 <div class="title">Note</div>
 </td>
 <td class="content">
-Dumping and loading a database is done when the Neo4j instance is stopped. Later in this training, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
+Dumping and loading a database is done when the Neo4j instance is stopped. Later in this lesson, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
 </td>
 </tr>
 </table>
@@ -1180,7 +1192,7 @@ You must either perform the <code>load</code> operation as the neo4j user, or af
 </div>
 </div>
 <div class="paragraph">
-<p>In addition, we must change the owner:group for the database folder and its sub-folders to <em>neo4j:neo4j</em> before we start the Neo4j imstance.</p>
+<p>In addition, we must change the owner:group for the database folder and its sub-folders to <em>neo4j:neo4j</em> before we start the Neo4j instance.</p>
 </div>
 <div class="paragraph">
 <p>A best practice is to examine the log file for the Neo4j instance after you have made any configuration changes to ensure that the instance starts with no errors.</p>
@@ -1778,7 +1790,7 @@ CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;</pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>We refer to this additional functionality as a <em>plugin</em> that contains specific procedures. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement <code>CALL db.procedures()</code>.</p>
+<p>We refer to this additional functionality as a <em>plugin</em> that contains specific procedures. A <em>plugin</em> is typically specific to a particular release of Neo4j. In many cases, if you upgrade to a later version of Neo4j, you may also need to install a new <em>plugin</em>. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement <code>CALL db.procedures()</code>.</p>
 </div>
 <div class="paragraph">
 <p>Here is an example of a script you can run to produce a file, <strong>Procedures.txt</strong> that contain the names of the procedures currently available for the Neo4j instance:</p>
@@ -1821,6 +1833,18 @@ or contain security checks.</p>
 The configuration setting <em>dbms.security.procedures.whitelist</em> is used to name certain procedures that should be
 available from a library. It defines a comma-separated list of procedures that are to be loaded.
 The list may contain both fully-qualified procedure names, and partial names with the wildcard *.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+When you install Neo4j, the <strong>plugins</strong> folder contains a <strong>README.txt</strong> folder that contains instructions related to sandboxing and whitelisting. These instructions will change in future releases of Neo4j.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -2082,6 +2106,18 @@ It is not possible to disable the HTTP connector. See the <a href="https://neo4j
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The REST API will be deprecated in Neo4j 4.0.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="_exercise_8_modify_the_http_port"><strong>Exercise #8: Modify the HTTP port</strong></h3>
 <div class="paragraph">
@@ -2109,9 +2145,14 @@ For example, your <strong>neo4j.conf</strong> file should look something like th
 <p>Restart the Neo4j instance.</p>
 </li>
 <li>
-<p>Confirm that the port works by either going to localhost:9999 from a Web browser or using the previous <code>curl</code> command using the new port number.</p>
+<p>Confirm that the port works by entering the following <code>curl</code> command that uses the Neo4h HTTP API to create a node, where it will ask you for the password the <em>neo4j</em> user:</p>
 </li>
 </ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -v -H "Content-Type: application/json" -d '{ "statements" : [ { "statement"  : "CREATE (n) RETURN id(n)" }]}' http://localhost:9999/db/data/transaction/commit -u neo4j</pre>
+</div>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -2140,7 +2181,7 @@ For example, your <strong>neo4j.conf</strong> file should look something like th
 <div class="sect2">
 <h3 id="_online_backup">Online backup</h3>
 <div class="paragraph">
-<p>A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server.</p>
+<p>A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server. A common practice for many enterprises is to back up their databases to Amazon S3 sites. In addition, if any backups are to be stored in S3, they should  be encrypted as well as the channel used to create send the backup to S3.</p>
 </div>
 <div class="paragraph">
 <p>To enable a Neo4j instance to be backed up online, you must add these two properties to your <strong>neo4j.conf</strong> file:</p>
@@ -2181,13 +2222,25 @@ dbms.backup.address=&lt;host-address&gt;:&lt;6362-6372&gt;</pre>
 <div class="listingblock">
 <div class="content">
 <pre>neo4j-admin restore
-                   --from=&lt;absolute-path-to-backup-file&gt;
+                   --from=&lt;absolute-path-to-backup-files&gt;
                     --database=&lt;database-name&gt;
 					--force=true</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>You specify <em>true</em> for force so that the existing database will be replaced.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If you restore a database as <em>root</em>, make sure that you change the ownership (recursively) of the database directory to <em>neo4j:neo4j</em> before starting the Neo4j instance.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>There are many ways for performing online backups, including incremental backups. See the <a href="https://neo4j.com/docs/operations-manual/3.5/backup/">Neo4j Operations Manual</a> for details.</p>
@@ -2413,7 +2466,10 @@ Here is an example of a <strong>.csv</strong> file with embedded header informat
 <p>In a terminal window, create the <strong>/usr/local/import</strong> folder.</p>
 </li>
 <li>
-<p>Navigate to the <strong>import</strong> folder and download this file: <a href="https://s3.amazonaws.com/data.neo4j.com/admin-neo4j/crime-data.zip" class="bare">https://s3.amazonaws.com/data.neo4j.com/admin-neo4j/crime-data.zip</a>. (Hint: use <code>curl -O</code> or <code>wget</code>)</p>
+<p>Navigate to the <strong>import</strong> folder and download this file: <a href="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/crime-data.zip" class="bare">https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/crime-data.zip</a></p>
+</li>
+<li>
+<p>(Hint: use <code>curl -O</code> or <code>wget</code>)</p>
 </li>
 <li>
 <p>Unzip the file. You should have six <strong>.csv</strong> files.</p>
@@ -2449,6 +2505,9 @@ Here is an example of a <strong>.csv</strong> file with embedded header informat
 <ol class="arabic" start="7">
 <li>
 <p>Modify the <strong>neo4j.conf</strong> file to use <strong>crimes.db</strong> as the active database.</p>
+</li>
+<li>
+<p>Ensure that the ownership of the crimes.db directory and everything under it is owned by neo4j:neo4j.</p>
 </li>
 <li>
 <p>Start the Neo4j instance.</p>
@@ -2594,7 +2653,7 @@ Here is an example of a <strong>.csv</strong> file with embedded header informat
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-25 13:45:25 CST
+Last updated 2019-02-26 14:22:14 CST
 </div>
 </div>
 </body>

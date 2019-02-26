@@ -175,6 +175,9 @@ Here is an example showing that we can successfully log in to the database for t
 
 image::{imagedir}/InitialCypherShellLogin-Debian.png[InitialCypherShellLogin-Debian,width=800,align=center]
 
+[NOTE]
+If you set the environment variables NEO4J_USER and NEO4J_PASSWORD with their respective values, then you need not enter your credentials when logging into `cypher-shell`.
+
 === Changing the default password (Debian only)
 
 If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials _neo4j/neo4j_ [underline]#must# be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the _neo4j_ user. Later in this training, you will learn more about securing Neo4j by managing users and their access. 
@@ -608,7 +611,7 @@ Some applications can use Neo4j out-of-the-box, but many applications require ad
 * A community-supported library, such as APOC.
 * Custom functionality that has been written by the developers of your application. 
 
-We refer to this additional functionality as a _plugin_ that contains specific procedures. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement `CALL db.procedures()`.
+We refer to this additional functionality as a _plugin_ that contains specific procedures. A _plugin_ is typically specific to a particular release of Neo4j. In many cases, if you upgrade to a later version of Neo4j, you may also need to install a new _plugin_. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement `CALL db.procedures()`.
 
 Here is an example of a script you can run to produce a file, *Procedures.txt* that contain the names of the procedures currently available for the Neo4j instance:
 
@@ -639,6 +642,9 @@ Neo4j _White listing_ can be used to allow loading only a few extensions from a 
 The configuration setting _dbms.security.procedures.whitelist_ is used to name certain procedures that should be
 available from a library. It defines a comma-separated list of procedures that are to be loaded.
 The list may contain both fully-qualified procedure names, and partial names with the wildcard *.
+
+[NOTE]
+When you install Neo4j, the *plugins* folder contains a *README.txt* folder that contains instructions related to sandboxing and whitelisting. These instructions will change in future releases of Neo4j. 
 
 === Installing the Graph Algorithms plugin
 
@@ -777,6 +783,9 @@ As you learn more about some of the other administrative tasks for a Neo4j insta
 [NOTE]
 It is not possible to disable the HTTP connector. See the https://neo4j.com/docs/operations-manual/3.5/configuration/connectors/[connectors] section of the _Operations Manual_ for more information.
 
+[NOTE]
+The REST API will be deprecated in Neo4j 4.0.
+
 ===  *Exercise #8: Modify the HTTP port*
 
 In this Exercise, you will modify the default HTTP port used by the HTTP instance and use the new port.
@@ -790,7 +799,11 @@ image::{imagedir}/Ex8-HTTP9999.png[Ex8-HTTP9999,width=800,align=center]
 
 [start=2]
 . Restart the Neo4j instance.
-. Confirm that the port works by either going to localhost:9999 from a Web browser or using the previous `curl` command using the new port number.
+. Confirm that the port works by entering the following `curl` command that uses the Neo4h HTTP API to create a node, where it will ask you for the password the _neo4j_ user:
+
+----
+curl -v -H "Content-Type: application/json" -d '{ "statements" : [ { "statement"  : "CREATE (n) RETURN id(n)" }]}' http://localhost:9999/db/data/transaction/commit -u neo4j
+----
 
 image::{imagedir}/Ex8-HTTP9999-used.png[Ex8-HTTP9999-used,width=1000,align=center]
 

@@ -94,7 +94,6 @@ Securing a deployed Neo4j application and its infrastructure includes securing N
 * Data-in-transit — securing data transmitted over the network.
 * Data-at-rest — securing private data in Neo4j database.
 * OS level resources — securing networks and filesystems.
-* Shared memory — securing Neo4j cached data in shared memory
 * Server processes — Neo4j instances, application servers, connectors, and Web servers.
 * Application-related files—securing application-related files outside of the database.
 
@@ -120,7 +119,7 @@ Your application developers could write a custom authentication plugin. Although
 A SPA is highly recommended by Neo4j because it is easier to maintain and is more secure than an enterprise that uses multiple sources of user accounts. 
 Examples of a SPA are Lightweight Directory Access Protocol (LDAP), Active Directory (AD), and Kerberos which can be used for single sign-on. 
 The SPA is the only service in your enterprise that stores user names and passwords. 
-What we focus on for  this lesson is using an LDAP provider for authentication.
+For training purposes, we will use an LDAP provider for authentication, but in your real application, you will need to configure Neo4j for whatever provider you use for user authentcation.
 
 You will use OpenLDAP for the hands-on exercises. 
 If you will be using a different LDAP or authentication provider, you should consult the https://neo4j.com/docs/operations-manual/3.5/authentication-authorization/[Neo4j Operations Manual].
@@ -716,11 +715,6 @@ You should also set the log files to only be writable by neo4j and readable by r
 encryption of files/passwords
 locking down files
 
-=== Securing shared memory
-
-When the database is accessed, the records of the database are temporarily stored in shared memory on the host system where the Neo4j instance runs.  If a malicious actor can access data in shared memory, private information is at risk of being exposed. To secure shared memory, you must lock it down by setting OS-level permissions on the database files to restrict access 
-
-*Question for SME: What is the best practice here?* 
 
 == Security auditing
 

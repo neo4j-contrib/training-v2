@@ -90,7 +90,7 @@ As an administrator, you must determine the physical locations of the servers th
 
 === Core server startup
 
-When a core server starts, it first uses a discovery protocol to join the network. At some point it will be running with the other members of the core membership. In a cluster, exactly one core server is elected to b the _LEADER_. The _LEADER_ is the coordinator of all communication between the core servers. All of the other core servers are _FOLLOWERS_ as the servers in the cluster use the raft protocol to synchronize updates.  If a core server joins the network after the other core servers have been running and updating data, the late-joining core server must use the catchup protocol to get to a point where it is synchronized as the other _FOLLOWERS_ are.
+When a core server starts, it first uses a discovery protocol to join the network. At some point it will be running with the other members of the core membership. In a cluster, exactly one core server is elected to be the _LEADER_. The _LEADER_ is the coordinator of all communication between the core servers. All of the other core servers are _FOLLOWERS_ as the servers in the cluster use the raft protocol to synchronize updates.  If a core server joins the network after the other core servers have been running and updating data, the late-joining core server must use the catchup protocol to get to a point where it is synchronized as the other _FOLLOWERS_ are.
 
 image::{imagedir}/Discovery.png[Discovery,width=800,align=center]
 
