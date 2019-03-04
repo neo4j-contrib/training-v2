@@ -8,21 +8,23 @@
 :doctype: book
 :toc: left
 :toclevels: 3
+:prevsecttitle: Intro to Neo4j
+:prevsect: 1
+:currsect: 2
+:nextsecttitle: Manage Neo4j
+:nextsect: 3
 :experimental:
-//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 :imagedir: ../img
+:manual: http://neo4j.com/docs/operations-manual/3.5
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 
 
-++++
-	<script type='text/javascript'>
-	var loc = window.location;
-	if (loc.hostname == "neo4j.com" && loc.search.indexOf("aliId=") == -1 ) {
-	 loc.pathname = "/graphacademy/online-training/XXXX/"	
-	}
-	document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script>Munchkin.init('773-GON-065');</script>
-++++
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
 
 == About this module
 
@@ -45,6 +47,7 @@ Applications connect to Neo4j using the binary *Bolt* protocol, which is support
 
 image::{imagedir}/bolt-diagram.png[bolt-diagram,width=400,align=center]
 
+=== Extending Neo4j
 Some applications use Neo4j out-of-the-box, and others extend it with additional functionality from libraries that provide specialized procedures. Examples of these libraries include:
 
 [square]
@@ -76,6 +79,8 @@ Neo4j is often used in combination with other data sources  (https://en.wikipedi
 
 image::{imagedir}/Polyglot.png[Polyglot,width=700,align=center]
 
+=== Microservices
+
 With cloud-hosted microservices, the implementation chosen for the microservice is one that performs best for the type of transaction. In a cloud-based microservice architecture, there may be a number of services that Neo4j can provide to the end-users. 
 
 image::{imagedir}/Microservices.png[Microservices,width=600,align=center]
@@ -90,11 +95,15 @@ With Causal Clusters, you configure multiple Neo4j instances that communicate wi
 
 image::{imagedir}/ClustersHighLevel.png[ClustersHighLevel,width=700,align=center]
 
+=== Distributed servers in a cluster
+
 A common use for Neo4j is when different data is required in a set of geographic locations. For example, an  online retailer may have different data in the US and Europe. Some data could be shared between different geographically located data centers, but the most heavily updated data needs to physically reside closer to the end-user applications. Neo4j Causal Clusters can be configured to span geographic locations.
 
 image::{imagedir}/ClustersHighLevelDistributed.png[ClustersHighLevelDistributed,width=800,align=center]
 
 As a Neo4j database administrator, you will be responsible for configuring and monitoring Causal Clusters. You will work with architects to determine the appropriate configuration of the Causal Cluster, taking into account aspects such as: uptime requirements, performance requirements, and redundancy required in order to handle events of Neo4j instance failure or data center failure. 
+
+=== Architecting distributed servers
 
 Some decisions you may need to make are:
 [square]
@@ -170,11 +179,9 @@ To install and use Neo4j, the system(s) that host Neo4j Enterprise Edition have 
 
 You should consult the https://neo4j.com/docs/operations-manual/3.5/installation/requirements/[System Requirements]  to learn more.
 
-
-
 == Neo4j deployment options
 
-Early in the development of an application, a decision will be made whether to deploy Neo4j as a standalone server, embedded within the application, or to deploy Neo4j in the Cloud. 
+Early in the development of an application, a decision will be made whether to deploy Neo4j instance(s), embedded within the application, or to deploy Neo4j in the Cloud. 
 
 === Server mode deployments
 
@@ -192,7 +199,7 @@ image::{imagedir}/ClientServerDeployment.png[ClientServerDeployment,width=600,al
 * Independent management of the database from the application
 * Easy configuration and provisioning of Neo4j instances
 
-==== For the Neo4j database administrator
+==== Server mode for the Neo4j administrator
 
 When deployed as a server, you should expect to perform many common administration, configuration, and troubleshooting tasks as you would for any database deployment.
 Neo4j provides utilities and tools for enabling these capabilities, which you will learn about later in this training.
@@ -213,7 +220,7 @@ image::{imagedir}/EmbeddedDeployment.png[EmbeddedDeployment,width=300,align=cent
 * Low latency: Since Neo4j is in the application, there will be no network overhead.
 * Choice of APIs: Access to a diversity of APIs for creating and querying data via the Neo4j Core API, traversal framework and Cypher query language.
 
-==== For the Neo4j database administrator
+==== For the Neo4j  administrator
 
 Your hands-on administration work with Neo4j is very minimal with embedded deployments.
 Most of the core administration tasks, such as initiating backups, monitoring, and configuration should be built into the application that is embedding Neo4j.
@@ -239,15 +246,13 @@ In this training, you will learn how to perform these common administrative task
 * Managing a Neo4j database 
 * Managing plugins used with the Neo4j database
 * Managing logging
-* Managing caching
 * Monitoring queries
 * Backing up and restoring databases
 * Managing Causal Clusters
 * Managing database security
-* Performance tuning
-* Troubleshooting problems
 
-== *Exercise: Setting up Neo4j Enterprise Edition on your system*
+
+== *Exercise 1: Setting up Neo4j Enterprise Edition on your system*
 
 We are using Neo4j Enterprise Edition for the hands-on exercises in this training, as some Neo4j features are not included in Community Edition. Neo4j Enterprise Edition is available for download with a 30 day evaluation license.
 All screen captures for this training are from an _Amazon EC2 debian instance_ and will vary from what you experience if you are running on a different platform.
@@ -276,7 +281,7 @@ You should consult the https://neo4j.com/docs/operations-manual/3.5/[Neo4J Opera
 
 The https://neo4j.com/docs/developer-manual/current/#cypher-query-lang[Java Developer Manual ] covers using embedded mode for Neo4j and intended for developers.
 
-
+[#module-2.quiz]
 == Check your understanding
 === Question 1
 
@@ -298,7 +303,7 @@ Select the correct answers.
 - [ ] [.false-answer]#ACID transactions#
 - [ ] [.required-answer]#Causal Clusters#
 - [ ] [.false-answer]#Bolt protocol#
-- [ ] [.required-answer]#Hot backups#
+- [ ] [.required-answer]#Online backups#
 
 === Question 3
 
@@ -308,7 +313,7 @@ Select the correct answer.
 [%interactive]
 - [ ] [.false-answer]#Daemon#
 - [ ] [.required-answer]#JVM#
-- [ ] [.false-answer]#ESB Container#
+- [ ] [.false-answer]#Docker Container#
 - [ ] [.false-answer]#Kubernetes#
 
 == Summary
@@ -322,3 +327,21 @@ You should now be able to:
 * Describe the administrative tasks for Neo4j.
 * Install Neo4j Enterprise Edition.
 
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-admin-view-part2');
+});
+</script>
+++++
+
+endif::backend-html5[]

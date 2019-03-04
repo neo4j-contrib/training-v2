@@ -4,25 +4,28 @@
 :twitter: neo4j
 :email: info@neotechnology.com
 :neo4j-version: 3.5
-:currentyear: 2018
+:currentyear: 2019
 :doctype: book
 :toc: left
 :toclevels: 3
+:prevsecttitle: Manage Neo4j
+:prevsect: 3
+:currsect: 4
+:nextsecttitle: Security
+:nextsect: 5
 :experimental:
-//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 :imagedir: ../img
+:manual: http://neo4j.com/docs/operations-manual/3.5
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 
 
-++++
-	<script type='text/javascript'>
-	var loc = window.location;
-	if (loc.hostname == "neo4j.com" && loc.search.indexOf("aliId=") == -1 ) {
-	 loc.pathname = "/graphacademy/online-training/XXXX/"	
-	}
-	document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script>Munchkin.init('773-GON-065');</script>
-++++
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+== About this module
+
+Now that you have installed the Neo4j Enterprise Edi
 
 == About this module
 
@@ -273,51 +276,51 @@ In this Exercise, you will gain experience with a simple cluster using Docker co
 . Open a terminal on your system.
 . Confirm that you have the Neo4j 3.5.0 Docker image: `docker images` 
 
-image::{imagedir}/L03-Ex1-DockerImages.png[L03-Ex1-DockerImages,width=800,align=center]
+image::{imagedir}/L04-Ex1-DockerImages.png[L04-Ex1-DockerImages,width=800,align=center]
 
 [start=3]
 . Navigate to the neo4j-docker folder. This is the folder that will contain all configuration changes for the Neo4j instances you will be running in the cluster. Initially, you will be working with three core servers. Here you can see that you have a folder for each core server and each read replica server.
 . Examine the *create_initial_cores.sh* file. This script creates the network that will be used in your Docker environment and then creates three Docker container instances from the Neo4j image. Each instance will represent a core server. Finally, the script stops the three instances.
 
-image::{imagedir}/L03-Ex1-create_cores.png[L03-Ex1-create_cores,width=800,align=center]
+image::{imagedir}/L04-Ex1-create_cores.png[L04-Ex1-create_cores,width=800,align=center]
 
 [start=5]
 . Run *create_initial_cores.sh* as root `sudo ./create_initial_cores.sh <Image ID>` providing as an argument the Image ID of the Neo4j Docker image. 
 
-image::{imagedir}/L03-Ex1-create_cores-run.png[L03-Ex1-create_cores-run,width=800,align=center]
+image::{imagedir}/L04-Ex1-create_cores-run.png[L04-Ex1-create_cores-run,width=800,align=center]
 
 [start=6]
 . Confirm that the three containers exist: `docker ps -a`
 
-image::{imagedir}/L03-Ex1-containersCreated.png[L03-Ex1-containersCreated,width=800,align=center]
+image::{imagedir}/L04-Ex1-containersCreated.png[L04-Ex1-containersCreated,width=800,align=center]
 
 [start=7]
 . Open a terminal window for each of the core servers. (three of them)
 . In each core server window, start the instance: `docker start -a coreX`. The instance should be started. These instances are set up so that the default browser port on localhost will be 11474, 12474, and 13474. Notice that each instance uses it's own database as the active database. For example, here is the result of starting the core server containers. Notice that each server starts as part of the cluster. The servers are not fully started until all catchup has been done between the servers and the _Started_ record is shown. The databases will not be accessible by clients until _all_ core members of the cluster have successfully started.
 
-image::{imagedir}/L03-Ex1-CoresStarted.png[L03-Ex1-CoresStarted,width=600,align=center]
+image::{imagedir}/L04-Ex1-CoresStarted.png[L04-Ex1-CoresStarted,width=600,align=center]
 
 [start=9]
 . In your non-core server terminal window, confirm that all core servers are running in the network by typing `docker ps -a`.
 
-image::{imagedir}/L03-Ex1-AllCoreServersStarted.png[L03-Ex1-AllCoreServersStarted,width=1000,align=center]
+image::{imagedir}/L04-Ex1-AllCoreServersStarted.png[L04-Ex1-AllCoreServersStarted,width=1000,align=center]
 
 [start=10]
 . In your non-core server terminal window, log in to the core1 server with `cypher-shell` as follows `docker exec -it core1 /var/lib/neo4j/bin/cypher-shell -u neo4j -p neo4j`
 . Change the password. Here is an example where we change the password for core1:
 
-image::{imagedir}/L03-Ex1-ChangePassword.png[L03-Ex1-ChangePassword,width=800,align=center]
+image::{imagedir}/L04-Ex1-ChangePassword.png[L04-Ex1-ChangePassword,width=800,align=center]
 
 [start=12]
 . repeat the previous two steps for core2 and core3 to change the password for the _neo4j_ user.
 . Log in to any of the servers and get the cluster overview information in `cypher-shell`. In this image, _core1_ is the _LEADER_:
 
-image::{imagedir}/L03-Ex1-ClusterOverview.png[L03-Ex1-ClusterOverview,width=1000,align=center]
+image::{imagedir}/L04-Ex1-ClusterOverview.png[L04-Ex1-ClusterOverview,width=1000,align=center]
 
 [start=14]
 . Shut down all core servers by typing this in a non-core server terminal window: `docker stop core1 core2 core3`
 
-image::{imagedir}/L03-Ex1-StopCores.png[L03-Ex1-StopCores,width=800,align=center]
+image::{imagedir}/L04-Ex1-StopCores.png[L04-Ex1-StopCores,width=800,align=center]
 
 [start=15]
 . You can now close the terminal windows you used for each of the core servers,  but keep the non-core server window open.
@@ -354,32 +357,32 @@ Ensure that you have performed the steps in Exercise 1 where you set up the core
 . In a terminal window, start the core servers:  `docker start core1 core2 core3`. This will start the core servers in background mode where the log is not attached to STDOUT. If you want to see what is happening with a particular core server, you can always view the messages in *<coreX>/logs/debug.log*.
 . By default, all writes must be performed by the _LEADER_ of the cluster.  Determine which core server is the _LEADER_. *Hint:* You can do this by logging in to any core server that is running (`docker exec -it <core server> /bin/bash`) and entering the following command: `echo "CALL dbms.cluster.overview();" | /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps`. In this example, core1 is the _LEADER_:
 
-image::{imagedir}/L03-Ex2-Core1IsLeader.png[L03-Ex2-Core1IsLeader,width=800,align=center]
+image::{imagedir}/L04-Ex2-Core1IsLeader.png[L04-Ex2-Core1IsLeader,width=800,align=center]
 
 [start=3]
 . Log in to the core server that is the _LEADER_.
 . Run `cypher-shell` specifying that the *movie.cypher* statements will be run. *Hint:* You can do this with a single command line: `/var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps < /var/lib/neo4j/data/movieDB.cypher`
 
-image::{imagedir}/L03-Ex2-LoadMovieData.png[L03-Ex2-LoadMovieData,width=800,align=center]
+image::{imagedir}/L04-Ex2-LoadMovieData.png[L04-Ex2-LoadMovieData,width=800,align=center]
 
 [start=5]
 . Log in to `cypher-shell` and confirm that the data has been loaded into the database.
 
-image::{imagedir}/L03-Ex2-Data-loaded.png[L03-Ex2-Data-loaded,width=800,align=center]
+image::{imagedir}/L04-Ex2-Data-loaded.png[L04-Ex2-Data-loaded,width=800,align=center]
 
 [start=6]
 . Log out of the core server.
 . Log in to a _FOLLOWER_ core server with `cypher-shell`. *Hint:* For example, you can log in to core2 with `cypher-shell` with the following command: `docker exec -it core2 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps`
 . Verify that the _Movie_ data is in the database for this core server.
 
-image::{imagedir}/L03-Ex2-Core2-loaded.png[L03-Ex2-Core2-loaded,width=800,align=center]
+image::{imagedir}/L04-Ex2-Core2-loaded.png[L04-Ex2-Core2-loaded,width=800,align=center]
 
 [start=9]
 . Log out of the core server.
 . Log in to the remaining core server that is the _FOLLOWER_ with `cypher-shell`. 
 . Verify that the _Movie_ data is in the database for this core server.
 
-image::{imagedir}/L03-Ex2-Core3-loaded.png[L03-Ex2-Core3-loaded,width=800,align=center]
+image::{imagedir}/L04-Ex2-Core3-loaded.png[L04-Ex2-Core3-loaded,width=800,align=center]
 
 [start=12]
 . Log out of the core server.
@@ -421,28 +424,28 @@ In this Exercise, you gain some experience with _bolt+routing_ by running two st
 . Navigate to the *neo4j-docker/testApps* folder. 
 . There are three Java applications as well as scripts for running them. These scripts enable you to run a read-only client or write client against the database where you specify the protocol and the port for connecting to the Neo4j instance. Unless you modified port numbers in the *create_initial_cores.sh* script when you created the containers, the bolt ports used for core1, core2, and core3 are 11687, 12687, and 13687 respectively. What this means is that clients can read from the database using these ports using the _bolt_ protocol. Try running *testRead.sh*, providing bolt as the protocol and one of the above port numbers. For example, type `./testRead.sh bolt 12687`. You should be able to successfully read from each server. Here is an example of running the script against the core2 server which currently is a _FOLLOWER_ in the cluster:
 
-image::{imagedir}/L03-Ex3_ReadFollower.png[L03-Ex3_ReadFollower,width=800,align=center]
+image::{imagedir}/L04-Ex3_ReadFollower.png[L04-Ex3_ReadFollower,width=800,align=center]
 
 [start=3]
 . Next, run the script against the other servers in the network. All reads should be successful.
 . Next, run the *testWrite.sh* script against the same port using the _bolt_ protocol. For example, type `./testWrite.sh bolt 11687`. What you should see is that you can only use the _bolt_ protocol for writing against the _LEADER_.
 
-image::{imagedir}/L03-Ex3_WriteLeaderFollower.png[L03-Ex3_WriteLeaderFollower,width=800,align=center]
+image::{imagedir}/L04-Ex3_WriteLeaderFollower.png[L04-Ex3_WriteLeaderFollower,width=800,align=center]
 
 [start=5]
 . Next, change the protocol from _bolt_ to _bolt+routing_ and write to the core servers that are _FOLLOWER_ servers.  For example, type `./testWrite.sh bolt+routing 12687`. With this protocol, all writes are routed to the _LEADER_ and the application can write to the database.
 
-image::{imagedir}/L03-Ex3_AllCanWriteLeader.png[L03-Ex3_AllCanWriteLeader,width=800,align=center]
+image::{imagedir}/L04-Ex3_AllCanWriteLeader.png[L04-Ex3_AllCanWriteLeader,width=800,align=center]
 
 [start=6]
 . Next, you will add data to the database with a client that sends the request to a _FOLLOWER_ core server. Run the *addPerson.sh* script against any port  representing a _FOLLOWER_ using the _bolt_ protocol. For example, type `./addPerson.sh bolt+routing 13687 "Willie"`. This will add a _Person_ node to the database for core3.
 
-image::{imagedir}/L03-Ex3_AddPerson.png[L03-Ex3_AddPerson,width=800,align=center]
+image::{imagedir}/L04-Ex3_AddPerson.png[L04-Ex3_AddPerson,width=800,align=center]
 
 [start=7]
 . Verify that this newly-added _Person_ node is written to the other servers in the cluster by using the _bolt_ protocol to request specific servers. For example, type `./readPerson.sh bolt 12687 "Willie"` to confirm that the data was added to core2.
 
-image::{imagedir}/L03-Ex3_ReadPerson.png[L03-Ex3_ReadPerson,width=800,align=center]
+image::{imagedir}/L04-Ex3_ReadPerson.png[L04-Ex3_ReadPerson,width=800,align=center]
 
 You have now seen how updates to the core servers in a cluster must be coordinated by the server that is currently the _LEADER_ and how reads and writes are performed in a cluster using the _bolt_ and _bolt+routing_ protocols.
 
@@ -500,25 +503,25 @@ In this Exercise, you will see how replica servers can be used to retrieve chang
 . Navigate to *neo4j-docker*.
 . Run the script to create the initial replica servers, providing the Image ID of the Neo4j Docker image.
 
-image::{imagedir}/L03-Ex4_CreateReplicaServers.png[L03-Ex4_CreateReplicaServers,width=800,align=center]
+image::{imagedir}/L04-Ex4_CreateReplicaServers.png[L04-Ex4_CreateReplicaServers,width=800,align=center]
 
 [start=3]
 . Start replica1 and replica2: `docker start replica1 replica2`.
 . Log in to each of read replica server and change the password.
 . Use Cypher to retrieve the cluster overview. For example in a terminal window type: `docker exec -it replica2 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps  "CALL dbms.cluster.overview();"`. Do you see all three core servers and the two read replica servers?
 
-image::{imagedir}/L03-Ex4_Overview.png[L03-Ex4_Overview,width=1000,align=center]
+image::{imagedir}/L04-Ex4_Overview.png[L04-Ex4_Overview,width=1000,align=center]
 
 [start=6]
 . Navigate to the *neo4j-docker/testApps* folder. 
 . Run the *addPerson.sh* script against any port for a core server using the _bolt+routing_ protocol. For example, type `./addPerson.sh bolt+routing 13687 "Kong"`. This will add a _Person_ node to the database.
 
-image::{imagedir}/L03-Ex4_AddPerson.png[L03-Ex4_AddPerson,width=1000,align=center]
+image::{imagedir}/L04-Ex4_AddPerson.png[L04-Ex4_AddPerson,width=1000,align=center]
 
 [start=8]
 . Verify that this newly-added _Person_ node is readable by a read replica server in the cluster by using the _bolt_ protocol to request specific servers. For example, type `./readPerson.sh bolt 22687 "Kong"` to confirm that the data is available.
 
-image::{imagedir}/L03-Ex4_ReadPerson.png[L03-Ex4_ReadPerson,width=1000,align=center]
+image::{imagedir}/L04-Ex4_ReadPerson.png[L04-Ex4_ReadPerson,width=1000,align=center]
 
 You have now seen how updates to the core servers in a cluster must be coordinated by the server that is currently the _LEADER_ and how reads and writes are performed in a cluster using the _bolt_ and _bolt+routing_ protocols against the core servers and reads are performed in a cluster using the _bolt_ protocol against the read replica servers.
 
@@ -590,35 +593,35 @@ Ensure that you have performed the steps in Exercise 4 and you have a cluster wi
 
 . View the cluster overview using core1: `docker exec -it core1 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps  "CALL dbms.cluster.overview();"`. Make a note of which core server is the _LEADER_.  In this example, core3 is the _LEADER_.
 
-image::{imagedir}/L03-Ex5_Overview.png[L03-Ex5_Overview,width=1000,align=center]
+image::{imagedir}/L04-Ex5_Overview.png[L04-Ex5_Overview,width=1000,align=center]
 
 [start=2]
 . Stop the core server that is the _LEADER_. 
 . View the cluster overview using replica1: `docker exec -it replica1 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps  "CALL dbms.cluster.overview();"`. Do you see that another core server has assumed the _LEADER_ role?
 
-image::{imagedir}/L03-Ex5_Core3Shutown.png[L03-Ex5_Core3Shutown,width=1000,align=center]
+image::{imagedir}/L04-Ex5_Core3Shutown.png[L04-Ex5_Core3Shutown,width=1000,align=center]
 
 [start=4]
 . In the testApps folder, run the script *testWrite.sh* providing the protocol of _bolt+routing_ and a port for one of the core servers that is running.  Can the client write to the database?
 
-image::{imagedir}/L03-Ex5_WriteTwoCores.png[L03-Ex5_WriteTwoCores,width=1000,align=center]
+image::{imagedir}/L04-Ex5_WriteTwoCores.png[L04-Ex5_WriteTwoCores,width=1000,align=center]
 
 [start=5]
 . Stop the core server that is the _LEADER_.
 . Confirm that the only core server running is now a _FOLLOWER_.
 
-image::{imagedir}/L03-Ex5_OneCore.png[L03-Ex5_OneCore,width=10000,align=center]
+image::{imagedir}/L04-Ex5_OneCore.png[L04-Ex5_OneCore,width=10000,align=center]
 
 [start=7]
 . Run the script to write to the database using _bolt+routing_ and the port number for the remaining core server. Can you write to the database?
 
-image::{imagedir}/L03-Ex5_OneCoreNoWrite.png[L03-Ex5_OneCoreNoWrite,width=1000,align=center]
+image::{imagedir}/L04-Ex5_OneCoreNoWrite.png[L04-Ex5_OneCoreNoWrite,width=1000,align=center]
 
 [start=8]
 . Start a core server that you previously stopped.
 . View the cluster overview. Is there now a _LEADER_? This cluster is operational because it now has a _LEADER_
 
-image::{imagedir}/L03-Ex5_NewLeader.png[L03-Ex5_NewLeader,width=1000,align=center]
+image::{imagedir}/L04-Ex5_NewLeader.png[L04-Ex5_NewLeader,width=1000,align=center]
 
 [start=10]
 . The cluster is now back to quorum. What this means is that a new core server can be added (elected) that was not part of the original cluster.
@@ -627,7 +630,7 @@ image::{imagedir}/L03-Ex5_NewLeader.png[L03-Ex5_NewLeader,width=1000,align=cente
 . Change the password of the core4 server.
 . Retrieve the overview information for the cluster. Does it have two _FOLLOWERS_ and one _LEADER_? It was possible to add a new core server to the cluster because the cluster had a quorum and the core5 server was specified in the original configuration of the member list of the cluster.
 
-image::{imagedir}/L03-Ex5_AddedCore4.png[L03-Ex5_AddedCore4,width=1000,align=center]
+image::{imagedir}/L04-Ex5_AddedCore4.png[L04-Ex5_AddedCore4,width=1000,align=center]
 
 == Clusters in many physical locations
 
@@ -678,18 +681,18 @@ Stop all core and read replica servers.
 . In the *neo4j-docker/backkup-work* folder, there is a script called *create_containers.sh* that creates a new docker network named _test-backup-cluster_, creates three core servers: bcore1, bcore2, bcore3, and a read replica server, breplica1. Examine this script and notice that the core servers and the read replica server is configured for backup using the backup port. Any of the core servers can be used for the backup.
 . Run the script to create the containers specifying the Image ID of the Neo4j image.
 
-image::{imagedir}/L03-Ex6_CreateContainers.png[L03-Ex6_CreateContainers,width=800,align=center]
+image::{imagedir}/L04-Ex6_CreateContainers.png[L04-Ex6_CreateContainers,width=800,align=center]
 
 [start=3]
 . Start all of the servers and change the default password for each server.
 . Confirm that all core servers and the read replica are running in the cluster.
 
-image::{imagedir}/L03-Ex6_ClusterFormed.png[L03-Ex6_ClusterFormed,width=1000,align=center]
+image::{imagedir}/L04-Ex6_ClusterFormed.png[L04-Ex6_ClusterFormed,width=1000,align=center]
 
 [start=5]
 . Seed the cluster by loading the movie data into one of the core servers.
 
-image::{imagedir}/L03-Ex6_SeedCluster.png[L03-Ex6_SeedCluster,width=800,align=center]
+image::{imagedir}/L04-Ex6_SeedCluster.png[L04-Ex6_SeedCluster,width=800,align=center]
 
 [start=6]
 . Shut down all servers as you will be modifying their configurations to enable backups.
@@ -704,26 +707,27 @@ dbms.backup.address=bcoreX:6362
 . Start the core servers and the read replica server.
 . Check the last transaction ID on the core server that is the _LEADER_.
 
-image::{imagedir}/L03-Ex6_LastTXNCore.png[L03-Ex6_LastTXNCore,width=1000,align=center]
+image::{imagedir}/L04-Ex6_LastTXNCore.png[L04-Ex6_LastTXNCore,width=1000,align=center]
 
 [start=10]
 . Log in to the read replica server and check the last transaction ID. This server will have a different last transaction ID, but in a real application, you will find that this ID value increases at the same rate as it increases in the core servers.
 
-image::{imagedir}/L03-Ex6_LastTXNReadReplica.png[L03-Ex6_LastTXNReadReplica,width=800,align=center]
+image::{imagedir}/L04-Ex6_LastTXNReadReplica.png[L04-Ex6_LastTXNReadReplica,width=800,align=center]
 
 [start=11]
 . While still logged in to the read replica, create a subfolder under *logs* named *backups*.
 . Perform the backup using `neo4j-admin` specifying the _LEADER_ port for the backup, use the _catchup_ protocol, and place the backup the *logs/backups* folder, naming the backup _backup1_.
 
-image::{imagedir}/L03-Ex6_Backup1.png[L03-Ex6_Backup1,width=800,align=center]
+image::{imagedir}/L04-Ex6_Backup1.png[L04-Ex6_Backup1,width=800,align=center]
 
-image::{imagedir}/L03-Ex6_Backup2.png[L03-Ex6_Backup2,width=800,align=center]
+image::{imagedir}/L04-Ex6_Backup2.png[L04-Ex6_Backup2,width=800,align=center]
 
 [start=13]
 . Confirm that the backup files were created.
 
-image::{imagedir}/L03-Ex6_BackupFiles.png[L03-Ex6_BackupFiles,width=800,align=center]
+image::{imagedir}/L04-Ex6_BackupFiles.png[L04-Ex6_BackupFiles,width=800,align=center]
 
+[#module-4.quiz]
 == Check your understanding
 
 === Question 1
@@ -771,4 +775,19 @@ You should now be able to:
 * Monitor and manage read replica servers in the cluster.
 * Back up a cluster.
 
+++++
+<a class="next-section medium button" href="../part-5/">Continue to Module 5</a>
+++++
 
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-admin-view-part4');
+});
+</script>
+++++
+
+endif::backend-html5[]

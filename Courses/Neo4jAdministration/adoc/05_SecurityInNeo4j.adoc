@@ -3,25 +3,19 @@
 :twitter: neo4j
 :email: info@neotechnology.com
 :neo4j-version: 3.5
-:currentyear: 2018
+:currentyear: 2019
 :doctype: book
 :toc: left
 :toclevels: 3
+:prevsecttitle: Clusters
+:prevsect: 4
+:currsect: 5
+:nextsecttitle: Monitoring
+:nextsect: 6
 :experimental:
-//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 :imagedir: ../img
-
-
-++++
-	<script type='text/javascript'>
-	var loc = window.location;
-	if (loc.hostname == "neo4j.com" && loc.search.indexOf("aliId=") == -1 ) {
-	 loc.pathname = "/graphacademy/online-training/XXXX/"	
-	}
-	document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script>Munchkin.init('773-GON-065');</script>
-++++
+:manual: http://neo4j.com/docs/operations-manual/3.5
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 
 == About this module
 
@@ -294,7 +288,7 @@ In this example, and for the LDAP provider (an EC2 instance) you will be using f
 ldapsearch -x -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtraining,dc=com' '(objectclass=*)' 
 ----
 
-image::{imagedir}/L04-Ex1-ldapsearch1.png[L04-Ex1-ldapsearch1,width=800,align=center]
+image::{imagedir}/L05-Ex1-ldapsearch1.png[L05-Ex1-ldapsearch1,width=800,align=center]
 
 [NOTE]
 In an enterprise LDAP, you will probably not want to perform this type of query as it will return too much information, but in our training environment, you can perform this type of query to understand want is defined in our training LDAP Server.
@@ -307,13 +301,13 @@ In an enterprise LDAP, you will probably not want to perform this type of query 
 ldapsearch -x -v  -W -D 'uid=reader,ou=users,dc=neo4jtraining,dc=com' -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtraining,dc=com' "(&(objectClass=*)(cn=reader))" memberOf
 ----
 
-image::{imagedir}/L04-Ex1-ldapsearch2.png[L04-Ex1-ldapsearch2,width=800,align=center]
+image::{imagedir}/L05-Ex1-ldapsearch2.png[L05-Ex1-ldapsearch2,width=800,align=center]
 
 [start=3]
 . Execute the search for another user in the LDAP, for example _publisher_.
 . Execute the search for returning all group entries in the LDAP.
 
-image::{imagedir}/L04-Ex1-ldapsearch3.png[L04-Ex1-ldapsearch3,width=800,align=center]
+image::{imagedir}/L05-Ex1-ldapsearch3.png[L05-Ex1-ldapsearch3,width=800,align=center]
 
 You have now confirmed that you can access the LDAP Server that will be used for authentication with the Neo4j instance and you have explored the entries in the LDAP.
 
@@ -449,7 +443,7 @@ In this Exercise, you will modify the configuration for the stand-alone Neo4j in
 . Make a copy of *neo4j.conf*, which is the last good configuration for this Neo4j instance.
 . Modify the properties in this file to use the training LDAP Server as the LDAP provider (openldap-training.neo4jlabs.com). You can set the properties in their locations in the *neo4j.conf* file, but a useful way to work is to add the properties you are setting to the end of the file so you can see all of your modifications in one place.
 
-image::{imagedir}/L04-Ex2-configureAuth.png[L04-Ex2-configureAuth,width=800,align=center]
+image::{imagedir}/L05-Ex2-configureAuth.png[L05-Ex2-configureAuth,width=800,align=center]
 
 [start=3]
 . Start the Neo4j instance.
@@ -458,7 +452,7 @@ image::{imagedir}/L04-Ex2-configureAuth.png[L04-Ex2-configureAuth,width=800,alig
 . Enter a Cypher statement that reads from the database `MATCH (n) RETURN count(n);`
 . Enter a Cypher statement that writes to the database `CREATE (p:Person {name:'John'}) RETURN p.name;` Did you see an error? This is because a user with the _reader_ role cannot modify the database.
 
-image::{imagedir}/L04-Ex2-reader.png[L04-Ex2-reader,width=800,align=center]
+image::{imagedir}/L05-Ex2-reader.png[L05-Ex2-reader,width=800,align=center]
 
 [start=8]
 . Exit out of cypher-shell.
@@ -466,7 +460,7 @@ image::{imagedir}/L04-Ex2-reader.png[L04-Ex2-reader,width=800,align=center]
 . Enter a Cypher statement that reads from the database `MATCH (n) RETURN count(n);`
 . Enter a Cypher statement that writes to the database `CREATE (p:Person {name:'John'}) RETURN p.name;`
 
-image::{imagedir}/L04-Ex2-publisher.png[L04-Ex2-publisher,width=800,align=center]
+image::{imagedir}/L05-Ex2-publisher.png[L05-Ex2-publisher,width=800,align=center]
 
 [start=12]
 . Look at the log records in the *security.log* file. Do they correspond to your activities against the Neo4j instance?
@@ -754,7 +748,7 @@ In this Exercise, you will modify the security auditing configuration for the st
 . Make a copy of *neo4j.conf*, which is the last good configuration for this Neo4j instance.
 . Modify the property in this file log security events at the INFO level.
 
-image::{imagedir}/L04-Ex3-configure1.png[L04-Ex3-configure1,width=800,align=center]
+image::{imagedir}/L05-Ex3-configure1.png[L05-Ex3-configure1,width=800,align=center]
 
 [start=3]
 . Start the Neo4j instance.
@@ -764,7 +758,7 @@ image::{imagedir}/L04-Ex3-configure1.png[L04-Ex3-configure1,width=800,align=cent
 . Exit out of cypher-shell and log in again specifying _accounting/foo_.
 . View the *security.log* file. Do you see these logins and the failed login attempt? The default level of logging is _INFO_ if you do not set the property in the configuration file.
 
-image::{imagedir}/L04-Ex3-log1.png[ç,width=800,align=center]
+image::{imagedir}/L05-Ex3-log1.png[ç,width=800,align=center]
 
 [start=9]
 . Modify the configuration for the security level to be DEBUG.
@@ -777,7 +771,7 @@ image::{imagedir}/L04-Ex3-log1.png[ç,width=800,align=center]
 . Enter a statement that reads from the database, for example: `MATCH (n) RETURN count(n);`. 
 . View the log file. Again, you should see that the instance contacted the  LDAP Server for role information.
 
-image::{imagedir}/L04-Ex3-log2.png[L04-Ex3-log2,width=800,align=center]
+image::{imagedir}/L05-Ex3-log2.png[L05-Ex3-log2,width=800,align=center]
 
 [start=18]
 . Exit out of cypher-shell.
@@ -796,6 +790,7 @@ JMX is sometimes used for monitoring system activity. JMX is not secure and by d
 
 You should work closely with Neo4j technical support to ensure that your production system is secure. See this https://neo4j.com/docs/operations-manual/3.5/security/checklist/[Security Checklist] will also help you to determine if you have set up your systems correctly.
 
+[#module-5.quiz]
 == Check your understanding
 
 === Question 1
@@ -841,3 +836,19 @@ You should now be able to:
 * Describe how to secure data-at-rest.
 * Configure and use security auditing.
 
+++++
+<a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-admin-view-part5');
+});
+</script>
+++++
+
+endif::backend-html5[]
