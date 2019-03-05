@@ -82,7 +82,6 @@ where _newPassword_ is a password you will remember.
 
 === Post-install: Debian
 
-
 Initially and on Debian, you should disable _neo4j_ as a service that is started automatically when the system starts. You do this with this command:
 
 `[sudo] systemctl disable neo4j`
@@ -144,7 +143,7 @@ image::{imagedir}/FirstNeo4jLog-Debian.png[FirstNeo4jLog-Debian,width=800,align=
 When the Neo4j instance starts, you can also confirm that it is started by seeing the _Started_ record in the log file.
 
 [NOTE]
-You can also view the log file in the _logs_ folder on all platforms.
+You can also view the log file in the *logs* folder on all platforms.
 
 === *Exercise #1: Managing the Neo4j instance*
 
@@ -167,9 +166,11 @@ You should disable the _neo4j_ service `[sudo] systemctrl disable neo4j`.
 
 `cypher-shell` enables you to access the Neo4j database from a terminal window.  You simply log into the database using `cypher-shell` with your credentials:
 
-`/usr/bin/cypher-shell -u neo4j -p neo4j`
+`/usr/bin/cypher-shell -u <username> -p <password>`
 
 Once authenticated, you enter Cypher statements to execute just as they would in Neo4j Browser. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`. You exit `cypher-shell` with the command `:exit`.
+
+=== Example: Using `cypher-shell`
 
 Here is an example showing that we can successfully log in to the database for the Neo4j instance, providing the default credentials _neo4j/neo4j_:
 
@@ -235,11 +236,11 @@ image::{imagedir}/L03-Ex2-RetrieveData.png[Ex2-RetrieveData,width=1000,align=cen
 
 By default, the Neo4j database is located in the */var/lib/neo4j/data/databases* folder. The database is represented by a subfolder with the default name, *graph.db*. You should never modify, copy, or move any files or folders under *graph.db*.
 
-A key file for a Neo4j instance is */etc/neo4j/neo4j.conf*. This file contains all settings used by the Neo4j instance at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db* Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j assumes that the default will be used a runtime.
+A key file for a Neo4j instance is */etc/neo4j/neo4j.conf*. This file contains all settings used by the Neo4j instance at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db*. Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j assumes that the default will be used a runtime.
 
 image::{imagedir}/DefaultNeo4jConfig.png[DefaultNeo4jConfig,width=800,align=center]
 
-If you wanted to change the name of the Neo4j database, you could change the folder name *graph.db* to another name, but if you do so, you must uncomment the line in *neo4j.conf* for _dbms.active_database_ to match what you have renamed the database folder to. You must make this type of change in the configuration when the Neo4j instance is stopped.
+If you wanted to change the name of the Neo4j database, you could change the folder name *graph.db* to another name, but if you do so, you must uncomment the line in *neo4j.conf* for _dbms.active_database_ to match what you have renamed the database folder to. You typically make this type of change in the configuration when the Neo4j instance is stopped.
 
 == Deleting a Neo4j database
 
@@ -258,9 +259,9 @@ For example, delete the *graph.db* database:
 
 `[sudo] rm -rf /var/lib/neo4j/data/databases/graph.db`
 
-If you were to start the Neo4j instance, it would recreate an empty database. If you want to copy an existing database for use with this Neo4j instance, you dump and load an existing database to be used as the active database. Then you can start the Neo4j instance. You will learn about dumping an loading a database next.
+After deleting the Neo4j database, if you were to start the Neo4j instance, it would recreate an empty database. If you want to copy an existing database for use with this Neo4j instance, you dump and load an existing database to be used as the active database. Then you can start the Neo4j instance. You will learn about dumping and loading a database next.
 
-== Copying a database
+== Copying a Neo4j database
 
 The structure of a Neo4j database is proprietary and could change from one release to another. You should [underline]#never# copy the database from one location in the filesystem/network to another location. You copy a Neo4j database by creating an offline backup.
 
@@ -271,7 +272,7 @@ To create an offline backup of a database that, perhaps you want to have as an a
 . Use the `dump` command of the `neo4j-admin` tool to create the dump file.
 . You can now copy the dump file between systems.
 
-Then, if you want to create a database from any dump file to use for a Neo4j instance, you must:
+Then, if you want to create a database from any offline backjp file to use for a Neo4j instance, you must:
 
 . Stop the Neo4j instance.
 . Determine what you will call the new database and adjust *neo4j.conf* to use this database as the active database.
@@ -308,12 +309,12 @@ image::{imagedir}/DumpDatabase.png[DumpDatabase,width=1000,align=center]
 
 After the dump file, _movie-dump_ is created, you can move it anywhere on filesystem or network.
 
-=== Loading a database
+=== Creating a database from an offline backup
 
 Assuming that you have a dump file to use, you must first determine what the name of the target database will be. If you use an existing database name, the `load` command, can overwrite the database. If you want to create a new database, then you specify a database name that does not already exist. To perform the `load` command, the Neo4j instance must be stopped. In addition, the user:group permissions of the files created must be _neo4j:neo4j_. 
 
 [NOTE]
-You must either perform the `load` operation as the neo4j user, or after the load, you must change the owner of all files and folders created to _neo4j:neo4j_.
+You must either perform the `load` operation as the _neo4j_ user, or after the load, you must change the owner of all files and folders created to _neo4j:neo4j_.
 
 Here is how to use the `load` command of the  `neo4j-admin` tool to load a database from a file:
 
@@ -335,6 +336,8 @@ _where:_
 Here is an example where we load the contents of *movie-dump* into a database named *movie2.db*. 
 
 image::{imagedir}/LoadDatabase.png[LoadDatabase,width=1000,align=center]
+
+==== Modifying config for new database
 
 In order to access this newly created and loaded database, we must modify *neo4j.conf* to use *movie2.db* as the active database before starting the Neo4j instance:
 
@@ -391,23 +394,25 @@ Here we have specified a new location for the data in the configuration file:
 
 image::{imagedir}/ModifyDataLocation.png[ModifyDataLocation,width=800,align=center]
 
+=== Starting Neo4j instance with a new location
+
 We ensure that the location for the data exists and then we can start the Neo4j instance. If this is the first time Neo4j has been started for this location, a new database named *graph.db* will be created. This is because we are using the default database name in the configuration file.
 
 image::{imagedir}/UsingNewDataLocation.png[UsingNewDataLocation,width=800,align=center]
 
 If you have an existing database that you want to reside in a different location for the Neo4j instance, remember that you must dump and load the database to safely copy it to the new location.
 
-=== Using a name other than *graph.db*
+=== Using a different location for the database
 
 If you are starting the Neo4j instance with a new location and you are not using the default *graph.db* database name, you must follow these steps to ensure that the folders for the database are set up properly:
 
 . Specify the new location in the configuration file, but do not specify the active database name.
-. Start or restart the Neo4j instance. A new *graph.db* folder will be created as well as the other folders required by the instance.
+. Start or restart the Neo4j instance. A new *graph.db* folder will be created as well as the *dbms* folder required by the instance (contains important authentication information)..
 . Examine the log file to ensure that it started without errors.
 . Stop the Neo4j instance.
 . Specify the name of the active database in the configuration file.
 . Load the data into the database name that will be the active database. 
-. Ensure that the database folder and its sub-folders are owned by  _neo4j:neo4j_.
+. Ensure that the database folder and its subfolders are owned by  _neo4j:neo4j_.
 . Start the Neo4j instance.
 . Examine the log file to ensure it started without errors.
 
@@ -474,7 +479,7 @@ Here is how you use the `neo4j-admin` tool to check the consistency of the datab
 
 `[sudo] neo4j-admin check-consistency --database=db-name --report-dir=report-location [--verbose=true]`
 
-The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the _Operations Manual_ for more options. For example, you can check the consistency of a backup. 
+The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the _Neo4j Operations Manual_ for more options. For example, you can check the consistency of a backup. 
 
 Suppose we had loaded the *movie4.db* database with `neo4j-admin`. Here is what a successful run of the consistency checker should produce:
 
@@ -496,7 +501,7 @@ In this Exercise, you check the consistency of a database that is consistent. Th
 
 *Before you begin*
 
-. You should have created and started the *movie3.db* database (Exercise #6).
+. You should have created and started the *movie3.db* database (Exercise #4).
 . Stop the Neo4j instance.
 . Create a folder named */usr/local/work/reports*.
 
@@ -518,7 +523,7 @@ image::{imagedir}/L03-Ex5-Inconsistent.png[Ex5-Inconsistent,width=1000,align=cen
 
 == Scripting with cypher-shell
 
-As a database administrator, you may need to automate changes to the database. The most common types of changes that administrators may want to perform are operations such as adding/dropping constraints or indexes. You can create scripts that forward the Cypher statements to `cypher-shell`.  The number of supporting script files you create will depend upon the tasks you want to perform against the database.
+As a database administrator, you may need to automate changes to the database. The most common types of changes that administrators may want to perform are operations such as adding/dropping constraints or indexes. Note that you will need to work with the developers and architects of your application to determine what indexes must be created. You can create scripts that forward the Cypher statements to `cypher-shell`.  The number of supporting script files you create will depend upon the tasks you want to perform against the database.
 
 Suppose that we use _bash_. We create 3 files:
 
@@ -526,19 +531,22 @@ Suppose that we use _bash_. We create 3 files:
 ----
 CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
 CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
+CALL db.constraints();
 ----
 
 Each Cypher statement must end with a `;`. 
 
-*2. DropConstraints.sh* that invokes `cypher-shell` using a set of Cypher statements and appends its output to the log file:
+*2. AddConstraints.sh* that invokes `cypher-shell` using a set of Cypher statements and specifies verbose output:
 ----
-cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> /usr/local/work/PrepareDB.log
+cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 
 ----
 
 *3. PrepareDB.sh* that initializes the log file, *PrepareDB.log*, and calls the script to add the constraints:
 ----
 rm -rf /usr/local/work/PrepareDB.log
-/usr/local/work/AddConstraints.sh 2>&1 >> /usr/local/work/PrepareDB.log
+/usr/local/work/AddConstraints.sh 2>&1 >> /usr/local/work/
+PrepareDB.log
+# Other scripts here
 ----
 
 When the *PrepareDB.sh* script runs its scripts, all output will be written to the log file, including error output. Then you can simply check the log file to make sure it ran as expected.
@@ -546,7 +554,7 @@ When the *PrepareDB.sh* script runs its scripts, all output will be written to t
 
 ===  *Exercise #6: Scripting changes to the database*
 
-In this Exercise, you will gain experience scripting with Cypher shell. You will create three files in the */usr/local/work* folder:
+In this Exercise, you will gain experience scripting with `cypher-shell`. You will create three files in the */usr/local/work* folder:
 
 . *AddConstraints.cypher*
 . *AddConstraints.sh*
@@ -556,7 +564,7 @@ In this Exercise, you will gain experience scripting with Cypher shell. You will
 
 . Remove the *databases/movie3-copy.db* folder as this database is now corrupt.
 . Ensure that the Neo4j configuration uses *movie3.db* for the database.
-. Start the Neo4j instance.
+. Start or restart the Neo4j instance.
 
 *Exercise steps*:
 
@@ -573,14 +581,14 @@ image::{imagedir}/L03-Ex6-StartCypher-shell.png[Ex6-StartCypher-shell,width=800,
 . Create a Cypher script in the */usr/local/work* folder named *AddConstraints.cypher* with the following statements:
 ----
 CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
-CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE; 
+CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
 ----
 
 [start=6]
 . Create a shell script in the */usr/local/work* folder named *AddConstraints.sh* that will forward *AddConstraints.cypher* to `cypher-shell`. This file should have the following contents:
 
 ----
-cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 2>&1 >> /usr/local/work/MaintainDB.log
+cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 
 ----
 
 [start=7]
@@ -602,7 +610,7 @@ image::{imagedir}/L03-Ex6-RunMaintainDB.png[Ex6-RunMaintainDB,width=800,align=ce
 
 image::{imagedir}/L03-Ex6-ConfirmConstraints.png[Ex6-ConfirmConstraints,width=800,align=center]
 
-== Managing plugins required for the database
+== Managing plugins
 
 Some applications can use Neo4j out-of-the-box, but many applications require additional functionality that could be:
 
@@ -613,13 +621,15 @@ Some applications can use Neo4j out-of-the-box, but many applications require ad
 
 We refer to this additional functionality as a _plugin_ that contains specific procedures. A _plugin_ is typically specific to a particular release of Neo4j. In many cases, if you upgrade to a later version of Neo4j, you may also need to install a new _plugin_. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement `CALL db.procedures()`.
 
+=== Retrieving available procedures
+
 Here is an example of a script you can run to produce a file, *Procedures.txt* that contain the names of the procedures currently available for the Neo4j instance:
 
 ----
 echo "CALL dbms.procedures() YIELD name;" | /usr/bin/cypher-shell -u neo4j -p training-helps --format plain > /usr/local/work/Procedures.txt
 ----
 
-This script calls dbms.procedures to return the name of each procedure in the list returned. 
+This script calls `dbms.procedures()` to return the name of each procedure in the list returned. 
 
 Here is a view of *Procedures.txt*:
 
@@ -629,24 +639,26 @@ By default, the procedures available to the Neo4j instance are the built-in proc
 
 === Adding a plugin to the Neo4j instance
 
-To add a plugin to your Neo4j instance, you must first obtain the *.jar* file. It is important to confirm that the *.jar* file you will use is compatible with the version of Neo4j that you are using. For example, a plugin released for release 3.4 of Neo4j can be used by a Neo4j 3.5 instance, but the converse *may* not be true. You must check with the developers of the plugin for compatibility.
+To add a plugin to your Neo4j instance, you must first obtain the *.jar* file. It is important to confirm that the *.jar* file you will use is compatible with the version of Neo4j that you are using. For example, a plugin released for release 3.4 of Neo4j can be used by a Neo4j 3.5 instance, but the converse may not be true. You must check with the developers of the plugin for compatibility.
 
 Some plugins require a configuration change. You should understand the configuration changes required for any plugin you are installing.
+
+[NOTE]
+When you install Neo4j, the *plugins* folder contains a *README.txt* folder that contains instructions related to sandboxing and whitelisting. These instructions will change in future releases of Neo4j. 
+
+==== Sandboxing and whitelisting
 
 Neo4j provides _sandboxing_ to ensure that procedures do not inadvertently use insecure APIs. For example, when writing custom code it is possible to access Neo4j APIs that are not publicly supported, and these internal APIs are subject to change, without notice. 
 Additionally, their use comes with the risk of performing insecure actions. The sandboxing
 functionality limits the use of extensions to publicly supported APIs, which exclusively contain safe operations,
 or contain security checks.
 
-Neo4j _White listing_ can be used to allow loading only a few extensions from a larger library.
+Neo4j _whitelisting_ can be used to allow loading only a few extensions from a larger library.
 The configuration setting _dbms.security.procedures.whitelist_ is used to name certain procedures that should be
 available from a library. It defines a comma-separated list of procedures that are to be loaded.
 The list may contain both fully-qualified procedure names, and partial names with the wildcard *.
 
-[NOTE]
-When you install Neo4j, the *plugins* folder contains a *README.txt* folder that contains instructions related to sandboxing and whitelisting. These instructions will change in future releases of Neo4j. 
-
-=== Installing the Graph Algorithms plugin
+=== Example: Installing the Graph Algorithms plugin
 
 Suppose we wanted to install the Graph Algorithms library that is compatible with Neo4j 3.5. We find the library in GitHub and simply download the *.jar* file. Here is the https://github.com/neo4j-contrib/neo4j-graph-algorithms/releases[release area] in GitHub for the graph algorithms library:
 
