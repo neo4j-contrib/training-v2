@@ -1,5 +1,8 @@
-echo "Rendering Cypher Training"
-asciidoctor -T _templates cypher/index_60-Minute-Cypher.adoc -o cypher/index_wp.html
-asciidoctor -a image=$IMG -a env-training -T _templates/parts cypher/part*.adoc -D cypher/html/
-echo "Rendering Production Training"
-asciidoctor -T _templates production/index_neo4j_in_production.adoc -o production/index_wp.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/00_AboutThisCourse.adoc -o html/00_AboutThisCourse.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/01_IntroductionToNeo4j.adoc -o html/01_IntroductionToNeo4j.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/02_OverviewOfNeo4jAdministration.adoc -o html/02_OverviewOfNeo4jAdministration.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/03_ManagingANeo4jDatabase.adoc -o html/03_ManagingANeo4jDatabase.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/04_CausalClusteringInNeo4j.adoc -o html/04_CausalClusteringInNeo4j.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/05_SecurityInNeo4j.adoc -o html/05_SecurityInNeo4j.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/06_MonitoringNeo4j.adoc -o html/06_MonitoringNeo4j.html
+asciidoctor -a imagedir=$IMG -T _templates_v2 adoc/07_Summary.adoc -o html/07_Summary.html

@@ -1,0 +1,137 @@
+++++
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
+<script src="https://graphacademy.neo4j.com/training-classes/js/classes-v2.js" type="text/javascript"></script>
+<script src="https://graphacademy.neo4j.com/training-quizes/js/quizes-neo4j-administration.js" type="text/javascript"></script>
+
+ <link rel='stylesheet' id='neo-codemirror-css'
+    href="https://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css'
+    media='screen'/>
+
+ <script type='text/javascript'>
+  $('.admonitionblock.note').find('.icon').html('NOTE');
+  $('.admonitionblock.warning').find('.icon').html('WARNING');
+  $('.admonitionblock.information').find('.icon').html('INFO');
+
+  var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
+
+  function textContent(node, out) {
+    if (node.nodeType == 3) return out.push(node.nodeValue);
+    for (var ch = node.firstChild; ch; ch = ch.nextSibling) {
+      textContent(ch, out);
+      if (isBlock.test(node.nodeType)) out.push("\n");
+    }
+  }
+
+  CodeMirror.colorize = function(collection, defaultMode) {
+    if (!collection) collection = document.body.getElementsByTagName("pre");
+
+    for (var i = 0; i < collection.length; ++i) {
+      var syntax = false;
+      var node = collection[i];
+      var mode = node.getAttribute("data-lang") || defaultMode;
+      if (mode == "cypher-syntax") {
+        syntax = true;
+        mode = "cypher";
+      }
+      if (!mode) continue;
+
+      var text = [];
+      textContent(node, text);
+      node.innerHTML = "";
+      CodeMirror.runMode(text.join(""), mode, node);
+
+      node.className += " cm-s-default";
+      if (syntax) {
+        node.className += " cypher-syntax";
+      }
+    }
+  };
+
+  $( document ).ready(function() {
+    if (CodeMirror.colorize) {
+      CodeMirror.colorize(document.body.getElementsByTagName("pre"), 'cypher');
+    }
+  });
+ </script>
+
+
+<script>
+  window.intercomSettings = {
+    app_id: "dt0ig5ab",
+    hide_default_launcher: true
+  };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+<!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
+<script src="https://neo4jsandbox.com/js/jwt-decode.min.js"></script>
+
+
+<script>
+const SITE_URL = window.location;
+
+var getTimeDiff = function(time1, time2) {
+  var hourDiff = time2 - time1;
+  var diffDays = Math.floor(hourDiff / 86400000);
+  var diffHrs = Math.floor((hourDiff % 86400000) / 3600000);
+  var diffMins = Math.floor(((hourDiff % 86400000) % 3600000) / 60000);
+  return {"days": diffDays, "hours": diffHrs, "mins": diffMins};
+}
+
+var attemptRenewToken = function(silent, nextTimeout, nextTimeoutSilent) {
+  console.log('renewAuth attempting');
+  var iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  iframe.src = 'https://neo4j.com/accounts/login?targetUrl=' + encodeURIComponent(SITE_URL);
+  document.body.appendChild(iframe);
+  if (nextTimeout) {
+      setTimeout(
+        function () {
+          attemptRenewToken(nextTimeoutSilent, nextTimeout, nextTimeoutSilent);
+        }, nextTimeout
+      );
+  }
+}
+
+var logout = function() {
+  window.location = 'https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/'
+}
+
+$( document ).ready(function() {
+    var id_token = Cookies.get("com.neo4j.accounts.idToken");
+    var decoded_token = jwt_decode(id_token);
+    var expiresIn = getTimeDiff(Date.now(), (decoded_token.exp) * 1000);
+    if (expiresIn.days > 0 || expiresIn.hours > 0) {
+      // token is good.
+    } else if (expiresIn.days == 0 && expiresIn.hours == 0 && expiresIn.mins > 1 && expiresIn.mins < 60) {
+        // expiring soon, let's immediately get a new token
+        attemptRenewToken(true, 1000*60*30, false);
+    } else {
+        // token is already expired, log user out in UI; token won't work
+        logout();
+    }
+    getQuizStatus();
+    
+
+    var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
+    if (userInfoIntercom) {
+      try {
+        window.Intercom("update", {
+          app_id: "dt0ig5ab",
+          name: userInfoIntercom.name, 
+          email: userInfoIntercom.email,
+          user_id: userInfoIntercom.sub,
+          hide_default_launcher: true
+        });;  
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    Intercom('trackEvent','training-introv2-view');
+});
+</script>
+
+
+
+++++
