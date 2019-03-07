@@ -35,7 +35,7 @@ At the end of this module, you should be able to:
 
 == What is application security?
 
-Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this inter-connected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door 
+Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this inter-connected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door. 
 Fixing a security breach may require significant updates to your application, especially if the application was not written or implemented to be secure. Deploying a newer version of your application means additional testing and possible down time, both costly to the enterprise.
 
 In addition, your business may need to meet regulatory security requirements or security requirements promised in a customer contract. If it is discovered that your application does not meet these requirements, you could face fines or other serious consequences.
@@ -95,7 +95,7 @@ Securing a deployed Neo4j application and its infrastructure includes securing N
 * Server processes — Neo4j instances, application servers, connectors, and Web servers.
 * Application-related files—securing application-related files outside of the database.
 
-In this lesson, you will be introduced to how you as an administrator can secure those parts of the application related to Neo4j. This lesson will not cover tasks related to securing non-Neo4j resources, networks and filesystems.
+In this lesson, you will be introduced to how you as an administrator can secure those parts of the application related to Neo4j. This lesson will not cover tasks related to securing non-Neo4j resources, networks, and filesystems.
 
 == Neo4j software updates
 
@@ -272,19 +272,20 @@ ldapsearch -x -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtrainin
 
 image::{imagedir}/ldapsearch-architect3.png[ldapsearch-architect3,width=800,align=center]
 
-What queries you perform on your LDAP provider will depend on the discover of entries in the LDAP.
+What queries you perform on your LDAP provider will depend on the discovery of entries in the LDAP.
 
 ==== *Exercise #1: Exploring the training User Directory*
 
-In this Exercise, you will simply execute a couple of commands to retrieve data from an existing LDAP server that will be used for the Exercises of this lesson.
+In this Exercise, you will simply execute a couple of commands to retrieve data from an existing LDAP server that will be used for the Exercises of this training.
 
-*Before you begin*
+*Before you begin:*
 
 . Open a terminal window on your system where you have worked with a stand-alone Neo4j instance in Lesson 2.
 . Ensure that you have the LDAP utilities package installed on your system. (For example on Debian: `sudo apt-get install ldap-utils`).
 
 *Exercise steps*:
-In this example, and for the LDAP provider (an EC2 instance) you will be using for your hands-on exercises, the users are all part of the *neo4jtraining.com* domain.
+
+In this example, and for the LDAP provider (an EC2 instance) you will be using for the Exercises in this module, the users are all part of the *neo4jtraining.com* domain.
 
 . Execute this ldapsearch command to retrieve all entries from the LDAP Server:
 
@@ -375,7 +376,7 @@ dbms.security.ldap.authorization.group_to_role_mapping=\
     <group-or-member > = <custom-role>
 ----
 
-For example, with the LDAP Server that you will be using in this training, you would specify:
+For example, with the LDAP Server that you will be using in this training, you  specify:
 
 ----
 dbms.security.auth_enabled=true
@@ -433,14 +434,15 @@ In the next Exercise, you will configure a Neo4j instance to use authentication 
 
 ==== *Exercise #2: Configuring authentication for a stand-alone instance*
 
-In this Exercise, you will modify the configuration for the stand-alone Neo4j instance that you have worked with prior to using Docker for Causal Clustering. You will use the movies3.db that you worked with previously with the Neo4j stand-alone instance.  Then you will test that the authentication is working.
+In this Exercise, you will modify the configuration for the stand-alone Neo4j instance that you have worked with in the _Managing a Neo4j Database_ lesson, prior to using Docker for Causal Clustering. You will use the *movies3.db* that you worked with previously with the Neo4j stand-alone instance.  Then you will test that the authentication is working.
 
 *Before you begin*
 
 . Make sure you have completed Exercise 1 that confirms that you can access the LDAP Server. 
-. Open a terminal window on your system where you have worked with a stand-alone Neo4j instance from Lesson 2 using the *crimes.db* database.
+. Modify *neo4j.conf* to use *movie3.db* as the active database.
+. Start or restart the Neo4j instance and confirm that it starts without error.
+. Open a terminal window on your system where you have worked with a stand-alone Neo4j instance using the *movie3.db* database.
 . Stop the Neo4j instance. 
-
 
 *Exercise steps*:
 
@@ -654,11 +656,9 @@ dbms.udc.enabled=false
 
 === Best practices for developers
 
-Here are some guidelines that developers of your application should follow to ensure that data-in-transit is secure:
+You should work with your security administrator to come up with a set of guidelines for developers of your application to ensure that data-in-transit is secure.
 
-[square]
-* Never include private data in a Cypher statement, but use parameters to avoid Cypher injections at runtime.
-* ??? MORE HERE
+For example, developers should never include private data in a Cypher statement, but use parameters to avoid Cypher injections at runtime.
 
 == Securing data-at-rest
 
@@ -744,7 +744,7 @@ In this Exercise, you will modify the security auditing configuration for the st
 *Before you begin*
 
 . Make sure you have completed Exercise 2 where you have configured and tested the Neo4j instance to use the training LDAP Server. 
-. Open a terminal window on your system where you have worked with a stand-alone Neo4j instance from Lesson 2.
+. Open a terminal window on your system.
 . Stop the Neo4j instance. 
 
 *Exercise steps*:
@@ -762,7 +762,7 @@ image::{imagedir}/L05-Ex3-configure1.png[L05-Ex3-configure1,width=800,align=cent
 . Exit out of cypher-shell and log in again specifying _accounting/foo_.
 . View the *security.log* file. Do you see these logins and the failed login attempt? The default level of logging is _INFO_ if you do not set the property in the configuration file.
 
-image::{imagedir}/L05-Ex3-log1.png[ç,width=800,align=center]
+image::{imagedir}/L05-Ex3-log1.png[L05-Ex3-log1,width=1100,align=center]
 
 [start=9]
 . Modify the configuration for the security level to be DEBUG.
@@ -775,7 +775,7 @@ image::{imagedir}/L05-Ex3-log1.png[ç,width=800,align=center]
 . Enter a statement that reads from the database, for example: `MATCH (n) RETURN count(n);`. 
 . View the log file. Again, you should see that the instance contacted the  LDAP Server for role information.
 
-image::{imagedir}/L05-Ex3-log2.png[L05-Ex3-log2,width=800,align=center]
+image::{imagedir}/L05-Ex3-log2.png[L05-Ex3-log2,width=1100,align=center]
 
 [start=18]
 . Exit out of cypher-shell.

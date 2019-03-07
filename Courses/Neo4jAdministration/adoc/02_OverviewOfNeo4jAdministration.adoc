@@ -118,8 +118,9 @@ We will cover the configuration, management and monitoring of Causal Clusters in
 === Example architecture #4: Using Neo4j standalone for graph analytics 
 
 A common use case for Neo4j is for data scientists analyze complex patterns in connected data. Neo4j Bloom, or some other data visualization tool, may be used as the front-end. The following are two common patterns this use case:
-. Neo4j is used to find and analyze connections in data from other data sources. To cater for this, standalone Neo4j database is loaded with data from several sources. As a Neo4j database administrator, you will ensure that the Neo4j database used for this purpose is kept up-to-date and that the data is secure and appropriately backed up.
-. Data scientists analyze the data in a Neo4j production database. In order to safeguard the production database from potentially heavy queries, a dedicated Read Replica is set . In this case, the analytics database is always up-to-date with the production database, and its administration is a part of the regular Causal Cluster maintenance work (see Example architecture #3).
+
+. Neo4j is used to find and analyze connections in data from other data sources. To cater for this, the standalone Neo4j database is loaded with data from several sources. As a Neo4j database administrator, you will ensure that the Neo4j database used for this purpose is kept up-to-date and that the data is secure and appropriately backed up.
+. Data scientists analyze the data in a Neo4j production database. In order to safeguard the production database from potentially heavy queries, a dedicated Read Replica is configured (Causal Cluster) . In this case, the analytics database is always up-to-date with the production database, and its administration is a part of the regular Causal Cluster maintenance work (see Example architecture #3).
 
 image::{imagedir}/DataAnalytics.png[DataAnalytics,width=300,align=center]
 
@@ -156,6 +157,12 @@ The Community Edition is a full functioning version of Neo4j suitable for single
 === Enterprise Edition
 
 The Enterprise Edition extends the functionality of the Community Edition to include key features for performance and scalability such as a clustering architecture for high availability and online backup functionality. It is the right choice for production systems with availability requirements or needs for scaling up or out. Enterprise Edition requires a license from Neo4j.  You can download Neo4j Enterprise Edition from the  https://neo4j.com/download-center/#releases[Neo4j download page]. When you install Neo4j Enterprise Enterprise, you have a 30 day evaluation license.
+
+==== Neo4j Desktop
+
+Neo4j Desktop is used by developers who will be deploying their Neo4j applications. It's purpose is to make development easier by providing access to supported plugins and graph visualization using the Neo4j Browser. The Neo4j instance that runs in Neo4j Desktop is Enterprise Edition so that developers have access to all of the functionality required for developing and testing a production Neo4j application. Developers can install Neo4j Desktop on Linux, OS X, and Windows. Developers can download Neo4j Desktop from the  https://neo4j.com/download-center/#releases[Neo4j download page]. Neo4j Desktop is free for developers to use. Developers need to ensure that the version of Neo4j they use for development is the version that will be used in a production environment.
+
+image::{imagedir}/Neo4jDesktop.png[Neo4jDesktop,width=800,align=center]
 
 == Installing Neo4j
 
@@ -259,7 +266,7 @@ All screen captures for this training are from an _Amazon EC2 debian instance_ a
 
 *Before you begin*
 
-If you have already installed Neo4j Desktop, you should stop any database that is active and shut down Neo4j Desktop.
+If you have installed Neo4j Desktop on your system, you should stop any database that is active and shut down Neo4j Desktop. You will be using Enterprise Edition that enables you to perform all common administrative tasks.
 
 You should refer to the https://neo4j.com/docs/operations-manual/3.5/installation/[Neo4j Operations Manual] for instructions that are specific to your platform.
 
@@ -277,9 +284,9 @@ c. You will receive an email with a link for downloading the software, as well a
 
 == References
 
-You should consult the https://neo4j.com/docs/operations-manual/3.5/[Neo4J Operations Manual] for more information about the installation requirements and procedures for your target platform, as well as details for Neo4j administration tasks. 
+You should consult the https://neo4j.com/docs/operations-manual/3.5/installation/[Neo4J Operations Manual] for more information about the installation requirements and procedures for your target platform, as well as details for Neo4j administration tasks. 
 
-The https://neo4j.com/docs/developer-manual/current/#cypher-query-lang[Java Developer Manual ] covers using embedded mode for Neo4j and intended for developers.
+The https://neo4j.com/docs/java-reference/3.5/tutorials-java-embedded/[Java Developer Manual ] covers using embedded mode for Neo4j and intended for developers.
 
 [#module-2.quiz]
 == Check your understanding
