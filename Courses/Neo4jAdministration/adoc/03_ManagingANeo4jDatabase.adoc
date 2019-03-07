@@ -64,7 +64,7 @@ Tools
 
 == Post-installation preparation 
 
-In this training, all screenshots and examples are shown using Neo4j Enterprise Edition installed as a Debian package. If your system is different, you will need to adjust file locations as described later in this training.
+In this training, all screenshots and examples are shown using Neo4j Enterprise Edition installed as a Debian package. If your system is different, you will need to adjust file locations as described later in this module.
 
 When you are setting up a production environment, you want to control who can manage the Neo4j instance. You will also want to control when the Neo4j instance starts as you will performing some configuration changes and database operations that may require that the instance to be stopped.
 
@@ -72,7 +72,7 @@ When Neo4j is installed as a Debian package, the _neo4j_ service is enabled and 
 
 === Post-install: Changing the _neo4j_ password (non-Debian)
 
-After you install Neo4j and before you start the Neo4j instance, a best practice is to change the default password for the user _neo4j_. You do this on all platforms, except when you have installed a Debian package. You will learn about changing the _neo4j_ password on Debian later in this training.
+After you install Neo4j and before you start the Neo4j instance, a best practice is to change the default password for the user _neo4j_. You do this on all platforms, except when you have installed a Debian package. You will learn about changing the _neo4j_ password on Debian later in this module.
 
 You change the password for the _neo4j_ user by executing the following command:
 
@@ -138,7 +138,7 @@ You can view the log file for the instance on Debian as follows:
 * `journalctl -e -u neo4j` to view the end of the neo4j log file.
 * `journalctl -u neo4j -b > neo4j.log` where you can view *neo4j.log* in an editor.
 
-Here is the result from journalctl:
+Here is the result from `journalctl`:
 
 image::{imagedir}/FirstNeo4jLog-Debian.png[FirstNeo4jLog-Debian,width=800,align=center]
 
@@ -282,7 +282,7 @@ Then, if you want to create a database from any offline backup file to use for a
 . Start the Neo4j instance.
 
 [NOTE]
-Dumping and loading a database is done when the Neo4j instance is stopped. Later in this lesson, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
+Dumping and loading a database is done when the Neo4j instance is stopped. Later in this module, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
 
 === Creating and offline backup
 
@@ -474,7 +474,7 @@ image::{imagedir}/L03-Ex4-Access2.png[Ex4-Access2,width=700,align=center]
 
 == Checking the consistency of a database
 
-A database's consistency could be compromised if a software or hardware failure has occurred that affects the Neo4j instance. You will learn later in this training about live backups and replicating databases, but if you have reason to believe that a specific database has been corrupted,  you can perform a consistency check on it.
+A database's consistency could be compromised if a software or hardware failure has occurred that affects the Neo4j instance. You will learn later in this module about live backups and replicating databases, but if you have reason to believe that a specific database has been corrupted,  you can perform a consistency check on it.
 
 The Neo4j instance must be stopped to perform the consistency check.
 
@@ -516,7 +516,7 @@ In this Exercise, you check the consistency of a database that is consistent. Th
 image::{imagedir}/L03-Ex5-Consistent.png[Ex5-Consistent,width=1000,align=center]
 
 [start=3]
-. Modify the neo4j configuration to use a database named *movie3-copy.db*, rather than *movie3.db*.
+. Modify the Neo4j configuration to use a database named *movie3-copy.db*, rather than *movie3.db*.
 . Use `neo4j-admin` to create and load *movie3-copy.db* from the movie dump file you created earlier.
 . Ensure that the owner of the *movie3-copy.db* is _neo4j:neo4j_.
 . Next, you will corrupt the database. Modify the file *movie3-copy.db/neostore.nodestore.db* by adding some text to the file.
@@ -621,7 +621,7 @@ Some applications can use Neo4j out-of-the-box, but many applications require ad
 * A community-supported library, such as APOC.
 * Custom functionality that has been written by the developers of your application. 
 
-We refer to this additional functionality as a _plugin_ that contains specific procedures. A _plugin_ is typically specific to a particular release of Neo4j. In many cases, if you upgrade to a later version of Neo4j, you may also need to install a new _plugin_. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement `CALL db.procedures()`.
+We refer to this additional functionality as a _plugin_ that contains specific procedures. A _plugin_ is typically specific to a particular release of Neo4j. In many cases, if you upgrade to a later version of Neo4j, you may also need to install a new _plugin_. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement `CALL db.procedures();`.
 
 === Retrieving available procedures
 
@@ -826,7 +826,7 @@ image::{imagedir}/L03-Ex8-HTTP9999-used.png[Ex8-HTTP9999-used,width=1200,align=c
 
 == Performing online backup and restore
 
-Online backup is used in production where the application cannot tolerate the database being unavailable. In this part of the training, you will learn how to back up and restore a stand-alone Neo4j database. Later in this training, you will learn about backup and restore in a causal clustering environment.
+Online backup is used in production where the application cannot tolerate the database being unavailable. In this part of the training, you will learn how to back up and restore a stand-alone Neo4j database. Later in this training, you will learn about backup and restore in a Neo4j Causal Cluster environment.
 
 === Online backup
 
@@ -901,7 +901,7 @@ image::{imagedir}/L03-Ex9-Backup2.png[Ex9-Backup2,width=1000,align=center]
 
 [start=6]
 . Stop the Neo4j instance.
-. Corrupt the database like you did earlier in this lesson. Modify the file *movie3.db/neostore.nodestore.db* by adding some text to the file.
+. Corrupt the database like you did earlier in this module. Modify the file *movie3.db/neostore.nodestore.db* by adding some text to the file.
 . Run the consistency check tool on *movie3.db* using `neo4j-admin` specifying */usr/local/work/reports* as the folder where the report will be written. 
 
 ----

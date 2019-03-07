@@ -95,7 +95,7 @@ Securing a deployed Neo4j application and its infrastructure includes securing N
 * Server processes — Neo4j instances, application servers, connectors, and Web servers.
 * Application-related files—securing application-related files outside of the database.
 
-In this lesson, you will be introduced to how you as an administrator can secure those parts of the application related to Neo4j. This lesson will not cover tasks related to securing non-Neo4j resources, networks, and filesystems.
+In this module, you will be introduced to how you as an administrator can secure those parts of the application related to Neo4j. This module will not cover tasks related to securing non-Neo4j resources, networks, and filesystems.
 
 == Neo4j software updates
 
@@ -117,7 +117,7 @@ Your application developers could write a custom authentication plugin. Although
 A SPA is highly recommended by Neo4j because it is easier to maintain and is more secure than an enterprise that uses multiple sources of user accounts. 
 Examples of a SPA are Lightweight Directory Access Protocol (LDAP), Active Directory (AD), and Kerberos which can be used for single sign-on. 
 The SPA is the only service in your enterprise that stores user names and passwords. 
-For training purposes, we will use an LDAP provider for authentication, but in your real application, you will need to configure Neo4j for whatever provider you use for user authentcation.
+For training purposes, we will use an LDAP provider for authentication, but in your real application, you will need to configure Neo4j for whatever provider you use for user authentication.
 
 You will use OpenLDAP for the hands-on exercises. 
 If you will be using a different LDAP or authentication provider, you should consult the https://neo4j.com/docs/operations-manual/3.5/authentication-authorization/[Neo4j Operations Manual].
@@ -280,14 +280,14 @@ In this Exercise, you will simply execute a couple of commands to retrieve data 
 
 *Before you begin:*
 
-. Open a terminal window on your system where you have worked with a stand-alone Neo4j instance in Lesson 2.
+. Open a terminal window on your system where you have worked with a stand-alone Neo4j instance in the _Managing a Neo4j Database_ module.
 . Ensure that you have the LDAP utilities package installed on your system. (For example on Debian: `sudo apt-get install ldap-utils`).
 
 *Exercise steps*:
 
 In this example, and for the LDAP provider (an EC2 instance) you will be using for the Exercises in this module, the users are all part of the *neo4jtraining.com* domain.
 
-. Execute this ldapsearch command to retrieve all entries from the LDAP Server:
+. Execute this `ldapsearch` command to retrieve all entries from the LDAP Server:
 
 ----
 ldapsearch -x -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtraining,dc=com' '(objectclass=*)' 
@@ -300,7 +300,7 @@ In an enterprise LDAP, you will probably not want to perform this type of query 
 
 [start=2]
 
-. Execute this ldapsearch command to retrieve the _reader_ entry from the LDAP Server. When prompted for the password, enter _reader_.
+. Execute this `ldapsearch` command to retrieve the _reader_ entry from the LDAP Server. When prompted for the password, enter _reader_.
 
 ----
 ldapsearch -x -v  -W -D 'uid=reader,ou=users,dc=neo4jtraining,dc=com' -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtraining,dc=com' "(&(objectClass=*)(cn=reader))" memberOf
@@ -328,7 +328,7 @@ You can configure Neo4j to work with:
 
 Each of these LDAP providers require different settings for authentication. For example using AD and openLDAP, you specify a value for _dbms.security.ldap.authentication.user_dn_template_ and for AD with sAMAccountName, you specify values for other properties.
 
-Using AD with SAMAccountName gives you the greatest flexibility because with this configuration, you do not need to specify a fixed dn template for authentication. Most enterprise deployments use this option.
+Using AD with SAMAccountName gives you the greatest flexibility because with this configuration, you do not need to specify a fixed _dn_ template for authentication. Most enterprise deployments use this option.
 
 There are several properties you specify for authorization and how you set these properties will depend on your LDAP provider.
 
@@ -349,7 +349,7 @@ _use_samaccountname=false_
 | _use_system_account = true_
 
 _use_samaccountname=true_
-| The system account will log in and search for the user based upon their samaccountname and will do both group membership as well as return the users DN so that bind (authentication) can be completed for the user.
+| The system account will log in and search for the user based upon their _samaccountname_ and will do both group membership as well as return the users _dn__ so that bind (authentication) can be completed for the user.
 |====
 {set:cellbgcolor!}
 
@@ -434,7 +434,7 @@ In the next Exercise, you will configure a Neo4j instance to use authentication 
 
 ==== *Exercise #2: Configuring authentication for a stand-alone instance*
 
-In this Exercise, you will modify the configuration for the stand-alone Neo4j instance that you have worked with in the _Managing a Neo4j Database_ lesson, prior to using Docker for Causal Clustering. You will use the *movies3.db* that you worked with previously with the Neo4j stand-alone instance.  Then you will test that the authentication is working.
+In this Exercise, you will modify the configuration for the stand-alone Neo4j instance that you have worked with in the _Managing a Neo4j Database_ module, prior to using Docker for Causal Clustering. You will use the *movies3.db* that you worked with previously with the Neo4j stand-alone instance.  Then you will test that the authentication is working.
 
 *Before you begin*
 
@@ -475,7 +475,7 @@ Using LDAP for authentication, you can control which users have different types 
 
 *Exercise 2: Taking if further*:
 
-Configure and test the core and read replica servers you used for Causal Clustering in the previous lesson for authentication using the same LDAP Server.
+Configure and test the core and read replica servers you used for Causal Clustering in the previous module for authentication using the same LDAP Server.
 
 ==== LDAP caching
 
@@ -709,9 +709,7 @@ The following directories should be read/write:
 
 And the *bin* directory should be execute.
 
-You should also set the log files to only be writable by neo4j and readable by root.
-encryption of files/passwords
-locking down files
+You should also set the log files to only be writable by _neo4j_ and readable by _root_.
 
 
 == Security auditing
@@ -739,7 +737,7 @@ In a troubleshooting situation or if you want to more closely monitor access, yo
 
 === *Exercise #3: Security auditing*
 
-In this Exercise, you will modify the security auditing configuration for the stand-alone Neo4j instance that you have worked earlier in this lesson. 
+In this Exercise, you will modify the security auditing configuration for the stand-alone Neo4j instance that you have worked earlier in this module. 
 
 *Before you begin*
 

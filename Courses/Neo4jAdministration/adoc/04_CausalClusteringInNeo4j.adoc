@@ -96,7 +96,7 @@ image::{imagedir}/Discovery.png[Discovery,width=800,align=center]
 
 === Core server shutdown
 
-When a core server shuts down, the shutdown may be initiated by an administrator, or it may be due to a hardware or network failure. If the core server that is a _FOLLOWER_ shuts down, the _LEADER_ detects the shutfown and incorporates this information into its operations with the other core servers. If the core server that is the _LEADER_ shuts down, the remaining core servers communicate with each other and an existing _FOLLOWER_ is promoted to the _LEADER_. 
+When a core server shuts down, the shutdown may be initiated by an administrator, or it may be due to a hardware or network failure. If the core server that is a _FOLLOWER_ shuts down, the _LEADER_ detects the shutdown and incorporates this information into its operations with the other core servers. If the core server that is the _LEADER_ shuts down, the remaining core servers communicate with each other and an existing _FOLLOWER_ is promoted to the _LEADER_. 
 
 image::{imagedir}/ServerShutdown.png[ServerShutdown,width=800,align=center]
 
@@ -697,7 +697,7 @@ Stop all core and read replica servers.
 
 *Exercise steps*:
 
-. In the *neo4j-docker/backup-work* folder, there is a script called *create_containers.sh* that creates a new docker network named _test-backup-cluster_, creates three core servers: bcore1, bcore2, bcore3, and a read replica server, breplica1. Examine this script and notice that the core servers and the read replica server is configured for backup using the backup port. Any of the core servers can be used for the backup.
+. In the *neo4j-docker/backup-work* folder, there is a script called *create_containers.sh* that creates a new docker network named _test-backup-cluster_, creates three core servers: _bcore1_, _bcore2_, _bcore3_, and a read replica server, _breplica1_. Examine this script and notice that the core servers and the read replica server is configured for backup using the backup port. Any of the core servers can be used for the backup.
 . Run the script to create the containers specifying the Image ID of the Neo4j image.
 
 image::{imagedir}/L04-Ex6_CreateContainers.png[L04-Ex6_CreateContainers,width=800,align=center]
@@ -715,7 +715,7 @@ image::{imagedir}/L04-Ex6_SeedCluster.png[L04-Ex6_SeedCluster,width=800,align=ce
 
 [start=6]
 . Shut down all servers as you will be modifying their configurations to enable backups.
-. For each core servers, add these properties to the end of each *neo4j.conf* file where _X_ is the bcore number:
+. For each core servers, add these properties to the end of each *neo4j.conf* file where _X_ is the _bcore_ number:
 
 ----
 dbms.backup.enabled=true 
