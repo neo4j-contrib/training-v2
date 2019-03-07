@@ -215,9 +215,11 @@ function setGadgetUrl(sel) {
 </div>
 
 
+
 <div class="paragraph">
 <p>At the end of this module, you should be able to:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -250,9 +252,11 @@ Install Neo4j Enterprise Edition.
 </div>
 
 
+
 <div class="paragraph">
 <p>Applications connect to Neo4j using the binary <strong>Bolt</strong> protocol, which is supported by the official language drivers. Currently the drivers for .NET, Java, JavaScript, Python, and Go are officially supported by Neo4j. There are also  a set of other language drivers written by the Neo4j community.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/bolt-diagram.png" alt="bolt-diagram" width="400">
@@ -265,6 +269,7 @@ Install Neo4j Enterprise Edition.
 <div class="paragraph">
 <p>Some applications use Neo4j out-of-the-box, and others extend it with additional functionality from libraries that provide specialized procedures. Examples of these libraries include:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -295,14 +300,17 @@ Custom-developed procedures for your application
 </div>
 
 
+
 <div class="paragraph">
 <p>Your application will include at least one Neo4j database, but it could include multiple databases, each with their own Neo4j instance. A Neo4j instance can only support one active database.</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>Many deployed applications use Causal Clustering which you will learn about later in this training. Causal Clustering is an architecture which provides data safety and performance for critical systems that could be distributed all over the world.</p>
 </div>
+
 </div>
 <div  id="_example_architecture_1_using_neo4j_as_the_primary_database" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Example architecture #1: Using Neo4j as the primary database</h3>
@@ -313,9 +321,11 @@ Custom-developed procedures for your application
 </div>
 
 
+
 <div class="paragraph">
 <p>Each application (Neo4j client) communicates with Neo4j to access the graph using the Bolt or HTTP protocol. Neo4j-supported and some community drivers use the Bolt protocol. The clients can be JVMs, .NET resources, a Web server, all of which can be accessed by an end-user.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/Neo4jServerClients.png" alt="Neo4jClients" width="600">
@@ -326,6 +336,7 @@ Custom-developed procedures for your application
 <div class="paragraph">
 <p>As a Neo4j database administrator, you are responsible for the availability and consistency of the Neo4j database.</p>
 </div>
+
 </div>
 <div  id="_example_architecture_2_integrating_neo4j_with_other_databases" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Example architecture #2: Integrating Neo4j with other databases</h3>
@@ -334,6 +345,7 @@ Custom-developed procedures for your application
 <div class="paragraph">
 <p>Neo4j is often used in combination with other data sources  (<a href="https://en.wikipedia.org/wiki/Polyglot_persistence">polyglot persistence</a>), such as relational or NoSQL databases. Data can be fetched from the different systems in order to be manipulated by an application and subsequently written back to Neo4j. Other solutions can involve loading of data from a number of databases into Neo4j in order to efficiently do connected data analysis on the combined data set.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/Polyglot.png" alt="Polyglot" width="700">
@@ -347,6 +359,7 @@ Custom-developed procedures for your application
 <div class="paragraph">
 <p>With cloud-hosted microservices, the implementation chosen for the microservice is one that performs best for the type of transaction. In a cloud-based microservice architecture, there may be a number of services that Neo4j can provide to the end-users.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/Microservices.png" alt="Microservices" width="600">
@@ -357,6 +370,7 @@ Custom-developed procedures for your application
 <div class="paragraph">
 <p>As a Neo4j database administrator, you are responsible for the availability and consistency of the Neo4j database, and for making the data accessible by applications. Application developers are responsible for the logic in transferring and manipulating data between the databases.</p>
 </div>
+
 </div>
 <div  id="_example_architecture_3_using_neo4j_causal_clustering" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Example architecture #3: Using Neo4j Causal Clustering</h3>
@@ -367,9 +381,11 @@ Custom-developed procedures for your application
 </div>
 
 
+
 <div class="paragraph">
 <p>With Causal Clusters, you configure multiple Neo4j instances that communicate with each other about updates to the database. Causal Clusters are used when data needs to reside in multiple physical locations, or if you want to implement a high availability architecture where access to data will not be affected if a Neo4j instance goes down.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/ClustersHighLevel.png" alt="ClustersHighLevel" width="700">
@@ -383,6 +399,7 @@ Custom-developed procedures for your application
 <div class="paragraph">
 <p>A common use for Neo4j is when different data is required in a set of geographic locations. For example, an  online retailer may have different data in the US and Europe. Some data could be shared between different geographically located data centers, but the most heavily updated data needs to physically reside closer to the end-user applications. Neo4j Causal Clusters can be configured to span geographic locations.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/ClustersHighLevelDistributed.png" alt="ClustersHighLevelDistributed" width="800">
@@ -393,6 +410,7 @@ Custom-developed procedures for your application
 <div class="paragraph">
 <p>As a Neo4j database administrator, you will be responsible for configuring and monitoring Causal Clusters. You will work with architects to determine the appropriate configuration of the Causal Cluster, taking into account aspects such as: uptime requirements, performance requirements, and redundancy required in order to handle events of Neo4j instance failure or data center failure.</p>
 </div>
+
 </div>
 <div  id="_architecting_distributed_servers" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Architecting distributed servers</h3>
@@ -401,6 +419,7 @@ Custom-developed procedures for your application
 <div class="paragraph">
 <p>Some decisions you may need to make are:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -425,6 +444,7 @@ Which servers to use as backup servers
 <div class="paragraph">
 <p>We will cover the configuration, management and monitoring of Causal Clusters in depth later in this training.</p>
 </div>
+
 </div>
 <div  id="_example_architecture_4_using_neo4j_standalone_for_graph_analytics" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Example architecture #4: Using Neo4j standalone for graph analytics</h3>
@@ -433,6 +453,7 @@ Which servers to use as backup servers
 <div class="paragraph">
 <p>A common use case for Neo4j is for data scientists analyze complex patterns in connected data. Neo4j Bloom, or some other data visualization tool, may be used as the front-end. The following are two common patterns this use case:</p>
 </div>
+
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -456,6 +477,7 @@ Data scientists analyze the data in a Neo4j production database. In order to saf
 <div class="paragraph">
 <p>Some enterprises need to consolidate large amounts of data for analysis. The data can come from data lakes, NoSQL databases, document stores, relational, all of which is analyzed and placed into a Neo4j database for analytics. A common  architecture for streaming and analyzing data for consolidations is Apache Spark.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/GraphCompute.png" alt="GraphCompute" width="800">
@@ -466,6 +488,7 @@ Data scientists analyze the data in a Neo4j production database. In order to saf
 <div class="paragraph">
 <p>As a Neo4j database administrator, you will work with architects to ensure that the Neo4j database in this type of environment is properly configured and available to the computational engines that will write to the graph.</p>
 </div>
+
 </div>
 </div>
 <div  id="_neo4j_versions" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -477,11 +500,13 @@ Data scientists analyze the data in a Neo4j production database. In order to saf
 </div>
 
 
+
 <div class="paragraph">
 <p><em>General Availability</em> releases are our certified releases.
 They include all features and functionalities intended for that version and supported for production deployments.
 Production deployments should only use <em>General Availability</em> releases.</p>
 </div>
+
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -504,9 +529,11 @@ Data migration between non <em>General Availability</em> versions is unsupported
 </div>
 
 
+
 <div class="paragraph">
 <p>A full comparison between the Community and Enterprise Editions for the current release of Neo4j can be found at <a href="https://neo4j.com/subscriptions">Compare Community and Enterprise Editions</a>.</p>
 </div>
+
 <div  id="_community_edition" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Community Edition</h3>
 
@@ -514,6 +541,7 @@ Data migration between non <em>General Availability</em> versions is unsupported
 <div class="paragraph">
 <p>The Community Edition is a full functioning version of Neo4j suitable for single instance deployments. It has full support for key Neo4j features, such as ACID compliance, Cypher and access via the binary protocol and HTTP APIs. It is ideal for smaller internal or do-it-yourself projects that do not require high levels of scaling or professional services and support. The Community Edition is free to download and use and is available from the <a href="https://neo4j.com/download-center/#releases">Neo4j  download page</a> or from the <a href="https://github.com/neo4j/neo4j">Neo4j GitHub repository</a>.</p>
 </div>
+
 </div>
 <div  id="_enterprise_edition" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Enterprise Edition</h3>
@@ -522,6 +550,7 @@ Data migration between non <em>General Availability</em> versions is unsupported
 <div class="paragraph">
 <p>The Enterprise Edition extends the functionality of the Community Edition to include key features for performance and scalability such as a clustering architecture for high availability and online backup functionality. It is the right choice for production systems with availability requirements or needs for scaling up or out. Enterprise Edition requires a license from Neo4j.  You can download Neo4j Enterprise Edition from the  <a href="https://neo4j.com/download-center/#releases">Neo4j download page</a>. When you install Neo4j Enterprise Enterprise, you have a 30 day evaluation license.</p>
 </div>
+
 <div  id="_neo4j_desktop" class="sect3 "  >
 <h4>Neo4j Desktop</h4>
 
@@ -529,6 +558,7 @@ Data migration between non <em>General Availability</em> versions is unsupported
 <div class="paragraph">
 <p>Neo4j Desktop is used by developers who will be deploying their Neo4j applications. It&#8217;s purpose is to make development easier by providing access to supported plugins and graph visualization using the Neo4j Browser. The Neo4j instance that runs in Neo4j Desktop is Enterprise Edition so that developers have access to all of the functionality required for developing and testing a production Neo4j application. Developers can install Neo4j Desktop on Linux, OS X, and Windows. Developers can download Neo4j Desktop from the  <a href="https://neo4j.com/download-center/#releases">Neo4j download page</a>. Neo4j Desktop is free for developers to use. Developers need to ensure that the version of Neo4j they use for development is the version that will be used in a production environment.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/Neo4jDesktop.png" alt="Neo4jDesktop" width="800">
@@ -544,6 +574,7 @@ Data migration between non <em>General Availability</em> versions is unsupported
 <div class="paragraph">
 <p>After you have determined which Edition and version of Neo4j you must install for your application, you should follow the steps outlined in the <a href="https://neo4j.com/docs/operations-manual/3.5/installation/">Neo4j Operations Manual</a>. The instructions include actions that must be taken before installing Neo4j. Later in this module, you will learn how to get started managing and monitoring a Neo4j Enterprise Edition.</p>
 </div>
+
 </div>
 <div  id="_upgrading_neo4j" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Upgrading Neo4j</h3>
@@ -552,6 +583,7 @@ Data migration between non <em>General Availability</em> versions is unsupported
 <div class="paragraph">
 <p>The procedure for upgrading your Neo4j installation will depend upon what release you are upgrading from and to. If you are upgrading to a major release, the upgrade may include a data migration step. The <a href="https://neo4j.com/docs/operations-manual/3.5/upgrade/">Neo4j Operations Manual</a> provides instructions for upgrading a Neo4j installation.</p>
 </div>
+
 </div>
 <div  id="_supported_software_and_hardware" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Supported software and hardware</h3>
@@ -560,6 +592,7 @@ Data migration between non <em>General Availability</em> versions is unsupported
 <div class="paragraph">
 <p>To install and use Neo4j, the system(s) that host Neo4j Enterprise Edition have specific requirements for:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -587,6 +620,7 @@ Filesystem
 <div class="paragraph">
 <p>You should consult the <a href="https://neo4j.com/docs/operations-manual/3.5/installation/requirements/">System Requirements</a>  to learn more.</p>
 </div>
+
 </div>
 <div  id="_neo4j_deployment_options" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Neo4j deployment options</h3>
@@ -595,6 +629,7 @@ Filesystem
 <div class="paragraph">
 <p>Early in the development of an application, a decision will be made whether to deploy Neo4j instance(s), embedded within the application, or to deploy Neo4j in the Cloud.</p>
 </div>
+
 <div  id="_server_mode_deployments" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Server mode deployments</h3>
 
@@ -602,6 +637,7 @@ Filesystem
 <div class="paragraph">
 <p>This is the most common deployment, and it is recommended for all onsite deployments that do not require embedded mode. In this architecture, Neo4j runs as a database server and can be accessed through binary and http APIs for data querying and updating.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/ClientServerDeployment.png" alt="ClientServerDeployment" width="600">
@@ -643,9 +679,11 @@ This training teaches you about the configuration that will aid you in ensuring 
 </div>
 
 
+
 <div class="paragraph">
 <p>This training will primarily emphasize the production decisions and administrative tasks associated with a server mode deployment.</p>
 </div>
+
 </div>
 </div>
 <div  id="_embedded_deployments" class="sect2 columns medium-12" style='padding-left: 0;' >
@@ -656,6 +694,7 @@ This training teaches you about the configuration that will aid you in ensuring 
 <p>This architecture is more common in OEM setups, where Neo4j runs integrated as part of a third party product. When Neo4j is embedded directly into an application, you get all the functionality of the database directly accessible through the Java APIs right from the application code.
 This makes it very easy to directly work with the database and get lightning fast performance.</p>
 </div>
+
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/EmbeddedDeployment.png" alt="EmbeddedDeployment" width="300">
@@ -682,6 +721,7 @@ Choice of APIs: Access to a diversity of APIs for creating and querying data via
 <p>Your hands-on administration work with Neo4j is very minimal with embedded deployments.
 Most of the core administration tasks, such as initiating backups, monitoring, and configuration should be built into the application that is embedding Neo4j.</p>
 </div>
+
 </div>
 </div>
 <div  id="_neo4j_in_the_cloud" class="sect2 columns medium-12" style='padding-left: 0;' >
@@ -691,6 +731,7 @@ Most of the core administration tasks, such as initiating backups, monitoring, a
 <div class="paragraph">
 <p>Neo4j has been successfully hosted in these environments:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -712,6 +753,7 @@ Kubernetes
 <div class="paragraph">
 <p>To learn more about Neo4j Cloud deployments see the <a href="https://neo4j.com/developer/guide-cloud-deployment/">Developer Guide to Cloud Deployment</a> that is updated regularly.</p>
 </div>
+
 </div>
 </div>
 <div  id="_administrative_tasks_for_neo4j" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -721,6 +763,7 @@ Kubernetes
 <div class="paragraph">
 <p>In this training, you will learn how to perform these common administrative tasks for a server mode deployment:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -750,7 +793,7 @@ Managing database security
 </ul>
 </div>
 </div>
-<div  id="_exercise_1_setting_up_neo4j_enterprise_edition_on_your_system" class="sect1 columns medium-12" style='padding-left: 0;' >
+<div  id="_strong_exercise_1_setting_up_neo4j_enterprise_edition_on_your_system_strong" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 1: Setting up Neo4j Enterprise Edition on your system</strong></h3>
 
 
@@ -760,9 +803,11 @@ All screen captures for this training are from an <em>Amazon EC2 Debian instance
 </div>
 
 
+
 <div class="paragraph">
 <p><strong>Before you begin</strong></p>
 </div>
+
 
 
 <div class="paragraph">
@@ -770,9 +815,11 @@ All screen captures for this training are from an <em>Amazon EC2 Debian instance
 </div>
 
 
+
 <div class="paragraph">
 <p>You should refer to the <a href="https://neo4j.com/docs/operations-manual/3.5/installation/">Neo4j Operations Manual</a> for instructions that are specific to your platform.</p>
 </div>
+
 
 
 <div class="paragraph">
@@ -780,9 +827,11 @@ All screen captures for this training are from an <em>Amazon EC2 Debian instance
 </div>
 
 
+
 <div class="paragraph">
 <p><strong>1.</strong> Except for Debian-based distributions, download Neo4j from the <a href="https://neo4j.com/download-center/#releases">Enterprise Edition download page</a> as follows:</p>
 </div>
+
 <div class="olist loweralpha">
 <ol style="margin-left: 2.4rem;" class="loweralpha" type="a">
 <li>
@@ -803,9 +852,11 @@ You will receive an email with a link for downloading the software, as well as i
 </div>
 
 
+
 <div class="paragraph">
 <p><strong>3.</strong> Confirm that files have been installed as described <a href="https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/">here</a>.</p>
 </div>
+
 </div>
 <div  id="_references" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>References</h3>
@@ -816,9 +867,11 @@ You will receive an email with a link for downloading the software, as well as i
 </div>
 
 
+
 <div class="paragraph">
 <p>The <a href="https://neo4j.com/docs/java-reference/3.5/tutorials-java-embedded/">Java Developer Manual </a> covers using embedded mode for Neo4j and intended for developers.</p>
 </div>
+
 </div>
 <div  id="module-2" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
 <h3>Check your understanding</h3>
@@ -831,9 +884,11 @@ You will receive an email with a link for downloading the software, as well as i
 </div>
 
 
+
 <div class="paragraph">
 <p>Select the correct answer.</p>
 </div>
+
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -860,9 +915,11 @@ You will receive an email with a link for downloading the software, as well as i
 </div>
 
 
+
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
+
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -889,9 +946,11 @@ You will receive an email with a link for downloading the software, as well as i
 </div>
 
 
+
 <div class="paragraph">
 <p>Select the correct answer.</p>
 </div>
+
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -917,6 +976,7 @@ You will receive an email with a link for downloading the software, as well as i
 <div class="paragraph">
 <p>You should now be able to:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -1133,7 +1193,7 @@ $( document ).ready(function() {
 </ul>
 </li>
 <li><a href="#_administrative_tasks_for_neo4j">Administrative tasks for Neo4j</a></li>
-<li><a href="#_exercise_1_setting_up_neo4j_enterprise_edition_on_your_system"><strong>Exercise 1: Setting up Neo4j Enterprise Edition on your system</strong></a></li>
+<li><a href="#_strong_exercise_1_setting_up_neo4j_enterprise_edition_on_your_system_strong"><strong>Exercise 1: Setting up Neo4j Enterprise Edition on your system</strong></a></li>
 <li><a href="#_references">References</a></li>
 <li><a href="#module-2">Check your understanding</a>
 <ul class="sectlevel2">
