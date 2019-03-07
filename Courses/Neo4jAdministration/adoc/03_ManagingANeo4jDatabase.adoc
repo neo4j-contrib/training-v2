@@ -25,7 +25,7 @@ include::scripts.txt[]
 
 == About this module
 
-Now that you have installed the Neo4j Enterprise Edition, you will learn how to perform some administrative tasks (on Debian) with the Neo4j instance.
+Now that you have installed the Neo4j Enterprise Edition, you will learn how to perform some administrative tasks with the Neo4j instance.
 
 At the end of this module, you should be able to:
 [square]
@@ -86,7 +86,7 @@ Initially and on Debian, you should disable _neo4j_ as a service that is started
 
 `[sudo] systemctl disable neo4j`
 
-In addition, you should create the folder */var/run/neo4j* that is owned by _neo4j:neo4j_.
+In addition, you should create the folder */var/run/neo4j* that is owned by _neo4j:neo4j_. This is where the PID for the currently running Neo4j instance is placed.
 
 == Managing the Neo4j instance
 
@@ -153,7 +153,7 @@ In this Exercise, you will stop and start the Neo4j instance and view its status
 
 *Before you begin*
 
-You should disable the _neo4j_ service `[sudo] systemctrl disable neo4j`.
+You should disable the _neo4j_ service `[sudo] systemctrl disable neo4j`, if you are using a system that utilizes the _neo4j_ service (for example, Debian).
 
 *Exercise steps*:
 
@@ -170,7 +170,7 @@ You should disable the _neo4j_ service `[sudo] systemctrl disable neo4j`.
 
 `/usr/bin/cypher-shell -u <username> -p <password>`
 
-Once authenticated, you enter Cypher statements to execute just as they would in Neo4j Browser. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`. You exit `cypher-shell` with the command `:exit`.
+Once authenticated, you enter Cypher statements to execute just as you would in a Neo4j Browser session. One caveat with `cypher-shell`, however is that all Cypher commands [.underline]#must# end with `;`. You exit `cypher-shell` with the command `:exit`.
 
 === Example: Using `cypher-shell`
 
@@ -205,7 +205,7 @@ When you are done with `cypher-shell`, you enter `:exit` to exit.
 
 === *Exercise #2: Using `cypher-shell` to change the password*
 
-In this Exercise, you will log in to the database with `cypher-shell`, change the password for the database, and execute a Cypher statement to load the database.
+In this Exercise, you will log in to the database with `cypher-shell`, change the password for the database, and execute a Cypher statement to load the database. You can perform this Exercise regardless of the type of system you are using.
 
 *Before you begin*
 
@@ -214,8 +214,8 @@ You should ensure that the Neo4j instance is started.
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Log into the database with `cypher-shell` using the default credentials of _neo4j/neo4j_.
-. Execute the Cypher statement, `CALL dbms.listQueries();`. Do you get an error?
+. Log into the database with `cypher-shell` using the default credentials of _neo4j/neo4j_. (or different credentials if you changed the password previously with )`neo4j-admin set-initial-password`)
+. Execute the Cypher statement, `CALL dbms.listQueries();`. Do you get an error? Note you will not get an error if you previously changed the password.
 . Execute the Cypher statement to change the password to something you will remember.
 . Exit out of `cypher-shell`.
 . Log into the database with `cypher-shell` using the new credentials.
@@ -227,7 +227,7 @@ You should ensure that the Neo4j instance is started.
 image::{imagedir}/L03-Ex2-LoadMovieDB-cypher-shell.png[Ex2-LoadMovieDB-cypher-shell,width=1000,align=center]
 
 [start=11]
-. The database is now populated with the _Movie_ data. Execute a Cypher statement to retrieve data from the database, for example: `MATCH (p:Person) WHERE p.name='Tom Cruise' RETURN p.name, p.born;` You should see the following:
+. The database is now populated with the _Movie_ data. Log in to `cypher-shell` and execute a Cypher statement to retrieve data from the database, for example: `MATCH (p:Person) WHERE p.name='Tom Cruise' RETURN p.name, p.born;` You should see the following:
 
 image::{imagedir}/L03-Ex2-RetrieveData.png[Ex2-RetrieveData,width=1000,align=center]
 
@@ -236,13 +236,13 @@ image::{imagedir}/L03-Ex2-RetrieveData.png[Ex2-RetrieveData,width=1000,align=cen
 
 == Renaming a Neo4j database
 
-By default, the Neo4j database is located in the */var/lib/neo4j/data/databases* folder. The database is represented by a subfolder with the default name, *graph.db*. You should never modify, copy, or move any files or folders under *graph.db*.
+By default, the Neo4j database (on Debian) is located in the */var/lib/neo4j/data/databases* folder. The database is represented by a subfolder with the default name, *graph.db*. You should never modify, copy, or move any files or folders at or under *graph.db*.
 
-A key file for a Neo4j instance is */etc/neo4j/neo4j.conf*. This file contains all settings used by the Neo4j instance at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db*. Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j assumes that the default will be used a runtime.
+A key file for a Neo4j instance is */etc/neo4j/neo4j.conf*. This file contains all settings used by the Neo4j instance at runtime. Here is a portion of the default *neo4j.conf* file that is installed with Neo4j. The setting for the name of the database is the property _dbms.active_database_, which, by default, is *graph.db*. Since this is the default configuration as installed, this setting is commented out in the configuration file because Neo4j uses the default at runtime.
 
 image::{imagedir}/DefaultNeo4jConfig.png[DefaultNeo4jConfig,width=800,align=center]
 
-If you wanted to change the name of the Neo4j database, you could change the folder name *graph.db* to another name, but if you do so, you must uncomment the line in *neo4j.conf* for _dbms.active_database_ to match what you have renamed the database folder to. You typically make this type of change in the configuration when the Neo4j instance is stopped.
+If you wanted to change the name of the Neo4j database, you could change the folder name *graph.db* to another name, but if you do so, you must uncomment the line in *neo4j.conf* for _dbms.active_database_ to match what you have renamed the database folder to. You should make this type of change in the configuration when the Neo4j instance is stopped.
 
 == Deleting a Neo4j database
 
@@ -252,7 +252,7 @@ You would want to delete a Neo4j database for a couple of reasons:
 * The database is no longer needed or usable and you want to recreate a fresh database.
 * The database is no longer needed and you want to remove it so that a new database can be used. To do this you would load a new database which you will learn about next in this module.
 
-To delete a Neo4j database you must:
+To delete a Neo4j database used by a Neo4j instance you must:
 
 . Stop the Neo4j instance.
 . Remove the folder for the active database.
@@ -309,7 +309,7 @@ Here is an example where we have previously renamed the database to be _movie.db
 
 image::{imagedir}/DumpDatabase.png[DumpDatabase,width=1000,align=center]
 
-After the dump file, _movie-dump_ is created, you can move it anywhere on filesystem or network.
+After the dump file, _movie-dump_ is created, you can move it anywhere on the filesystem or network.
 
 === Creating a database from an offline backup
 
@@ -332,7 +332,7 @@ _where:_
 |_db-dump-file_
 |is the file previously created with the `dump` command of `neo4j-admin`.
 |_db-folder_
-|is the name of the database that will be created or overwritten if --force is specified as `true`.
+|is the name of the database that will be created. The database is overwritten if --force is specified as `true`.
 |===
 {set:cellbgcolor!}
 
@@ -407,7 +407,7 @@ If you have an existing database that you want to reside in a different location
 
 === Using a different location for the database
 
-If you are starting the Neo4j instance with a new location and you are not using the default *graph.db* database name, you must follow these steps to ensure that the folders for the database are set up properly:
+If you are starting the Neo4j instance with a new location and do not want to use the default *graph.db* database, you must follow these steps to ensure that the folders for the database are set up properly:
 
 . Specify the new location in the configuration file, but do not specify the active database name.
 . Start or restart the Neo4j instance. A new *graph.db* folder will be created as well as the *dbms* folder required by the instance (contains important authentication information).
@@ -418,10 +418,11 @@ If you are starting the Neo4j instance with a new location and you are not using
 . Ensure that the database folder and its subfolders are owned by  _neo4j:neo4j_.
 . Start the Neo4j instance.
 . Examine the log file to ensure it started without errors.
+. Optionally, you can remove the *graph.db* folder as you will be working with a different database you loaded.
 
 === *Exercise #4: Modifying the location of the database*
 
-In this Exercise, you will set up a different location for the database in your local filesystem and start the Neo4j instance using the database from this new location.
+In this Exercise, you will set up a different location for the database in your local filesystem and start the Neo4j instance using the database at this new location.
 
 *Before you begin*
 
@@ -474,7 +475,7 @@ image::{imagedir}/L03-Ex4-Access2.png[Ex4-Access2,width=700,align=center]
 
 == Checking the consistency of a database
 
-A database's consistency could be compromised if a software or hardware failure has occurred that affects the Neo4j instance. You will learn later in this module about live backups and replicating databases, but if you have reason to believe that a specific database has been corrupted,  you can perform a consistency check on it.
+A database's consistency could be compromised if a software or hardware failure has occurred that affects the Neo4j instance. You will learn later in this module about live backups, but if you have reason to believe that a specific database has been corrupted,  you can perform a consistency check on it.
 
 The Neo4j instance must be stopped to perform the consistency check.
 
@@ -482,7 +483,7 @@ Here is how you use the `neo4j-admin` tool to check the consistency of the datab
 
 `[sudo] neo4j-admin check-consistency --database=db-name --report-dir=report-location [--verbose=true]`
 
-The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the https://neo4j.com/docs/operations-manual/3.5/tools/consistency-checker/[Neo4j Operations Manual] for more options. For example, you can check the consistency of a backup. 
+The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the https://neo4j.com/docs/operations-manual/3.5/tools/consistency-checker/[Neo4j Operations Manual] for more options. For example, you can check the consistency of a backup which is a best practice. 
 
 Suppose we had loaded the *movie4.db* database with `neo4j-admin`. Here is what a successful run of the consistency checker should produce:
 
@@ -500,7 +501,7 @@ Inconsistencies in a database are a serious matter that should be looked into wi
 
 === *Exercise #5: Checking consistency of a database*
 
-In this Exercise, you check the consistency of a database that is consistent. Then you modify a file that causes the database to become inconsistent and then check its consistency.
+In this Exercise, you check the consistency of a database that is consistent. Then you modify a file that causes the database to become corrupt and then check its consistency.
 
 *Before you begin*
 
@@ -637,7 +638,7 @@ Here is a view of *Procedures.txt*:
 
 image::{imagedir}/DefaultProcedures.png[DefaultProcedures,width=800,align=center]
 
-By default, the procedures available to the Neo4j instance are the built-in procedures that are named *db.** and *dbms.**.
+By default, the procedures available to the Neo4j instance are the built-in procedures that are named db.* and dbms.*.
 
 === Adding a plugin to the Neo4j instance
 
@@ -697,7 +698,7 @@ image::{imagedir}/APOC.png[APOC,width=800,align=center]
 
 After you have placed the *.jar* file into the *plugins* folder, you must modify the configuration for the instance as described in the main page for APOC. As described on this page, you have an option of either _sandboxing_ or _whitelisting_ the procedures of the plugin. How much of the APOC library is used by your application is determined by the developers so you should use them as a resource for this type of configuration change. 
 
-Suppose we want to allow [.underline]#all# APOC procedures to be available to this Neo4j instance. We would sandbox the plugin in the *neo4j.conf* file as follows, similar to how we sandboxed the graph algorithms:
+Suppose we want to allow [.underline]#all# APOC procedures to be available to this Neo4j instance. We would sandbox the plugin in the *neo4j.conf* file as follows, similar to how we sandboxed the graph algorithms where we specify `dbms.security.procedures.unrestricted=algo.*,apoc.*`.
 
 image::{imagedir}/APOCConfig.png[APOCConfig,width=600,align=center]
 
@@ -769,7 +770,7 @@ The Neo4j instance uses https://neo4j.com/docs/operations-manual/3.5/configurati
 | Used by REST API. Requires additional SSL configuration.
 | Bolt
 | 7687
-| Bolt connection used by Neo4j Browser, cypher-shell
+| Bolt connection used by Neo4j Browser, cypher-shell.
 |====
 {set:cellbgcolor!}
 
@@ -892,7 +893,7 @@ image::{imagedir}/L03-Ex9-Backup-config.png[Ex9-Backup-config,width=1000,align=c
 [start=3]
 . Restart the Neo4j instance.
 . Create a folder named */usr/local/backup* and ensure that it is owned by _neo4j:neo4j_.
-. Perform an online backup of the active database (movie3.db).
+. Perform an online backup of the active database (*movie3.db*).
 The result of the backup should look something like this:
 
 image::{imagedir}/L03-Ex9-Backup1.png[Ex9-Backup1,width=1000,align=center]
