@@ -7,12 +7,15 @@
 . If you are using Neo4j Desktop:
 .. You have created a graph in a project you will use for training purposes.
 .. You have started the database.
-.. For the Neo4j Browser application, ensure that _Enable multi-statement query editor_ is selected in the browser settings. If you are using the Web interface for Neo4j Browser, this setting is assumed.
-. Make sure you have the Movie graph with 171 nodes and 253 relationships. 
+.. For the Neo4j Browser application, ensure that _Enable multi-statement query editor_ is selected in the browser settings.
+If you are using the Web interface for Neo4j Browser, this setting is assumed.
+. Make sure you have the Movie graph with 171 nodes and 253 relationships.
 
 .. You should see when you click the database icon: image:{guides}/img/InitialDatabase.png[InitialDatabase,200,200]
 
-.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
+.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database.
+Run the script by clicking the script.
+It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
 
 [source,cypher]
 ----
@@ -554,7 +557,7 @@ Your first retrieval from the database is to retrieve all data in the _Movie_ da
 MATCH (n) RETURN n 
 ----
 
-You should now see all nodes in the graph in the result pane. 
+You should now see all nodes in the graph in the result pane.
 The variable _n_ is used here as a placeholder for all nodes that are retrieved and is returned for the query.
 
 [.thumb]
@@ -569,7 +572,8 @@ The result returned should be:
 
 * If the nodes displayed are not connected, make sure that _Connect result nodes_ is selected in your Neo4j Browser settings.
 
-* If no nodes are returned, then perhaps you did not load the _Movie_ database. (See _Before you begin_).
+* If no nodes are returned, then perhaps you did not load the _Movie_ database.
+(See _Before you begin_).
 
 ++++
 <div style="clear: both;"></div>
@@ -582,7 +586,7 @@ Next, Part 2
 
 First, you will examine the schema of the graph, then you will retrieve all _Person_ nodes in the _Movie_ database.
 
-. In the query editor pane, enter the Cypher query to return the schema of the database. Do you see the labels in the schema of the graph?
+. In the query editor pane, enter the Cypher query to return the schema of the database.Do you see the labels in the schema of the graph?
 . In the query editor pane, enter the Cypher query to retrieve all _Person_ nodes from the database.
 
 == Solution, Exercise 1, Part 2 
@@ -590,7 +594,8 @@ First, you will examine the schema of the graph, then you will retrieve all _Per
 
 First, you will examine the schema of the graph, then you will retrieve all _Person_ nodes in the _Movie_ database.
 
-*1. In the query editor pane, enter the Cypher query to return the schema of the database. Do you see the labels in the schema of the graph?*
+*1. In the query editor pane, enter the Cypher query to return the schema of the database.
+Do you see the labels in the schema of the graph?*
 
 [source, cypher]
 ----
@@ -618,8 +623,8 @@ image::{guides}/img/PersonNodes.png[PersonNodes,width=300,float="right"]
 
 The result returned should be:
 
-Here we use _p_ as the variable representing all nodes retrieved and what is returned for the query. 
-Notice also, that no relationships are displayed. 
+Here we use _p_ as the variable representing all nodes retrieved and what is returned for the query.
+Notice also, that no relationships are displayed.
 That is because most _Person_ nodes have no relationships with other _Person_ nodes.
 
 ++++
@@ -652,8 +657,8 @@ image::{guides}/img/MovieNodes.png[MovieNodes,width=300,float="right"]
 
 The result returned should be:
 
-Here we use _m_ as the variable representing all nodes retrieved and what is returned for the query. 
-Notice also, that no relationships are displayed. 
+Here we use _m_ as the variable representing all nodes retrieved and what is returned for the query.
+Notice also, that no relationships are displayed.
 That is because a _Movie_ node has no relationships with another _Movie_ node.
 
 ++++
@@ -663,7 +668,7 @@ That is because a _Movie_ node has no relationships with another _Movie_ node.
 == Exercise Summary
 
 
-In this exercise, you performed some basic retrievals from the Movie database. 
+In this exercise, you performed some basic retrievals from the Movie database.
 You also called the method to examine the schema of the graph.
 
 

@@ -2,10 +2,13 @@
 == Exercise 13: Analyzing and monitoring queries
 
 .*Before you begin:*
-. Make sure you have completed Exercise 12. 
-. Make sure you have the Movie graph with 173 nodes and 257 relationships. 
+. Make sure you have completed Exercise 12.
+. Make sure you have the Movie graph with 173 nodes and 257 relationships.
 .. You should see when you click the database icon: image:{guides}/img/AfterExercise11.png[200,200]
-.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that _Enable multi-statement query editor_ is set. It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
+.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database.
+Run the script by clicking the script.
+Note that if you are using the Desktop Neo4j Browser application, you must ensure that _Enable multi-statement query editor_ is set.
+It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
 
 [source,cypher]
 ----
@@ -529,7 +532,8 @@ SET m:OlderMovie
 
 == Exercise Overview
 
-In this exercise you will look at metrics for a query during query planning (`EXPLAIN`) and during query execution (`PROFILE`). Then you will monitor a long-running query and kill it.
+In this exercise you will look at metrics for a query during query planning (`EXPLAIN`) and during query execution (`PROFILE`).
+Then you will monitor a long-running query and kill it.
 
 . In Part 1, you view query metrics.
 . In Part 2, you monitor and kill long-running queries.
@@ -539,7 +543,8 @@ Go to the next page to perform the two parts of this exercise.
 == Instructions, Exercise 13, Part 1
 .*Viewing query metrics*
 
-For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters. It assumes that you have set the _year_ and _ratingValue_ Cypher parameters:
+For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters.
+It assumes that you have set the _year_ and _ratingValue_ Cypher parameters:
 
 [source, cypher]
 ----
@@ -553,12 +558,14 @@ Perform these steps:
 
 . View the query plan for this Cypher statement.
 . View the metrics for the query when this statement executes.
-. Remove the labels from the nodes and relationships and again view the metrics. Compare the db hits from the previous version of the statement.
+. Remove the labels from the nodes and relationships and again view the metrics.
+Compare the db hits from the previous version of the statement.
 
 == Solution, Exercise 13, Part 1
 .*Viewing query metrics*
 
-For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters. It assumes that you have set the _year_ and _ratingValue_ Cypher parameters:
+For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters.
+It assumes that you have set the _year_ and _ratingValue_ Cypher parameters:
 
 [source, cypher]
 ----
@@ -600,7 +607,8 @@ The result returned should look something like this:
 image::{guides}/img/PROFILE.png[PROFILE,width=500]
 
 
-*3. Remove the labels from the nodes and relationships and again view the metrics. Compare the db hits from the previous version of the statement.*
+*3. Remove the labels from the nodes and relationships and again view the metrics.
+Compare the db hits from the previous version of the statement.*
 
 [source, cypher]
 ----
@@ -615,7 +623,8 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/PROFILE2.png[PROFILE2,width=500]
 
-You should see more db hits. This is because you removed the labels that help to filter nodes and relationships during the query.
+You should see more db hits.
+This is because you removed the labels that help to filter nodes and relationships during the query.
 
 Next, Part 2
 
@@ -629,8 +638,10 @@ Recall that a query may run for a long time because:
 
 You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window:
 
-. Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.
-. Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.
+. Open a second Neo4j Browser session.
+This session will be used for monitoring queries as they run.
+. Execute this long-running query in your original Neo4j Browser session that returns a lot of results.
+In the second Neo4j Browser window, monitor the running queries.
 
 Here is a very bad Cypher statement to use that returns a lot of results:
 [source, cypher]
@@ -664,7 +675,8 @@ Recall that a query may run for a long time because:
 
 You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window:
 
-*1. Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.*
+*1. Open a second Neo4j Browser session.
+This session will be used for monitoring queries as they run.*
 
 If you are using Neo4j Desktop, open a Web browser window and enter http://localhost:7474 which opens a second Neo4j Browser window that has access to the same graph.
 
@@ -676,7 +688,8 @@ If you are using a Neo4j Sandbox, go the the Sandbox site and simply click on th
 [.thumb]
 image::{guides}/img/SecondBrowserSandbox.png[SecondBrowserSandbox,width=500]
 
-*2. Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.* 
+*2. Execute this long-running query in your original Neo4j Browser session that returns a lot of results.
+In the second Neo4j Browser window, monitor the running queries.* 
 
 Here is a very bad Cypher statement to use that returns a lot of results:
 [source, cypher]

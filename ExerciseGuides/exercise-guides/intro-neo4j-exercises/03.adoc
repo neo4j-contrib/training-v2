@@ -3,10 +3,13 @@
 == Exercise 3: Filtering queries using relationships
 
 .*Before you begin:*
-. Make sure you have completed Exercise 2. 
-. Make sure you have the Movie graph with 171 nodes and 253 relationships. 
+. Make sure you have completed Exercise 2.
+. Make sure you have the Movie graph with 171 nodes and 253 relationships.
 .. You should see when you click the database icon: image:{guides}/img/InitialDatabase.png[InitialDatabase,200,200]
-.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that _Enable multi-statement query editor_ is set. It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
+.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database.
+Run the script by clicking the script.
+Note that if you are using the Desktop Neo4j Browser application, you must ensure that _Enable multi-statement query editor_ is set.
+It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
 
 [source,cypher]
 ----
@@ -521,11 +524,11 @@ CREATE
 
 == Exercise Overview
 
-In the previous exercise, you have filtered what nodes and properties are returned from a query based upon a value of a property for a node. 
+In the previous exercise, you have filtered what nodes and properties are returned from a query based upon a value of a property for a node.
 
-In this exercise, you will write queries that filter the nodes and property values that are returned based upon the relationships between nodes. 
-You will first use an anonymous node to specify a filter based upon a node's specific relationship to other nodes. 
-Then you will write a query that selects data based upon any relationship between nodes. 
+In this exercise, you will write queries that filter the nodes and property values that are returned based upon the relationships between nodes.
+You will first use an anonymous node to specify a filter based upon a node's specific relationship to other nodes.
+Then you will write a query that selects data based upon any relationship between nodes.
 Next, you will write a Cypher query to return information about the relationships between nodes.
 Finally, you will write a query to return property values for the relationships between nodes.
 
@@ -541,8 +544,9 @@ Go to the next page to perform the four parts of this exercise.
 
 Write and execute the following Cypher queries:
 
-. Display the schema of the database. You will use this information to help you specify relationships in your queries. 
-. Retrieve all people that have written the movie _Speed Racer_. 
+. Display the schema of the database.
+You will use this information to help you specify relationships in your queries.
+. Retrieve all people that have written the movie _Speed Racer_.
 
 .*Taking it further (optional)*
 ** Retrieve all people who have written other movies.
@@ -554,7 +558,8 @@ Write and execute the following Cypher queries:
 
 Write and execute the following Cypher queries:
 
-*1. Display the schema of the database. You will use this information to help you specify relationships in your queries.* 
+*1. Display the schema of the database.
+You will use this information to help you specify relationships in your queries.* 
 
 [source, cypher]
 ----
@@ -618,7 +623,9 @@ image::{guides}/img/TomHanksMovies.png[TomHanksMovies,width=400,float="right"]
 
 The result returned should be:
 
-Notice that _Tom Hanks_ has multiple relationships to the movie, "That Thing You Do". Also notice that we specify the named node (with a variable) first. It is a best practice to put named nodes first in a query.
+Notice that _Tom Hanks_ has multiple relationships to the movie, "That Thing You Do".
+Also notice that we specify the named node (with a variable) first.
+It is a best practice to put named nodes first in a query.
 
 ++++
 <div style="clear: both;"></div>
@@ -658,7 +665,8 @@ Next, Part 4
 == Instructions, Exercise 3, Part 4
 .*Retrieving information about the roles that _Tom Hanks_ played*
 
-As an actor, a _Person_ node in the database connects to a _Movie_ node using the _ACTED_IN_ relationship. One of the properties of the _ACTED_IN_ relationship is _roles_. 
+As an actor, a _Person_ node in the database connects to a _Movie_ node using the _ACTED_IN_ relationship.
+One of the properties of the _ACTED_IN_ relationship is _roles_.
 
 Write and execute the Cypher query to retrieve all of the roles that _Tom Hanks_ acted in.
 
@@ -669,7 +677,8 @@ Write and execute the Cypher query to retrieve all of the roles that _Tom Hanks_
 == Solution, Exercise 3, Part 4
 .*Retrieving information about the roles that _Tom Hanks_ played*
 
-As an actor, a _Person_ node in the database connects to a _Movie_ node using the _ACTED_IN_ relationship. One of the properties of the _ACTED_IN_ relationship is _roles_. 
+As an actor, a _Person_ node in the database connects to a _Movie_ node using the _ACTED_IN_ relationship.
+One of the properties of the _ACTED_IN_ relationship is _roles_.
 
 *Write and execute the Cypher query to retrieve all of the roles that _Tom Hanks_ acted in.*
 
@@ -689,10 +698,10 @@ The result returned should be:
 
 == Exercise Summary
 
-In this exercise, you wrote queries that filter the nodes and property values that are returned based upon the relationships between nodes. 
-You first used an anonymous node to specify a filter based upon a node's specific relationship to other nodes. 
-Then you wrote a query that selects data based upon any relationship between nodes. 
-Next, you wrote a Cypher query to return information about the relationships between nodes. 
+In this exercise, you wrote queries that filter the nodes and property values that are returned based upon the relationships between nodes.
+You first used an anonymous node to specify a filter based upon a node's specific relationship to other nodes.
+Then you wrote a query that selects data based upon any relationship between nodes.
+Next, you wrote a Cypher query to return information about the relationships between nodes.
 Finally, you wrote a query to return property values for the relationships between nodes.
 
 pass:a[<a play-topic='{guides}/04.html'>Continue to Exercise 4</a>]

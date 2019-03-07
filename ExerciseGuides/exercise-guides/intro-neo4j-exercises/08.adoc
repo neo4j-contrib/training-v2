@@ -2,10 +2,13 @@
 == Exercise 8: Creating Nodes
 
 .*Before you begin:*
-. Make sure you have completed Exercise 7. 
-. Make sure you have the Movie graph with 171 nodes and 253 relationships. 
+. Make sure you have completed Exercise 7.
+. Make sure you have the Movie graph with 171 nodes and 253 relationships.
 .. You should see when you click the database icon: image:{guides}/img/InitialDatabase.png[200,200]
-.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that _Enable multi-statement query editor_ is set. It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
+.. If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database.
+Run the script by clicking the script.
+Note that if you are using the Desktop Neo4j Browser application, you must ensure that _Enable multi-statement query editor_ is set.
+It will then appear in your query editor pane where you simply run it by clicking the _Play_ button.
 
 [source,cypher]
 ----
@@ -520,9 +523,12 @@ CREATE
 
 == Exercise Overview
 
-In the previous exercises, you have gained experience with Cypher queries. 
+In the previous exercises, you have gained experience with Cypher queries.
 
-In this exercise, you will write Cypher statements to create nodes. Then you will write Cypher statements to add and remove labels for nodes. Next, you will use Cypher to add properties to nodes. Finally, you will write Cypher statements to remove properties from nodes.
+In this exercise, you will write Cypher statements to create nodes.
+Then you will write Cypher statements to add and remove labels for nodes.
+Next, you will use Cypher to add properties to nodes.
+Finally, you will write Cypher statements to remove properties from nodes.
 
 . In Part 1, you create nodes.
 . In Part 2, you modify the labels for nodes.
@@ -577,7 +583,8 @@ image::{guides}/img/RetrieveForrestGump.png[RetrieveForrestGump,width=400,float=
 
 The result returned should be:
 
-*Note:* The value for the _id_ property for the newly created node may be different for your graph. It this screen shot, it is _741_.
+*Note:* The value for the _id_ property for the newly created node may be different for your graph.
+It this screen shot, it is _741_.
 
 ++++
 <div style="clear: both;"></div>
@@ -622,7 +629,7 @@ Next, Part 2
 == Instructions, Exercise 8, Part 2
 .*Modifying node labels*
 
-Next, you will practice modifying node labels. 
+Next, you will practice modifying node labels.
 Node labels are important because they are used to quickly retrieve groups of nodes.
 
 Write Cypher statements to do the following:
@@ -630,8 +637,10 @@ Write Cypher statements to do the following:
 . Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.
 . Retrieve all older movie nodes to test that the label was indeed added to these nodes.
 . Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.
-. Retrieve all _Female_ nodes. Do you notice that not all of these nodes should be labeled _Female_?
-. We've decided to not use the _Female_ label. Remove the _Female_ label from the nodes that have this label.
+. Retrieve all _Female_ nodes.
+Do you notice that not all of these nodes should be labeled _Female_?
+. We've decided to not use the _Female_ label.
+Remove the _Female_ label from the nodes that have this label.
 . View the current schema of the graph.
 
 .*Taking it further (optional)*
@@ -697,7 +706,8 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Retrieve all _Female_ nodes. Do you notice that not all of these nodes should be labeled _Female_?*
+*4. Retrieve all _Female_ nodes.
+Do you notice that not all of these nodes should be labeled _Female_?*
 
 [source, cypher]
 ----
@@ -710,13 +720,15 @@ image::{guides}/img/RetrieveFemales.png[RetrieveFemales,width=400,float="right"]
 
 The result returned should be:
 
-Here we see that there are two _Person_ nodes. The _Robin Williams_ node should not have the label _Female_.
+Here we see that there are two _Person_ nodes.
+The _Robin Williams_ node should not have the label _Female_.
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-*5. We've decided to not use the _Female_ label. Remove the _Female_ label from the nodes that have this label.*
+*5. We've decided to not use the _Female_ label.
+Remove the _Female_ label from the nodes that have this label.*
 
 [source, cypher]
 ----
@@ -754,7 +766,7 @@ Next, Part 3
 == Instructions, Exercise 8, Part 3
 .*Adding properties to nodes*
 
-Next, you will add properties to specific nodes in the graph. 
+Next, you will add properties to specific nodes in the graph.
 
 Write Cypher statements to:
 
@@ -877,7 +889,7 @@ Next, Part 4
 == Instructions, Exercise 8, Part 4
 .*Removing properties from nodes*
 
-Next, you will remove properties from specific nodes in the graph. 
+Next, you will remove properties from specific nodes in the graph.
 
 Write Cypher statements to:
 
@@ -965,6 +977,9 @@ The result returned should be:
 
 == Exercise Summary
 
-In this exercise, you wrote Cypher statements to create nodes. Then you wrote Cypher statements to add and remove labels for nodes. Next, you used Cypher to add properties to nodes. Finally, you wrote Cypher statements to remove properties from nodes.
+In this exercise, you wrote Cypher statements to create nodes.
+Then you wrote Cypher statements to add and remove labels for nodes.
+Next, you used Cypher to add properties to nodes.
+Finally, you wrote Cypher statements to remove properties from nodes.
 
 pass:a[<a play-topic='{guides}/09.html'>Continue to Exercise 9</a>]
