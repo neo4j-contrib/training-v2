@@ -3,9 +3,9 @@ echo "Rendering Training"
 #asciidoctor -T s adoc/01_IntroductionToNeo4j.adoc -o html/01_IntroductionToNeo4j.html
 #asciidoctor -T s adoc/02_OverviewOfNeo4jAdministration.adoc -o html/02_OverviewOfNeo4jAdministration.html
 #asciidoctor -T s adoc/03_ManagingANeo4jDatabase.adoc -o html/03_ManagingANeo4jDatabase.html
-#asciidoctor -T s adoc/04_CausalClusteringInNeo4j.adoc -o html/04_CausalClusteringInNeo4j.html
+asciidoctor -T s adoc/04_CausalClusteringInNeo4j.adoc -o html/04_CausalClusteringInNeo4j.html
 #asciidoctor -T s adoc/05_SecurityInNeo4j.adoc -o html/05_SecurityInNeo4j.html
-asciidoctor -T s adoc/06_MonitoringNeo4j.adoc -o html/06_MonitoringNeo4j.html
+#asciidoctor -T s adoc/06_MonitoringNeo4j.adoc -o html/06_MonitoringNeo4j.html
 #asciidoctor -T s adoc/07_Summary.adoc -o html/07_Summary.html
 
 

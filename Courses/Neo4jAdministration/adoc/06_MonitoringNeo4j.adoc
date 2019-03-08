@@ -45,7 +45,7 @@ The Neo4j instance writes events to log files where you can configure the level 
 
 Some linux installations may use a system service to collect log files and allow you to access log data with `journalctl` as described in the https://neo4j.com/docs/operations-manual/3.5/installation/linux/systemd/[Neo4j Operations Manual]. You have already seen some of the events that are written to the *neo4j.log* file (`journalctl -u neo4j` on Debian)  when the Neo4j instance starts and you want to confirm that it started successfully. In addition, you have seen error events written to *debug.log* when attempting to start a Neo4j instance in a Causal Cluster. You have also seen authentication events that are written to the *security.log* file when users connect to the Neo4j instance.
 
-In the previous module _Security in Neo4j_, you learned about the authentication events that are written to the *security.log* file. The categories of events that you configure for and monitor in log files that you will learn about in this module include:
+In the previous module, _Security in Neo4j_, you learned about the authentication events that are written to the *security.log* file. The categories of events that you configure for and monitor in log files that you will learn about in this module include:
 
 [square]
 * Queries
@@ -92,6 +92,7 @@ Inspecting the log file for queries that completed in more than XX milliseconds 
 
 There are two reasons why a Cypher query may take a long time:
 
+[square]
 * The query returns a lot of data. The query completes execution in the graph engine, but it takes a long time to create the result stream.
 ** Example: `MATCH (a)--(b)--(c)--(d)--(e)--(f) RETURN a`
 * The query takes a long time to execute in the graph engine.
@@ -259,9 +260,9 @@ The connection with the userAgent value of _neo4j-java/dev_ is the cypher-shell 
 With `dbms.listConnections()`, you can identify a connection that:
 
 [square]
- * has been connected to the Neo4j instance for too long a time period.
- * is from a user that you do not want connecting to the Neo4j instance.
- * is from a suspect IP address. 
+* has been connected to the Neo4j instance for too long a time period.
+* is from a user that you do not want connecting to the Neo4j instance.
+* is from a suspect IP address. 
  
 You terminate the connection to the Neo4j instance with a call to `dbms.killConnection()` where you can provide the connection ID or a comma-separated list of connection IDs with the format `['connectID-xx','connectID-yy']`.
 
@@ -428,7 +429,7 @@ jcmd <PID for Neo4j instance> VM.native_memory summary.diff
 In order to use `jcmd` for a Neo4j instance, you must ensure that the instance is started with the `dbms.jvm.additional` property set and you must run it as the user _neo4j_.  *Hint*: `sudo su - neo4j`.
 
 
-Refer to the https://neo4j.com/docs/operations-manual/3.5/performance/[Neo4j Operations Manual] for guidance about configuring memory, indexes, etc. for the Neo4j instance. In a production environment, you should work with Neo4j technical support to ensure that you are monitoring memory usage and have the appropriate settings. The _Performance_ section of the documentation has guidelines that you should consider when configuring your Neo4j instance that are beyond the scope of this training.
+Refer to the https://neo4j.com/docs/operations-manual/3.5/performance/[Neo4j Operations Manual] for guidance about configuring memory, indexes, etc. for the Neo4j instance. In a production environment, you should work with Neo4j Technical Support to ensure that you are monitoring memory usage and have the appropriate settings. The _Performance_ section of the documentation has guidelines that you should consider when configuring your Neo4j instance that are beyond the scope of this training.
 
 === *Exercise #5: Monitoring a memory issue*
 

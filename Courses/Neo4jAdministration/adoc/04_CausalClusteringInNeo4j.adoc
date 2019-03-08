@@ -54,7 +54,7 @@ image::{imagedir}/ClustersArchitecture.png[ClustersArchitecture,width=400,align=
 
 ==== Core servers
 
-Core servers are used for read and write access to the database. The core servers are used to synchronize updates to the database, regardless of the number and physical locations of the Neo4j instances. By default, in a cluster architecture, a transaction is committed if a majority (_quorum_) of the core servers defined as the minimum required for the cluster have written the data to the physical database.  This coordination  between core servers is implemented using the _Raft_protocol. You can have a large number of core servers, but the more core servers in the application architecture, the longer a "majority" commit will take. At a minimum, an application should use three core servers to be considered fault-tolerant. If one of the three servers fail, the cluster is still operable for updates to the database. If you want an architecture that can support two servers failing, then you must configure five core servers. You cannot configure a cluster with two core servers because if one server fails, the second server is automatically set to be read-only, leaving your database to be inoperable for updates.
+Core servers are used for read and write access to the database. The core servers are used to synchronize updates to the database, regardless of the number and physical locations of the Neo4j instances. By default, in a cluster architecture, a transaction is committed if a majority (_quorum_) of the core servers defined as the minimum required for the cluster have written the data to the physical database.  This coordination  between core servers is implemented using the _Raft_ protocol. You can have a large number of core servers, but the more core servers in the application architecture, the longer a "majority" commit will take. At a minimum, an application should use three core servers to be considered fault-tolerant. If one of the three servers fail, the cluster is still operable for updates to the database. If you want an architecture that can support two servers failing, then you must configure five core servers. You cannot configure a cluster with two core servers because if one server fails, the second server is automatically set to be read-only, leaving your database to be inoperable for updates.
 
 image::{imagedir}/QuorumCommit.png[QuorumCommit,width=600,align=center]
 
@@ -253,7 +253,7 @@ docker run --name=core3 \
         b4ca2f886837
 ----
 
-In this example, the name of the Docker container is _core3_. We map the conf, data, and logs folders for the Neo4j instance when it starts to our local filesystem. We map the http and bolt ports to values that will be unique on our system (13474 and 13687). We specify the bolt address to use. The name of the Docker network that is used for this cluster is _training-cluster_. _ACCEPT_LICENSE_AGREEMENT_ is required. The size of the cluster is three core servers and the names of the [potential] members are specified as _core1_, _core2_, _core3_, core4_, and _core5_. These servers use port 5000 for the discovery listen address. This instance will be used as a core server (dbms.mode=CORE). The container is started in this script detached, meaning that no output or interaction will be produced. And finally the ID of the Neo4j Enterprise 3.5.0 container is specified (b4ca2f886837). When you specify the Neo4j parameters for starting the container (`docker run`), you always prefix them with "--env=NEO4J_". In addition, you specify "_"  for "."  and  "__"  for "_" instead of what you would use in the Neo4j configuration file.
+In this example, the name of the Docker container is _core3_. We map the conf, data, and logs folders for the Neo4j instance when it starts to our local filesystem. We map the http and bolt ports to values that will be unique on our system (13474 and 13687). We specify the bolt address to use. The name of the Docker network that is used for this cluster is _training-cluster_. _ACCEPT_LICENSE_AGREEMENT_ is required. The size of the cluster is three core servers and the names of the [potential] members are specified as _core1_, _core2_, _core3_, _core4_, and _core5_. These servers use port _5000_ for the discovery listen address. This instance will be used as a core server (_dbms.mode=CORE_). The container is started in this script detached, meaning that no output or interaction will be produced. And finally the ID of the Neo4j Enterprise 3.5.0 container is specified (_b4ca2f886837_). When you specify the Neo4j parameters for starting the container (`docker run`), you always prefix them with "--env=NEO4J_". In addition, you specify the underscore character for the dot character and a double underscore for the single underscore character instead of what you would use in the Neo4j configuration file.
 
 [NOTE]
 When using the Neo4j Docker instance, a best practice is to specify more members in the cluster, but not require them to be started when the cluster forms. This will enable you to later add core servers to the cluster. 
@@ -272,7 +272,7 @@ In this Exercise, you will gain experience with a simple cluster using Docker co
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Confirm that you have the Neo4j 3.5.0 Docker image: `docker images` 
+. Confirm that you have the Neo4j 3.5.0 Docker image: `docker images`. Note that you will have a different Image ID.
 
 image::{imagedir}/L04-Ex1-DockerImages.png[L04-Ex1-DockerImages,width=800,align=center]
 
@@ -293,7 +293,7 @@ image::{imagedir}/L04-Ex1-create_cores-run.png[L04-Ex1-create_cores-run,width=80
 image::{imagedir}/L04-Ex1-containersCreated.png[L04-Ex1-containersCreated,width=1000,align=center]
 
 [start=7]
-. Open a terminal window for each of the core servers. (three of them)
+. Open a terminal window for each of the core servers. (three of them).
 . In each core server window, start the instance: `docker start -a coreX`. The instance should be started. These instances are set up so that the default browser port on localhost will be 11474, 12474, and 13474 on each instance respectively. Notice that each instance uses it's own database as the active database. For example, here is the result of starting the core server containers. Notice that each server starts as part of the cluster. The servers are not fully started until all catchup has been done between the servers and the _Started_ record is shown. The databases will not be accessible by clients until _all_ core members of the cluster have successfully started.
 
 image::{imagedir}/L04-Ex1-CoresStarted.png[L04-Ex1-CoresStarted,width=600,align=center]
@@ -343,11 +343,11 @@ If the the amount of application data is relatively small (less than 10M nodes) 
 
 ===  *Exercise #2: Seeding the cluster databases*
 
-In this Exercise, you will populate the databases in the cluster that you created earlier. Because you are using Docker containers for learning about clustering, you cannot perform the normal seeding procedures as you would in your real production environment because when using the Neo4j Docker containers, the Neo4j instance is already started when you start the container. Instead, you will simply start the core servers in the cluster and connect to [underline]#one of them#. Then you will use `cypher-shell` to load the _Movie_ data into the database. 
+In this Exercise, you will populate the databases in the cluster that you created earlier. Because you are using Docker containers for learning about clustering, you cannot perform the normal seeding procedures as you would in your real production environment because when using the Neo4j Docker containers, the Neo4j instance is already started when you start the container. Instead, you will simply start the core servers in the cluster and connect to [underline]#one of them#. Then you will use `cypher-shell` to load the _Movie_ data into the database and the data will be propagated to the other core servers. 
 
 *Before you begin*
 
-Ensure that you have performed the steps in Exercise 1 where you set up the core servers as Docker containers. Note that you can perform the steps of this exercise in a single terminal window.
+Ensure that you have performed the steps in Exercise 1 where you set up the core servers as Docker containers. Note that you can perform the steps of this Exercise in a single terminal window.
 
 
 *Exercise steps*:
@@ -398,7 +398,7 @@ Applications that update the database should [underline]#always# use _bolt+routi
 * Automatic routing to an available server.
 * Load balancing of requests between the available servers.
 * Automatic retries.
-* Causal chaining (bookmarks)
+* Causal chaining (bookmarks).
 
 For example, if you have a cluster with three core servers and _core1_ is the _LEADER_, your application can only write to _core1_ using the _bolt_ protocol and bolt port for _core1_. An easy way to see this restriction is if you use the default address for `cypher-shell` on the system where a _FOLLOWER_ is running. If you connect via `cypher-shell` to the server on _core2_ and attempt to update the database, you receive an error:
 
@@ -412,7 +412,7 @@ In this Exercise, you gain some experience with _bolt+routing_ by running two st
 
 *Before you begin*
 
-. Ensure that you have performed the steps in Exercise 2 where you have populated the database used for the cluster and all three core servers are running. Note that you can perform the steps of this exercise in a single terminal window.
+. Ensure that you have performed the steps in Exercise 2 where you have populated the database used for the cluster and all three core servers are running. Note that you can perform the steps of this Exercise in a single terminal window.
 . Ensure that the three core servers are started.
 . Log out of the core server if you have not done so already. You should be in a terminal window where you manage Docker.
 
@@ -531,7 +531,7 @@ As an administrator, you must understand which core servers are participating in
 
 If a core server shuts down, the cluster can still operate provided the number of core servers is equal to or greater than _quorum_. For example, if the current number of core servers is three, _quorum_ is two. Provided the cluster has two core servers, it is considered operational for updates. If the cluster maintains quorum, then it is possible to add a different core server to the cluster since a quorum must exist for voting in a new core server.
 
-If the _LEADER_ core server shuts down, then one of the other _FOLLOWER_ core servers assumes the role of _LEADER_, provided a quorum still exists for the cluster. If a cluster is left with only _FOLLOWER_ core servers, this is because _quorum_ no longer exists and as a result,the database is read-only.  As an administrator, you must ensure that your cluster always has a _LEADER_.
+If the _LEADER_ core server shuts down, then one of the other _FOLLOWER_ core servers assumes the role of _LEADER_, provided a quorum still exists for the cluster. If a cluster is left with only _FOLLOWER_ core servers, this is because _quorum_ no longer exists and as a result, the database is read-only.  As an administrator, you must ensure that your cluster always has a _LEADER_.
 
 The core servers that are used to start the cluster (membership) are important. Only core servers that originally participated in the cluster can be running in order to add a new core server to the cluster.
 

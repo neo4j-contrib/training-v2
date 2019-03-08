@@ -82,7 +82,7 @@ The primary facets of building security into your Neo4j application include:
 * Authorization — Is a user allowed to do what they are attempting to do?
 * Auditing – Create a record of who did what and when (so that you can monitor activity and investigate security breaches).
 
-At a high level, the implementation of how your application performs authentication, authorization, and auditing can be configured by you as an administrator. However, there are aspects of security that may cross into application code. For example, there may be a specific procedure written that can only be executed by certain users. The procedure must be annotated as such. In addition, code may be written to check roles at runtime for authorization.
+At a high level, the implementation of how your application performs authentication, authorization, and auditing can be configured by you as an administrator. However, there are aspects of security that may cross into application code. For example, there may be a specific procedure written that can only be executed by certain users. The procedure must be annotated and configured as such. In addition, code may be written to check roles at runtime for authorization.
 
 === Securing the deployed application and infrastructure
 
@@ -110,17 +110,18 @@ There are three types of authentication frameworks supported by Neo4j:
 * Custom-built authentication
 * Single Point of Authentication (SPA)
 
-Native user authentication means that users are created in the Neo4j database and authentication is performed based upon those values. Most enterprise application do not use native user authentication in their deployed application.  
+Native user authentication means that users are created in the Neo4j database and authentication is performed based upon those values. Most enterprise applications do not use native user authentication in their deployed application.  
 
 Your application developers could write a custom authentication plugin. Although this is possible, the underlying internal procedures called by the custom authentication plugin could change in future releases of Neo4j so it is best to avoid this type of authentication for a deployed, secure application that will survive upgrades of Neo4j. 
 
 A SPA is highly recommended by Neo4j because it is easier to maintain and is more secure than an enterprise that uses multiple sources of user accounts. 
 Examples of a SPA are Lightweight Directory Access Protocol (LDAP), Active Directory (AD), and Kerberos which can be used for single sign-on. 
 The SPA is the only service in your enterprise that stores user names and passwords. 
-For training purposes, we will use an LDAP provider for authentication, but in your real application, you will need to configure Neo4j for whatever provider you use for user authentication.
+For training purposes, we will use an LDAP provider for authentication, but in your real application, you will need to configure Neo4j for whatever provider your application uses for user authentication.
 
-You will use OpenLDAP for the hands-on exercises. 
-If you will be using a different LDAP or authentication provider, you should consult the https://neo4j.com/docs/operations-manual/3.5/authentication-authorization/[Neo4j Operations Manual].
+You will use OpenLDAP for the hands-on Exercises of this module.
+
+If you will be using a different LDAP or authentication provider in your real application, you should consult the https://neo4j.com/docs/operations-manual/3.5/authentication-authorization/[Neo4j Operations Manual].
 
 === Enabling authentication
 
@@ -142,15 +143,15 @@ There are many LDAP providers an enterprise can use including Active Directory a
 
 The tasks for using LDAP for authentication with Neo4j include:
 
-. Add role information to LDAP (groups)
-. Configure Neo4j for LDAP authentication
-. Test
+. Add role information to LDAP (groups).
+. Configure Neo4j for LDAP authentication.
+. Test.
 
 ==== Adding groups for roles in LDAP
 
 In your enterprise, you will need to work with the system administrator responsible for maintaining the user directory (LDAP). Part of the configuration that [underline]#must# be modified for LDAP is the addition of groups for users. The groups added to LDAP and associated with specific users correspond to roles in Neo4j. An easy way to identify a group in LDAP is with a group ID.
 
-For example, the LDAP would have these entries that correspond to the Neo4j native _reader_ and _publisher_ roles for the *neo4jtraining.com* domain. The attribute that is used to identify the groups is _gidnumber_. 
+For example, the LDAP would have these entries that correspond to the Neo4j native _reader_ and _publisher_ roles for the training *neo4jtraining.com* domain. The attribute that is used to identify the groups is _gidnumber_. 
 ----
 # reader group
 dn: cn=reader,ou=groups,dc=neo4jtraining,dc=com
@@ -326,15 +327,15 @@ You can configure Neo4j to work with:
 * Active Directory using a sAMAccountName
 * openLDAP
 
-Each of these LDAP providers require different settings for authentication. For example using AD and openLDAP, you specify a value for _dbms.security.ldap.authentication.user_dn_template_ and for AD with sAMAccountName, you specify values for other properties.
+Each of these LDAP providers require different settings for authentication. For example using _AD_ and _openLDAP_, you specify a value for _dbms.security.ldap.authentication.user_dn_template_ and for _AD_ with _sAMAccountName_, you specify values for other properties.
 
-Using AD with SAMAccountName gives you the greatest flexibility because with this configuration, you do not need to specify a fixed _dn_ template for authentication. Most enterprise deployments use this option.
+Using _AD_ with _SAMAccountName_ gives you the greatest flexibility because with this configuration, you do not need to specify a fixed _dn_ template for authentication. Most enterprise deployments use this option.
 
 There are several properties you specify for authorization and how you set these properties will depend on your LDAP provider.
 
 In summary, there are three options for authorization with LDAP to establish the user's group membership:
 
-[cols="<.^,<.^", options="header",stripes="none"]
+[cols="20,80", options="header",stripes="none"]
 |====
  *Settings*
 | *Description*
@@ -349,11 +350,11 @@ _use_samaccountname=false_
 | _use_system_account = true_
 
 _use_samaccountname=true_
-| The system account will log in and search for the user based upon their _samaccountname_ and will do both group membership as well as return the users _dn__ so that bind (authentication) can be completed for the user.
+| The system account will log in and search for the user based upon their _samaccountname_ and will do both group membership as well as return the users _dn_ so that bind (authentication) can be completed for the user.
 |====
 {set:cellbgcolor!}
 
-For openLDAP, you set up a stand-alone or core and read replica servers in a cluster for authentication using an LDAP Server, you configure the following:
+For _openLDAP_, you set up a stand-alone or core and read replica servers in a cluster for authentication using an LDAP Server, you configure the following:
 
 ----
 dbms.security.auth_enabled=true
@@ -513,10 +514,10 @@ Users “in the building”, such as employees can access the application from a
 
 If your application has users that access the application over the Internet, you should implement SSL/TLS by doing the following.
 
-* Identify which server processes are accessed by users over the Internet
-* Identify server ports that will be used for these server processes
-* Configure each server process to use SSL ports
-* Create and publish secure digital certificates for each server process
+* Identify which server processes are accessed by users over the Internet.
+* Identify server ports that will be used for these server processes.
+* Configure each server process to use SSL ports.
+* Create and publish secure digital certificates for each server process.
 
 A digital certificate is used by client applications when they communicate with the server processes using SSL/TLS. A digital certificate must have an expiration date.
 
@@ -542,7 +543,7 @@ Here are the steps you should take for your production system.
 To use SSL/TLS with the Neo4j instance, you must first ensure that the https://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java Cryptography Extension (JCE)] is installed on the host machine.
  
 . Download the JCE zip file from the above location or from https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/jce_policy-8.zip[here]
-. Unzip the file to create *local_policy.jar* and *US_export_policy.jar*f.
+. Unzip the file to create *local_policy.jar* and *US_export_policy.jar*.
 . Navigate to the Java 8 *jre/lib/security/policy/unlimited* folder.
 . Save a copy of the existing files.
 . Copy the two *.jar* files you unzipped into this *unlimited* folder.
@@ -609,7 +610,7 @@ The directory *client_policy* is where the certificate and key is available to t
 
 === SSL for Causal Clusters
 
-For each Neo4j instance that will serve as a core server or read replica, you should configure SSL as you have done for a stand-alone Neo4j instance. You must configure a separate policy for the cluster, for example _cluster_policy_. Each server will use both the _client_policy_ and the _cluster_policy_.
+For each Neo4j instance that will serve as a core server or read replica, you should configure SSL as you do for a stand-alone Neo4j instance. You must configure a separate policy for the cluster, for example _cluster_policy_. Each server will use both the _client_policy_ and the _cluster_policy_.
 
 Here is an example of the SSL configuration for a member of a cluster that you add to the Neo4j configuration in addition to the SSL configuration settings you saw earlier for the client policy:
 
@@ -656,9 +657,7 @@ dbms.udc.enabled=false
 
 === Best practices for developers
 
-You should work with your security administrator to come up with a set of guidelines for developers of your application to ensure that data-in-transit is secure.
-
-For example, developers should never include private data in a Cypher statement, but use parameters to avoid Cypher injections at runtime.
+You should work with your security administrator to come up with a set of guidelines for developers of your application to ensure that data-in-transit is secure. For example, developers should never include private data in a Cypher statement, but use parameters to avoid Cypher injections at runtime.
 
 == Securing data-at-rest
 
@@ -790,7 +789,7 @@ The `neo4j-shell` utility has been deprecated and you should not allow any users
 
 JMX is sometimes used for monitoring system activity. JMX is not secure and by default is disabled in Neo4j.
 
-You should work closely with Neo4j technical support to ensure that your production system is secure. See this https://neo4j.com/docs/operations-manual/3.5/security/checklist/[Security Checklist] will also help you to determine if you have set up your systems correctly.
+You should work closely with Neo4j Technical Support to ensure that your production system is secure. See this https://neo4j.com/docs/operations-manual/3.5/security/checklist/[Security Checklist] will also help you to determine if you have set up your systems correctly.
 
 [#module-5.quiz]
 == Check your understanding
