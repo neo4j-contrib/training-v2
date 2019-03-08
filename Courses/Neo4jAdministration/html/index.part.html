@@ -10,22 +10,26 @@ window.trainingClassName = 'neo4j-administration';
 
 
 
-  <script type="text/javascript">
-    var country = null;
-    var state = null;
+<script type="text/javascript">
+  const SITE_URL = window.location;
+</script>
 
-    var geoOnSuccess = function(geoipResponse) {
-      country = geoipResponse.country.names.en;
-      if (geoipResponse.subdivisions.length > 0) {
-        // state = geoipResponse.subdivisions[0].iso_code;
-        state = geoipResponse.subdivisions[0].names.en;
-      }
+<script type="text/javascript">
+  var country = null;
+  var state = null;
+
+  var geoOnSuccess = function(geoipResponse) {
+    country = geoipResponse.country.names.en;
+    if (geoipResponse.subdivisions.length > 0) {
+      // state = geoipResponse.subdivisions[0].iso_code;
+      state = geoipResponse.subdivisions[0].names.en;
     }
-    var geoOnError = function(error) {
-      console.log(error);
-    }
-    geoip2.city( geoOnSuccess, geoOnError );
-  </script>
+  }
+  var geoOnError = function(error) {
+    console.log(error);
+  }
+  geoip2.city( geoOnSuccess, geoOnError );
+</script>
 
 
   <script type="text/javascript">
@@ -99,9 +103,13 @@ var getTimeDiff = function(time1, time2) {
 
 
 <script type="text/javascript">
+  var logout = function() {
+    record_event('training', 'logout-neo4j-administration');
+    window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + SITE_URL;
+  }
   var loginButtonAction = function(e) {
     record_event('training', 'login-neo4j-administration');
-    window.location = "https://neo4j.com/accounts/login/?targetUrl=https://neo4j.com/graphacademy/online-training/neo4j-administration/";
+    window.location = "https://neo4j.com/accounts/login/?targetUrl=" + SITE_URL;
   }
   var gcSendEvent = function(component, eventText, eventDetail) {
     try {
@@ -127,7 +135,7 @@ $(document).ready(function() {
     loginButtonAction(e);
   });
   $('.btn-continue').click(function (e) {
-    window.location = 'https://neo4j.com/graphacademy/online-training/neo4j-administration/part-0/';
+    window.location = SITE_URL + 'part-0/';
   });
 });
 
@@ -167,7 +175,7 @@ $(document).ready(function() {
 
 
 
-<div id="logout" style="display: none; position: absolute; right: 50px; top: 50px;"><a href="https://neo4j.com/accounts/logout/?targetUrl=https://neo4j.com/graphacademy/online-training/neo4j-administration/" class="medium button feature-box_button">Logout</a></div>
+<div id="logout" style="display: none; position: absolute; right: 50px; top: 50px;"><a href="#" onclick="logout();" class="medium button feature-box_button">Logout</a></div>
 
 <div class="row">
   <div class="medium-12 columns text-center">
@@ -211,7 +219,7 @@ This course is intended for administrators. As a self-paced training, this cours
         </div> 
         <div class="custom-form" style="text-align: center" id="reg-start">
           <button type="button" class="btn btn-success btn-login" style="vertical-align: middle;">Sign In</button>
-          <a href="/accounts/logout/?targetUrl=https://neo4j.com/graphacademy/online-training/neo4j-administration/" style="display: none" class="reg-logout">Logout</a>
+          <a href="#" onclick="logout();" style="display: none" class="reg-logout">Logout</a>
         </div>
         <div class="custom-form" style="text-align: center; display: none" id="reg-continue">
           <button type="button" class="btn btn-success btn-continue" style="vertical-align: middle;">Continue to the Course</button>
@@ -235,7 +243,7 @@ This course is intended for administrators. As a self-paced training, this cours
                      record_event('training', 'register-administration');
                      gcSendEvent('online_training', 'register', 'Neo4j Administration');
                      Cookies.set('com.neo4j.graphacademy.training.neo4jadministration.form_submit', true);
-                     window.location = 'https://neo4j.com/graphacademy/online-training/neo4j-administration/part-0/';
+                     window.location = SITE_URL + 'part-0/';
                   });
              return false;
          });
