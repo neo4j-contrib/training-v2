@@ -50,29 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6: Controlling results returned</h3>
+    <h3>Exercise 6: Controlling results returned (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 5.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 171 nodes and 253 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -592,33 +585,42 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 6: Controlling results returned (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In the previous Exercises, you wrote queries to perform additional filtering, count and collect results, as well as to perform some intermediate processing during the query.</p>
+<p>In the previous exercise, you wrote queries to perform additional filtering, count and collect results, as well as to perform some intermediate processing during the query.</p>
 </div>
 <div class="paragraph">
-<p>In this Exercise, you will write queries where you can customize what results are returned and if they will be sorted.
+<p>In this exercise, you will write queries where you can customize what results are returned and if they will be sorted.
 First, you will write a query that eliminates duplication of rows returned.
 Then you write a query that sorts the data returned.
 Finally, you will write a query to limit the number of results returned.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you use the <code>DISTINCT</code> keyword to eliminate duplication.</p>
+<p><strong>Exercise 6.1</strong>: Execute a query that returns duplicate records.</p>
 </li>
 <li>
-<p>In Part 2, you use the <code>ORDER BY</code> keyword to sort results returned.</p>
+<p><strong>Exercise 6.2</strong>: Modify the qyerty ti use the <code>DISTINCT</code> keyword to eliminate duplication.</p>
 </li>
 <li>
-<p>In Part 3, you write queries to limit the number of results returned.</p>
+<p><strong>Exercise 6.3</strong>: Modify the query to eliminate more duplication.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 6.4</strong>: Use the <code>ORDER BY</code> keyword to sort results returned.</p>
+</li>
+<li>
+<p><strong>Exercise 6.5</strong>: Retrieve the top 5 ratings and their associated movies.</p>
+</li>
+<li>
+<p><strong>Exercise 6.6</strong>: Retrieve all actors that have not appeared in more than 3 movies</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the three Parts of this Exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -628,25 +630,11 @@ Finally, you will write a query to limit the number of results returned.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 6, Part 1</h3>
+    <h3>Exercise 6.1: Execute a query that returns duplicate records. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Eliminating duplication</strong></div>
-<p>Write the following Cypher queries:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.</p>
-</li>
-<li>
-<p>The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.</p>
-</li>
-<li>
-<p>The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.</p>
-</li>
-</ol>
+<p><strong>You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.</strong></p>
 </div>
 	</div>
   </div>
@@ -656,15 +644,11 @@ Finally, you will write a query to limit the number of results returned.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 6, Part 1</h3>
+    <h3>Exercise 6.1: Execute a query that returns duplicate records. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Eliminating duplication</strong></div>
-<p>Write the following Cypher queries:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.</strong></p>
+<p><strong>You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -675,15 +659,40 @@ RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies1.png" alt="NinetiesMovies1" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/NinetiesMovies1.png" alt="NinetiesMovies1" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.2: Modify the query ti use the <code>DISTINCT</code> keyword to eliminate duplication. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.2: Modify the query ti use the <code>DISTINCT</code> keyword to eliminate duplication. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -694,15 +703,40 @@ RETURN  m.released, collect(m.title), collect(a.name)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies2.png" alt="NinetiesMovies2" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/NinetiesMovies2.png" alt="NinetiesMovies2" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.3: Modify the query to eliminate more duplication. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.3: Modify the query to eliminate more duplication. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -713,15 +747,26 @@ RETURN  m.released, collect(DISTINCT m.title), collect(a.name)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies3.png" alt="NinetiesMovies3" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/NinetiesMovies3.png" alt="NinetiesMovies3" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 2</p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.4: Use the <code>ORDER BY</code> keyword to sort results returned (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.</strong></p>
 </div>
 	</div>
   </div>
@@ -731,26 +776,10 @@ RETURN  m.released, collect(DISTINCT m.title), collect(a.name)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 6, Part 2</h3>
+    <h3>Exercise 6.4: Use the <code>ORDER BY</code> keyword to sort results returned (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Ordering results.</strong></div>
-<p>Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 6, Part 2</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Ordering results.</strong></div>
 <p><strong>Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.</strong></p>
 </div>
 <div class="listingblock">
@@ -763,15 +792,29 @@ ORDER BY m.released DESC<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/OrderBy.png" alt="OrderBy" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/OrderBy.png" alt="OrderBy" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.5: Retrieve the top 5 ratings and their associated movies (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Next you will limit the number of results returned.</p>
+</div>
 <div class="paragraph">
-<p>Next, Part 3</p>
+<p><strong>Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.</strong></p>
 </div>
 	</div>
   </div>
@@ -781,40 +824,11 @@ ORDER BY m.released DESC<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 6, Part 3</h3>
+    <h3>Exercise 6.5: Retrieve the top 5 ratings and their associated movies (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Limiting results returned</strong></div>
-<p>Write the following Cypher queries:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.</p>
-</li>
-<li>
-<p>Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 6, Part 3</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Limiting results returned</strong></div>
-<p>Write the following Cypher queries:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.</strong></p>
+<p><strong>Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -825,15 +839,40 @@ ORDER BY r.rating DESC LIMIT 5<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/Limit1.png" alt="Limit1" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/Limit1.png" alt="Limit1" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -845,7 +884,7 @@ RETURN a.name, movies<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AtMost3MoviesPerActor.png" alt="AtMost3MoviesPerActor" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AtMost3MoviesPerActor.png" alt="AtMost3MoviesPerActor" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -860,17 +899,17 @@ RETURN a.name, movies<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 6: Controlling results returned (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise, you wrote queries where you can customize what results are returned and if they will be sorted.
+<p>In this exercise, you wrote queries where you can customize what results are returned and if they will be sorted.
 First, you wrote a query that eliminates duplication of rows returned.
 Then you wrote a query that sorts the data returned.
 Finally, you wrote a query to limit the number of results returned.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/07.html'>Continue to Exercise 7</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/07.html'>Continue to Exercise 7</a></p>
 </div>
 	</div>
   </div>

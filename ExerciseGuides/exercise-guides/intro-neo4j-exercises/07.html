@@ -50,29 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 7: Working with Cypher data</h3>
+    <h3>Exercise 7: Working with Cypher data (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 6.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 171 nodes and 253 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -592,33 +585,37 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 7: Working with Cypher data (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In the previous Exercises, you wrote queries using Cypher syntax for retrieving, filtering, ordering, avoiding duplication, and performing intermediate processing during a query. These queries give you a good basis for exploring more types of queries against the <em>Movie</em> database you are working with for this training.</p>
+<p>In the previous exercises, you wrote queries using Cypher syntax for retrieving, filtering, ordering, avoiding duplication, and performing intermediate processing during a query.
+These queries give you a good basis for exploring more types of queries against the <em>Movie</em> database you are working with for this training.</p>
 </div>
 <div class="paragraph">
-<p>In this Exercise, you will write more Cypher statements to work with lists and you will also work with dates.
+<p>In this exercise, you will write more Cypher statements to work with lists and you will also work with dates.
 First, you will write a query where lists are collected and the results returned are sorted by the size of the list.
 Then you will write a query that collects and unwinds a list.
 Finally, you write a query that performs calculations based upon a date retrieved from the graph.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you collect and use lists.</p>
+<p><strong>Exercise 7.1</strong>: Collect and use lists.</p>
 </li>
 <li>
-<p>In Part 2, you collect and then unwind a list.</p>
+<p><strong>Exercise 7.2</strong>: Collect a list.</p>
 </li>
 <li>
-<p>In Part 3, you perform a calculation with the date type.</p>
+<p><strong>Exercise 7.3</strong>: Unwind a list.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 7.4</strong>: Perform a calculation with the date type.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the three Parts of this Exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -628,15 +625,16 @@ Finally, you write a query that performs calculations based upon a date retrieve
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 7, Part 1</h3>
+    <h3>Exercise 7.1: Collect and use lists (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Collecting and using lists</strong></div>
-<p>Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Returns the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.</p>
+<p><strong>Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Return the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Hints:</strong> Use two patterns for the query, one for actors, and one for producers. Use a <code>WITH</code> clause to collect the values for the cast and producers. You can use the <code>size()</code> function to calculate the size of a list for ordering purposes.</p>
+<p><strong>Hints:</strong> Use two patterns for the query, one for actors, and one for producers.
+Use a <code>WITH</code> clause to collect the values for the cast and producers.
+You can use the <code>size()</code> function to calculate the size of a list for ordering purposes.</p>
 </div>
 	</div>
   </div>
@@ -646,15 +644,11 @@ Finally, you write a query that performs calculations based upon a date retrieve
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 7, Part 1</h3>
+    <h3>Exercise 7.1: Collect and use lists (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Collecting and using lists</strong></div>
-<p><strong>Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Returns the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hints:</strong> Use two patterns for the query, one for actors, and one for producers. Use a <code>WITH</code> clause to collect the values for the cast and producers. You can use the <code>size()</code> function to calculate the size of a list for ordering purposes.</p>
+<p><strong>Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Return the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -667,16 +661,13 @@ ORDER BY size(cast)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UsingLists.png" alt="UsingLists" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/UsingLists.png" alt="UsingLists" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 2</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -685,40 +676,28 @@ ORDER BY size(cast)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 7, Part 2</h3>
-    <br/>
-    <div>
-      <div class="olist arabic">
-<div class="title"><strong>Unwinding lists</strong></div>
-<ol class="arabic">
-<li>
-<p>Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies.  Return the name of the actor and the list.</p>
-</li>
-<li>
-<p>Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p><strong>Hints:</strong> Use two <code>WITH</code> clauses and test the size of the collected list using the <code>size()</code> function.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 7, Part 2</h3>
+    <h3>Exercise 7.2: Collect a list (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Collecting and using lists</strong></div>
-<p><strong>1. Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies.  Return the name of the actor and the list.</strong></p>
+<p><strong>Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies. Return the name of the actor and the list.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Hints:</strong> Use two <code>WITH</code> clauses and test the size of the collected list using the <code>size()</code> function.</p>
+<p><strong>Hint:</strong> Use a <code>WITH</code> clause and test the size of the collected list using the <code>size()</code> function.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7.2: Collect a list (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies. Return the name of the actor and the list.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -730,21 +709,47 @@ RETURN p.name, movies<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ActorsWithMoreThan5Movies1.png" alt="ActorsWithMoreThan5Movies1" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/ActorsWithMoreThan5Movies1.png" alt="ActorsWithMoreThan5Movies1" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="paragraph">
-<p>In this view, we are examining the table view where we can see the actor name and the list of movies for each actor. The actors should be <em>Tom Hanks</em> and <em>Keanu Reeves</em>.</p>
+<p>In this view, we are examining the table view where we can see the actor name and the list of movies for each actor.
+The actors should be <em>Tom Hanks</em> and <em>Keanu Reeves</em>.</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7.3: Unwind a list (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Hints:</strong> Use two <code>WITH</code> clauses and test the size of the collected list using the <code>size()</code> function.</p>
+<p><strong>Hint:</strong> Use two <code>WITH</code> clauses and test the size of the collected list using the <code>size()</code> function.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7.3: Unwind a list (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -757,15 +762,26 @@ RETURN p.name, movie.title<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ActorsWithMoreThan5Movies2.png" alt="ActorsWithMoreThan5Movies2" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/ActorsWithMoreThan5Movies2.png" alt="ActorsWithMoreThan5Movies2" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 3</p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7.4: Perform a calculation with the date type (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query that retrieves all movies that <em>Tom Hanks</em> acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of <em>Tom</em> when the movie was released.</strong></p>
 </div>
 	</div>
   </div>
@@ -775,26 +791,10 @@ RETURN p.name, movie.title<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 7, Part 3</h3>
+    <h3>Exercise 7.4: Perform a calculation with the date type (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Calculating with dates.</strong></div>
-<p>Write a query that retrieves all movies that <em>Tom Hanks</em> acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of <em>Tom</em> when the movie was released.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 7, Part 3</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Calculating with dates.</strong></div>
 <p><strong>Write a query that retrieves all movies that <em>Tom Hanks</em> acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of <em>Tom</em> when the movie was released.</strong></p>
 </div>
 <div class="listingblock">
@@ -807,7 +807,7 @@ ORDER BY yearsAgoReleased<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AgeCalculations.png" alt="AgeCalculations" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AgeCalculations.png" alt="AgeCalculations" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -822,17 +822,17 @@ ORDER BY yearsAgoReleased<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 7: Working with Cypher data (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise, you wrote more Cypher statements to work with lists and dates.
+<p>In this exercise, you wrote more Cypher statements to work with lists and dates.
 First, you wrote a query where lists are collected and the results returned are sorted by the size of the list.
 Then you wrote a query that collects and unwinds a list.
 Finally, you wrote a query that performs calculations based upon a date retrieved from the graph.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/08.html'>Continue to Exercise 8</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/08.html'>Continue to Exercise 8</a></p>
 </div>
 	</div>
   </div>

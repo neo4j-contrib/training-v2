@@ -50,29 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 13: Analyzing and monitoring queries</h3>
+    <h3>Exercise 13: Analyzing and monitoring queries (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 12.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 173 nodes and 257 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise11.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 173 nodes and 257 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise11.png" alt="After exercise 11" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -602,11 +595,12 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 13: Analyzing and monitoring queries (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you will look at metrics for a query during query planning (<code>EXPLAIN</code>) and during query execution (<code>PROFILE</code>). Then you will monitor a long-running query and kill it.</p>
+<p>In this exercise you will look at metrics for a query during query planning (<code>EXPLAIN</code>) and during query execution (<code>PROFILE</code>).
+Then you will monitor a long-running query and kill it.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -619,7 +613,7 @@ SET m:OlderMovie<!--/code--></pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the two Parts of this Exercise.</p>
+<p>Go to the next page to perform the two parts of this exercise.</p>
 </div>
 	</div>
   </div>
@@ -634,7 +628,8 @@ SET m:OlderMovie<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Viewing query metrics</strong></div>
-<p>For this Part of the Exercise, you will use the query that you wrote previously using Cypher parameters. It assumes that you have set the <em>year</em> and <em>ratingValue</em> Cypher parameters:</p>
+<p>For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters.
+It assumes that you have set the <em>year</em> and <em>ratingValue</em> Cypher parameters:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -656,7 +651,8 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <p>View the metrics for the query when this statement executes.</p>
 </li>
 <li>
-<p>Remove the labels from the nodes and relationships and again view the metrics. Compare the db hits from the previous version of the statement.</p>
+<p>Remove the labels from the nodes and relationships and again view the metrics.
+Compare the db hits from the previous version of the statement.</p>
 </li>
 </ol>
 </div>
@@ -673,7 +669,8 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
     <div>
       <div class="paragraph">
 <div class="title"><strong>Viewing query metrics</strong></div>
-<p>For this Part of the Exercise, you will use the query that you wrote previously using Cypher parameters. It assumes that you have set the <em>year</em> and <em>ratingValue</em> Cypher parameters:</p>
+<p>For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters.
+It assumes that you have set the <em>year</em> and <em>ratingValue</em> Cypher parameters:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -702,7 +699,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/EXPLAIN.png" alt="EXPLAIN" width="500">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/EXPLAIN.png" alt="EXPLAIN" width="500">
 </div>
 </div>
 <div class="paragraph">
@@ -721,11 +718,12 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PROFILE.png" alt="PROFILE" width="500">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/PROFILE.png" alt="PROFILE" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p><strong>3. Remove the labels from the nodes and relationships and again view the metrics. Compare the db hits from the previous version of the statement.</strong></p>
+<p><strong>3. Remove the labels from the nodes and relationships and again view the metrics.
+Compare the db hits from the previous version of the statement.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -740,11 +738,12 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PROFILE2.png" alt="PROFILE2" width="500">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/PROFILE2.png" alt="PROFILE2" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p>You should see more db hits. This is because you removed the labels that help to filter nodes and relationships during the query.</p>
+<p>You should see more db hits.
+This is because you removed the labels that help to filter nodes and relationships during the query.</p>
 </div>
 <div class="paragraph">
 <p>Next, Part 2</p>
@@ -780,10 +779,12 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.</p>
+<p>Open a second Neo4j Browser session.
+This session will be used for monitoring queries as they run.</p>
 </li>
 <li>
-<p>Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.</p>
+<p>Execute this long-running query in your original Neo4j Browser session that returns a lot of results.
+In the second Neo4j Browser window, monitor the running queries.</p>
 </li>
 </ol>
 </div>
@@ -857,14 +858,15 @@ RETURN count(id(a))<!--/code--></pre>
 <p>You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window:</p>
 </div>
 <div class="paragraph">
-<p><strong>1. Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.</strong></p>
+<p><strong>1. Open a second Neo4j Browser session.
+This session will be used for monitoring queries as they run.</strong></p>
 </div>
 <div class="paragraph">
 <p>If you are using Neo4j Desktop, open a Web browser window and enter <a href="http://localhost:7474" class="bare">http://localhost:7474</a> which opens a second Neo4j Browser window that has access to the same graph.</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SecondBrowserWindowDesktop.png" alt="SecondBrowserWindowDesktop" width="500">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SecondBrowserWindowDesktop.png" alt="SecondBrowserWindowDesktop" width="500">
 </div>
 </div>
 <div class="paragraph">
@@ -872,11 +874,12 @@ RETURN count(id(a))<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SecondBrowserSandbox.png" alt="SecondBrowserSandbox" width="500">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SecondBrowserSandbox.png" alt="SecondBrowserSandbox" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p><strong>2. Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.</strong></p>
+<p><strong>2. Execute this long-running query in your original Neo4j Browser session that returns a lot of results.
+In the second Neo4j Browser window, monitor the running queries.</strong></p>
 </div>
 <div class="paragraph">
 <p>Here is a very bad Cypher statement to use that returns a lot of results:</p>
@@ -895,7 +898,7 @@ RETURN a<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/LongRunningReturn.png" alt="LongRunningReturn" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/LongRunningReturn.png" alt="LongRunningReturn" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -921,7 +924,7 @@ RETURN count(id(a))<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/LongRunningQuery.png" alt="LongRunningQuery" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/LongRunningQuery.png" alt="LongRunningQuery" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -929,7 +932,7 @@ RETURN count(id(a))<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/KillLongRunningQuery.png" alt="KillLongRunningQuery" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/KillLongRunningQuery.png" alt="KillLongRunningQuery" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -937,7 +940,7 @@ RETURN count(id(a))<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/LongRunningQueryKiilled.png" alt="LongRunningQueryKiilled" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/LongRunningQueryKiilled.png" alt="LongRunningQueryKiilled" width="600">
 </div>
 </div>
 	</div>
@@ -948,14 +951,14 @@ RETURN count(id(a))<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 13: Analyzing and monitoring queries (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you gained experience analyzing metrics for queries, monitoring queries, and killing queries.</p>
+<p>In this exercise you gained experience analyzing metrics for queries, monitoring queries, and killing queries.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/14.html'>Continue to Exercise 14</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/14.html'>Continue to Exercise 14</a></p>
 </div>
 	</div>
   </div>

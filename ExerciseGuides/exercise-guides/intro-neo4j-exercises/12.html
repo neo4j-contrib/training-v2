@@ -50,29 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12: Using Cypher parameters</h3>
+    <h3>Exercise 12: Using Cypher parameters (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 11.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 173 nodes and 257 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise11.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 173 nodes and 257 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise11.png" alt="After exercise 11" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -602,14 +595,14 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 12: Using Cypher parameters (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>You have gained experience with the basics of accessing a Neo4j graph by querying it, creating nodes and relationships, and updating the graph.</p>
 </div>
 <div class="paragraph">
-<p>In this Exercise you enhance Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.</p>
+<p>In this exercise you enhance Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -622,7 +615,7 @@ SET m:OlderMovie<!--/code--></pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the two Parts of this Exercise.</p>
+<p>Go to the next page to perform the two parts of this exercise.</p>
 </div>
 	</div>
   </div>
@@ -637,7 +630,8 @@ SET m:OlderMovie<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Defining and using a parameter</strong></div>
-<p>Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph. You will be exploring the graph for people who reviewed movies and the actors in these movies.</p>
+<p>Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
+You will be exploring the graph for people who reviewed movies and the actors in these movies.</p>
 </div>
 <div class="paragraph">
 <p>Perform these steps:</p>
@@ -671,7 +665,8 @@ SET m:OlderMovie<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Defining and using a parameter</strong></div>
-<p>Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph. You do not want to hard-code the value for <em>released</em> for a _Movie_node in your query.</p>
+<p>Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
+You do not want to hard-code the value for <em>released</em> for a _Movie_node in your query.</p>
 </div>
 <div class="paragraph">
 <p>Perform these steps:</p>
@@ -690,7 +685,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialQueryWithoutParms.png" alt="InitialQueryWithoutParms" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/InitialQueryWithoutParms.png" alt="InitialQueryWithoutParms" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -703,7 +698,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetYearParam.png" alt="SetYearParam" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SetYearParam.png" alt="SetYearParam" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -725,7 +720,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UsingOneParameter.png" alt="UsingOneParameter" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/UsingOneParameter.png" alt="UsingOneParameter" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -741,7 +736,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UsingOneParameter2.png" alt="UsingOneParameter2" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/UsingOneParameter2.png" alt="UsingOneParameter2" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -806,7 +801,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetTwoParameters.png" alt="SetTwoParameters" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SetTwoParameters.png" alt="SetTwoParameters" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -829,7 +824,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UseTwoParameters.png" alt="UseTwoParameters" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/UseTwoParameters.png" alt="UseTwoParameters" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -845,7 +840,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UseTwoParameters2.png" alt="UseTwoParameters2" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/UseTwoParameters2.png" alt="UseTwoParameters2" width="600">
 </div>
 </div>
 	</div>
@@ -856,14 +851,14 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 12: Using Cypher parameters (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you gained experience using parameters in your Neo4j Browser session and your Cypher statements.</p>
+<p>In this exercise you gained experience using parameters in your Neo4j Browser session and your Cypher statements.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/13.html'>Continue to Exercise 13</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/13.html'>Continue to Exercise 13</a></p>
 </div>
 	</div>
   </div>

@@ -1,8 +1,6 @@
 = Exercise 2
 
-== Exercise 2: Filtering queries using property values
-
-=== Preparations
+== Exercise 2: Filtering queries using property values (Preparations)
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
@@ -18,7 +16,7 @@ include::scripts/initialDatabase.cypher[]
 ----
 
 
-== Exercise Overview
+== Exercise 2: Filtering queries using property values (Overview)
 
 Thus far, you have filtered what nodes are returned from a query based upon the `Label` for the node where you returned _Person_ or _Movie_ nodes.
 
@@ -26,32 +24,22 @@ In this exercise, you will retrieve nodes from the database by specifying a filt
 Then, you will examine the property keys in the training _Movie_ graph.
 Finally, you will query the graph to return property values for nodes retrieved.
 
-. In Part 1, you retrieve all movies that were released in a specific year.
-. In Part 2, you query the database for all property keys.
-. In Part 3, you retrieve all Movies released in a specific year, returning their titles.
-. In Part 4, you display _title_, _released_, and _tagline_ values for every _Movie_ node in the graph.
+* *Exercise 2.1*: Retrieve all movies that were released in a specific year.
+* *Exercise 2.2*: View the retrieved results as a table.
+* *Exercise 2.3*: Query the database for all property keys.
+* *Exercise 2.4*: Retrieve all Movies released in a specific year, returning their titles.
+* *Exercise 2.5*: Display _title_, _released_, and _tagline_ values for every _Movie_ node in the graph.
+* *Exercise 2.6*: Display more user-friendly headers in the table.
 
-Go to the next page to perform the four parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 2, Part 1
-.*Retrieving all movies released in a specific year*
+== Exercise 2.1: Retrieve all movies that were released in a specific year (Instructions)
 
-You want to know which movies were release in the year 2003.
+*Retrieve all _Movie_ nodes that have a _released_ property value of 2003.*
 
-. In the query editor pane, enter the Cypher query to retrieve all _Movie_ nodes that have a _released_ property value of 2003.
-. View the result pane as a table.
+== Exercise 2.1: Retrieve all movies that were released in a specific year (Solution)
 
-.*Taking it further (optional)*
-** Retrieve all movie nodes in the database and view the data as a table.
-Notice the values for the released property for each node.
-** Try querying the graph using different years.
-
-== Solution, Exercise 2, Part 1
-.*Retrieving all movies released in a specific year*
-
-You want to know which movies were release in the year 2003.
-
-*1. In the query editor pane, enter the Cypher query to retrieve all _Movie_ nodes that have a _released_ property value of 2003.*
+*Retrieve all _Movie_ nodes that have a _released_ property value of 2003.*
 
 [source, cypher]
 ----
@@ -67,9 +55,16 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. View the result pane as a table.
+== Exercise 2.2: View the retrieved results as a table (Instructions)
+
+*View the results you just viewed in Neo4j Browser as a table.*
+
+== Exercise 2.2: View the retrieved results as a table (Solution)
+
+*View the results you just viewed in Neo4j Browser as a table.*
+
 In the result pane, click the table icon.
-You should see this table in the result pane:*
+You should see this table in the result pane:
 
 [.thumb]
 image::{guides}/img/MoviesReleased2003_Table.png[MoviesReleased2003_Table,width=400,float="right"]
@@ -78,23 +73,25 @@ image::{guides}/img/MoviesReleased2003_Table.png[MoviesReleased2003_Table,width=
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
+== Exercise 2.2: View the retrieved results as a table (Taking it further- optional)
 
-== Instructions, Exercise 2, Part 2
-.*Querying the database for all property keys*
+** Retrieve all movie nodes in the database and view the data as a table.
+Notice the values for the released property for each node.
+** Try querying the graph using different years.
+
+
+== Exercise 2.3: Query the database for all property keys (Instructions)
 
 You want to know the existing property keys used in a graph.
 This will help you to write Cypher queries that utilizes property keys for filtering data or for returning data.
+
+*Query the database for all property keys.*
+
+== Exercise 2.3: Query the database for all property keys (Solution)
+
+*Query the database for all property keys.*
 
 In the query editor pane, enter the Cypher query to retrieve the property keys from the database.
-
-== Solution, Exercise 2, Part 2
-.*Querying the database for all property keys*
-
-You want to know the existing property keys used in a graph.
-This will help you to write Cypher queries that utilizes property keys for filtering data or for returning data.
-
-*In the query editor pane, enter the Cypher query to retrieve the property keys from the database.*
 
 [source, cypher]
 ----
@@ -110,26 +107,17 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 3
-
-== Instructions, Exercise 2, Part 3
-.*Retrieving all Movies released in 2006, returning their titles*
+== Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Instructions)
 
 Rather than returning the nodes that satisfy a query, you want to return data from the nodes.
+
+*Retrieve all Movies released in 2006, returning their titles.*
+
+== Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Solution)
+
+*Retrieve all Movies released in 2006, returning their titles.*
 
 In the query editor pane, enter the Cypher query to retrieve all _Movie_ nodes from the database with a _released_ value of _2006_, but rather than returning the nodes, return the _title_ values for all nodes retrieved.
-
-.*Taking it further (optional)*
-** Retrieve all _Movie_ nodes and view them as a table.
-Observe the properties that _Movie_ nodes have.
-** Query the database using a different year and also return more property values.
-
-== Solution, Exercise 2, Part 3
-.*Retrieving all Movies released in 2006, returning their titles*
-
-Rather than returning the nodes that satisfy a query, you want to return data from the nodes.
-
-*In the query editor pane, enter the Cypher query to retrieve all Movie nodes from the database with a _released_ value of _2006_, but rather than returning the nodes, return the _title_ values for all nodes retrieved.*
 
 [source, cypher]
 ----
@@ -145,22 +133,24 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 4
+== Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Taking it further - optional)
 
-== Instructions, Exercise 2, Part 4
-.*Retrieving all Movies to display property values*
+* Retrieve all _Movie_ nodes and view them as a table. Observe the properties that _Movie_ nodes have.
+* Query the database using a different year and also return more property values.
 
 
-. In the query editor pane, enter the Cypher query to retrieve all _Movie_ nodes from the database and write _title_, _released_, and _tagline_ values.
-. Modify the query you just ran so that the headings for the columns of the table returned are more descriptive.
-
-== Solution, Exercise 2, Part 4
-.*Retrieving all Movies to display property values*
+== Exercise 2.5: Display _title_, _released_, and _tagline_ values for every _Movie_ node in the graph (Instructions)
 
 When you start working with a graph, it is sometimes helpful to simply view property values.
 This can sometimes help to inform you about future queries you may want to execute against the graph.
 
-*1. In the query editor pane, enter the Cypher query to retrieve all _Movie_ nodes from the database and write _title_, _released_, and _tagline_ values.*
+*Retrieve all _Movie_ nodes from the database and return the _title_, _released_, and _tagline_ values.*
+
+== Exercise 2.5: Display _title_, _released_, and _tagline_ values for every _Movie_ node in the graph (Solution)
+
+*Retrieve all _Movie_ nodes from the database and return the _title_, _released_, and _tagline_ values.*
+
+In the query editor pane, enter the Cypher query to retrieve all _Movie_ nodes from the database and write _title_, _released_, and _tagline_ values.
 
 [source, cypher]
 ----
@@ -176,7 +166,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Modify the query you just ran so that the headings for the columns of the table returned are more descriptive.*
+== Exercise 2.6: Display more user-friendly headers in the table (Instructions)
+
+*Modify the query you just ran so that the headings for the columns of the table returned are more descriptive.*
+
+== Exercise 2.6: Display more user-friendly headers in the table (Solution)
+
+*Modify the query you just ran so that the headings for the columns of the table returned are more descriptive.*
 
 [source, cypher]
 ----
@@ -192,7 +188,7 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-== Exercise Summary
+== Exercise 2: Filtering queries using property values (Summary)
 
 In this exercise, you retrieved nodes from the database by specifying a filter criteria that is a property value.
 Then, you examined the property keys in the training _Movie_ graph.

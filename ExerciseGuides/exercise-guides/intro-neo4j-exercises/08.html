@@ -50,29 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 8: Creating Nodes</h3>
+    <h3>Exercise 8: Creating Nodes (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 7.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 171 nodes and 253 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -592,33 +585,78 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 8: Creating Nodes (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In the previous Exercises, you have gained experience with Cypher queries.</p>
+<p>In the previous exercises, you have gained experience with Cypher queries.</p>
 </div>
 <div class="paragraph">
-<p>In this Exercise, you will write Cypher statements to create nodes. Then you will write Cypher statements to add and remove labels for nodes. Next, you will use Cypher to add properties to nodes. Finally, you will write Cypher statements to remove properties from nodes.</p>
+<p>In this exercise, you will write Cypher statements to create nodes.
+Then you will write Cypher statements to add and remove labels for nodes.
+Next, you will use Cypher to add properties to nodes.
+Finally, you will write Cypher statements to remove properties from nodes.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you create nodes.</p>
+<p><strong>Exercise 8.1</strong>: Create a <em>Movie</em> node for the movie with the <em>title</em>, <em>Forrest Gump</em>.</p>
 </li>
 <li>
-<p>In Part 2, you modify the labels for nodes.</p>
+<p><strong>Exercise 8.2</strong>: Retrieve the node you just created by its <em>title</em>.</p>
 </li>
 <li>
-<p>In Part 3, you add properties to nodes.</p>
+<p><strong>Exercise 8.3</strong>: Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</p>
 </li>
 <li>
-<p>In Part 4, you remove properties from nodes.</p>
+<p><strong>Exercise 8.4</strong>: Retrieve the <em>Person</em> node you just created by its <em>name</em>.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 8.5</strong>: Add the label <em>OlderMovie</em> to any <em>Movie</em> node that was released before 2010.</p>
+</li>
+<li>
+<p><strong>Exercise 8.6</strong>: Retrieve all older movie nodes to test that the label was indeed added to these nodes.</p>
+</li>
+<li>
+<p><strong>Exercise 8.7</strong>: Add the label <em>Female</em> to all <em>Person</em> nodes that has a person whose name starts with <em>Robin</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 8.8</strong>: Retrieve all <em>Female</em> nodes.</p>
+</li>
+<li>
+<p><strong>Exercise 8.9</strong>: Remove the <em>Female</em> label from the nodes that have this label.</p>
+</li>
+<li>
+<p><strong>Exercise 8.10</strong>: View the current schema of the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 8.11</strong>: Add properties to the movie, <em>Forrest Gump</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 8.12</strong>: Retrieve this <em>OlderMovie</em> node to confirm that the properties and label have been properly set.</p>
+</li>
+<li>
+<p><strong>Exercise 8.13</strong>: Add the properties to the person, <em>Robin Wright</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 8.14</strong>: Retrieve an updated <em>Person</em> node.</p>
+</li>
+<li>
+<p><strong>Exercise 8.15</strong>: Remove the <em>lengthInMinutes</em> property from the movie, <em>Forrest Gump</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 8.16</strong>: Retrieve the <em>Forrest Gump</em> node to confirm that the property has been removed.</p>
+</li>
+<li>
+<p><strong>Exercise 8.17</strong>: Remove the <em>birthPlace</em> property from the person, <em>Robin Wright</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 8.18</strong>: Retrieve the <em>Robin Wright</em> node to confirm that the property has been removed.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the four Parts of this Exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -628,28 +666,11 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 8, Part 1</h3>
+    <h3>Exercise 8.1: Create a <em>Movie</em> node for the movie with the <em>title</em>, <em>Forrest Gump</em> (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating nodes</strong></div>
-<p>Write Cypher statements to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create a <em>Movie</em> node for the movie with the <em>title</em>, <em>Forrest Gump</em>.</p>
-</li>
-<li>
-<p>Retrieve the node you just created by its <em>title</em>.</p>
-</li>
-<li>
-<p>Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</p>
-</li>
-<li>
-<p>Retrieve the <em>Person</em> node you just created by its <em>name</em>.</p>
-</li>
-</ol>
+<p><strong>Create a <em>Movie</em> node for the movie with the <em>title</em>, <em>Forrest Gump</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -659,15 +680,11 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 8, Part 1</h3>
+    <h3>Exercise 8.1: Create a <em>Movie</em> node for the movie with the <em>title</em>, <em>Forrest Gump</em> (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating nodes</strong></div>
-<p>Write Cypher statements to:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Create a <em>Movie</em> node for the movie with the <em>title</em>, <em>Forrest Gump</em>.</strong></p>
+<p><strong>Create a <em>Movie</em> node for the movie with the <em>title</em>, <em>Forrest Gump</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -676,15 +693,40 @@ CREATE
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateForrestGump.png" alt="CreateForrestGump" width="300">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateForrestGump.png" alt="CreateForrestGump" width="300">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Retrieve the node you just created by its <em>title</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.2: Retrieve the node you just created by its <em>title</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the node you just created by its <em>title</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.2: Retrieve the node you just created by its <em>title</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the node you just created by its <em>title</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -695,18 +737,44 @@ RETURN m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RetrieveForrestGump.png" alt="RetrieveForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RetrieveForrestGump.png" alt="RetrieveForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="paragraph">
-<p><strong>Note:</strong> The value for the <em>id</em> property for the newly created node may be different for your graph. It this screen shot, it is <em>741</em>.</p>
+<p><strong>Note:</strong> The value for the <em>id</em> property for the newly created node may be different for your graph.
+It this screen shot, it is <em>741</em>.</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.3: Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.3: Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create a <em>Person</em> node for the person with the <em>name</em>, <em>Robin Wright</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -715,15 +783,40 @@ RETURN m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateRobinWright.png" alt="CreateRobinWright" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateRobinWright.png" alt="CreateRobinWright" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>5. Retrieve the <em>Person</em> node you just created by its <em>name</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.4: Retrieve the <em>Person</em> node you just created by its <em>name</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the <em>Person</em> node you just created by its <em>name</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.4: Retrieve the <em>Person</em> node you just created by its <em>name</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the <em>Person</em> node you just created by its <em>name</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -734,15 +827,26 @@ RETURN p<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RetrieveRobinWright.png" alt="RetrieveRobinWright" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RetrieveRobinWright.png" alt="RetrieveRobinWright" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 2</p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.5: Add the label <em>OlderMovie</em> to any <em>Movie</em> node that was released before 2010 (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the label <em>OlderMovie</em> to any <em>Movie</em> node that was released before 2010.</strong></p>
 </div>
 	</div>
   </div>
@@ -752,67 +856,11 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 8, Part 2</h3>
+    <h3>Exercise 8.5: Add the label <em>OlderMovie</em> to any <em>Movie</em> node that was released before 2010 (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Modifying node labels</strong></div>
-<p>Next, you will practice modifying node labels.
-Node labels are important because they are used to quickly retrieve groups of nodes.</p>
-</div>
-<div class="paragraph">
-<p>Write Cypher statements to do the following:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the label <em>OlderMovie</em> to any <em>Movie</em> node that was released before 2010.</p>
-</li>
-<li>
-<p>Retrieve all older movie nodes to test that the label was indeed added to these nodes.</p>
-</li>
-<li>
-<p>Add the label <em>Female</em> to all <em>Person</em> nodes that has a person whose name starts with <em>Robin</em>.</p>
-</li>
-<li>
-<p>Retrieve all <em>Female</em> nodes. Do you notice that not all of these nodes should be labeled <em>Female</em>?</p>
-</li>
-<li>
-<p>We&#8217;ve decided to not use the <em>Female</em> label. Remove the <em>Female</em> label from the nodes that have this label.</p>
-</li>
-<li>
-<p>View the current schema of the graph.</p>
-</li>
-</ol>
-</div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
-<ul>
-<li>
-<p>Add more labels to the <em>Movie</em> nodes to reflect the movie genre (action, drama, etc.).</p>
-</li>
-<li>
-<p>Query the database using different labels for movies.</p>
-</li>
-</ul>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 8, Part 2</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Modifying node labels</strong></div>
-<p>Write Cypher statements to do the following:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Add the label <em>OlderMovie</em> to any <em>Movie</em> node that was released before 2010.</strong></p>
+<p><strong>Add the label <em>OlderMovie</em> to any <em>Movie</em> node that was released before 2010.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -824,15 +872,40 @@ RETURN DISTINCT labels(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddOlderMovieLabel.png" alt="AddOlderMovieLabel" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AddOlderMovieLabel.png" alt="AddOlderMovieLabel" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Retrieve all older movie nodes to test that the label was indeed added to these nodes.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.6: Retrieve all older movie nodes to test that the label was indeed added to these nodes (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all older movie nodes to test that the label was indeed added to these nodes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.6: Retrieve all older movie nodes to test that the label was indeed added to these nodes (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all older movie nodes to test that the label was indeed added to these nodes.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -842,15 +915,40 @@ RETURN m.title, m.released<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RetrieveOlderMovies.png" alt="RetrieveOlderMovies" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RetrieveOlderMovies.png" alt="RetrieveOlderMovies" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Add the label <em>Female</em> to all <em>Person</em> nodes that has a person whose name starts with <em>Robin</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.7: Add the label <em>Female</em> to all <em>Person</em> nodes that has a person whose name starts with <em>Robin</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the label <em>Female</em> to all <em>Person</em> nodes that has a person whose name starts with <em>Robin</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.7: Add the label <em>Female</em> to all <em>Person</em> nodes that has a person whose name starts with <em>Robin</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the label <em>Female</em> to all <em>Person</em> nodes that has a person whose name starts with <em>Robin</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -861,15 +959,43 @@ SET p:Female<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddFemaleLabel.png" alt="AddFemaleLabel" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AddFemaleLabel.png" alt="AddFemaleLabel" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.8: Retrieve all <em>Female</em> nodes (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all <em>Female</em> nodes</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.8: Retrieve all <em>Female</em> nodes (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all <em>Female</em> nodes</strong></p>
+</div>
 <div class="paragraph">
-<p><strong>4. Retrieve all <em>Female</em> nodes. Do you notice that not all of these nodes should be labeled <em>Female</em>?</strong></p>
+<p>Do you notice that not all of these nodes should be labeled <em>Female</em>?</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -879,18 +1005,44 @@ RETURN p.name<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RetrieveFemales.png" alt="RetrieveFemales" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RetrieveFemales.png" alt="RetrieveFemales" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="paragraph">
-<p>Here we see that there are two <em>Person</em> nodes. The <em>Robin Williams</em> node should not have the label <em>Female</em>.</p>
+<p>Here we see that there are two <em>Person</em> nodes.
+The <em>Robin Williams</em> node should not have the label <em>Female</em>.</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>5. We&#8217;ve decided to not use the <em>Female</em> label. Remove the <em>Female</em> label from the nodes that have this label.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.9: Remove the <em>Female</em> label from the nodes that have this label (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>We&#8217;ve decided to not use the <em>Female</em> label. Remove the <em>Female</em> label from the nodes that have this label.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.9: Remove the <em>Female</em> label from the nodes that have this label (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>We&#8217;ve decided to not use the <em>Female</em> label. Remove the <em>Female</em> label from the nodes that have this label.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -900,15 +1052,40 @@ REMOVE p:Female<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RemoveFemales.png" alt="RemoveFemales" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RemoveFemales.png" alt="RemoveFemales" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>6. View the current schema of the graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.10: View the current schema of the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the current schema of the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.10: View the current schema of the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the current schema of the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -917,16 +1094,13 @@ REMOVE p:Female<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SchemaAfterLabelAddition.png" alt="SchemaAfterLabelAddition" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SchemaAfterLabelAddition.png" alt="SchemaAfterLabelAddition" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 3</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -935,88 +1109,18 @@ REMOVE p:Female<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 8, Part 3</h3>
+    <h3>Exercise 8.11: Add properties to the movie, <em>Forrest Gump</em> (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Adding properties to nodes</strong></div>
-<p>Next, you will add properties to specific nodes in the graph.</p>
-</div>
-<div class="paragraph">
-<p>Write Cypher statements to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the following properties to the movie, <em>Forrest Gump</em>:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>released:  1994</p>
-</li>
-<li>
-<p>tagline: Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get.</p>
-</li>
-<li>
-<p>lengthInMinutes: 142</p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
+<p><strong>Add the following properties to the movie, <em>Forrest Gump</em>:</strong>
+* <strong>released:  1994</strong>
+* <strong>tagline: Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get.</strong>
+* <strong>lengthInMinutes: 142</strong></p>
 </div>
 <div class="paragraph">
 <p><strong>Hint:</strong> This movie should also have the label <em>OlderMovie</em>.</p>
 </div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
-<ul>
-<li>
-<p>Try adding or updating properties using the JSON-style syntax using <code>=</code> and <code>+=</code>.</p>
-</li>
-</ul>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="2">
-<li>
-<p>Retrieve this <em>OlderMovie</em> node to confirm that the properties and label have been properly set.</p>
-</li>
-<li>
-<p>Add the following properties to the person, <em>Robin Wright</em>:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>born: 1966</p>
-</li>
-<li>
-<p>birthPlace: Dallas</p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="4">
-<li>
-<p>Retrieve this <em>Person</em> node to confirm that the properties have been properly set.</p>
-</li>
-</ol>
-</div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
-<ul>
-<li>
-<p>Add properties to nodes using the JSON-style format where you add all of the properties to the node.</p>
-</li>
-<li>
-<p>Query the database to confirm your additions.</p>
-</li>
-<li>
-<p>Call the Cypher built-in method to retrieve all of the property keys in the graph.</p>
-</li>
-</ul>
-</div>
 	</div>
   </div>
 </slide>
@@ -1025,15 +1129,11 @@ REMOVE p:Female<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 8, Part 3</h3>
+    <h3>Exercise 8.11: Add properties to the movie, <em>Forrest Gump</em> (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Adding properties to nodes</strong></div>
-<p>Write Cypher statements to:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Add the following properties to the movie, <em>Forrest Gump</em>:</strong></p>
+<p><strong>Add the following properties to the movie, <em>Forrest Gump</em>:</strong></p>
 </div>
 <div class="ulist">
 <ul>
@@ -1048,9 +1148,6 @@ REMOVE p:Female<!--/code--></pre>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><strong>Hint:</strong> This movie should also have the label <em>OlderMovie</em>.</p>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
@@ -1063,15 +1160,40 @@ SET m:OlderMovie,
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddingPropertiesForrestGump.png" alt="AddingPropertiesForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AddingPropertiesForrestGump.png" alt="AddingPropertiesForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Retrieve this <em>OlderMovie</em> node to confirm that the properties and label have been properly set.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.12: Retrieve this <em>OlderMovie</em> node to confirm that the properties and label have been properly set (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve this <em>OlderMovie</em> node to confirm that the properties and label have been properly set.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.12: Retrieve this <em>OlderMovie</em> node to confirm that the properties and label have been properly set (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve this <em>OlderMovie</em> node to confirm that the properties and label have been properly set.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1082,15 +1204,50 @@ RETURN m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RetrieveForrestGump2.png" alt="RetrieveForrestGump2" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RetrieveForrestGump2.png" alt="RetrieveForrestGump2" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Add the following properties to the person, <em>Robin Wright</em>:</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.13: Add the properties to the person, <em>Robin Wright</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the following properties to the person, <em>Robin Wright</em>:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>born: 1966</strong></p>
+</li>
+<li>
+<p><strong>birthPlace: Dallas</strong></p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.13: Add the properties to the person, <em>Robin Wright</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the following properties to the person, <em>Robin Wright</em>:</strong></p>
 </div>
 <div class="ulist">
 <ul>
@@ -1111,15 +1268,40 @@ SET p.born = 1966, p.birthPlace = 'Dallas'<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetRobinWrightProperties.png" alt="SetRobinWrightProperties" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SetRobinWrightProperties.png" alt="SetRobinWrightProperties" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. Retrieve this <em>Person</em> node to confirm that the properties have been properly set.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.14: Retrieve an updated <em>Person</em> node (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve this <em>Person</em> node to confirm that the properties have been properly set.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.14: Retrieve an updated <em>Person</em> node (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve this <em>Person</em> node to confirm that the properties have been properly set.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1130,16 +1312,13 @@ RETURN p<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RetrieveRobinWrightWithProperties.png" alt="RetrieveRobinWrightWithProperties" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RetrieveRobinWrightWithProperties.png" alt="RetrieveRobinWrightWithProperties" width="400">
 </div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 4</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -1148,31 +1327,14 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 8, Part 4</h3>
+    <h3>Exercise 8.15: Remove the <em>lengthInMinutes</em> property from the movie, <em>Forrest Gump</em> (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Removing properties from nodes</strong></div>
 <p>Next, you will remove properties from specific nodes in the graph.</p>
 </div>
 <div class="paragraph">
-<p>Write Cypher statements to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Remove the <em>lengthInMinutes</em> property from the movie, <em>Forrest Gump</em>.</p>
-</li>
-<li>
-<p>Retrieve the <em>Forrest Gump</em> node to confirm that the property has been removed.</p>
-</li>
-<li>
-<p>Remove the <em>birthPlace</em> property from the person, <em>Robin Wright</em>.</p>
-</li>
-<li>
-<p>Retrieve the <em>Robin Wright</em> node to confirm that the property has been removed.</p>
-</li>
-</ol>
+<p><strong>Remove the <em>lengthInMinutes</em> property from the movie, <em>Forrest Gump</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -1182,15 +1344,11 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 8, Part 4</h3>
+    <h3>Exercise 8.15: Remove the <em>lengthInMinutes</em> property from the movie, <em>Forrest Gump</em> (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Removing properties from nodes</strong></div>
-<p>Write Cypher statements to:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Remove the <em>lengthInMinutes</em> property from the movie, <em>Forrest Gump</em>.</strong></p>
+<p><strong>Remove the <em>lengthInMinutes</em> property from the movie, <em>Forrest Gump</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1201,64 +1359,7 @@ SET m.lengthInMinutes = null<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RemoveLengthInMinutes.png" alt="RemoveLengthInMinutes" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Retrieve the <em>Forrest Gump</em> node to confirm that the property has been removed.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
-WHERE m.title = 'Forrest Gump'
-RETURN m<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DeletedLengthInMinutesQuery.png" alt="DeletedLengthInMinutesQuery" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Remove the <em>birthPlace</em> property from the person, <em>Robin Wright</em>.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)
-WHERE p.name = 'Robin Wright'
-REMOVE p.birthPlace<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RemovedBirthPlace.png" alt="RemovedBirthPlace" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. Retrieve the <em>Robin Wright</em> node to confirm that the property has been removed.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)
-WHERE p.name = 'Robin Wright'
-RETURN p<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UpdatedRobinWright.png" alt="UpdatedRobinWright" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RemoveLengthInMinutes.png" alt="RemoveLengthInMinutes" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -1273,14 +1374,182 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 8.16: Retrieve the <em>Forrest Gump</em> node to confirm that the property has been removed (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise, you wrote Cypher statements to create nodes. Then you wrote Cypher statements to add and remove labels for nodes. Next, you used Cypher to add properties to nodes. Finally, you wrote Cypher statements to remove properties from nodes.</p>
+<p><strong>Retrieve the <em>Forrest Gump</em> node to confirm that the property has been removed.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.16: Retrieve the <em>Forrest Gump</em> node to confirm that the property has been removed (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the <em>Forrest Gump</em> node to confirm that the property has been removed.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN m<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/DeletedLengthInMinutesQuery.png" alt="DeletedLengthInMinutesQuery" width="400">
+</div>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/09.html'>Continue to Exercise 9</a></p>
+<p>The result returned should be:</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.17: Remove the <em>birthPlace</em> property from the person, <em>Robin Wright</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Remove the <em>birthPlace</em> property from the person, <em>Robin Wright</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.17: Remove the <em>birthPlace</em> property from the person, <em>Robin Wright</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Remove the <em>birthPlace</em> property from the person, <em>Robin Wright</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+REMOVE p.birthPlace<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/RemovedBirthPlace.png" alt="RemovedBirthPlace" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.18: Retrieve the <em>Robin Wright</em> node to confirm that the property has been removed (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the <em>Robin Wright</em> node to confirm that the property has been removed.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.18: Retrieve the <em>Robin Wright</em> node to confirm that the property has been removed (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the <em>Robin Wright</em> node to confirm that the property has been removed.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+RETURN p<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/UpdatedRobinWright.png" alt="UpdatedRobinWright" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Creating Nodes (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
+<ul>
+<li>
+<p>Add more labels to the <em>Movie</em> nodes to reflect the movie genre (action, drama, etc.).</p>
+</li>
+<li>
+<p>Query the database using different labels for movies.</p>
+</li>
+<li>
+<p>Try adding or updating properties using the JSON-style syntax using <code>=</code> and <code>+=</code>.</p>
+</li>
+<li>
+<p>Add properties to nodes using the JSON-style format where you add all of the properties to the node.</p>
+</li>
+<li>
+<p>Query the database to confirm your additions.</p>
+</li>
+<li>
+<p>Call the Cypher built-in method to retrieve all of the property keys in the graph.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Creating Nodes (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you wrote Cypher statements to create nodes.
+Then you wrote Cypher statements to add and remove labels for nodes.
+Next, you used Cypher to add properties to nodes.
+Finally, you wrote Cypher statements to remove properties from nodes.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/09.html'>Continue to Exercise 9</a></p>
 </div>
 	</div>
   </div>

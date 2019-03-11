@@ -1,8 +1,6 @@
 = Exercise 4
 
-== Exercise 4: Filtering queries using the `WHERE` clause
-
-=== Preparations
+== Exercise 4: Filtering queries using the `WHERE` clause (Preparations)
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
@@ -17,7 +15,7 @@ If your database does not have this number of nodes and relationships, you can u
 include::scripts/initialDatabase.cypher[]
 ----
 
-== Exercise Overview
+== Exercise 4: Filtering queries using the `WHERE` clause (Overview)
 
 In the previous exercise, you have filtered your queries based upon node labels, property values, and relationships in a `MATCH` pattern.
 
@@ -29,34 +27,33 @@ Then you will filter queries based upon string comparisons.
 Next, you will write queries that filter based upon patterns in the graph.
 Finally, you will test if property values are in a list.
 
-. In Part 1, you retrieve results based upon property values using the `WHERE` clause.
-. In Part 2, you use the `WHERE` clause to test labels and relationship types.
-. In Part 3, you use the `WHERE` clause to test the existence of a property or relationship.
-. In Part 4, you perform string comparison in the `WHERE` clause.
-. In Part 5, you test patterns in the `WHERE` clause.
-. In Part 6, you test list elements in the `WHERE` clause.
+* *Exercise 4.1*: Retrieve all movies that _Tom Cruise_ acted in.
+* *Exercise 4.2*: Retrieve all actors that were born in the 70's.
+* *Exercise 4.3*: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960.
+* *Exercise 4.4*: Retrieve all movies  released in 2000 by testing the node label and the released property.
+* *Exercise 4.5*: Retrieve all people that wrote movies by testing the relationship between two nodes.
+* *Exercise 4.6*: Retrieve all people in the graph that do not have a _born_ property.
+* *Exercise 4.7*: Retrieve all people related to movies where the relationship has the _rating_ property.
+* *Exercise 4.8*: Retrieve all actors whose name begins with _James_.
+* *Exercise 4.9*: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_.
+* *Exercise 4.10*: Retrieve all people who have produced a movie, but have not directed a movie.
+* *Exercise 4.11*: Retrieve the movies and their actors where one of the actors also directed the movie.
+* *Exercise 4.12*: Retrieve all movies that were released in the years 2000, 2004, and 2008.
+* *Exercise 4.13*: Retrieve the movies that have an actor's role that is the name of the movie.
 
-Go to the next page to perform the six parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 4, Part 1
-.*Retrieving results based upon property values*
+== Exercise 4.1: Retrieve all movies that _Tom Cruise_ acted in (Instructions)
 
-Write Cypher queries using a `WHERE` clause to:
+*Retrieve all movies that _Tom Cruise_ acted in and return their titles.*
 
-. Retrieve all movies that _Tom Cruise_ acted in and return their titles.
-. Retrieve all actors that were born in the 70's and return their names and year born.
-. Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960, and return their names and year born.
-
-*Hint:* You must specify a variable for the _Person_ and _Movie_ nodes as they are used in the `WHERE` and `RETURN` clauses.
-
-== Solution, Exercise 4, Part 1
-.*Retrieving results based upon property values*
-
-Write Cypher queries using a `WHERE` clause to:
-
-*1. Retrieve all movies that _Tom Cruise_ acted in and return their titles.*
+*Hint*: Use a `WHERE` clause.
 
 *Hint:* You must specify a variable for the _Person_ and _Movie_ nodes as they are used in the `WHERE` and `RETURN` clauses.
+
+== Exercise 4.1: Retrieve all movies that _Tom Cruise_ acted in (Solution)
+
+*Retrieve all movies that _Tom Cruise_ acted in and return their titles.*
 
 [source, cypher]
 ----
@@ -74,7 +71,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all actors that were born in the 70's and return their names and year born.*
+== Exercise 4.2: Retrieve all actors that were born in the 70's (Instructions)
+
+*Retrieve all actors that were born in the 70's and return their names and year born.*
+
+== Exercise 4.2: Retrieve all actors that were born in the 70's (Solution)
+
+*Retrieve all actors that were born in the 70's and return their names and year born.*
 
 [source, cypher]
 ----
@@ -92,7 +95,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960, and return their names and year born.*
+== Exercise 4.3: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960 (Instructions)
+
+*Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960, and return their names and year born.*
+
+== Exercise 4.3: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960 (Solution)
+
+*Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960, and return their names and year born.*
 
 [source, cypher]
 ----
@@ -110,22 +119,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
+== Exercise 4.4: Retrieve all movies  released in 2000 by testing the node label and the released property (Instructions)
 
-== Instructions, Exercise 4, Part 2
-.*Testing labels and relationship types*
+*Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.*
 
-Write Cypher queries using a `WHERE` clause to:
+== Exercise 4.4: Retrieve all movies  released in 2000 by testing the node label and the released property (Solution)
 
-. Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.
-. Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.
-
-== Solution, Exercise 4, Part 2
-.*Testing labels and relationship types*
-
-Write Cypher queries using a `WHERE` clause to:
-
-*1. Retrieve all movies released in 2000 by testing the node label and the released property, returning the movie titles.*
+*Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.*
 
 [source, cypher]
 ----
@@ -143,7 +143,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.*
+== Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Instructions)
+
+*Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.*
+
+== Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Solution)
+
+*Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.*
 
 [source, cypher]
 ----
@@ -161,22 +167,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 3
+== Exercise 4.6: Retrieve all people in the graph that do not have a _born_ property (Instructions)
 
-== Instructions, Exercise 4, Part 3
-.*Testing existence of properties and patterns*
+You will write Cypher queries using a `WHERE` clause to test existence.
 
-Write Cypher queries using a `WHERE` clause to test existence:
+*Retrieve all people in the graph that do not have a _born_ property, returning their names.*
 
-. Retrieve all people in the graph that do not have a _born_ property, returning their names.
-. Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.
+== Exercise 4.6: Retrieve all people in the graph that do not have a _born_ property (Solution)
 
-== Solution, Exercise 4, Part 3
-.*Testing existence of properties*
-
-Write Cypher queries using a `WHERE` clause to test existence:
-
-*1. Retrieve all people in the graph that do not have a _born_ property, returning their names.*
+*Retrieve all people in the graph that do not have a _born_ property, returning their names.*
 
 [source, cypher]
 ----
@@ -194,7 +193,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.*
+== Exercise 4.7: Retrieve all people related to movies where the relationship has the _rating_ property (Instructions)
+
+You will write Cypher queries using a `WHERE` clause to test existence.
+
+*Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.*
+
+== Exercise 4.7: Retrieve all people related to movies where the relationship has the _rating_ property (Solution)
+
+*Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.*
 
 [source, cypher]
 ----
@@ -212,30 +219,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 4
+== Exercise 4.8: Retrieve all actors whose name begins with _James_ (Instructions)
 
-== Instructions, Exercise 4, Part 4
-.*Testing string properties*
+Next you will practice queries that test string properties.
 
-Write Cypher queries using a `WHERE` clause to:
+*Retrieve all actors whose name begins with _James_, returning their names.*
 
-. Retrieve all actors whose name begins with _James_, returning their names.
-. Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.
+== Exercise 4.8: Retrieve all actors whose name begins with _James_ (Solution)
 
-*Hint:* You do not know what case the _fun_ string will be in the summary text.
-
-.*Taking it further (optional)*
-** Retrieve all movies in the database that have _love_ in their _tagline_ and return the movie titles 
-** Retrieve movies in the database, specifying a regular expression for the content of the _tagline_.
-
-*Hint:* retrieve all of the taglines of the movies to see what you can search for.
-
-== Solution, Exercise 4, Part 4
-.*Testing string properties*
-
-Write Cypher queries using a `WHERE` clause to:
-
-*1. Retrieve all actors whose name begins with _James_, returning their names.*
+*Retrieve all actors whose name begins with _James_, returning their names.*
 
 [source, cypher]
 ----
@@ -253,9 +245,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.* 
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun (Instructions)
+
+*Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.*
 
 *Hint:* You do not know what case the _fun_ string will be in the summary text.
+
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_ (Solution)
+
+*Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.*
 
 [source, cypher]
 ----
@@ -273,22 +271,22 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 5
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_ (Taking it further - optional)
 
-== Instructions, Exercise 4, Part 5
-.*Testing with patterns*
+* Retrieve all movies in the database that have _love_ in their _tagline_ and return the movie titles 
+* Retrieve movies in the database, specifying a regular expression for the content of the _tagline_.
 
-Write Cypher queries using a `WHERE` clause to:
+*Hint:* retrieve all of the taglines of the movies to see what you can search for.
 
-. Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.
-. Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director's name, and the movie title.
+== Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie (Instructions)
 
-== Solution, Exercise 4, Part 5
-.*Testing with patterns*
+Next, you will write queries that test patterns.
 
-Write Cypher queries using a `WHERE` clause to:
+*Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.*
 
-*1. Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.*
+== Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie (Solution)
+
+*Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.*
 
 [source, cypher]
 ----
@@ -306,7 +304,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director's name, and the movie title.*
+== Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Instructions)
+
+*Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director's name, and the movie title.*
+
+== Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Solution)
+
+*Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director's name, and the movie title.*
 
 [source, cypher]
 ----
@@ -324,23 +328,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 6
+== Exercise 4.12: Retrieve all movies that were released in the years 2000, 2004, and 2008 (Instructions)
 
-== Instructions, Exercise 4, Part 6
-.*Testing using lists*
+Next you will perform queries using lists.
 
-Write Cypher queries using a `WHERE` clause to:
+*Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.*
 
-. Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.
-. Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and the role.
+== Exercise 4.12: Retrieve all movies that were released in the years 2000, 2004, and 2008 (Solution)
 
-== Solution, Exercise 4, Part 6
-.*Testing using lists*
-
-Write Cypher queries using a `WHERE` clause to:
-
-*1. Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.*
-
+*Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.*
 
 [source, cypher]
 ----
@@ -358,7 +354,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and the role.*
+== Exercise 4.13: Retrieve the movies that have an actor's role that is the name of the movie (Instructions)
+
+*Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and the role.*
+
+== Exercise 4.13: Retrieve the movies that have an actor's role that is the name of the movie (Solution)
+
+*Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and the role.*
 
 [source, cypher]
 ----
@@ -376,7 +378,7 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-== Exercise Summary
+== Exercise 4: Filtering queries using the `WHERE` clause (Summary)
 
 In this exercise, you wrote queries that filter the results that are returned using a `WHERE` clause.
 First, you wrote some queries that filter based upon property values.

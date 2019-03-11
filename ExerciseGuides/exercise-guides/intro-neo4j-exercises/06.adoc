@@ -1,7 +1,6 @@
 = Exercise 6
-== Exercise 6: Controlling results returned
+== Exercise 6: Controlling results returned (Preparations)
 
-=== Preparations
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
@@ -16,7 +15,7 @@ If your database does not have this number of nodes and relationships, you can u
 include::scripts/initialDatabase.cypher[]
 ----
 
-== Exercise Overview
+== Exercise 6: Controlling results returned (Overview)
 
 In the previous exercise, you wrote queries to perform additional filtering, count and collect results, as well as to perform some intermediate processing during the query.
 
@@ -25,34 +24,22 @@ First, you will write a query that eliminates duplication of rows returned.
 Then you write a query that sorts the data returned.
 Finally, you will write a query to limit the number of results returned.
 
-. In Part 1, you use the `DISTINCT` keyword to eliminate duplication.
-. In Part 2, you use the `ORDER BY` keyword to sort results returned.
-. In Part 3, you write queries to limit the number of results returned.
+* *Exercise 6.1*: Execute a query that returns duplicate records.
+* *Exercise 6.2*: Modify the qyerty ti use the `DISTINCT` keyword to eliminate duplication.
+* *Exercise 6.3*: Modify the query to eliminate more duplication.
+* *Exercise 6.4*: Use the `ORDER BY` keyword to sort results returned.
+* *Exercise 6.5*: Retrieve the top 5 ratings and their associated movies.
+* *Exercise 6.6*: Retrieve all actors that have not appeared in more than 3 movies
 
-Go to the next page to perform the three parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 6, Part 1
-.*Eliminating duplication*
+== Exercise 6.1: Execute a query that returns duplicate records. (Instructions)
 
-Write the following Cypher queries:
+*You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.*
 
-. You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie.
-For now do not worry about duplication.
-. The results returned from the previous query include multiple rows for a movie released value.
-Next, modify the query so that the released date records returned are not duplicated.
-To implement this, you must add the collection of the movie titles to the results returned.
-. The results returned from the previous query returns the collection of movie titles with duplicates.
-That is because there are multiple actors per released year.
-Next, modify the query so that there is no duplication of the movies listed for a year.
+== Exercise 6.1: Execute a query that returns duplicate records. (Solution)
 
-== Solution, Exercise 6, Part 1
-.*Eliminating duplication*
-
-Write the following Cypher queries:
-
-*1. You want to know what actors acted in movies in the decade starting with the year 1990.
-First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie.
-For now do not worry about duplication.*
+*You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.*
 
 [source, cypher]
 ----
@@ -70,9 +57,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. The results returned from the previous query include multiple rows for a movie released value.
-Next, modify the query so that the released date records returned are not duplicated.
-To implement this, you must add the collection of the movie titles to the results returned.*
+== Exercise 6.2: Modify the query ti use the `DISTINCT` keyword to eliminate duplication. (Instructions)
+
+*The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.*
+
+== Exercise 6.2: Modify the query ti use the `DISTINCT` keyword to eliminate duplication. (Solution)
+
+*The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.*
 
 [source, cypher]
 ----
@@ -90,9 +81,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. The results returned from the previous query returns the collection of movie titles with duplicates.
-That is because there are multiple actors per released year.
-Next, modify the query so that there is no duplication of the movies listed for a year.*
+== Exercise 6.3: Modify the query to eliminate more duplication. (Instructions)
+
+*The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.*
+
+== Exercise 6.3: Modify the query to eliminate more duplication. (Solution)
+
+*The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.*
 
 [source, cypher]
 ----
@@ -110,15 +105,11 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
+== Exercise 6.4: Use the `ORDER BY` keyword to sort results returned (Instructions)
 
-== Instructions, Exercise 6, Part 2
-.*Ordering results.*
+*Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.*
 
-Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.
-
-== Solution, Exercise 6, Part 2
-.*Ordering results.*
+== Exercise 6.4: Use the `ORDER BY` keyword to sort results returned (Solution)
 
 *Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.*
 
@@ -139,23 +130,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 3
+== Exercise 6.5: Retrieve the top 5 ratings and their associated movies (Instructions)
 
-== Instructions, Exercise 6, Part 3
-.*Limiting results returned*
+Next you will limit the number of results returned.
 
-Write the following Cypher queries:
+*Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.*
 
-. Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.
-. Retrieve all actors that have not appeared in more than 3 movies.
-Return their names and list of movies.
+== Exercise 6.5: Retrieve the top 5 ratings and their associated movies (Solution)
 
-== Solution, Exercise 6, Part 3
-.*Limiting results returned*
-
-Write the following Cypher queries:
-
-*1. Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.*
+*Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.*
 
 [source, cypher]
 ----
@@ -173,8 +156,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all actors that have not appeared in more than 3 movies.
-Return their names and list of movies*
+== Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies (Instructions)
+
+*Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.*
+
+== Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies (Solution)
+
+*Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.*
 
 [source, cypher]
 ----
@@ -193,7 +181,7 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-== Exercise Summary
+== Exercise 6: Controlling results returned (Summary)
 
 In this exercise, you wrote queries where you can customize what results are returned and if they will be sorted.
 First, you wrote a query that eliminates duplication of rows returned.

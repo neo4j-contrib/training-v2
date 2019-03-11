@@ -1,8 +1,6 @@
 = Exercise 3
 
-== Exercise 3: Filtering queries using relationships
-
-=== Preparations
+== Exercise 3: Filtering queries using relationships (Preparations)
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
@@ -17,7 +15,7 @@ If your database does not have this number of nodes and relationships, you can u
 include::scripts/initialDatabase.cypher[]
 ----
 
-== Exercise Overview
+== Exercise 3: Filtering queries using relationships (Overview)
 
 In the previous exercise, you have filtered what nodes and properties are returned from a query based upon a value of a property for a node.
 
@@ -27,34 +25,24 @@ Then you will write a query that selects data based upon any relationship betwee
 Next, you will write a Cypher query to return information about the relationships between nodes.
 Finally, you will write a query to return property values for the relationships between nodes.
 
-. In Part 1, you retrieve all people who wrote the movie _Speed Racer_.
-. In Part 2, you retrieve all movies that are connected to the person, _Tom Hanks_.
-. In Part 3, you retrieve information about the relationships _Tom Hanks_ had with the set of movies retrieved earlier.
-. In Part 4, you retrieve information about the roles that _Tom Hanks_ acted in.
+* *Exercise 3.1:* Display the schema of the database.
+* *Exercise 3.2*: Retrieve all people who wrote the movie _Speed Racer_.
+* *Exercise 3.3*: Retrieve all movies that are connected to the person, _Tom Hanks_.
+* *Exercise 3.4:* Retrieve information about the relationships _Tom Hanks_ had with the set of movies retrieved earlier.
+* *Exercise 3.5:* Retrieve information about the roles that _Tom Hanks_ acted in.
 
-Go to the next page to perform the four parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 3, Part 1
-.*Retrieving all people who wrote the movie _Speed Racer_*
+== Exercise 3.1: Display the schema of the database (Instructions)
 
-Write and execute the following Cypher queries:
+You will use schema information to help you specify relationships in your queries.
 
-. Display the schema of the database.
-You will use this information to help you specify relationships in your queries.
-. Retrieve all people that have written the movie _Speed Racer_.
+*Display the schema of the database.*
 
-.*Taking it further (optional)*
-** Retrieve all people who have written other movies.
-** Retrieve people who have acted in a particular movie.
-** Retrieve people who have directed a particular movie.
 
-== Solution, Exercise 3, Part 1
-.*Retrieving all people who wrote the movie _Speed Racer_*
+== Exercise 3.1: Display the schema of the database (Solution)
 
-Write and execute the following Cypher queries:
-
-*1. Display the schema of the database.
-You will use this information to help you specify relationships in your queries.* 
+*Display the schema of the database.*
 
 [source, cypher]
 ----
@@ -70,7 +58,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all people that have written the movie _Speed Racer_.* 
+== Exercise 3.2: Retrieve all people who wrote the movie _Speed Racer_ (Instructions)
+
+*Retrieve all people who wrote the movie _Speed Racer_.*
+
+== Exercise 3.2: Retrieve all people who wrote the movie _Speed Racer_ (Solution)
+
+*Retrieve all people who wrote the movie _Speed Racer_.*
 
 [source, cypher]
 ----
@@ -82,31 +76,32 @@ image::{guides}/img/SpeedRacerWriters.png[SpeedRacerWriters,width=400,float="rig
 
 The result returned should be:
 
-Notice here that the :Movie node is an anonymous node because for the query, we do not need information about the Movie node.
+Notice here that the _:Movie_ node is an anonymous node because for the query, we do not need information about the _Movie_ node.
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
+== Exercise 3.2: Retrieve all people who wrote the movie _Speed Racer_ (Taking it further - optional)
 
-== Instructions, Exercise 3, Part 2
-.*Retrieving all movies connected with _Tom Hanks_*
+* Retrieve all people who have written other movies.
+* Retrieve people who have acted in a particular movie.
+* Retrieve people who have directed a particular movie.
+
+== Exercise 3.3: Retrieve all movies that are connected to the person, _Tom Hanks_ (Instructions)
+
+*Retrieve all movies connected with _Tom Hanks_.*
+
+*Hint:* _Tom Hanks_ has multiple relationships with a movie so you should not specify a relationship type in the query.
+
+
+== Exercise 3.3: Retrieve all movies that are connected to the person, _Tom Hanks_ (Solution)
+
+*Retrieve all movies connected with _Tom Hanks_.*
+
+*Hint:* _Tom Hanks_ has multiple relationships with a movie so you should not specify a relationship type in the query.
 
 In the query editor pane, enter the Cypher query to retrieve all movies that are connected to _Tom Hanks_.
-
-*Hint:* _Tom Hanks_ has multiple relationships with a movie so you should not specify a relationship type in the query.
-
-.*Taking it further (optional)*
-** Retrieve all movies connected with another actor.
-** Retrieve all people connected with a particular movie.
-
-== Solution, Exercise 3, Part 2
-.*Retrieving all movies connected with _Tom Hanks_*
-
-*In the query editor pane, enter the Cypher query to retrieve all movies that are connected to _Tom Hanks_.*
-
-*Hint:* _Tom Hanks_ has multiple relationships with a movie so you should not specify a relationship type in the query.
 
 [source, cypher]
 ----
@@ -126,18 +121,16 @@ It is a best practice to put named nodes first in a query.
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 3
+== Exercise 3.3: Retrieve all movies that are connected to the person, _Tom Hanks_ (Taking it further - optional)
 
-== Instructions, Exercise 3, Part 3
-.*Retrieving relationship information about _Tom Hanks_*
+* Retrieve all movies connected with another actor.
+* Retrieve all people connected with a particular movie.
 
-Modify the query that you just executed to return the type information about the relationships between _Tom Hanks_ and the movies.
+== Exercise 3.4: Retrieve information about the relationships _Tom Hanks_ has with the set of movies retrieved earlier (Instructions)
 
-.*Taking it further (optional)*
-** Retrieve the relationship information about a different actor.
+*Modify the query that you just executed to return the type information about the relationships between _Tom Hanks_ and the movies.*
 
-== Solution, Exercise 3, Part 3
-.*Retrieving relationship information about _Tom Hanks_*
+== Exercise 3.4: Retrieve information about the relationships _Tom Hanks_ has with the set of movies retrieved earlier (Solution)
 
 *Modify the query that you just executed to return the type information about the relationships between _Tom Hanks_ and the movies.*
 
@@ -155,27 +148,23 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 4
 
-== Instructions, Exercise 3, Part 4
-.*Retrieving information about the roles that _Tom Hanks_ played*
+== Exercise 3.4: Retrieve information about the relationships _Tom Hanks_ has with the set of movies retrieved earlier (Taking it further - optional)
+
+* Retrieve the relationship information about a different actor.
+
+== Exercise 3.5: Retrieve information about the roles that _Tom Hanks_ acted in (Instructions)
 
 As an actor, a _Person_ node in the database connects to a _Movie_ node using the _ACTED_IN_ relationship.
 One of the properties of the _ACTED_IN_ relationship is _roles_.
+
+*Retrieve information about the roles that _Tom Hanks_ played.*
+
+== Exercise 3.5: Retrieve information about the roles that _Tom Hanks_ acted in (Solution)
+
+*Retrieve information about the roles that _Tom Hanks_ played.*
 
 Write and execute the Cypher query to retrieve all of the roles that _Tom Hanks_ acted in.
-
-.*Taking it further (optional)*
-** Retrieve all roles for a different actor.
-** Retrieve all roles played for a particular movie.
-
-== Solution, Exercise 3, Part 4
-.*Retrieving information about the roles that _Tom Hanks_ played*
-
-As an actor, a _Person_ node in the database connects to a _Movie_ node using the _ACTED_IN_ relationship.
-One of the properties of the _ACTED_IN_ relationship is _roles_.
-
-*Write and execute the Cypher query to retrieve all of the roles that _Tom Hanks_ acted in.*
 
 [source, cypher]
 ----
@@ -191,7 +180,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-== Exercise Summary
+== Exercise 3.5: Retrieve information about the roles that _Tom Hanks_ acted in (Taking it further - optional)
+
+* Retrieve all roles for a different actor.
+* Retrieve all roles played for a particular movie.
+
+
+== Exercise 3: Filtering queries using relationships (Summary)
 
 In this exercise, you wrote queries that filter the nodes and property values that are returned based upon the relationships between nodes.
 You first used an anonymous node to specify a filter based upon a node's specific relationship to other nodes.

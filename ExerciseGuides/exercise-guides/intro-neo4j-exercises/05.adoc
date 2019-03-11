@@ -1,7 +1,5 @@
 = Exercise 5
-== Exercise 5: Controlling query processing
-
-=== Preparations
+== Exercise 5: Controlling query processing (Preparations)
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
@@ -17,7 +15,7 @@ include::scripts/initialDatabase.cypher[]
 ----
 
 
-== Exercise Overview
+== Exercise 5: Controlling query processing (Overview)
 
 In the previous exercise, you have filtered your queries using the `WHERE` clause of a Cypher query.
 
@@ -29,30 +27,29 @@ Then you will collect results during a query to build a list.
 Next, you count retrievals during the query.
 Finally, you will perform intermediate processing during the query using a `WITH` clause.
 
-. In Part 1, you retrieve data using multiple `MATCH` patterns.
-. In Part 2, you retrieve data that is a variable number of hops away from a node.
-. In Part 3, you specify optional data to be retrieved during the query.
-. In Part 4, you collect data into a list during the query.
-. In Part 5, you count retrievals during the query processing.
-. In Part 6, you perform intermediate processing during a query using the `WITH` clause.
+* *Exercise 5.1*: Retrieve data using multiple `MATCH` patterns.
+* *Exercise 5.2*: Retrieve all nodes that the person named _James Thompson_ directly has the _FOLLOWS_ relationship in either direction.
+* *Exercise 5.3*: Modify the query to retrieve nodes that are exactly three hops away.
+* *Exercise 5.4*: Modify the query to retrieve nodes that are one and two hops away.
+* *Exercise 5.5*: Modify the query to retrieve all nodes that are connected to _James Thompson_ by a _Follows_ relationship no matter how many hops are required.
+* *Exercise 5.6*: Specify optional data to be retrieved during the query.
+* *Exercise 5.7*: Retrieve actors and the movies they have acted in by collecting a list.
+* *Exercise 5.8*: Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie by collecting a list.
+* *Exercise 5.9*: Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.
+* *Exercise 5.10*: Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.
+* *Exercise 5.11*: Retrieve the actors who have acted in exactly five movies.
+* *Exercise 5.12*: Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.
 
-Go to the next page to perform the six parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 5, Part 1
-.*Retrieving data using multiple `MATCH` patterns*
+== Exercise 5.1: Retrieve data using multiple `MATCH` patterns (Instructions)
 
-Write a Cypher query that retrieves all movies that _Gene Hackman_ has acted it, along with the directors of the movies.
-In addition, retrieve the actors that acted in the same movies as _Gene Hackman_.
-Return the name of the movie, the name of the director, and the names of actors that worked with _Gene Hackman_.
+*Write a Cypher query that retrieves all movies that _Gene Hackman_ has acted it, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as _Gene Hackman_. Return the name of the movie, the name of the director, and the names of actors that worked with _Gene Hackman_.*
 
 
-== Solution, Exercise 5, Part 1
-.*Retrieving data using multiple `MATCH` patterns*
+== Exercise 5.1: Retrieve data using multiple `MATCH` patterns (Solution)
 
-
-*Write a Cypher query that retrieves all movies that _Gene Hackman_ has acted it, along with the directors of the movies.* 
-*In addition, retrieve the actors that acted in the same movies as _Gene Hackman_.* 
-*Return the name of the movie, the name of the director, and the names of actors that worked with _Gene Hackman_.*
+*Write a Cypher query that retrieves all movies that _Gene Hackman_ has acted it, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as _Gene Hackman_. Return the name of the movie, the name of the director, and the names of actors that worked with _Gene Hackman_.*
 
 [source, cypher]
 ----
@@ -71,24 +68,17 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
+== Exercise 5.2: Retrieve all nodes that the person named _James Thompson_ directly has the _FOLLOWS_ relationship in either direction (Instructions)
 
-== Instructions, Exercise 5, Part 2
-.*Retrieving data that is a variable number of hops away from a node.*
+Next, you will perform queries for data that is a variable number of hops away.
 
-Write these Cypher queries to explore the graph engine's behavior with varying length paths for the _FOLLOWS_ relationship in the _Movie_ graph:
+Write this Cypher query to explore the graph engine's behavior with varying length paths for the _FOLLOWS_ relationship in the _Movie_ graph:
 
-. Retrieve all nodes that the person named _James Thompson_ directly has the _FOLLOWS_ relationship in either direction.
-. Modify the query to retrieve nodes that are exactly three hops away.
-. Modify the query to retrieve nodes that are one and two hops away.
-. Modify the query to retrieve all nodes that are connected to _James Thompson_ by a _Follows_ relationship no matter how many hops are required.
+*Retrieve all nodes that the person named _James Thompson_ directly has the _FOLLOWS_ relationship in either direction.*
 
-== Solution, Exercise 5, Part 2
-.*Retrieving data that is a variable number of hops away from a node.*
+== Exercise 5.2: Retrieve all nodes that the person named _James Thompson_ directly has the _FOLLOWS_ relationship in either direction (Solution)
 
-Write these Cypher queries to explore the graph engine's behavior with varying length paths for the _FOLLOWS_ relationship in the _Movie_ graph:
-
-*1. Retrieve all nodes that the person named _James Thompson_ directly has the _FOLLOWS_ relationship in either direction.*
+*Retrieve all nodes that the person named _James Thompson_ directly has the _FOLLOWS_ relationship in either direction.*
 
 [source, cypher]
 ----
@@ -106,7 +96,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Modify the query to retrieve nodes that are exactly three hops away.*
+== Exercise 5.3: Modify the query to retrieve nodes that are exactly three hops away (Instructions)
+
+*Modify the query to retrieve nodes that are exactly three hops away.*
+
+== Exercise 5.3: Modify the query to retrieve nodes that are exactly three hops away (Solution)
+
+*Modify the query to retrieve nodes that are exactly three hops away.*
 
 [source, cypher]
 ----
@@ -126,7 +122,14 @@ Notice here that the relationships between the nodes are not displayed because _
 <div style="clear: both;"></div>
 ++++
 
-*3. Modify the query to retrieve nodes that are one and two hops away.*
+
+== Exercise 5.4: Modify the query to retrieve nodes that are one and two hops away (Instructions)
+
+*Modify the query to retrieve nodes that are one and two hops away.*
+
+== Exercise 5.4: Modify the query to retrieve nodes that are one and two hops away (Solution)
+
+*Modify the query to retrieve nodes that are one and two hops away.*
 
 [source, cypher]
 ----
@@ -144,7 +147,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Modify the query to retrieve all nodes that are connected to _James Thompson_ by a _Follows_ relationship no matter how many hops are required.*
+
+== Exercise 5.5: Modify the query to retrieve all nodes that are connected to _James Thompson_ by a _Follows_ relationship no matter how many hops are required (Instructions)
+
+*Modify the query to retrieve all nodes that are connected to _James Thompson_ by a _Follows_ relationship no matter how many hops are required.*
+
+
+== Exercise 5.5: Modify the query to retrieve all nodes that are connected to _James Thompson_ by a _Follows_ relationship no matter how many hops are required (Solution)
+
+*Modify the query to retrieve all nodes that are connected to _James Thompson_ by a _Follows_ relationship no matter how many hops are required.*
 
 [source, cypher]
 ----
@@ -162,16 +173,11 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 3
+== Exercise 5.6: Specify optional data to be retrieved during the query (Instructions)
 
-== Instructions, Exercise 5, Part 3
-.*Specifying optional data to be retrieved*
+*Write a Cypher query to retrieve all people in the graph whose name begins with _Tom_ and optionally retrieve all people named _Tom_ who directed a movie.*
 
-Write a Cypher query to retrieve all people in the graph whose name begins with _Tom_ and optionally retrieve all people named _Tom_ who directed a movie.
-
-== Solution, Exercise 5, Part 3
-.*Specifying optional data to be retrieved*
-
+== Exercise 5.6: Specify optional data to be retrieved during the query (Solution)
 
 *Write a Cypher query to retrieve all people in the graph whose name begins with _Tom_ and optionally retrieve all people named _Tom_ who directed a movie.*
 
@@ -192,22 +198,16 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 4
+== Exercise 5.7: Retrieve actors and the movies they have acted in by collecting a list (Instructions)
 
-== Instructions, Exercise 5, Part 4
-.*Collecting data into a list*
+Next, you will perform queries where you collect the results into a list.
 
-Write Cypher queries to:
+*Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.*
 
-. Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.
-. Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that _Tom Cruise_ worked with.
 
-== Solution, Exercise 5, Part 4
-.*Collecting data into a list*
+== Exercise 5.7: Retrieve actors and the movies they have acted in by collecting a list (Solution)
 
-Write Cypher queries to:
-
-*1. Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.*
+*Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.*
 
 [source, cypher]
 ----
@@ -224,7 +224,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that _Tom Cruise_ worked with.*
+== Exercise 5.8: Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie by collecting a list (Instructions)
+
+*Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that _Tom Cruise_ worked with.*
+
+== Exercise 5.8: Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie by collecting a list (Solution)
+
+*Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that _Tom Cruise_ worked with.*
 
 [source, cypher]
 ----
@@ -242,22 +248,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 5
+== Exercise 5.9: Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie (Instructions)
 
-== Instructions, Exercise 5, Part 5
-.*Counting retrievals*
+Next, you will count results retrieved.
 
-Write Cypher queries to:
+*Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.*
 
-. Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.
-. Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.
+== Exercise 5.9: Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie (Solution)
 
-== Solution, Exercise 5, Part 5
-.*Counting retrievals*
-
-Write Cypher queries to:
-
-*1. Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.*
+*Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.*
 
 [source, cypher]
 ----
@@ -274,7 +273,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.*
+== Exercise 5.10: Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors (Instructions)
+
+*Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.*
+
+== Exercise 5.10: Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors (Solution)
+
+*Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.*
 
 [source, cypher]
 ----
@@ -291,22 +296,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 6
+== Exercise 5.11: Retrieve the actors who have acted in exactly five movies (Instructions)
 
-== Instructions, Exercise 5, Part 6
-.*Performing intermediate processing using the `WITH` clause*
+Next, you will write queries that perform some intermediate processing using the `WITH` clause.
 
-Write Cypher queries using a `WITH` clause to:
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
 
-. Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.
-. Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.
+== Exercise 5.11: Retrieve the actors who have acted in exactly five movies (Solution)
 
-== Solution, Exercise 5, Part 6
-.*Performing intermediate processing using the `WITH` clause*
-
-Write Cypher queries using a `WITH` clause to:
-
-*1. Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
 
 [source, cypher]
 ----
@@ -325,7 +323,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+== Exercise 5.12: Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies (Instructions)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+
+== Exercise 5.12: Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies (Solution)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
 
 [source, cypher]
 ----
@@ -344,7 +348,8 @@ The result returned should be:
 ++++
 <div style="clear: both;"></div>
 ++++
-== Exercise Summary
+
+== Exercise 5: Controlling query processing (Summary)
 
 In this exercise, you wrote queries that filtered the results that are returned using a `WHERE` clause as well as performing some additional processing during the query.
 First, you wrote a query where multiple patterns are required.

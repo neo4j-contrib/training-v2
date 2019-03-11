@@ -50,29 +50,20 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 3: Filtering queries using relationships</h3>
+    <h3>Exercise 3: Filtering queries using relationships (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 2.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 171 nodes and 253 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://localhost:8001/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200"></span></p>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -592,37 +583,40 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 3: Filtering queries using relationships (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In the previous Exercise, you have filtered what nodes and properties are returned from a query based upon a value of a property for a node.</p>
+<p>In the previous exercise, you have filtered what nodes and properties are returned from a query based upon a value of a property for a node.</p>
 </div>
 <div class="paragraph">
-<p>In this Exercise, you will write queries that filter the nodes and property values that are returned based upon the relationships between nodes.
+<p>In this exercise, you will write queries that filter the nodes and property values that are returned based upon the relationships between nodes.
 You will first use an anonymous node to specify a filter based upon a node&#8217;s specific relationship to other nodes.
 Then you will write a query that selects data based upon any relationship between nodes.
 Next, you will write a Cypher query to return information about the relationships between nodes.
 Finally, you will write a query to return property values for the relationships between nodes.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you retrieve all people who wrote the movie <em>Speed Racer</em>.</p>
+<p><strong>Exercise 3.1:</strong> Display the schema of the database.</p>
 </li>
 <li>
-<p>In Part 2, you retrieve all movies that are connected to the person, <em>Tom Hanks</em>.</p>
+<p><strong>Exercise 3.2</strong>: Retrieve all people who wrote the movie <em>Speed Racer</em>.</p>
 </li>
 <li>
-<p>In Part 3, you retrieve information about the relationships <em>Tom Hanks</em> had with the set of movies retrieved earlier.</p>
+<p><strong>Exercise 3.3</strong>: Retrieve all movies that are connected to the person, <em>Tom Hanks</em>.</p>
 </li>
 <li>
-<p>In Part 4, you retrieve information about the roles that <em>Tom Hanks</em> acted in.</p>
+<p><strong>Exercise 3.4:</strong> Retrieve information about the relationships <em>Tom Hanks</em> had with the set of movies retrieved earlier.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 3.5:</strong> Retrieve information about the roles that <em>Tom Hanks</em> acted in.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the four Parts of this Exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -632,25 +626,100 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 3, Part 1</h3>
+    <h3>Exercise 3.1: Display the schema of the database (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving all people who wrote the movie <em>Speed Racer</em></strong></div>
-<p>Write and execute the following Cypher queries:</p>
+<p>You will use schema information to help you specify relationships in your queries.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Display the schema of the database. You will use this information to help you specify relationships in your queries.</p>
-</li>
-<li>
-<p>Retrieve all people that have written the movie <em>Speed Racer</em>.</p>
-</li>
-</ol>
+<div class="paragraph">
+<p><strong>Display the schema of the database.</strong></p>
 </div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.1: Display the schema of the database (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Display the schema of the database.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.2: Retrieve all people who wrote the movie <em>Speed Racer</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people who wrote the movie <em>Speed Racer</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.2: Retrieve all people who wrote the movie <em>Speed Racer</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people who wrote the movie <em>Speed Racer</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:WROTE]-&gt;(:Movie {title: 'Speed Racer'}) RETURN p.name<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SpeedRacerWriters.png" alt="SpeedRacerWriters" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="paragraph">
+<p>Notice here that the <em>:Movie</em> node is an anonymous node because for the query, we do not need information about the <em>Movie</em> node.</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.2: Retrieve all people who wrote the movie <em>Speed Racer</em> (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
 <ul>
 <li>
 <p>Retrieve all people who have written other movies.</p>
@@ -671,52 +740,14 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 3, Part 1</h3>
+    <h3>Exercise 3.3: Retrieve all movies that are connected to the person, <em>Tom Hanks</em> (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving all people who wrote the movie <em>Speed Racer</em></strong></div>
-<p>Write and execute the following Cypher queries:</p>
+<p><strong>Retrieve all movies connected with <em>Tom Hanks</em>.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>1. Display the schema of the database. You will use this information to help you specify relationships in your queries.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="300">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Retrieve all people that have written the movie <em>Speed Racer</em>.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:WROTE]-&gt;(:Movie {title: 'Speed Racer'}) RETURN p.name<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SpeedRacerWriters.png" alt="SpeedRacerWriters" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="paragraph">
-<p>Notice here that the :Movie node is an anonymous node because for the query, we do not need information about the Movie node.</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 2</p>
+<p><strong>Hint:</strong> <em>Tom Hanks</em> has multiple relationships with a movie so you should not specify a relationship type in the query.</p>
 </div>
 	</div>
   </div>
@@ -726,18 +757,49 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 3, Part 2</h3>
+    <h3>Exercise 3.3: Retrieve all movies that are connected to the person, <em>Tom Hanks</em> (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving all movies connected with <em>Tom Hanks</em></strong></div>
-<p>In the query editor pane, enter the Cypher query to retrieve all movies that are connected to <em>Tom Hanks</em>.</p>
+<p><strong>Retrieve all movies connected with <em>Tom Hanks</em>.</strong></p>
 </div>
 <div class="paragraph">
 <p><strong>Hint:</strong> <em>Tom Hanks</em> has multiple relationships with a movie so you should not specify a relationship type in the query.</p>
 </div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
+<div class="paragraph">
+<p>In the query editor pane, enter the Cypher query to retrieve all movies that are connected to <em>Tom Hanks</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)&lt;--(:Person {name: 'Tom Hanks'}) RETURN m.title<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/TomHanksMovies.png" alt="TomHanksMovies" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="paragraph">
+<p>Notice that <em>Tom Hanks</em> has multiple relationships to the movie, "That Thing You Do".
+Also notice that we specify the named node (with a variable) first.
+It is a best practice to put named nodes first in a query.</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.3: Retrieve all movies that are connected to the person, <em>Tom Hanks</em> (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
 <ul>
 <li>
 <p>Retrieve all movies connected with another actor.</p>
@@ -755,35 +817,11 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 3, Part 2</h3>
+    <h3>Exercise 3.4: Retrieve information about the relationships <em>Tom Hanks</em> has with the set of movies retrieved earlier (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving all movies connected with <em>Tom Hanks</em></strong></div>
-<p><strong>In the query editor pane, enter the Cypher query to retrieve all movies that are connected to <em>Tom Hanks</em>.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hint:</strong> <em>Tom Hanks</em> has multiple relationships with a movie so you should not specify a relationship type in the query.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)&lt;--(:Person {name: 'Tom Hanks'}) RETURN m.title<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomHanksMovies.png" alt="TomHanksMovies" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="paragraph">
-<p>Notice that <em>Tom Hanks</em> has multiple relationships to the movie, "That Thing You Do". Also notice that we specify the named node (with a variable) first. It is a best practice to put named nodes first in a query.</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 3</p>
+<p><strong>Modify the query that you just executed to return the type information about the relationships between <em>Tom Hanks</em> and the movies.</strong></p>
 </div>
 	</div>
   </div>
@@ -793,15 +831,38 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 3, Part 3</h3>
+    <h3>Exercise 3.4: Retrieve information about the relationships <em>Tom Hanks</em> has with the set of movies retrieved earlier (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving relationship information about <em>Tom Hanks</em></strong></div>
-<p>Modify the query that you just executed to return the type information about the relationships between <em>Tom Hanks</em> and the movies.</p>
+<p><strong>Modify the query that you just executed to return the type information about the relationships between <em>Tom Hanks</em> and the movies.</strong></p>
 </div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)-[rel]-(:Person {name: 'Tom Hanks'}) RETURN m.title, type(rel)<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/TomHanksRelationshipTypes.png" alt="TomHanksRelationshipTypes" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.4: Retrieve information about the relationships <em>Tom Hanks</em> has with the set of movies retrieved earlier (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
 <ul>
 <li>
 <p>Retrieve the relationship information about a different actor.</p>
@@ -816,29 +877,15 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 3, Part 3</h3>
+    <h3>Exercise 3.5: Retrieve information about the roles that <em>Tom Hanks</em> acted in (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving relationship information about <em>Tom Hanks</em></strong></div>
-<p><strong>Modify the query that you just executed to return the type information about the relationships between <em>Tom Hanks</em> and the movies.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)-[rel]-(:Person {name: 'Tom Hanks'}) RETURN m.title, type(rel)<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomHanksRelationshipTypes.png" alt="TomHanksRelationshipTypes" width="400">
-</div>
+<p>As an actor, a <em>Person</em> node in the database connects to a <em>Movie</em> node using the <em>ACTED_IN</em> relationship.
+One of the properties of the <em>ACTED_IN</em> relationship is <em>roles</em>.</p>
 </div>
 <div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 4</p>
+<p><strong>Retrieve information about the roles that <em>Tom Hanks</em> played.</strong></p>
 </div>
 	</div>
   </div>
@@ -848,18 +895,41 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 3, Part 4</h3>
+    <h3>Exercise 3.5: Retrieve information about the roles that <em>Tom Hanks</em> acted in (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving information about the roles that <em>Tom Hanks</em> played</strong></div>
-<p>As an actor, a <em>Person</em> node in the database connects to a <em>Movie</em> node using the <em>ACTED_IN</em> relationship. One of the properties of the <em>ACTED_IN</em> relationship is <em>roles</em>.</p>
+<p><strong>Retrieve information about the roles that <em>Tom Hanks</em> played.</strong></p>
 </div>
 <div class="paragraph">
 <p>Write and execute the Cypher query to retrieve all of the roles that <em>Tom Hanks</em> acted in.</p>
 </div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) RETURN m.title, rel.roles<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb" style="float: right;">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/TomHanksRoles.png" alt="TomHanksRoles" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.5: Retrieve information about the roles that <em>Tom Hanks</em> acted in (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
 <ul>
 <li>
 <p>Retrieve all roles for a different actor.</p>
@@ -877,50 +947,18 @@ Finally, you will write a query to return property values for the relationships 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 3, Part 4</h3>
+    <h3>Exercise 3: Filtering queries using relationships (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Retrieving information about the roles that <em>Tom Hanks</em> played</strong></div>
-<p>As an actor, a <em>Person</em> node in the database connects to a <em>Movie</em> node using the <em>ACTED_IN</em> relationship. One of the properties of the <em>ACTED_IN</em> relationship is <em>roles</em>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Write and execute the Cypher query to retrieve all of the roles that <em>Tom Hanks</em> acted in.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) RETURN m.title, rel.roles<!--/code--></pre>
-</div>
-</div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomHanksRoles.png" alt="TomHanksRoles" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>In this Exercise, you wrote queries that filter the nodes and property values that are returned based upon the relationships between nodes.
+<p>In this exercise, you wrote queries that filter the nodes and property values that are returned based upon the relationships between nodes.
 You first used an anonymous node to specify a filter based upon a node&#8217;s specific relationship to other nodes.
 Then you wrote a query that selects data based upon any relationship between nodes.
 Next, you wrote a Cypher query to return information about the relationships between nodes.
 Finally, you wrote a query to return property values for the relationships between nodes.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/04.html'>Continue to Exercise 4</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/04.html'>Continue to Exercise 4</a></p>
 </div>
 	</div>
   </div>

@@ -50,29 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 10: Deleting Nodes and Relationships</h3>
+    <h3>Exercise 10: Deleting Nodes and Relationships (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 9.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 173 nodes and 258 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise9.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 173 nodes and 258 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise9.png" alt="After exercise 9" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -602,14 +595,14 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 10: Deleting Nodes and Relationships (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In the previous Exercise, you created relationships between <em>Person</em> and <em>Movie</em> nodes and you modified the properties for these relationships.</p>
+<p>In the previous exercise, you created relationships between <em>Person</em> and <em>Movie</em> nodes and you modified the properties for these relationships.</p>
 </div>
 <div class="paragraph">
-<p>In this Exercise you will delete nodes and relationships from the graph.</p>
+<p>In this exercise you will delete nodes and relationships from the graph.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -622,7 +615,7 @@ SET m:OlderMovie<!--/code--></pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the two Parts of this Exercise.</p>
+<p>Go to the next page to perform the two parts of this exercise.</p>
 </div>
 	</div>
   </div>
@@ -637,7 +630,8 @@ SET m:OlderMovie<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Deleting a relationship</strong></div>
-<p>Recall that in the graph we have been working with, we have the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em>. We have decided that we no longer need this relationship in the graph.</p>
+<p>Recall that in the graph we have been working with, we have the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em>.
+We have decided that we no longer need this relationship in the graph.</p>
 </div>
 <div class="paragraph">
 <p>Write Cypher statements to:</p>
@@ -678,7 +672,7 @@ DELETE rel<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DeleteHELPED.png" alt="DeleteHELPED" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/DeleteHELPED.png" alt="DeleteHELPED" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -696,7 +690,7 @@ RETURN rel<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ConfirmDeleteHELPED.png" alt="ConfirmDeleteHELPED" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/ConfirmDeleteHELPED.png" alt="ConfirmDeleteHELPED" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -730,7 +724,8 @@ RETURN rel<!--/code--></pre>
 <p>Query the graph to display <em>Forrest Gump</em> and all of its relationships.</p>
 </li>
 <li>
-<p>Try deleting the <em>Forrest Gump</em> node without detaching its relationships. Do you receive an error?</p>
+<p>Try deleting the <em>Forrest Gump</em> node without detaching its relationships.
+Do you receive an error?</p>
 </li>
 <li>
 <p>Delete <em>Forrest Gump</em>, along with its relationships in the graph.</p>
@@ -770,7 +765,7 @@ RETURN p, rel, m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/QueryForrestGump.png" alt="QueryForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/QueryForrestGump.png" alt="QueryForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -778,7 +773,8 @@ RETURN p, rel, m<!--/code--></pre>
 </div>
 <div style="clear: both;"></div>
 <div class="paragraph">
-<p><strong>2. Try deleting the <em>Forrest Gump</em> node without detaching its relationships. Do you receive an error?</strong></p>
+<p><strong>2. Try deleting the <em>Forrest Gump</em> node without detaching its relationships.
+Do you receive an error?</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -789,7 +785,7 @@ DELETE m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DeleteNodeFailed.png" alt="DeleteNodeFailed" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/DeleteNodeFailed.png" alt="DeleteNodeFailed" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -808,7 +804,7 @@ DETACH DELETE m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DetachDelete.png" alt="DetachDelete" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/DetachDelete.png" alt="DetachDelete" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -827,7 +823,7 @@ RETURN p, rel, m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NoForrestGump.png" alt="NoForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/NoForrestGump.png" alt="NoForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -842,14 +838,14 @@ RETURN p, rel, m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 10: Deleting Nodes and Relationships (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you deleted relationships and a node from the graph.</p>
+<p>In this exercise you deleted relationships and a node from the graph.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/11.html'>Continue to Exercise 11</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/11.html'>Continue to Exercise 11</a></p>
 </div>
 	</div>
   </div>

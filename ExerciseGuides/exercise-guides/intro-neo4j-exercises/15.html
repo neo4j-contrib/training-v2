@@ -50,32 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15: Managing indexes</h3>
+    <h3>Exercise 15: Managing indexes (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 14.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 175 nodes and 257 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise14.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
-</div>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 175 nodes and 257 relationships.</p>
 </div>
 <div class="paragraph">
-<p><strong>Important:</strong> This Cypher script will fail if your graph has any constraints defined as it creates the constraints you created in the previous Exercise. You must first drop any constraints in your graph before running this script. Use <code>CALL db.constraints</code> to see if you have any constraints in the graph and simply prefix the constraint definition with <code>DROP</code>.</p>
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise14.png" alt="After exercise 14" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -613,11 +603,11 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 15: Managing indexes (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you write Cypher statements create, view, and drop indexes.</p>
+<p>In this exercise you write Cypher statements create, view, and drop indexes.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -633,7 +623,7 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 </ol>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the three Parts of this Exercise.</p>
+<p>Go to the next page to perform the three parts of this exercise.</p>
 </div>
 	</div>
   </div>
@@ -672,7 +662,7 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateIndex.png" alt="CreateIndex" width="300">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateIndex.png" alt="CreateIndex" width="300">
 </div>
 </div>
 <div class="paragraph">
@@ -695,7 +685,8 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
     <div>
       <div class="paragraph">
 <div class="title"><strong>Viewing indexes</strong></div>
-<p>Write the Cypher statement to view the indexes defined for the graph. Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
+<p>Write the Cypher statement to view the indexes defined for the graph.
+Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
 </div>
 	</div>
   </div>
@@ -710,7 +701,8 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
     <div>
       <div class="paragraph">
 <div class="title"><strong>Viewing indexes</strong></div>
-<p>Write the Cypher statement to view the indexes defined for the graph. Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement? The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.</p>
+<p>Write the Cypher statement to view the indexes defined for the graph.
+Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement? The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -722,7 +714,7 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ViewIndexes.png" alt="ViewIndexes" width="600">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/ViewIndexes.png" alt="ViewIndexes" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -765,7 +757,7 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DropIndex.png" alt="DropIndex" width="300">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/DropIndex.png" alt="DropIndex" width="300">
 </div>
 </div>
 <div class="paragraph">
@@ -780,14 +772,14 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 15: Managing indexes (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you wrote Cypher statements to create, view, and drop an index for the graph.</p>
+<p>In this exercise you wrote Cypher statements to create, view, and drop an index for the graph.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/16.html'>Continue to Exercise 16</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/16.html'>Continue to Exercise 16</a></p>
 </div>
 	</div>
   </div>

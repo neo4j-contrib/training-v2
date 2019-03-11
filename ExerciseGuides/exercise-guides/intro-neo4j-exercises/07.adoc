@@ -1,7 +1,5 @@
 = Exercise 7
-== Exercise 7: Working with Cypher data
-
-=== Preparations
+== Exercise 7: Working with Cypher data (Preparations)
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
@@ -17,7 +15,7 @@ include::scripts/initialDatabase.cypher[]
 ----
 
 
-== Exercise Overview
+== Exercise 7: Working with Cypher data (Overview)
 
 In the previous exercises, you wrote queries using Cypher syntax for retrieving, filtering, ordering, avoiding duplication, and performing intermediate processing during a query.
 These queries give you a good basis for exploring more types of queries against the _Movie_ database you are working with for this training.
@@ -27,35 +25,24 @@ First, you will write a query where lists are collected and the results returned
 Then you will write a query that collects and unwinds a list.
 Finally, you write a query that performs calculations based upon a date retrieved from the graph.
 
-. In Part 1, you collect and use lists.
-. In Part 2, you collect and then unwind a list.
-. In Part 3, you perform a calculation with the date type.
+* *Exercise 7.1*: Collect and use lists.
+* *Exercise 7.2*: Collect a list.
+* *Exercise 7.3*: Unwind a list.
+* *Exercise 7.4*: Perform a calculation with the date type.
 
-Go to the next page to perform the three parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 7, Part 1
-.*Collecting and using lists*
+== Exercise 7.1: Collect and use lists (Instructions)
 
-Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies.
-During the query, collect the names of the actors and the names of the producers.
-Returns the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data.
-Order the results returned based upon the size of the list of actors.
+*Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Return the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.*
 
 *Hints:* Use two patterns for the query, one for actors, and one for producers.
 Use a `WITH` clause to collect the values for the cast and producers.
 You can use the `size()` function to calculate the size of a list for ordering purposes.
 
-== Solution, Exercise 7, Part 1
-.*Collecting and using lists*
+== Exercise 7.1: Collect and use lists (Solution)
 
-*Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies.
-During the query, collect the names of the actors and the names of the producers.
-Returns the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data.
-Order the results returned based upon the size of the list of actors.*
-
-*Hints:* Use two patterns for the query, one for actors, and one for producers.
-Use a `WITH` clause to collect the values for the cast and producers.
-You can use the `size()` function to calculate the size of a list for ordering purposes.
+*Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Return the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.*
 
 [source, cypher]
 ----
@@ -75,25 +62,16 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
+== Exercise 7.2: Collect a list (Instructions)
 
-== Instructions, Exercise 7, Part 2
-.*Unwinding lists*
+*Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies. Return the name of the actor and the list.*
 
-. Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies.
-Return the name of the actor and the list.
-. Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie.
-
-*Hints:* Use two `WITH` clauses and test the size of the collected list using the `size()` function.
+*Hint:* Use a `WITH` clause and test the size of the collected list using the `size()` function.
 
 
-== Solution, Exercise 7, Part 2
-.*Collecting and using lists*
+== Exercise 7.2: Collect a list (Solution)
 
-*1. Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies.
-Return the name of the actor and the list.*
-
-*Hints:* Use two `WITH` clauses and test the size of the collected list using the `size()` function.
+*Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies. Return the name of the actor and the list.*
 
 [source, cypher]
 ----
@@ -115,9 +93,15 @@ The actors should be _Tom Hanks_ and _Keanu Reeves_.
 <div style="clear: both;"></div>
 ++++
 
-*2. Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie.*
+== Exercise 7.3: Unwind a list (Instructions)
 
-*Hints:* Use two `WITH` clauses and test the size of the collected list using the `size()` function.
+*Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie*
+
+*Hint:* Use two `WITH` clauses and test the size of the collected list using the `size()` function.
+
+== Exercise 7.3: Unwind a list (Solution)
+
+*Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie*
 
 [source, cypher]
 ----
@@ -137,15 +121,11 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 3
+== Exercise 7.4: Perform a calculation with the date type (Instructions)
 
-== Instructions, Exercise 7, Part 3
-.*Calculating with dates.*
+*Write a query that retrieves all movies that _Tom Hanks_ acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of _Tom_ when the movie was released.*
 
-Write a query that retrieves all movies that _Tom Hanks_ acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of _Tom_ when the movie was released.
-
-== Solution, Exercise 7, Part 3
-.*Calculating with dates.*
+== Exercise 7.4: Perform a calculation with the date type (Solution)
 
 *Write a query that retrieves all movies that _Tom Hanks_ acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of _Tom_ when the movie was released.*
 
@@ -167,7 +147,7 @@ The result returned should be:
 ++++
 
 
-== Exercise Summary
+== Exercise 7: Working with Cypher data (Summary)
 
 In this exercise, you wrote more Cypher statements to work with lists and dates.
 First, you wrote a query where lists are collected and the results returned are sorted by the size of the list.

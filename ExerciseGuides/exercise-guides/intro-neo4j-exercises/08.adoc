@@ -1,7 +1,5 @@
 = Exercise 8
-== Exercise 8: Creating Nodes
-
-=== Preparations
+== Exercise 8: Creating Nodes (Preparations)
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
@@ -17,7 +15,7 @@ include::scripts/initialDatabase.cypher[]
 ----
 
 
-== Exercise Overview
+== Exercise 8: Creating Nodes (Overview)
 
 In the previous exercises, you have gained experience with Cypher queries.
 
@@ -26,30 +24,34 @@ Then you will write Cypher statements to add and remove labels for nodes.
 Next, you will use Cypher to add properties to nodes.
 Finally, you will write Cypher statements to remove properties from nodes.
 
-. In Part 1, you create nodes.
-. In Part 2, you modify the labels for nodes.
-. In Part 3, you add properties to nodes.
-. In Part 4, you remove properties from nodes.
+* *Exercise 8.1*: Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.
+* *Exercise 8.2*: Retrieve the node you just created by its _title_.
+* *Exercise 8.3*: Create a _Person_ node for the person with the _name_, _Robin Wright_.
+* *Exercise 8.4*: Retrieve the _Person_ node you just created by its _name_.
+* *Exercise 8.5*: Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.
+* *Exercise 8.6*: Retrieve all older movie nodes to test that the label was indeed added to these nodes.
+* *Exercise 8.7*: Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.
+* *Exercise 8.8*: Retrieve all _Female_ nodes.
+* *Exercise 8.9*: Remove the _Female_ label from the nodes that have this label.
+* *Exercise 8.10*: View the current schema of the graph.
+* *Exercise 8.11*: Add properties to the movie, _Forrest Gump_.
+* *Exercise 8.12*: Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.
+* *Exercise 8.13*: Add the properties to the person, _Robin Wright_.
+* *Exercise 8.14*: Retrieve an updated _Person_ node.
+* *Exercise 8.15*: Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.
+* *Exercise 8.16*: Retrieve the _Forrest Gump_ node to confirm that the property has been removed.
+* *Exercise 8.17*: Remove the _birthPlace_ property from the person, _Robin Wright_.
+* *Exercise 8.18*: Retrieve the _Robin Wright_ node to confirm that the property has been removed.
 
-Go to the next page to perform the four parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 8, Part 1
-.*Creating nodes*
+== Exercise 8.1: Create a _Movie_ node for the movie with the _title_, _Forrest Gump_ (Instructions)
 
-Write Cypher statements to:
+*Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.*
 
-. Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.
-. Retrieve the node you just created by its _title_.
-. Create a _Person_ node for the person with the _name_, _Robin Wright_.
-. Retrieve the _Person_ node you just created by its _name_.
+== Exercise 8.1: Create a _Movie_ node for the movie with the _title_, _Forrest Gump_ (Solution)
 
-
-== Solution, Exercise 8, Part 1
-.*Creating nodes*
-
-Write Cypher statements to:
-
-*1. Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.*
+*Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.*
 
 [source, cypher]
 ----
@@ -65,7 +67,14 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve the node you just created by its _title_.*
+== Exercise 8.2: Retrieve the node you just created by its _title_ (Instructions)
+
+*Retrieve the node you just created by its _title_.*
+
+
+== Exercise 8.2: Retrieve the node you just created by its _title_ (Solution)
+
+*Retrieve the node you just created by its _title_.*
 
 [source, cypher]
 ----
@@ -86,7 +95,14 @@ It this screen shot, it is _741_.
 <div style="clear: both;"></div>
 ++++
 
-*3. Create a _Person_ node for the person with the _name_, _Robin Wright_.*
+== Exercise 8.3: Create a _Person_ node for the person with the _name_, _Robin Wright_ (Instructions)
+
+*Create a _Person_ node for the person with the _name_, _Robin Wright_.*
+
+
+== Exercise 8.3: Create a _Person_ node for the person with the _name_, _Robin Wright_ (Solution)
+
+*Create a _Person_ node for the person with the _name_, _Robin Wright_.*
 
 [source, cypher]
 ----
@@ -102,7 +118,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*5. Retrieve the _Person_ node you just created by its _name_.*
+== Exercise 8.4: Retrieve the _Person_ node you just created by its _name_ (Instructions)
+
+*Retrieve the _Person_ node you just created by its _name_.*
+
+== Exercise 8.4: Retrieve the _Person_ node you just created by its _name_ (Solution)
+
+*Retrieve the _Person_ node you just created by its _name_.*
 
 [source, cypher]
 ----
@@ -120,35 +142,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
+== Exercise 8.5: Add the label _OlderMovie_ to any _Movie_ node that was released before 2010 (Instructions)
 
-== Instructions, Exercise 8, Part 2
-.*Modifying node labels*
+*Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.*
 
-Next, you will practice modifying node labels.
-Node labels are important because they are used to quickly retrieve groups of nodes.
+== Exercise 8.5: Add the label _OlderMovie_ to any _Movie_ node that was released before 2010 (Solution)
 
-Write Cypher statements to do the following:
-
-. Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.
-. Retrieve all older movie nodes to test that the label was indeed added to these nodes.
-. Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.
-. Retrieve all _Female_ nodes.
-Do you notice that not all of these nodes should be labeled _Female_?
-. We've decided to not use the _Female_ label.
-Remove the _Female_ label from the nodes that have this label.
-. View the current schema of the graph.
-
-.*Taking it further (optional)*
-** Add more labels to the _Movie_ nodes to reflect the movie genre (action, drama, etc.).
-** Query the database using different labels for movies.
-
-== Solution, Exercise 8, Part 2
-.*Modifying node labels*
-
-Write Cypher statements to do the following:
-
-*1. Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.*
+*Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.*
 
 [source, cypher]
 ----
@@ -167,7 +167,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve all older movie nodes to test that the label was indeed added to these nodes.*
+== Exercise 8.6: Retrieve all older movie nodes to test that the label was indeed added to these nodes (Instructions)
+
+*Retrieve all older movie nodes to test that the label was indeed added to these nodes.*
+
+== Exercise 8.6: Retrieve all older movie nodes to test that the label was indeed added to these nodes (Solution)
+
+*Retrieve all older movie nodes to test that the label was indeed added to these nodes.*
 
 [source, cypher]
 ----
@@ -184,7 +190,14 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.*
+
+== Exercise 8.7: Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_ (Instructions)
+
+*Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.*
+
+== Exercise 8.7: Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_ (Solution)
+
+*Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.*
 
 [source, cypher]
 ----
@@ -202,8 +215,15 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Retrieve all _Female_ nodes.
-Do you notice that not all of these nodes should be labeled _Female_?*
+== Exercise 8.8: Retrieve all _Female_ nodes (Instructions)
+
+*Retrieve all _Female_ nodes*
+
+== Exercise 8.8: Retrieve all _Female_ nodes (Solution)
+
+*Retrieve all _Female_ nodes*
+
+Do you notice that not all of these nodes should be labeled _Female_?
 
 [source, cypher]
 ----
@@ -223,8 +243,13 @@ The _Robin Williams_ node should not have the label _Female_.
 <div style="clear: both;"></div>
 ++++
 
-*5. We've decided to not use the _Female_ label.
-Remove the _Female_ label from the nodes that have this label.*
+== Exercise 8.9: Remove the _Female_ label from the nodes that have this label (Instructions)
+
+*We've decided to not use the _Female_ label. Remove the _Female_ label from the nodes that have this label.*
+
+== Exercise 8.9: Remove the _Female_ label from the nodes that have this label (Solution)
+
+*We've decided to not use the _Female_ label. Remove the _Female_ label from the nodes that have this label.*
 
 [source, cypher]
 ----
@@ -241,7 +266,14 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*6. View the current schema of the graph.*
+
+== Exercise 8.10: View the current schema of the graph (Instructions)
+
+*View the current schema of the graph.*
+
+== Exercise 8.10: View the current schema of the graph (Solution)
+
+*View the current schema of the graph.*
 
 [source, cypher]
 ----
@@ -257,52 +289,22 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 3
+== Exercise 8.11: Add properties to the movie, _Forrest Gump_ (Instructions)
 
-== Instructions, Exercise 8, Part 3
-.*Adding properties to nodes*
-
-Next, you will add properties to specific nodes in the graph.
-
-Write Cypher statements to:
-
-. Add the following properties to the movie, _Forrest Gump_:
-* released:  1994
-* tagline: Life is like a box of chocolates...you never know what you're gonna get.
-* lengthInMinutes: 142
-
-*Hint:* This movie should also have the label _OlderMovie_.
-
-.*Taking it further (optional)*
-** Try adding or updating properties using the JSON-style syntax using `=` and `+=`.
-
-[start=2]
-. Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.
-. Add the following properties to the person, _Robin Wright_:
-
-* born: 1966
-* birthPlace: Dallas
-
-[start=4]
-. Retrieve this _Person_ node to confirm that the properties have been properly set.
-
-.*Taking it further (optional)*
-** Add properties to nodes using the JSON-style format where you add all of the properties to the node.
-** Query the database to confirm your additions.
-** Call the Cypher built-in method to retrieve all of the property keys in the graph.
-
-== Solution, Exercise 8, Part 3
-.*Adding properties to nodes*
-
-Write Cypher statements to:
-
-*1. Add the following properties to the movie, _Forrest Gump_:*
-
+*Add the following properties to the movie, _Forrest Gump_:*
 * *released:  1994*
 * *tagline: Life is like a box of chocolates...you never know what you're gonna get.*
 * *lengthInMinutes: 142*
 
 *Hint:* This movie should also have the label _OlderMovie_.
+
+== Exercise 8.11: Add properties to the movie, _Forrest Gump_ (Solution)
+
+*Add the following properties to the movie, _Forrest Gump_:*
+
+* *released:  1994*
+* *tagline: Life is like a box of chocolates...you never know what you're gonna get.*
+* *lengthInMinutes: 142*
 
 [source, cypher]
 ----
@@ -323,7 +325,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.*
+== Exercise 8.12: Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set (Instructions)
+
+*Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.*
+
+== Exercise 8.12: Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set (Solution)
+
+*Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.*
 
 [source, cypher]
 ----
@@ -341,7 +349,16 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Add the following properties to the person, _Robin Wright_:*
+== Exercise 8.13: Add the properties to the person, _Robin Wright_ (Instructions)
+
+*Add the following properties to the person, _Robin Wright_:*
+
+* *born: 1966*
+* *birthPlace: Dallas*
+
+== Exercise 8.13: Add the properties to the person, _Robin Wright_ (Solution)
+
+*Add the following properties to the person, _Robin Wright_:*
 
 * *born: 1966*
 * *birthPlace: Dallas*
@@ -362,7 +379,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Retrieve this _Person_ node to confirm that the properties have been properly set.*
+== Exercise 8.14: Retrieve an updated _Person_ node (Instructions)
+
+*Retrieve this _Person_ node to confirm that the properties have been properly set.*
+
+== Exercise 8.14: Retrieve an updated _Person_ node (Solution)
+
+*Retrieve this _Person_ node to confirm that the properties have been properly set.*
 
 [source, cypher]
 ----
@@ -380,26 +403,17 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 4
 
-== Instructions, Exercise 8, Part 4
-.*Removing properties from nodes*
+== Exercise 8.15: Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_ (Instructions)
 
 Next, you will remove properties from specific nodes in the graph.
 
-Write Cypher statements to:
+*Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.*
 
-. Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.
-. Retrieve the _Forrest Gump_ node to confirm that the property has been removed.
-. Remove the _birthPlace_ property from the person, _Robin Wright_.
-. Retrieve the _Robin Wright_ node to confirm that the property has been removed.
 
-== Solution, Exercise 8, Part 4
-.*Removing properties from nodes*
+== Exercise 8.15: Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_ (Solution)
 
-Write Cypher statements to:
-
-*1. Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.*
+*Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
@@ -417,7 +431,14 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Retrieve the _Forrest Gump_ node to confirm that the property has been removed.*
+
+== Exercise 8.16: Retrieve the _Forrest Gump_ node to confirm that the property has been removed (Instructions)
+
+*Retrieve the _Forrest Gump_ node to confirm that the property has been removed.*
+
+== Exercise 8.16: Retrieve the _Forrest Gump_ node to confirm that the property has been removed (Solution)
+
+*Retrieve the _Forrest Gump_ node to confirm that the property has been removed.*
 
 [source, cypher]
 ----
@@ -435,7 +456,14 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Remove the _birthPlace_ property from the person, _Robin Wright_.*
+
+== Exercise 8.17: Remove the _birthPlace_ property from the person, _Robin Wright_ (Instructions)
+
+*Remove the _birthPlace_ property from the person, _Robin Wright_.*
+
+== Exercise 8.17: Remove the _birthPlace_ property from the person, _Robin Wright_ (Solution)
+
+*Remove the _birthPlace_ property from the person, _Robin Wright_.*
 
 [source, cypher]
 ----
@@ -453,7 +481,14 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Retrieve the _Robin Wright_ node to confirm that the property has been removed.*
+
+== Exercise 8.18: Retrieve the _Robin Wright_ node to confirm that the property has been removed (Instructions)
+
+*Retrieve the _Robin Wright_ node to confirm that the property has been removed.*
+
+== Exercise 8.18: Retrieve the _Robin Wright_ node to confirm that the property has been removed (Solution)
+
+*Retrieve the _Robin Wright_ node to confirm that the property has been removed.*
 
 [source, cypher]
 ----
@@ -471,7 +506,17 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-== Exercise Summary
+== Exercise 8: Creating Nodes (Taking it further - optional)
+
+* Add more labels to the _Movie_ nodes to reflect the movie genre (action, drama, etc.).
+* Query the database using different labels for movies.
+* Try adding or updating properties using the JSON-style syntax using `=` and `+=`.
+* Add properties to nodes using the JSON-style format where you add all of the properties to the node.
+* Query the database to confirm your additions.
+* Call the Cypher built-in method to retrieve all of the property keys in the graph.
+
+
+== Exercise 8: Creating Nodes (Summary)
 
 In this exercise, you wrote Cypher statements to create nodes.
 Then you wrote Cypher statements to add and remove labels for nodes.

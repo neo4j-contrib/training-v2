@@ -50,29 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11: Merging Data in the Graph</h3>
+    <h3>Exercise 11: Merging Data in the Graph (Preparations)</h3>
     <br/>
     <div>
-      <div class="olist arabic">
-<div class="title"><strong>Before you begin:</strong></div>
-<ol class="arabic">
-<li>
-<p>Make sure you have completed Exercise 10.</p>
-</li>
-<li>
-<p>Make sure you have the Movie graph with 172 nodes and 253 relationships.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>You should see when you click the database icon: <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise10.png" alt="200" width="200"></span></p>
-</li>
-<li>
-<p>If the graph does not have the same number of nodes and relationships, you can run the script below that resets the database. Run the script by clicking the script. Note that if you are using the Desktop Neo4j Browser application, you must ensure that <em>Enable multi-statement query editor</em> is set. It will then appear in your query editor pane where you simply run it by clicking the <em>Play</em> button.</p>
-</li>
-</ol>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 173 nodes and 258 relationships.</p>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise10.png" alt="After exercise 10" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -596,14 +589,16 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Overview</h3>
+    <h3>Exercise 11: Merging Data in the Graph (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>You have gained experience creating, modifying, and deleting nodes and relationships.</p>
 </div>
 <div class="paragraph">
-<p>In this Exercise you will add and modify nodes and relationships in the graph by merging data. In some parts of the Exercise, you will be creating duplicate nodes and relationships. You will see how in your real application, you should take care not to create duplicate nodes and relationships in your graphs.</p>
+<p>In this exercise you will add and modify nodes and relationships in the graph by merging data.
+In some parts of the exercise, you will be creating duplicate nodes and relationships.
+You will see how in your real application, you should take care not to create duplicate nodes and relationships in your graphs.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -616,7 +611,7 @@ SET m:OlderMovie<!--/code--></pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the two Parts of this Exercise.</p>
+<p>Go to the next page to perform the two parts of this exercise.</p>
 </div>
 	</div>
   </div>
@@ -631,7 +626,7 @@ SET m:OlderMovie<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Merging data to create and update nodes</strong></div>
-<p>In this Part of the Exercise, you will again create the movie, <em>Forrest Gump</em>, update the node, and then merge the data in the graph to create another node with a different label.</p>
+<p>In this Part of the exercise, you will again create the movie, <em>Forrest Gump</em>, update the node, and then merge the data in the graph to create another node with a different label.</p>
 </div>
 <div class="paragraph">
 <p>Write Cypher statements to:</p>
@@ -639,14 +634,17 @@ SET m:OlderMovie<!--/code--></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created,  set the <em>released</em> property to  <em>1994</em>.</p>
+<p>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>.
+If created,  set the <em>released</em> property to  <em>1994</em>.</p>
 </li>
 <li>
-<p>Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If found, set the tagline property to
+<p>Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>.
+If found, set the tagline property to
 "Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get.".</p>
 </li>
 <li>
-<p>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created, set the property <em>year</em> to the value <em>1994</em>.</p>
+<p>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>.
+If created, set the property <em>year</em> to the value <em>1994</em>.</p>
 </li>
 <li>
 <p>Query the graph to find all labels for nodes with the title property, <em>Forrest Gump</em>.</p>
@@ -672,13 +670,14 @@ SET m:OlderMovie<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Merging data to create and update nodes</strong></div>
-<p>In this Part of the Exercise, you will again create the movie, <em>Forrest Gump</em>, update the node, and then merge the data in the graph to create another node with a different label.</p>
+<p>In this Part of the exercise, you will again create the movie, <em>Forrest Gump</em>, update the node, and then merge the data in the graph to create another node with a different label.</p>
 </div>
 <div class="paragraph">
 <p>Write Cypher statements to:</p>
 </div>
 <div class="paragraph">
-<p><strong>1. Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created,  set the <em>released</em> property to  <em>1994</em>.</strong></p>
+<p><strong>1. Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>.
+If created,  set the <em>released</em> property to  <em>1994</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -689,7 +688,7 @@ RETURN m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateForrestGump2.png" alt="CreateForrestGump2" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateForrestGump2.png" alt="CreateForrestGump2" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -697,7 +696,8 @@ RETURN m<!--/code--></pre>
 </div>
 <div style="clear: both;"></div>
 <div class="paragraph">
-<p><strong>2. Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If found, set the tagline property to
+<p><strong>2. Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>.
+If found, set the tagline property to
 "Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get.".</strong></p>
 </div>
 <div class="listingblock">
@@ -710,7 +710,7 @@ RETURN m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeForrestGump.png" alt="MergeForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeForrestGump.png" alt="MergeForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -718,7 +718,8 @@ RETURN m<!--/code--></pre>
 </div>
 <div style="clear: both;"></div>
 <div class="paragraph">
-<p><strong>3.  Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created, set the property <em>year</em> to the value <em>1994</em>.</strong></p>
+<p><strong>3.  Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>.
+If created, set the property <em>year</em> to the value <em>1994</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -729,7 +730,7 @@ RETURN p<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeProduction.png" alt="MergeProduction" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeProduction.png" alt="MergeProduction" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -748,7 +749,7 @@ RETURN  labels(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AllForrestGumps.png" alt="AllForrestGumps" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AllForrestGumps.png" alt="AllForrestGumps" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -767,7 +768,7 @@ RETURN p<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddCompany.png" alt="AddCompany" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AddCompany.png" alt="AddCompany" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -786,7 +787,7 @@ RETURN labels(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddOlderMovieLabelToForrestGump.png" alt="AddOlderMovieLabelToForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AddOlderMovieLabelToForrestGump.png" alt="AddOlderMovieLabelToForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -809,7 +810,7 @@ RETURN labels(m)<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Merging data to create relationships</strong></div>
-<p>In this Part of the Exercise, you merge data to create relationships.</p>
+<p>In this Part of the exercise, you merge data to create relationships.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -824,15 +825,23 @@ RETURN labels(m)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This statement first finds all <em>Person</em> nodes that have <span class="underline">only</span> the <em>name</em> property value of <em>Robert Zemeckis</em>. It then finds all nodes with <span class="underline">only</span> the <em>title</em> property set to <em>Forrest Gump</em>. There are no <em>Person</em> or other nodes that have only these properties so the graph engine creates them.  Then the graph engine creates the relationship between these two nodes. That is, this <code>MERGE</code> operation creates two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.</p>
+<p>This statement first finds all <em>Person</em> nodes that have only the <em>name</em> property value of <em>Robert Zemeckis</em>.
+It then finds all nodes with only the <em>title</em> property set to <em>Forrest Gump</em>.
+There are no <em>Person</em> or other nodes that have only these properties so the graph engine creates them.
+Then the graph engine creates the relationship between these two nodes.
+That is, this <code>MERGE</code> operation creates two nodes and a single relationship.
+If we had provided all of the property values for the nodes, we would not have created the extra nodes.</p>
 </div>
 <div class="paragraph">
-<p>In fact, you should <strong>never</strong> create nodes and relationships together like this! This example is here to show you how powerful Cypher can be. A best practice is to create nodes first, then relationships.</p>
+<p>In fact, you should <strong>never</strong> create nodes and relationships together like this! This example is here to show you how powerful Cypher can be.
+A best practice is to create nodes first, then relationships.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="2">
 <li>
-<p>Repeat the execution of this statement. It should do nothing. A best practice is to <strong>only</strong> use <code>MERGE</code> to create relationships to ensure that there will be no duplication in the graph when you are unsure if the relationship exists.</p>
+<p>Repeat the execution of this statement.
+It should do nothing.
+A best practice is to <strong>only</strong> use <code>MERGE</code> to create relationships to ensure that there will be no duplication in the graph when you are unsure if the relationship exists.</p>
 </li>
 <li>
 <p>Delete the duplicated nodes ensuring that the relationships are also deleted.
@@ -875,7 +884,7 @@ RETURN labels(m)<!--/code--></pre>
     <div>
       <div class="paragraph">
 <div class="title"><strong>Merging data to create relationships</strong></div>
-<p>In this Part of the Exercise, you merge data to create relationships.</p>
+<p>In this Part of the exercise, you merge data to create relationships.</p>
 </div>
 <div class="paragraph">
 <p><strong>1. Execute the following Cypher statement:</strong></p>
@@ -886,14 +895,20 @@ RETURN labels(m)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This statement first finds all <em>Person</em> nodes that have [.underline[only the <em>name</em> property value of <em>Robert Zemeckis</em>. It then finds all nodes with [.underline[only the <em>title</em> property set to <em>Forrest Gump</em>. There are no <em>Person</em> or other nodes that have only these properties so the graph engine creates them.  Then the graph engine creates the relationship between these two nodes. That is, this <code>MERGE</code> operation creates two nodes and a single relationship. If we had provided all of the property values for the nodes, we would not have created the extra nodes.</p>
+<p>This statement first finds all <em>Person</em> nodes that have [.underline[only the <em>name</em> property value of <em>Robert Zemeckis</em>.
+It then finds all nodes with [.underline[only the <em>title</em> property set to <em>Forrest Gump</em>.
+There are no <em>Person</em> or other nodes that have only these properties so the graph engine creates them.
+Then the graph engine creates the relationship between these two nodes.
+That is, this <code>MERGE</code> operation creates two nodes and a single relationship.
+If we had provided all of the property values for the nodes, we would not have created the extra nodes.</p>
 </div>
 <div class="paragraph">
-<p>In fact, you should <strong>never</strong> create nodes and relationships together like this! This example is here to show you how powerful Cypher can be. A best practice is to create nodes first, then relationships.</p>
+<p>In fact, you should <strong>never</strong> create nodes and relationships together like this! This example is here to show you how powerful Cypher can be.
+A best practice is to create nodes first, then relationships.</p>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeNodesAndRelationships.png" alt="MergeNodesAndRelationships" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeNodesAndRelationships.png" alt="MergeNodesAndRelationships" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -901,7 +916,9 @@ RETURN labels(m)<!--/code--></pre>
 </div>
 <div style="clear: both;"></div>
 <div class="paragraph">
-<p><strong>2. Repeat the execution of this statement. It should do nothing. A best practice is to always use <code>MERGE</code> to create relationships to ensure that there will be no duplication in the graph.</strong></p>
+<p><strong>2. Repeat the execution of this statement.
+It should do nothing.
+A best practice is to always use <code>MERGE</code> to create relationships to ensure that there will be no duplication in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -910,7 +927,7 @@ RETURN labels(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeNodesAndRelationships2.png" alt="MergeNodesAndRelationships2" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeNodesAndRelationships2.png" alt="MergeNodesAndRelationships2" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -935,7 +952,7 @@ RETURN p, rel, x<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/FindPersonNodeBeforeDelete.png" alt="FindPersonNodeBeforeDelete" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/FindPersonNodeBeforeDelete.png" alt="FindPersonNodeBeforeDelete" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -954,7 +971,7 @@ DETACH DELETE p<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DeletedExtraPerson.png" alt="DeletedExtraPerson" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/DeletedExtraPerson.png" alt="DeletedExtraPerson" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -973,7 +990,7 @@ RETURN m, labels(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ForrestGumpToDelete.png" alt="ForrestGumpToDelete" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/ForrestGumpToDelete.png" alt="ForrestGumpToDelete" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -981,7 +998,8 @@ RETURN m, labels(m)<!--/code--></pre>
 </div>
 <div style="clear: both;"></div>
 <div class="paragraph">
-<p>Delete this <em>Forrest Gump</em> node. It should have no relationships, but you can specify DETACH just to be certain:</p>
+<p>Delete this <em>Forrest Gump</em> node.
+It should have no relationships, but you can specify DETACH just to be certain:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -992,7 +1010,7 @@ DETACH DELETE m<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DeletedExtraForrestGump.png" alt="DeletedExtraForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/DeletedExtraForrestGump.png" alt="DeletedExtraForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -1011,7 +1029,7 @@ MERGE (p)-[:DIRECTED]-&gt;(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddDirectedToForrestGump.png" alt="AddDirectedToForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/AddDirectedToForrestGump.png" alt="AddDirectedToForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -1031,7 +1049,7 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ActedInForrestGump.png" alt="ActedInForrestGump" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/ActedInForrestGump.png" alt="ActedInForrestGump" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -1058,7 +1076,7 @@ END<!--/code--></pre>
 </div>
 <div class="imageblock thumb" style="float: right;">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetActedRoles.png" alt="SetActedRoles" width="400">
+<img src="https://localhost:8001/intro-neo4j-exercises/img/SetActedRoles.png" alt="SetActedRoles" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -1073,14 +1091,16 @@ END<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise Summary</h3>
+    <h3>Exercise 11: Merging Data in the Graph (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this Exercise you added and modified nodes and relationships in the graph by merging data. In some parts of the Exercise, you created duplicate nodes and relationships. You should take care not to create duplicate nodes and relationships in your real application graphs.</p>
+<p>In this exercise you added and modified nodes and relationships in the graph by merging data.
+In some parts of the exercise, you created duplicate nodes and relationships.
+You should take care not to create duplicate nodes and relationships in your real application graphs.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/12.html'>Continue to Exercise 12</a></p>
+<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/12.html'>Continue to Exercise 12</a></p>
 </div>
 	</div>
   </div>
