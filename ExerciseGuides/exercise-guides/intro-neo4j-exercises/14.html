@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise11.png" alt="After exercise 11" width="200" height="200">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise11.png" alt="After exercise 11" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -604,16 +604,16 @@ SET m:OlderMovie<!--/code--></pre>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 14.1</strong>: Add a uniqueness constraint to the <em>Person</em> nodes in the graph.</p>
+<p><strong>Exercise 14.1</strong>: Add a uniqueness constraint to the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 14.2</strong>: Add <em>Tom Hanks</em> to the graph.</p>
+<p><strong>Exercise 14.2</strong>: Add an actor to the graph.</p>
 </li>
 <li>
 <p><strong>Exercise 14.3</strong>: Attempt to add an existence constraint to the <em>Person</em> nodes in the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 14.4</strong>: Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist.</p>
+<p><strong>Exercise 14.4</strong>: Update <em>Person</em> nodes to have a <em>born</em> property.</p>
 </li>
 <li>
 <p><strong>Exercise 14.5</strong>: Add an existence constraint to the <em>Person</em> nodes in the graph.</p>
@@ -622,19 +622,19 @@ SET m:OlderMovie<!--/code--></pre>
 <p><strong>Exercise 14.6</strong>: Add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em>.</p>
 </li>
 <li>
-<p><strong>Exercise 14.7</strong>: Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph.</p>
+<p><strong>Exercise 14.7</strong>: Add an existence constraint to a relationship in the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 14.8</strong>: Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set.</p>
+<p><strong>Exercise 14.8</strong>: Attempt to add a relationship that violates the constraint.</p>
 </li>
 <li>
-<p><strong>Exercise 14.9</strong>: Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes.</p>
+<p><strong>Exercise 14.9</strong>: Add a node key to the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 14.10</strong>: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em>.</p>
+<p><strong>Exercise 14.10</strong>: Add the movie node to the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 14.11</strong>: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em>.</p>
+<p><strong>Exercise 14.11</strong>: Add a similar movie node with slightly different property values.</p>
 </li>
 <li>
 <p><strong>Exercise 14.12</strong>: Try adding the <em>2018</em> movie again.</p>
@@ -643,7 +643,7 @@ SET m:OlderMovie<!--/code--></pre>
 <p><strong>Exercise 14.13</strong>: Display the list of constraints defined in the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 14.14</strong>: Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em>.</p>
+<p><strong>Exercise 14.14</strong>: Drop an existence constraint.</p>
 </li>
 </ul>
 </div>
@@ -658,7 +658,7 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.1: Add a uniqueness constraint to the <em>Person</em> nodes in the graph (Instructions)</h3>
+    <h3>Exercise 14.1: Add a uniqueness constraint to the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -675,7 +675,7 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.1: Add a uniqueness constraint to the <em>Person</em> nodes in the graph (Solution)</h3>
+    <h3>Exercise 14.1: Add a uniqueness constraint to the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -686,13 +686,13 @@ SET m:OlderMovie<!--/code--></pre>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreatePersonNameUnique.png" alt="CreatePersonNameUnique" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>Where the result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreatePersonNameUnique.png" alt="CreatePersonNameUnique" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -703,7 +703,7 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.2: Add <em>Tom Hanks</em> to the graph (Instructions)</h3>
+    <h3>Exercise 14.2: Add an actor to the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -717,7 +717,7 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.2: Add <em>Tom Hanks</em> to the graph (Solution)</h3>
+    <h3>Exercise 14.2: Add an actor to the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -731,13 +731,13 @@ SET m:OlderMovie<!--/code--></pre>
 <div class="paragraph">
 <p>What happens when you execute the statement?</p>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateTomHanksFailed.png" alt="CreateTomHanksFailed" width="500">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should look something like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateTomHanksFailed.png" alt="CreateTomHanksFailed" width="500">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -782,7 +782,7 @@ This is because there are <em>Person</em> nodes in the graph that do not have <e
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateBornExistsConstraintFailed.png" alt="CreateBornExistsConstraintFailed" width="500">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateBornExistsConstraintFailed.png" alt="CreateBornExistsConstraintFailed" width="500">
 </div>
 </div>
 	</div>
@@ -793,7 +793,7 @@ This is because there are <em>Person</em> nodes in the graph that do not have <e
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.4: Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist (Instructions)</h3>
+    <h3>Exercise 14.4: Update <em>Person</em> nodes to have a <em>born</em> property (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -807,7 +807,7 @@ This is because there are <em>Person</em> nodes in the graph that do not have <e
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.4: Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist (Solution)</h3>
+    <h3>Exercise 14.4: Update <em>Person</em> nodes to have a <em>born</em> property (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -820,13 +820,13 @@ WHERE NOT exists(p.born)
 SET p.born = 0<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateTomHanksFailed.png" alt="CreateTomHanksFailed" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateTomHanksFailed.png" alt="CreateTomHanksFailed" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -862,13 +862,13 @@ SET p.born = 0<!--/code--></pre>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (p:Person) ASSERT exists(p.born)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddBornExistsConstraint.png" alt="AddBornExistsConstraint" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddBornExistsConstraint.png" alt="AddBornExistsConstraint" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -909,7 +909,7 @@ SET p.born = 0<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CannotAddWithoutBorn.png" alt="CannotAddWithoutBorn" width="500">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CannotAddWithoutBorn.png" alt="CannotAddWithoutBorn" width="500">
 </div>
 </div>
 	</div>
@@ -920,7 +920,7 @@ SET p.born = 0<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.7: Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph (Instructions)</h3>
+    <h3>Exercise 14.7: Add an existence constraint to a relationship in the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -937,7 +937,7 @@ SET p.born = 0<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.7: Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph (Solution)</h3>
+    <h3>Exercise 14.7: Add an existence constraint to a relationship in the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -948,13 +948,13 @@ SET p.born = 0<!--/code--></pre>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON ()-[r:ACTED_IN]-() ASSERT exists(r.roles)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateRolesConstraintExists.png" alt="CreateRolesConstraintExists" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateRolesConstraintExists.png" alt="CreateRolesConstraintExists" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -965,7 +965,7 @@ SET p.born = 0<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.8: Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set (Instructions)</h3>
+    <h3>Exercise 14.8: Attempt to add a relationship that violates the constraint (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -979,7 +979,7 @@ SET p.born = 0<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.8: Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set (Solution)</h3>
+    <h3>Exercise 14.8: Attempt to add a relationship that violates the constraint (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -998,7 +998,7 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CannotCreateActedInwithoutRoles.png" alt="CannotCreateActedInwithoutRoles" width="300">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CannotCreateActedInwithoutRoles.png" alt="CannotCreateActedInwithoutRoles" width="300">
 </div>
 </div>
 	</div>
@@ -1009,7 +1009,7 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.9: Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes (Instructions)</h3>
+    <h3>Exercise 14.9: Add a node key to the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1039,7 +1039,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.9: Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes (Solution)</h3>
+    <h3>Exercise 14.9: Add a node key to the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1050,13 +1050,13 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddNodeKey.png" alt="AddNodeKey" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddNodeKey.png" alt="AddNodeKey" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1067,7 +1067,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.10: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em> (Instructions)</h3>
+    <h3>Exercise 14.10: Add the movie node to the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1081,7 +1081,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.10: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em> (Solution)</h3>
+    <h3>Exercise 14.10: Add the movie node to the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1092,13 +1092,13 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our future.'})<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddedBackToTheFuture1985.png" alt="AddedBackToTheFuture1985" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddedBackToTheFuture1985.png" alt="AddedBackToTheFuture1985" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1109,7 +1109,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.11: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em> (Instructions)</h3>
+    <h3>Exercise 14.11: Add a similar movie node with slightly different property values(Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1123,7 +1123,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.11: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em> (Solution)</h3>
+    <h3>Exercise 14.11: Add a similar movie node with slightly different property values (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1134,13 +1134,13 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddedBackToTheFuture2018.png" alt="AddedBackToTheFuture2018" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddedBackToTheFuture2018.png" alt="AddedBackToTheFuture2018" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1181,7 +1181,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddBackToFutureFailed.png" alt="AddBackToFutureFailed" width="500">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddBackToFutureFailed.png" alt="AddBackToFutureFailed" width="500">
 </div>
 </div>
 	</div>
@@ -1217,13 +1217,13 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.constraints()<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/listConstraints.png" alt="listConstraints" width="500">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/listConstraints.png" alt="listConstraints" width="500">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1234,7 +1234,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.14: Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em> (Instructions)</h3>
+    <h3>Exercise 14.14: Drop an existence constrain (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1248,7 +1248,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 14.14: Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em> (Solution)</h3>
+    <h3>Exercise 14.14: Drop an existence constrain (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1259,13 +1259,13 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->DROP CONSTRAINT ON ()-[ acted_in:ACTED_IN ]-() ASSERT exists(acted_in.roles)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/dropConstraintRoles.png" alt="dropConstraintRoles" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/dropConstraintRoles.png" alt="dropConstraintRoles" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1284,7 +1284,7 @@ You must write and execute the statement to drop the constraint if it exists:</p
 You also wrote statements to test the constraints and to remove one of them.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/15.html'>Continue to Exercise 15</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/15.html'>Continue to Exercise 15</a></p>
 </div>
 	</div>
   </div>

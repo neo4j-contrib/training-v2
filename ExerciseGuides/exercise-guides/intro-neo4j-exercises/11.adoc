@@ -23,31 +23,31 @@ In this exercise you will add and modify nodes and relationships in the graph by
 In some parts of the exercise, you will be creating duplicate nodes and relationships.
 You will see how in your real application, you should take care not to create duplicate nodes and relationships in your graphs.
 
-* *Exercise 11.1*: Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_.
-* *Exercise 11.2*: Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to "Life is like a box of chocolates...you never know what you're gonna get.".
-* *Exercise 11.3*: Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_.
-* *Exercise 11.4*: Query the graph to find all labels for nodes with the title property, _Forrest Gump_.
-* *Exercise 11.5*: Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.
-* *Exercise 11.6*: Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_.
+* *Exercise 11.1*: Use `MERGE` to create a _Movie_ node.
+* *Exercise 11.2*: Use `MERGE` to update a node.
+* *Exercise 11.3*: Use `MERGE` to create a _Production_ node.
+* *Exercise 11.4*: Find all labels for nodes with a property value.
+* *Exercise 11.5*: Use `MERGE` to update a _Production_ node.
+* *Exercise 11.6*: Use `MERGE` to add a label to a node.
 * *Exercise 11.7*: Use `MERGE` to create two nodes and a single relationship.
 * *Exercise 11.8*: Use the same `MERGE` statement to attempt to create two nodes and a single relationship.
 * *Exercise 11.9*: Find the correct _Person_ node to delete.
 * *Exercise 11.10*: Delete this _Person_ node, along with its relationships.
 * *Exercise 11.11*: Find the correct _Forrest Gump_ node to delete.
 * *Exercise 11.12*: Delete the _Forrest Gump_ node.
-* *Exercise 11.13*: Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_.
-* *Exercise 11.14*: Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, _Forrest Gump_.
-* *Exercise 11.15*: Modify the relationship property, _role_ for their roles in _Forrest Gump_.
+* *Exercise 11.13*: Use `MERGE` to create the _DIRECTED_ relationship.
+* *Exercise 11.14*: Use `MERGE` to create the _ACTED_IN_ relationship.
+* *Exercise 11.15*: Modify the _role_ relationship property.
 
 Go to the next page to start this exercise.
 
-== Exercise 11.1: Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_ (Instructions)
+== Exercise 11.1: Use `MERGE` to create a _Movie_ node (Instructions)
 
 In this Part of the exercise, you will again create the movie, _Forrest Gump_, update the node, and then merge the data in the graph to create another node with a different label.
 
 *Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_.*
 
-== Exercise 11.1: Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_ (Solution)
+== Exercise 11.1: Use `MERGE` to create a _Movie_ node (Solution)
 
 *Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_.*
 
@@ -58,20 +58,22 @@ ON CREATE SET m.released = 1994
 RETURN m
 ----
 
-[.thumb]
-image::{guides}/img/CreateForrestGump2.png[CreateForrestGump2,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateForrestGump2.png[CreateForrestGump2,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.2: Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to "Life is like a box of chocolates...you never know what you're gonna get." (Instructions)
+== Exercise 11.2: Use `MERGE` to update a node (Instructions)
 
 *Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to "Life is like a box of chocolates...you never know what you're gonna get.".*
 
-== Exercise 11.2: Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to "Life is like a box of chocolates...you never know what you're gonna get." (Solution)
+== Exercise 11.2: Use `MERGE` to update a node (Solution)
 
 *Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to "Life is like a box of chocolates...you never know what you're gonna get.".*
 
@@ -83,20 +85,22 @@ ON MATCH SET m.tagline = "Life is like a box of chocolates...you never know what
 RETURN m
 ----
 
-[.thumb]
-image::{guides}/img/MergeForrestGump.png[MergeForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MergeForrestGump.png[MergeForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.3: Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_ (Instructions)
+== Exercise 11.3: Use `MERGE` to create a _Production_ node (Instructions)
 
 *Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_.*
 
-== Exercise 11.3: Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_ (Solution)
+== Exercise 11.3: Use `MERGE` to create a _Production_ node (Solution)
 
 *Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_.*
 
@@ -107,20 +111,22 @@ ON CREATE SET p.year = 1994
 RETURN p
 ----
 
-[.thumb]
-image::{guides}/img/MergeProduction.png[MergeProduction,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MergeProduction.png[MergeProduction,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.4: Query the graph to find all labels for nodes with the title property, _Forrest Gump_ (Instructions)
+== Exercise 11.4: Find all labels for nodes with a property value (Instructions)
 
 *Query the graph to find labels for nodes with the title property, _Forrest Gump_.*
 
-== Exercise 11.4: Query the graph to find all labels for nodes with the title property, _Forrest Gump_ (Solution)
+== Exercise 11.4: Find all labels for nodes with a property value (Solution)
 
 *Query the graph to find labels for nodes with the title property, _Forrest Gump_.*
 
@@ -131,20 +137,22 @@ WHERE m.title = 'Forrest Gump'
 RETURN  labels(m)
 ----
 
-[.thumb]
-image::{guides}/img/AllForrestGumps.png[AllForrestGumps,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AllForrestGumps.png[AllForrestGumps,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.5: Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_ (Instructions)
+== Exercise 11.5: Use `MERGE` to update a _Production_ node (Instructions)
 
 *Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.*
 
-== Exercise 11.5: Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_ (Solution)
+== Exercise 11.5: Use `MERGE` to update a _Production_ node (Solution)
 
 *Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.*
 
@@ -155,20 +163,22 @@ ON MATCH SET p.company = 'Paramount Pictures'
 RETURN p
 ----
 
-[.thumb]
-image::{guides}/img/AddCompany.png[AddCompany,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddCompany.png[AddCompany,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.6: Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_ (Instructions)
+== Exercise 11.6: Use `MERGE` to add a label to a node (Instructions)
 
 *Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_.*
 
-== Exercise 11.6: Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_ (Solution)
+== Exercise 11.6: Use `MERGE` to add a label to a node (Solution)
 
 *Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_.*
 
@@ -179,10 +189,12 @@ ON MATCH SET m:OlderMovie
 RETURN labels(m)
 ----
 
-[.thumb]
-image::{guides}/img/AddOlderMovieLabelToForrestGump.png[AddOlderMovieLabelToForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddOlderMovieLabelToForrestGump.png[AddOlderMovieLabelToForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -211,10 +223,12 @@ A best practice is to create nodes first, then relationships.
 
 == Exercise 11.7: Use `MERGE` to create two nodes and a single relationship (Solution)
 
-[.thumb]
-image::{guides}/img/MergeNodesAndRelationships.png[MergeNodesAndRelationships,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MergeNodesAndRelationships.png[MergeNodesAndRelationships,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -236,10 +250,12 @@ MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump
 
 *Repeat the execution of the previous statement.*
 
-[.thumb]
-image::{guides}/img/MergeNodesAndRelationships2.png[MergeNodesAndRelationships2,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MergeNodesAndRelationships2.png[MergeNodesAndRelationships2,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -264,10 +280,12 @@ RETURN p, rel, x
 
 *Find the correct _Person_ node to delete*
 
-[.thumb]
-image::{guides}/img/FindPersonNodeBeforeDelete.png[FindPersonNodeBeforeDelete,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/FindPersonNodeBeforeDelete.png[FindPersonNodeBeforeDelete,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -275,11 +293,11 @@ The result returned should be:
 
 == Exercise 11.10: Delete this _Person_ node, along with its relationships (Instructions)
 
-*Delete this _Person_ node, along with its relationships*
+*Delete this _Person_ node, along with its relationships.*
 
 == Exercise 11.10: Delete this _Person_ node, along with its relationships (Solution)
 
-*Delete this _Person_ node, along with its relationships*
+*Delete this _Person_ node, along with its relationships.*
 
 [source, cypher]
 ----
@@ -288,10 +306,12 @@ WHERE NOT EXISTS (p.born)
 DETACH DELETE p
 ----
 
-[.thumb]
-image::{guides}/img/DeletedExtraPerson.png[DeletedExtraPerson,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeletedExtraPerson.png[DeletedExtraPerson,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -310,10 +330,12 @@ RETURN m, labels(m)
 
 == Exercise 11.11: Find the correct _Forrest Gump_ node to delete (Solution)
 
-[.thumb]
-image::{guides}/img/ForrestGumpToDelete.png[ForrestGumpToDelete,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ForrestGumpToDelete.png[ForrestGumpToDelete,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -336,20 +358,22 @@ WHERE m.title = 'Forrest Gump' AND labels(m) = []
 DETACH DELETE m
 ----
 
-[.thumb]
-image::{guides}/img/DeletedExtraForrestGump.png[DeletedExtraForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeletedExtraForrestGump.png[DeletedExtraForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.13: Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_ (Instructions)
+== Exercise 11.13: Use `MERGE` to create the _DIRECTED_ relationship (Instructions)
 
 *Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_.*
 
-== Exercise 11.13: Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_ (Solution)
+== Exercise 11.13: Use `MERGE` to create the _DIRECTED_ relationship (Solution)
 
 *Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_.*
 
@@ -360,20 +384,22 @@ WHERE p.name = 'Robert Zemeckis' AND m.title = 'Forrest Gump'
 MERGE (p)-[:DIRECTED]->(m)
 ----
 
-[.thumb]
-image::{guides}/img/AddDirectedToForrestGump.png[AddDirectedToForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddDirectedToForrestGump.png[AddDirectedToForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.14: Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, _Forrest Gump_ (Instructions)
+== Exercise 11.14: Use `MERGE` to create the _ACTED_IN_ relationship (Instructions)
 
 *Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, _Forrest Gump_.*
 
-== Exercise 11.14: Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, _Forrest Gump_ (Solution)
+== Exercise 11.14: Use `MERGE` to create the _ACTED_IN_ relationship (Solution)
 
 *Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, _Forrest Gump_.*
 
@@ -385,30 +411,32 @@ WHERE p.name IN ['Tom Hanks','Gary Sinise', 'Robin Wright']
 MERGE (p)-[:ACTED_IN]->(m)
 ----
 
-[.thumb]
-image::{guides}/img/ActedInForrestGump.png[ActedInForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ActedInForrestGump.png[ActedInForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 11.15: Modify the relationship property, _role_ for their roles in _Forrest Gump_ (Instructions)
+== Exercise 11.15: Modify the _role_ relationship property (Instructions)
 
 *Modify the relationship property, _role_ for their roles in _Forrest Gump_:*
 
-* _Tom Hanks_ is _Forrest Gump_
-* _Gary Sinise_ is _Lt. Dan Taylor_
-* _Robin Wright_ is _Jenny Curran_
+* *Tom Hanks is Forrest Gump*
+* *Gary Sinise is Lt. Dan Taylor*
+* *Robin Wright is Jenny Curran*
 
-== Exercise 11.15: Modify the relationship property, _role_ for their roles in _Forrest Gump_ (Solution)
+== Exercise 11.15: Modify the _role_ relationship property (Solution)
 
 *Modify the relationship property, _role_ for their roles in _Forrest Gump_:*
 
-* _Tom Hanks_ is _Forrest Gump_
-* _Gary Sinise_ is _Lt. Dan Taylor_
-* _Robin Wright_ is _Jenny Curran_
+* *Tom Hanks is Forrest Gump*
+* *Gary Sinise is Lt. Dan Taylor*
+* *Robin Wright is Jenny Curran*
 
 [source, cypher]
 ----
@@ -422,10 +450,12 @@ CASE p.name
 END
 ----
 
-[.thumb]
-image::{guides}/img/SetActedRoles.png[SetActedRoles,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetActedRoles.png[SetActedRoles,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>

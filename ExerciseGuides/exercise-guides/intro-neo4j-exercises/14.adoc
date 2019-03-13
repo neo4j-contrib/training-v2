@@ -19,30 +19,30 @@ include::scripts/AfterExercise11.cypher[]
 
 In this exercise you write Cypher statements to add constraints to the graph that ensure uniqueness and existence.
 
-* *Exercise 14.1*: Add a uniqueness constraint to the _Person_ nodes in the graph.
-* *Exercise 14.2*: Add _Tom Hanks_ to the graph.
+* *Exercise 14.1*: Add a uniqueness constraint to the graph.
+* *Exercise 14.2*: Add an actor to the graph.
 * *Exercise 14.3*: Attempt to add an existence constraint to the _Person_ nodes in the graph.
-* *Exercise 14.4*: Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.
+* *Exercise 14.4*: Update _Person_ nodes to have a _born_ property.
 * *Exercise 14.5*: Add an existence constraint to the _Person_ nodes in the graph.
 * *Exercise 14.6*: Add _Sean Penn_ to the graph where you do not specify a value for _born_.
-* *Exercise 14.7*: Add an existence constraint to the _ACTED_IN_ relationship in the graph.
-* *Exercise 14.8*: Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.
-* *Exercise 14.9*: Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.
-* *Exercise 14.10*: Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._.
-* *Exercise 14.11*: Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.
+* *Exercise 14.7*: Add an existence constraint to a relationship in the graph.
+* *Exercise 14.8*: Attempt to add a relationship that violates the constraint.
+* *Exercise 14.9*: Add a node key to the graph.
+* *Exercise 14.10*: Add the movie node to the graph.
+* *Exercise 14.11*: Add a similar movie node with slightly different property values.
 * *Exercise 14.12*: Try adding the _2018_ movie again.
 * *Exercise 14.13*: Display the list of constraints defined in the graph.
-* *Exercise 14.14*: Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.
+* *Exercise 14.14*: Drop an existence constraint.
 
 Go to the next page to start this exercise.
 
-== Exercise 14.1: Add a uniqueness constraint to the _Person_ nodes in the graph (Instructions)
+== Exercise 14.1: Add a uniqueness constraint to the graph (Instructions)
 
 Suppose we want to ensure that every _Person_ in the graph must have a unique name.
 
 *Add a uniqueness constraint to the _Person_ nodes in the graph.*
 
-== Exercise 14.1: Add a uniqueness constraint to the _Person_ nodes in the graph (Solution)
+== Exercise 14.1: Add a uniqueness constraint to the graph (Solution)
 
 *Add a uniqueness constraint to the _Person_ nodes in the graph.*
 
@@ -51,20 +51,22 @@ Suppose we want to ensure that every _Person_ in the graph must have a unique na
 CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE
 ----
 
-[.thumb]
-image::{guides}/img/CreatePersonNameUnique.png[CreatePersonNameUnique,width=300,float="right"]
-
 Where the result returned should be:
+
+[.thumb]
+image::{guides}/img/CreatePersonNameUnique.png[CreatePersonNameUnique,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 14.2: Add _Tom Hanks_ to the graph (Instructions)
+== Exercise 14.2: Add an actor to the graph (Instructions)
 
 *Add _Tom Hanks_ to the graph.*
 
-== Exercise 14.2: Add _Tom Hanks_ to the graph (Solution)
+== Exercise 14.2: Add an actor to the graph (Solution)
 
 *Add _Tom Hanks_ to the graph.*
 
@@ -75,10 +77,12 @@ CREATE (:Person {name: 'Tom Hanks'})
 
 What happens when you execute the statement?
 
-[.thumb]
-image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=500,float="right"]
-
 The result returned should look something like this:
+
+[.thumb]
+image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=500]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -106,11 +110,11 @@ This is because there are _Person_ nodes in the graph that do not have _born_ pr
 image::{guides}/img/CreateBornExistsConstraintFailed.png[CreateBornExistsConstraintFailed,width=500]
 
 
-== Exercise 14.4: Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist (Instructions)
+== Exercise 14.4: Update _Person_ nodes to have a _born_ property (Instructions)
 
 *Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.*
 
-== Exercise 14.4: Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist (Solution)
+== Exercise 14.4: Update _Person_ nodes to have a _born_ property (Solution)
 
 *Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.*
 
@@ -121,10 +125,12 @@ WHERE NOT exists(p.born)
 SET p.born = 0
 ----
 
-[.thumb]
-image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -143,10 +149,12 @@ The result returned should be:
 CREATE CONSTRAINT ON (p:Person) ASSERT exists(p.born)
 ----
 
-[.thumb]
-image::{guides}/img/AddBornExistsConstraint.png[AddBornExistsConstraint,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddBornExistsConstraint.png[AddBornExistsConstraint,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -170,13 +178,13 @@ What happens when you execute the statement? The result returned should be:
 [.thumb]
 image::{guides}/img/CannotAddWithoutBorn.png[CannotAddWithoutBorn,width=500]
 
-== Exercise 14.7: Add an existence constraint to the _ACTED_IN_ relationship in the graph (Instructions)
+== Exercise 14.7: Add an existence constraint to a relationship in the graph (Instructions)
 
 Suppose we want to ensure that every  _ACTED_IN_ relationship must have a value for the _roles_ property.
 
 *Add an existence constraint to the _ACTED_IN_ relationship in the graph.*
 
-== Exercise 14.7: Add an existence constraint to the _ACTED_IN_ relationship in the graph (Solution)
+== Exercise 14.7: Add an existence constraint to a relationship in the graph (Solution)
 
 *Add an existence constraint to the _ACTED_IN_ relationship in the graph.*
 
@@ -185,20 +193,22 @@ Suppose we want to ensure that every  _ACTED_IN_ relationship must have a value 
 CREATE CONSTRAINT ON ()-[r:ACTED_IN]-() ASSERT exists(r.roles)
 ----
 
-[.thumb]
-image::{guides}/img/CreateRolesConstraintExists.png[CreateRolesConstraintExists,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateRolesConstraintExists.png[CreateRolesConstraintExists,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 14.8: Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set (Instructions)
+== Exercise 14.8: Attempt to add a relationship that violates the constraint (Instructions)
 
 *Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.*
 
-== Exercise 14.8: Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set (Solution)
+== Exercise 14.8: Attempt to add a relationship that violates the constraint (Solution)
 
 *Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.*
 
@@ -215,7 +225,7 @@ What happens when you execute the statement? Here is what you should see:
 [.thumb]
 image::{guides}/img/CannotCreateActedInwithoutRoles.png[CannotCreateActedInwithoutRoles,width=300]
  
-== Exercise 14.9: Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes (Instructions)
+== Exercise 14.9: Add a node key to the graph (Instructions)
 
 Suppose we want to ensure that the graph will never contain a movie with the same title and the same year.
 For example, the movie studio decides to release a movie with the title, _Back to the Future_ in 2018.
@@ -233,7 +243,7 @@ DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
 
 *Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
 
-== Exercise 14.9: Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes (Solution)
+== Exercise 14.9: Add a node key to the graph (Solution)
 
 *Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
 
@@ -242,20 +252,22 @@ DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
 CREATE CONSTRAINT ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY
 ----
 
-[.thumb]
-image::{guides}/img/AddNodeKey.png[AddNodeKey,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddNodeKey.png[AddNodeKey,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 14.10: Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._ (Instructions)
+== Exercise 14.10: Add the movie node to the graph (Instructions)
 
 *Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._.*
 
-== Exercise 14.10: Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._ (Solution)
+== Exercise 14.10: Add the movie node to the graph (Solution)
 
 *Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._.*
 
@@ -264,20 +276,22 @@ The result returned should be:
 CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our future.'})
 ----
 
-[.thumb]
-image::{guides}/img/AddedBackToTheFuture1985.png[AddedBackToTheFuture1985,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddedBackToTheFuture1985.png[AddedBackToTheFuture1985,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 14.11: Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._ (Instructions)
+== Exercise 14.11: Add a similar movie node with slightly different property values(Instructions)
 
 *Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.*
 
-== Exercise 14.11: Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._ (Solution)
+== Exercise 14.11: Add a similar movie node with slightly different property values (Solution)
 
 *Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.*
 
@@ -286,10 +300,12 @@ The result returned should be:
 CREATE (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})
 ----
 
-[.thumb]
-image::{guides}/img/AddedBackToTheFuture2018.png[AddedBackToTheFuture2018,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddedBackToTheFuture2018.png[AddedBackToTheFuture2018,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -307,6 +323,7 @@ The result returned should be:
 ----
 CREATE (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})
 ----
+
 What happens when you attempt to add the movie? The creation fails due to the node key constraint:
 
 [.thumb]
@@ -325,20 +342,22 @@ image::{guides}/img/AddBackToFutureFailed.png[AddBackToFutureFailed,width=500]
 CALL db.constraints()
 ----
 
-[.thumb]
-image::{guides}/img/listConstraints.png[listConstraints,width=500,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/listConstraints.png[listConstraints,width=500]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 14.14: Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_ (Instructions)
+== Exercise 14.14: Drop an existence constrain (Instructions)
 
 *Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.*
 
-== Exercise 14.14: Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_ (Solution)
+== Exercise 14.14: Drop an existence constrain (Solution)
 
 *Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.*
 
@@ -347,10 +366,12 @@ The result returned should be:
 DROP CONSTRAINT ON ()-[ acted_in:ACTED_IN ]-() ASSERT exists(acted_in.roles)
 ----
 
-[.thumb]
-image::{guides}/img/dropConstraintRoles.png[dropConstraintRoles,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/dropConstraintRoles.png[dropConstraintRoles,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>

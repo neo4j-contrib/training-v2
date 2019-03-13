@@ -62,7 +62,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
 When the result returned should be:
 
 [.thumb]
-image::{guides}/img/EXPLAIN.png[EXPLAIN,width=500,float="right"]
+image::{guides}/img/EXPLAIN.png[EXPLAIN,width=500]
 
 ++++
 <div style="clear: both;"></div>
@@ -86,8 +86,9 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
 ----
 
 The result returned should look something like this:
+
 [.thumb]
-image::{guides}/img/PROFILE.png[PROFILE,width=500,float="right"]
+image::{guides}/img/PROFILE.png[PROFILE,width=500]
 
 ++++
 <div style="clear: both;"></div>
@@ -180,6 +181,7 @@ This is because the graph engine has completed the query and the results are bei
 *Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.*
 
 Here is a very bad Cypher statement that takes a lot of time to execute in the graph engine:
+
 [source, cypher]
 ----
 PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
@@ -193,6 +195,7 @@ What do you see in the second Neo4j Browser window where you are monitoring quer
 *Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.*
 
 Here is a very bad Cypher statement that takes a lot of time to execute in the graph engine:
+
 [source, cypher]
 ----
 PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
@@ -202,6 +205,7 @@ RETURN count(id(a))
 What do you see in the second Neo4j Browser window where you are monitoring queries?
 
 You should see this in the second Neo4j Browser window:
+
 [.thumb]
 image::{guides}/img/LongRunningQuery.png[LongRunningQuery,width=600]
 

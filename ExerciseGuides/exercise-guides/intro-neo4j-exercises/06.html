@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -603,19 +603,19 @@ Finally, you will write a query to limit the number of results returned.</p>
 <p><strong>Exercise 6.1</strong>: Execute a query that returns duplicate records.</p>
 </li>
 <li>
-<p><strong>Exercise 6.2</strong>: Modify the qyerty ti use the <code>DISTINCT</code> keyword to eliminate duplication.</p>
+<p><strong>Exercise 6.2</strong>: Modify the query to eliminate duplication.</p>
 </li>
 <li>
 <p><strong>Exercise 6.3</strong>: Modify the query to eliminate more duplication.</p>
 </li>
 <li>
-<p><strong>Exercise 6.4</strong>: Use the <code>ORDER BY</code> keyword to sort results returned.</p>
+<p><strong>Exercise 6.4</strong>: Sort results returned.</p>
 </li>
 <li>
 <p><strong>Exercise 6.5</strong>: Retrieve the top 5 ratings and their associated movies.</p>
 </li>
 <li>
-<p><strong>Exercise 6.6</strong>: Retrieve all actors that have not appeared in more than 3 movies</p>
+<p><strong>Exercise 6.6</strong>: Retrieve all actors that have not appeared in more than 3 movies.</p>
 </li>
 </ul>
 </div>
@@ -657,13 +657,13 @@ WHERE m.released &gt;= 1990 AND m.released &lt; 2000
 RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/NinetiesMovies1.png" alt="NinetiesMovies1" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies1.png" alt="NinetiesMovies1" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -674,7 +674,7 @@ RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.2: Modify the query ti use the <code>DISTINCT</code> keyword to eliminate duplication. (Instructions)</h3>
+    <h3>Exercise 6.2: Modify the query to eliminate duplication (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -688,7 +688,7 @@ RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.2: Modify the query ti use the <code>DISTINCT</code> keyword to eliminate duplication. (Solution)</h3>
+    <h3>Exercise 6.2: Modify the query to eliminate duplication (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -701,13 +701,13 @@ WHERE m.released &gt;= 1990 AND m.released &lt; 2000
 RETURN  m.released, collect(m.title), collect(a.name)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/NinetiesMovies2.png" alt="NinetiesMovies2" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies2.png" alt="NinetiesMovies2" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -745,13 +745,13 @@ WHERE m.released &gt;= 1990 AND m.released &lt; 2000
 RETURN  m.released, collect(DISTINCT m.title), collect(a.name)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/NinetiesMovies3.png" alt="NinetiesMovies3" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies3.png" alt="NinetiesMovies3" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -762,7 +762,7 @@ RETURN  m.released, collect(DISTINCT m.title), collect(a.name)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.4: Use the <code>ORDER BY</code> keyword to sort results returned (Instructions)</h3>
+    <h3>Exercise 6.4: Sort results returned (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -776,7 +776,7 @@ RETURN  m.released, collect(DISTINCT m.title), collect(a.name)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.4: Use the <code>ORDER BY</code> keyword to sort results returned (Solution)</h3>
+    <h3>Exercise 6.4: Sort results returned (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -790,13 +790,13 @@ RETURN  m.released, collect(DISTINCT m.title), collect(a.name)
 ORDER BY m.released DESC<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/OrderBy.png" alt="OrderBy" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/OrderBy.png" alt="OrderBy" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -837,13 +837,13 @@ RETURN  m.title AS movie, r.rating AS rating
 ORDER BY r.rating DESC LIMIT 5<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/Limit1.png" alt="Limit1" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/Limit1.png" alt="Limit1" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -882,13 +882,13 @@ WHERE numMovies &lt;= 3
 RETURN a.name, movies<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AtMost3MoviesPerActor.png" alt="AtMost3MoviesPerActor" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AtMost3MoviesPerActor.png" alt="AtMost3MoviesPerActor" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -909,7 +909,7 @@ Then you wrote a query that sorts the data returned.
 Finally, you wrote a query to limit the number of results returned.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/07.html'>Continue to Exercise 7</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/07.html'>Continue to Exercise 7</a></p>
 </div>
 	</div>
   </div>

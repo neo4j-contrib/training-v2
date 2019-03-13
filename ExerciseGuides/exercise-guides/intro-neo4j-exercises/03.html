@@ -60,7 +60,7 @@
 <p>This is what you should see when you click the database icon:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://localhost:8001/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200"></span></p>
+<p><span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200"></span></p>
 </div>
 <div class="paragraph">
 <p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
@@ -654,13 +654,13 @@ Finally, you will write a query to return property values for the relationships 
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="300">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="300">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -696,13 +696,13 @@ Finally, you will write a query to return property values for the relationships 
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:WROTE]-&gt;(:Movie {title: 'Speed Racer'}) RETURN p.name<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/SpeedRacerWriters.png" alt="SpeedRacerWriters" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SpeedRacerWriters.png" alt="SpeedRacerWriters" width="400">
+</div>
 </div>
 <div class="paragraph">
 <p>Notice here that the <em>:Movie</em> node is an anonymous node because for the query, we do not need information about the <em>Movie</em> node.</p>
@@ -774,13 +774,13 @@ Finally, you will write a query to return property values for the relationships 
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)&lt;--(:Person {name: 'Tom Hanks'}) RETURN m.title<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/TomHanksMovies.png" alt="TomHanksMovies" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomHanksMovies.png" alt="TomHanksMovies" width="400">
+</div>
 </div>
 <div class="paragraph">
 <p>Notice that <em>Tom Hanks</em> has multiple relationships to the movie, "That Thing You Do".
@@ -842,13 +842,13 @@ It is a best practice to put named nodes first in a query.</p>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)-[rel]-(:Person {name: 'Tom Hanks'}) RETURN m.title, type(rel)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/TomHanksRelationshipTypes.png" alt="TomHanksRelationshipTypes" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomHanksRelationshipTypes.png" alt="TomHanksRelationshipTypes" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -909,13 +909,13 @@ One of the properties of the <em>ACTED_IN</em> relationship is <em>roles</em>.</
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) RETURN m.title, rel.roles<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/TomHanksRoles.png" alt="TomHanksRoles" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomHanksRoles.png" alt="TomHanksRoles" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -958,7 +958,7 @@ Next, you wrote a Cypher query to return information about the relationships bet
 Finally, you wrote a query to return property values for the relationships between nodes.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/04.html'>Continue to Exercise 4</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/04.html'>Continue to Exercise 4</a></p>
 </div>
 	</div>
   </div>

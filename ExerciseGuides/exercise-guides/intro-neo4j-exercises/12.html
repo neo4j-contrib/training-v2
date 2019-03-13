@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise11.png" alt="After exercise 11" width="200" height="200">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise11.png" alt="After exercise 11" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -610,22 +610,22 @@ SET m:OlderMovie<!--/code--></pre>
 <p><strong>Exercise 12.1</strong>: Execute a Cypher query as described.</p>
 </li>
 <li>
-<p><strong>Exercise 12.2</strong>: Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</p>
+<p><strong>Exercise 12.2</strong>: Add a parameter to your session.</p>
 </li>
 <li>
-<p><strong>Exercise 12.3</strong>: Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</p>
+<p><strong>Exercise 12.3</strong>: Modify the Cypher query you just wrote to use a parameter.</p>
 </li>
 <li>
-<p><strong>Exercise 12.4</strong>: Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</p>
+<p><strong>Exercise 12.4</strong>: Modify parameter value and retest your query.</p>
 </li>
 <li>
-<p><strong>Exercise 12.5</strong>: Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</p>
+<p><strong>Exercise 12.5</strong>: Add a different parameter to your session.</p>
 </li>
 <li>
-<p><strong>Exercise 12.6</strong>: Modify the query you wrote previously to also filter the result returned by the  <em>rating</em> for the movie.</p>
+<p><strong>Exercise 12.6</strong>: Modify the query you wrote previously to use the second parameter.</p>
 </li>
 <li>
-<p><strong>Exercise 12.7</strong>: Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</p>
+<p><strong>Exercise 12.7</strong>: Modify the second parameter value and retest your query.</p>
 </li>
 </ul>
 </div>
@@ -674,9 +674,9 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
-<div class="imageblock thumb" style="float: right;">
+<div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/InitialQueryWithoutParms.png" alt="InitialQueryWithoutParms" width="600">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialQueryWithoutParms.png" alt="InitialQueryWithoutParms" width="600">
 </div>
 </div>
 <div style="clear: both;"></div>
@@ -688,7 +688,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.2: Add a parameter named <em>year</em> to your session with a value of <em>2000</em> (Instructions)</h3>
+    <h3>Exercise 12.2: Add a parameter to your session (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -702,7 +702,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.2: Add a parameter named <em>year</em> to your session with a value of <em>2000</em> (Solution)</h3>
+    <h3>Exercise 12.2: Add a parameter to your session (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -713,13 +713,13 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:param year =&gt; 2000<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/SetYearParam.png" alt="SetYearParam" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetYearParam.png" alt="SetYearParam" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -730,7 +730,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.3: Modify the Cypher query you just wrote to filter by the <em>year</em> parameter (Instructions)</h3>
+    <h3>Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -744,7 +744,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.3: Modify the Cypher query you just wrote to filter by the <em>year</em> parameter (Solution)</h3>
+    <h3>Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -760,9 +760,9 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
-<div class="imageblock thumb" style="float: right;">
+<div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/UsingOneParameter.png" alt="UsingOneParameter" width="600">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UsingOneParameter.png" alt="UsingOneParameter" width="600">
 </div>
 </div>
 <div style="clear: both;"></div>
@@ -774,7 +774,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.4: Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query (Instructions)</h3>
+    <h3>Exercise 12.4: Modify parameter value and retest your query (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -788,7 +788,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.4: Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query (Solution)</h3>
+    <h3>Exercise 12.4: Modify parameter value and retest your query (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -802,9 +802,9 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned  with the same query should be:</p>
 </div>
-<div class="imageblock thumb" style="float: right;">
+<div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/UsingOneParameter2.png" alt="UsingOneParameter2" width="600">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UsingOneParameter2.png" alt="UsingOneParameter2" width="600">
 </div>
 </div>
 <div style="clear: both;"></div>
@@ -816,7 +816,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.5: Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em> (Instructions)</h3>
+    <h3>Exercise 12.5: Add a different parameter to your session (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -833,7 +833,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.5: Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em> (Solution)</h3>
+    <h3>Exercise 12.5: Add a different parameter to your session (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -844,13 +844,13 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:params {year: 2006, ratingValue: 65}<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/SetTwoParameters.png" alt="SetTwoParameters" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetTwoParameters.png" alt="SetTwoParameters" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -861,7 +861,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.6: Modify the query you wrote previously to also filter the result returned by the  <em>rating</em> for the movie (Instructions)</h3>
+    <h3>Exercise 12.6: Modify the query you wrote previously to use the second parameter (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -875,7 +875,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.6: Modify the query you wrote previously to also filter the result returned by the  <em>rating</em> for the movie (Solution)</h3>
+    <h3>Exercise 12.6: Modify the query you wrote previously to use the second parameter (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -892,9 +892,9 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>For the above statement, the result returned should be:</p>
 </div>
-<div class="imageblock thumb" style="float: right;">
+<div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/UseTwoParameters.png" alt="UseTwoParameters" width="600">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UseTwoParameters.png" alt="UseTwoParameters" width="600">
 </div>
 </div>
 <div style="clear: both;"></div>
@@ -906,7 +906,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.7: Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query (Instructions)</h3>
+    <h3>Exercise 12.7: Modify the second parameter value and retest your query (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -920,7 +920,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 12.7: Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query (Solution)</h3>
+    <h3>Exercise 12.7: Modify the second parameter value and retest your query (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -934,9 +934,9 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned with the new parameter value should be:</p>
 </div>
-<div class="imageblock thumb" style="float: right;">
+<div class="imageblock thumb">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/UseTwoParameters2.png" alt="UseTwoParameters2" width="600">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UseTwoParameters2.png" alt="UseTwoParameters2" width="600">
 </div>
 </div>
 <div style="clear: both;"></div>
@@ -955,7 +955,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <p>In this exercise you gained experience using parameters in your Neo4j Browser session and your Cypher statements.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/13.html'>Continue to Exercise 13</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/13.html'>Continue to Exercise 13</a></p>
 </div>
 	</div>
   </div>

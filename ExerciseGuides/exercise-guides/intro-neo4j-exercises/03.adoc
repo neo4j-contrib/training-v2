@@ -49,10 +49,10 @@ You will use schema information to help you specify relationships in your querie
 CALL db.schema
 ----
 
-[.thumb]
-image::{guides}/img/call_db.schema.png[call_db.schema,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/call_db.schema.png[call_db.schema,width=300]
 
 ++++
 <div style="clear: both;"></div>
@@ -71,10 +71,12 @@ The result returned should be:
 MATCH (p:Person)-[:WROTE]->(:Movie {title: 'Speed Racer'}) RETURN p.name
 ----
 
-[.thumb]
-image::{guides}/img/SpeedRacerWriters.png[SpeedRacerWriters,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SpeedRacerWriters.png[SpeedRacerWriters,width=400]
+
+
 
 Notice here that the _:Movie_ node is an anonymous node because for the query, we do not need information about the _Movie_ node.
 
@@ -108,10 +110,12 @@ In the query editor pane, enter the Cypher query to retrieve all movies that are
 MATCH (m:Movie)<--(:Person {name: 'Tom Hanks'}) RETURN m.title
 ----
 
-[.thumb]
-image::{guides}/img/TomHanksMovies.png[TomHanksMovies,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/TomHanksMovies.png[TomHanksMovies,width=400]
+
+
 
 Notice that _Tom Hanks_ has multiple relationships to the movie, "That Thing You Do".
 Also notice that we specify the named node (with a variable) first.
@@ -139,10 +143,12 @@ It is a best practice to put named nodes first in a query.
 MATCH (m:Movie)-[rel]-(:Person {name: 'Tom Hanks'}) RETURN m.title, type(rel)
 ----
 
-[.thumb]
-image::{guides}/img/TomHanksRelationshipTypes.png[TomHanksRelationshipTypes,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/TomHanksRelationshipTypes.png[TomHanksRelationshipTypes,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -171,10 +177,12 @@ Write and execute the Cypher query to retrieve all of the roles that _Tom Hanks_
 MATCH (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) RETURN m.title, rel.roles
 ----
 
-[.thumb]
-image::{guides}/img/TomHanksRoles.png[TomHanksRoles,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/TomHanksRoles.png[TomHanksRoles,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>

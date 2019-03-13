@@ -30,15 +30,15 @@ Finally, you will test if property values are in a list.
 * *Exercise 4.1*: Retrieve all movies that _Tom Cruise_ acted in.
 * *Exercise 4.2*: Retrieve all actors that were born in the 70's.
 * *Exercise 4.3*: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960.
-* *Exercise 4.4*: Retrieve all movies  released in 2000 by testing the node label and the released property.
+* *Exercise 4.4*: Retrieve all movies  by testing the node label and a property.
 * *Exercise 4.5*: Retrieve all people that wrote movies by testing the relationship between two nodes.
-* *Exercise 4.6*: Retrieve all people in the graph that do not have a _born_ property.
-* *Exercise 4.7*: Retrieve all people related to movies where the relationship has the _rating_ property.
+* *Exercise 4.6*: Retrieve all people in the graph that do not have a property.
+* *Exercise 4.7*: Retrieve all people related to movies where the relationship has a property.
 * *Exercise 4.8*: Retrieve all actors whose name begins with _James_.
-* *Exercise 4.9*: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_.
+* *Exercise 4.9*: Retrieve all all _REVIEW_ relationships from the graph with filtered results.
 * *Exercise 4.10*: Retrieve all people who have produced a movie, but have not directed a movie.
 * *Exercise 4.11*: Retrieve the movies and their actors where one of the actors also directed the movie.
-* *Exercise 4.12*: Retrieve all movies that were released in the years 2000, 2004, and 2008.
+* *Exercise 4.12*: Retrieve all movies that were released in a set of years.
 * *Exercise 4.13*: Retrieve the movies that have an actor's role that is the name of the movie.
 
 Go to the next page to start this exercise.
@@ -62,10 +62,12 @@ WHERE a.name = 'Tom Cruise'
 RETURN m.title as Movie
 ----
 
-[.thumb]
-image::{guides}/img/TomCruiseMovies.png[TomCruiseMovies,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/TomCruiseMovies.png[TomCruiseMovies,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -86,10 +88,12 @@ WHERE a.born >= 1970 AND a.born < 1980
 RETURN a.name as Name, a.born as `Year Born`
 ----
 
-[.thumb]
-image::{guides}/img/SeventiesActors.png[SeventiesActors,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SeventiesActors.png[SeventiesActors,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -110,20 +114,20 @@ WHERE a.born > 1960 AND m.title = 'The Matrix'
 RETURN a.name as Name, a.born as `Year Born`
 ----
 
-[.thumb]
-image::{guides}/img/MatrixYoungerActors.png[MatrixYoungerActors,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MatrixYoungerActors.png[MatrixYoungerActors,width=400]
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 4.4: Retrieve all movies  released in 2000 by testing the node label and the released property (Instructions)
+== Exercise 4.4: Retrieve all movies  by testing the node label and a property (Instructions)
 
 *Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.*
 
-== Exercise 4.4: Retrieve all movies  released in 2000 by testing the node label and the released property (Solution)
+== Exercise 4.4: Retrieve all movies  by testing the node label and a property (Solution)
 
 *Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.*
 
@@ -134,10 +138,12 @@ WHERE m:Movie AND m.released = 2000
 RETURN m.title
 ----
 
-[.thumb]
-image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -158,22 +164,24 @@ WHERE a:Person AND type(rel) = 'WROTE' AND m:Movie
 RETURN a.name as Name, m.title as Movie
 ----
 
-[.thumb]
-image::{guides}/img/MatchWritersWhere.png[MatchWritersWhere,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MatchWritersWhere.png[MatchWritersWhere,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 4.6: Retrieve all people in the graph that do not have a _born_ property (Instructions)
+== Exercise 4.6: Retrieve all people in the graph that do not have a property (Instructions)
 
 You will write Cypher queries using a `WHERE` clause to test existence.
 
 *Retrieve all people in the graph that do not have a _born_ property, returning their names.*
 
-== Exercise 4.6: Retrieve all people in the graph that do not have a _born_ property (Solution)
+== Exercise 4.6: Retrieve all people in the graph that do not have a property (Solution)
 
 *Retrieve all people in the graph that do not have a _born_ property, returning their names.*
 
@@ -184,22 +192,24 @@ WHERE NOT exists(a.born)
 RETURN a.name as Name
 ----
 
-[.thumb]
-image::{guides}/img/NoYearBorn.png[NoYearBorn,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/NoYearBorn.png[NoYearBorn,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 4.7: Retrieve all people related to movies where the relationship has the _rating_ property (Instructions)
+== Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Instructions)
 
 You will write Cypher queries using a `WHERE` clause to test existence.
 
 *Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.*
 
-== Exercise 4.7: Retrieve all people related to movies where the relationship has the _rating_ property (Solution)
+== Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Solution)
 
 *Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.*
 
@@ -210,10 +220,12 @@ WHERE exists(rel.rating)
 RETURN a.name as Name, m.title as Movie, rel.rating as Rating
 ----
 
-[.thumb]
-image::{guides}/img/RelationshipsWithRatings.png[RelationshipsWithRatings,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RelationshipsWithRatings.png[RelationshipsWithRatings,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -236,8 +248,10 @@ WHERE a.name STARTS WITH 'James'
 RETURN a.name
 ----
 
+The result returned should be:
+
 [.thumb]
-image::{guides}/img/ActorsNamedJames.png[ActorsNamedJames,width=400,float="right"]
+image::{guides}/img/ActorsNamedJames.png[ActorsNamedJames,width=400]
 
 The result returned should be:
 
@@ -245,13 +259,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun (Instructions)
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph with filtered results (Instructions)
 
 *Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.*
 
 *Hint:* You do not know what case the _fun_ string will be in the summary text.
 
-== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_ (Solution)
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph with filtered results (Solution)
 
 *Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.*
 
@@ -262,10 +276,12 @@ WHERE toLower(r.summary) CONTAINS 'fun'
 RETURN  m.title as Movie, r.summary as Review, r.rating as Rating
 ----
 
-[.thumb]
-image::{guides}/img/ReviewsWithFun.png[ReviewsWithFun,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ReviewsWithFun.png[ReviewsWithFun,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -295,10 +311,10 @@ WHERE NOT ((a)-[:DIRECTED]->(:Movie))
 RETURN a.name, m.title
 ----
 
-[.thumb]
-image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirectors,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirectors,width=400]
 
 ++++
 <div style="clear: both;"></div>
@@ -319,22 +335,24 @@ WHERE exists( (a2)-[:DIRECTED]->(m) )
 RETURN  a1.name as Actor, a2.name as `Actor/Director`, m.title as Movie
 ----
 
-[.thumb]
-image::{guides}/img/ActorsAsDirectors.png[ActorsAsDirectors,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ActorsAsDirectors.png[ActorsAsDirectors,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 4.12: Retrieve all movies that were released in the years 2000, 2004, and 2008 (Instructions)
+== Exercise 4.12: Retrieve all movies that were released in a set of years (Instructions)
 
 Next you will perform queries using lists.
 
 *Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.*
 
-== Exercise 4.12: Retrieve all movies that were released in the years 2000, 2004, and 2008 (Solution)
+== Exercise 4.12: Retrieve all movies that were released in a set of years (Solution)
 
 *Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.*
 
@@ -345,10 +363,12 @@ WHERE m.released in [2000, 2004, 2008]
 RETURN m.title, m.released
 ----
 
-[.thumb]
-image::{guides}/img/MoviesInList.png[MoviesInList,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/MoviesInList.png[MoviesInList,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -369,10 +389,12 @@ WHERE m.title in r.roles
 RETURN  m.title as Movie, a.name as Actor
 ----
 
-[.thumb]
-image::{guides}/img/RoleNameIsMovieName.png[RoleNameIsMovieName,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RoleNameIsMovieName.png[RoleNameIsMovieName,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>

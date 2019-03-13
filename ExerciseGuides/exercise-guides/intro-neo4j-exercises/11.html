@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise10.png" alt="After exercise 10" width="200" height="200">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise10.png" alt="After exercise 10" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -603,22 +603,22 @@ You will see how in your real application, you should take care not to create du
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 11.1</strong>: Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created,  set the <em>released</em> property to  <em>1994</em>.</p>
+<p><strong>Exercise 11.1</strong>: Use <code>MERGE</code> to create a <em>Movie</em> node.</p>
 </li>
 <li>
-<p><strong>Exercise 11.2</strong>: Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If found, set the tagline property to "Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get.".</p>
+<p><strong>Exercise 11.2</strong>: Use <code>MERGE</code> to update a node.</p>
 </li>
 <li>
-<p><strong>Exercise 11.3</strong>: Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created, set the property <em>year</em> to the value <em>1994</em>.</p>
+<p><strong>Exercise 11.3</strong>: Use <code>MERGE</code> to create a <em>Production</em> node.</p>
 </li>
 <li>
-<p><strong>Exercise 11.4</strong>: Query the graph to find all labels for nodes with the title property, <em>Forrest Gump</em>.</p>
+<p><strong>Exercise 11.4</strong>: Find all labels for nodes with a property value.</p>
 </li>
 <li>
-<p><strong>Exercise 11.5</strong>: Use <code>MERGE</code> to update (<code>ON MATCH</code>) the existing <em>Production</em> node for <em>Forrest Gump</em> to add the <em>company</em> property with a value of <em>Paramount Pictures</em>.</p>
+<p><strong>Exercise 11.5</strong>: Use <code>MERGE</code> to update a <em>Production</em> node.</p>
 </li>
 <li>
-<p><strong>Exercise 11.6</strong>: Use <code>MERGE</code> to add the <em>OlderMovie</em> label to the movie, <em>Forrest Gump</em>.</p>
+<p><strong>Exercise 11.6</strong>: Use <code>MERGE</code> to add a label to a node.</p>
 </li>
 <li>
 <p><strong>Exercise 11.7</strong>: Use <code>MERGE</code> to create two nodes and a single relationship.</p>
@@ -639,13 +639,13 @@ You will see how in your real application, you should take care not to create du
 <p><strong>Exercise 11.12</strong>: Delete the <em>Forrest Gump</em> node.</p>
 </li>
 <li>
-<p><strong>Exercise 11.13</strong>: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and  the <em>Movie</em>, <em>Forrest Gump</em>.</p>
+<p><strong>Exercise 11.13</strong>: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship.</p>
 </li>
 <li>
-<p><strong>Exercise 11.14</strong>: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship between the actors, <em>Tom Hanks</em>, <em>Gary Sinise</em>, and <em>Robin Wright</em> and the <em>Movie</em>, <em>Forrest Gump</em>.</p>
+<p><strong>Exercise 11.14</strong>: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship.</p>
 </li>
 <li>
-<p><strong>Exercise 11.15</strong>: Modify the relationship property, <em>role</em> for their roles in <em>Forrest Gump</em>.</p>
+<p><strong>Exercise 11.15</strong>: Modify the <em>role</em> relationship property.</p>
 </li>
 </ul>
 </div>
@@ -660,7 +660,7 @@ You will see how in your real application, you should take care not to create du
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.1: Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created,  set the <em>released</em> property to  <em>1994</em> (Instructions)</h3>
+    <h3>Exercise 11.1: Use <code>MERGE</code> to create a <em>Movie</em> node (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -677,7 +677,7 @@ You will see how in your real application, you should take care not to create du
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.1: Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created,  set the <em>released</em> property to  <em>1994</em> (Solution)</h3>
+    <h3>Exercise 11.1: Use <code>MERGE</code> to create a <em>Movie</em> node (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -690,13 +690,13 @@ ON CREATE SET m.released = 1994
 RETURN m<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateForrestGump2.png" alt="CreateForrestGump2" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateForrestGump2.png" alt="CreateForrestGump2" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -707,7 +707,7 @@ RETURN m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.2: Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If found, set the tagline property to "Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get." (Instructions)</h3>
+    <h3>Exercise 11.2: Use <code>MERGE</code> to update a node (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -721,7 +721,7 @@ RETURN m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.2: Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If found, set the tagline property to "Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get." (Solution)</h3>
+    <h3>Exercise 11.2: Use <code>MERGE</code> to update a node (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -735,13 +735,13 @@ ON MATCH SET m.tagline = "Life is like a box of chocolates...you never know what
 RETURN m<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeForrestGump.png" alt="MergeForrestGump" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeForrestGump.png" alt="MergeForrestGump" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -752,7 +752,7 @@ RETURN m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.3: Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created, set the property <em>year</em> to the value <em>1994</em> (Instructions)</h3>
+    <h3>Exercise 11.3: Use <code>MERGE</code> to create a <em>Production</em> node (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -766,7 +766,7 @@ RETURN m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.3: Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created, set the property <em>year</em> to the value <em>1994</em> (Solution)</h3>
+    <h3>Exercise 11.3: Use <code>MERGE</code> to create a <em>Production</em> node (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -779,13 +779,13 @@ ON CREATE SET p.year = 1994
 RETURN p<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeProduction.png" alt="MergeProduction" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeProduction.png" alt="MergeProduction" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -796,7 +796,7 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.4: Query the graph to find all labels for nodes with the title property, <em>Forrest Gump</em> (Instructions)</h3>
+    <h3>Exercise 11.4: Find all labels for nodes with a property value (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -810,7 +810,7 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.4: Query the graph to find all labels for nodes with the title property, <em>Forrest Gump</em> (Solution)</h3>
+    <h3>Exercise 11.4: Find all labels for nodes with a property value (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -823,13 +823,13 @@ WHERE m.title = 'Forrest Gump'
 RETURN  labels(m)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AllForrestGumps.png" alt="AllForrestGumps" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AllForrestGumps.png" alt="AllForrestGumps" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -840,7 +840,7 @@ RETURN  labels(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.5: Use <code>MERGE</code> to update (<code>ON MATCH</code>) the existing <em>Production</em> node for <em>Forrest Gump</em> to add the <em>company</em> property with a value of <em>Paramount Pictures</em> (Instructions)</h3>
+    <h3>Exercise 11.5: Use <code>MERGE</code> to update a <em>Production</em> node (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -854,7 +854,7 @@ RETURN  labels(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.5: Use <code>MERGE</code> to update (<code>ON MATCH</code>) the existing <em>Production</em> node for <em>Forrest Gump</em> to add the <em>company</em> property with a value of <em>Paramount Pictures</em> (Solution)</h3>
+    <h3>Exercise 11.5: Use <code>MERGE</code> to update a <em>Production</em> node (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -867,13 +867,13 @@ ON MATCH SET p.company = 'Paramount Pictures'
 RETURN p<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddCompany.png" alt="AddCompany" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddCompany.png" alt="AddCompany" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -884,7 +884,7 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.6: Use <code>MERGE</code> to add the <em>OlderMovie</em> label to the movie, <em>Forrest Gump</em> (Instructions)</h3>
+    <h3>Exercise 11.6: Use <code>MERGE</code> to add a label to a node (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -898,7 +898,7 @@ RETURN p<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.6: Use <code>MERGE</code> to add the <em>OlderMovie</em> label to the movie, <em>Forrest Gump</em> (Solution)</h3>
+    <h3>Exercise 11.6: Use <code>MERGE</code> to add a label to a node (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -911,13 +911,13 @@ ON MATCH SET m:OlderMovie
 RETURN labels(m)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddOlderMovieLabelToForrestGump.png" alt="AddOlderMovieLabelToForrestGump" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddOlderMovieLabelToForrestGump.png" alt="AddOlderMovieLabelToForrestGump" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -965,13 +965,13 @@ A best practice is to create nodes first, then relationships.</p>
     <h3>Exercise 11.7: Use <code>MERGE</code> to create two nodes and a single relationship (Solution)</h3>
     <br/>
     <div>
-      <div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeNodesAndRelationships.png" alt="MergeNodesAndRelationships" width="400">
-</div>
-</div>
-<div class="paragraph">
+      <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeNodesAndRelationships.png" alt="MergeNodesAndRelationships" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1011,13 +1011,13 @@ A best practice is to always use <code>MERGE</code> to create relationships to e
       <div class="paragraph">
 <p><strong>Repeat the execution of the previous statement.</strong></p>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/MergeNodesAndRelationships2.png" alt="MergeNodesAndRelationships2" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MergeNodesAndRelationships2.png" alt="MergeNodesAndRelationships2" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1061,13 +1061,13 @@ RETURN p, rel, x<!--/code--></pre>
       <div class="paragraph">
 <p><strong>Find the correct <em>Person</em> node to delete</strong></p>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/FindPersonNodeBeforeDelete.png" alt="FindPersonNodeBeforeDelete" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/FindPersonNodeBeforeDelete.png" alt="FindPersonNodeBeforeDelete" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1082,7 +1082,7 @@ RETURN p, rel, x<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Delete this <em>Person</em> node, along with its relationships</strong></p>
+<p><strong>Delete this <em>Person</em> node, along with its relationships.</strong></p>
 </div>
 	</div>
   </div>
@@ -1096,7 +1096,7 @@ RETURN p, rel, x<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Delete this <em>Person</em> node, along with its relationships</strong></p>
+<p><strong>Delete this <em>Person</em> node, along with its relationships.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1105,13 +1105,13 @@ WHERE NOT EXISTS (p.born)
 DETACH DELETE p<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/DeletedExtraPerson.png" alt="DeletedExtraPerson" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DeletedExtraPerson.png" alt="DeletedExtraPerson" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1146,13 +1146,13 @@ RETURN m, labels(m)<!--/code--></pre>
     <h3>Exercise 11.11: Find the correct <em>Forrest Gump</em> node to delete (Solution)</h3>
     <br/>
     <div>
-      <div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/ForrestGumpToDelete.png" alt="ForrestGumpToDelete" width="400">
-</div>
-</div>
-<div class="paragraph">
+      <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ForrestGumpToDelete.png" alt="ForrestGumpToDelete" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1193,13 +1193,13 @@ WHERE m.title = 'Forrest Gump' AND labels(m) = []
 DETACH DELETE m<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/DeletedExtraForrestGump.png" alt="DeletedExtraForrestGump" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DeletedExtraForrestGump.png" alt="DeletedExtraForrestGump" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1210,7 +1210,7 @@ DETACH DELETE m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.13: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and  the <em>Movie</em>, <em>Forrest Gump</em> (Instructions)</h3>
+    <h3>Exercise 11.13: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1224,7 +1224,7 @@ DETACH DELETE m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.13: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and  the <em>Movie</em>, <em>Forrest Gump</em> (Solution)</h3>
+    <h3>Exercise 11.13: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1237,13 +1237,13 @@ WHERE p.name = 'Robert Zemeckis' AND m.title = 'Forrest Gump'
 MERGE (p)-[:DIRECTED]-&gt;(m)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddDirectedToForrestGump.png" alt="AddDirectedToForrestGump" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddDirectedToForrestGump.png" alt="AddDirectedToForrestGump" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1254,7 +1254,7 @@ MERGE (p)-[:DIRECTED]-&gt;(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.14: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship between the actors, <em>Tom Hanks</em>, <em>Gary Sinise</em>, and <em>Robin Wright</em> and the <em>Movie</em>, <em>Forrest Gump</em> (Instructions)</h3>
+    <h3>Exercise 11.14: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1268,7 +1268,7 @@ MERGE (p)-[:DIRECTED]-&gt;(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.14: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship between the actors, <em>Tom Hanks</em>, <em>Gary Sinise</em>, and <em>Robin Wright</em> and the <em>Movie</em>, <em>Forrest Gump</em> (Solution)</h3>
+    <h3>Exercise 11.14: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1282,13 +1282,13 @@ WHERE p.name IN ['Tom Hanks','Gary Sinise', 'Robin Wright']
 MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/ActedInForrestGump.png" alt="ActedInForrestGump" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ActedInForrestGump.png" alt="ActedInForrestGump" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1299,7 +1299,7 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.15: Modify the relationship property, <em>role</em> for their roles in <em>Forrest Gump</em> (Instructions)</h3>
+    <h3>Exercise 11.15: Modify the <em>role</em> relationship property (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1308,13 +1308,13 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 <div class="ulist">
 <ul>
 <li>
-<p><em>Tom Hanks</em> is <em>Forrest Gump</em></p>
+<p><strong>Tom Hanks is Forrest Gump</strong></p>
 </li>
 <li>
-<p><em>Gary Sinise</em> is <em>Lt. Dan Taylor</em></p>
+<p><strong>Gary Sinise is Lt. Dan Taylor</strong></p>
 </li>
 <li>
-<p><em>Robin Wright</em> is <em>Jenny Curran</em></p>
+<p><strong>Robin Wright is Jenny Curran</strong></p>
 </li>
 </ul>
 </div>
@@ -1326,7 +1326,7 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 11.15: Modify the relationship property, <em>role</em> for their roles in <em>Forrest Gump</em> (Solution)</h3>
+    <h3>Exercise 11.15: Modify the <em>role</em> relationship property (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1335,13 +1335,13 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 <div class="ulist">
 <ul>
 <li>
-<p><em>Tom Hanks</em> is <em>Forrest Gump</em></p>
+<p><strong>Tom Hanks is Forrest Gump</strong></p>
 </li>
 <li>
-<p><em>Gary Sinise</em> is <em>Lt. Dan Taylor</em></p>
+<p><strong>Gary Sinise is Lt. Dan Taylor</strong></p>
 </li>
 <li>
-<p><em>Robin Wright</em> is <em>Jenny Curran</em></p>
+<p><strong>Robin Wright is Jenny Curran</strong></p>
 </li>
 </ul>
 </div>
@@ -1357,13 +1357,13 @@ CASE p.name
 END<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/SetActedRoles.png" alt="SetActedRoles" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetActedRoles.png" alt="SetActedRoles" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1383,7 +1383,7 @@ In some parts of the exercise, you created duplicate nodes and relationships.
 You should take care not to create duplicate nodes and relationships in your real application graphs.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/12.html'>Continue to Exercise 12</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/12.html'>Continue to Exercise 12</a></p>
 </div>
 	</div>
   </div>

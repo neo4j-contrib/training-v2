@@ -22,11 +22,11 @@ In the previous exercise, you created relationships between _Person_ and _Movie_
 In this exercise you will delete nodes and relationships from the graph.
 
 * *Exercise 10.1*: Delete a relationship.
-* *Exercise 10.2*: Query the graph to confirm that the relationship has been deleted.
-* *Exercise 10.3*: Query the graph to display _Forrest Gump_ and all of its relationships.
-* *Exercise 10.4*: Try deleting the _Forrest Gump_ node without detaching its relationships.
-* *Exercise 10.5*: Delete _Forrest Gump_, along with its relationships in the graph.
-* *Exercise 10.6*: Query the graph to confirm that the _Forrest Gump_ node has been deleted.
+* *Exercise 10.2*: Confirm that the relationship has been deleted.
+* *Exercise 10.3*: Retrieve a movie and all of its relationships.
+* *Exercise 10.4*: Try deleting a node without detaching its relationships.
+* *Exercise 10.5*: Delete a _Movie_ node, along with its relationships.
+* *Exercise 10.6*: Confirm that the _Movie_ node has been deleted.
 
 Go to the next page to start this exercise.
 
@@ -47,20 +47,22 @@ MATCH (:Person)-[rel:HELPED]-(:Person)
 DELETE rel
 ----
 
-[.thumb]
-image::{guides}/img/DeleteHELPED.png[DeleteHELPED,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeleteHELPED.png[DeleteHELPED,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 10.2: Query the graph to confirm that the relationship has been deleted (Instructions)
+== Exercise 10.2: Confirm that the relationship has been deleted (Instructions)
 
 *Query the graph to confirm that the relationship no longer exists.* 
 
-== Exercise 10.2: Query the graph to confirm that the relationship has been deleted (Solution)
+== Exercise 10.2: Confirm that the relationship has been deleted (Solution)
 
 *Query the graph to confirm that the relationship no longer exists.* 
 
@@ -70,21 +72,23 @@ MATCH (:Person)-[rel:HELPED]-(:Person)
 RETURN rel
 ----
 
-[.thumb]
-image::{guides}/img/ConfirmDeleteHELPED.png[ConfirmDeleteHELPED,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ConfirmDeleteHELPED.png[ConfirmDeleteHELPED,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
 
-== Exercise 10.3: Query the graph to display _Forrest Gump_ and all of its relationships (Instructions)
+== Exercise 10.3: Retrieve a movie and all of its relationships (Instructions)
 
 *Query the graph to display _Forrest Gump_ and all of its relationships.*
 
-== Exercise 10.3: Query the graph to display _Forrest Gump_ and all of its relationships (Solution)
+== Exercise 10.3: Retrieve a movie and all of its relationships (Solution)
 
 *Query the graph to display _Forrest Gump_ and all of its relationships.*
 
@@ -95,16 +99,18 @@ WHERE m.title = 'Forrest Gump'
 RETURN p, rel, m
 ----
 
-[.thumb]
-image::{guides}/img/QueryForrestGump.png[QueryForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/QueryForrestGump.png[QueryForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 10.4: Try deleting the _Forrest Gump_ node without detaching its relationships (Instructions)
+== Exercise 10.4: Try deleting a node without detaching its relationships (Instructions)
 
 We want to remove the movie, _Forrest Gump_ from the graph.
 
@@ -112,7 +118,7 @@ We want to remove the movie, _Forrest Gump_ from the graph.
 
 Do you receive an error?
 
-== Exercise 10.4: Try deleting the _Forrest Gump_ node without detaching its relationships (Solution)
+== Exercise 10.4: Try deleting a node without detaching its relationships (Solution)
 
 *Try deleting the _Forrest Gump_ node without detaching its relationships.*
 
@@ -125,20 +131,22 @@ WHERE m.title = 'Forrest Gump'
 DELETE m
 ----
 
-[.thumb]
-image::{guides}/img/DeleteNodeFailed.png[DeleteNodeFailed,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeleteNodeFailed.png[DeleteNodeFailed,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 10.5: Delete _Forrest Gump_, along with its relationships in the graph (Instructions)
+== Exercise 10.5: Delete a _Movie_ node, along with its relationships (Instructions)
 
 *Delete _Forrest Gump_, along with its relationships in the graph.*
 
-== Exercise 10.5: Delete _Forrest Gump_, along with its relationships in the graph (Solution)
+== Exercise 10.5: Delete a _Movie_ node, along with its relationships (Solution)
 
 *Delete _Forrest Gump_, along with its relationships in the graph.*
 
@@ -149,20 +157,22 @@ WHERE m.title = 'Forrest Gump'
 DETACH DELETE m
 ----
 
-[.thumb]
-image::{guides}/img/DetachDelete.png[DetachDelete,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/DetachDelete.png[DetachDelete,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 10.6: Query the graph to confirm that the _Forrest Gump_ node has been deleted (Instructions)
+== Exercise 10.6: Confirm that the _Movie_ node has been deleted (Instructions)
 
 *Query the graph to confirm that the _Forrest Gump_ node has been deleted.*
 
-== Exercise 10.6: Query the graph to confirm that the _Forrest Gump_ node has been deleted (Solution)
+== Exercise 10.6: Confirm that the _Movie_ node has been deleted (Solution)
 
 *Query the graph to confirm that the _Forrest Gump_ node has been deleted.*
 
@@ -173,10 +183,12 @@ WHERE m.title = 'Forrest Gump'
 RETURN p, rel, m
 ----
 
-[.thumb]
-image::{guides}/img/NoForrestGump.png[NoForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/NoForrestGump.png[NoForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>

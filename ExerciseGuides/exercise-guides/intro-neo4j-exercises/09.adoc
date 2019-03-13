@@ -27,15 +27,15 @@ Finally, you will remove properties from relationships.
 * *Exercise 9.2*: Create _DIRECTED_ relationships.
 * *Exercise 9.3*: Create a _HELPED_ relationship.
 * *Exercise 9.4*: Query nodes and new relationships.
-* *Exercise 9.5*: Add the _roles_ properties to relationships.
-* *Exercise 9.6*: Add a _research_ property to the _HELPED_ relationship.
+* *Exercise 9.5*: Add properties to relationships.
+* *Exercise 9.6*: Add a property to the _HELPED_ relationship.
 * *Exercise 9.7*: View the current list of property keys in the graph.
 * *Exercise 9.8*: View the current schema of the graph.
-* *Exercise 9.9*: Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.
-* *Exercise 9.10*: Query the graph to retrieve information about any _HELPED_ relationships.
-* *Exercise 9.11*: Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_.
-* *Exercise 9.12*: Remove the _research_ property from the _HELPED_ relationship.
-* *Exercise 9.13*: Query the graph to confirm that your modifications were made to the graph.
+* *Exercise 9.9*: Retrieve the names and roles for actors.
+* *Exercise 9.10*: Retrieve information about any specific relationships.
+* *Exercise 9.11*: Modify a property of a relationship.
+* *Exercise 9.12*: Remove a property from a relationship.
+* *Exercise 9.13*: Confirm that your modifications were made to the graph.
 
 Go to the next page to start this exercise.
 
@@ -58,10 +58,12 @@ WHERE p.name = 'Tom Hanks' OR p.name = 'Robin Wright' OR p.name = 'Gary Sinise'
 CREATE (p)-[:ACTED_IN]->(m)
 ----
 
-[.thumb]
-image::{guides}/img/CreateThreeRelationships.png[CreateThreeRelationships,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateThreeRelationships.png[CreateThreeRelationships,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -84,10 +86,12 @@ WHERE p.name = 'Robert Zemeckis'
 CREATE (p)-[:DIRECTED]->(m)
 ----
 
-[.thumb]
-image::{guides}/img/AddDirectedRelationship.png[AddDirectedRelationship,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddDirectedRelationship.png[AddDirectedRelationship,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -110,10 +114,11 @@ WHERE p2.name = 'Gary Sinise'
 CREATE (p1)-[:HELPED]->(p2)
 ----
 
-[.thumb]
-image::{guides}/img/CreateHELPEDRelationship.png[CreateHELPEDRelationship,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateHELPEDRelationship.png[CreateHELPEDRelationship,width=400]
+
 
 ++++
 <div style="clear: both;"></div>
@@ -134,10 +139,11 @@ WHERE m.title = 'Forrest Gump'
 RETURN p, rel, m
 ----
 
-[.thumb]
-image::{guides}/img/ForrestGumpRelationships.png[ForrestGumpRelationships,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ForrestGumpRelationships.png[ForrestGumpRelationships,width=400]
+
 
 Notice here that the _HELPED_ relationship is also shown because _Tom Hanks_ and _Gary Sinise_ are connected and we have _Connect result nodes_ selected in our Neo4j Browser settings.
 
@@ -145,7 +151,7 @@ Notice here that the _HELPED_ relationship is also shown because _Tom Hanks_ and
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 9.5: Add the _roles_ properties to relationships (Instructions)
+== Exercise 9.5: Add properties to relationships (Instructions)
 
 Next, you will add some properties to the relationships that you just created.
 
@@ -158,7 +164,7 @@ Next, you will add some properties to the relationships that you just created.
 You can also use a `CASE` clause to set the values.
 Look up in the documentation for how to use the `CASE` clause.
 
-== Exercise 9.5: Add the _roles_ properties to relationships (Solution)
+== Exercise 9.5: Add properties to relationships (Solution)
 
 *Add the _roles_ property to the three _ACTED_IN_ relationships that you just created to the movie, _Forrest Gump_ using this information:*
 *_Tom Hanks_ played the role, _Forrest Gump_.*
@@ -177,20 +183,22 @@ CASE p.name
 END
 ----
 
-[.thumb]
-image::{guides}/img/SetPropertiesUsingCase.png[SetPropertiesUsingCase,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetPropertiesUsingCase.png[SetPropertiesUsingCase,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 9.6: Add a _research_ property to the _HELPED_ relationship (Instructions)
+== Exercise 9.6: Add a property to the _HELPED_ relationship (Instructions)
 
 *Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _war history_.*
 
-== Exercise 9.6: Add a _research_ property to the _HELPED_ relationship (Solution)
+== Exercise 9.6: Add a property to the _HELPED_ relationship (Solution)
 
 *Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _war history_.*
 
@@ -201,10 +209,12 @@ WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
 SET rel.research = 'war history'
 ----
 
-[.thumb]
-image::{guides}/img/SetResearchProperty.png[SetResearchProperty,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetResearchProperty.png[SetResearchProperty,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -223,10 +233,12 @@ The result returned should be:
 call db.propertyKeys
 ----
 
-[.thumb]
-image::{guides}/img/PropertyKeys-research.png[PropertyKeys-research,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/PropertyKeys-research.png[PropertyKeys-research,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -245,20 +257,22 @@ The result returned should be:
 call db.schema
 ----
 
-[.thumb]
-image::{guides}/img/SchemaAfterAddingRelatiobnships.png[SchemaAfterAddingRelatiobnships,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SchemaAfterAddingRelatiobnships.png[SchemaAfterAddingRelatiobnships,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 9.9: Query the graph to return the names and roles of actors in the movie, _Forrest Gump_ (Instructions)
+== Exercise 9.9: Retrieve the names and roles for actors (Instructions)
 
 *Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.*
 
-== Exercise 9.9: Query the graph to return the names and roles of actors in the movie, _Forrest Gump_ (Solution)
+== Exercise 9.9: Retrieve the names and roles for actors (Solution)
 
 *Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.*
 
@@ -269,20 +283,22 @@ WHERE m.title = 'Forrest Gump'
 RETURN p.name, rel.roles
 ----
 
-[.thumb]
-image::{guides}/img/ForrestGumpRoles.png[ForrestGumpRoles,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ForrestGumpRoles.png[ForrestGumpRoles,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 9.10: Query the graph to retrieve information about any _HELPED_ relationships (Instructions)
+== Exercise 9.10: Retrieve information about any specific relationships (Instructions)
 
 *Query the graph to retrieve information about any _HELPED_ relationships.*
 
-== Exercise 9.10: Query the graph to retrieve information about any _HELPED_ relationships (Solution)
+== Exercise 9.10: Retrieve information about any specific relationships (Solution)
 
 *Query the graph to retrieve information about any _HELPED_ relationships.*
 
@@ -292,10 +308,12 @@ MATCH (p1:Person)-[rel:HELPED]-(p2:Person)
 RETURN p1.name, rel, p2.name
 ----
 
-[.thumb]
-image::{guides}/img/HELPEDProperties.png[HELPEDProperties,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/HELPEDProperties.png[HELPEDProperties,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -306,13 +324,13 @@ That is because we did not specify a direction for the relationship in the query
 So there is a relationship from _Tom Hanks_ and also to _Gary Sinise_, even though there is only one physical relationship in the graph.
 If you specify a direction for the relationship, only one result is returned.
 
-== Exercise 9.11: Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ (Instructions)
+== Exercise 9.11: Modify a property of a relationship (Instructions)
 
 Next, you will modify existing properties for a relationship and also remove them.
 
 *Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.*
 
-== Exercise 9.11: Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ (Solution)
+== Exercise 9.11: Modify a property of a relationship (Solution)
 
 *Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.*
 
@@ -323,20 +341,22 @@ WHERE m.title = 'Forrest Gump' AND p.name = 'Gary Sinise'
 SET rel.roles =['Lt. Dan Taylor']
 ----
 
-[.thumb]
-image::{guides}/img/UpdateGarySiniseRole.png[UpdateGarySiniseRole,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/UpdateGarySiniseRole.png[UpdateGarySiniseRole,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 9.12: Remove the _research_ property from the _HELPED_ relationship (Instructions)
+== Exercise 9.12: Remove a property from a relationship (Instructions)
 
 *Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.*
 
-== Exercise 9.12: Remove the _research_ property from the _HELPED_ relationship (Solution)
+== Exercise 9.12: Remove a property from a relationship (Solution)
 
 *Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.*
 
@@ -347,20 +367,22 @@ WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
 REMOVE rel.research
 ----
 
-[.thumb]
-image::{guides}/img/RemoveResearchProperty.png[RemoveResearchProperty,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemoveResearchProperty.png[RemoveResearchProperty,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Instructions)
+== Exercise 9.13: Confirm that your modifications were made to the graph (Instructions)
 
 *Query the graph to confirm that your modifications were made to the graph.*
 
-== Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Solution)
+== Exercise 9.13: Confirm that your modifications were made to the graph (Solution)
 
 *Query the graph to confirm that your modifications were made to the graph.*
 
@@ -371,10 +393,12 @@ WHERE m.title = 'Forrest Gump'
 return p, rel, m
 ----
 
-[.thumb]
-image::{guides}/img/GarySiniseRoleUpdate.png[GarySiniseRoleUpdate,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/GarySiniseRoleUpdate.png[GarySiniseRoleUpdate,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>

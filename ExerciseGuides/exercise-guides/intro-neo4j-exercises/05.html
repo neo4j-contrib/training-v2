@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -606,7 +606,7 @@ Finally, you will perform intermediate processing during the query using a <code
 <p><strong>Exercise 5.1</strong>: Retrieve data using multiple <code>MATCH</code> patterns.</p>
 </li>
 <li>
-<p><strong>Exercise 5.2</strong>: Retrieve all nodes that the person named <em>James Thompson</em> directly has the <em>FOLLOWS</em> relationship in either direction.</p>
+<p><strong>Exercise 5.2</strong>: Retrieve particular nodes that have a relationship.</p>
 </li>
 <li>
 <p><strong>Exercise 5.3</strong>: Modify the query to retrieve nodes that are exactly three hops away.</p>
@@ -615,28 +615,25 @@ Finally, you will perform intermediate processing during the query using a <code
 <p><strong>Exercise 5.4</strong>: Modify the query to retrieve nodes that are one and two hops away.</p>
 </li>
 <li>
-<p><strong>Exercise 5.5</strong>: Modify the query to retrieve all nodes that are connected to <em>James Thompson</em> by a <em>Follows</em> relationship no matter how many hops are required.</p>
+<p><strong>Exercise 5.5</strong>: Modify the query to retrieve particular nodes that are connected no matter how many hops are required.</p>
 </li>
 <li>
 <p><strong>Exercise 5.6</strong>: Specify optional data to be retrieved during the query.</p>
 </li>
 <li>
-<p><strong>Exercise 5.7</strong>: Retrieve actors and the movies they have acted in by collecting a list.</p>
+<p><strong>Exercise 5.7</strong>: Retrieve nodes by collecting a list.</p>
 </li>
 <li>
-<p><strong>Exercise 5.8</strong>: Retrieve all movies that <em>Tom Cruise</em> has acted in and the co-actors that acted in the same movie by collecting a list.</p>
+<p><strong>Exercise 5.9</strong>: Retrieve nodes as lists and return data associated with the corresponding lists.</p>
 </li>
 <li>
-<p><strong>Exercise 5.9</strong>: Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.</p>
-</li>
-<li>
-<p><strong>Exercise 5.10</strong>: Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.</p>
+<p><strong>Exercise 5.10</strong>: Retrieve nodes and their relationships as lists.</p>
 </li>
 <li>
 <p><strong>Exercise 5.11</strong>: Retrieve the actors who have acted in exactly five movies.</p>
 </li>
 <li>
-<p><strong>Exercise 5.12</strong>: Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.</p>
+<p><strong>Exercise 5.12</strong>: Retrieve the movies that have at least 2 directors with other optional data.</p>
 </li>
 </ul>
 </div>
@@ -679,13 +676,13 @@ WHERE a.name = 'Gene Hackman'
 RETURN m.title as movie, d.name AS director , a2.name AS `co-actors`<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/GeneHackmanMoviesWithDirectorAndCoActors.png" alt="GeneHackmanMoviesWithDirectorAndCoActors" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/GeneHackmanMoviesWithDirectorAndCoActors.png" alt="GeneHackmanMoviesWithDirectorAndCoActors" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -696,7 +693,7 @@ RETURN m.title as movie, d.name AS director , a2.name AS `co-actors`<!--/code-->
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.2: Retrieve all nodes that the person named <em>James Thompson</em> directly has the <em>FOLLOWS</em> relationship in either direction (Instructions)</h3>
+    <h3>Exercise 5.2: Retrieve particular nodes that have a relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -716,7 +713,7 @@ RETURN m.title as movie, d.name AS director , a2.name AS `co-actors`<!--/code-->
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.2: Retrieve all nodes that the person named <em>James Thompson</em> directly has the <em>FOLLOWS</em> relationship in either direction (Solution)</h3>
+    <h3>Exercise 5.2: Retrieve particular nodes that have a relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -729,13 +726,13 @@ WHERE p1.name = 'James Thompson'
 RETURN p1, p2<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/JamesThompsonFollows.png" alt="JamesThompsonFollows" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompsonFollows.png" alt="JamesThompsonFollows" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -773,13 +770,13 @@ WHERE p1.name = 'James Thompson'
 RETURN p1, p2<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/JamesThompson3Hops.png" alt="JamesThompson3Hops" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompson3Hops.png" alt="JamesThompson3Hops" width="400">
+</div>
 </div>
 <div class="paragraph">
 <p>Notice here that the relationships between the nodes are not displayed because <em>James Thompson</em> is not connected to <em>Paul Blythe</em>.</p>
@@ -820,13 +817,13 @@ WHERE p1.name = 'James Thompson'
 RETURN p1, p2<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/JamesThompson1And2Hops.png" alt="JamesThompson1And2Hops" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompson1And2Hops.png" alt="JamesThompson1And2Hops" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -837,7 +834,7 @@ RETURN p1, p2<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.5: Modify the query to retrieve all nodes that are connected to <em>James Thompson</em> by a <em>Follows</em> relationship no matter how many hops are required (Instructions)</h3>
+    <h3>Exercise 5.5: Modify the query to retrieve particular nodes that are connected no matter how many hops are required (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -851,7 +848,7 @@ RETURN p1, p2<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.5: Modify the query to retrieve all nodes that are connected to <em>James Thompson</em> by a <em>Follows</em> relationship no matter how many hops are required (Solution)</h3>
+    <h3>Exercise 5.5: Modify the query to retrieve particular nodes that are connected no matter how many hops are required (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -864,13 +861,13 @@ WHERE p1.name = 'James Thompson'
 RETURN p1, p2<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/JamesThompsonAllHops.png" alt="JamesThompsonAllHops" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompsonAllHops.png" alt="JamesThompsonAllHops" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -909,13 +906,13 @@ OPTIONAL MATCH (p)-[:DIRECTED]-&gt;(m:Movie)
 RETURN p.name, m.title<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/OptionalMatch.png" alt="OptionalMatch" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/OptionalMatch.png" alt="OptionalMatch" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -926,7 +923,7 @@ RETURN p.name, m.title<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.7: Retrieve actors and the movies they have acted in by collecting a list (Instructions)</h3>
+    <h3>Exercise 5.7: Retrieve nodes by collecting a list (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -943,7 +940,7 @@ RETURN p.name, m.title<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.7: Retrieve actors and the movies they have acted in by collecting a list (Solution)</h3>
+    <h3>Exercise 5.7: Retrieve nodes by collecting a list (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -955,13 +952,13 @@ RETURN p.name, m.title<!--/code--></pre>
 RETURN p.name as actor, collect(m.title) AS `movie list`<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/ActorMovies.png" alt="ActorMovies" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ActorMovies.png" alt="ActorMovies" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -999,13 +996,13 @@ WHERE p.name ='Tom Cruise'
 RETURN m.title as movie, collect(p2.name) AS `co-actors`<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/TomCruiseCoActors.png" alt="TomCruiseCoActors" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomCruiseCoActors.png" alt="TomCruiseCoActors" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1016,7 +1013,7 @@ RETURN m.title as movie, collect(p2.name) AS `co-actors`<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.9: Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie (Instructions)</h3>
+    <h3>Exercise 5.9: Retrieve nodes as lists and return data associated with the corresponding lists (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1033,7 +1030,7 @@ RETURN m.title as movie, collect(p2.name) AS `co-actors`<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.9: Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie (Solution)</h3>
+    <h3>Exercise 5.9: Retrieve nodes as lists and return data associated with the corresponding lists (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1045,13 +1042,13 @@ RETURN m.title as movie, collect(p2.name) AS `co-actors`<!--/code--></pre>
 RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CountReviews.png" alt="CountReviews" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CountReviews.png" alt="CountReviews" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1062,7 +1059,7 @@ RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers<!-
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.10: Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors (Instructions)</h3>
+    <h3>Exercise 5.10: Retrieve nodes and their relationships as list (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1076,7 +1073,7 @@ RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers<!-
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.10: Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors (Solution)</h3>
+    <h3>Exercise 5.10: Retrieve nodes and their relationships as list (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1088,13 +1085,13 @@ RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers<!-
 RETURN d.name AS director, count(a) AS `number actors` , collect(a.name) AS `actors worked with`<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CountActorsWhoWorkedWithDirectors.png" alt="CountActorsWhoWorkedWithDirectors" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CountActorsWhoWorkedWithDirectors.png" alt="CountActorsWhoWorkedWithDirectors" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1136,13 +1133,13 @@ WHERE numMovies = 5
 RETURN a.name, movies<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/FiveMovies.png" alt="FiveMovies" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/FiveMovies.png" alt="FiveMovies" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1153,7 +1150,7 @@ RETURN a.name, movies<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.12: Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies (Instructions)</h3>
+    <h3>Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1167,7 +1164,7 @@ RETURN a.name, movies<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.12: Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies (Solution)</h3>
+    <h3>Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1182,13 +1179,13 @@ OPTIONAL MATCH (p:Person)-[:REVIEWED]-&gt;(m)
 RETURN  m.title, p.name<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/TopDirectorsAndReviewers.png" alt="TopDirectorsAndReviewers" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TopDirectorsAndReviewers.png" alt="TopDirectorsAndReviewers" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1212,7 +1209,7 @@ Next, you counted retrievals during the query.
 Finally, you performed intermediate processing during the query using a <code>WITH</code> clause.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/06.html'>Continue to Exercise 6</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/06.html'>Continue to Exercise 6</a></p>
 </div>
 	</div>
   </div>

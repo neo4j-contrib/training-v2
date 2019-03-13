@@ -24,32 +24,32 @@ Then you will write Cypher statements to add and remove labels for nodes.
 Next, you will use Cypher to add properties to nodes.
 Finally, you will write Cypher statements to remove properties from nodes.
 
-* *Exercise 8.1*: Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.
-* *Exercise 8.2*: Retrieve the node you just created by its _title_.
-* *Exercise 8.3*: Create a _Person_ node for the person with the _name_, _Robin Wright_.
-* *Exercise 8.4*: Retrieve the _Person_ node you just created by its _name_.
-* *Exercise 8.5*: Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.
-* *Exercise 8.6*: Retrieve all older movie nodes to test that the label was indeed added to these nodes.
-* *Exercise 8.7*: Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.
+* *Exercise 8.1*: Create a _Movie_ node.
+* *Exercise 8.2*: Retrieve the newly-created node.
+* *Exercise 8.3*: Create a _Person_ node.
+* *Exercise 8.4*: Retrieve the newly-created node.
+* *Exercise 8.5*: Add a label to a node.
+* *Exercise 8.6*: Retrieve the node using the new label.
+* *Exercise 8.7*: Add the _Female_ label to selected nodes.
 * *Exercise 8.8*: Retrieve all _Female_ nodes.
 * *Exercise 8.9*: Remove the _Female_ label from the nodes that have this label.
 * *Exercise 8.10*: View the current schema of the graph.
-* *Exercise 8.11*: Add properties to the movie, _Forrest Gump_.
-* *Exercise 8.12*: Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.
-* *Exercise 8.13*: Add the properties to the person, _Robin Wright_.
+* *Exercise 8.11*: Add properties to a movie.
+* *Exercise 8.12*: Retrieve an _OlderMovie_ node to confirm the label and properties.
+* *Exercise 8.13*: Add properties to the person, _Robin Wright_.
 * *Exercise 8.14*: Retrieve an updated _Person_ node.
-* *Exercise 8.15*: Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.
-* *Exercise 8.16*: Retrieve the _Forrest Gump_ node to confirm that the property has been removed.
-* *Exercise 8.17*: Remove the _birthPlace_ property from the person, _Robin Wright_.
-* *Exercise 8.18*: Retrieve the _Robin Wright_ node to confirm that the property has been removed.
+* *Exercise 8.15*: Remove a property from a _Movie_ node.
+* *Exercise 8.16*: Retrieve the node to confirm that the property has been removed.
+* *Exercise 8.17*: Remove a property from a _Person_ node.
+* *Exercise 8.18*: Retrieve the node to confirm that the property has been removed.
 
 Go to the next page to start this exercise.
 
-== Exercise 8.1: Create a _Movie_ node for the movie with the _title_, _Forrest Gump_ (Instructions)
+== Exercise 8.1: Create a _Movie_ node (Instructions)
 
 *Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.*
 
-== Exercise 8.1: Create a _Movie_ node for the movie with the _title_, _Forrest Gump_ (Solution)
+== Exercise 8.1: Create a _Movie_ node (Solution)
 
 *Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.*
 
@@ -58,21 +58,23 @@ Go to the next page to start this exercise.
 CREATE (:Movie {title: 'Forrest Gump'})
 ----
 
-[.thumb]
-image::{guides}/img/CreateForrestGump.png[CreateForrestGump,width=300,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateForrestGump.png[CreateForrestGump,width=300]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 8.2: Retrieve the node you just created by its _title_ (Instructions)
+== Exercise 8.2: Retrieve the newly-created node (Instructions)
 
 *Retrieve the node you just created by its _title_.*
 
 
-== Exercise 8.2: Retrieve the node you just created by its _title_ (Solution)
+== Exercise 8.2: Retrieve the newly-created node (Solution)
 
 *Retrieve the node you just created by its _title_.*
 
@@ -83,10 +85,12 @@ WHERE m.title = 'Forrest Gump'
 RETURN m
 ----
 
-[.thumb]
-image::{guides}/img/RetrieveForrestGump.png[RetrieveForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveForrestGump.png[RetrieveForrestGump,width=400]
+
+
 
 *Note:* The value for the _id_ property for the newly created node may be different for your graph.
 It this screen shot, it is _741_.
@@ -95,12 +99,12 @@ It this screen shot, it is _741_.
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 8.3: Create a _Person_ node for the person with the _name_, _Robin Wright_ (Instructions)
+== Exercise 8.3: Create a _Person_ node (Instructions)
 
 *Create a _Person_ node for the person with the _name_, _Robin Wright_.*
 
 
-== Exercise 8.3: Create a _Person_ node for the person with the _name_, _Robin Wright_ (Solution)
+== Exercise 8.3: Create a _Person_ node (Solution)
 
 *Create a _Person_ node for the person with the _name_, _Robin Wright_.*
 
@@ -109,10 +113,12 @@ It this screen shot, it is _741_.
 CREATE (:Person {name: 'Robin Wright'})
 ----
 
-[.thumb]
-image::{guides}/img/CreateRobinWright.png[CreateRobinWright,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateRobinWright.png[CreateRobinWright,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -133,20 +139,22 @@ WHERE p.name = 'Robin Wright'
 RETURN p
 ----
 
-[.thumb]
-image::{guides}/img/RetrieveRobinWright.png[RetrieveRobinWright,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveRobinWright.png[RetrieveRobinWright,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 8.5: Add the label _OlderMovie_ to any _Movie_ node that was released before 2010 (Instructions)
+== Exercise 8.5: Add a label to a node (Instructions)
 
 *Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.*
 
-== Exercise 8.5: Add the label _OlderMovie_ to any _Movie_ node that was released before 2010 (Solution)
+== Exercise 8.5: Add a label to a node (Solution)
 
 *Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.*
 
@@ -158,20 +166,22 @@ SET m:OlderMovie
 RETURN DISTINCT labels(m)
 ----
 
-[.thumb]
-image::{guides}/img/AddOlderMovieLabel.png[AddOlderMovieLabel,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddOlderMovieLabel.png[AddOlderMovieLabel,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 8.6: Retrieve all older movie nodes to test that the label was indeed added to these nodes (Instructions)
+== Exercise 8.6: Retrieve the node using the new label (Instructions)
 
 *Retrieve all older movie nodes to test that the label was indeed added to these nodes.*
 
-== Exercise 8.6: Retrieve all older movie nodes to test that the label was indeed added to these nodes (Solution)
+== Exercise 8.6: Retrieve the node using the new label (Solution)
 
 *Retrieve all older movie nodes to test that the label was indeed added to these nodes.*
 
@@ -181,21 +191,23 @@ MATCH (m:OlderMovie)
 RETURN m.title, m.released
 ----
 
-[.thumb]
-image::{guides}/img/RetrieveOlderMovies.png[RetrieveOlderMovies,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveOlderMovies.png[RetrieveOlderMovies,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
 
-== Exercise 8.7: Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_ (Instructions)
+== Exercise 8.7: Add the _Female_ label to selected nodes (Instructions)
 
 *Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.*
 
-== Exercise 8.7: Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_ (Solution)
+== Exercise 8.7: Add the _Female_ label to selected nodes (Solution)
 
 *Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.*
 
@@ -206,10 +218,12 @@ WHERE p.name STARTS WITH 'Robin'
 SET p:Female
 ----
 
-[.thumb]
-image::{guides}/img/AddFemaleLabel.png[AddFemaleLabel,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddFemaleLabel.png[AddFemaleLabel,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -231,10 +245,12 @@ MATCH (p:Female)
 RETURN p.name
 ----
 
-[.thumb]
-image::{guides}/img/RetrieveFemales.png[RetrieveFemales,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveFemales.png[RetrieveFemales,width=400]
+
+
 
 Here we see that there are two _Person_ nodes.
 The _Robin Williams_ node should not have the label _Female_.
@@ -257,10 +273,12 @@ MATCH (p:Female)
 REMOVE p:Female
 ----
 
-[.thumb]
-image::{guides}/img/RemoveFemales.png[RemoveFemales,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemoveFemales.png[RemoveFemales,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -280,25 +298,28 @@ The result returned should be:
 CALL db.schema
 ----
 
-[.thumb]
-image::{guides}/img/SchemaAfterLabelAddition.png[SchemaAfterLabelAddition,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SchemaAfterLabelAddition.png[SchemaAfterLabelAddition,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 8.11: Add properties to the movie, _Forrest Gump_ (Instructions)
+== Exercise 8.11: Add properties to a movie (Instructions)
 
 *Add the following properties to the movie, _Forrest Gump_:*
+
 * *released:  1994*
 * *tagline: Life is like a box of chocolates...you never know what you're gonna get.*
 * *lengthInMinutes: 142*
 
 *Hint:* This movie should also have the label _OlderMovie_.
 
-== Exercise 8.11: Add properties to the movie, _Forrest Gump_ (Solution)
+== Exercise 8.11: Add properties to a movie (Solution)
 
 *Add the following properties to the movie, _Forrest Gump_:*
 
@@ -316,20 +337,22 @@ SET m:OlderMovie,
     m.lengthInMinutes = 142
 ----
 
-[.thumb]
-image::{guides}/img/AddingPropertiesForrestGump.png[AddingPropertiesForrestGump,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddingPropertiesForrestGump.png[AddingPropertiesForrestGump,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 8.12: Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set (Instructions)
+== Exercise 8.12: Retrieve an _OlderMovie_ node to confirm the label and properties (Instructions)
 
 *Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.*
 
-== Exercise 8.12: Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set (Solution)
+== Exercise 8.12: Retrieve an _OlderMovie_ node to confirm the label and properties (Solution)
 
 *Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.*
 
@@ -340,23 +363,25 @@ WHERE m.title = 'Forrest Gump'
 RETURN m
 ----
 
-[.thumb]
-image::{guides}/img/RetrieveForrestGump2.png[RetrieveForrestGump2,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveForrestGump2.png[RetrieveForrestGump2,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
-== Exercise 8.13: Add the properties to the person, _Robin Wright_ (Instructions)
+== Exercise 8.13: Add properties to the person, _Robin Wright_ (Instructions)
 
 *Add the following properties to the person, _Robin Wright_:*
 
 * *born: 1966*
 * *birthPlace: Dallas*
 
-== Exercise 8.13: Add the properties to the person, _Robin Wright_ (Solution)
+== Exercise 8.13: Add properties to the person, _Robin Wright_ (Solution)
 
 *Add the following properties to the person, _Robin Wright_:*
 
@@ -370,10 +395,12 @@ WHERE p.name = 'Robin Wright'
 SET p.born = 1966, p.birthPlace = 'Dallas'
 ----
 
-[.thumb]
-image::{guides}/img/SetRobinWrightProperties.png[SetRobinWrightProperties,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetRobinWrightProperties.png[SetRobinWrightProperties,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -394,24 +421,26 @@ WHERE p.name = 'Robin Wright'
 RETURN p
 ----
 
-[.thumb]
-image::{guides}/img/RetrieveRobinWrightWithProperties.png[RetrieveRobinWrightWithProperties,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveRobinWrightWithProperties.png[RetrieveRobinWrightWithProperties,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
 
-== Exercise 8.15: Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_ (Instructions)
+== Exercise 8.15: Remove a property from a _Movie_ node (Instructions)
 
 Next, you will remove properties from specific nodes in the graph.
 
 *Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.*
 
 
-== Exercise 8.15: Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_ (Solution)
+== Exercise 8.15: Remove a property from a _Movie_ node (Solution)
 
 *Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.*
 
@@ -422,21 +451,23 @@ WHERE m.title = 'Forrest Gump'
 SET m.lengthInMinutes = null
 ----
 
-[.thumb]
-image::{guides}/img/RemoveLengthInMinutes.png[RemoveLengthInMinutes,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemoveLengthInMinutes.png[RemoveLengthInMinutes,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
 
-== Exercise 8.16: Retrieve the _Forrest Gump_ node to confirm that the property has been removed (Instructions)
+== Exercise 8.16: Retrieve the node to confirm that the property has been removed (Instructions)
 
 *Retrieve the _Forrest Gump_ node to confirm that the property has been removed.*
 
-== Exercise 8.16: Retrieve the _Forrest Gump_ node to confirm that the property has been removed (Solution)
+== Exercise 8.16: Retrieve the node to confirm that the property has been removed (Solution)
 
 *Retrieve the _Forrest Gump_ node to confirm that the property has been removed.*
 
@@ -447,21 +478,23 @@ WHERE m.title = 'Forrest Gump'
 RETURN m
 ----
 
-[.thumb]
-image::{guides}/img/DeletedLengthInMinutesQuery.png[DeletedLengthInMinutesQuery,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeletedLengthInMinutesQuery.png[DeletedLengthInMinutesQuery,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
 
-== Exercise 8.17: Remove the _birthPlace_ property from the person, _Robin Wright_ (Instructions)
+== Exercise 8.17: Remove a property from a _Person_ node (Instructions)
 
 *Remove the _birthPlace_ property from the person, _Robin Wright_.*
 
-== Exercise 8.17: Remove the _birthPlace_ property from the person, _Robin Wright_ (Solution)
+== Exercise 8.17: Remove a property from a _Person_ node_ (Solution)
 
 *Remove the _birthPlace_ property from the person, _Robin Wright_.*
 
@@ -472,21 +505,23 @@ WHERE p.name = 'Robin Wright'
 REMOVE p.birthPlace
 ----
 
-[.thumb]
-image::{guides}/img/RemovedBirthPlace.png[RemovedBirthPlace,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemovedBirthPlace.png[RemovedBirthPlace,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
 ++++
 
 
-== Exercise 8.18: Retrieve the _Robin Wright_ node to confirm that the property has been removed (Instructions)
+== Exercise 8.18: Retrieve the node to confirm that the property has been removed (Instructions)
 
 *Retrieve the _Robin Wright_ node to confirm that the property has been removed.*
 
-== Exercise 8.18: Retrieve the _Robin Wright_ node to confirm that the property has been removed (Solution)
+== Exercise 8.18: Retrieve the node to confirm that the property has been removed (Solution)
 
 *Retrieve the _Robin Wright_ node to confirm that the property has been removed.*
 
@@ -497,10 +532,12 @@ WHERE p.name = 'Robin Wright'
 RETURN p
 ----
 
-[.thumb]
-image::{guides}/img/UpdatedRobinWright.png[UpdatedRobinWright,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/UpdatedRobinWright.png[UpdatedRobinWright,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>

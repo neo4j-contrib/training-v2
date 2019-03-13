@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AfterExercise8.png" alt="After exercise 8" width="200" height="200">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise8.png" alt="After exercise 8" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -617,10 +617,10 @@ Finally, you will remove properties from relationships.</p>
 <p><strong>Exercise 9.4</strong>: Query nodes and new relationships.</p>
 </li>
 <li>
-<p><strong>Exercise 9.5</strong>: Add the <em>roles</em> properties to relationships.</p>
+<p><strong>Exercise 9.5</strong>: Add properties to relationships.</p>
 </li>
 <li>
-<p><strong>Exercise 9.6</strong>: Add a <em>research</em> property to the <em>HELPED</em> relationship.</p>
+<p><strong>Exercise 9.6</strong>: Add a property to the <em>HELPED</em> relationship.</p>
 </li>
 <li>
 <p><strong>Exercise 9.7</strong>: View the current list of property keys in the graph.</p>
@@ -629,19 +629,19 @@ Finally, you will remove properties from relationships.</p>
 <p><strong>Exercise 9.8</strong>: View the current schema of the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 9.9</strong>: Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em>.</p>
+<p><strong>Exercise 9.9</strong>: Retrieve the names and roles for actors.</p>
 </li>
 <li>
-<p><strong>Exercise 9.10</strong>: Query the graph to retrieve information about any <em>HELPED</em> relationships.</p>
+<p><strong>Exercise 9.10</strong>: Retrieve information about any specific relationships.</p>
 </li>
 <li>
-<p><strong>Exercise 9.11</strong>: Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em>.</p>
+<p><strong>Exercise 9.11</strong>: Modify a property of a relationship.</p>
 </li>
 <li>
-<p><strong>Exercise 9.12</strong>: Remove the <em>research</em> property from the <em>HELPED</em> relationship.</p>
+<p><strong>Exercise 9.12</strong>: Remove a property from a relationship.</p>
 </li>
 <li>
-<p><strong>Exercise 9.13</strong>: Query the graph to confirm that your modifications were made to the graph.</p>
+<p><strong>Exercise 9.13</strong>: Confirm that your modifications were made to the graph.</p>
 </li>
 </ul>
 </div>
@@ -688,13 +688,13 @@ WHERE p.name = 'Tom Hanks' OR p.name = 'Robin Wright' OR p.name = 'Gary Sinise'
 CREATE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateThreeRelationships.png" alt="CreateThreeRelationships" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateThreeRelationships.png" alt="CreateThreeRelationships" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -734,13 +734,13 @@ WHERE p.name = 'Robert Zemeckis'
 CREATE (p)-[:DIRECTED]-&gt;(m)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/AddDirectedRelationship.png" alt="AddDirectedRelationship" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AddDirectedRelationship.png" alt="AddDirectedRelationship" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -780,13 +780,13 @@ WHERE p2.name = 'Gary Sinise'
 CREATE (p1)-[:HELPED]-&gt;(p2)<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/CreateHELPEDRelationship.png" alt="CreateHELPEDRelationship" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateHELPEDRelationship.png" alt="CreateHELPEDRelationship" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -824,13 +824,13 @@ WHERE m.title = 'Forrest Gump'
 RETURN p, rel, m<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/ForrestGumpRelationships.png" alt="ForrestGumpRelationships" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ForrestGumpRelationships.png" alt="ForrestGumpRelationships" width="400">
+</div>
 </div>
 <div class="paragraph">
 <p>Notice here that the <em>HELPED</em> relationship is also shown because <em>Tom Hanks</em> and <em>Gary Sinise</em> are connected and we have <em>Connect result nodes</em> selected in our Neo4j Browser settings.</p>
@@ -844,7 +844,7 @@ RETURN p, rel, m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.5: Add the <em>roles</em> properties to relationships (Instructions)</h3>
+    <h3>Exercise 9.5: Add properties to relationships (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -869,7 +869,7 @@ Look up in the documentation for how to use the <code>CASE</code> clause.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.5: Add the <em>roles</em> properties to relationships (Solution)</h3>
+    <h3>Exercise 9.5: Add properties to relationships (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -890,13 +890,13 @@ CASE p.name
 END<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/SetPropertiesUsingCase.png" alt="SetPropertiesUsingCase" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetPropertiesUsingCase.png" alt="SetPropertiesUsingCase" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -907,7 +907,7 @@ END<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.6: Add a <em>research</em> property to the <em>HELPED</em> relationship (Instructions)</h3>
+    <h3>Exercise 9.6: Add a property to the <em>HELPED</em> relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -921,7 +921,7 @@ END<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.6: Add a <em>research</em> property to the <em>HELPED</em> relationship (Solution)</h3>
+    <h3>Exercise 9.6: Add a property to the <em>HELPED</em> relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -934,13 +934,13 @@ WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
 SET rel.research = 'war history'<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/SetResearchProperty.png" alt="SetResearchProperty" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetResearchProperty.png" alt="SetResearchProperty" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -976,13 +976,13 @@ SET rel.research = 'war history'<!--/code--></pre>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->call db.propertyKeys<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/PropertyKeys-research.png" alt="PropertyKeys-research" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PropertyKeys-research.png" alt="PropertyKeys-research" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1018,13 +1018,13 @@ SET rel.research = 'war history'<!--/code--></pre>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->call db.schema<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/SchemaAfterAddingRelatiobnships.png" alt="SchemaAfterAddingRelatiobnships" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SchemaAfterAddingRelatiobnships.png" alt="SchemaAfterAddingRelatiobnships" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1035,7 +1035,7 @@ SET rel.research = 'war history'<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.9: Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em> (Instructions)</h3>
+    <h3>Exercise 9.9: Retrieve the names and roles for actors (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1049,7 +1049,7 @@ SET rel.research = 'war history'<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.9: Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em> (Solution)</h3>
+    <h3>Exercise 9.9: Retrieve the names and roles for actors (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1062,13 +1062,13 @@ WHERE m.title = 'Forrest Gump'
 RETURN p.name, rel.roles<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/ForrestGumpRoles.png" alt="ForrestGumpRoles" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ForrestGumpRoles.png" alt="ForrestGumpRoles" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1079,7 +1079,7 @@ RETURN p.name, rel.roles<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.10: Query the graph to retrieve information about any <em>HELPED</em> relationships (Instructions)</h3>
+    <h3>Exercise 9.10: Retrieve information about any specific relationships (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1093,7 +1093,7 @@ RETURN p.name, rel.roles<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.10: Query the graph to retrieve information about any <em>HELPED</em> relationships (Solution)</h3>
+    <h3>Exercise 9.10: Retrieve information about any specific relationships (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1105,13 +1105,13 @@ RETURN p.name, rel.roles<!--/code--></pre>
 RETURN p1.name, rel, p2.name<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/HELPEDProperties.png" alt="HELPEDProperties" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/HELPEDProperties.png" alt="HELPEDProperties" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 <div class="paragraph">
@@ -1128,7 +1128,7 @@ If you specify a direction for the relationship, only one result is returned.</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.11: Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> (Instructions)</h3>
+    <h3>Exercise 9.11: Modify a property of a relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1145,7 +1145,7 @@ If you specify a direction for the relationship, only one result is returned.</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.11: Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> (Solution)</h3>
+    <h3>Exercise 9.11: Modify a property of a relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1158,13 +1158,13 @@ WHERE m.title = 'Forrest Gump' AND p.name = 'Gary Sinise'
 SET rel.roles =['Lt. Dan Taylor']<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/UpdateGarySiniseRole.png" alt="UpdateGarySiniseRole" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UpdateGarySiniseRole.png" alt="UpdateGarySiniseRole" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1175,7 +1175,7 @@ SET rel.roles =['Lt. Dan Taylor']<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.12: Remove the <em>research</em> property from the <em>HELPED</em> relationship (Instructions)</h3>
+    <h3>Exercise 9.12: Remove a property from a relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1189,7 +1189,7 @@ SET rel.roles =['Lt. Dan Taylor']<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.12: Remove the <em>research</em> property from the <em>HELPED</em> relationship (Solution)</h3>
+    <h3>Exercise 9.12: Remove a property from a relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1202,13 +1202,13 @@ WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
 REMOVE rel.research<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/RemoveResearchProperty.png" alt="RemoveResearchProperty" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/RemoveResearchProperty.png" alt="RemoveResearchProperty" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1219,7 +1219,7 @@ REMOVE rel.research<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Instructions)</h3>
+    <h3>Exercise 9.13: Confirm that your modifications were made to the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1233,7 +1233,7 @@ REMOVE rel.research<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Solution)</h3>
+    <h3>Exercise 9.13: Confirm that your modifications were made to the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -1246,13 +1246,13 @@ WHERE m.title = 'Forrest Gump'
 return p, rel, m<!--/code--></pre>
 </div>
 </div>
-<div class="imageblock thumb" style="float: right;">
-<div class="content">
-<img src="https://localhost:8001/intro-neo4j-exercises/img/GarySiniseRoleUpdate.png" alt="GarySiniseRoleUpdate" width="400">
-</div>
-</div>
 <div class="paragraph">
 <p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/GarySiniseRoleUpdate.png" alt="GarySiniseRoleUpdate" width="400">
+</div>
 </div>
 <div style="clear: both;"></div>
 	</div>
@@ -1290,7 +1290,7 @@ Then you added properties to relationships.
 Finally, you removed properties from relationships.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://localhost:8001/intro-neo4j-exercises/10.html'>Continue to Exercise 10</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/10.html'>Continue to Exercise 10</a></p>
 </div>
 	</div>
   </div>

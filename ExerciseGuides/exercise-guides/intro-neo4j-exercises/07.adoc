@@ -53,10 +53,12 @@ RETURN DISTINCT m.title, cast, producers
 ORDER BY size(cast)
 ----
 
-[.thumb]
-image::{guides}/img/UsingLists.png[UsingLists,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/UsingLists.png[UsingLists,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -81,10 +83,11 @@ WHERE size(movies)  > 5
 RETURN p.name, movies
 ----
 
-[.thumb]
-image::{guides}/img/ActorsWithMoreThan5Movies1.png[ActorsWithMoreThan5Movies1,width=400,float="right"]
-
 The result returned should be:
+[.thumb]
+image::{guides}/img/ActorsWithMoreThan5Movies1.png[ActorsWithMoreThan5Movies1,width=400]
+
+
 
 In this view, we are examining the table view where we can see the actor name and the list of movies for each actor.
 The actors should be _Tom Hanks_ and _Keanu Reeves_.
@@ -112,10 +115,12 @@ WITH p, movies UNWIND movies AS movie
 RETURN p.name, movie.title
 ----
 
-[.thumb]
-image::{guides}/img/ActorsWithMoreThan5Movies2.png[ActorsWithMoreThan5Movies2,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/ActorsWithMoreThan5Movies2.png[ActorsWithMoreThan5Movies2,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
@@ -137,10 +142,12 @@ RETURN  m.title, m.released, date().year  - m.released as yearsAgoReleased, m.re
 ORDER BY yearsAgoReleased
 ----
 
-[.thumb]
-image::{guides}/img/AgeCalculations.png[AgeCalculations,width=400,float="right"]
-
 The result returned should be:
+
+[.thumb]
+image::{guides}/img/AgeCalculations.png[AgeCalculations,width=400]
+
+
 
 ++++
 <div style="clear: both;"></div>
