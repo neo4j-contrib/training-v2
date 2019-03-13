@@ -609,21 +609,39 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
       <div class="paragraph">
 <p>In this exercise you write Cypher statements to import data into your graph.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you import actor data from a CSV file.</p>
+<p><strong>Exercise 16.1</strong>: Write the Cypher statement to read the actor data from a file.</p>
 </li>
 <li>
-<p>In Part 2, you import movie data from a CSV file.</p>
+<p><strong>Exercise 16.2</strong>: Read the data and return it, ensuring that the data returned is properly formatted.</p>
 </li>
 <li>
-<p>In Part 3, you import data to relate actors to movies from a CSV file.</p>
+<p><strong>Exercise 16.3</strong>: Load the data into your graph.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 16.4</strong>: Write the Cypher statement to read the movie data from a file.</p>
+</li>
+<li>
+<p><strong>Exercise 16.5</strong>: Read the data and return it, ensuring that the data returned is properly formatted.</p>
+</li>
+<li>
+<p><strong>Exercise 16.6</strong>: Load the data into your graph.</p>
+</li>
+<li>
+<p><strong>Exercise 16.7</strong>: Write the Cypher statement to read the relationship data from a file.</p>
+</li>
+<li>
+<p><strong>Exercise 16.8</strong>: Read the data and return it, ensuring that the data returned is properly formatted.</p>
+</li>
+<li>
+<p><strong>Exercise 16.9</strong>: Load the data into your graph.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the three parts of this exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -633,26 +651,14 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 16, Part 1</h3>
+    <h3>Exercise 16.1: Write the Cypher statement to read the actor data from a file (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing actor data</strong></div>
 <p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/actors.csv" class="bare">http://data.neo4j.com/intro-neo4j/actors.csv</a> that you must load into your graph.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Write the Cypher statement to return the data from the file.</p>
-</li>
-<li>
-<p>Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</p>
-</li>
-<li>
-<p>Write the Cypher statement to load the data into your graph.
-<strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these actors.</p>
-</li>
-</ol>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the actor data from a file.</strong></p>
 </div>
 	</div>
   </div>
@@ -662,15 +668,14 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 16, Part 1</h3>
+    <h3>Exercise 16.1: Write the Cypher statement to read the actor data from a file (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing actor data</strong></div>
 <p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/actors.csv" class="bare">http://data.neo4j.com/intro-neo4j/actors.csv</a> that you must load into your graph.</p>
 </div>
 <div class="paragraph">
-<p><strong>1. Write the Cypher statement to return the data from the file.</strong></p>
+<p><strong>Write the Cypher statement to read the actor data from a file.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -688,8 +693,33 @@ RETURN line.id, line.name, line.birthYear<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadActorsToView.png" alt="LoadActorsToView" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.2: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.2: Read the data and return it, ensuring that the data returned is properly formatted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -707,8 +737,36 @@ RETURN line.id, line.name, toInteger(trim(line.birthYear))<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadAndFormatActorData.png" alt="LoadAndFormatActorData" width="600">
 </div>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.3: Load the data into your graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph.</strong></p>
+</div>
 <div class="paragraph">
-<p><strong>3. Write the Cypher statement to load the data into your graph.</strong></p>
+<p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these actors.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.3: Load the data into your graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph.</strong></p>
 </div>
 <div class="paragraph">
 <p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these actors.</p>
@@ -731,8 +789,22 @@ MERGE (actor:Person {name: line.name})
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadedActors.png" alt="LoadedActors" width="600">
 </div>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.4: Write the Cypher statement to read the movie data from a file (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/movies.csv" class="bare">http://data.neo4j.com/intro-neo4j/movies.csv</a> that you must load into your graph.</p>
+</div>
 <div class="paragraph">
-<p>Next, Part 2</p>
+<p><strong>Write the Cypher statement to read the movie data from a file.</strong></p>
 </div>
 	</div>
   </div>
@@ -742,44 +814,16 @@ MERGE (actor:Person {name: line.name})
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 16, Part 2</h3>
+    <h3>Exercise 16.4: Write the Cypher statement to read the movie data from a file (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing movie data</strong></div>
 <p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/movies.csv" class="bare">http://data.neo4j.com/intro-neo4j/movies.csv</a> that you must load into your graph.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Write the Cypher statement to return the data from the file.</p>
-</li>
-<li>
-<p>Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</p>
-</li>
-<li>
-<p>Write the Cypher statement to load the data into your graph.
-<strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these movies.</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 16, Part 2</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Importing movie data</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/movies.csv" class="bare">http://data.neo4j.com/intro-neo4j/movies.csv</a> that you must load into your graph.</p>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the movie data from a file.</strong></p>
 </div>
 <div class="listingblock">
-<div class="title"><strong>1. Write the Cypher statement to return the data from the file.</strong></div>
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
 FROM 'http://data.neo4j.com/intro-neo4j/movies.csv'
@@ -795,8 +839,33 @@ RETURN line.id, line.title, line.year, line.tagLine<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadMoviesToView.png" alt="LoadMoviesToView" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.5: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.5: Read the data and return it, ensuring that the data returned is properly formatted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -814,8 +883,36 @@ RETURN line.id, line.title, toInteger(line.year), trim(line.tagLine)<!--/code-->
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadAndFormatMovies.png" alt="LoadAndFormatMovies" width="600">
 </div>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.6: Load the data into your graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph.</strong></p>
+</div>
 <div class="paragraph">
-<p><strong>3. Write the Cypher statement to load the data into your graph.</strong></p>
+<p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these movies.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.6: Load the data into your graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph.</strong></p>
 </div>
 <div class="paragraph">
 <p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains some of these movies.</p>
@@ -841,8 +938,22 @@ ON CREATE
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadedMovies.png" alt="LoadedMovies" width="600">
 </div>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.7: Write the Cypher statement to read the relationship data from a file (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/roles.csv" class="bare">http://data.neo4j.com/intro-neo4j/roles.csv</a> that you must load into your graph.</p>
+</div>
 <div class="paragraph">
-<p>Next, Part 3</p>
+<p><strong>Write the Cypher statement to read the relationship data from a file.</strong></p>
 </div>
 	</div>
   </div>
@@ -852,46 +963,14 @@ ON CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 16, Part 3</h3>
+    <h3>Exercise 16.7: Write the Cypher statement to read the relationship data from a file (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Importing data to relate actors to movies</strong></div>
-<p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/roles.csv" class="bare">http://data.neo4j.com/intro-neo4j/roles.csv</a> that you must load into your graph.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Write the Cypher statement to return the data from the file.</p>
-</li>
-<li>
-<p>Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</p>
-</li>
-<li>
-<p>Write the Cypher statement to load the data into your graph.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p><strong>Hint:</strong> Use <code>MERGE</code> because the graph already contains one of these relationships.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 16, Part 3</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Importing data to relate actors to movies</strong></div>
 <p>You are given the name of a file, <a href="http://data.neo4j.com/intro-neo4j/roles.csv" class="bare">http://data.neo4j.com/intro-neo4j/roles.csv</a> that you must load into your graph.</p>
 </div>
 <div class="paragraph">
-<p><strong>1. Write the Cypher statement to return the data from the file.</strong></p>
+<p><strong>Write the Cypher statement to read the relationship data from a file.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -909,8 +988,33 @@ RETURN line.personId, line.movieId, line.Role<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadRolesToView.png" alt="LoadRolesToView" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>2. Write the Cypher statement to read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.8: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.8: Read the data and return it, ensuring that the data returned is properly formatted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -928,8 +1032,33 @@ RETURN line.personId, line.movieId, split(line.Role,',')<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LoadAndFormatRoles.png" alt="LoadAndFormatRoles" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>3. Write the Cypher statement to load the data into your graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.9: Load the data into your graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.9: Load the data into your graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">

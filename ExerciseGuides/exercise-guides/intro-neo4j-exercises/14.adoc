@@ -1,7 +1,6 @@
 = Exercise 14
 == Exercise 14: Managing constraints and node keys (Preparations)
 
-
 Make sure you have the Movie database, which contains 173 nodes and 257 relationships.
 
 This is what you should see when you click the database icon:
@@ -20,29 +19,32 @@ include::scripts/AfterExercise11.cypher[]
 
 In this exercise you write Cypher statements to add constraints to the graph that ensure uniqueness and existence.
 
-. In Part 1, you create a uniqueness constraint on a property for a node.
-. In Part 2, you create an existence constraint on a node.
-. In Part 3, you create an existence constraint on a relationship.
-. In Part 4, you create a node key.
-. In Part 5, you drop some constraints.
+* *Exercise 14.1*: Add a uniqueness constraint to the _Person_ nodes in the graph.
+* *Exercise 14.2*: Add _Tom Hanks_ to the graph.
+* *Exercise 14.3*: Attempt to add an existence constraint to the _Person_ nodes in the graph.
+* *Exercise 14.4*: Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.
+* *Exercise 14.5*: Add an existence constraint to the _Person_ nodes in the graph.
+* *Exercise 14.6*: Add _Sean Penn_ to the graph where you do not specify a value for _born_.
+* *Exercise 14.7*: Add an existence constraint to the _ACTED_IN_ relationship in the graph.
+* *Exercise 14.8*: Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.
+* *Exercise 14.9*: Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.
+* *Exercise 14.10*: Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._.
+* *Exercise 14.11*: Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.
+* *Exercise 14.12*: Try adding the _2018_ movie again.
+* *Exercise 14.13*: Display the list of constraints defined in the graph.
+* *Exercise 14.14*: Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.
 
-Go to the next page to perform the five parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 14, Part 1
-.*Creating uniqueness constraints on a property of a node*
+== Exercise 14.1: Add a uniqueness constraint to the _Person_ nodes in the graph (Instructions)
 
 Suppose we want to ensure that every _Person_ in the graph must have a unique name.
 
-. Add the constraint to the _Person_ nodes in the graph.
-. Write and execute a Cypher statement to add _Tom Hanks_ to the graph.
-What happens when you run the code?
+*Add a uniqueness constraint to the _Person_ nodes in the graph.*
 
-== Solution, Exercise 14, Part 1
-.*Creating uniqueness constraints on a property of a node*
+== Exercise 14.1: Add a uniqueness constraint to the _Person_ nodes in the graph (Solution)
 
-Suppose we want to ensure that every _Person_ in the graph must have a unique name.
-
-*1. Add the constraint to the _Person_ nodes in the graph.*
+*Add a uniqueness constraint to the _Person_ nodes in the graph.*
 
 [source, cypher]
 ----
@@ -58,7 +60,13 @@ Where the result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Write and execute a Cypher statement to add _Tom Hanks_ to the graph.*
+== Exercise 14.2: Add _Tom Hanks_ to the graph (Instructions)
+
+*Add _Tom Hanks_ to the graph.*
+
+== Exercise 14.2: Add _Tom Hanks_ to the graph (Solution)
+
+*Add _Tom Hanks_ to the graph.*
 
 [source, cypher]
 ----
@@ -67,32 +75,24 @@ CREATE (:Person {name: 'Tom Hanks'})
 
 What happens when you execute the statement?
 
-The result returned should look something like this:
 [.thumb]
-image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=500]
+image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=500,float="right"]
 
-Existence
+The result returned should look something like this:
 
-Next, Part 2
+++++
+<div style="clear: both;"></div>
+++++
 
-== Instructions, Exercise 14, Part 2
-.*Creating an existence constraint on a node.*
-
-Suppose we want to ensure that every _Person_ in the graph has a _born_ property.
-
-. Add the constraint to the _Person_ nodes in the graph.
-What happens when you add the constraint?
-. Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.
-. Now add the constraint to the graph.
-. Write and execute a Cypher statement to add _Sean Penn_ to the graph where you do not specify a value for _born_.
-What happens when you execute the statement?
-
-== Solution, Exercise 14, Part 2
-.*Creating an existence constraint on a node.*
+== Exercise 14.3: Attempt to add an existence constraint to the _Person_ nodes in the graph (Instructions)
 
 Suppose we want to ensure that every _Person_ node in the graph has a _born_ property.
 
-*1. Add the constraint to the _Person_ nodes in the graph.*
+*Attempt to add an existence constraint to the _Person_ nodes in the graph.*
+
+== Exercise 14.3: Attempt to add an existence constraint to the _Person_ nodes in the graph (Solution)
+
+*Attempt to add an existence constraint to the _Person_ nodes in the graph.*
 
 [source, cypher]
 ----
@@ -106,7 +106,13 @@ This is because there are _Person_ nodes in the graph that do not have _born_ pr
 image::{guides}/img/CreateBornExistsConstraintFailed.png[CreateBornExistsConstraintFailed,width=500]
 
 
-*2. Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.*
+== Exercise 14.4: Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist (Instructions)
+
+*Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.*
+
+== Exercise 14.4: Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist (Solution)
+
+*Update the existing _Person_ nodes so that you set the _born_ property to _0_ for any nodes that do not exist.*
 
 [source, cypher]
 ----
@@ -124,7 +130,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Now add the constraint to the graph.*
+== Exercise 14.5: Add an existence constraint to the _Person_ nodes in the graph (Instructions)
+
+*Add the existence constraint to the graph for the _born_ property.*
+
+== Exercise 14.5: Add an existence constraint to the _Person_ nodes in the graph (Solution)
+
+*Add the existence constraint to the graph for the _born_ property.*
 
 [source, cypher]
 ----
@@ -140,7 +152,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Write and execute Cypher code to add _Sean Penn_ to the graph where you do not specify a value for _born_.*
+== Exercise 14.6: Add _Sean Penn_ to the graph where you do not specify a value for _born_ (Instructions)
+
+*Add _Sean Penn_ to the graph where you do not specify a value for _born_.*
+
+== Exercise 14.6: Add _Sean Penn_ to the graph where you do not specify a value for _born_ (Solution)
+
+*Add _Sean Penn_ to the graph where you do not specify a value for _born_.*
 
 [source, cypher]
 ----
@@ -152,23 +170,15 @@ What happens when you execute the statement? The result returned should be:
 [.thumb]
 image::{guides}/img/CannotAddWithoutBorn.png[CannotAddWithoutBorn,width=500]
 
-Next, Part 3
-
-== Instructions, Exercise 14, Part 3
-.*Creating an existence constraint on a relationship.*
-
-Suppose we want to ensure that every _ACTED_IN_ relationship must have a value for the _roles_ property.
-
-. Add the constraint to the _ACTED_IN_ relationship in the graph.
-. Write and execute a Cypher statement to add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.
-What happens when you execute the statement?
-
-== Solution, Exercise 14, Part 3
-.*Creating an existence constraint on a relationship.*
+== Exercise 14.7: Add an existence constraint to the _ACTED_IN_ relationship in the graph (Instructions)
 
 Suppose we want to ensure that every  _ACTED_IN_ relationship must have a value for the _roles_ property.
 
-*1. Add the constraint to the _ACTED_IN_ relationship in the graph.*
+*Add an existence constraint to the _ACTED_IN_ relationship in the graph.*
+
+== Exercise 14.7: Add an existence constraint to the _ACTED_IN_ relationship in the graph (Solution)
+
+*Add an existence constraint to the _ACTED_IN_ relationship in the graph.*
 
 [source, cypher]
 ----
@@ -184,7 +194,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Write and execute a Cypher statement to add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.*
+== Exercise 14.8: Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set (Instructions)
+
+*Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.*
+
+== Exercise 14.8: Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set (Solution)
+
+*Add an _ACTED_IN_ relationship from the person, _Emil Eifrem_ to the movie, _Forrest Gump_ where the _roles_ property is not set.*
 
 [source, cypher]
 ----
@@ -199,33 +215,7 @@ What happens when you execute the statement? Here is what you should see:
 [.thumb]
 image::{guides}/img/CannotCreateActedInwithoutRoles.png[CannotCreateActedInwithoutRoles,width=300]
  
-Next, Part 4
-
-== Instructions, Exercise 14, Part 4
-.*Creating a node key.*
-
-Suppose we want to ensure that the graph will never contain a movie with the same title and the same year.
-For example, the movie studio decides to release a movie with the title, _Back to the Future_ in 2018.
-There already is a movie in the graph with this title that was released in 1985.
-We want to allow this.
-To implement this type of constraint on the graph, you must add a constraint as a node key since it uses two properties of the node.
-
-*Note:* If you have created a uniqueness constraint to the graph for the _title_ property (as shown in the module content), you must first drop the constraint as it no longer makes sense if we are to allow duplicate titles in the graph.
-You must execute this code to drop the constraint if it exists:
-
-[source, cypher]
-----
-DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
-----
-
-. Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.
-. Write and execute a Cypher statement to add the movie, _Back to the Future_ with a _released_ value of 1985 and a _tagline_ value of _Our future._.
-. Write and execute a Cypher statement to add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.
-. Try adding the _2018_ movie again.
-What happens when you attempt to add the movie?
-
-== Solution, Exercise 14, Part 4
-.*Creating a node key.*
+== Exercise 14.9: Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes (Instructions)
 
 Suppose we want to ensure that the graph will never contain a movie with the same title and the same year.
 For example, the movie studio decides to release a movie with the title, _Back to the Future_ in 2018.
@@ -241,7 +231,11 @@ You must write and execute the statement to drop the constraint if it exists:
 DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
 ----
 
-*1. Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
+*Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
+
+== Exercise 14.9: Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes (Solution)
+
+*Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
 
 [source, cypher]
 ----
@@ -257,7 +251,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Write and execute a Cypher statement to add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._.*
+== Exercise 14.10: Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._ (Instructions)
+
+*Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._.*
+
+== Exercise 14.10: Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._ (Solution)
+
+*Add the movie, _Back to the Future_ with a _released_ value of _1985_ and a _tagline_ value of _Our future._.*
 
 [source, cypher]
 ----
@@ -273,7 +273,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Write and execute a Cypher statement to add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.*
+== Exercise 14.11: Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._ (Instructions)
+
+*Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.*
+
+== Exercise 14.11: Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._ (Solution)
+
+*Add the movie, _Back to the Future_ with a _released_ value of _2018_ and a _tagline_ value of _The future is ours._.*
 
 [source, cypher]
 ----
@@ -289,7 +295,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Try adding the _2018_ movie again.*
+== Exercise 14.12: Try adding the _2018_ movie again (Instructions)
+
+*Try adding the _2018_ movie again.*
+
+== Exercise 14.12: Try adding the _2018_ movie again (Solution)
+
+*Try adding the _2018_ movie again.*
 
 [source, cypher]
 ----
@@ -300,35 +312,35 @@ What happens when you attempt to add the movie? The creation fails due to the no
 [.thumb]
 image::{guides}/img/AddBackToFutureFailed.png[AddBackToFutureFailed,width=500]
 
-Next, Part 5
+== Exercise 14.13: Display the list of constraints defined in the graph (Instructions)
 
-== Instructions, Exercise 14, Part 5
-.*Dropping constraints.*
+*Display the list of constraints defined in the graph.*
 
-Perform these tasks:
+== Exercise 14.13: Display the list of constraints defined in the graph (Solution)
 
-. Display the list of constraints defined in the graph.
-. Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.
-
-== Solution, Exercise 14, Part 5
-.*Dropping constraints.*
-
-Perform these tasks:
-
-*1. Display the list of constraints defined in the graph.*
+*Display the list of constraints defined in the graph.*
 
 [source, cypher]
 ----
 CALL db.constraints()
 ----
 
+[.thumb]
+image::{guides}/img/listConstraints.png[listConstraints,width=500,float="right"]
+
 The result returned should be:
 
-[.thumb]
-image::{guides}/img/listConstraints.png[listConstraints,width=500]
+++++
+<div style="clear: both;"></div>
+++++
 
+== Exercise 14.14: Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_ (Instructions)
 
-*2. Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.*
+*Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.*
+
+== Exercise 14.14: Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_ (Solution)
+
+*Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.*
 
 [source, cypher]
 ----

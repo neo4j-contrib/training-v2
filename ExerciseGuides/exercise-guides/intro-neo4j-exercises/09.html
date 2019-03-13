@@ -602,21 +602,51 @@ The connections between nodes, the relationships, are one of the most important 
 Then you will add properties to relationships.
 Finally, you will remove properties from relationships.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you create relationships.</p>
+<p><strong>Exercise 9.1</strong>: Create <em>ACTED_IN</em> relationships.</p>
 </li>
 <li>
-<p>In Part 2, you add properties to relationships.</p>
+<p><strong>Exercise 9.2</strong>: Create <em>DIRECTED</em> relationships.</p>
 </li>
 <li>
-<p>In Part 3, you remove properties from relationships.</p>
+<p><strong>Exercise 9.3</strong>: Create a <em>HELPED</em> relationship.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 9.4</strong>: Query nodes and new relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 9.5</strong>: Add the <em>roles</em> properties to relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 9.6</strong>: Add a <em>research</em> property to the <em>HELPED</em> relationship.</p>
+</li>
+<li>
+<p><strong>Exercise 9.7</strong>: View the current list of property keys in the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 9.8</strong>: View the current schema of the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 9.9</strong>: Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 9.10</strong>: Query the graph to retrieve information about any <em>HELPED</em> relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 9.11</strong>: Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 9.12</strong>: Remove the <em>research</em> property from the <em>HELPED</em> relationship.</p>
+</li>
+<li>
+<p><strong>Exercise 9.13</strong>: Query the graph to confirm that your modifications were made to the graph.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the three parts of this exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -626,31 +656,14 @@ Finally, you will remove properties from relationships.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 9, Part 1</h3>
+    <h3>Exercise 9.1: Create <em>ACTED_IN</em> relationships (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating relationships</strong></div>
 <p>In the last exercise, you created the node for the movie, <em>Forrest Gump</em> and the person, <em>Robin Wright</em>.</p>
 </div>
 <div class="paragraph">
-<p>Write Cypher statements to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create the <em>ACTED_IN</em> relationship between the actors, <em>Robin Wright</em>, <em>Tom Hanks</em>, and <em>Gary Sinise</em> and the movie, <em>Forrest Gump</em>.</p>
-</li>
-<li>
-<p>Create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and the movie, <em>Forrest Gump</em>.</p>
-</li>
-<li>
-<p>Create a new relationship, <em>HELPED</em> from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</p>
-</li>
-<li>
-<p>Write a Cypher query to return all nodes connected to the movie, <em>Forrest Gump</em>, along with their relationships.</p>
-</li>
-</ol>
+<p><strong>Create the <em>ACTED_IN</em> relationship between the actors, <em>Robin Wright</em>, <em>Tom Hanks</em>, and <em>Gary Sinise</em> and the movie, <em>Forrest Gump</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -660,15 +673,11 @@ Finally, you will remove properties from relationships.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 9, Part 1</h3>
+    <h3>Exercise 9.1: Create <em>ACTED_IN</em> relationships (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating relationships</strong></div>
-<p>Write Cypher statements to:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Create the <em>ACTED_IN</em> relationship between the actors, <em>Robin Wright</em>, <em>Tom Hanks</em>, and <em>Gary Sinise</em> and the movie, <em>Forrest Gump</em>.</strong></p>
+<p><strong>Create the <em>ACTED_IN</em> relationship between the actors, <em>Robin Wright</em>, <em>Tom Hanks</em>, and <em>Gary Sinise</em> and the movie, <em>Forrest Gump</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -688,8 +697,33 @@ CREATE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and the movie, <em>Forrest Gump</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.2: Create <em>DIRECTED</em> relationships (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and the movie, <em>Forrest Gump</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.2: Create <em>DIRECTED</em> relationships (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and the movie, <em>Forrest Gump</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -709,8 +743,33 @@ CREATE (p)-[:DIRECTED]-&gt;(m)<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Create a new relationship, <em>HELPED</em> from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.3: Create a <em>HELPED</em> relationship (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create a new relationship, <em>HELPED</em> from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.3: Create a <em>HELPED</em> relationship (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create a new relationship, <em>HELPED</em> from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -730,8 +789,33 @@ CREATE (p1)-[:HELPED]-&gt;(p2)<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. Write a Cypher query to return all nodes connected to the movie, <em>Forrest Gump</em>, along with their relationships.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.4: Query nodes and new relationships (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query to return all nodes connected to the movie, <em>Forrest Gump</em>, along with their relationships.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.4: Query nodes and new relationships (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query to return all nodes connected to the movie, <em>Forrest Gump</em>, along with their relationships.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -752,9 +836,6 @@ RETURN p, rel, m<!--/code--></pre>
 <p>Notice here that the <em>HELPED</em> relationship is also shown because <em>Tom Hanks</em> and <em>Gary Sinise</em> are connected and we have <em>Connect result nodes</em> selected in our Neo4j Browser settings.</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 2</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -763,67 +844,22 @@ RETURN p, rel, m<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 9, Part 2</h3>
+    <h3>Exercise 9.5: Add the <em>roles</em> properties to relationships (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Adding properties to relationships</strong></div>
 <p>Next, you will add some properties to the relationships that you just created.</p>
 </div>
 <div class="paragraph">
-<p>Create Cypher statements to do the following:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the <em>roles</em> property to the three <em>ACTED_IN</em> relationships that you just created to the movie, <em>Forrest Gump</em> using this information:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><em>Tom Hanks</em> played the role, <em>Forrest Gump</em>.</p>
-</li>
-<li>
-<p><em>Robin Wright</em> played the role, <em>Jenny Curran</em>.</p>
-</li>
-<li>
-<p><em>Gary Sinise</em> played the role, <em>Lieutenant Dan Taylor</em>.</p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
+<p><strong>Add the <em>roles</em> property to the three <em>ACTED_IN</em> relationships that you just created to the movie, <em>Forrest Gump</em> using this information:</strong>
+<strong><em>Tom Hanks</em> played the role, <em>Forrest Gump</em>.</strong>
+<strong><em>Robin Wright</em> played the role, <em>Jenny Curran</em>.</strong>
+<strong><em>Gary Sinise</em> played the role, <em>Lieutenant Dan Taylor</em>.</strong></p>
 </div>
 <div class="paragraph">
 <p><strong>Hint:</strong> You can set each relationship using separate <code>MATCH</code> clauses.
 You can also use a <code>CASE</code> clause to set the values.
 Look up in the documentation for how to use the <code>CASE</code> clause.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="2">
-<li>
-<p>Add a new property, <em>research</em> to the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em> and set this property&#8217;s value to <em>history</em>.</p>
-</li>
-<li>
-<p>View the current list of property keys in the graph.</p>
-</li>
-<li>
-<p>View the current schema of the graph.</p>
-</li>
-<li>
-<p>Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em>.</p>
-</li>
-<li>
-<p>Query the graph to retrieve information about any <em>HELPED</em> relationships.</p>
-</li>
-</ol>
-</div>
-<div class="ulist">
-<div class="title"><strong>Taking it further (optional)</strong></div>
-<ul>
-<li>
-<p>Try adding or updating properties using the JSON-style syntax using <code>=</code> and <code>+=</code>.</p>
-</li>
-</ul>
 </div>
 	</div>
   </div>
@@ -833,23 +869,14 @@ Look up in the documentation for how to use the <code>CASE</code> clause.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 9, Part 2</h3>
+    <h3>Exercise 9.5: Add the <em>roles</em> properties to relationships (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Adding properties to relationships</strong></div>
-<p>Create Cypher statements to do the following:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Add the <em>roles</em> property to the three <em>ACTED_IN</em> relationships that you just created to the movie, <em>Forrest Gump</em> using this information:</strong>
-* <strong><em>Tom Hanks</em> played the role, <em>Forrest Gump</em>.</strong>
-* <strong><em>Robin Wright</em> played the role, <em>Jenny Curran</em>.</strong>
-* <strong><em>Gary Sinise</em> played the role, <em>Lieutenant Dan Taylor</em>.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hint:</strong> You can set each relationship using separate <code>MATCH</code> clauses.
-You can also use a <code>CASE</code> clause to set the values.
-Look up in the documentation for how to use the <code>CASE</code> clause.</p>
+<p><strong>Add the <em>roles</em> property to the three <em>ACTED_IN</em> relationships that you just created to the movie, <em>Forrest Gump</em> using this information:</strong>
+<strong><em>Tom Hanks</em> played the role, <em>Forrest Gump</em>.</strong>
+<strong><em>Robin Wright</em> played the role, <em>Jenny Curran</em>.</strong>
+<strong><em>Gary Sinise</em> played the role, <em>Lieutenant Dan Taylor</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -872,8 +899,33 @@ END<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Add a new property, <em>research</em> to the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em> and set this property&#8217;s value to <em>war history</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.6: Add a <em>research</em> property to the <em>HELPED</em> relationship (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a new property, <em>research</em> to the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em> and set this property&#8217;s value to <em>war history</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.6: Add a <em>research</em> property to the <em>HELPED</em> relationship (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a new property, <em>research</em> to the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em> and set this property&#8217;s value to <em>war history</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -891,8 +943,33 @@ SET rel.research = 'war history'<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. View the current list of property keys in the graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.7: View the current list of property keys in the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the current list of property keys in the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.7: View the current list of property keys in the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the current list of property keys in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -908,8 +985,33 @@ SET rel.research = 'war history'<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. View the current schema of the graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.8: View the current schema of the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the current schema of the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.8: View the current schema of the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the current schema of the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -925,8 +1027,33 @@ SET rel.research = 'war history'<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>5. Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.9: Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.9: Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to return the names and roles of actors in the movie, <em>Forrest Gump</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -944,8 +1071,33 @@ RETURN p.name, rel.roles<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>6. Query the graph to retrieve information about any <em>HELPED</em> relationships.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.10: Query the graph to retrieve information about any <em>HELPED</em> relationships (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to retrieve information about any <em>HELPED</em> relationships.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.10: Query the graph to retrieve information about any <em>HELPED</em> relationships (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to retrieve information about any <em>HELPED</em> relationships.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -968,8 +1120,22 @@ That is because we did not specify a direction for the relationship in the query
 So there is a relationship from <em>Tom Hanks</em> and also to <em>Gary Sinise</em>, even though there is only one physical relationship in the graph.
 If you specify a direction for the relationship, only one result is returned.</p>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.11: Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Next, you will modify existing properties for a relationship and also remove them.</p>
+</div>
 <div class="paragraph">
-<p>Next, Part 3</p>
+<p><strong>Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> from <em>Lieutenant Dan Taylor</em> to <em>Lt. Dan Taylor</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -979,49 +1145,11 @@ If you specify a direction for the relationship, only one result is returned.</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 9, Part 3</h3>
+    <h3>Exercise 9.11: Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Updating and removing properties from a relationship</strong></div>
-<p>Next, you will modify existing properties for a relationship and also remove them.</p>
-</div>
-<div class="paragraph">
-<p>Write Cypher statements to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> from <em>Lieutenant Dan Taylor</em> to <em>Lt. Dan Taylor</em>.</p>
-</li>
-<li>
-<p>Remove the <em>research</em> property from the <em>HELPED</em> relationship from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</p>
-</li>
-<li>
-<p>Query the graph to confirm that your modifications were made to the graph.</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 9, Part 3</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Updating and removing properties from a relationship</strong></div>
-<p>Next, you will modify existing properties for a relationship and also remove them.</p>
-</div>
-<div class="paragraph">
-<p>Write Cypher statements to:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> from <em>Lieutenant Dan Taylor</em> to <em>Lt. Dan Taylor</em>.</strong></p>
+<p><strong>Modify the <em>role</em> that <em>Gary Sinise</em> played in the movie, <em>Forrest Gump</em> from <em>Lieutenant Dan Taylor</em> to <em>Lt. Dan Taylor</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1039,8 +1167,33 @@ SET rel.roles =['Lt. Dan Taylor']<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Remove the <em>research</em> property from the <em>HELPED</em> relationship from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.12: Remove the <em>research</em> property from the <em>HELPED</em> relationship (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Remove the <em>research</em> property from the <em>HELPED</em> relationship from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.12: Remove the <em>research</em> property from the <em>HELPED</em> relationship (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Remove the <em>research</em> property from the <em>HELPED</em> relationship from <em>Tom Hanks</em> to <em>Gary Sinise</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1058,8 +1211,33 @@ REMOVE rel.research<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Query the graph to confirm that your modifications were made to the graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that your modifications were made to the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that your modifications were made to the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1077,6 +1255,24 @@ return p, rel, m<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9: Creating Relationships (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
+<ul>
+<li>
+<p>Try adding or updating properties using the JSON-style syntax using <code>=</code> and <code>+=</code>.</p>
+</li>
+</ul>
+</div>
 	</div>
   </div>
 </slide>

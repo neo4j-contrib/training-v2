@@ -604,18 +604,33 @@ SET m:OlderMovie<!--/code--></pre>
 <div class="paragraph">
 <p>In this exercise you enhance Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you define and use a parameter.</p>
+<p><strong>Exercise 12.1</strong>: Execute a Cypher query as described.</p>
 </li>
 <li>
-<p>In Part 2, you define and use multiple parameters.</p>
+<p><strong>Exercise 12.2</strong>: Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 12.3</strong>: Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</p>
+</li>
+<li>
+<p><strong>Exercise 12.4</strong>: Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</p>
+</li>
+<li>
+<p><strong>Exercise 12.5</strong>: Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 12.6</strong>: Modify the query you wrote previously to also filter the result returned by the  <em>rating</em> for the movie.</p>
+</li>
+<li>
+<p><strong>Exercise 12.7</strong>: Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the two parts of this exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -625,54 +640,30 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 12, Part 1</h3>
+    <h3>Exercise 12.1: Execute a Cypher query as described (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Defining and using a parameter</strong></div>
 <p>Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
-You will be exploring the graph for people who reviewed movies and the actors in these movies.</p>
-</div>
-<div class="paragraph">
-<p>Perform these steps:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</p>
-</li>
-<li>
-<p>Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</p>
-</li>
-<li>
-<p>Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</p>
-</li>
-<li>
-<p>Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 12, Part 1</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Defining and using a parameter</strong></div>
-<p>Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
+You will be exploring the graph for people who reviewed movies and the actors in these movies.
 You do not want to hard-code the value for <em>released</em> for a _Movie_node in your query.</p>
 </div>
 <div class="paragraph">
-<p>Perform these steps:</p>
+<p><strong>Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</strong></p>
 </div>
-<div class="paragraph">
-<p><strong>1. Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.1: Execute a Cypher query as described (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -683,13 +674,39 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/InitialQueryWithoutParms.png" alt="InitialQueryWithoutParms" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>2. Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</strong></p>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Add a parameter named <em>year</em> to your session with a value of <em>2000</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Add a parameter named <em>year</em> to your session with a value of <em>2000</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -705,8 +722,33 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Modify the Cypher query you just wrote to filter by the <em>year</em> parameter (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Modify the Cypher query you just wrote to filter by the <em>year</em> parameter (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -718,13 +760,39 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/UsingOneParameter.png" alt="UsingOneParameter" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>4. Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</strong></p>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -734,13 +802,28 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned  with the same query should be:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/UsingOneParameter2.png" alt="UsingOneParameter2" width="600">
 </div>
 </div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.5: Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Suppose that you want to parameterize both the values in your query for <em>released</em> for a <em>Movie_node and the _rating</em> value for the <em>REVIEWED</em> relationship.</p>
+</div>
 <div class="paragraph">
-<p>Next, Part 2</p>
+<p><strong>Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -750,49 +833,11 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 12, Part 2</h3>
+    <h3>Exercise 12.5: Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em> (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Defining and using parameters</strong></div>
-<p>Suppose that you want to parameterize both the values in your query for <em>released</em> for a <em>Movie_node and the _rating</em> value for the <em>REVIEWED</em> relationship.</p>
-</div>
-<div class="paragraph">
-<p>Perform these steps:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</p>
-</li>
-<li>
-<p>Modify the query you wrote previously to also filter the result returned by the  <em>rating</em> for the movie.</p>
-</li>
-<li>
-<p>Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 12, Part 2</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Defining and using parameters</strong></div>
-<p>Suppose that you want to parameterize both the values in your query for <em>released</em> for a <em>Movie_node and the _rating</em> value for the <em>REVIEWED</em> relationship.</p>
-</div>
-<div class="paragraph">
-<p>Perform these steps:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</strong></p>
+<p><strong>Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -808,8 +853,33 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Modify the query you wrote previously to also filter the result returned by  the <em>rating</em> for the movie.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Modify the query you wrote previously to also filter the result returned by the  <em>rating</em> for the movie (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query you wrote previously to also filter the result returned by  the <em>rating</em> for the movie.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Modify the query you wrote previously to also filter the result returned by the  <em>rating</em> for the movie (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query you wrote previously to also filter the result returned by  the <em>rating</em> for the movie.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -822,13 +892,39 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>For the above statement, the result returned should be:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/UseTwoParameters.png" alt="UseTwoParameters" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>3. Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</strong></p>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.7: Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.7: Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -838,11 +934,12 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned with the new parameter value should be:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/UseTwoParameters2.png" alt="UseTwoParameters2" width="600">
 </div>
 </div>
+<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>

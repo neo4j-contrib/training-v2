@@ -609,21 +609,21 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
       <div class="paragraph">
 <p>In this exercise you write Cypher statements create, view, and drop indexes.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you create an index.</p>
+<p><strong>Exercise 15.1</strong>: Create an index.</p>
 </li>
 <li>
-<p>In Part 2, you view index information.</p>
+<p><strong>Exercise 15.2</strong>: View index information.</p>
 </li>
 <li>
-<p>In Part 3, you drop an index.</p>
+<p><strong>Exercise 15.3</strong>: Drop an index.</p>
 </li>
-</ol>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the three parts of this exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -633,12 +633,11 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 15, Part 1</h3>
+    <h3>Exercise 15.1: Create an index (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating an index</strong></div>
-<p>Write the Cypher statement to create a single-property index on the <em>born</em> property of a <em>Person</em> node.</p>
+<p><strong>Create a single-property index on the <em>born</em> property of a <em>Person</em> node.</strong></p>
 </div>
 	</div>
   </div>
@@ -648,12 +647,11 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 15, Part 1</h3>
+    <h3>Exercise 15.1: Create an index (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating an index</strong></div>
-<p>Write the Cypher statement to create a single-property index on the <em>born</em> property of a <em>Person</em> node.</p>
+<p><strong>Create a single-property index on the <em>born</em> property of a <em>Person</em> node.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -669,8 +667,22 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 <p>The result should be:</p>
 </div>
 <div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 15.2: View index information (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the indexes defined for the graph.</strong></p>
+</div>
 <div class="paragraph">
-<p>Next, Part 2</p>
+<p>Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
 </div>
 	</div>
   </div>
@@ -680,29 +692,17 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 15, Part 2</h3>
+    <h3>Exercise 15.2: View index information (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Viewing indexes</strong></div>
-<p>Write the Cypher statement to view the indexes defined for the graph.
-Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
+<p><strong>View the indexes defined for the graph.</strong></p>
 </div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 15, Part 2</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Viewing indexes</strong></div>
-<p>Write the Cypher statement to view the indexes defined for the graph.
-Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement? The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.</p>
+<div class="paragraph">
+<p>Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
+</div>
+<div class="paragraph">
+<p>The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -717,8 +717,19 @@ Do you see indexes that you did not create with the <code>CREATE INDEX</code> st
 <img src="https://localhost:8001/intro-neo4j-exercises/img/ViewIndexes.png" alt="ViewIndexes" width="600">
 </div>
 </div>
-<div class="paragraph">
-<p>Next, Part 3</p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 15.3: Drop an index (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</strong></p>
 </div>
 	</div>
   </div>
@@ -728,27 +739,11 @@ Do you see indexes that you did not create with the <code>CREATE INDEX</code> st
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 15, Part 3</h3>
+    <h3>Exercise 15.3: Drop an index (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Dropping an index</strong></div>
-<p>Write Cypher code to drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 15, Part 3</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Dropping an index</strong></div>
-<p>Write Cypher code to drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</p>
+<p><strong>Drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">

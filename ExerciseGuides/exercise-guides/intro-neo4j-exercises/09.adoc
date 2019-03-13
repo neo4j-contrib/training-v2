@@ -14,8 +14,6 @@ If your database does not have this number of nodes and relationships, you can u
 include::scripts/AfterExercise8.cypher[]
 ----
 
-
-
 == Exercise 9: Creating Relationships (Overview)
 
 In the previous exercise, you created nodes, added and removed both properties and labels from nodes.
@@ -25,30 +23,31 @@ In this exercise you will create relationships between nodes.
 Then you will add properties to relationships.
 Finally, you will remove properties from relationships.
 
-. In Part 1, you create relationships.
-. In Part 2, you add properties to relationships.
-. In Part 3, you remove properties from relationships.
+* *Exercise 9.1*: Create _ACTED_IN_ relationships.
+* *Exercise 9.2*: Create _DIRECTED_ relationships.
+* *Exercise 9.3*: Create a _HELPED_ relationship.
+* *Exercise 9.4*: Query nodes and new relationships.
+* *Exercise 9.5*: Add the _roles_ properties to relationships.
+* *Exercise 9.6*: Add a _research_ property to the _HELPED_ relationship.
+* *Exercise 9.7*: View the current list of property keys in the graph.
+* *Exercise 9.8*: View the current schema of the graph.
+* *Exercise 9.9*: Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.
+* *Exercise 9.10*: Query the graph to retrieve information about any _HELPED_ relationships.
+* *Exercise 9.11*: Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_.
+* *Exercise 9.12*: Remove the _research_ property from the _HELPED_ relationship.
+* *Exercise 9.13*: Query the graph to confirm that your modifications were made to the graph.
 
-Go to the next page to perform the three parts of this exercise.
+Go to the next page to start this exercise.
 
-== Instructions, Exercise 9, Part 1
-.*Creating relationships*
+== Exercise 9.1: Create _ACTED_IN_ relationships (Instructions)
 
 In the last exercise, you created the node for the movie, _Forrest Gump_ and the person, _Robin Wright_.
 
-Write Cypher statements to:
+*Create the _ACTED_IN_ relationship between the actors, _Robin Wright_, _Tom Hanks_, and _Gary Sinise_ and the movie, _Forrest Gump_.*
 
-. Create the _ACTED_IN_ relationship between the actors, _Robin Wright_, _Tom Hanks_, and _Gary Sinise_ and the movie, _Forrest Gump_.
-. Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.
-. Create a new relationship, _HELPED_ from _Tom Hanks_ to _Gary Sinise_.
-. Write a Cypher query to return all nodes connected to the movie, _Forrest Gump_, along with their relationships.
+== Exercise 9.1: Create _ACTED_IN_ relationships (Solution)
 
-== Solution, Exercise 9, Part 1
-.*Creating relationships*
-
-Write Cypher statements to:
-
-*1. Create the _ACTED_IN_ relationship between the actors, _Robin Wright_, _Tom Hanks_, and _Gary Sinise_ and the movie, _Forrest Gump_.*
+*Create the _ACTED_IN_ relationship between the actors, _Robin Wright_, _Tom Hanks_, and _Gary Sinise_ and the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
@@ -68,7 +67,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.*
+== Exercise 9.2: Create _DIRECTED_ relationships (Instructions)
+
+*Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.*
+
+== Exercise 9.2: Create _DIRECTED_ relationships (Solution)
+
+*Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
@@ -88,7 +93,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Create a new relationship, _HELPED_ from _Tom Hanks_ to _Gary Sinise_.*
+== Exercise 9.3: Create a _HELPED_ relationship (Instructions)
+
+*Create a new relationship, _HELPED_ from _Tom Hanks_ to _Gary Sinise_.*
+
+== Exercise 9.3: Create a _HELPED_ relationship (Solution)
+
+*Create a new relationship, _HELPED_ from _Tom Hanks_ to _Gary Sinise_.*
 
 [source, cypher]
 ----
@@ -108,7 +119,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. Write a Cypher query to return all nodes connected to the movie, _Forrest Gump_, along with their relationships.*
+== Exercise 9.4: Query nodes and new relationships (Instructions)
+
+*Write a Cypher query to return all nodes connected to the movie, _Forrest Gump_, along with their relationships.*
+
+== Exercise 9.4: Query nodes and new relationships (Solution)
+
+*Write a Cypher query to return all nodes connected to the movie, _Forrest Gump_, along with their relationships.*
 
 [source, cypher]
 ----
@@ -128,47 +145,25 @@ Notice here that the _HELPED_ relationship is also shown because _Tom Hanks_ and
 <div style="clear: both;"></div>
 ++++
 
-Next, Part 2
-
-== Instructions, Exercise 9, Part 2
-.*Adding properties to relationships*
+== Exercise 9.5: Add the _roles_ properties to relationships (Instructions)
 
 Next, you will add some properties to the relationships that you just created.
 
-Create Cypher statements to do the following:
-
-. Add the _roles_ property to the three _ACTED_IN_ relationships that you just created to the movie, _Forrest Gump_ using this information:
-* _Tom Hanks_ played the role, _Forrest Gump_.
-* _Robin Wright_ played the role, _Jenny Curran_.
-* _Gary Sinise_ played the role, _Lieutenant Dan Taylor_.
+*Add the _roles_ property to the three _ACTED_IN_ relationships that you just created to the movie, _Forrest Gump_ using this information:*
+*_Tom Hanks_ played the role, _Forrest Gump_.*
+*_Robin Wright_ played the role, _Jenny Curran_.*
+*_Gary Sinise_ played the role, _Lieutenant Dan Taylor_.*
 
 *Hint:* You can set each relationship using separate `MATCH` clauses.
 You can also use a `CASE` clause to set the values.
 Look up in the documentation for how to use the `CASE` clause.
 
-[start=2]
-. Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _history_.
-. View the current list of property keys in the graph.
-. View the current schema of the graph.
-. Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.
-. Query the graph to retrieve information about any _HELPED_ relationships.
+== Exercise 9.5: Add the _roles_ properties to relationships (Solution)
 
-.*Taking it further (optional)*
-** Try adding or updating properties using the JSON-style syntax using `=` and `+=`.
-
-== Solution, Exercise 9, Part 2
-.*Adding properties to relationships*
-
-Create Cypher statements to do the following:
-
-*1. Add the _roles_ property to the three _ACTED_IN_ relationships that you just created to the movie, _Forrest Gump_ using this information:*
-* *_Tom Hanks_ played the role, _Forrest Gump_.*
-* *_Robin Wright_ played the role, _Jenny Curran_.*
-* *_Gary Sinise_ played the role, _Lieutenant Dan Taylor_.*
-
-*Hint:* You can set each relationship using separate `MATCH` clauses.
-You can also use a `CASE` clause to set the values.
-Look up in the documentation for how to use the `CASE` clause.
+*Add the _roles_ property to the three _ACTED_IN_ relationships that you just created to the movie, _Forrest Gump_ using this information:*
+*_Tom Hanks_ played the role, _Forrest Gump_.*
+*_Robin Wright_ played the role, _Jenny Curran_.*
+*_Gary Sinise_ played the role, _Lieutenant Dan Taylor_.*
 
 [source, cypher]
 ----
@@ -191,7 +186,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _war history_.*
+== Exercise 9.6: Add a _research_ property to the _HELPED_ relationship (Instructions)
+
+*Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _war history_.*
+
+== Exercise 9.6: Add a _research_ property to the _HELPED_ relationship (Solution)
+
+*Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _war history_.*
 
 [source, cypher]
 ----
@@ -209,7 +210,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. View the current list of property keys in the graph.*
+== Exercise 9.7: View the current list of property keys in the graph (Instructions)
+
+*View the current list of property keys in the graph.*
+
+== Exercise 9.7: View the current list of property keys in the graph (Solution)
+
+*View the current list of property keys in the graph.*
 
 [source, cypher]
 ----
@@ -225,7 +232,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*4. View the current schema of the graph.*
+== Exercise 9.8: View the current schema of the graph (Instructions)
+
+*View the current schema of the graph.*
+
+== Exercise 9.8: View the current schema of the graph (Solution)
+
+*View the current schema of the graph.*
 
 [source, cypher]
 ----
@@ -240,7 +253,14 @@ The result returned should be:
 ++++
 <div style="clear: both;"></div>
 ++++
-*5. Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.*
+
+== Exercise 9.9: Query the graph to return the names and roles of actors in the movie, _Forrest Gump_ (Instructions)
+
+*Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.*
+
+== Exercise 9.9: Query the graph to return the names and roles of actors in the movie, _Forrest Gump_ (Solution)
+
+*Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
@@ -258,7 +278,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*6. Query the graph to retrieve information about any _HELPED_ relationships.*
+== Exercise 9.10: Query the graph to retrieve information about any _HELPED_ relationships (Instructions)
+
+*Query the graph to retrieve information about any _HELPED_ relationships.*
+
+== Exercise 9.10: Query the graph to retrieve information about any _HELPED_ relationships (Solution)
+
+*Query the graph to retrieve information about any _HELPED_ relationships.*
 
 [source, cypher]
 ----
@@ -280,27 +306,15 @@ That is because we did not specify a direction for the relationship in the query
 So there is a relationship from _Tom Hanks_ and also to _Gary Sinise_, even though there is only one physical relationship in the graph.
 If you specify a direction for the relationship, only one result is returned.
 
-Next, Part 3
-
-== Instructions, Exercise 9, Part 3
-.*Updating and removing properties from a relationship*
+== Exercise 9.11: Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ (Instructions)
 
 Next, you will modify existing properties for a relationship and also remove them.
 
-Write Cypher statements to:
+*Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.*
 
-. Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.
-. Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.
-. Query the graph to confirm that your modifications were made to the graph.
+== Exercise 9.11: Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ (Solution)
 
-== Solution, Exercise 9, Part 3
-.*Updating and removing properties from a relationship*
-
-Next, you will modify existing properties for a relationship and also remove them.
-
-Write Cypher statements to:
-
-*1. Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.*
+*Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.*
 
 [source, cypher]
 ----
@@ -318,7 +332,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*2. Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.*
+== Exercise 9.12: Remove the _research_ property from the _HELPED_ relationship (Instructions)
+
+*Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.*
+
+== Exercise 9.12: Remove the _research_ property from the _HELPED_ relationship (Solution)
+
+*Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.*
 
 [source, cypher]
 ----
@@ -336,7 +356,13 @@ The result returned should be:
 <div style="clear: both;"></div>
 ++++
 
-*3. Query the graph to confirm that your modifications were made to the graph.*
+== Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Instructions)
+
+*Query the graph to confirm that your modifications were made to the graph.*
+
+== Exercise 9.13: Query the graph to confirm that your modifications were made to the graph (Solution)
+
+*Query the graph to confirm that your modifications were made to the graph.*
 
 [source, cypher]
 ----
@@ -353,6 +379,10 @@ The result returned should be:
 ++++
 <div style="clear: both;"></div>
 ++++
+
+== Exercise 9: Creating Relationships (Taking it further - optional)
+
+* Try adding or updating properties using the JSON-style syntax using `=` and `+=`.
 
 == Exercise 9: Creating Relationships (Summary)
 

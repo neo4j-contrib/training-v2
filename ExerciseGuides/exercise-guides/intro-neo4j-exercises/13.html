@@ -602,18 +602,33 @@ SET m:OlderMovie<!--/code--></pre>
 <p>In this exercise you will look at metrics for a query during query planning (<code>EXPLAIN</code>) and during query execution (<code>PROFILE</code>).
 Then you will monitor a long-running query and kill it.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you view query metrics.</p>
+<p><strong>Exercise 13.1</strong>: View the query plan for a Cypher statement.</p>
 </li>
 <li>
-<p>In Part 2, you monitor and kill long-running queries.</p>
+<p><strong>Exercise 13.2</strong>: View the metrics for the query when a statement executes.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 13.3</strong>: Remove the labels from the nodes and relationships in the query and again view the metrics.</p>
+</li>
+<li>
+<p><strong>Exercise 13.4</strong>: Open a second Neo4j Browser session.</p>
+</li>
+<li>
+<p><strong>Exercise 13.5</strong>: Execute a long-running query and monitor.</p>
+</li>
+<li>
+<p><strong>Exercise 13.6</strong>: Execute another long-running query and monitor.</p>
+</li>
+<li>
+<p><strong>Exercise 13.7</strong>: Kill a query.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the two parts of this exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -623,11 +638,10 @@ Then you will monitor a long-running query and kill it.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 13, Part 1</h3>
+    <h3>Exercise 13.1: View the query plan for a Cypher statement (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Viewing query metrics</strong></div>
 <p>For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters.
 It assumes that you have set the <em>year</em> and <em>ratingValue</em> Cypher parameters:</p>
 </div>
@@ -640,21 +654,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 </div>
 </div>
 <div class="paragraph">
-<p>Perform these steps:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>View the query plan for this Cypher statement.</p>
-</li>
-<li>
-<p>View the metrics for the query when this statement executes.</p>
-</li>
-<li>
-<p>Remove the labels from the nodes and relationships and again view the metrics.
-Compare the db hits from the previous version of the statement.</p>
-</li>
-</ol>
+<p><strong>View the query plan for this Cypher statement.</strong></p>
 </div>
 	</div>
   </div>
@@ -664,27 +664,11 @@ Compare the db hits from the previous version of the statement.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 13, Part 1</h3>
+    <h3>Exercise 13.1: View the query plan for a Cypher statement (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Viewing query metrics</strong></div>
-<p>For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters.
-It assumes that you have set the <em>year</em> and <em>ratingValue</em> Cypher parameters:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year AND
-      rel.rating &gt; $ratingValue
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Perform these steps:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. View the query plan for this Cypher statement.</strong></p>
+<p><strong>View the query plan for this Cypher statement.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -697,13 +681,39 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>When the result returned should be:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/EXPLAIN.png" alt="EXPLAIN" width="500">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>2. View the metrics for the query when this statement executes.</strong></p>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.2: View the metrics for the query when a statement executes (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the metrics for the query when the previous statement executes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.2: View the metrics for the query when a statement executes (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the metrics for the query when the previous statement executes.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -716,14 +726,39 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <div class="paragraph">
 <p>The result returned should look something like this:</p>
 </div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/PROFILE.png" alt="PROFILE" width="500">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>3. Remove the labels from the nodes and relationships and again view the metrics.
-Compare the db hits from the previous version of the statement.</strong></p>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.3: Remove the labels from the nodes and relationships in the query and again view the metrics (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Remove the labels from the nodes and relationships in the query and again view the metrics. Compare the db hits from the previous version of the statement.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.3: Remove the labels from the nodes and relationships in the query and again view the metrics (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Remove the labels from the nodes and relationships in the query and again view the metrics. Compare the db hits from the previous version of the statement.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -745,9 +780,6 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/co
 <p>You should see more db hits.
 This is because you removed the labels that help to filter nodes and relationships during the query.</p>
 </div>
-<div class="paragraph">
-<p>Next, Part 2</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -756,11 +788,10 @@ This is because you removed the labels that help to filter nodes and relationshi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 13, Part 2</h3>
+    <h3>Exercise 13.4: Open a second Neo4j Browser session (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Monitoring and killing a query</strong></div>
 <p>Recall that a query may run for a long time because:</p>
 </div>
 <div class="ulist">
@@ -774,60 +805,10 @@ This is because you removed the labels that help to filter nodes and relationshi
 </ul>
 </div>
 <div class="paragraph">
-<p>You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Open a second Neo4j Browser session.
-This session will be used for monitoring queries as they run.</p>
-</li>
-<li>
-<p>Execute this long-running query in your original Neo4j Browser session that returns a lot of results.
-In the second Neo4j Browser window, monitor the running queries.</p>
-</li>
-</ol>
+<p>You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window.</p>
 </div>
 <div class="paragraph">
-<p>Here is a very bad Cypher statement to use that returns a lot of results:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a)--(b)--(c)--(d)--(e)--(f)--(g)
-RETURN a<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>What do you see in the second Neo4j Browser window where you are monitoring queries?</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="3">
-<li>
-<p>Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Here is a very bad Cypher statement that takes a lot of time to execute in the graph engine:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
-RETURN count(id(a))<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>What do you see in the second Neo4j Browser window where you are monitoring queries?</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="4">
-<li>
-<p>In the second Neo4j Browser window, kill the long-running query.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>What do you see in the original Neo4j Browser window?</p>
+<p><strong>Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.</strong></p>
 </div>
 	</div>
   </div>
@@ -837,29 +818,11 @@ RETURN count(id(a))<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 13, Part 2</h3>
+    <h3>Exercise 13.4: Open a second Neo4j Browser session (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Monitoring and killing a query</strong></div>
-<p>Recall that a query may run for a long time because:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>There are a lot of results to return</p>
-</li>
-<li>
-<p>The query takes a long time to execute in the graph engine.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Open a second Neo4j Browser session.
-This session will be used for monitoring queries as they run.</strong></p>
+<p><strong>Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.</strong></p>
 </div>
 <div class="paragraph">
 <p>If you are using Neo4j Desktop, open a Web browser window and enter <a href="http://localhost:7474" class="bare">http://localhost:7474</a> which opens a second Neo4j Browser window that has access to the same graph.</p>
@@ -877,9 +840,45 @@ This session will be used for monitoring queries as they run.</strong></p>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/SecondBrowserSandbox.png" alt="SecondBrowserSandbox" width="500">
 </div>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.5: Execute a long-running query and monitor (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.</strong></p>
+</div>
 <div class="paragraph">
-<p><strong>2. Execute this long-running query in your original Neo4j Browser session that returns a lot of results.
-In the second Neo4j Browser window, monitor the running queries.</strong></p>
+<p>Here is a very bad Cypher statement to use that returns a lot of results:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a)--(b)--(c)--(d)--(e)--(f)--(g)
+RETURN a<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What do you see in the second Neo4j Browser window where you are monitoring queries?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.5: Execute a long-running query and monitor (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.</strong></p>
 </div>
 <div class="paragraph">
 <p>Here is a very bad Cypher statement to use that returns a lot of results:</p>
@@ -904,8 +903,45 @@ RETURN a<!--/code--></pre>
 <div class="paragraph">
 <p>This is because the graph engine has completed the query and the results are being streamed.</p>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.6: Execute another long-running query and monitor (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.</strong></p>
+</div>
 <div class="paragraph">
-<p><strong>3. Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.</strong></p>
+<p>Here is a very bad Cypher statement that takes a lot of time to execute in the graph engine:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
+RETURN count(id(a))<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What do you see in the second Neo4j Browser window where you are monitoring queries?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.6: Execute another long-running query and monitor (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.</strong></p>
 </div>
 <div class="paragraph">
 <p>Here is a very bad Cypher statement that takes a lot of time to execute in the graph engine:</p>
@@ -927,8 +963,36 @@ RETURN count(id(a))<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/LongRunningQuery.png" alt="LongRunningQuery" width="600">
 </div>
 </div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.7: Kill a query (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>In the second Neo4j Browser window, kill the long-running query.</strong></p>
+</div>
 <div class="paragraph">
-<p><strong>4. In the second Neo4j Browser window, kill the long-running query.</strong></p>
+<p>What do you see in the original Neo4j Browser window?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.7: Kill a query (Solutions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>In the second Neo4j Browser window, kill the long-running query.</strong></p>
 </div>
 <div class="imageblock thumb">
 <div class="content">

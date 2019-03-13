@@ -601,27 +601,54 @@ SET m:OlderMovie<!--/code--></pre>
       <div class="paragraph">
 <p>In this exercise you write Cypher statements to add constraints to the graph that ensure uniqueness and existence.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you create a uniqueness constraint on a property for a node.</p>
+<p><strong>Exercise 14.1</strong>: Add a uniqueness constraint to the <em>Person</em> nodes in the graph.</p>
 </li>
 <li>
-<p>In Part 2, you create an existence constraint on a node.</p>
+<p><strong>Exercise 14.2</strong>: Add <em>Tom Hanks</em> to the graph.</p>
 </li>
 <li>
-<p>In Part 3, you create an existence constraint on a relationship.</p>
+<p><strong>Exercise 14.3</strong>: Attempt to add an existence constraint to the <em>Person</em> nodes in the graph.</p>
 </li>
 <li>
-<p>In Part 4, you create a node key.</p>
+<p><strong>Exercise 14.4</strong>: Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist.</p>
 </li>
 <li>
-<p>In Part 5, you drop some constraints.</p>
+<p><strong>Exercise 14.5</strong>: Add an existence constraint to the <em>Person</em> nodes in the graph.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 14.6</strong>: Add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 14.7</strong>: Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 14.8</strong>: Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set.</p>
+</li>
+<li>
+<p><strong>Exercise 14.9</strong>: Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes.</p>
+</li>
+<li>
+<p><strong>Exercise 14.10</strong>: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 14.11</strong>: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 14.12</strong>: Try adding the <em>2018</em> movie again.</p>
+</li>
+<li>
+<p><strong>Exercise 14.13</strong>: Display the list of constraints defined in the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 14.14</strong>: Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em>.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the five parts of this exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -631,23 +658,14 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 14, Part 1</h3>
+    <h3>Exercise 14.1: Add a uniqueness constraint to the <em>Person</em> nodes in the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating uniqueness constraints on a property of a node</strong></div>
 <p>Suppose we want to ensure that every <em>Person</em> in the graph must have a unique name.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the constraint to the <em>Person</em> nodes in the graph.</p>
-</li>
-<li>
-<p>Write and execute a Cypher statement to add <em>Tom Hanks</em> to the graph.
-What happens when you run the code?</p>
-</li>
-</ol>
+<div class="paragraph">
+<p><strong>Add a uniqueness constraint to the <em>Person</em> nodes in the graph.</strong></p>
 </div>
 	</div>
   </div>
@@ -657,15 +675,11 @@ What happens when you run the code?</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 14, Part 1</h3>
+    <h3>Exercise 14.1: Add a uniqueness constraint to the <em>Person</em> nodes in the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating uniqueness constraints on a property of a node</strong></div>
-<p>Suppose we want to ensure that every <em>Person</em> in the graph must have a unique name.</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Add the constraint to the <em>Person</em> nodes in the graph.</strong></p>
+<p><strong>Add a uniqueness constraint to the <em>Person</em> nodes in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -681,8 +695,33 @@ What happens when you run the code?</p>
 <p>Where the result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Write and execute a Cypher statement to add <em>Tom Hanks</em> to the graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.2: Add <em>Tom Hanks</em> to the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add <em>Tom Hanks</em> to the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.2: Add <em>Tom Hanks</em> to the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add <em>Tom Hanks</em> to the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -692,20 +731,15 @@ What happens when you run the code?</p>
 <div class="paragraph">
 <p>What happens when you execute the statement?</p>
 </div>
-<div class="paragraph">
-<p>The result returned should look something like this:</p>
-</div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/CreateTomHanksFailed.png" alt="CreateTomHanksFailed" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p>Existence</p>
+<p>The result returned should look something like this:</p>
 </div>
-<div class="paragraph">
-<p>Next, Part 2</p>
-</div>
+<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -714,48 +748,28 @@ What happens when you run the code?</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 14, Part 2</h3>
+    <h3>Exercise 14.3: Attempt to add an existence constraint to the <em>Person</em> nodes in the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating an existence constraint on a node.</strong></div>
-<p>Suppose we want to ensure that every <em>Person</em> in the graph has a <em>born</em> property.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the constraint to the <em>Person</em> nodes in the graph.
-What happens when you add the constraint?</p>
-</li>
-<li>
-<p>Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist.</p>
-</li>
-<li>
-<p>Now add the constraint to the graph.</p>
-</li>
-<li>
-<p>Write and execute a Cypher statement to add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em>.
-What happens when you execute the statement?</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 14, Part 2</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Creating an existence constraint on a node.</strong></div>
 <p>Suppose we want to ensure that every <em>Person</em> node in the graph has a <em>born</em> property.</p>
 </div>
 <div class="paragraph">
-<p><strong>1. Add the constraint to the <em>Person</em> nodes in the graph.</strong></p>
+<p><strong>Attempt to add an existence constraint to the <em>Person</em> nodes in the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.3: Attempt to add an existence constraint to the <em>Person</em> nodes in the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Attempt to add an existence constraint to the <em>Person</em> nodes in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -771,8 +785,33 @@ This is because there are <em>Person</em> nodes in the graph that do not have <e
 <img src="https://localhost:8001/intro-neo4j-exercises/img/CreateBornExistsConstraintFailed.png" alt="CreateBornExistsConstraintFailed" width="500">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>2. Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.4: Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.4: Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Update the existing <em>Person</em> nodes so that you set the <em>born</em> property to <em>0</em> for any nodes that do not exist.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -790,8 +829,33 @@ SET p.born = 0<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Now add the constraint to the graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.5: Add an existence constraint to the <em>Person</em> nodes in the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the existence constraint to the graph for the <em>born</em> property.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.5: Add an existence constraint to the <em>Person</em> nodes in the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the existence constraint to the graph for the <em>born</em> property.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -807,8 +871,33 @@ SET p.born = 0<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. Write and execute Cypher code to add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.6: Add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.6: Add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add <em>Sean Penn</em> to the graph where you do not specify a value for <em>born</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -823,9 +912,6 @@ SET p.born = 0<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/CannotAddWithoutBorn.png" alt="CannotAddWithoutBorn" width="500">
 </div>
 </div>
-<div class="paragraph">
-<p>Next, Part 3</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -834,41 +920,28 @@ SET p.born = 0<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 14, Part 3</h3>
+    <h3>Exercise 14.7: Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating an existence constraint on a relationship.</strong></div>
-<p>Suppose we want to ensure that every <em>ACTED_IN</em> relationship must have a value for the <em>roles</em> property.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the constraint to the <em>ACTED_IN</em> relationship in the graph.</p>
-</li>
-<li>
-<p>Write and execute a Cypher statement to add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set.
-What happens when you execute the statement?</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 14, Part 3</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Creating an existence constraint on a relationship.</strong></div>
 <p>Suppose we want to ensure that every  <em>ACTED_IN</em> relationship must have a value for the <em>roles</em> property.</p>
 </div>
 <div class="paragraph">
-<p><strong>1. Add the constraint to the <em>ACTED_IN</em> relationship in the graph.</strong></p>
+<p><strong>Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.7: Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add an existence constraint to the <em>ACTED_IN</em> relationship in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -884,8 +957,33 @@ What happens when you execute the statement?</p>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Write and execute a Cypher statement to add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.8: Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.8: Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add an <em>ACTED_IN</em> relationship from the person, <em>Emil Eifrem</em> to the movie, <em>Forrest Gump</em> where the <em>roles</em> property is not set.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -903,9 +1001,6 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 <img src="https://localhost:8001/intro-neo4j-exercises/img/CannotCreateActedInwithoutRoles.png" alt="CannotCreateActedInwithoutRoles" width="300">
 </div>
 </div>
-<div class="paragraph">
-<p>Next, Part 4</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -914,56 +1009,10 @@ MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 14, Part 4</h3>
+    <h3>Exercise 14.9: Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Creating a node key.</strong></div>
-<p>Suppose we want to ensure that the graph will never contain a movie with the same title and the same year.
-For example, the movie studio decides to release a movie with the title, <em>Back to the Future</em> in 2018.
-There already is a movie in the graph with this title that was released in 1985.
-We want to allow this.
-To implement this type of constraint on the graph, you must add a constraint as a node key since it uses two properties of the node.</p>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> If you have created a uniqueness constraint to the graph for the <em>title</em> property (as shown in the module content), you must first drop the constraint as it no longer makes sense if we are to allow duplicate titles in the graph.
-You must execute this code to drop the constraint if it exists:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE<!--/code--></pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes.</p>
-</li>
-<li>
-<p>Write and execute a Cypher statement to add the movie, <em>Back to the Future</em> with a <em>released</em> value of 1985 and a <em>tagline</em> value of <em>Our future.</em>.</p>
-</li>
-<li>
-<p>Write and execute a Cypher statement to add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em>.</p>
-</li>
-<li>
-<p>Try adding the <em>2018</em> movie again.
-What happens when you attempt to add the movie?</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 14, Part 4</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Creating a node key.</strong></div>
 <p>Suppose we want to ensure that the graph will never contain a movie with the same title and the same year.
 For example, the movie studio decides to release a movie with the title, <em>Back to the Future</em> in 2018.
 There already is a movie in the graph with this title that was released in 1985.
@@ -980,7 +1029,21 @@ You must write and execute the statement to drop the constraint if it exists:</p
 </div>
 </div>
 <div class="paragraph">
-<p><strong>1. Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes.</strong></p>
+<p><strong>Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.9: Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a node key to the graph that will ensure that the combined values of <em>title</em> and <em>released</em> are unique for all <em>Movie</em> nodes.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -996,8 +1059,33 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Write and execute a Cypher statement to add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.10: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.10: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>1985</em> and a <em>tagline</em> value of <em>Our future.</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1013,8 +1101,33 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Write and execute a Cypher statement to add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em>.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.11: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.11: Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add the movie, <em>Back to the Future</em> with a <em>released</em> value of <em>2018</em> and a <em>tagline</em> value of <em>The future is ours.</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1030,8 +1143,33 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. Try adding the <em>2018</em> movie again.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.12: Try adding the <em>2018</em> movie again (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Try adding the <em>2018</em> movie again.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.12: Try adding the <em>2018</em> movie again (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Try adding the <em>2018</em> movie again.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1046,8 +1184,19 @@ You must write and execute the statement to drop the constraint if it exists:</p
 <img src="https://localhost:8001/intro-neo4j-exercises/img/AddBackToFutureFailed.png" alt="AddBackToFutureFailed" width="500">
 </div>
 </div>
-<div class="paragraph">
-<p>Next, Part 5</p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.13: Display the list of constraints defined in the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Display the list of constraints defined in the graph.</strong></p>
 </div>
 	</div>
   </div>
@@ -1057,56 +1206,53 @@ You must write and execute the statement to drop the constraint if it exists:</p
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 14, Part 5</h3>
+    <h3>Exercise 14.13: Display the list of constraints defined in the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Dropping constraints.</strong></div>
-<p>Perform these tasks:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Display the list of constraints defined in the graph.</p>
-</li>
-<li>
-<p>Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em>.</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 14, Part 5</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Dropping constraints.</strong></div>
-<p>Perform these tasks:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Display the list of constraints defined in the graph.</strong></p>
+<p><strong>Display the list of constraints defined in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.constraints()<!--/code--></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
+<div class="imageblock thumb" style="float: right;">
 <div class="content">
 <img src="https://localhost:8001/intro-neo4j-exercises/img/listConstraints.png" alt="listConstraints" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p><strong>2. Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em>.</strong></p>
+<p>The result returned should be:</p>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.14: Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.14: Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Drop the constraint that requires the <em>ACTED_IN</em> relationship to have a property, <em>roles</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">

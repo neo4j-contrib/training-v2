@@ -604,18 +604,30 @@ SET m:OlderMovie<!--/code--></pre>
 <div class="paragraph">
 <p>In this exercise you will delete nodes and relationships from the graph.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>In Part 1, you delete a relationship.</p>
+<p><strong>Exercise 10.1</strong>: Delete a relationship.</p>
 </li>
 <li>
-<p>In Part 2, you delete a node and its relationships.</p>
+<p><strong>Exercise 10.2</strong>: Query the graph to confirm that the relationship has been deleted.</p>
 </li>
-</ol>
+<li>
+<p><strong>Exercise 10.3</strong>: Query the graph to display <em>Forrest Gump</em> and all of its relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 10.4</strong>: Try deleting the <em>Forrest Gump</em> node without detaching its relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 10.5</strong>: Delete <em>Forrest Gump</em>, along with its relationships in the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 10.6</strong>: Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Go to the next page to perform the two parts of this exercise.</p>
+<p>Go to the next page to start this exercise.</p>
 </div>
 	</div>
   </div>
@@ -625,26 +637,15 @@ SET m:OlderMovie<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 10, Part 1</h3>
+    <h3>Exercise 10.1: Delete a relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Deleting a relationship</strong></div>
 <p>Recall that in the graph we have been working with, we have the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em>.
 We have decided that we no longer need this relationship in the graph.</p>
 </div>
 <div class="paragraph">
-<p>Write Cypher statements to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Delete the <em>HELPED</em> relationship from the graph.</p>
-</li>
-<li>
-<p>Query the graph to confirm that the relationship no longer exists.</p>
-</li>
-</ol>
+<p><strong>Delete the <em>HELPED</em> relationship from the graph.</strong></p>
 </div>
 	</div>
   </div>
@@ -654,15 +655,11 @@ We have decided that we no longer need this relationship in the graph.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Solution, Exercise 10, Part 1</h3>
+    <h3>Exercise 10.1: Delete a relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Deleting a relationship</strong></div>
-<p>Write Cypher statements to:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Delete the <em>HELPED</em> relationship from the graph.</strong></p>
+<p><strong>Delete the <em>HELPED</em> relationship from the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -679,8 +676,33 @@ DELETE rel<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>2. Query the graph to confirm that the relationship no longer exists.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.2: Query the graph to confirm that the relationship has been deleted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that the relationship no longer exists.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.2: Query the graph to confirm that the relationship has been deleted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that the relationship no longer exists.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -697,8 +719,19 @@ RETURN rel<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>Next, Part 2</p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.3: Query the graph to display <em>Forrest Gump</em> and all of its relationships (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to display <em>Forrest Gump</em> and all of its relationships.</strong></p>
 </div>
 	</div>
   </div>
@@ -708,53 +741,11 @@ RETURN rel<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Instructions, Exercise 10, Part 2</h3>
+    <h3>Exercise 10.3: Query the graph to display <em>Forrest Gump</em> and all of its relationships (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<div class="title"><strong>Deleting nodes and relationships</strong></div>
-<p>We want to remove the movie, <em>Forrest Gump</em> from the graph.</p>
-</div>
-<div class="paragraph">
-<p>Create Cypher statements to do the following:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Query the graph to display <em>Forrest Gump</em> and all of its relationships.</p>
-</li>
-<li>
-<p>Try deleting the <em>Forrest Gump</em> node without detaching its relationships.
-Do you receive an error?</p>
-</li>
-<li>
-<p>Delete <em>Forrest Gump</em>, along with its relationships in the graph.</p>
-</li>
-<li>
-<p>Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted.</p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Solution, Exercise 10, Part 2</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<div class="title"><strong>Deleting nodes and relationships</strong></div>
-<p>We want to remove the movie, <em>Forrest Gump</em> from the graph.</p>
-</div>
-<div class="paragraph">
-<p>Create Cypher statements to do the following:</p>
-</div>
-<div class="paragraph">
-<p><strong>1. Query the graph to display <em>Forrest Gump</em> and all of its relationships.</strong></p>
+<p><strong>Query the graph to display <em>Forrest Gump</em> and all of its relationships.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -772,9 +763,42 @@ RETURN p, rel, m<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.4: Try deleting the <em>Forrest Gump</em> node without detaching its relationships (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>We want to remove the movie, <em>Forrest Gump</em> from the graph.</p>
+</div>
 <div class="paragraph">
-<p><strong>2. Try deleting the <em>Forrest Gump</em> node without detaching its relationships.
-Do you receive an error?</strong></p>
+<p><strong>Try deleting the <em>Forrest Gump</em> node without detaching its relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p>Do you receive an error?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.4: Try deleting the <em>Forrest Gump</em> node without detaching its relationships (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Try deleting the <em>Forrest Gump</em> node without detaching its relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p>Do you receive an error?</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -792,8 +816,33 @@ DELETE m<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>3. Delete <em>Forrest Gump</em>, along with its relationships in the graph.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.5: Delete <em>Forrest Gump</em>, along with its relationships in the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete <em>Forrest Gump</em>, along with its relationships in the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.5: Delete <em>Forrest Gump</em>, along with its relationships in the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete <em>Forrest Gump</em>, along with its relationships in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -811,8 +860,33 @@ DETACH DELETE m<!--/code--></pre>
 <p>The result returned should be:</p>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p><strong>4. Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted.</strong></p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.6: Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.6: Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
