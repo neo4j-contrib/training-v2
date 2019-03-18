@@ -1,0 +1,155 @@
+= Applied Graph Algorithms
+:presenter: Neo4j
+:twitter: neo4j
+:email: info@neo4j.com
+:neo4j-version: 3.5
+:currentyear: 2019
+:doctype: book
+:toc: left
+:toclevels: 3
+:nextsecttitle: Category Hierarchy
+:nextsect: 1
+:currsect: 0
+:experimental:
+:imagedir: ../img
+:manual: http://neo4j.com/docs/operations-manual/3.5
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== Course Outline
+
+Graph algorithms are used to compute metrics for graphs, nodes, or relationships.
+They can provide insights on relevant entities (centralities, ranking) in the graph or inherent structures such as communities (community-detection, graph-partitioning, clustering).
+In this course you will learn how to use Neo4j's Graph Algorithms library to enhance your graph based applications.
+
+== link:../part-1/[Category Hierarchy]
+
+[square]
+* TODO: Details about section 1 here
+
+Estimated time: _60 minutes_
+
+== link:../part-2[Ordering Search Results]
+
+[square]
+* TODO: details about section 2 here
+
+Estimated time: _60 minutes_
+
+== link:../part-3[Most Relevant Reviews]
+
+[square]
+* TODO: details about section 3 here
+
+Estimated time: _60 minutes_
+
+== link:../part-4[Photo Recommendations]
+
+[square]
+* TODO: details about section 4 here
+
+Estimated time: _60 minutes_
+
+== link:../part-5[Summary]
+
+[square]
+* TODO: details about section 5 here
+
+== Pre Requisites
+
+* Completed Intro to Neo4j training or have equal Cypher proficiency
+* Familiar with the concept of a web application
+
+== Yelp Dataset
+
+https://www.yelp.com/[Yelp^] helps people find local businesses based on reviews, preferences, and recommendations.
+Over 163 million reviews have been written on the platform as of the middle of 2018.
+Yelp has been running the Yelp Dataset challenge 2 since 2013, a competition that encourages people to explore and research Yelp’s open dataset.
+
+As of Round 12 of the challenge, the open dataset contained:
+
+* Over 7 million reviews plus tips
+* Over 1.5 million users and 280,000 pictures
+* Over 188,000 businesses with 1.4 million attributes
+* 10 metropolitan areas
+
+The https://www.yelp.com/dataset/challenge[Yelp dataset^] represents real data that is very well structured and highly interconnected.
+It’s a great showcase for graph algorithms that you can also download and explore.
+
+*Put something here for them to click through so we can approve the use of the dataset*
+
+We'll be using Neo4j Browser guides to help us work through this course.
+These guides allow us to embed content and Cypher queries in Neo4j Browser.
+Once you've created your Neo4j Sandbox instance, open the first guide running following command into the query pane of the Neo4j Browser:
+
+[source,cypher]
+----
+:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/01_cypher_refresher.html
+----
+
+[NOTE]
+====
+.Useful Resources
+
+* https://neo4j.com/docs/cypher-refcard/current/[Cypher Cheatsheet^]
+====
+
+Work through the guide to see how to use Cypher to explore the dataset. When you've completed it, pick up in this document where you left off.
+
+Now that we're familiar with the data, let's have a brief overview of graph algorithms and what we can do with them.
+
+== Graph Algorithms
+
+We have 4 types of graph algorithms:
+
+* Path Finding
+* Centrality
+* Community Detection
+* Similarity
+
+The first 3 are classic graph algorithms and the 4th can be used on its own or in combination with the other 3.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/11qo8dmLzH4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
+== Building our own yelp.com
+
+We're going to build our own version of yelp.com using this data.
+We'll use graph algorithms to improve the quality of results in our application.
+
+The rest of the course will follow this structure:
+
+* Introduction to an algorithm
+* Learn how to execute the algorithm
+* Use the results to improve
+
+Before we continue, open the CodeSandbox link below in another tab.
+This CodeSandbox contains all the code for the application that we'll be building.
+
+https://codesandbox.io/embed/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app[Launch CodeSandbox^]
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NK3yC1cSlVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
+
+++++
+<a class="medium button" href="../part-1/">Start the Course!</a>
+++++
+
+ifdef::backend-html5[]
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-admin-view-part0');
+});
+</script>
+++++
+//marketo stuff, navigate to next page
+endif::backend-html5[]

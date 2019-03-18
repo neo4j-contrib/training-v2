@@ -1,0 +1,114 @@
+== Category Hierarchy
+:presenter: Neo4j
+:twitter: neo4j
+:email: info@neo4j.com
+:neo4j-version: 3.5
+:currentyear: 2019
+:doctype: book
+:toc: left
+:toclevels: 3
+:nextsecttitle: Ordering Search Results
+:prevsecttitle: About this Course
+:nextsect: 2
+:currsect: 1
+:experimental:
+:imagedir: ../img
+:manual: http://neo4j.com/docs/operations-manual/3.5
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Urb6RcpOL_c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
+In this section we're going to navigate business categories.
+Let's first have a look at the part of the application that we're going to build.
+
+Open the first tab on the CodeSandbox application that you opened in the previous section.
+You should be on this screen:
+
+*printscreen of the page*
+
+At the moment we have a list of 100 random categories, and making sense of the data isn't easy.
+One way that we could make things easier for our user is if we let them navigate a taxonomy of categories.
+
+Copy the following command into the query pane of the Neo4j Browser and execute it:
+
+[source, cypher]
+----
+:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/02_category_hierarchy.html
+----
+
+[NOTE]
+====
+.Useful Resources
+
+* https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-overlap/[Overlap Similarity^]
+====
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/blhsQNQySi0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
+[#module-1.quiz]
+== Check your understanding
+=== Question 1
+
+==== Algorithm Understanding: Overlap Similarity
+
+Which of the following best describe what the Overlap Similarity algorithm computes?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.required-answer]#the size of the intersection divided by the size of the smaller of the two sets#
+- [ ] [.false-answer]#the number of pairwise disagreements between two ranking lists#
+- [ ] [.false-answer]#the size of the intersection divided by the size of the union of two sets#
+- [ ] [.false-answer]#the minimum number of operations required to transform one string into the other#
+
+=== Question 2
+
+==== Running the algorithm in Neo4j
+
+Which of the following parameters can be used to control the threshold for overlap similarity?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#degreeCutoff#
+- [ ] [.required-answer]#similarityCutoff#
+- [ ] [.false-answer]#minimumSimilarity#
+- [ ] [.false-answer]#topK#
+
+=== Question 3
+==== Matching Results
+
+Which of these categories are top level categories i.e. they don't have any outgoing `NARROWER_THAN` relationships?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.required-answer]#Shopping#
+- [ ] [.false-answer]#Wine Bars#
+- [ ] [.false-answer]#Doctors#
+- [ ] [.required-answer]#Local Flavor#
+
+== Grade Quiz and Continue
+
+++++
+<a class="next-section medium button" href="../part-2/">Continue to Module 2</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-applied-algos-view-part1');
+});
+</script>
+++++
+
+endif::backend-html5[]
