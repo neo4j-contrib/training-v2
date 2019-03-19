@@ -14,7 +14,7 @@
       <script type='text/javascript'
    src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
-        window.trainingPartName = "module-";
+        window.trainingPartName = "module-1";
       </script>
    </head>
    <body>
@@ -22,7 +22,7 @@
          <a href="../part-0/" id="logo"><img src="https://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png" alt="Neo4j Logo"></a>
          <ul class="documentation-library">
             <li id="menu-module-1">
-              <a href="../part-1/">
+              <a href="../part-1/" style="color: #000">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
@@ -73,11 +73,19 @@
          <nav id="header-nav">
          <span class="nav-previous">
            
+              <a accesskey="p" href="../part-0/">
+                <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
+              About This Course</a>
+           
          </span>
          <span class="nav-current">
            <p class="nav-title" style="display: none;"></p>
          </span>
          <span class="nav-next">
+           
+              <a accesskey="n" href="../part-2/">Category Hierarchy
+                <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
+              </a>
            
          </span>
          </nav>
@@ -85,10 +93,10 @@
 
 
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1></h1>
+<h1>Setup and Cypher Refresher</h1>
 
-      <div  id="_setup_and_cypher_refresher" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Setup and Cypher Refresher</h3>
+      <div id="preamble columns medium-12">
+<div class="sectionbody">
 <script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
 	var loc = window.location;
@@ -191,12 +199,245 @@ function setGadgetUrl(sel) {
 
 
 <div class="paragraph">
-<p>This CodeSandbox contains all the code for the application that we&#8217;ll be building.</p>
+<p>To complete this course we will make use of the following tools:</p>
+</div>
+</div>
+</div>
+<div  id="_neo4j_sandbox" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Neo4j Sandbox</h3>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="../img/sandbox.png" alt="Neo4j Sandbox" width="500">
+</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content">
+
+<div class="paragraph">
+<p>Neo4j Sandbox is a hosted Neo4j tool that allows us to run private instances of Neo4j without having to install Neo4j locally. We can choose Neo4j Sandbox usecases that come pre-loaded with datasets and our Neo4j Sandbox instances can be accessed over the internet, making them useful for building sample applications. While Neo4j Browser is the primary way to interact with Neo4j instances hosted by Neo4j Sandbox, for this course we will also connect our sandbox instance to a simple web application.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="paragraph">
+<p>Log in to Neo4j Sandbox and launch a Yelp usecase <a href="https://neo4j.com/sandbox-v2-dev" target="_blank" rel="noopener">here</a></p>
+</div>
+</div>
+<div  id="_neo4j_browser_guides" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Neo4j Browser Guides</h3>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="../img/browserguide2.png" alt="Neo4j Browser Guide" width="500">
+</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content">
+
+<div class="paragraph">
+<p>Neo4j Browser Guides are documents that embed text, images, and Cypher queries inside Neo4j Browser in a carousel like series of slides. We&#8217;ll make use of Neo4j Browser Guides to to show us how to use graph algorithms in Cypher and Neo4j. Each module will have a browser guide to help "guide" us through the content.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="paragraph">
+<p>You can access the guides for this course by running:</p>
+</div>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:play https://guides.neo4j.com/sandbox/applied_graph_algos</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+</div>
+<div  id="_the_neo4j_graph_algorithms_plugin" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>The Neo4j Graph Algorithms Plugin</h3>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="../img/algosplugin.png" alt="Neo4j Graph Algorithms plugin" width="500">
+</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content">
+
+<div class="paragraph">
+<p>The focus of this course is on using the graph algorithms available in the Neo4j Graph Algorithms Plugin. The plugin implements four types of graph algorithms: Path Finding, Centrality, Community Detection, Similarity. The first 3 are classic graph algorithms and the 4th can be used on its own or in combination with the other 3.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="paragraph">
+<p>This plugin is available in Neo4j Sandbox by default so you won&#8217;t need to worry about installing. You can also install the plugin with one click in Neo4j Desktop.</p>
+</div>
+</div>
+<div  id="_codesandbox_react_application" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Codesandbox React Application</h3>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="../img/codesandbox2.png" alt="Codesandbox" width="500">
+</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content">
+
+<div class="paragraph">
+<p>Since this an applied course, we want to see how to enhance features of an actual application. We&#8217;ll use an existing React application for this part of the course. Codesandbox is a hosted environment that allows us to edit, run, and preview JavaScript applications, all in the browser.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="paragraph">
+<p>This CodeSandbox contains all the client code for the application that we&#8217;ll be building. You&#8217;ll want to have Codesandbox open in another tab as you work through the application: <a href="https://codesandbox.io/s/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app" target="_blank" rel="noopener">Launch CodeSandbox</a></p>
+</div>
+</div>
+<div  id="_the_yelp_public_dataset" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>The Yelp Public Dataset</h3>
+
+
+<div class="paragraph">
+<p><a href="https://www.yelp.com/" target="_blank" rel="noopener">Yelp</a> helps people find local businesses based on reviews, preferences, and recommendations.
+Over 163 million reviews have been written on the platform as of the middle of 2018.
+Yelp has been running the Yelp Dataset challenge 2 since 2013, a competition that encourages people to explore and research Yelp’s open dataset.</p>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://codesandbox.io/embed/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app" target="_blank" rel="noopener">Launch CodeSandbox</a></p>
+<p>As of Round 12 of the challenge, the open dataset contained:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+Over 7 million reviews plus tips
+</li>
+<li>
+Over 1.5 million users and 280,000 pictures
+</li>
+<li>
+Over 188,000 businesses with 1.4 million attributes
+</li>
+<li>
+10 metropolitan areas
+</li>
+</ul>
+</div>
+
+
+<div class="paragraph">
+<p>The <a href="https://www.yelp.com/dataset/challenge" target="_blank" rel="noopener">Yelp dataset</a> represents real data that is very well structured and highly interconnected.
+It’s a great showcase for graph algorithms that you can also download and explore.</p>
+</div>
+<div  id="_building_our_own_business_reviews_application" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Building our own business reviews application</h3>
+
+
+<div class="paragraph">
+<p>We&#8217;re going to build our own version of yelp.com using this data.
+We&#8217;ll use graph algorithms to improve the quality of results in our application.</p>
+</div>
+
+
+<div class="paragraph">
+<p>The rest of the course will follow this structure:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+Introduction to an algorithm
+</li>
+<li>
+Learn how to execute the algorithm
+</li>
+<li>
+Use the results to improve
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_exercise" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise</h3>
+
+
+<div class="paragraph">
+<p>Your exercise for this module is to get all the tools up and running and talking to each other.</p>
+</div>
+<div class="olist arabic">
+<ol style="margin-left: 2.4rem;" class="arabic">
+<li>
+Create a Yelp Neo4j Sandbox instance here.
+</li>
+<li>
+Complete the first Neo4j Browser Guide "Cypher Refresher".
+</li>
+<li>
+Open the existing Codesandbox React application for our initial business reviews application.
+</li>
+<li>
+Edit the .env file in Codesandbox, replacing the default environment variables with the credentials for your Yelp Neo4j Sandbox
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title label"></div>
+</td>
+<td class="content">
+<div class="ulist">
+<div class="title">Useful Resources</div>
+<ul>
+<li>
+<a href="https://neo4j.com/docs/cypher-refcard/current/" target="_blank" rel="noopener">Cypher Cheatsheet</a>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+
+
+<div class="paragraph">
+<p>Once you have the Codesandbox application connected to your Neo4j Sandbox instance you should see a drop down of users to choose from.</p>
+</div>
+
+
+<div class="paragraph">
+<p>If you get stuck, watch this video to see how it all fits together:</p>
 </div>
 <div style="position: relative; overflow: hidden; padding-top: 56.25%">
     <iframe src="https://www.youtube.com/embed/NK3yC1cSlVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
@@ -211,45 +452,44 @@ function setGadgetUrl(sel) {
 <h3>Check your understanding</h3>
 <div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Question 1</h3>
-<div  id="_algorithm_understanding_personalized_pr" class="sect3 "  >
-<h4>Algorithm Understanding: Personalized PR</h4>
+<div  id="_verify_your_codesandbox_react_application_is_connected_to_neo4j_sandbox" class="sect3 "  >
+<h4>Verify your Codesandbox React application is connected to Neo4j Sandbox</h4>
 
 
 <div class="paragraph">
-<p>Which of the following best describe the Personalized PageRank algorithm?</p>
+<p>Which of the following users appear in the User Profile dropdown?</p>
 </div>
 
 
 <div class="paragraph">
-<p>Select the correct answer.</p>
+<p>Select the correct answers.</p>
 </div>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">It measures similarity of the structural context in which objects occur, based on their relationships with other objects.</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Bob Loblaw</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">It&#8217;s a variation of the PageRank algorithm that is biased towards a set of source nodes</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">William</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">It computes the influence of a node by measuring the number of the immediate neighbors and also all other nodes in the network that connect to the node under consideration through these immediate neighbors</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Dolores</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">It&#8217;s a variation of the PageRank algorithm that reduces the bias that PageRank has towards assigning higher scores to nodes with relationships from nodes that have few outgoing relationships.</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">PrincessCandyEmpire</span>
 </li>
 </ul>
 </div>
 </div>
 </div>
-</div>
-<div  id="_question_2" class="sect1 columns medium-12" style='padding-left: 0;' >
+<div  id="_question_2" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Question 2</h3>
-<div  id="_running_the_algorithm_in_neo4j" class="sect3 "  >
-<h4>Running the algorithm in Neo4j</h4>
+<div  id="_cypher_refresher" class="sect3 "  >
+<h4>Cypher refresher</h4>
 
 
 <div class="paragraph">
-<p>What is the default value of the <code>dampingFactor</code> used by the PageRank procedure?</p>
+<p>In your Yelp Neo4j Sandbox instance write a Cypher query to find all the businesses connected to the Category "Breweries". How many breweries are there in the dataset?</p>
 </div>
 
 
@@ -259,18 +499,19 @@ function setGadgetUrl(sel) {
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">0.15</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">10</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">0.85</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">38</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">0.70</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">1142</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">0.12</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">27455</span>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -279,19 +520,28 @@ function setGadgetUrl(sel) {
 
 
 <div class="paragraph">
-<p>You should now be able to:</p>
+<p>You should now be have:</p>
 </div>
 <div class="ulist square">
 <ul class="square">
 <li>
-Use the Personalized Pagerank graph algorithm with Neo4j
+Created a Yelp Neo4j Sandbox instance
+</li>
+<li>
+Opened the businesses reviews application in Codesandbox
+</li>
+<li>
+Connected your React Codesandbox application to your Neo4j Sandbox instance
+</li>
+<li>
+Completed the Cypher Refresher section in the Neo4j Browser Guide
 </li>
 </ul>
 </div>
 </div>
 <div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Grade Quiz and Continue</h3>
-<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
+<a class="next-section medium button" href="../part-4/">Continue to Module 2</a>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
 <script src="" type="text/javascript"></script>
@@ -433,22 +683,31 @@ $( document ).ready(function() {
 </div>
 <div id="sidebar-wrapper">
         
-        <div id="toc" class="toc">
-        <div id="toctitle">Module: </div>
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Setup and Cypher Refresher</div>
         <ul class="sectlevel1">
-<li><a href="#_setup_and_cypher_refresher">Setup and Cypher Refresher</a></li>
+<li><a href="#_neo4j_sandbox">Neo4j Sandbox</a></li>
+<li><a href="#_neo4j_browser_guides">Neo4j Browser Guides</a></li>
+<li><a href="#_the_neo4j_graph_algorithms_plugin">The Neo4j Graph Algorithms Plugin</a></li>
+<li><a href="#_codesandbox_react_application">Codesandbox React Application</a></li>
+<li><a href="#_the_yelp_public_dataset">The Yelp Public Dataset</a>
+<ul class="sectlevel2">
+<li><a href="#_building_our_own_business_reviews_application">Building our own business reviews application</a></li>
+</ul>
+</li>
+<li><a href="#_exercise">Exercise</a></li>
 <li><a href="#module-3">Check your understanding</a>
 <ul class="sectlevel2">
 <li><a href="#_question_1">Question 1</a>
 <ul class="sectlevel3">
-<li><a href="#_algorithm_understanding_personalized_pr">Algorithm Understanding: Personalized PR</a></li>
-</ul>
-</li>
+<li><a href="#_verify_your_codesandbox_react_application_is_connected_to_neo4j_sandbox">Verify your Codesandbox React application is connected to Neo4j Sandbox</a></li>
 </ul>
 </li>
 <li><a href="#_question_2">Question 2</a>
 <ul class="sectlevel3">
-<li><a href="#_running_the_algorithm_in_neo4j">Running the algorithm in Neo4j</a></li>
+<li><a href="#_cypher_refresher">Cypher refresher</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_summary">Summary</a></li>

@@ -1,4 +1,4 @@
-== Setup and Cypher Refresher
+= Setup and Cypher Refresher
 :presenter: Neo4j
 :twitter: neo4j
 :email: info@neo4j.com
@@ -11,6 +11,7 @@
 :prevsecttitle: About This Course
 :nextsect: 2
 :currsect: 1
+:prevsect: 0
 :experimental:
 :imagedir: ../img
 :manual: http://neo4j.com/docs/operations-manual/3.5
@@ -21,11 +22,104 @@ include::scripts.txt[]
 
 endif::backend-html5[]
 
+To complete this course we will make use of the following tools:
+
+== Neo4j Sandbox
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/sandbox.png[Neo4j Sandbox,width=500,align=center]
+a|
+Neo4j Sandbox is a hosted Neo4j tool that allows us to run private instances of Neo4j without having to install Neo4j locally. We can choose Neo4j Sandbox usecases that come pre-loaded with datasets and our Neo4j Sandbox instances can be accessed over the internet, making them useful for building sample applications. While Neo4j Browser is the primary way to interact with Neo4j instances hosted by Neo4j Sandbox, for this course we will also connect our sandbox instance to a simple web application.
+|===
+
+Log in to Neo4j Sandbox and launch a Yelp usecase https://neo4j.com/sandbox-v2-dev[here^]
+
+== Neo4j Browser Guides
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/browserguide2.png[Neo4j Browser Guide,width=500,align=center]
+a|
+Neo4j Browser Guides are documents that embed text, images, and Cypher queries inside Neo4j Browser in a carousel like series of slides. We'll make use of Neo4j Browser Guides to to show us how to use graph algorithms in Cypher and Neo4j. Each module will have a browser guide to help "guide" us through the content. 
+|===
+
+You can access the guides for this course by running:
+
+[source,cypher]
+----
+:play https://guides.neo4j.com/sandbox/applied_graph_algos
+----
+
+== The Neo4j Graph Algorithms Plugin
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/algosplugin.png[Neo4j Graph Algorithms plugin,width=500,align=center]
+a|
+The focus of this course is on using the graph algorithms available in the Neo4j Graph Algorithms Plugin. The plugin implements four types of graph algorithms: Path Finding, Centrality, Community Detection, Similarity. The first 3 are classic graph algorithms and the 4th can be used on its own or in combination with the other 3.
+|===
+
+This plugin is available in Neo4j Sandbox by default so you won't need to worry about installing. You can also install the plugin with one click in Neo4j Desktop.
+
+== Codesandbox React Application
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/codesandbox2.png[Codesandbox,width=500,align=center]
+a|
+Since this an applied course, we want to see how to enhance features of an actual application. We'll use an existing React application for this part of the course. Codesandbox is a hosted environment that allows us to edit, run, and preview JavaScript applications, all in the browser.
+|===
+
+This CodeSandbox contains all the client code for the application that we'll be building. You'll want to have Codesandbox open in another tab as you work through the application: https://codesandbox.io/s/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app[Launch CodeSandbox^]
+
+== The Yelp Public Dataset
+
+https://www.yelp.com/[Yelp^] helps people find local businesses based on reviews, preferences, and recommendations.
+Over 163 million reviews have been written on the platform as of the middle of 2018.
+Yelp has been running the Yelp Dataset challenge 2 since 2013, a competition that encourages people to explore and research Yelp’s open dataset.
+
+As of Round 12 of the challenge, the open dataset contained:
+
+* Over 7 million reviews plus tips
+* Over 1.5 million users and 280,000 pictures
+* Over 188,000 businesses with 1.4 million attributes
+* 10 metropolitan areas
+
+The https://www.yelp.com/dataset/challenge[Yelp dataset^] represents real data that is very well structured and highly interconnected.
+It’s a great showcase for graph algorithms that you can also download and explore.
+
+=== Building our own business reviews application
+
+We're going to build our own version of yelp.com using this data.
+We'll use graph algorithms to improve the quality of results in our application.
+
+The rest of the course will follow this structure:
+
+* Introduction to an algorithm
+* Learn how to execute the algorithm
+* Use the results to improve
 
 
-This CodeSandbox contains all the code for the application that we'll be building.
+== Exercise
 
-https://codesandbox.io/embed/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app[Launch CodeSandbox^]
+Your exercise for this module is to get all the tools up and running and talking to each other.
+
+. Create a Yelp Neo4j Sandbox instance here.
+. Complete the first Neo4j Browser Guide "Cypher Refresher".
+. Open the existing Codesandbox React application for our initial business reviews application.
+. Edit the .env file in Codesandbox, replacing the default environment variables with the credentials for your Yelp Neo4j Sandbox
+
+[NOTE]
+====
+.Useful Resources
+
+* https://neo4j.com/docs/cypher-refcard/current/[Cypher Cheatsheet^]
+====
+
+Once you have the Codesandbox application connected to your Neo4j Sandbox instance you should see a drop down of users to choose from.
+
+If you get stuck, watch this video to see how it all fits together:
 
 ++++
 <div style="position: relative; overflow: hidden; padding-top: 56.25%">
@@ -38,39 +132,43 @@ _Overview of the application and connecting it to your Neo4j Sandbox instance_
 == Check your understanding
 === Question 1
 
-==== Algorithm Understanding: Personalized PR
+==== Verify your Codesandbox React application is connected to Neo4j Sandbox
 
-Which of the following best describe the Personalized PageRank algorithm?
+Which of the following users appear in the User Profile dropdown?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#Bob Loblaw#
+- [ ] [.false-answer]#William#
+- [ ] [.required-answer]#Dolores#
+- [ ] [.required-answer]#PrincessCandyEmpire#
+
+=== Question 2
+==== Cypher refresher
+
+In your Yelp Neo4j Sandbox instance write a Cypher query to find all the businesses connected to the Category "Breweries". How many breweries are there in the dataset?
 
 Select the correct answer.
 [%interactive]
-- [ ] [.false-answer]#It measures similarity of the structural context in which objects occur, based on their relationships with other objects.#
-- [ ] [.required-answer]#It's a variation of the PageRank algorithm that is biased towards a set of source nodes#
-- [ ] [.false-answer]#It computes the influence of a node by measuring the number of the immediate neighbors and also all other nodes in the network that connect to the node under consideration through these immediate neighbors#
-- [ ] [.false-answer]#It's a variation of the PageRank algorithm that reduces the bias that PageRank has towards assigning higher scores to nodes with relationships from nodes that have few outgoing relationships.#
+- [ ] [.false-answer]#10#
+- [ ] [.required-answer]#38#
+- [ ] [.false-answer]#1142#
+- [ ] [.false-answer]#27455#
 
-== Question 2
-==== Running the algorithm in Neo4j
-
-What is the default value of the `dampingFactor` used by the PageRank procedure?
-
-Select the correct answer.
-[%interactive]
-- [ ] [.false-answer]#0.15#
-- [ ] [.required-answer]#0.85#
-- [ ] [.false-answer]#0.70#
-- [ ] [.false-answer]#0.12#
 
 == Summary
 
-You should now be able to:
+You should now be have:
 [square]
-* Use the Personalized Pagerank graph algorithm with Neo4j
+* Created a Yelp Neo4j Sandbox instance
+* Opened the businesses reviews application in Codesandbox
+* Connected your React Codesandbox application to your Neo4j Sandbox instance
+* Completed the Cypher Refresher section in the Neo4j Browser Guide
 
 == Grade Quiz and Continue 
 
 ++++
-<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
+<a class="next-section medium button" href="../part-4/">Continue to Module 2</a>
 ++++
 
 ifdef::backend-html5[]
