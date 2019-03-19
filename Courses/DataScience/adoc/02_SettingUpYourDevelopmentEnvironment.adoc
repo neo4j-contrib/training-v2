@@ -1,0 +1,141 @@
+
+= Setting Up Neo4j Sandbox
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.4.4
+:currentyear: 2018
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Intro to Neo4j
+:prevsect: 1
+:currsect: 2
+:nextsecttitle: Exploratory Data Analysis
+:nextsect: 3
+:experimental:
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+As a data scientist, you will create Neo4j Databases, add and update data in them, and query the data.
+When you learn to use Neo4j as a data scientist, you have two options ⎼ the Neo4j Desktop or the Neo4j Sandbox.
+In his module you will learn how to use setup the Neo4j Sandbox for use in the rest of the course.
+
+
+At the end of this module, you should be able to:
+[square]
+* Create a Neo4j Sandbox for learning Neo4j.
+* Start using  Neo4j Browser.
+
+=== Neo4j Sandbox
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/Neo4jSandbox.png[Neo4jSandbox,width=300,align=center]
+a|
+The Neo4j sandbox is another way that you can begin development with Neo4j. 
+It is a temporary, cloud-based instance of a Neo4j Server with its associated graph that you can access from any Web browser. The database in a Sandbox may be blank or it may be pre-populated. It is started automatically for you when you create the Sandbox.
+
+By default, the Neo4j sandbox is available for three days, but you can extend it for up to 10 days. 
+If you do not want to install Neo4j Desktop on your system, consider creating a Neo4j sandbox. You must make sure that you extend your lease of the sandbox, otherwise you will lose your graph and any saved Cypher scripts you have created in the sandbox. However, you can use Neo4j Browser Sync to save Cypher scripts from your sandbox.  
+We recommend you use the Desktop for a real development project. 
+The Sandbox is intended as a temporary environment or for learning about the features of Neo4j as well as specific graph use-cases.
+
+|===
+
+=== Steps for setting up your development environment for this training
+
+. Start a Neo4j Sandbox (use latest Neo4j GA release). The Sandbox has a blank database that is started.
+. Click the link to access Neo4j Browser.
+
+
+=== *Guided Exercise: Creating a Neo4j Sandbox*
+
+[NOTE]
+In order to perform the hands-on exercises for this training, you must create a Neo4j Sandbox.
+
+ifdef::backend-html5[]
+If you want to run the Neo4j Database server in the cloud using a Neo4j sandbox, follow along with this video to create a Neo4j sandbox for training purposes.
+For this course, you should select the latest GA release of Neo4j for your sandbox as you want a blank sandbox for this course.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rmfgRKPjhl8?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+
+endif::backend-html5[]
+
+ifdef::backend-pdf[]
+If you want to run the Neo4j Database server in the cloud using a Neo4j sandbox, follow along with your instructor to create a Neo4j sandbox for training purposes.
+For this course, you should select the latest GA release of Neo4j for your sandbox as you want a blank sandbox for this course.
+
+endif::backend-pdf[]
+
+[#module-3.quiz]
+== Check your understanding
+=== Question 1
+
+What development environment should you use if you want to develop a graph-enabled application using a local Neo4j Database?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.required-answer]#Neo4j Desktop#
+- [ ] [.false-answer]#Neo4j Sandbox#
+
+
+=== Question 2
+
+What development environment should you use if you want develop a graph-enabled application using a temporary, cloud-based Neo4j Database?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#Neo4j Desktop#
+- [ ] [.required-answer]#Neo4j Sandbox#
+
+=== Question 3
+
+Which Neo4j Browser command do you use to view a browser guide for the Movie graph?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#MATCH (Movie Graph)#
+- [ ] [.false-answer]#:MATCH (Movie Graph)#
+- [ ] [.false-answer]#play Movie Graph#
+- [ ] [.required-answer]#:play Movie Graph#
+
+
+== Summary
+
+You should now be able to:
+[square]
+* Determine the development environment that is best for you:
+** Install and start using the Neo4j Desktop.
+** Create a Neo4j Sandbox for learning Neo4j.
+* Start using  Neo4j Browser.
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
+++++
+
+//ifdef::backend-html5[]
+//include::scripts-end.txt[]
+//
+//++++
+//<script>
+//$( document ).ready(function() {
+//  Intercom('trackEvent','training-introv2-view-part3');
+//});
+//</script>
+//++++
+
+endif::backend-html5[]

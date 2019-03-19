@@ -1,0 +1,699 @@
+<html>
+   <head>
+      <meta charset="utf-8"></meta>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+      <title>Neo4j GraphAcademy: Introduction to Neo4j</title>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,300italic"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/extra.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/chunked-base.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/console.css"></link><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+      <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
+      <script type='text/javascript'
+   src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
+      <script type='text/javascript'>
+        window.trainingPartName = "module-1";
+      </script>
+   </head>
+   <body>
+      <header style="top: 0px;">
+         <a href="../part-0/" id="logo"><img src="https://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png" alt="Neo4j Logo"></a>
+         <ul class="documentation-library">
+            <li id="menu-module-1">
+              <a href="../part-1/" style="color: #000">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">1</strong>
+              </span>
+              Intro to Data Science</a>
+            </li>
+            <li id="menu-module-2">
+              <a href="../part-2/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">2</strong>
+              </span>
+              Dev Env</a>
+            </li>
+            <li id="menu-module-3">
+              <a href="../part-3/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">3</strong>
+              </span>
+              EDA</a>
+            </li>
+            <li id="menu-module-4">
+              <a href="../part-4/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">4</strong>
+              </span>
+              Recommendations</a>
+            </li>
+            <li id="menu-module-5">
+              <a href="../part-5/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">5</strong>
+              </span>
+              Predictions</a>
+            </li>
+             <li>
+              <a href="../part-6/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">8</strong>
+              </span>
+              The End</a>
+            </li>
+         </ul>
+         <nav id="header-nav">
+         <span class="nav-previous">
+           
+              <a accesskey="p" href="../part-0/">
+                <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
+              About this Course</a>
+           
+         </span>
+         <span class="nav-current">
+           <p class="nav-title" style="display: none;"></p>
+         </span>
+         <span class="nav-next">
+           
+              <a accesskey="n" href="../part-2/">Introduction to Data Science with Neo4j
+                <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
+              </a>
+           
+         </span>
+         </nav>
+      </header>
+
+
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Introduction to Data Science with Neo4j</h1>
+
+      <div id="preamble columns medium-12">
+<div class="sectionbody">
+<script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
+<script type='text/javascript'>
+	var loc = window.location;
+	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>
+window.trainingClassName = 'online-training-v2';
+</script>
+
+<script>Munchkin.init('773-GON-065');</script>
+
+
+<style>
+    @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
+    .modal {
+        width: 775px;
+        height: 775px;
+        padding: 10px;
+        margin: 0;
+    }
+    .blocker {
+        height: initial;
+        background-color: transparent;
+    }
+  a.button {
+    display: block;
+    text-align: center;
+    width: 250px;
+    font-size: 18px;
+    margin-top: 50px;
+    font-family: 'Open Sans';
+    height: 55px;
+    border-style: solid;
+    border-width: 0;
+    cursor: pointer;
+    color: white;
+    padding: 15px;
+    font-weight: 300;
+    background-color: #6dcc9c;
+    border-color: #4ac084;
+  }
+
+  .button a hover {
+      background-color: #4ac084;
+  }
+
+  pre.cypher-syntax {
+    background-color: #eaf1f8;
+  }
+</style>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/underscore.js"></script>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.js"></script>
+<script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
+<script src="https://neo4jsandbox.com/js/js.cookie-2.1.3.min.js"></script>
+<!--script src="/online_training/gadgetUtils.js"></script-->
+<script type="text/javascript">
+  Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
+</script>
+<script src="https://neo4j.com/online_training/tasks.js"></script>
+<script type="text/javascript">
+function renderGadget(containerSelector, options) {
+  if (!options.cypherSetup) return;
+  var frameId = _.uniqueId("exmodal");
+  $(containerSelector).append('<button onclick="setGadgetUrl(\'#' + frameId +
+    '\')" rel="modal:open" class="btn">' + (options.label || 'Gadget') + '</button>');
+
+    $(containerSelector).append(modalWindow(frameId,options));
+  }
+
+function modalWindow(frameId, options) {
+   return `<div id="${frameId}" class="modal-dialog modal fade draggable" style="display:none;text-align:center;vertical-align:middle;" >
+            <iframe data-src="/online_training/cypher-gadget/test.html?cypherSetup=${options.cypherSetup}&${formatTask(options)}" width="725" height="725" frameborder="0" style="margin:5px;"
+              webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+           <div>`;
+}
+/*
+    .modal {
+        width: 775px;
+        height: 675px;
+        padding: 10px;
+        margin: 0;
+    }
+*/
+
+function formatTask(options) {
+  if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
+  if (options.taskName) return "cypherTask="+options.taskName;
+  return "";
+}
+
+
+function setGadgetUrl(sel) {
+  $(sel).modal();
+  $(sel).draggable();
+  var $iframe = $(sel).find("iframe");
+  $iframe.attr("src", $iframe.data("src"));
+}
+</script>
+</div>
+</div>
+<div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>About this module</h3>
+
+
+<div class="paragraph">
+<p>The Neo4j Graph Platform enables developers to create applications that are best architected as graph-powered systems that are built upon the rich connectedness of data.</p>
+</div>
+
+
+<div class="paragraph">
+<p>At the end of this module, you should be able to:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+Describe what a graph database is.
+</li>
+<li>
+Describe some common use cases for using a graph database.
+</li>
+<li>
+Describe how real-world scenarios are modeled as a graph.
+</li>
+</ul>
+</div>
+
+
+<div class="paragraph">
+<p>===</p>
+</div>
+<div  id="_the_evolution_of_graph_databases" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>The evolution of graph databases</h3>
+
+
+<div class="paragraph">
+<p>Today&#8217;s business and user requirements demand applications that connect more and more of the world&#8217;s data, yet still expect high levels of performance and data reliability.
+Many applications of the future will be built using graph databases like Neo4j.</p>
+</div>
+
+
+<div class="paragraph">
+<p>In this video, you will learn how the need for graph databases has evolved.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed?listType=playlist&#038;list=PL9Hl4pk2FsvWM9GWaguRhlCQ-pa-ERd4U&#038;index=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+<div  id="_what_is_a_graph_database" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>What Is a graph database?</h3>
+
+
+<div class="paragraph">
+<p>A graph database is an online database management system with Create, Read, Update and Delete (CRUD) operations working on a graph data model.
+Graph databases are generally built for use with online transaction processing (OLTP) systems.
+Accordingly, they are normally optimized for transactional performance, and engineered with transactional integrity and operational availability in mind.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Unlike other databases, relationships take first priority in graph databases.
+This means your application doesn&#8217;t have to infer data connections using foreign keys or out-of-band processing, such as MapReduce.</p>
+</div>
+
+
+<div class="paragraph">
+<p>By assembling the simple abstractions of nodes and relationships into connected structures, graph databases enable us to build sophisticated models that map closely to our problem domain.</p>
+</div>
+</div>
+<div  id="_the_case_for_graph_databases" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>The case for graph databases</h3>
+
+
+<div class="paragraph">
+<p>The biggest value that graphs bring to the development stack is their ability to store relationships and connections as first-class entities.</p>
+</div>
+
+
+<div class="paragraph">
+<p>For instance, the early adopters of graph technology reimagined their businesses around the value of data relationships.
+These companies have now become industry leaders: LinkedIn, Google, Facebook and PayPal.</p>
+</div>
+
+
+<div class="paragraph">
+<p>As pioneers in graph technology, each of these enterprises had to build their own graph database from scratch.
+Fortunately for today&#8217;s developers, that&#8217;s no longer the case, as graph database technology is now available off the shelf.</p>
+</div>
+
+
+<div class="paragraph">
+<p>In this video, you will learn how graph databases help you to model real-world data that needs to be connected as well as how Neo4j is used to solve real problems facing enterprises today.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed?listType=playlist&#038;list=PL9Hl4pk2FsvWM9GWaguRhlCQ-pa-ERd4U&#038;index=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+<div  id="_what_is_a_graph" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>What is a graph?</h3>
+
+
+<div class="paragraph">
+<p>A graph is composed of two elements: <strong>nodes</strong> and <strong>relationships</strong>.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Each node represents an entity (a person, place, thing, category or other piece of data). With Neo4j, nodes can have <strong>labels</strong> that are used to define types for nodes.
+For example, a <em>Location</em> node is a node with the label <em>Location</em>.
+That same node can also have a label, <em>Residence</em>. Another <em>Location</em> node can also have a label, <em>Business</em>.
+A label can be used to group nodes of the same type. For example, you may want to retrieve all of the <em>Business</em> nodes.</p>
+</div>
+<div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Nodes.png" alt="Nodes" width="400">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+
+
+<div class="paragraph">
+<p>Each relationship represents how two nodes are connected.
+For example, the two nodes <em>Person</em> and <em>Location</em>, might have the relationship <em>LIVES_AT</em> pointing from a <em>Person</em> node to <em>Location</em> node.
+A relationship represents the verb or action between two entities. The <em>MARRIED</em> relationship is defined from one <em>Person</em> node to another <em>Person</em> node. Although the relationship is defined as directional, it can be queried in a non-directional manner. That is, you can query if two <em>Person</em> nodes have a <em>MARRIED</em> relationship, regardless of the direction of the relationship. For some data models, the direction of the relationship is significant. For example, in Facebook, using the <em>KNOWS</em> relationship is used to indicate which <em>Person</em> invited the other <em>Person</em> to be a friend.</p>
+</div>
+<div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Relationships.png" alt="Relationships" width="400">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>&#160;<br>
+This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population&#8217;s medical history, or anything else defined by relationships.</p>
+</div>
+
+
+<div class="paragraph">
+<p>The Neo4j database is a property graph.
+You can add <strong>properties</strong> to nodes and relationships to further enrich the graph model.</p>
+</div>
+<div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Properties.png" alt="Properties" width="500">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>&#160;<br>
+This enables you to closely align data and connections in the graph to your real-world application.
+For example, a <em>Person</em> node might have a property, <em>name</em> and a <em>Location</em> node might have a property, <em>address</em>. In addition, a relationship, <em>MARRIED</em> , might have a property, <em>since</em>.</p>
+</div>
+
+
+<div class="paragraph">
+<p>In this video, you will learn how to model property graphs containing nodes and relationships and how Cypher is used to access a graph database.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed?listType=playlist&#038;list=PL9Hl4pk2FsvWM9GWaguRhlCQ-pa-ERd4U&#038;index=2" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+<div  id="_modeling_relational_to_graph" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Modeling relational to graph</h3>
+
+
+<div class="paragraph">
+<p>Many applications' data is modeled as relational data. There are some similarities between a relational model and a graph model:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle"><strong>Relational</strong></th>
+<th class="tableblock halign-left valign-middle"><strong>Graph</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Rows</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Nodes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Joins</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Relationships</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Table names</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Labels</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Columns</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Properties</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="paragraph">
+<p></p>
+</div>
+
+
+<div class="paragraph">
+<p>But, there are some ways in which the relational model differs from the graph model:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle"><strong>Relational</strong></th>
+<th class="tableblock halign-left valign-middle"><strong>Graph</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Each column must have a field value.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Nodes with the same label aren&#8217;t required to have the same set of properties.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Joins are calculated at query time.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Relationships are stored on disk when they are created.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">A row can belong to one table.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">A node can have many labels.</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="paragraph">
+<p></p>
+</div>
+<div  id="_run_time_behavior_rdbms_vs_graph" class="sect3 "  >
+<h4>Run-time behavior: RDBMS vs graph</h4>
+
+
+<div class="paragraph">
+<p>How data is retrieved is very different between an RDBMS and a graph database:</p>
+</div>
+<div class="imageblock thumb" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDBvsGraphRuntime.png" alt="RDBvsGraphRuntime" width="600">
+</p>
+</div>
+</div>
+<div  id="_how_we_model_rdbms_vs_graph" class="sect3 "  >
+<h4>How we model: RDBMS vs graph</h4>
+
+
+<div class="paragraph">
+<p>How you model data from relational vs graph differs:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle"><strong>Relational</strong></th>
+<th class="tableblock halign-left valign-middle"><strong>Graph</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Try and get the schema defined and then make minimal changes to it after that.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">It&#8217;s common for the schema to evolve with the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">More abstract focus when modeling i.e. focus on classes rather than objects.</p></td>
+<td class="tableblock halign-left valign-middle" style="background-color: white;"><p class="tableblock">Common to use actual data items when modeling.</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="paragraph">
+<p></p>
+</div>
+
+
+<div class="paragraph">
+<p>If we were modeling a football transfers graph in relational and graph databases these diagrams show what common approaches might look like.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Here is the relational model:</p>
+</div>
+<div class="imageblock thumb" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDB.png" alt="RDB" width="600" height="400">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>and here is the corresponding graph model:</p>
+</div>
+<div class="imageblock thumb" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RDBToGraph.png" alt="RDBToGraph" width="600">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>With the graph model we might sketch out examples with actual values and derive the 'schema' while doing that modeling process.</p>
+</div>
+
+
+<div class="paragraph">
+<p>In Neo4j, the data model might evolve to something like this:</p>
+</div>
+<div class="imageblock thumb" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/GraphModel.png" alt="GraphModel" width="1000">
+</p>
+</div>
+</div>
+</div>
+<div  id="_how_does_neo4j_support_the_property_graph_model" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>How does Neo4j support the property graph model?</h3>
+<div class="ulist square">
+<ul class="square">
+<li>
+Neo4j is a <strong>Database</strong> - use it to reliably <strong>store information</strong> and <strong>find it later</strong>.
+</li>
+<li>
+Neo4j&#8217;s data model is a <strong>Graph</strong>, in particular a <strong>Property Graph</strong>.
+</li>
+<li>
+<strong>Cypher</strong> is Neo4j&#8217;s graph query language (<strong>SQL for graphs!</strong>).
+</li>
+<li>
+Cypher is a declarative query language: it describes <strong>what</strong> you are interested in, not <strong>how</strong> it is acquired.
+</li>
+<li>
+Cypher is meant to be very <strong>readable</strong> and <strong>expressive</strong>.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="module-1" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<h3>Check your understanding</h3>
+<div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 1</h3>
+
+
+<div class="paragraph">
+<p>What elements make up a graph?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">tuples</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">nodes</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">documents</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">relationships</span>
+</li>
+</ul>
+</div>
+</div>
+<div  id="_question_2" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 2</h3>
+
+
+<div class="paragraph">
+<p>Suppose that you want to create a graph to model customers, products, what products a customer buys, and what products a customer rated. You have created nodes in the graph to represent the customers and products. In this graph, what relationships would you define?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">BOUGHT</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">IS_A_CUSTOMER</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">IS_A_PRODUCT</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">RATED</span>
+</li>
+</ul>
+</div>
+</div>
+<div  id="_question_3" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 3</h3>
+
+
+<div class="paragraph">
+<p>What query language is used with a Neo4j Database?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">SQL</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">CQL</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Cypher</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">OPath</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Summary</h3>
+
+
+<div class="paragraph">
+<p>You should now be able to:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+Describe what a graph database is.
+</li>
+<li>
+Describe some common use cases for using a graph database.
+</li>
+<li>
+Describe how real-world scenarios are modeled as a graph.
+</li>
+</ul>
+</div>
+</div>
+<div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Grade Quiz and Continue</h3>
+<a class="next-section medium button" href="../part-2/">Continue to Module 2</a>
+</div>
+</div>
+<div id="sidebar-wrapper">
+        
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Introduction to Data Science with Neo4j</div>
+        <ul class="sectlevel1">
+<li><a href="#_about_this_module">About this module</a>
+<ul class="sectlevel2">
+<li><a href="#_the_evolution_of_graph_databases">The evolution of graph databases</a></li>
+<li><a href="#_what_is_a_graph_database">What Is a graph database?</a></li>
+<li><a href="#_the_case_for_graph_databases">The case for graph databases</a></li>
+<li><a href="#_what_is_a_graph">What is a graph?</a></li>
+<li><a href="#_modeling_relational_to_graph">Modeling relational to graph</a>
+<ul class="sectlevel3">
+<li><a href="#_run_time_behavior_rdbms_vs_graph">Run-time behavior: RDBMS vs graph</a></li>
+<li><a href="#_how_we_model_rdbms_vs_graph">How we model: RDBMS vs graph</a></li>
+</ul>
+</li>
+<li><a href="#_how_does_neo4j_support_the_property_graph_model">How does Neo4j support the property graph model?</a></li>
+</ul>
+</li>
+<li><a href="#module-1">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
+</ul>
+        </div>
+<div id="progress" style="position:absolute; bottom:100;"></div>
+</div>
