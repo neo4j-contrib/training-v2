@@ -27,7 +27,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
               </span>
-              Category Hierarchy</a>
+              Setup</a>
             </li>
             <li id="menu-module-2">
               <a href="../part-2/">
@@ -35,7 +35,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">2</strong>
               </span>
-              Ordering Search Results</a>
+              Category Hierarchy</a>
             </li>
             <li id="menu-module-3">
               <a href="../part-3/">
@@ -43,7 +43,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">3</strong>
               </span>
-              Relevant Reviews</a>
+              Ordering Search Results</a>
             </li>
             <li id="menu-module-4">
               <a href="../part-4/">
@@ -51,10 +51,18 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">4</strong>
               </span>
-              Photo Based Recommendations</a>
+              Relevant Reviews</a>
             </li>
             <li id="menu-module-5">
               <a href="../part-5/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">5</strong>
+              </span>
+              Photo Based Recommendations</a>
+            </li>
+            <li id="menu-module-6">
+              <a href="../part-6/">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">5</strong>
@@ -79,8 +87,8 @@
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
 <h1></h1>
 
-      <div  id="_ordering_search_results" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Ordering search results</h3>
+      <div  id="_setup_and_cypher_refresher" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Setup and Cypher Refresher</h3>
 <script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
 	var loc = window.location;
@@ -180,23 +188,11 @@ function setGadgetUrl(sel) {
   $iframe.attr("src", $iframe.data("src"));
 }
 </script>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/mYEGxMScovM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jztUXGRazvY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 <div class="paragraph">
-<p>In this section we&#8217;re going to improve the display of search results.
-Let&#8217;s have  a look at the part of the application that we&#8217;re going to build.</p>
-</div>
-
-
-<div class="paragraph">
-<p>Open the second tab on the CodeSandbox application.
-You should be on this screen:</p>
-</div>
-
-
-<div class="paragraph">
-<p><strong>printscreen here</strong></p>
+<p>In this section we&#8217;ll learn how to use the Personalized PageRank algorithm to return relevant businesses in search results.</p>
 </div>
 
 
@@ -205,7 +201,7 @@ You should be on this screen:</p>
 </div>
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
-<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/03_search_results.html</pre>
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/04_relevant_reviews.html</pre>
 </div>
 </div>
 <!--
@@ -222,10 +218,7 @@ data-lang=”{language}” class=””
 <div class="title">Useful Resources</div>
 <ul>
 <li>
-<a href="https://neo4j.com/docs/graph-algorithms/current/introduction/#_graph_loading" target="_blank" rel="noopener">Graph Loading</a>
-</li>
-<li>
-<a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/page-rank/" target="_blank" rel="noopener">PageRank</a>
+<a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity/" target="_blank" rel="noopener">Similarity Algorithms</a>
 </li>
 </ul>
 </div>
@@ -233,43 +226,40 @@ data-lang=”{language}” class=””
 </tr>
 </table>
 </div>
-
-
-<div class="paragraph">
-<p>Now let&#8217;s update the application to use this new information.
-Instead of selecting the reviews for our businesses based on the opinions of users unrelated to <code>user-name</code>, we&#8217;ll show reviews written by similar users.</p>
+<div  id="_solution" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Solution</h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/p2JhWl43htk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ILRjVzBcIVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
-<div  id="module-2" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<div  id="module-3" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
 <h3>Check your understanding</h3>
 <div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Question 1</h3>
-<div  id="_algorithm_understanding_pearson_similarity" class="sect3 "  >
-<h4>Algorithm Understanding: Pearson Similarity</h4>
+<div  id="_algorithm_understanding_personalized_pr" class="sect3 "  >
+<h4>Algorithm Understanding: Personalized PR</h4>
 
 
 <div class="paragraph">
-<p>Which of the following are valid values that can be returned by the Pearson Similarity algorithm?</p>
+<p>Which of the following best describe the Personalized PageRank algorithm?</p>
 </div>
 
 
 <div class="paragraph">
-<p>Select the correct answers.</p>
+<p>Select the correct answer.</p>
 </div>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">0.72</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">It measures similarity of the structural context in which objects occur, based on their relationships with other objects.</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">-3.41</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">It&#8217;s a variation of the PageRank algorithm that is biased towards a set of source nodes</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">2.34</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">It computes the influence of a node by measuring the number of the immediate neighbors and also all other nodes in the network that connect to the node under consideration through these immediate neighbors</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">-0.52</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">It&#8217;s a variation of the PageRank algorithm that reduces the bias that PageRank has towards assigning higher scores to nodes with relationships from nodes that have few outgoing relationships.</span>
 </li>
 </ul>
 </div>
@@ -283,26 +273,26 @@ Instead of selecting the reviews for our businesses based on the opinions of use
 
 
 <div class="paragraph">
-<p>Which of the following are fields returned by the <code>algo.similarity.pearson</code> procedure?</p>
+<p>What is the default value of the <code>dampingFactor</code> used by the PageRank procedure?</p>
 </div>
 
 
 <div class="paragraph">
-<p>Select the correct answers.</p>
+<p>Select the correct answer.</p>
 </div>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">similarityPairs</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">0.15</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">relationships</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">0.85</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">p75</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">0.70</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">writeRelationshipType</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">0.12</span>
 </li>
 </ul>
 </div>
@@ -315,17 +305,17 @@ Instead of selecting the reviews for our businesses based on the opinions of use
 <div class="paragraph">
 <p>You should now be able to:</p>
 </div>
-<div class="olist square">
-<ol style="margin-left: 2.4rem;" class="square">
+<div class="ulist square">
+<ul class="square">
 <li>
-Use the Pearson Similarity graph algorithm
+Use the Personalized Pagerank graph algorithm with Neo4j
 </li>
-</ol>
+</ul>
 </div>
 </div>
 <div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Grade Quiz and Continue</h3>
-<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
+<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
 <script src="" type="text/javascript"></script>
@@ -460,7 +450,7 @@ $( document ).ready(function() {
 </script>
 <script>
 $( document ).ready(function() {
-  Intercom('trackEvent','training-applied-algos-view-part2');
+  Intercom('trackEvent','training-applied-algos-view-part1');
 });
 </script>
 </div>
@@ -470,12 +460,16 @@ $( document ).ready(function() {
         <div id="toc" class="toc">
         <div id="toctitle">Module: </div>
         <ul class="sectlevel1">
-<li><a href="#_ordering_search_results">Ordering search results</a></li>
-<li><a href="#module-2">Check your understanding</a>
+<li><a href="#_setup_and_cypher_refresher">Setup and Cypher Refresher</a>
+<ul class="sectlevel2">
+<li><a href="#_solution">Solution</a></li>
+</ul>
+</li>
+<li><a href="#module-3">Check your understanding</a>
 <ul class="sectlevel2">
 <li><a href="#_question_1">Question 1</a>
 <ul class="sectlevel3">
-<li><a href="#_algorithm_understanding_pearson_similarity">Algorithm Understanding: Pearson Similarity</a></li>
+<li><a href="#_algorithm_understanding_personalized_pr">Algorithm Understanding: Personalized PR</a></li>
 </ul>
 </li>
 </ul>

@@ -27,7 +27,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
               </span>
-              Category Hierarchy</a>
+              Setup</a>
             </li>
             <li id="menu-module-2">
               <a href="../part-2/">
@@ -35,7 +35,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">2</strong>
               </span>
-              Ordering Search Results</a>
+              Category Hierarchy</a>
             </li>
             <li id="menu-module-3">
               <a href="../part-3/">
@@ -43,7 +43,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">3</strong>
               </span>
-              Relevant Reviews</a>
+              Ordering Search Results</a>
             </li>
             <li id="menu-module-4">
               <a href="../part-4/">
@@ -51,10 +51,18 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">4</strong>
               </span>
-              Photo Based Recommendations</a>
+              Relevant Reviews</a>
             </li>
             <li id="menu-module-5">
               <a href="../part-5/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">5</strong>
+              </span>
+              Photo Based Recommendations</a>
+            </li>
+            <li id="menu-module-6">
+              <a href="../part-6/">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">5</strong>
@@ -79,8 +87,8 @@
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
 <h1></h1>
 
-      <div  id="_category_hierarchy" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Category Hierarchy</h3>
+      <div  id="_ordering_search_results" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Ordering Search Results</h3>
 <script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
 	var loc = window.location;
@@ -180,29 +188,23 @@ function setGadgetUrl(sel) {
   $iframe.attr("src", $iframe.data("src"));
 }
 </script>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Urb6RcpOL_c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mYEGxMScovM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 <div class="paragraph">
-<p>In this section we&#8217;re going to navigate business categories.
-Let&#8217;s first have a look at the part of the application that we&#8217;re going to build.</p>
+<p>In this section we&#8217;re going to improve the display of search results.
+Let&#8217;s have  a look at the part of the application that we&#8217;re going to build.</p>
 </div>
 
 
 <div class="paragraph">
-<p>Open the first tab on the CodeSandbox application that you opened in the previous section.
+<p>Open the second tab on the CodeSandbox application.
 You should be on this screen:</p>
 </div>
 
 
 <div class="paragraph">
-<p><strong>printscreen of the page</strong></p>
-</div>
-
-
-<div class="paragraph">
-<p>At the moment we have a list of 100 random categories, and making sense of the data isn&#8217;t easy.
-One way that we could make things easier for our user is if we let them navigate a taxonomy of categories.</p>
+<p><strong>printscreen here</strong></p>
 </div>
 
 
@@ -211,7 +213,7 @@ One way that we could make things easier for our user is if we let them navigate
 </div>
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
-<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/02_category_hierarchy.html</pre>
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/03_search_results.html</pre>
 </div>
 </div>
 <!--
@@ -228,7 +230,10 @@ data-lang=”{language}” class=””
 <div class="title">Useful Resources</div>
 <ul>
 <li>
-<a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-overlap/" target="_blank" rel="noopener">Overlap Similarity</a>
+<a href="https://neo4j.com/docs/graph-algorithms/current/introduction/#_graph_loading" target="_blank" rel="noopener">Graph Loading</a>
+</li>
+<li>
+<a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/page-rank/" target="_blank" rel="noopener">PageRank</a>
 </li>
 </ul>
 </div>
@@ -236,82 +241,24 @@ data-lang=”{language}” class=””
 </tr>
 </table>
 </div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/blhsQNQySi0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<div class="paragraph">
+<p>Now let&#8217;s update the application to use this new information.
+Instead of selecting the reviews for our businesses based on the opinions of users unrelated to <code>user-name</code>, we&#8217;ll show reviews written by similar users.</p>
 </div>
-<div  id="module-1" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ILRjVzBcIVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<div  id="module-2" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
 <h3>Check your understanding</h3>
 <div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Question 1</h3>
-<div  id="_algorithm_understanding_overlap_similarity" class="sect3 "  >
-<h4>Algorithm Understanding: Overlap Similarity</h4>
+<div  id="_algorithm_understanding_pearson_similarity" class="sect3 "  >
+<h4>Algorithm Understanding: Pearson Similarity</h4>
 
 
 <div class="paragraph">
-<p>Which of the following best describe what the Overlap Similarity algorithm computes?</p>
-</div>
-
-
-<div class="paragraph">
-<p>Select the correct answer.</p>
-</div>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">the size of the intersection divided by the size of the smaller of the two sets</span>
-</li>
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">the number of pairwise disagreements between two ranking lists</span>
-</li>
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">the size of the intersection divided by the size of the union of two sets</span>
-</li>
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">the minimum number of operations required to transform one string into the other</span>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div  id="_question_2" class="sect2 columns medium-12" style='padding-left: 0;' >
-<h3>Question 2</h3>
-<div  id="_running_the_algorithm_in_neo4j" class="sect3 "  >
-<h4>Running the algorithm in Neo4j</h4>
-
-
-<div class="paragraph">
-<p>Which of the following parameters can be used to control the threshold for overlap similarity?</p>
-</div>
-
-
-<div class="paragraph">
-<p>Select the correct answer.</p>
-</div>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">degreeCutoff</span>
-</li>
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">similarityCutoff</span>
-</li>
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">minimumSimilarity</span>
-</li>
-<li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">topK</span>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div  id="_question_3" class="sect2 columns medium-12" style='padding-left: 0;' >
-<h3>Question 3</h3>
-<div  id="_matching_results" class="sect3 "  >
-<h4>Matching Results</h4>
-
-
-<div class="paragraph">
-<p>Which of these categories are top level categories i.e. they don&#8217;t have any outgoing <code>NARROWER_THAN</code> relationships?</p>
+<p>Which of the following are valid values that can be returned by the Pearson Similarity algorithm?</p>
 </div>
 
 
@@ -321,25 +268,72 @@ data-lang=”{language}” class=””
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">Shopping</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">0.72</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">Wine Bars</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">-3.41</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">Doctors</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">2.34</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">Local Flavor</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">-0.52</span>
 </li>
 </ul>
 </div>
 </div>
 </div>
 </div>
+<div  id="_question_2" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Question 2</h3>
+<div  id="_running_the_algorithm_in_neo4j" class="sect3 "  >
+<h4>Running the algorithm in Neo4j</h4>
+
+
+<div class="paragraph">
+<p>Which of the following are fields returned by the <code>algo.similarity.pearson</code> procedure?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">similarityPairs</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">relationships</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">p75</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">writeRelationshipType</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Summary</h3>
+
+
+<div class="paragraph">
+<p>You should now be able to:</p>
+</div>
+<div class="olist square">
+<ol style="margin-left: 2.4rem;" class="square">
+<li>
+Use the Pearson Similarity graph algorithm
+</li>
+</ol>
+</div>
+</div>
 <div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Grade Quiz and Continue</h3>
-<a class="next-section medium button" href="../part-2/">Continue to Module 2</a>
+<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
 <script src="" type="text/javascript"></script>
@@ -474,7 +468,7 @@ $( document ).ready(function() {
 </script>
 <script>
 $( document ).ready(function() {
-  Intercom('trackEvent','training-applied-algos-view-part1');
+  Intercom('trackEvent','training-applied-algos-view-part3');
 });
 </script>
 </div>
@@ -484,12 +478,14 @@ $( document ).ready(function() {
         <div id="toc" class="toc">
         <div id="toctitle">Module: </div>
         <ul class="sectlevel1">
-<li><a href="#_category_hierarchy">Category Hierarchy</a></li>
-<li><a href="#module-1">Check your understanding</a>
+<li><a href="#_ordering_search_results">Ordering Search Results</a></li>
+<li><a href="#module-2">Check your understanding</a>
 <ul class="sectlevel2">
 <li><a href="#_question_1">Question 1</a>
 <ul class="sectlevel3">
-<li><a href="#_algorithm_understanding_overlap_similarity">Algorithm Understanding: Overlap Similarity</a></li>
+<li><a href="#_algorithm_understanding_pearson_similarity">Algorithm Understanding: Pearson Similarity</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_question_2">Question 2</a>
@@ -497,13 +493,7 @@ $( document ).ready(function() {
 <li><a href="#_running_the_algorithm_in_neo4j">Running the algorithm in Neo4j</a></li>
 </ul>
 </li>
-<li><a href="#_question_3">Question 3</a>
-<ul class="sectlevel3">
-<li><a href="#_matching_results">Matching Results</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#_summary">Summary</a></li>
 <li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
 </ul>
         </div>

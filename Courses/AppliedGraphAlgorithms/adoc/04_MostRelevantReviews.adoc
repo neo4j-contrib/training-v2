@@ -1,0 +1,104 @@
+== Most Relevant Reviews
+:presenter: Neo4j
+:twitter: neo4j
+:email: info@neo4j.com
+:neo4j-version: 3.5
+:currentyear: 2019
+:doctype: book
+:toc: left
+:toclevels: 3
+:nextsecttitle: Photo Recommendations
+:prevsecttitle: Ordering Search Results
+:nextsect: 5
+:currsect: 4
+:experimental:
+:imagedir: ../img
+:manual: http://neo4j.com/docs/operations-manual/3.5
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jztUXGRazvY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
+In this section we'll learn how to use the Personalized PageRank algorithm to return relevant businesses in search results.
+
+
+Copy the following command into the query pane of the Neo4j Browser and execute it:
+
+[source, cypher]
+----
+:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/04_relevant_reviews.html
+----
+
+[NOTE]
+====
+.Useful Resources
+
+* https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity/[Similarity Algorithms^]
+====
+
+=== Solution
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/p2JhWl43htk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
+[#module-3.quiz]
+== Check your understanding
+=== Question 1
+
+==== Algorithm Understanding: Personalized PR
+
+Which of the following best describe the Personalized PageRank algorithm?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#It measures similarity of the structural context in which objects occur, based on their relationships with other objects.#
+- [ ] [.required-answer]#It's a variation of the PageRank algorithm that is biased towards a set of source nodes#
+- [ ] [.false-answer]#It computes the influence of a node by measuring the number of the immediate neighbors and also all other nodes in the network that connect to the node under consideration through these immediate neighbors#
+- [ ] [.false-answer]#It's a variation of the PageRank algorithm that reduces the bias that PageRank has towards assigning higher scores to nodes with relationships from nodes that have few outgoing relationships.#
+
+== Question 2
+==== Running the algorithm in Neo4j
+
+What is the default value of the `dampingFactor` used by the PageRank procedure?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#0.15#
+- [ ] [.required-answer]#0.85#
+- [ ] [.false-answer]#0.70#
+- [ ] [.false-answer]#0.12#
+
+== Summary
+
+You should now be able to:
+[square]
+* Use the Personalized Pagerank graph algorithm with Neo4j
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-applied-algos-view-part4');
+});
+</script>
+++++
+
+endif::backend-html5[]
+
+
