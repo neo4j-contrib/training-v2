@@ -38,36 +38,46 @@ At the end of this module, you should be able to:
 * Build and plot a histogram of papers and their citations using pandas and matplotlib
 
 
-=== Tools
+== Tools
 
 We'll be using the following Python libraries in this course:
 
-==== pandas
+=== py2neo
+
+The https://py2neo.org/v4/[py2neo^] driver enables data scientists to easily integrate Neo4j with tools in the Python Data Science ecosystem.
+It does this by providing functions that translate the results of queries into data structures used by these tools.
+We'll be using this library to execute Cypher queries against Neo4j.
+
+=== pandas
 
 https://pandas.pydata.org/[pandas^] is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language.
 We'll be using this library to do post processing of the data that we query from Neo4j.
 
-==== Matplotlib
+=== Matplotlib
 
 https://matplotlib.org/[Matplotlib^] is a Python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.
 We'll be using this library to create charts based on our data.
 
-==== py2neo
 
-The https://py2neo.org/v4/[py2neo^] driver enables data scientists to easily integrate Neo4j with tools in the Python Data Science ecosystem like pandas and matplotlib.
-It does this by providing functions that translate the results of queries into data structures used by numpy and pandas.
-We'll be using this library to execute Cypher queries against Neo4j.
-
-=== Citation Dataset
+== Citation Dataset
 
 Now we're ready to start exploring the data.
+The graph model for the dataset is shown below:
+
+image::{imagedir}/graph.png[Graph Model,width=600]
+
 We want to get a feeling for what data we're working with, including the distribution of authors, papers, and citations.
 We'll then be able to use this knowledge to help us when we're building a recommendation engine and making predictions on the data.
 
-=== Jupyter Notebook
+== Exercise 1: Exploring the data
 
 We're going to explore the data via a Jupyter Notebook hosted on the Google Colaboratory environment.
-We can launch the notebook by clicking on the following button.
+We can launch the notebook by clicking on the button below.
+
+[TIP]
+====
+Once you've completed the notebook come back to this page to check your understanding of the material in this module.
+====
 
 ++++
 <a class="medium button" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/master/02_EDA.ipynb">Launch the Notebook!</a>

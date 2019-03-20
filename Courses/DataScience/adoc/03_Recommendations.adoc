@@ -27,9 +27,7 @@ endif::backend-html5[]
 
 == About this module
 
-Now that we've got a basic understanding of the data
-In this module we'll learn how to explore the data in the citation dataset that we'll be using in this course.
-We'll be querying Neo4j and processing the results using tools in the Python ecosystem.
+Now that we've got a basic understanding of the data we're going to build a recommendation engine for authors.
 
 At the end of this module, you should be able to:
 [square]
@@ -38,22 +36,32 @@ At the end of this module, you should be able to:
 * Build and plot a histogram of papers and their citations using pandas and matplotlib
 
 
-=== Collaborative Filtering
+== Collaborative Filtering
 
 Collaborative filtering is based on the idea that people like things similar to other things they like, and things that are liked by other people with similar taste.
 
 image::{imagedir}/Collaborative-Filtering.png[Collaborative Filtering,width=600]
 
-=== Jupyter Notebook
+In our dataset there are a couple of different recommendations that we can generate.
+
+image::{imagedir}/suggested-articles.png[Suggested Articles,width=600]
+
+Authors may be interested in reading other papers written by their coauthors.
+We can also recommend future collaborators by finding the people that their coauthors have collaborated with.
+
+== Exercise 1: Building a recommendation engine
 
 We're going to build a mini recommendation engine using a Jupyter Notebook hosted on the Google Colaboratory environment.
-We can launch the notebook by clicking on the following button.
+We can launch the notebook by clicking on the button below.
+
+[TIP]
+====
+Once you've completed the notebook come back to this page to check your understanding of the material in this module.
+====
 
 ++++
 <a class="medium button" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/master/03_Recommendations.ipynb">Launch the Notebook!</a>
 ++++
-
-
 
 [#module-2.quiz]
 == Check your understanding
