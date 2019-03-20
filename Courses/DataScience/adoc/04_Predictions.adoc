@@ -13,7 +13,8 @@
 :nextsecttitle: Predictions
 :nextsect: 5
 :experimental:
-:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:imagedir: http://localhost:8001/img
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
@@ -31,12 +32,16 @@ In this module we'll learn how to build a machine learning classifier to predict
 At the end of this module, you should be able to:
 [square]
 * Describe what link prediction is
-* Understand the challenges when building machine learning models on graph data
 * Use the link prediction functions in Neo4j
+* Understand the challenges when building machine learning models on graph data
+* Build a link prediction classifier using scikit-learn with features derived from the Neo4j Graph Algorithms library
 
 == The Link Prediction Problem
 
 Link prediction has been around for a long time, but was popularised by a paper written by Jon Kleinberg and David Liben-Nowell in 2004, titled https://www.cs.cornell.edu/home/kleinber/link-pred.pdf[The Link Prediction Problem for Social Networks^].
+
+image::{imagedir}/LinkPrediction.png[Link Prediction,width=600]
+
 Kleinberg and Liben-Nowell approach this problem from the perspective of social networks, asking the question:
 
 [TIP]
@@ -53,14 +58,12 @@ For example in a citation network, we’re actually predicting the action of two
 == Link Prediction Algorithms
 
 Kleinberg and Liben-Nowell describe a set of methods that can be used for link prediction.
-
 These methods compute a score for a pair of nodes, where the score could be considered a *measure of proximity* or “similarity” between those nodes based on the graph topology.
 The closer two nodes are, the more likely there will be a relationship between them.
 
 == Exercise 1: Running link prediction algorithms
 
-Put a browser guide here for people to try out the link prediction algorithms on their own
-
+Now we're going to do an exercise to get some practice at running the link prediction algorithms.
 In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play link-prediction-exercises] and follow the instructions.
 
 == Applying Link Prediction Algorithms
@@ -88,14 +91,8 @@ In the next part of this module we're going to focus on the supervised learning 
 We're going to build a binary classifier to predict co-authorships using a Jupyter Notebook hosted on the Google Colaboratory environment.
 We can launch the notebook by clicking on the following button.
 
-[TIP]
-====
-Once you've completed the notebook come back to this page to check your understanding of the material in this module.
-====
-
-
 ++++
-<a class="medium button" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/master/04_Predictions.ipynb">Launch the Notebook!</a>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/master/04_Predictions.ipynb">Launch the Notebook!</a>
 ++++
 
 [#module-2.quiz]
