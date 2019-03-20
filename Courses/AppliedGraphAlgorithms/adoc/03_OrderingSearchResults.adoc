@@ -53,8 +53,28 @@ Copy the following command into the query pane of the Neo4j Browser and execute 
 ====
 
 
-Now let's update the application to use this new information.
+== Exercise 
+
+Now let's update the application to use this new information. We want to find users 
+
+
 Instead of selecting the reviews for our businesses based on the opinions of users unrelated to `user-name`, we'll show reviews written by similar users.
+
+. Be sure you've completed the Neo4j Browser guide section "Search Results"
+. In Codesandbox, edit the Cypher query in `src/exercises/exercise2.js` to return businesses
+
+[NOTE]
+====
+This query should be be in the context of the currently "logged in" user in the application. Since our simple application doesn't have any authentication mechanism we fake this by choosing a user in the dropdown in the "User Profile" section of the application. The id of the currently logged in user will be available as a Cypher parameter `userId` in the query.
+
+So for example, to find the currently logged in user:
+
+`MATCH (me:User {id: $userId})`
+====
+
+== Solution
+
+If you get stuck, watch this video for a walk-through of the solution:
 
 ++++
 <div style="position: relative; overflow: hidden; padding-top: 56.25%">

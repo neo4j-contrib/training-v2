@@ -256,11 +256,63 @@ data-lang=”{language}” class=””
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div  id="_exercise" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise</h3>
 
 
 <div class="paragraph">
-<p>Now let&#8217;s update the application to use this new information.
-Instead of selecting the reviews for our businesses based on the opinions of users unrelated to <code>user-name</code>, we&#8217;ll show reviews written by similar users.</p>
+<p>Now let&#8217;s update the application to use this new information. We want to find users</p>
+</div>
+
+
+<div class="paragraph">
+<p>Instead of selecting the reviews for our businesses based on the opinions of users unrelated to <code>user-name</code>, we&#8217;ll show reviews written by similar users.</p>
+</div>
+<div class="olist arabic">
+<ol style="margin-left: 2.4rem;" class="arabic">
+<li>
+Be sure you&#8217;ve completed the Neo4j Browser guide section "Search Results"
+</li>
+<li>
+In Codesandbox, edit the Cypher query in <code>src/exercises/exercise2.js</code> to return businesses
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title label"></div>
+</td>
+<td class="content">
+
+
+<div class="paragraph">
+<p>This query should be be in the context of the currently "logged in" user in the application. Since our simple application doesn&#8217;t have any authentication mechanism we fake this by choosing a user in the dropdown in the "User Profile" section of the application. The id of the currently logged in user will be available as a Cypher parameter <code>userId</code> in the query.</p>
+</div>
+
+
+<div class="paragraph">
+<p>So for example, to find the currently logged in user:</p>
+</div>
+
+
+<div class="paragraph">
+<p><code>MATCH (me:User {id: $userId})</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div  id="_solution" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Solution</h3>
+
+
+<div class="paragraph">
+<p>If you get stuck, watch this video for a walk-through of the solution:</p>
 </div>
 <div style="position: relative; overflow: hidden; padding-top: 56.25%">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/ILRjVzBcIVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
@@ -269,7 +321,6 @@ Instead of selecting the reviews for our businesses based on the opinions of use
 
 <div class="paragraph">
 <p><em>Ordering search results solution</em></p>
-</div>
 </div>
 </div>
 <div  id="module-2" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
@@ -501,6 +552,8 @@ $( document ).ready(function() {
         <div id="toc" class="toc2">
         <div id="toctitle">Module: Ordering Search Results</div>
         <ul class="sectlevel1">
+<li><a href="#_exercise">Exercise</a></li>
+<li><a href="#_solution">Solution</a></li>
 <li><a href="#module-2">Check your understanding</a>
 <ul class="sectlevel2">
 <li><a href="#_question_1">Question 1</a>
