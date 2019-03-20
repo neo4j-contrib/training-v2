@@ -8,12 +8,13 @@
 :toc: left
 :toclevels: 3
 :prevsecttitle: Development Environment
-:prevsect: 2
-:currsect: 3
-:nextsecttitle: Predictions
+:prevsect: 1
+:currsect: 2
+:nextsecttitle: Recommendations
 :nextsect: 4
 :experimental:
-:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:imagedir: http://localhost:8001/img
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
@@ -44,43 +45,47 @@ We'll be using the following Python libraries in this course:
 ==== pandas
 
 https://pandas.pydata.org/[pandas^] is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language.
-
+We'll be using this library to do post processing of the data that we query from Neo4j.
 
 ==== Matplotlib
 
 https://matplotlib.org/[Matplotlib^] is a Python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.
-
+We'll be using this library to create charts based on our data.
 
 ==== py2neo
 
 The https://py2neo.org/v4/[py2neo^] driver enables data scientists to easily integrate Neo4j with tools in the Python Data Science ecosystem like pandas and matplotlib.
 It does this by providing functions that translate the results of queries into data structures used by numpy and pandas.
+We'll be using this library to execute Cypher queries against Neo4j.
 
+=== Citation Dataset
 
-=== Explore the data with Jupyter Notebook
+Now we're ready to start exploring the data.
+We want to get a feeling for what data we're working with, including the distribution of authors, papers, and citations.
+We'll then be able to use this knowledge to help us when we're building a recommendation engine and making predictions on the data.
 
+=== Jupyter Notebook
 
-
+We're going to explore the data via a Jupyter Notebook hosted on the Google Colaboratory environment.
+We can launch the notebook by clicking on the following button.
 
 ++++
-<a class="medium button" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/master/02_EDA.ipynb">Launch the Notebook!</a>
+<a class="medium button" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/master/02_EDA.ipynb">Launch the Notebook!</a>
 ++++
-
-
 
 
 [#module-2.quiz]
 == Check your understanding
 === Question 1
 
-What are some of the benefits provided by the Neo4j Graph Platform?
+What is the name of the procedure that returns the node labels in the database?
 
 Select the correct answers.
 [%interactive]
-- [ ] [.required-answer]#Database clustering#
-- [ ] [.required-answer]#ACID#
-- [ ] [.required-answer]#Index free adjacency#
-- [ ] [.required-answer]#Optimized graph engine#
+- [ ] [.required-answer]#db.labels#
+- [ ] [.false-answer]#db.nodeLabels#
+- [ ] [.false-answer]#db.nodes#
+- [ ] [.false-answer]#dbms.labels#
 
 === Question 2
 

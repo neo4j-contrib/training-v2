@@ -8,12 +8,13 @@
 :toc: left
 :toclevels: 3
 :prevsecttitle: Exploratory Data Analysis
-:prevsect: 3
-:currsect: 4
+:prevsect: 2
+:currsect: 3
 :nextsecttitle: Predictions
-:nextsect: 5
+:nextsect: 4
 :experimental:
-:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:imagedir: http://localhost:8001/img
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
@@ -26,6 +27,7 @@ endif::backend-html5[]
 
 == About this module
 
+Now that we've got a basic understanding of the data
 In this module we'll learn how to explore the data in the citation dataset that we'll be using in this course.
 We'll be querying Neo4j and processing the results using tools in the Python ecosystem.
 
@@ -36,23 +38,21 @@ At the end of this module, you should be able to:
 * Build and plot a histogram of papers and their citations using pandas and matplotlib
 
 
-=== Tools
+=== Collaborative Filtering
 
-We'll be using the following tools in this course:
+Collaborative filtering is based on the idea that people like things similar to other things they like, and things that are liked by other people with similar taste.
 
-==== pandas
+image::{imagedir}/Collaborative-Filtering.png[Collaborative Filtering,width=600]
 
-https://pandas.pydata.org/[pandas^] is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language.
+=== Jupyter Notebook
 
-==== Matplotlib
+We're going to build a mini recommendation engine using a Jupyter Notebook hosted on the Google Colaboratory environment.
+We can launch the notebook by clicking on the following button.
 
-https://matplotlib.org/[Matplotlib^] is a Python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.
+++++
+<a class="medium button" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/master/03_Recommendations.ipynb">Launch the Notebook!</a>
+++++
 
-
-==== py2neo
-
-The https://py2neo.org/v4/[py2neo^] driver enables data scientists to easily integrate Neo4j with tools in the Python Data Science ecosystem like pandas and matplotlib.
-It does this by providing functions that translate the results of queries into data structures used by numpy and pandas.
 
 
 [#module-2.quiz]
@@ -100,7 +100,7 @@ You should now be able to:
 == Grade Quiz and Continue 
 
 ++++
-<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
+<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
 ++++
 
 //ifdef::backend-html5[]
