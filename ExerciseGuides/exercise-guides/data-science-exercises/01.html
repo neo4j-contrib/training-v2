@@ -1,0 +1,301 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Link Prediction</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Link Prediction</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Loading a friends graph</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>We&#8217;re going to learn how to use the link prediction algorithms with the help of a small friends graph.
+We can run the script below to populate our database with this graph;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->UNWIND [["A", "C"], ["A", "B"], ["B", "D"],
+        ["B", "C"], ["B", "E"], ["C", "D"]] AS pair
+MERGE (n1:Node {name: pair[0]})
+MERGE (n2:Node {name: pair[1]})
+MERGE (n1)-[:FRIENDS]-(n2)<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Overview</h3>
+    <br/>
+    <div>
+      <div style="float:right">
+    <img src="http://localhost:8001/data-science-exercises/img/link-pred.png" height="200px" />
+</div>
+<div class="paragraph">
+<p>In this guide, we will execute some of the link predictions in the Neo4j Graph Algorithms Library:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Common Neighbors</strong></p>
+</li>
+<li>
+<p><strong>Adamic Adar</strong></p>
+</li>
+<li>
+<p><strong>Preferential Attachment</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to get started.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Common Neighbors (Overview)</h3>
+    <br/>
+    <div>
+      <div style="float:right">
+    <img src="http://localhost:8001/data-science-exercises/img/common-neighbors.png" height="200px" />
+</div>
+<div class="paragraph">
+<p>One of the simplest measures that we can compute is common neighbors, as <a href="http://be.amazd.com/link-prediction/" target="_blank">described by Ahmad Sadraei</a>:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The common-neighbors predictor captures the notion that two strangers who have a common friend may be introduced by that friend.
+This introduction has the effect of "closing a triangle" in the graph.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>As the name suggests, this measure computes the number of common neighbors that a pair of nodes share.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Common Neighbors (Function)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Now let&#8217;s run this measure over the nodes in our sample graph.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Node {name: 'A'})
+MATCH (d:Node {name: 'D'})
+RETURN algo.linkprediction.commonNeighbors(a, d) AS score<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Common Neighbors (Exercise)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to compute the common neighbors of nodes <code>A</code> and <code>E</code>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Common Neighbors (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to compute the common neighbors of nodes <code>A</code> and <code>E</code>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Node {name: 'A'})
+MATCH (d:Node {name: 'E'})
+RETURN algo.linkprediction.commonNeighbors(a, d) AS score<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Adamic Adar (Overview)</h3>
+    <br/>
+    <div>
+      <div style="float:right">
+    <img src="http://localhost:8001/data-science-exercises/img/adamic-adar.png" height="200px" />
+</div>
+<div class="paragraph">
+<p>This algorithm was introduced in 2003 by Lada Adamic and Eytan Adar while researching how to predict links in a social network.</p>
+</div>
+<div class="paragraph">
+<p>This measure builds the common neighbors, but rather than just counting those neighbors, it <strong>computes the sum of the inverse log of the degree of each of the neighbors</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The degree of a node is the number of neighbors it has, and the intuition behind this algorithm is that when it comes to closing triangles, nodes of low degree are likely to be more influential.</p>
+</div>
+<div class="paragraph">
+<p>For example, in a social network, for two people to be introduced by a common friend, the probability of that happening is related to how many other pairs of friends that person has.
+An unpopular person may therefore be more likely to introduce a pair of their friends.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Adamic Adar (Function)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Now let&#8217;s run this measure over all the nodes in our sample graph.
+The following query computes Adamic Adar for all pairs of nodes that don&#8217;t have a <code>FRIENDS</code> relationship:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Node), (b:Node)
+WHERE a &lt;&gt; b AND a.name &lt; b.name AND not((a)-[:FRIENDS]-(b))
+RETURN a.name, b.name, algo.linkprediction.adamicAdar(a, b) AS score
+ORDER BY score DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which pair of nodes are most likely to have a link created between them?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Preferential Attachment (Overview)</h3>
+    <br/>
+    <div>
+      <div style="float:right">
+    <img src="http://localhost:8001/data-science-exercises/img/pref-attach.png" height="200px" />
+</div>
+<div class="paragraph">
+<p>This is one of the most well known concepts amongst network scientists, having been popularised by Albert-László Barabási and Réka Albert through their work on scale-free networks.</p>
+</div>
+<div class="paragraph">
+<p>The intuition is that <strong>nodes with lots of relationships will gain more relationships</strong>.</p>
+</div>
+<div class="paragraph">
+<p>This measure is one of the easiest to compute — we take the product of the degree of each node.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Preferential Attachment (Exercise)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to compute the preferential attachment of nodes <code>C</code> and <code>E</code>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Preferential Attachment (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to compute the preferential attachment of nodes <code>C</code> and <code>E</code>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Node {name: 'C'})
+MATCH (d:Node {name: 'E'})
+RETURN algo.linkprediction.preferentialAttachment(a, d) AS score<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>
