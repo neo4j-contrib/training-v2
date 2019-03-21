@@ -600,13 +600,13 @@ https.ssl_policy=client_policy
 dbms_connector_bolt_tls_level=REQUIRED
 
 #prevent use of http port
-dbms.connector.http.listen_address=127.0.0.1:7687
+dbms.connector.http.enabled=false
 
 # Web access only using HTTPS for Neo4j Browser
 dbms.security.http_strict_transport_security=Strict-TransportSecurity: max-age=31536000; includeSubDomains
 ----
 
-The directory *client_policy* is where the certificate and key is available to the Neo4j instance. All bolt communication must use _tls_level_, which ensures that all credentials used for authentication and clear-text data are encrypted. You cannot disable the HTTP port, but you can configure it to loop back to this server. Additionally, we ensure that all Web access for the Neo4j Browser must be via HTTPS.
+The directory *client_policy* is where the certificate and key is available to the Neo4j instance. All bolt communication must use _tls_level_, which ensures that all credentials used for authentication and clear-text data are encrypted. Additionally, we ensure that all Web access for the Neo4j Browser must be via HTTPS.
 
 === SSL for Causal Clusters
 

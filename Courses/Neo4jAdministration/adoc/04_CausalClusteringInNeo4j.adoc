@@ -60,7 +60,7 @@ image::{imagedir}/QuorumCommit.png[QuorumCommit,width=600,align=center]
 
 ==== Read replica servers
 
-Read replica servers are used to scale data across a distributed network. They only support read access to the data. The read replica servers regularly poll the core servers for updates to the database by obtaining the transaction log from a core server. You can think of a read replica as a highly scalable and distributed cache of the database.  If a read replica fails, a new read replica can be started with no impact on the data and just a slight impact for the application that can be written to re-connect to a different read replica server.
+Read replica servers are used to scale data across a distributed network. They only support read access to the data. The read replica servers regularly poll the core servers for updates to the database by obtaining the transaction log from a core server. You can think of a read replica as a highly scalable and distributed cache of the database.  If a read replica fails, a new read replica can be started with no impact on the data and just a slight impact for the application that can be written to reconnect to a different read replica server.
 
 image::{imagedir}/ReadReplicasPoll.png[ReadReplicasPoll,width=800,align=center]
 
@@ -99,6 +99,8 @@ image::{imagedir}/Discovery.png[Discovery,width=800,align=center]
 When a core server shuts down, the shutdown may be initiated by an administrator, or it may be due to a hardware or network failure. If the core server that is a _FOLLOWER_ shuts down, the _LEADER_ detects the shutdown and incorporates this information into its operations with the other core servers. If the core server that is the _LEADER_ shuts down, the remaining core servers communicate with each other and an existing _FOLLOWER_ is promoted to the _LEADER_. 
 
 image::{imagedir}/ServerShutdown.png[ServerShutdown,width=800,align=center]
+
+==== Cluster below quorum
 
 If a core server shutdown leaves the cluster below a configured threshold for the number of core servers required for the cluster, then the _LEADER_ becomes inoperable for writing to the database. This is a serious matter that needs to be addressed by you as the administrator.
 
@@ -173,7 +175,7 @@ causal_clustering.minimum_core_cluster_size_at_runtime=3
 dbms.mode=CORE 
 ----
 
-==== Minimum cluster size at formation
+==== Minimum cluster sizes
 
 The _minimum_core_cluster_size_at_formation_ property specifies the number of core servers that must be running before the database is operable for updates. These core servers, when started, ensure that they are caught up with each other. After all core servers are caught up, then the cluster is operable for updates. 
 
@@ -200,7 +202,7 @@ After you have started the core servers in the cluster, you can access status in
 
 image::{imagedir}/clusterOverview.png[clusterOverview,width=1000,align=center]
 
-=== Using the Neo4j Enterprise Edition Docker image for this training
+=== Neo4j Enterprise Edition Docker image
 
 For this training, you will gain experience managing and monitoring a Neo4j Causal Cluster using Docker. You will create and run Docker containers using a Neo4j Enterprise Docker image. This will enable you to start and manage multiple Neo4j instances used for clustering on your local machine. 
 The published Neo4j Enterprise Edition 3.5.0 Docker image (from DockerHub.com) is pre-configured so that its instances can be easily replicated in a Docker environment that uses clustering. Using a Docker image, you create Docker containers that run on your local system. Each Docker container is a Neo4j instance. 
@@ -235,6 +237,8 @@ ACCEPT.LICENSE.AGREEMENT=yes
 
 Some of these settings are for applications that use the _high availability (ha)_ features of Neo4j. With clustering, we use the core servers for fault-tolerance rather than the high availability features of Neo4j. The setting _dbms.connectors.default_listen_address=0.0.0.0_ is important. This setting enables the instance to communicate with other applications and servers in the network (for example, using a Web browser to access the http port for the server). Notice that the instance has a number of _causal_clustering_ settings that are pre-configured. These are default settings for clustering that you can override when you create the Docker container for the first time. Some of the other default settings are recommended settings for a Neo4j instance, whether it is part of a cluster or not.  
 
+=== Creating Docker containers
+
 When you create Docker Neo4j containers using `docker run`, you specify additional clustering configuration as parameters, rather than specifying them in the *neo4j.conf* file. Here is an example of the parameters that are specified when creating the Docker container named _core3_:
 
 ----
@@ -260,7 +264,8 @@ When using the Neo4j Docker instance, a best practice is to specify more members
 
 === *Exercise #1: Getting started with clustering*
 
-In this Exercise, you will gain experience with a simple cluster using Docker containers.  You will [underline]#not# use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers.
+In this Exercise, you will gain experience with a simple cluster using Docker containers.  You will [underline]#not# use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers where you have installed Docker on your system.
+
 
 *Before you begin*
 
@@ -331,6 +336,8 @@ When setting up a cluster for your application, you must ensure that the databas
 
 Before you seed the data for [underline]#each# core server that is part of a cluster, you must unbind it from the cluster. To unbind the core server, the instance must be stopped, then you run `neo4j-admin unbind --database=<database-name>`.
 
+=== Loading the data
+
 When you seed the data for the cluster, you can do any of the following, but you must do the same on [underline]#each# of the core servers of the cluster to create the production database. Note that the core servers must be down for these tasks. You learned how to do these tasks in the previous module.
 
 * Restore data using an online backup.
@@ -339,7 +346,7 @@ When you seed the data for the cluster, you can do any of the following, but you
 
 image::{imagedir}/Seeding.png[Seeding,width=800,align=center]
 
-If the the amount of application data is relatively small (less than 10M nodes) you can also load *.csv* data into a running core server in the cluster where all core servers are started and actively part of the cluster. This will propagate the data to all databases in the cluster.
+If the amount of application data is relatively small (less than 10M nodes) you can also load *.csv* data into a running core server in the cluster where all core servers are started and actively part of the cluster. This will propagate the data to all databases in the cluster.
 
 ===  *Exercise #2: Seeding the cluster databases*
 
@@ -393,12 +400,16 @@ In a cluster, all write operations must be coordinated by the _LEADER_ in the cl
 
 image::{imagedir}/Routing.png[Routing,width=800,align=center]
 
+=== bolt+routing
+
 Applications that update the database should [underline]#always# use _bolt+routing_ when accessing the core servers in a cluster. Using this protocol, applications gain:
 
 * Automatic routing to an available server.
 * Load balancing of requests between the available servers.
 * Automatic retries.
 * Causal chaining (bookmarks).
+
+=== bolt and bolt+routing at runtime
 
 For example, if you have a cluster with three core servers and _core1_ is the _LEADER_, your application can only write to _core1_ using the _bolt_ protocol and bolt port for _core1_. An easy way to see this restriction is if you use the default address for `cypher-shell` on the system where a _FOLLOWER_ is running. If you connect via `cypher-shell` to the server on _core2_ and attempt to update the database, you receive an error:
 
@@ -529,6 +540,8 @@ The _minimum_core_cluster_size_at_runtime_ property specifies the number of serv
 
 As an administrator, you must understand which core servers are participating in the cluster and in particular, what the current _quorum_ is for the cluster.
 
+=== How quorum is used
+
 If a core server shuts down, the cluster can still operate provided the number of core servers is equal to or greater than _quorum_. For example, if the current number of core servers is three, _quorum_ is two. Provided the cluster has two core servers, it is considered operational for updates. If the cluster maintains quorum, then it is possible to add a different core server to the cluster since a quorum must exist for voting in a new core server.
 
 If the _LEADER_ core server shuts down, then one of the other _FOLLOWER_ core servers assumes the role of _LEADER_, provided a quorum still exists for the cluster. If a cluster is left with only _FOLLOWER_ core servers, this is because _quorum_ no longer exists and as a result, the database is read-only.  As an administrator, you must ensure that your cluster always has a _LEADER_.
@@ -555,6 +568,8 @@ endif::backend-html5[]
 
 {nbsp} +  
 
+== Recovering a core server
+
 If a core server goes down and you cannot restart it, you have two options:
 
 . Start a new core server that has not yet been part of the cluster, but is specified in the membership list of the cluster. This will only work if the cluster currently has a quorum so the existing core servers can vote to add the core server to the cluster.
@@ -562,11 +577,13 @@ If a core server goes down and you cannot restart it, you have two options:
 
 Option (1) is much easier so a best practice is to always specify additional hosts that could be used as replacement core servers in the membership list for a cluster. This will enable you to add core servers to the cluster without needing to stop the cluster.
 
-=== Monitoring core servers
+== Monitoring core servers
 
 In addition to using Cypher to retrieve the overview state of the cluster, there are also REST APIs for accessing information about a particular server.  For example, you can query the status of the cluster as follows: `curl -u neo4j:training-helps localhost:11474/db/manage/server/causalclustering/status` where this query is made against the core1 server:
 
 image::{imagedir}/RESTStatus.png[RESTStatus,width=1000,align=center]
+
+=== Is the core server writable?
 
 Or, if you want to see it a particular server is writable (part of a "healthy" cluster). For example, you can get that information as follows: `curl -u neo4j:training-helps localhost:11474/db/manage/server/causalclustering/writable` where this query is made against the core1 server:
 
@@ -635,7 +652,7 @@ image::{imagedir}/L04-Ex5_AddedCore4.png[L04-Ex5_AddedCore4,width=1000,align=cen
 
 == Clusters in many physical locations
 
-Many large enterprises deploy large datasets that need to be distributed to many physical locations. To deploy a cluster to more than one physical location, a best practice is to host the core servers in one data center, and host the read replicas in another data center. Neo4j also supports hosting core servers in multiple locations.  To host Neo4j servers that are geographically distributed, you need a multi-data center license and you must configure it in your *neo4j.conf* file by setting the _multi_dc_license_ property to `true`. When doing so, there is more configuration that you must do to ensure that clients are routed to the servers that are physically closest to them. You do this by configuring policy groups for your cluster. If policy groups have been configured for the servers, the application drivers instances must be created to use the policy groups. With policy groups, writes are always routed to the _LEADER_, but reads are routed to any _FOLLOWER_ that is available. This enables to cluster and driver to automatically perform load balancing.
+Many large enterprises deploy large datasets that need to be distributed to many physical locations. To deploy a cluster to more than one physical location, a best practice is to host the core servers in one data center, and host the read replicas in another data center. Neo4j also supports hosting core servers in multiple locations.  To host Neo4j servers that are geographically distributed, you need a multi-data center license and you must configure it in your *neo4j.conf* file by setting the _multi_dc_license_ property to `true`. When doing so, there is more configuration that you must do to ensure that clients are routed to the servers that are physically closest to them. You do this by configuring policy groups for your cluster. If policy groups have been configured for the servers, the application drivers instances must be created to use the policy groups. With policy groups, writes are always routed to the _LEADER_, but reads are routed to any _FOLLOWER_ that is available. This enables the cluster and driver to automatically perform load balancing.
 
 ifdef::backend-pdf[]
 
@@ -657,11 +674,11 @@ endif::backend-html5[]
 // force line break
 {nbsp} +  
 
-Read more about configuring clusters for multi-data center in the https://neo4j.com/docs/operations-manual/current/clustering/multi-data-center/[Operations Manual]
+Read more about configuring clusters for multi-data center in the https://neo4j.com/docs/operations-manual/current/clustering/multi-data-center/[Neo4j Operations Manual]
 
-=== Bookmarks
+== Bookmarks
 
-Both read and write client applications can create bookmarks within a session that enable them to quickly access a location in the database. The bookmarks can be passed between sessions. See the https://neo4j.com/docs/developer-manual/3.4/drivers/sessions-transactions/[Developer Manual] for details about writing code that uses bookmarks.
+Both read and write client applications can create bookmarks within a session that enable them to quickly access a location in the database. The bookmarks can be passed between sessions. See the https://neo4j.com/docs/developer-manual/3.4/drivers/sessions-transactions/[Neo4j Developer Manual] for details about writing code that uses bookmarks.
 
 == Backing up a cluster
 
@@ -671,7 +688,11 @@ The core server can use its transaction port or the backup port for backup opera
 
 `dbms.backup.address=<server-address>:6362`
 
+=== Using a read replica for the backup
+
 A best practice is to create and use a read replica server for the backup. In doing so, the read replica server will be in catchup mode with the core servers but can ideally keep up with the committed transactions on the core servers. You can check to see what the last transaction ID is on a core server vs. a read replica by executing the Cypher statement: `CALL dbms.listTransactions() YIELD transactionId;` on each server. Each server will have a different last transaction ID, but as many transactions are performed against the cluster, you should see these values increasing at the same rate. If you find that the read replica is far behind in catching up, you may want to consider using a core server for the backup. If you use a core server for a backup, it could degrade performance of the cluster. If you want to use a core server for backup, you should increase the number of core servers in the cluster, for example from three to five.
+
+=== Performing the backup
 
 For backing up a cluster, you must first decide which server and port will be used for the backup (backup client). You can backup using either a backup port or a transaction port. In addition, in a real application you will want the backup to be encrypted. For this you must use SSL. Security and encryption is covered later in this training. 
 
@@ -680,6 +701,8 @@ You log in to the server from where you will be performing the backup (typically
 `neo4j-admin backup --backup-dir=<backup-path> --name=<backup-name> --from=<core-server:backup-port> --protocol=catchup --check-consistency=true`
 
 You can add more to the backup command as you can read about in the https://neo4j.com/docs/operations-manual/3.5/backup/causal-clusters/[Neo4j Operations Manual].
+
+=== Example: Backing up the cluster
 
 In this example, we have logged in to the read replica server and we perform the backup using the address and backup port for the _LEADER_, _bcore3_. We also specify the location of the backup files and also that we want the backup to be checked for consistency.
 
@@ -768,7 +791,7 @@ Select the correct answer.
 [%interactive]
 - [ ] [.required-answer]#bolt+routing#
 - [ ] [.false-answer]#bolt#
-- [ ] [.false-answer]#cluster+routing.#
+- [ ] [.false-answer]#cluster+routing#
 - [ ] [.false-answer]#cluster#
 
 === Question 3
