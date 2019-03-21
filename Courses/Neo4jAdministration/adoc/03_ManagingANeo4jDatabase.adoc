@@ -491,6 +491,8 @@ image::{imagedir}/ConsistentPassed.png[ConsistentPassed,width=1000,align=center]
 
 No report is written to the reports folder because the consistency check passed.
 
+=== Inconsistencies found
+
 Here is an example of what an unsuccessful run of the consistency checker should produce:
 
 image::{imagedir}/Inconsistencies.png[Inconsistencies,width=1000,align=center]
@@ -528,6 +530,8 @@ image::{imagedir}/L03-Ex5-Inconsistent.png[Ex5-Inconsistent,width=1000,align=cen
 == Scripting with cypher-shell
 
 As a database administrator, you may need to automate changes to the database. The most common types of changes that administrators may want to perform are operations such as adding/dropping constraints or indexes. Note that you will need to work with the developers and architects of your application to determine what indexes must be created. You can create scripts that forward the Cypher statements to `cypher-shell`.  The number of supporting script files you create will depend upon the tasks you want to perform against the database.
+
+=== Examples: Adding constraints
 
 Suppose that we use _bash_. We create 3 files:
 
@@ -669,22 +673,28 @@ image::{imagedir}/GitHubGraphAlgos.png[GitHubGraphAlgos,width=800,align=center]
 
 The main page for https://github.com/neo4j-contrib/neo4j-graph-algorithms[Graph Algorithms] in GitHub contains details about the plugin and instructions for installing it.
 
+==== Example: Download and ownership of plugin
+
 You download any plugins that your application will use to the /var/lib/neo4j/plugins folder:
 
 image::{imagedir}/GraphAlgos.png[GraphAlgos,width=1000,align=center]
 
 Ensure that the *.jar* file is owned by _neo4j:neo4j_ and that it has execute permissions.
 
+==== Example: Sandboxing
+
 The graph algorithms plugin requires _sandboxing_.
 Here is how we enable the procedures in the graph algorithms plugin. We modify the _Miscellaneous Configuration_ section of the *neo4j.conf* file as follows:
 
 image::{imagedir}/ConfigGraphAlgos.png[ConfigGraphAlgos,width=600,align=center]
 
+==== Example: Restart with plugin
+
 You must then start or restart the Neo4j instance. Once started, you can then run the script to return the names of the procedures that are available to the Neo4j instance. Here we see that we have the additional procedures for the graph algorithms plugin:
 
 image::{imagedir}/GraphAlgosInstalled.png[GraphAlgosInstalled,width=700,align=center]
 
-=== Installing the APOC plugin
+=== Example: Installing the APOC plugin
 
 https://github.com/neo4j-contrib/neo4j-apoc-procedures[APOC] (Awesome Procedures on Cypher) is a very popular plugin used by many applications. It contains over 450 user-defined procedures that make accessing a graph incredibly efficient and much easier than writing your own Cypher statements to do the same thing.
 
@@ -692,9 +702,13 @@ You obtain the plugin from the APOC https://github.com/neo4j-contrib/neo4j-apoc-
 
 image::{imagedir}/APOCDownloadPage.png[APOCDownloadPage,width=800,align=center]
 
+==== Example: Download and ownership of plugin
+
 Here we download the *.jar* file, change its permissions to execute, and change the owner to be _neo4j:neo4j_.
 
 image::{imagedir}/APOC.png[APOC,width=800,align=center]
+
+==== Example: Sandboxing
 
 After you have placed the *.jar* file into the *plugins* folder, you must modify the configuration for the instance as described in the main page for APOC. As described on this page, you have an option of either _sandboxing_ or _whitelisting_ the procedures of the plugin. How much of the APOC library is used by your application is determined by the developers so you should use them as a resource for this type of configuration change. 
 
@@ -703,6 +717,8 @@ Suppose we want to allow [.underline]#all# APOC procedures to be available to th
 image::{imagedir}/APOCConfig.png[APOCConfig,width=600,align=center]
 
 Since APOC is large, you will most likely want to whitebox specific procedures so that only the procedures needed by the application are loaded into the Neo4j instance at runtime.
+
+==== Example: Restart with plugin
 
 And here we see the results after restarting the Neo4j instance and running the script to list the procedures loaded in the instance:
 
@@ -753,7 +769,7 @@ image::{imagedir}/L03-Ex7-SpatialLibraryLoaded.png[Ex7-SpatialLibraryLoaded,widt
 
 == Configuring connector ports for the Neo4j instance
 
-The Neo4j instance uses https://neo4j.com/docs/operations-manual/3.5/configuration/ports/[default port numbers] that may conflict with other processes on your system. The ports used frequently are the connector ports:
+The Neo4j instance uses https://neo4j.com/docs/operations-manual/3.5/configuration/ports/[default port numbers] that may conflict with other processes on your system. The ports frequently used are the connector ports:
 
 [cols="10,10,80", options="header",stripes="none"]
 |====
@@ -770,9 +786,11 @@ The Neo4j instance uses https://neo4j.com/docs/operations-manual/3.5/configurati
 | Used by REST API. Requires additional SSL configuration.
 | Bolt
 | 7687
-| Bolt connection used by Neo4j Browser, cypher-shell.
+| Bolt connection used by Neo4j Browser, cypher-shell, and client applications.
 |====
 {set:cellbgcolor!}
+
+=== Modifying the default connector ports
 
 If any of these ports conflict with ports already used on your system, you can change these connector ports by modifying these property values in the *neo4j.conf* file:
 
@@ -794,7 +812,7 @@ dbms.connector.https.enabled=true
 As you learn more about some of the other administrative tasks for a Neo4j instance, you will work with other ports.
 
 [NOTE]
-It is not possible to disable the HTTP connector. See the https://neo4j.com/docs/operations-manual/3.5/configuration/connectors/[connectors] section of the _Operations Manual_ for more information.
+It is not possible to disable the HTTP connector. See the https://neo4j.com/docs/operations-manual/3.5/configuration/connectors/[connectors] section of the _Neo4j Operations Manual_ for more information.
 
 [NOTE]
 The REST API will be deprecated in Neo4j 4.0.
@@ -829,9 +847,7 @@ image::{imagedir}/L03-Ex8-HTTP9999-used.png[Ex8-HTTP9999-used,width=1200,align=c
 
 Online backup is used in production where the application cannot tolerate the database being unavailable. In this part of the training, you will learn how to back up and restore a stand-alone Neo4j database. Later in this training, you will learn about backup and restore in a Neo4j Causal Cluster environment.
 
-=== Online backup
-
-A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server. A common practice for many enterprises is to back up their databases to Amazon S3 sites. In addition, if any backups are to be stored in S3, they should  be encrypted as well as the channel used to create send the backup to S3.
+=== Enabling online backup
 
 To enable a Neo4j instance to be backed up online, you must add these two properties to your *neo4j.conf* file:
 
@@ -842,18 +858,24 @@ dbms.backup.address=<host-address>:<6362-6372>
 
 Where _host-address_ is the address of a server from which you will run the backup tool from. You must specify a port number that will not conflict with existing ports used on the backup server.
 
+A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server. 
+
+A common practice for many enterprises is to back up their databases to Amazon S3 sites. In addition, if any backups are to be stored in S3, they should  be encrypted as well as the channel used to create send the backup to S3.
+
+=== Performing the backup
+
 After you restart the Neo4j instance, you can then perform the backup on the server you specified in _host_address_ as follows with consistency checking:
 
 [listing]
 ----
 neo4j-admin backup --backup-dir=<backup-folder>
-                   --name=<file-name>
+                   --name=<backup-instance-folder-name>
                    --from=<Neo4j-instance-host-address:<port>
                    --check-consistency=true
                    --cc-report-dir=<report-directory>
 ----
 
-This will perform a full backup to _file-name_ for the Neo4j instance running on _Neo4j-instance-host-address_.
+This will perform a full backup to _backup-instance-folder-name_ for the Neo4j instance running on _Neo4j-instance-host-address_.
 
 === Restoring from a backup
 
@@ -863,9 +885,10 @@ Here is how you restore the database from a backup:
 
 [listing]
 ----
-neo4j-admin restore  --from=<absolute-path-to-backup-files>
-                     --database=<database-name>
-                     --force=true
+neo4j-admin restore       
+          --from=<absolute-path-to-backup-instance-folder-name>
+          --database=<database-name>
+          --force=true
 ----
 
 You specify _true_ for force so that the existing database will be replaced.
@@ -926,7 +949,7 @@ image::{imagedir}/L03-Ex9-Restore.png[Ex9-Restore,width=1000,align=center]
 
 == Using the import tool to create a database
 
-The course, _Introduction to Neo4j_, teaches you how to import *.csv* data using `LOAD CSV` in Cypher. `LOAD CSV` works fine for datasets containing fewer than 10M nodes. 
+The course, _Introduction to Neo4j_, teaches you how to import *.csv* data using `LOAD CSV` in Cypher. `LOAD CSV` works fine for datasets containing fewer than 10M nodes. For large datasets, it may also be possible to import the data with some of the APOC procedures.
 
 Data import for a graph database is resource-intensive because it needs to pre-compute joins (relationships) between records (nodes). For large datasets, a best practice is to import the data  using the `import` command of the `neo4j-admin` tool. This tool creates the database from a set of *.csv* files.
 
@@ -934,10 +957,13 @@ You can read details about using the import tool in the https://neo4j.com/docs/o
 
 === Creating CSV files for the import
 
-The format of the *.csv* files is important. For both nodes and relationships, header information must be associated with the data. Header information contains an ID to uniquely identify the record, node labels or relationship types, and names for the properties representing the imported data. A *.csv* can have a header row, or you can place the header information in a separate file. In addition, you can specify node labels and relationship types explicitly when you import the data.
+The format of the *.csv* files is important. For both nodes and relationships, header information must be associated with the data. Header information contains an ID to uniquely identify the record, optional node labels or relationship types, and names for the properties representing the imported data. A *.csv* can have a header row, or you can place the header information in a separate file. 
 
 In this training, you will use data that has been created for you that represents crimes.
-Here is portion of a *.csv* file with embedded header information for loading nodes of type _Beat_:
+
+==== CSV files for nodes
+
+Here is portion of the *beats.csv* file with embedded header information for loading nodes of type _Beat_:
 
 ----
 :ID(Beat),id,:LABEL
@@ -946,17 +972,17 @@ Here is portion of a *.csv* file with embedded header information for loading no
 0513,0513,Beat
 ----
 
-These records represent data that will be loaded into a node with the label _Beat_. In this example the record ID is the same as the id property value that will be used to create the node in the graph.
+The *beats.csv* records represent data that will be loaded into a node with the label _Beat_. In this example the record ID is the same as the _id_ property value that will be used to create the node in the graph.
 
-Here is an example of a *.csv* header file for loading nodes of type _Crime_:
+Here is an example of the *crimes_header.csv* header file for loading nodes of type _Crime_:
 
 ----
 :ID(Crime),id,:LABEL,date,description
 ----
 
-The nodes will have the label, _:LABEL_. In addition, the data in the associated *.csv* file will have values for the ID of the record, and property values for _id_, _date_, and _description_. 
+The nodes loaded with *Crimes_header.csv* will have the label, _:LABEL_. In addition, the data in the associated *crimes.csv* file will have values for the ID of the record, and property values for _id_, _date_, and _description_. 
 
-And here is a portion of the associated *.csv* file for loading nodes of type _Crime_:
+And here is a portion of the associated *crimes.csv* file for loading nodes of type _Crime_:
 
 ----
 8920441,8920441,Crime,12/07/2012 07:50:00 AM,AUTOMOBILE
@@ -966,9 +992,24 @@ And here is a portion of the associated *.csv* file for loading nodes of type _C
 9442492,9442492,Crime,12/28/2013 12:15:00 PM,OVER $500
 ----
 
-*.csv* files for loading relationships contain a row for every relationship where the ID for the starting and ending node is specified, as well as the relationship type.
+In addition,  this dataset includes information about the types of crimes. These nodes are created without a label for the node, but their ID, _PrimaryType_ will be used to link them to _Crime_ nodes. Here is a portion of the *primaryTypes.csv* file for loading these nodes:
 
-Here is a portion of the *.csv* file that is used to create the _:ON_BEAT_ relationships between _Crime_ and _Beat_ nodes.
+----
+:ID(PrimaryType),crimeType
+ARSON,ARSON
+OBSCENITY,OBSCENITY
+ROBBERY,ROBBERY
+THEFT,THEFT
+CRIM SEXUAL ASSAULT,CRIM SEXUAL ASSAULT
+BURGLARY,BURGLARY
+----
+
+==== CSV files for relationships
+
+*.csv* files for loading relationships contain a row for every relationship where the ID for the starting and ending node is specified, as well as the relationship type. If you do not specify the relationship in the file, then you must specify it in the arguments to the import tool.
+
+
+Here is a portion of the *crimesBeats.csv* file that will be used to create the _:ON_BEAT_ relationships between _Crime_ and _Beat_ nodes:
 
 ----
 :START_ID(Crime),:END_ID(Beat),:TYPE
@@ -977,6 +1018,18 @@ Here is a portion of the *.csv* file that is used to create the _:ON_BEAT_ relat
 3073515,1012,ON_BEAT
 8157905,0113,ON_BEAT
 ----
+
+Here is a portion of a portion of the *crimesPrimaryTypes.csv* file that will be used to create the  relationships between the _Crime_ nodes and the nodes that contain the _CrimeType_ data:
+
+----
+:START_ID(Crime),:END_ID(PrimaryType)
+5221115,NARCOTICS
+4522835,DECEPTIVE PRACTICE
+3432518,BATTERY
+6439993,CRIMINAL TRESPASS
+----
+
+The relationship, _:TYPE_ is not specified in this file so it will be specified in the arguments when you load the data from this file.
 
 === Importing the data
 
@@ -1048,7 +1101,7 @@ Select the correct answer.
 
 === Question 2
 
-Suppose that you want the existing Neo4j database to have the name *ABCRecommendations.db*. Assuming that you have stopped the Neo4j instance, what steps must you perform to modify the name of the database, which currently has a default name of *graph.db*:
+Suppose that you want the existing Neo4j database to have the name *ABCRecommendations.db*. Assuming that you have stopped the Neo4j instance, what steps must you perform to modify the name of the database, which currently has a default name of *graph.db*?
 
 Select the correct answers.
 [%interactive]
@@ -1063,10 +1116,10 @@ How do you copy a database that you want to give to another user?
 
 Select the correct answer.
 [%interactive]
-- [ ] [.false-answer]#With the Neo4j instance started, `run neo4j-admin copy` providing the location where the copy will be created.#
-- [ ] [.false-answer]#With the Neo4j instance stopped, `run neo4j-admin copy` providing the location where the copy will be created.#
-- [ ] [.false-answer]#With the Neo4j instance started, `run neo4j-admin dump` providing the location where the dump file will be created.#
-- [ ] [.required-answer]#With the Neo4j instance stopped, `run neo4j-admin dump` providing the location where the dump file will be created.#
+- [ ] [.false-answer]#With the Neo4j instance started, run `neo4j-admin copy` providing the location where the copy will be created.#
+- [ ] [.false-answer]#With the Neo4j instance stopped, run `neo4j-admin copy` providing the location where the copy will be created.#
+- [ ] [.false-answer]#With the Neo4j instance started, run `neo4j-admin dump` providing the location where the dump file will be created.#
+- [ ] [.required-answer]#With the Neo4j instance stopped, run `neo4j-admin dump` providing the location where the dump file will be created.#
 
 == Summary
 
