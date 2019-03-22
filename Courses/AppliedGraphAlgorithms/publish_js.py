@@ -34,7 +34,7 @@ def publish_app_js(stage, filename):
     rendered_content = render_template('js/' + filename, **tmpl_vars)
 
   f = s3.put_object(Body=bytes(rendered_content), Bucket='cdn.neo4jlabs.com', Key='graphacademy/applied-algos/' + stage + '/' + filename, ACL='public-read')
-  print "https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])
+  print "https://cdn.neo4jlabs.com/graphacademy/applied-algos/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])
   return f['VersionId']
 
 

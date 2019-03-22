@@ -8,15 +8,14 @@ import sys, getopt
 import boto3
 from flask import render_template
 
-WP_PAGE_IDS = { "index.part.html": {"dev": 93145, "prod": 92928},
-                "00_AboutThisCourse.html": {"dev": 93147, "prod": 92932},
-                "01_IntroductionToNeo4j.html": {"dev": 93148, "prod": 92935},
-                "02_OverviewOfNeo4jAdministration.html": {"dev": 93149, "prod": 92937},
-                "03_ManagingANeo4jDatabase.html": {"dev": 93150, "prod": 92939},
-                "04_CausalClusteringInNeo4j.html": {"dev": 93151, "prod": 92941},
-                "05_SecurityInNeo4j.html": {"dev": 93152, "prod": 92943},
-                "06_MonitoringNeo4j.html": {"dev": 93153, "prod": 92945},
-                "07_Summary.html": {"dev": 93154, "prod": 92947}
+WP_PAGE_IDS = { "index.part.html": {"dev": 94178, "prod": ""},
+                "00_AboutThisCourse.html": {"dev": 94181, "prod": ""},
+                "01_Setup.html": {"dev": 94184, "prod": ""},
+                "02_CategoryHierarchy.html": {"dev": 94186, "prod": ""},
+                "03_OrderingSearchResults.html": {"dev": 94189, "prod": ""},
+                "04_MostRelevantReviews.html": {"dev": 94191, "prod": ""},
+                "05_PhotoRecommendations.html": {"dev": 94193, "prod": ""},
+                "06_Summary.html": {"dev": 94196, "prod": ""}
               }
 
 fapp = flask.Flask('pub', template_folder='.')
@@ -41,8 +40,8 @@ def publish_app_js(stage, filename):
     tmpl_vars = {'API_BASE_URL': API_BASE_URL[stage], 'STAGE': stage}
     rendered_content = render_template('js/' + filename, **tmpl_vars)
 
-  f = s3.put_object(Body=bytes(rendered_content), Bucket='cdn.neo4jlabs.com', Key='graphacademy/neo4j-administration/' + stage + '/' + filename, ACL='public-read')
-  print "\t\thttps://cdn.neo4jlabs.com/graphacademy/neo4j-administration/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])
+  f = s3.put_object(Body=bytes(rendered_content), Bucket='cdn.neo4jlabs.com', Key='graphacademy/applied-algos/' + stage + '/' + filename, ACL='public-read')
+  print "\t\thttps://cdn.neo4jlabs.com/graphacademy/applied-algos/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])
   return f['VersionId']
 
 

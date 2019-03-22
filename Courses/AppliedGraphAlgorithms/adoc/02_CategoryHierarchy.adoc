@@ -24,7 +24,7 @@ endif::backend-html5[]
 
 ++++
 
-<div style="position: relative; overflow: hidden; padding-top: 56.25%">
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; height: auto; width: 90%;">
   <iframe src="https://www.youtube.com/embed/Urb6RcpOL_c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
 </div>
 ++++
@@ -33,15 +33,15 @@ _Category Hierarchy Algorithm Overview_
 In this section we're going to navigate business categories.
 Let's first have a look at the part of the application that we're going to build.
 
-Open the first tab on the CodeSandbox application that you opened in the previous section.
-You should be on this screen:
+Switch to the https://codesandbox.io/s/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app:[CodeSandbox application] that you opened in the previous section and select the "Business Search" button. You should be on this screen:
 
-*printscreen of the page*
+image::{imagedir}/codesandbox3.png[,width=700,align=center]
 
-At the moment we have a list of 100 random categories, and making sense of the data isn't easy.
-One way that we could make things easier for our user is if we let them navigate a taxonomy of categories.
 
-Copy the following command into the query pane of the Neo4j Browser and execute it:
+We can search for businesses by name and category, but at the moment we have a list of 100 random categories, and making sense of the data isn't easy.
+One way that we could make things easier for our user is if we let them navigate a taxonomy of categories, starting at the top-level. To do this we'll use the Overlap Similarity algorithm to identify a category hierarchy in the data. We'll need to run the algorithm and make some updates to our data in Neo4j, then update the query used in the application to populate the category drop-down.
+
+To get started, we'll switch back to Neo4j. Copy the following command into the query pane of the Neo4j Browser and execute it:
 
 [source, cypher]
 ----
@@ -71,7 +71,7 @@ Copy the following command into the query pane of the Neo4j Browser and execute 
 If you get stuck, watch this video for a walk-through of the solution
 
 ++++
-<div style="position: relative; overflow: hidden; padding-top: 56.25%">
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
   <iframe src="https://www.youtube.com/embed/blhsQNQySi0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
 </div>
 ++++
@@ -120,7 +120,7 @@ Select the correct answers.
 == Grade Quiz and Continue
 
 ++++
-<a class="next-section medium button" href="../part-2/">Continue to Module 2</a>
+<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
 ++++
 
 ifdef::backend-html5[]

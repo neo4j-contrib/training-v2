@@ -8,7 +8,7 @@ $(".quiz-progress").find("li i").addClass("fa");
 $(".quiz-progress").find("li i").addClass("fa-li");
 $(".quiz-progress").find("li i").addClass("fa-circle-thin");
 
-quizesCookie = Cookies.getJSON('com.neo4j.graphacademy.neo4jadministration.' + STAGE + '.quizes');
+quizesCookie = Cookies.getJSON('com.neo4j.graphacademy.appliedalgos.' + STAGE + '.quizes');
 if (quizesCookie) {
   quizesStatus = quizesCookie;
   updateQuizStatus();
@@ -140,7 +140,7 @@ function getQuizStatus() {
     for (i in untried) {
       quizesStatusL[ untried[i] ] = null;
     }
-    Cookies.set('com.neo4j.graphacademy.neo4jadministration.' + STAGE + '.quizes', JSON.stringify(quizesStatusL) );
+    Cookies.set('com.neo4j.graphacademy.appliedalgos.' + STAGE + '.quizes', JSON.stringify(quizesStatusL) );
     quizesStatus = quizesStatusL;
     updateQuizStatus();
     currentQuizStatus = quizesStatus[ $(".quiz").attr("id") ];
