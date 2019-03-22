@@ -37,7 +37,7 @@ At the end of this module, you should be able to:
 * Manage the collection of Neo4j metrics.
 * Use JMX queries.
 
-== What can be monitored and measured in Neo4j?
+== Monitoring in Neo4j
 
 As an administrator, you should configure your deployed Neo4j application so that you can perform routine monitoring of activity, as well as being prepared to more deeply monitor and possibly re-configure Neo4j. 
 
@@ -45,6 +45,7 @@ The Neo4j instance writes events to log files where you can configure the level 
 
 Some linux installations may use a system service to collect log files and allow you to access log data with `journalctl` as described in the https://neo4j.com/docs/operations-manual/3.5/installation/linux/systemd/[Neo4j Operations Manual]. You have already seen some of the events that are written to the *neo4j.log* file (`journalctl -u neo4j` on Debian)  when the Neo4j instance starts and you want to confirm that it started successfully. In addition, you have seen error events written to *debug.log* when attempting to start a Neo4j instance in a Causal Cluster. You have also seen authentication events that are written to the *security.log* file when users connect to the Neo4j instance.
 
+=== Monitoring log files
 In the previous module, _Security in Neo4j_, you learned about the authentication events that are written to the *security.log* file. The categories of events that you configure for and monitor in log files that you will learn about in this module include:
 
 [square]
@@ -55,6 +56,8 @@ In the previous module, _Security in Neo4j_, you learned about the authenticatio
 
 [NOTE]
 You have learned how to monitor core and read replica servers in a Neo4j Causal Cluster in the module, _Causal Clustering in Neo4j_.
+
+=== Collecting metrics
 
 In addition, you can configure the Neo4j instance to collect metrics that are related to events, but can be viewed in tools (such as Grafana) that use the Graphite or Prometheus protocols to help you monitor your application. In most cases, you will want to configure a tool such as Nagios to provide alerts when certain metrics or events are detected in Neo4j. Note that you can also set up alerts in Grafana, but Nagios is a better choice for alerts. CloudWatch is another UI that is commonly use for monitoring and alerting with AWS deployments.
 
@@ -86,7 +89,7 @@ The https://neo4j.com/docs/operations-manual/3.5/monitoring/logging/query-loggin
 [NOTE]
 If you have Neo4j Desktop installed on a system, you can use it to run an application called Query Log Analyzer, written by an engineer from Neo4j. This application is a useful tool for viewing queries on your Neo4j Enterprise instance. Here is the https://medium.com/neo4j/meet-the-query-log-analyzer-30b3eb4b1d6[Medium article] that describes the tool and how to install it.
 
-=== Viewing currently running queries
+=== Long-running queries
 
 Inspecting the log file for queries that completed in more than XX milliseconds provides historical information, but what if you suspect that a query is running too long or is hung?
 
@@ -100,9 +103,13 @@ There are two reasons why a Cypher query may take a long time:
 
 If the query executes and then *returns a lot of data*, there is no way to monitor it or kill the query.  If the Neo4j instance has many of these *rogue* queries running, it will slow down considerably so you should aim to limit these types of queries. 
 
+=== Viewing currently running queries (Neo4j Browser)
+
 In Neo4j Browser you can use the `:queries` command to see all currently running queries:
 
 image::{imagedir}/ListQueriesBrowser.png[ListQueriesBrowser,width=1000]
+
+=== Viewing currently running queries (cypher-shell)
 
 In `cypher-shell` you execute `CALL dbms.listQueries() YIELD username, queryId, query, elapsedTimeMillis;`.
 
@@ -122,6 +129,8 @@ Recall that a user (or application) that issues a long-running query may not be 
 Once you have identified the long-running query that you want to kill, in Neo4j Browser, you can kill it by double-clicking the icon in the _Kill_ column. 
 
 image::{imagedir}/KillQueryBrowser.png[KillQueryBrowser,width=1000]
+
+==== Killing a long-running query (cypher-shell)
 
 Alternatively, in `cypher-shell` you can execute the statement `CALL dbms.killQuery('query-id');`.
 
@@ -202,6 +211,8 @@ In a multi-user read-write transactional application, you should should configur
 
 In addition, you should configure an upper limit for how long a transaction can run. This will depend on your particular application, but it should be set to a value that is greater than the lock timeout value. This is called a _transaction guard_ which is a good thing in a production system. In fact, you can use _transaction guard_ to automatically kill queries that take longer than xx minutes to execute.
 
+=== Example: Configuring transaction guard
+
 Here is an example of the configuration settings for lock acquisition timeout and _transaction guard_ where the transaction will fail if it exceeds one second or the request waits more than 10 milliseconds to acquire a write lock:
 
 ----
@@ -251,11 +262,13 @@ A Neo4j instance (stand-alone or cluster mode) uses a set of ports for inter-clu
 
 The default ports used by a Neo4j instance are documented in the https://neo4j.com/docs/operations-manual/3.5/configuration/ports/[Neo4j Operations Manual]. And you have learned that you can modify the port numbers used by a Neo4j instance. As you learned in a previous lesson about securing Neo4j, for a secure Neo4j application, you should [underline]#not# use any default port numbers.
 
-As an administrator, you can view the current connections to a Neo4j instance from `cypher-shell` by executing the call to `dbms.listConnections();`:
+As an administrator, you can view the current connections to a Neo4j instance from `cypher-shell` by executing the call to `dbms.listConnections()`:
 
 image::{imagedir}/listConnections.png[listConnections,width=1100,align=center]
 
 The connection with the userAgent value of _neo4j-java/dev_ is the cypher-shell session. Any connections that are _javascript_ are from the Web interface to Neo4j Browser. The other connections are for a _java_ application. You could write a query to screen for connections from certain IP addresses that are forbidden. How you identify these IP addresses will depend on your security administrator for your application.
+
+=== Monitoring and terminating connections
 
 With `dbms.listConnections()`, you can identify a connection that:
 
@@ -275,7 +288,7 @@ In this Exercise, you access the Neo4j instance from multiple clients and monito
 . Make sure that you have exited out of any `cypher-shell` sessions.
 . Download the writeApp java application zip file located https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/writeApp.zip[here]. *Hint*: Enter `wget https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/writeApp.zip`. 
 . Unzip *writeApp.zip* which will create the folder *writeApp*.
-. Make sure the *write.sh* has execute permissions (`chmod +x write.sh`)
+. Make sure that *write.sh* has execute permissions (`chmod +x write.sh`)
 
 *Exercise steps*:
 
@@ -411,11 +424,15 @@ This tool provides recommended memory settings based upon information in your da
 
 If you suspect that there is a memory issue with your Neo4j instance, you should temporarily turn on GC logging in the Neo4j configuration: `dbms.logs.gc.enabled=true`.  In addition, records will be written to *debug.log* if an out of memory event occurs in the Neo4j instance. When trying to resolve out of memory issues with your application, you should work with Neo4j Technical Support to determine the cause and solution for the problem.
 
+=== Using jcmd to obtain summary information
+
 One way that you can monitor memory usage for a running Neo4j instance is with the `jcmd` utility which is described in this https://support.neo4j.com/hc/en-us/articles/360014270873-Understanding-memory-consumption[Neo4j KB article]. To monitor memory usage with this utility, you must set `dbms.jvm.additional=-XX:NativeMemoryTracking=detail` in your Neo4j configuration.
 
 Here is an example of a `jcmd` execution to get summary information about memory usage on the system:
 
 image::{imagedir}/jcmd.png[jcmd,width=1000,align=center]
+
+=== Using jcmd in practice
 
 If you suspect that certain parts of the application or a transaction is consuming too much memory, you can run `jcmd` to get a baseline, and then run it again to compare the differences in memory consumption as follows:
 
@@ -542,7 +559,7 @@ A Neo4j instance can be monitored with Java Management Extensions (JMX). JMX is 
 
 Neo4j supports the use of JMX in Cypher queries. This is something that is safe to do remotely and does not consume resources locally.
 
-For example, here is a rather long Cypher statement that retrieves the same information that you would expect to see when you run the `:sysinfo` command in Neo4j browser:
+For example, here is a rather long Cypher statement that retrieves the same information that you would expect to see when you run the `:sysinfo` command in Neo4j Browser:
 
 ----
 CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Store file sizes") YIELD attributes
@@ -639,13 +656,13 @@ Select the correct answer.
 
 === Question 3
 
-How can Neo4j metrics be collected?
+How can Neo4j metrics be used?
 
 Select the correct answers.
 [%interactive]
 - [ ] [.required-answer]#Placed in CSV files for tools to use.#
-- [ ] [.required-answer]#Publish to an endpoint using the Graphite protocol.#
-- [ ] [.required-answer]#Publish to an endpoint using the Prometheus protocol.#
+- [ ] [.required-answer]#Published to an endpoint using the Graphite protocol.#
+- [ ] [.required-answer]#Published to an endpoint using the Prometheus protocol.#
 - [ ] [.required-answer]#Queried using dbms.queryJMX().#
 
 == Summary

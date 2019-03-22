@@ -291,7 +291,7 @@ Back up a cluster.
 
 
 <div class="paragraph">
-<p>Read replica servers are used to scale data across a distributed network. They only support read access to the data. The read replica servers regularly poll the core servers for updates to the database by obtaining the transaction log from a core server. You can think of a read replica as a highly scalable and distributed cache of the database.  If a read replica fails, a new read replica can be started with no impact on the data and just a slight impact for the application that can be written to re-connect to a different read replica server.</p>
+<p>Read replica servers are used to scale data across a distributed network. They only support read access to the data. The read replica servers regularly poll the core servers for updates to the database by obtaining the transaction log from a core server. You can think of a read replica as a highly scalable and distributed cache of the database.  If a read replica fails, a new read replica can be started with no impact on the data and just a slight impact for the application that can be written to reconnect to a different read replica server.</p>
 </div>
 <div class="imageblock" style="text-align: center;">
 <p class="content">
@@ -381,6 +381,8 @@ Number of core servers in the cluster
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/ServerShutdown.png" alt="ServerShutdown" width="800">
 </p>
 </div>
+<div  id="_cluster_below_quorum" class="sect3 "  >
+<h4>Cluster below quorum</h4>
 
 
 <div class="paragraph">
@@ -390,6 +392,7 @@ Number of core servers in the cluster
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/ClusterBelowQuorum.png" alt="ClusterBelowQuorum" width="800">
 </p>
+</div>
 </div>
 </div>
 <div  id="_core_server_updates_database" class="sect2 columns medium-12" style='padding-left: 0;' >
@@ -517,8 +520,8 @@ dbms.mode=CORE</pre>
 data-lang=”{language}” class=””
 -->
 </div>
-<div  id="_minimum_cluster_size_at_formation" class="sect3 "  >
-<h4>Minimum cluster size at formation</h4>
+<div  id="_minimum_cluster_sizes" class="sect3 "  >
+<h4>Minimum cluster sizes</h4>
 
 
 <div class="paragraph">
@@ -582,8 +585,8 @@ There is a configuration property (<em>causal_clustering.refuse_to_be_leader</em
 </p>
 </div>
 </div>
-<div  id="_using_the_neo4j_enterprise_edition_docker_image_for_this_training" class="sect2 columns medium-12" style='padding-left: 0;' >
-<h3>Using the Neo4j Enterprise Edition Docker image for this training</h3>
+<div  id="_neo4j_enterprise_edition_docker_image" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Neo4j Enterprise Edition Docker image</h3>
 
 
 <div class="paragraph">
@@ -630,6 +633,9 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Some of these settings are for applications that use the <em>high availability (ha)</em> features of Neo4j. With clustering, we use the core servers for fault-tolerance rather than the high availability features of Neo4j. The setting <em>dbms.connectors.default_listen_address=0.0.0.0</em> is important. This setting enables the instance to communicate with other applications and servers in the network (for example, using a Web browser to access the http port for the server). Notice that the instance has a number of <em>causal_clustering</em> settings that are pre-configured. These are default settings for clustering that you can override when you create the Docker container for the first time. Some of the other default settings are recommended settings for a Neo4j instance, whether it is part of a cluster or not.</p>
 </div>
+</div>
+<div  id="_creating_docker_containers" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Creating Docker containers</h3>
 
 
 <div class="paragraph">
@@ -678,7 +684,7 @@ When using the Neo4j Docker instance, a best practice is to specify more members
 
 
 <div class="paragraph">
-<p>In this Exercise, you will gain experience with a simple cluster using Docker containers.  You will <span class="underline">not</span> use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers.</p>
+<p>In this Exercise, you will gain experience with a simple cluster using Docker containers.  You will <span class="underline">not</span> use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers where you have installed Docker on your system.</p>
 </div>
 
 
@@ -855,6 +861,8 @@ You can now close the terminal windows you used for each of the core servers,  b
 <div class="paragraph">
 <p>Before you seed the data for <span class="underline">each</span> core server that is part of a cluster, you must unbind it from the cluster. To unbind the core server, the instance must be stopped, then you run <code>neo4j-admin unbind --database=&lt;database-name&gt;</code>.</p>
 </div>
+<div  id="_loading_the_data" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Loading the data</h3>
 
 
 <div class="paragraph">
@@ -881,7 +889,8 @@ Create data using the import tool and a set of <strong>.csv</strong> files.
 
 
 <div class="paragraph">
-<p>If the the amount of application data is relatively small (less than 10M nodes) you can also load <strong>.csv</strong> data into a running core server in the cluster where all core servers are started and actively part of the cluster. This will propagate the data to all databases in the cluster.</p>
+<p>If the amount of application data is relatively small (less than 10M nodes) you can also load <strong>.csv</strong> data into a running core server in the cluster where all core servers are started and actively part of the cluster. This will propagate the data to all databases in the cluster.</p>
+</div>
 </div>
 <div  id="_exercise_2_seeding_the_cluster_databases" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #2: Seeding the cluster databases</strong></h3>
@@ -1009,6 +1018,8 @@ Log out of the core server.
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/Routing.png" alt="Routing" width="800">
 </p>
 </div>
+<div  id="_boltrouting" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>bolt+routing</h3>
 
 
 <div class="paragraph">
@@ -1030,6 +1041,9 @@ Causal chaining (bookmarks).
 </li>
 </ul>
 </div>
+</div>
+<div  id="_bolt_and_boltrouting_at_runtime" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>bolt and bolt+routing at runtime</h3>
 
 
 <div class="paragraph">
@@ -1044,6 +1058,7 @@ Causal chaining (bookmarks).
 
 <div class="paragraph">
 <p>When using clustering, <span class="underline">all</span> application code that updates the application should use the <em>bolt+routing</em> protocol which will enable applications to be able to write to the database, even in the event of a failure of one of the core servers. Applications should be written with the understanding that transactions are automatically retried.</p>
+</div>
 </div>
 <div  id="_exercise_3_accessing_the_core_servers_in_a_cluster" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #3: Accessing the core servers in a cluster</strong></h3>
@@ -1328,6 +1343,8 @@ Verify that this newly-added <em>Person</em> node is readable by a read replica 
 <div class="paragraph">
 <p>As an administrator, you must understand which core servers are participating in the cluster and in particular, what the current <em>quorum</em> is for the cluster.</p>
 </div>
+<div  id="_how_quorum_is_used" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>How quorum is used</h3>
 
 
 <div class="paragraph">
@@ -1354,6 +1371,10 @@ Verify that this newly-added <em>Person</em> node is readable by a read replica 
 <div class="paragraph">
 <p>&#160;<br></p>
 </div>
+</div>
+</div>
+<div  id="_recovering_a_core_server" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Recovering a core server</h3>
 
 
 <div class="paragraph">
@@ -1374,7 +1395,8 @@ Start a new parallel cluster with backup from current read only cluster.  This r
 <div class="paragraph">
 <p>Option (1) is much easier so a best practice is to always specify additional hosts that could be used as replacement core servers in the membership list for a cluster. This will enable you to add core servers to the cluster without needing to stop the cluster.</p>
 </div>
-<div  id="_monitoring_core_servers" class="sect2 columns medium-12" style='padding-left: 0;' >
+</div>
+<div  id="_monitoring_core_servers" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Monitoring core servers</h3>
 
 
@@ -1386,6 +1408,8 @@ Start a new parallel cluster with backup from current read only cluster.  This r
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/RESTStatus.png" alt="RESTStatus" width="1000">
 </p>
 </div>
+<div  id="_is_the_core_server_writable" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Is the core server writable?</h3>
 
 
 <div class="paragraph">
@@ -1554,7 +1578,7 @@ Retrieve the overview information for the cluster. Does it have two <em>FOLLOWER
 
 
 <div class="paragraph">
-<p>Many large enterprises deploy large datasets that need to be distributed to many physical locations. To deploy a cluster to more than one physical location, a best practice is to host the core servers in one data center, and host the read replicas in another data center. Neo4j also supports hosting core servers in multiple locations.  To host Neo4j servers that are geographically distributed, you need a multi-data center license and you must configure it in your <strong>neo4j.conf</strong> file by setting the <em>multi_dc_license</em> property to <code>true</code>. When doing so, there is more configuration that you must do to ensure that clients are routed to the servers that are physically closest to them. You do this by configuring policy groups for your cluster. If policy groups have been configured for the servers, the application drivers instances must be created to use the policy groups. With policy groups, writes are always routed to the <em>LEADER</em>, but reads are routed to any <em>FOLLOWER</em> that is available. This enables to cluster and driver to automatically perform load balancing.</p>
+<p>Many large enterprises deploy large datasets that need to be distributed to many physical locations. To deploy a cluster to more than one physical location, a best practice is to host the core servers in one data center, and host the read replicas in another data center. Neo4j also supports hosting core servers in multiple locations.  To host Neo4j servers that are geographically distributed, you need a multi-data center license and you must configure it in your <strong>neo4j.conf</strong> file by setting the <em>multi_dc_license</em> property to <code>true</code>. When doing so, there is more configuration that you must do to ensure that clients are routed to the servers that are physically closest to them. You do this by configuring policy groups for your cluster. If policy groups have been configured for the servers, the application drivers instances must be created to use the policy groups. With policy groups, writes are always routed to the <em>LEADER</em>, but reads are routed to any <em>FOLLOWER</em> that is available. This enables the cluster and driver to automatically perform load balancing.</p>
 </div>
 
 
@@ -1570,15 +1594,15 @@ Retrieve the overview information for the cluster. Does it have two <em>FOLLOWER
 
 
 <div class="paragraph">
-<p>Read more about configuring clusters for multi-data center in the <a href="https://neo4j.com/docs/operations-manual/current/clustering/multi-data-center/">Operations Manual</a></p>
+<p>Read more about configuring clusters for multi-data center in the <a href="https://neo4j.com/docs/operations-manual/current/clustering/multi-data-center/">Neo4j Operations Manual</a></p>
 </div>
-<div  id="_bookmarks" class="sect2 columns medium-12" style='padding-left: 0;' >
+</div>
+<div  id="_bookmarks" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Bookmarks</h3>
 
 
 <div class="paragraph">
-<p>Both read and write client applications can create bookmarks within a session that enable them to quickly access a location in the database. The bookmarks can be passed between sessions. See the <a href="https://neo4j.com/docs/developer-manual/3.4/drivers/sessions-transactions/">Developer Manual</a> for details about writing code that uses bookmarks.</p>
-</div>
+<p>Both read and write client applications can create bookmarks within a session that enable them to quickly access a location in the database. The bookmarks can be passed between sessions. See the <a href="https://neo4j.com/docs/developer-manual/3.4/drivers/sessions-transactions/">Neo4j Developer Manual</a> for details about writing code that uses bookmarks.</p>
 </div>
 </div>
 <div  id="_backing_up_a_cluster" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1598,11 +1622,16 @@ Retrieve the overview information for the cluster. Does it have two <em>FOLLOWER
 <div class="paragraph">
 <p><code>dbms.backup.address=&lt;server-address&gt;:6362</code></p>
 </div>
+<div  id="_using_a_read_replica_for_the_backup" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Using a read replica for the backup</h3>
 
 
 <div class="paragraph">
 <p>A best practice is to create and use a read replica server for the backup. In doing so, the read replica server will be in catchup mode with the core servers but can ideally keep up with the committed transactions on the core servers. You can check to see what the last transaction ID is on a core server vs. a read replica by executing the Cypher statement: <code>CALL dbms.listTransactions() YIELD transactionId;</code> on each server. Each server will have a different last transaction ID, but as many transactions are performed against the cluster, you should see these values increasing at the same rate. If you find that the read replica is far behind in catching up, you may want to consider using a core server for the backup. If you use a core server for a backup, it could degrade performance of the cluster. If you want to use a core server for backup, you should increase the number of core servers in the cluster, for example from three to five.</p>
 </div>
+</div>
+<div  id="_performing_the_backup" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Performing the backup</h3>
 
 
 <div class="paragraph">
@@ -1623,6 +1652,9 @@ Retrieve the overview information for the cluster. Does it have two <em>FOLLOWER
 <div class="paragraph">
 <p>You can add more to the backup command as you can read about in the <a href="https://neo4j.com/docs/operations-manual/3.5/backup/causal-clusters/">Neo4j Operations Manual</a>.</p>
 </div>
+</div>
+<div  id="_example_backing_up_the_cluster" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Example: Backing up the cluster</h3>
 
 
 <div class="paragraph">
@@ -1637,6 +1669,7 @@ Retrieve the overview information for the cluster. Does it have two <em>FOLLOWER
 
 <div class="paragraph">
 <p>Note that this is not an encrypted backup. You will learn about encryption later in this training when you learn about security.</p>
+</div>
 </div>
 <div  id="_exercise_6_backing_up_a_cluster" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #6: Backing up a cluster</strong></h3>
@@ -1834,7 +1867,7 @@ Confirm that the backup files were created.
 <input type="checkbox" data-item-complete="0"> <span class="false-answer">bolt</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">cluster+routing.</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">cluster+routing</span>
 </li>
 <li>
 <input type="checkbox" data-item-complete="0"> <span class="false-answer">cluster</span>
@@ -2065,7 +2098,11 @@ $( document ).ready(function() {
 <li><a href="#_configuring_clustering">Configuring clustering</a>
 <ul class="sectlevel2">
 <li><a href="#_core_server_startup">Core server startup</a></li>
-<li><a href="#_core_server_shutdown">Core server shutdown</a></li>
+<li><a href="#_core_server_shutdown">Core server shutdown</a>
+<ul class="sectlevel3">
+<li><a href="#_cluster_below_quorum">Cluster below quorum</a></li>
+</ul>
+</li>
 <li><a href="#_core_server_updates_database">Core server updates database</a></li>
 </ul>
 </li>
@@ -2076,23 +2113,27 @@ $( document ).ready(function() {
 <li><a href="#_identify_core_servers">Identify core servers</a></li>
 <li><a href="#_specify_cluster_membership">Specify cluster membership</a></li>
 <li><a href="#_example_configuration_properties">Example: Configuration properties</a></li>
-<li><a href="#_minimum_cluster_size_at_formation">Minimum cluster size at formation</a></li>
+<li><a href="#_minimum_cluster_sizes">Minimum cluster sizes</a></li>
 </ul>
 </li>
 <li><a href="#_how_runtime_minimum_is_used_for_a_cluster">How runtime minimum is used for a cluster</a></li>
 <li><a href="#_starting_the_core_servers">Starting the core servers</a></li>
 <li><a href="#_viewing_the_status_of_the_cluster">Viewing the status of the cluster</a></li>
-<li><a href="#_using_the_neo4j_enterprise_edition_docker_image_for_this_training">Using the Neo4j Enterprise Edition Docker image for this training</a></li>
+<li><a href="#_neo4j_enterprise_edition_docker_image">Neo4j Enterprise Edition Docker image</a></li>
+<li><a href="#_creating_docker_containers">Creating Docker containers</a></li>
 <li><a href="#_exercise_1_getting_started_with_clustering"><strong>Exercise #1: Getting started with clustering</strong></a></li>
 </ul>
 </li>
 <li><a href="#_seeding_the_data_for_the_cluster">Seeding the data for the cluster</a>
 <ul class="sectlevel2">
+<li><a href="#_loading_the_data">Loading the data</a></li>
 <li><a href="#_exercise_2_seeding_the_cluster_databases"><strong>Exercise #2: Seeding the cluster databases</strong></a></li>
 </ul>
 </li>
 <li><a href="#_basic_routing_in_a_cluster">Basic routing in a cluster</a>
 <ul class="sectlevel2">
+<li><a href="#_boltrouting">bolt+routing</a></li>
+<li><a href="#_bolt_and_boltrouting_at_runtime">bolt and bolt+routing at runtime</a></li>
 <li><a href="#_exercise_3_accessing_the_core_servers_in_a_cluster"><strong>Exercise #3: Accessing the core servers in a cluster</strong></a></li>
 </ul>
 </li>
@@ -2106,18 +2147,24 @@ $( document ).ready(function() {
 </li>
 <li><a href="#_core_server_lifecycle">Core server lifecycle</a>
 <ul class="sectlevel2">
-<li><a href="#_monitoring_core_servers">Monitoring core servers</a></li>
+<li><a href="#_how_quorum_is_used">How quorum is used</a></li>
+</ul>
+</li>
+<li><a href="#_recovering_a_core_server">Recovering a core server</a></li>
+<li><a href="#_monitoring_core_servers">Monitoring core servers</a>
+<ul class="sectlevel2">
+<li><a href="#_is_the_core_server_writable">Is the core server writable?</a></li>
 <li><a href="#_helpful_configuration_settings">Helpful configuration settings</a></li>
 <li><a href="#_exercise_5_understanding_quorum"><strong>Exercise #5: Understanding quorum</strong></a></li>
 </ul>
 </li>
-<li><a href="#_clusters_in_many_physical_locations">Clusters in many physical locations</a>
-<ul class="sectlevel2">
+<li><a href="#_clusters_in_many_physical_locations">Clusters in many physical locations</a></li>
 <li><a href="#_bookmarks">Bookmarks</a></li>
-</ul>
-</li>
 <li><a href="#_backing_up_a_cluster">Backing up a cluster</a>
 <ul class="sectlevel2">
+<li><a href="#_using_a_read_replica_for_the_backup">Using a read replica for the backup</a></li>
+<li><a href="#_performing_the_backup">Performing the backup</a></li>
+<li><a href="#_example_backing_up_the_cluster">Example: Backing up the cluster</a></li>
 <li><a href="#_exercise_6_backing_up_a_cluster"><strong>Exercise #6: Backing up a cluster</strong></a></li>
 </ul>
 </li>

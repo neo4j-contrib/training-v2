@@ -243,7 +243,7 @@ Configure and use security auditing.
 
 
 <div class="paragraph">
-<p>Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this inter-connected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door.
+<p>Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this interconnected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door.
 Fixing a security breach may require significant updates to your application, especially if the application was not written or implemented to be secure. Deploying a newer version of your application means additional testing and possible down time, both costly to the enterprise.</p>
 </div>
 
@@ -535,6 +535,9 @@ gidnumber: 502</pre>
 <!--
 data-lang=”{language}” class=””
 -->
+</div>
+<div  id="_associating_users_with_groups_in_ldap" class="sect3 "  >
+<h4>Associating users with groups in LDAP</h4>
 
 
 <div class="paragraph">
@@ -619,6 +622,9 @@ data-lang=”{language}” class=””
 <!--
 data-lang=”{language}” class=””
 -->
+</div>
+<div  id="_example_retrieving_the_user_architect" class="sect3 "  >
+<h4>Example: Retrieving the user, architect</h4>
 
 
 <div class="paragraph">
@@ -650,6 +656,9 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>In this example, you see that this particular user is part of many object classes. In a large user directory, you should provide a more specific filter to improve the search.</p>
 </div>
+</div>
+<div  id="_example_optimized_retrieval_of_the_user_architect" class="sect3 "  >
+<h4>Example: Optimized retrieval of the user, architect</h4>
 
 
 <div class="paragraph">
@@ -666,6 +675,9 @@ data-lang=”{language}” class=””
 <!--
 data-lang=”{language}” class=””
 -->
+</div>
+<div  id="_example_retrieving_entries_for_a_group" class="sect3 "  >
+<h4>Example: Retrieving entries for a group</h4>
 
 
 <div class="paragraph">
@@ -699,6 +711,9 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Notice that the group entry has an <em>objectClass</em> of <em>posixGroup</em>. This tells you that all groups are defined with this attribute in this particular LDAP.</p>
 </div>
+</div>
+<div  id="_example_retrieving_group_entries" class="sect3 "  >
+<h4>Example: Retrieving group entries</h4>
 
 
 <div class="paragraph">
@@ -868,6 +883,9 @@ openLDAP
 <div class="paragraph">
 <p>There are several properties you specify for authorization and how you set these properties will depend on your LDAP provider.</p>
 </div>
+</div>
+<div  id="_settings_for_ldap_group_membership" class="sect3 "  >
+<h4>Settings for LDAP group membership</h4>
 
 
 <div class="paragraph">
@@ -906,10 +924,13 @@ openLDAP
 <div class="paragraph">
 <p></p>
 </div>
+</div>
+<div  id="_configuration_for_openldap" class="sect3 "  >
+<h4>Configuration for openLDAP</h4>
 
 
 <div class="paragraph">
-<p>For <em>openLDAP</em>, you set up a stand-alone or core and read replica servers in a cluster for authentication using an LDAP Server, you configure the following:</p>
+<p>For <em>openLDAP</em>, you set up a stand-alone or core and read replica servers in a cluster for authentication using an LDAP Server and configure the following:</p>
 </div>
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
@@ -936,6 +957,9 @@ dbms.security.ldap.authorization.group_to_role_mapping=\
 <!--
 data-lang=”{language}” class=””
 -->
+</div>
+<div  id="_example_training_configuration" class="sect3 "  >
+<h4>Example: Training configuration</h4>
 
 
 <div class="paragraph">
@@ -1011,8 +1035,8 @@ Just as the LDAP can be configured to allow users to be members of multiple grou
 data-lang=”{language}” class=””
 -->
 </div>
-<div  id="_turn_off_role_mapping_temporary" class="sect3 "  >
-<h4>Turn off role mapping (temporary)</h4>
+<div  id="_turning_off_role_mapping_temporary" class="sect3 "  >
+<h4>Turning off role mapping (temporary)</h4>
 
 
 <div class="paragraph">
@@ -1165,7 +1189,7 @@ Look at the log records in the <strong>security.log</strong> file. Do they corre
 
 
 <div class="paragraph">
-<p>If the LDAP provider uses encryption (LDAPS or StartTLS=true), then you must set some additional properties in <strong>neo4j.confg</strong> to specify that encryption will be used and what port to use. In addition, the LDAP Server Certificate needs to be added to the JVM keystore for each Neo4j instance:</p>
+<p>If the LDAP provider uses encryption (LDAPS or StartTLS=true), then you must set some additional properties in <strong>neo4j.conf</strong> to specify that encryption will be used and what port to use. In addition, the LDAP Server Certificate needs to be added to the JVM keystore for each Neo4j instance:</p>
 </div>
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
@@ -1235,8 +1259,8 @@ You must ensure that the version of SSL/TLS software your application uses is up
 </tr>
 </table>
 </div>
-<div  id="_recommendations_for_external_users_using_your_application_over_the_internet" class="sect3 "  >
-<h4>Recommendations for external users using your application over the Internet</h4>
+<div  id="_recommendations_for_external_users" class="sect3 "  >
+<h4>Recommendations for external users</h4>
 
 
 <div class="paragraph">
@@ -1266,18 +1290,13 @@ User credentials (encrypt if they are included in code or a configuration file; 
 <div class="paragraph">
 <p>Here are the steps you should take for your production system.</p>
 </div>
-
-
-<div class="paragraph">
-<p><strong>Step 1: Install JCE</strong></p>
-</div>
-
-
-<div class="paragraph">
-<p>To use SSL/TLS with the Neo4j instance, you must first ensure that the <a href="https://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">Java Cryptography Extension (JCE)</a> is installed on the host machine.</p>
-</div>
+<div  id="_step_1_install_jce" class="sect3 "  >
+<h4>Step 1: Install JCE</h4>
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
+<li>
+To use SSL/TLS with the Neo4j instance, you must first ensure that the <a href="https://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html">Java Cryptography Extension (JCE)</a> is installed on the host machine.
+</li>
 <li>
 Download the JCE zip file from the above location or from <a href="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/jce_policy-8.zip">here</a>
 </li>
@@ -1295,6 +1314,9 @@ Copy the two <strong>.jar</strong> files you unzipped into this <strong>unlimite
 </li>
 </ol>
 </div>
+</div>
+<div  id="_confirming_ports_are_ssl_enabled" class="sect3 "  >
+<h4>Confirming ports are SSL-enabled</h4>
 
 
 <div class="paragraph">
@@ -1311,6 +1333,9 @@ nmap --script ssl-enum-ciphers -p 7473 localhost</pre>
 <!--
 data-lang=”{language}” class=””
 -->
+</div>
+<div  id="_example_ports_used" class="sect3 "  >
+<h4>Example: Ports used</h4>
 
 
 <div class="paragraph">
@@ -1321,11 +1346,9 @@ data-lang=”{language}” class=””
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/nmap.png" alt="nmap" width="800">
 </p>
 </div>
-
-
-<div class="paragraph">
-<p><strong>Step 2: Obtain certificates</strong></p>
 </div>
+<div  id="_step_2_obtain_digital_certificates" class="sect3 "  >
+<h4>Step 2: Obtain digital certificates</h4>
 
 
 <div class="paragraph">
@@ -1336,11 +1359,9 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>To obtain a certificate you must first have a domain name that you own. You can buy a fixed domain name or you can buy a more flexible one from a site such as <a href="https://dyn.com/">dyn.com</a>. There are many providers of certificates you can use. Here is an <a href="https://medium.com/neo4j/getting-certificates-for-neo4j-with-letsencrypt-a8d05c415bbd">article</a> that explains how to use LetsEncrypt which works well with Neo4j instances.</p>
 </div>
-
-
-<div class="paragraph">
-<p><strong>Step 3: Create folders for the security policies</strong></p>
 </div>
+<div  id="_step_3_create_folders_for_the_security_policies" class="sect3 "  >
+<h4>Step 3: Create folders for the security policies</h4>
 
 
 <div class="paragraph">
@@ -1351,11 +1372,9 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>In this location, create a folder for each security policy your application requires, for example <strong>client_policy</strong>, <strong>backup_policy</strong>, <strong>cluster_policy</strong>. Then, in each of these folders, create the <strong>revoked</strong> and <strong>trusted</strong> sub-folders.</p>
 </div>
-
-
-<div class="paragraph">
-<p><strong>Step 4: Place keys and certificates into your Neo4j installation</strong></p>
 </div>
+<div  id="_step_4_place_keys_and_certificates_into_your_neo4j_installation" class="sect3 "  >
+<h4>Step 4: Place keys and certificates into your Neo4j installation</h4>
 
 
 <div class="paragraph">
@@ -1373,11 +1392,9 @@ If you are using <em>LetsEncrypt</em>, follow the instructions in the article re
 </tr>
 </table>
 </div>
-
-
-<div class="paragraph">
-<p><strong>Step 5: Configure SSL for the Neo4j instance</strong></p>
 </div>
+<div  id="_step_5_configure_ssl_for_the_neo4j_instance" class="sect3 "  >
+<h4>Step 5: Configure SSL for the Neo4j instance</h4>
 
 
 <div class="paragraph">
@@ -1397,7 +1414,7 @@ https.ssl_policy=client_policy
 dbms_connector_bolt_tls_level=REQUIRED
 
 #prevent use of http port
-dbms.connector.http.listen_address=127.0.0.1:7687
+dbms.connector.http.enabled=false
 
 # Web access only using HTTPS for Neo4j Browser
 dbms.security.http_strict_transport_security=Strict-TransportSecurity: max-age=31536000; includeSubDomains</pre>
@@ -1409,7 +1426,8 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>The directory <strong>client_policy</strong> is where the certificate and key is available to the Neo4j instance. All bolt communication must use <em>tls_level</em>, which ensures that all credentials used for authentication and clear-text data are encrypted. You cannot disable the HTTP port, but you can configure it to loop back to this server. Additionally, we ensure that all Web access for the Neo4j Browser must be via HTTPS.</p>
+<p>The directory <strong>client_policy</strong> is where the certificate and key is available to the Neo4j instance. All bolt communication must use <em>tls_level</em>, which ensures that all credentials used for authentication and clear-text data are encrypted. Additionally, we ensure that all Web access for the Neo4j Browser must be via HTTPS.</p>
+</div>
 </div>
 </div>
 <div  id="_ssl_for_causal_clusters" class="sect2 columns medium-12" style='padding-left: 0;' >
@@ -1558,6 +1576,8 @@ on the operating system.</p>
 <div class="paragraph">
 <p>By default the user, <em>neo4j</em> owns the processes running that are related to the Neo4j instance.</p>
 </div>
+<div  id="_neo4j_file_permissions" class="sect3 "  >
+<h4>Neo4j file permissions</h4>
 
 
 <div class="paragraph">
@@ -1609,6 +1629,7 @@ on the operating system.</p>
 
 <div class="paragraph">
 <p>You should also set the log files to only be writable by <em>neo4j</em> and readable by <em>root</em>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1797,7 +1818,7 @@ a different port to “fly under the radar”.</p>
 
 
 <div class="paragraph">
-<p>You should work closely with Neo4j Technical Support to ensure that your production system is secure. See this <a href="https://neo4j.com/docs/operations-manual/3.5/security/checklist/">Security Checklist</a> will also help you to determine if you have set up your systems correctly.</p>
+<p>You should work closely with Neo4j Professional Services and Technical Support to ensure that your production system is secure. See this <a href="https://neo4j.com/docs/operations-manual/3.5/security/checklist/">Security Checklist</a> will also help you to determine if you have set up your systems correctly.</p>
 </div>
 </div>
 <div  id="module-5" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
@@ -1817,13 +1838,13 @@ a different port to “fly under the radar”.</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">The Neo4j plugin for LDAP.</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">The Neo4j plugin for LDAP</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">The Neo4j LDIF file that is installed with Neo4j.</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">The Neo4j LDIF file that is installed with Neo4j</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">New user entries with the <em>neo4j</em> attribute defined of with a value of <em>reader</em> or <em>writer</em>.</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">New user entries with the <em>neo4j</em> attribute defined of with a value of <em>reader</em> or <em>writer</em></span>
 </li>
 <li>
 <input type="checkbox" data-item-complete="0"> <span class="required-answer">New group entries for neo4j roles and modifications to existing user entries to be a group member</span>
@@ -1846,16 +1867,16 @@ a different port to “fly under the radar”.</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">SSL policy.</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">SSL policy</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">Enable bolt to use TLS.</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Enable bolt to use TLS</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">Restrict HTTP port.</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Restrict HTTP port</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">Require HTTPS for Neo4j Browser.</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Require HTTPS for Neo4j Browser</span>
 </li>
 </ul>
 </div>
@@ -1875,16 +1896,16 @@ a different port to “fly under the radar”.</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">Encrypted pass-phrase file to use from Neo4j support.</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Encrypted pass-phrase file to use from Neo4j support</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">Digital certificate from a Certificate Authority (public.crt file).</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Digital certificate from a Certificate Authority (public.crt file)</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="false-answer">SSL library (.jar) from the Certificate Authority.</span>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">SSL library (.jar) from the Certificate Authority</span>
 </li>
 <li>
-<input type="checkbox" data-item-complete="0"> <span class="required-answer">Private key from the Certificate Authority (private.key).</span>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Private key from the Certificate Authority (private.key)</span>
 </li>
 </ul>
 </div>
@@ -2080,11 +2101,19 @@ $( document ).ready(function() {
 <li><a href="#_using_ldap_for_authentication_and_authorization">Using LDAP for authentication and authorization</a>
 <ul class="sectlevel3">
 <li><a href="#_adding_groups_for_roles_in_ldap">Adding groups for roles in LDAP</a></li>
+<li><a href="#_associating_users_with_groups_in_ldap">Associating users with groups in LDAP</a></li>
 <li><a href="#_querying_the_ldap_server">Querying the LDAP Server</a></li>
+<li><a href="#_example_retrieving_the_user_architect">Example: Retrieving the user, architect</a></li>
+<li><a href="#_example_optimized_retrieval_of_the_user_architect">Example: Optimized retrieval of the user, architect</a></li>
+<li><a href="#_example_retrieving_entries_for_a_group">Example: Retrieving entries for a group</a></li>
+<li><a href="#_example_retrieving_group_entries">Example: Retrieving group entries</a></li>
 <li><a href="#_exercise_1_exploring_the_training_user_directory"><strong>Exercise #1: Exploring the training User Directory</strong></a></li>
 <li><a href="#_configuring_neo4j_for_ldap_authentication_and_authorization">Configuring Neo4j for LDAP authentication and authorization</a></li>
+<li><a href="#_settings_for_ldap_group_membership">Settings for LDAP group membership</a></li>
+<li><a href="#_configuration_for_openldap">Configuration for openLDAP</a></li>
+<li><a href="#_example_training_configuration">Example: Training configuration</a></li>
 <li><a href="#_multiple_authentication_providers">Multiple authentication providers</a></li>
-<li><a href="#_turn_off_role_mapping_temporary">Turn off role mapping (temporary)</a></li>
+<li><a href="#_turning_off_role_mapping_temporary">Turning off role mapping (temporary)</a></li>
 <li><a href="#_exercise_2_configuring_authentication_for_a_stand_alone_instance"><strong>Exercise #2: Configuring authentication for a stand-alone instance</strong></a></li>
 <li><a href="#_ldap_caching">LDAP caching</a></li>
 <li><a href="#_using_secure_ldap">Using secure LDAP</a></li>
@@ -2096,10 +2125,20 @@ $( document ).ready(function() {
 <ul class="sectlevel2">
 <li><a href="#_how_to_secure_data_in_transit">How to secure data-in-transit</a>
 <ul class="sectlevel3">
-<li><a href="#_recommendations_for_external_users_using_your_application_over_the_internet">Recommendations for external users using your application over the Internet</a></li>
+<li><a href="#_recommendations_for_external_users">Recommendations for external users</a></li>
 </ul>
 </li>
-<li><a href="#_configuring_the_neo4j_instance_for_ssltls">Configuring the Neo4j instance for SSL/TLS</a></li>
+<li><a href="#_configuring_the_neo4j_instance_for_ssltls">Configuring the Neo4j instance for SSL/TLS</a>
+<ul class="sectlevel3">
+<li><a href="#_step_1_install_jce">Step 1: Install JCE</a></li>
+<li><a href="#_confirming_ports_are_ssl_enabled">Confirming ports are SSL-enabled</a></li>
+<li><a href="#_example_ports_used">Example: Ports used</a></li>
+<li><a href="#_step_2_obtain_digital_certificates">Step 2: Obtain digital certificates</a></li>
+<li><a href="#_step_3_create_folders_for_the_security_policies">Step 3: Create folders for the security policies</a></li>
+<li><a href="#_step_4_place_keys_and_certificates_into_your_neo4j_installation">Step 4: Place keys and certificates into your Neo4j installation</a></li>
+<li><a href="#_step_5_configure_ssl_for_the_neo4j_instance">Step 5: Configure SSL for the Neo4j instance</a></li>
+</ul>
+</li>
 <li><a href="#_ssl_for_causal_clusters">SSL for Causal Clusters</a></li>
 <li><a href="#_ssl_for_backups">SSL for backups</a></li>
 <li><a href="#_additional_settings_related_to_data_in_transit">Additional settings related to data-in-transit</a></li>
@@ -2109,7 +2148,11 @@ $( document ).ready(function() {
 <li><a href="#_securing_data_at_rest">Securing data-at-rest</a>
 <ul class="sectlevel2">
 <li><a href="#_securing_files_at_the_os_level">Securing files at the OS level</a></li>
-<li><a href="#_ensure_that_neo4j_does_not_run_as_root">Ensure that Neo4j does not run as root</a></li>
+<li><a href="#_ensure_that_neo4j_does_not_run_as_root">Ensure that Neo4j does not run as root</a>
+<ul class="sectlevel3">
+<li><a href="#_neo4j_file_permissions">Neo4j file permissions</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_security_auditing">Security auditing</a>

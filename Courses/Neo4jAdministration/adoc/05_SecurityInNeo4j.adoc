@@ -35,7 +35,7 @@ At the end of this module, you should be able to:
 
 == What is application security?
 
-Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this inter-connected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door. 
+Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this interconnected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door. 
 Fixing a security breach may require significant updates to your application, especially if the application was not written or implemented to be secure. Deploying a newer version of your application means additional testing and possible down time, both costly to the enterprise.
 
 In addition, your business may need to meet regulatory security requirements or security requirements promised in a customer contract. If it is discovered that your application does not meet these requirements, you could face fines or other serious consequences.
@@ -168,6 +168,8 @@ cn: publisher
 gidnumber: 502
 ----
 
+==== Associating users with groups in LDAP
+
 In addition, each user that will be authenticated for connecting to the Neo4j instance, will need to be modified in the LDAP to be associated with a specific group. Here is are examples of the _reader_ and _publisher_ users that you will be working with in this training:
 
 ----
@@ -228,6 +230,8 @@ ldapsearch -x -v  -W -D '<designated-name-for-user>'
                      "<filter-for-user>"
 ----
 
+==== Example: Retrieving the user, architect
+
 Here is an example for retrieving the user _architect_ in the training LDAP Server:
 ----
 ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com' 
@@ -242,6 +246,8 @@ image::{imagedir}/ldapsearch-architect1.png[ldapsearch-architect1,width=800,alig
 
 In this example, you see that this particular user is part of many object classes. In a large user directory, you should provide a more specific filter to improve the search. 
 
+==== Example: Optimized retrieval of the user, architect
+
 For example, a user directory will contain entries for non-users such as printers. If you want to focus the search only on people, you would specify something like the following to filter by _person_:
 
 ----
@@ -250,6 +256,8 @@ ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com'
            -b 'dc=neo4jtraining,dc=com' 
            "(&(objectClass=person)(sn=architect))"
 ----
+
+==== Example: Retrieving entries for a group
 
 For integration with Neo4j, you must examine the LDAP entries to understand what groups are defined as they will need to be mapped to Neo4j native roles and possibly custom roles. In the previous image, you saw that the _gidNumber_ attribute is assigned a value of 503. In LDAP, a user can be a member of more than one group.
 
@@ -264,6 +272,8 @@ And here we see an entry for a user and an entry for a group.
 image::{imagedir}/ldapsearch-architect2.png[ldapsearch-architect2,width=800,align=center]
 
 Notice that the group entry has an _objectClass_ of _posixGroup_. This tells you that all groups are defined with this attribute in this particular LDAP.
+
+==== Example: Retrieving group entries
 
 So, for example, you can then do a query to find all entries that have this attribute to learn about which groups are defined in the LDAP:
 
@@ -333,6 +343,8 @@ Using _AD_ with _SAMAccountName_ gives you the greatest flexibility because with
 
 There are several properties you specify for authorization and how you set these properties will depend on your LDAP provider.
 
+==== Settings for LDAP group membership
+
 In summary, there are three options for authorization with LDAP to establish the user's group membership:
 
 [cols="20,80", options="header",stripes="none"]
@@ -354,7 +366,9 @@ _use_samaccountname=true_
 |====
 {set:cellbgcolor!}
 
-For _openLDAP_, you set up a stand-alone or core and read replica servers in a cluster for authentication using an LDAP Server, you configure the following:
+==== Configuration for openLDAP
+
+For _openLDAP_, you set up a stand-alone or core and read replica servers in a cluster for authentication using an LDAP Server and configure the following:
 
 ----
 dbms.security.auth_enabled=true
@@ -376,6 +390,8 @@ dbms.security.ldap.authorization.group_to_role_mapping=\
     <group-or-member >  = admin; \
     <group-or-member > = <custom-role>
 ----
+
+==== Example: Training configuration
 
 For example, with the LDAP Server that you will be using in this training, you  specify:
 
@@ -421,7 +437,7 @@ It is possible to use native and another authentication provider together in sit
 dbms.security.auth_providers=native,ldap
 ----
 
-==== Turn off role mapping (temporary)
+==== Turning off role mapping (temporary)
 
 In a troubleshooting situation, you may need to give all users access to the database. You can start the Neo4j instance where all role mapping is bypassed. In this example, all groups with the ID of user would have the reader role:
 
@@ -484,7 +500,7 @@ By default, the Neo4j instance caches security-related interactions between a cl
 
 ==== Using secure LDAP
 
-If the LDAP provider uses encryption (LDAPS or StartTLS=true), then you must set some additional properties in *neo4j.confg* to specify that encryption will be used and what port to use. In addition, the LDAP Server Certificate needs to be added to the JVM keystore for each Neo4j instance:
+If the LDAP provider uses encryption (LDAPS or StartTLS=true), then you must set some additional properties in *neo4j.conf* to specify that encryption will be used and what port to use. In addition, the LDAP Server Certificate needs to be added to the JVM keystore for each Neo4j instance:
 
 ----
 keytool -import -alias <alias-name> -keystore ..\lib\security\cacerts -file <path-to-cert-file>
@@ -524,7 +540,7 @@ A digital certificate is used by client applications when they communicate with 
 [NOTE]
 You must ensure that the version of SSL/TLS software your application uses is up-to-date and that it supports all the types of clients that will be accessing your application. For example, not all browsers are compatible with the latest SSL/TLS versions.
 
-==== Recommendations for external users using your application over the Internet
+==== Recommendations for external users 
 
 You should recommend that external users store the following artifacts securely: 
 
@@ -538,16 +554,16 @@ Because the use of certificates is secure and requires a domain that you own as 
 
 Here are the steps you should take for your production system.
 
-*Step 1: Install JCE*
+==== Step 1: Install JCE
 
-To use SSL/TLS with the Neo4j instance, you must first ensure that the https://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java Cryptography Extension (JCE)] is installed on the host machine.
- 
+. To use SSL/TLS with the Neo4j instance, you must first ensure that the https://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java Cryptography Extension (JCE)] is installed on the host machine.
 . Download the JCE zip file from the above location or from https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/jce_policy-8.zip[here]
 . Unzip the file to create *local_policy.jar* and *US_export_policy.jar*.
 . Navigate to the Java 8 *jre/lib/security/policy/unlimited* folder.
 . Save a copy of the existing files.
 . Copy the two *.jar* files you unzipped into this *unlimited* folder.
 
+==== Confirming ports are SSL-enabled
 
 Your Neo4j instance can only provide SSL if you have installed JCE. On Linux/Debian, you can confirm that your specific ports of the running Neo4j instance are SSL-capable by executing one of the following commands:
 
@@ -558,32 +574,34 @@ nmap --script ssl-enum-ciphers -p 7000 localhost
 nmap --script ssl-enum-ciphers -p 7473 localhost
 ----
 
+==== Example: Ports used
+
 Suppose we have installed JCE for use with our Neo4j instance. Here is an example where we see that the HTTPS port uses these ciphers and the HTTP port does not:
 
 image::{imagedir}/nmap.png[nmap,width=800,align=center]
 
 
-*Step 2: Obtain certificates*
+==== Step 2: Obtain digital certificates
 
 Determine how many security policies you will use. For example, you may have policies for clients, backups, and cluster communications. Each policy will have its own private key (*private.key*) and public certificate (*public.crt*). You must obtain the certificates from a trusted Certificate Authority in PEM format. If your application requires multiple certificates, they can be combined into a single file.
 
 To obtain a certificate you must first have a domain name that you own. You can buy a fixed domain name or you can buy a more flexible one from a site such as https://dyn.com/[dyn.com]. There are many providers of certificates you can use. Here is an https://medium.com/neo4j/getting-certificates-for-neo4j-with-letsencrypt-a8d05c415bbd[article] that explains how to use LetsEncrypt which works well with Neo4j instances.
 
 
-*Step 3: Create folders for the security policies*
+==== Step 3: Create folders for the security policies
 
 The default location for certificates is defined in *neo4j.conf* with the _dbms.directories.certificates_ property.
 
 In this location, create a folder for each security policy your application requires, for example *client_policy*, *backup_policy*, *cluster_policy*. Then, in each of these folders, create the *revoked* and *trusted* sub-folders.
 
-*Step 4: Place keys and certificates into your Neo4j installation*
+==== Step 4: Place keys and certificates into your Neo4j installation
 
 Place the *.key* and *.cert* files in the top-level folder for the security policy. Place a copy of the *.cert* file in the *trusted* folder for the security policy.
 
 [NOTE]
 If you are using _LetsEncrypt_, follow the instructions in the article regarding links to the certificates and keys rather than copying them.
 
-*Step 5: Configure SSL for the Neo4j instance*
+==== Step 5: Configure SSL for the Neo4j instance
 
 Here is an example of recommended settings to configure SSL for a Neo4j instance that will support SSL for all clients:
 
@@ -690,6 +708,8 @@ You can determine which processes are owned by _neo4j_ using: `ps -ef |grep -E �
 
 By default the user, _neo4j_ owns the processes running that are related to the Neo4j instance. 
 
+==== Neo4j file permissions
+
 The following directories should be read-only:
 
 [square]
@@ -789,7 +809,7 @@ The `neo4j-shell` utility has been deprecated and you should not allow any users
 
 JMX is sometimes used for monitoring system activity. JMX is not secure and by default is disabled in Neo4j.
 
-You should work closely with Neo4j Technical Support to ensure that your production system is secure. See this https://neo4j.com/docs/operations-manual/3.5/security/checklist/[Security Checklist] will also help you to determine if you have set up your systems correctly.
+You should work closely with Neo4j Professional Services and Technical Support to ensure that your production system is secure. See this https://neo4j.com/docs/operations-manual/3.5/security/checklist/[Security Checklist] will also help you to determine if you have set up your systems correctly.
 
 [#module-5.quiz]
 == Check your understanding
@@ -800,9 +820,9 @@ Suppose you will be using an enterprise LDAP provider and you must work with the
 
 Select the correct answer.
 [%interactive]
-- [ ] [.false-answer]#The Neo4j plugin for LDAP.#
-- [ ] [.false-answer]#The Neo4j LDIF file that is installed with Neo4j.#
-- [ ] [.false-answer]#New user entries with the _neo4j_ attribute defined of with a value of _reader_ or _writer_.#
+- [ ] [.false-answer]#The Neo4j plugin for LDAP#
+- [ ] [.false-answer]#The Neo4j LDIF file that is installed with Neo4j#
+- [ ] [.false-answer]#New user entries with the _neo4j_ attribute defined of with a value of _reader_ or _writer_#
 - [ ] [.required-answer]#New group entries for neo4j roles and modifications to existing user entries to be a group member#
 
 === Question 2
@@ -811,10 +831,10 @@ Suppose that you want to ensure that all data in or out of a Neo4j instance is s
 
 Select the correct answers.
 [%interactive]
-- [ ] [.required-answer]#SSL policy.#
-- [ ] [.required-answer]#Enable bolt to use TLS.#
-- [ ] [.required-answer]#Restrict HTTP port.#
-- [ ] [.required-answer]#Require HTTPS for Neo4j Browser.#
+- [ ] [.required-answer]#SSL policy#
+- [ ] [.required-answer]#Enable bolt to use TLS#
+- [ ] [.required-answer]#Restrict HTTP port#
+- [ ] [.required-answer]#Require HTTPS for Neo4j Browser#
 
 === Question 3
 
@@ -822,10 +842,10 @@ In order to configure a security policy for SSL in Neo4j, what must you obtain?
 
 Select the correct answers.
 [%interactive]
-- [ ] [.false-answer]#Encrypted pass-phrase file to use from Neo4j support.#
-- [ ] [.required-answer]#Digital certificate from a Certificate Authority (public.crt file).#
-- [ ] [.false-answer]#SSL library (.jar) from the Certificate Authority.#
-- [ ] [.required-answer]#Private key from the Certificate Authority (private.key).#
+- [ ] [.false-answer]#Encrypted pass-phrase file to use from Neo4j support#
+- [ ] [.required-answer]#Digital certificate from a Certificate Authority (public.crt file)#
+- [ ] [.false-answer]#SSL library (.jar) from the Certificate Authority#
+- [ ] [.required-answer]#Private key from the Certificate Authority (private.key)#
 
 == Summary
 
