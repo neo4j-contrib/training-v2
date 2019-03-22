@@ -57,6 +57,13 @@ We can launch the notebook by clicking on the button below.
 <a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/online/03_Recommendations_Part1.ipynb">Launch the Notebook!</a>
 ++++
 
+Once we've attempted the exercises, we can see the answers by launching the following notebook:
+
+++++
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/online/03_Recommendations_Part1_Exercises.ipynb">See answers</a>
+++++
+
+
 == PageRank and Personalized PageRank
 
 PageRank is an algorithm that measures the *transitive* influence or connectivity of nodes.
@@ -73,41 +80,40 @@ We're going to do an exercise to practice using the PageRank algorithm, understa
 <a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/online/03_Recommendations_Part2.ipynb">Launch the Notebook!</a>
 ++++
 
-
 [#module-2.quiz]
 == Check your understanding
 === Question 1
 
-What are some of the benefits provided by the Neo4j Graph Platform?
+How many of Brian Fitzgerald's potential collaborators have collaborated with Brian's collaborators more than 3 times?
 
 Select the correct answers.
 [%interactive]
-- [ ] [.required-answer]#Database clustering#
-- [ ] [.required-answer]#ACID#
-- [ ] [.required-answer]#Index free adjacency#
-- [ ] [.required-answer]#Optimized graph engine#
+- [ ] [.false-answer]#12#
+- [ ] [.false-answer]#8#
+- [ ] [.false-answer]#0#
+- [ ] [.required-answer]#7#
 
 === Question 2
 
-What libraries are available for the Neo4j Graph Platform?
+If we wanted to create a full text search on the 'name' property of nodes with the label 'Author', what would be the correct procedure call to do this?
 
 Select the correct answers.
 [%interactive]
-- [ ] [.required-answer]#APOC#
-- [ ] [.false-answer]#JGraph#
-- [ ] [.required-answer]#Graph Algorithms#
-- [ ] [.required-answer]#GraphQL#
+- [ ] [.required-answer]#`pass:[CALL db.index.fulltext.createNodeIndex('authors', ['Author'], ['name'])]`#
+- [ ] [.false-answer]#`pass:[CALL db.index.fulltext.createNodeIndex('authors', ['name'], ['Author'])]`#
+- [ ] [.required-answer]#`pass:[CALL db.index.fulltext.createNodeIndex('authorName', ['Author'], ['name'])`#
+- [ ] [.false-answer]#`pass:[CALL db.index.createFullTextSearch('authors', ['Author'], ['name'])]`#
 
 === Question 3
 
-What are some of the language drivers that come with Neo4j out of the box?
+Which of the following sentences about the Personalized PageRank algorithm are correct?
 
 Select the correct answers.
 [%interactive]
-- [ ] [.required-answer]#Java#
-- [ ] [.false-answer]#Ruby#
-- [ ] [.required-answer]#Python#
-- [ ] [.required-answer]#JavaScript#
+- [ ] [.false-answer]#Personalized PageRank measures the number of incoming and outgoing relationships from a node.#
+- [ ] [.required-answer]#Personalized PageRank is a variant of PageRank that allows us to find influential nodes based on a set of source nodes.#
+- [ ] [.false-answer]#Personalized PageRank counts the number of neighbors within 2 hops of a node#
+- [ ] [.false-answer]#Personalized PageRank can only be used in combination with Full Text Search#
 
 
 == Summary
