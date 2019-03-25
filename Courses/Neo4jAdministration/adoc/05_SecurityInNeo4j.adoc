@@ -21,6 +21,8 @@ ifdef::backend-html5[]
 
 include::scripts.txt[]
 
+endif::backend-html5[]
+
 == About this module
 
 Now that you have gained experience managing a Neo4j instance and database , as well as managing Neo4j Causal Clusters, you will be introduced to how to secure a Neo4j application.
@@ -60,6 +62,11 @@ Some information in an application is private must be protected. Exposing a cust
 
 Controlling who accesses your application and what they have access to is very important to the business. You want to ensure that only valid users can use the application and malicious actors are kept out. In addition, you want to control which users can access specific application functionality and monitor what users do.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === User privacy
 
 Another concern in applications that extend to the Internet is user privacy. When a Web or mobile app requests data from your application, you need to ensure that only the required data is retrieved and sent to the app. That is, if the app requests personal information, such as a driver’s license ID, the data returned to the app contains only the ID for the user requested and not the IDs of multiple users that the app, then has to filter for display.
@@ -83,6 +90,11 @@ The primary facets of building security into your Neo4j application include:
 * Auditing – Create a record of who did what and when (so that you can monitor activity and investigate security breaches).
 
 At a high level, the implementation of how your application performs authentication, authorization, and auditing can be configured by you as an administrator. However, there are aspects of security that may cross into application code. For example, there may be a specific procedure written that can only be executed by certain users. The procedure must be annotated and configured as such. In addition, code may be written to check roles at runtime for authorization.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Securing the deployed application and infrastructure
 
@@ -168,6 +180,11 @@ cn: publisher
 gidnumber: 502
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Associating users with groups in LDAP
 
 In addition, each user that will be authenticated for connecting to the Neo4j instance, will need to be modified in the LDAP to be associated with a specific group. Here is are examples of the _reader_ and _publisher_ users that you will be working with in this training:
@@ -213,6 +230,11 @@ ou: users
 userpassword: publisher
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 There are many ways to configure groups and users in LDAP. This is just an example of how the LDAP is configured that you will be working with in this training.  Notice that each group has an ID, _gidnumber_ and each user has an ID, _uidNumber_. The group ID is used to map to roles in Neo4j.
 
 Note that if a user does not specify a group ID, it must specify an attribute _memberOf_ that is set to  the designated name, _dn_ of the group.
@@ -240,6 +262,11 @@ ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com'
            "(&(objectClass=*)(sn=architect))"
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 Here is the result of executing this `ldapsearch` command. When you execute this type of search, you must provide the password for the user which in this LDAP is _architect_.
 
 image::{imagedir}/ldapsearch-architect1.png[ldapsearch-architect1,width=800,align=center]
@@ -257,6 +284,11 @@ ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com'
            "(&(objectClass=person)(sn=architect))"
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Example: Retrieving entries for a group
 
 For integration with Neo4j, you must examine the LDAP entries to understand what groups are defined as they will need to be mapped to Neo4j native roles and possibly custom roles. In the previous image, you saw that the _gidNumber_ attribute is assigned a value of 503. In LDAP, a user can be a member of more than one group.
@@ -273,6 +305,11 @@ image::{imagedir}/ldapsearch-architect2.png[ldapsearch-architect2,width=800,alig
 
 Notice that the group entry has an _objectClass_ of _posixGroup_. This tells you that all groups are defined with this attribute in this particular LDAP.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Example: Retrieving group entries
 
 So, for example, you can then do a query to find all entries that have this attribute to learn about which groups are defined in the LDAP:
@@ -284,6 +321,11 @@ ldapsearch -x -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtrainin
 image::{imagedir}/ldapsearch-architect3.png[ldapsearch-architect3,width=800,align=center]
 
 What queries you perform on your LDAP provider will depend on the discovery of entries in the LDAP.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== *Exercise #1: Exploring the training User Directory*
 
@@ -298,6 +340,11 @@ In this Exercise, you will simply execute a couple of commands to retrieve data 
 
 In this example, and for the LDAP provider (an EC2 instance) you will be using for the Exercises in this module, the users are all part of the *neo4jtraining.com* domain.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 . Execute this `ldapsearch` command to retrieve all entries from the LDAP Server:
 
 ----
@@ -309,8 +356,12 @@ image::{imagedir}/L05-Ex1-ldapsearch1.png[L05-Ex1-ldapsearch1,width=800,align=ce
 [NOTE]
 In an enterprise LDAP, you will probably not want to perform this type of query as it will return too much information, but in our training environment, you can perform this type of query to understand want is defined in our training LDAP Server.
 
-[start=2]
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
+[start=2]
 . Execute this `ldapsearch` command to retrieve the _reader_ entry from the LDAP Server. When prompted for the password, enter _reader_.
 
 ----
@@ -321,11 +372,23 @@ image::{imagedir}/L05-Ex1-ldapsearch2.png[L05-Ex1-ldapsearch2,width=800,align=ce
 
 [start=3]
 . Execute the search for another user in the LDAP, for example _publisher_.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=4]
 . Execute the search for returning all group entries in the LDAP.
 
 image::{imagedir}/L05-Ex1-ldapsearch3.png[L05-Ex1-ldapsearch3,width=800,align=center]
 
 You have now confirmed that you can access the LDAP Server that will be used for authentication with the Neo4j instance and you have explored the entries in the LDAP.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Configuring Neo4j for LDAP authentication and authorization
 
@@ -366,6 +429,11 @@ _use_samaccountname=true_
 |====
 {set:cellbgcolor!}
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Configuration for openLDAP
 
 For _openLDAP_, you set up a stand-alone or core and read replica servers in a cluster for authentication using an LDAP Server and configure the following:
@@ -390,6 +458,11 @@ dbms.security.ldap.authorization.group_to_role_mapping=\
     <group-or-member >  = admin; \
     <group-or-member > = <custom-role>
 ----
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Example: Training configuration
 
@@ -429,6 +502,11 @@ After you have made these configuration changes for the Neo4j instance, you rest
 
 The *security.log* file contains log records of all users that connected to or attempted to connect to the Neo4j instance. Later in this training, you will learn more about monitoring and logging. If you need to troubleshoot an authentication issue, you can set _dbms.log.security.level=DEBUG_ in your Neo4j configuration to see more information about the login attempts. In most cases the troubleshooting will need to occur on the LDAP Server side to better understand the requests received from the Neo4j instance.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Multiple authentication providers
 
 It is possible to use native and another authentication provider together in situations where a small number of users would be maintaining the database, but most of the users would use the enterprise authentication provider such as LDAP. To to this, your configuration setting would be:
@@ -449,6 +527,11 @@ dbms.security.ldap.authorization.group_to_role_mapping="user" = reader
 
 In the next Exercise, you will configure a Neo4j instance to use authentication with the LDAP Server you accessed in the previous exercise. 
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== *Exercise #2: Configuring authentication for a stand-alone instance*
 
 In this Exercise, you will modify the configuration for the stand-alone Neo4j instance that you have worked with in the _Managing a Neo4j Database_ module, prior to using Docker for Causal Clustering. You will use the *movies3.db* that you worked with previously with the Neo4j stand-alone instance.  Then you will test that the authentication is working.
@@ -464,6 +547,13 @@ In this Exercise, you will modify the configuration for the stand-alone Neo4j in
 *Exercise steps*:
 
 . Make a copy of *neo4j.conf*, which is the last good configuration for this Neo4j instance.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=2]
 . Modify the properties in this file to use the training LDAP Server as the LDAP provider (openldap-training.neo4jlabs.com). You can set the properties in their locations in the *neo4j.conf* file, but a useful way to work is to add the properties you are setting to the end of the file so you can see all of your modifications in one place.
 
 image::{imagedir}/L05-Ex2-configureAuth.png[L05-Ex2-configureAuth,width=800,align=center]
@@ -473,6 +563,13 @@ image::{imagedir}/L05-Ex2-configureAuth.png[L05-Ex2-configureAuth,width=800,alig
 . Examine the log file to ensure that the instance started without errors. If it does not start, review/adjust the properties you set in *neo4j.conf*.
 . Start cypher-shell specifying the user _reader/reader_. Can you log in?
 . Enter a Cypher statement that reads from the database `MATCH (n) RETURN count(n);`
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=7]
 . Enter a Cypher statement that writes to the database `CREATE (p:Person {name:'John'}) RETURN p.name;` Did you see an error? This is because a user with the _reader_ role cannot modify the database.
 
 image::{imagedir}/L05-Ex2-reader.png[L05-Ex2-reader,width=800,align=center]
@@ -488,11 +585,21 @@ image::{imagedir}/L05-Ex2-publisher.png[L05-Ex2-publisher,width=800,align=center
 [start=12]
 . Look at the log records in the *security.log* file. Do they correspond to your activities against the Neo4j instance?
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 Using LDAP for authentication, you can control which users have different types of access to the database based upon the groups defined in the LDAP. If you need to perform administrative operations against the database, you would log in as _admin/admin_ which is what currently is defined for this LDAP Server used for training.
 
 *Exercise 2: Taking if further*:
 
 Configure and test the core and read replica servers you used for Causal Clustering in the previous module for authentication using the same LDAP Server.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== LDAP caching
 
@@ -547,6 +654,10 @@ You should recommend that external users store the following artifacts securely:
 * Digital certificates
 * User credentials (encrypt if they are included in code or a configuration file; never use clear-text credentials)
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Configuring the Neo4j instance for SSL/TLS
 
@@ -574,6 +685,11 @@ nmap --script ssl-enum-ciphers -p 7000 localhost
 nmap --script ssl-enum-ciphers -p 7473 localhost
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Example: Ports used
 
 Suppose we have installed JCE for use with our Neo4j instance. Here is an example where we see that the HTTPS port uses these ciphers and the HTTP port does not:
@@ -587,6 +703,10 @@ Determine how many security policies you will use. For example, you may have pol
 
 To obtain a certificate you must first have a domain name that you own. You can buy a fixed domain name or you can buy a more flexible one from a site such as https://dyn.com/[dyn.com]. There are many providers of certificates you can use. Here is an https://medium.com/neo4j/getting-certificates-for-neo4j-with-letsencrypt-a8d05c415bbd[article] that explains how to use LetsEncrypt which works well with Neo4j instances.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Step 3: Create folders for the security policies
 
@@ -626,6 +746,11 @@ dbms.security.http_strict_transport_security=Strict-TransportSecurity: max-age=3
 
 The directory *client_policy* is where the certificate and key is available to the Neo4j instance. All bolt communication must use _tls_level_, which ensures that all credentials used for authentication and clear-text data are encrypted. Additionally, we ensure that all Web access for the Neo4j Browser must be via HTTPS.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === SSL for Causal Clusters
 
 For each Neo4j instance that will serve as a core server or read replica, you should configure SSL as you do for a stand-alone Neo4j instance. You must configure a separate policy for the cluster, for example _cluster_policy_. Each server will use both the _client_policy_ and the _cluster_policy_.
@@ -654,6 +779,11 @@ dbms.backup.ssl_policy=backup_policy
 === SSL for backups
 
 Whether you are using Neo4j stand-alone or in a cluster, a best practice is to also ensure that SSL is used for backups. To do so, you can create and configure a policy, for example _backup_policy_, for backups that also requires a certificate.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Additional settings related to data-in-transit
 
@@ -754,6 +884,11 @@ dbms.logs.security.rotation.keep_number=7
 
 In a troubleshooting situation or if you want to more closely monitor access, you would set the level to _DEBUG_.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === *Exercise #3: Security auditing*
 
 In this Exercise, you will modify the security auditing configuration for the stand-alone Neo4j instance that you have worked earlier in this module. 
@@ -777,6 +912,13 @@ image::{imagedir}/L05-Ex3-configure1.png[L05-Ex3-configure1,width=800,align=cent
 . Start cypher-shell specifying the user _reader/reader_. 
 . Exit out of cypher-shell and log in again specifying _accounting/accounting_.
 . Exit out of cypher-shell and log in again specifying _accounting/foo_.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=8]
 . View the *security.log* file. Do you see these logins and the failed login attempt? The default level of logging is _INFO_ if you do not set the property in the configuration file.
 
 image::{imagedir}/L05-Ex3-log1.png[L05-Ex3-log1,width=1100,align=center]
@@ -856,6 +998,8 @@ You should now be able to:
 * Describe how to secure data-in-transit.
 * Describe how to secure data-at-rest.
 * Configure and use security auditing.
+
+== Grade Quiz and Continue 
 
 ++++
 <a class="next-section medium button" href="../part-6/">Continue to Module 6</a>

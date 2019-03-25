@@ -23,6 +23,8 @@ ifdef::backend-html5[]
 
 include::scripts.txt[]
 
+endif::backend-html5[]
+
 == About this module
 
 Now that you have installed the Neo4j Enterprise Edition, you will learn how to perform some administrative tasks with the Neo4j instance.
@@ -110,6 +112,11 @@ You start, stop, restart and check the status of the Neo4j instance on non-Debia
 
 When the Neo4j instance starts, it opens the database, and writes to the folders for the database and to the log file.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Checking the status of the instance
 
 At any time, you can check the status of the Neo4j instance.
@@ -126,6 +133,11 @@ Here we see that the instance is started. Notice that the service is disabled as
 After the instance is started you can identify the process ID (Main PID) from the status command on Debian. It is sometimes helpful to know the process ID of the Neo4j instance (JVM) in the event that it is unresponsive and you must kill it.
 
 However, knowing whether the instance is started (active) is generally not sufficient, especially if you have made some configuration changes. You can view details of the Neo4j instance by examining the log file.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Viewing the neo4j log
 
@@ -146,6 +158,11 @@ When the Neo4j instance starts, you can also confirm that it is started by seein
 
 [NOTE]
 You can also view the log file in the *logs* folder on all platforms.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #1: Managing the Neo4j instance*
 
@@ -181,6 +198,11 @@ image::{imagedir}/InitialCypherShellLogin-Debian.png[InitialCypherShellLogin-Deb
 [NOTE]
 If you set the environment variables NEO4J_USER and NEO4J_PASSWORD with their respective values, then you need not enter your credentials when logging into `cypher-shell`.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Changing the default password (Debian only)
 
 If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials _neo4j/neo4j_ [underline]#must# be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the _neo4j_ user. Later in this training, you will learn more about securing Neo4j by managing users and their access. 
@@ -191,9 +213,14 @@ While logged into the database in `cypher-shell`, you execute the procedure to c
 
 In this example, we log into `cypher-shell` with our credentials. Then we execute the Cypher command to change the password. Finally, we specify `:exit` to log out of `cypher-shell`.
 
-image::{imagedir}/ChangePassword-Debian.png[ChangePassword-Debian,width=800,align=center]
+image::{imagedir}/ChangePassword-Debian.png[ChangePassword-Debian,width=700,align=center]
 
 After changing the default password for the Neo4j instance (database), we are now able to access the database after logging in with the new credentials. 
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Accessing the database
 
@@ -202,6 +229,11 @@ Here is an example where we execute a Cypher statement against the empty databas
 image::{imagedir}/CypherShellStatement-Debian.png[CypherShellStatement-Debian,width=1000,align=center]
 
 When you are done with `cypher-shell`, you enter `:exit` to exit.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #2: Using `cypher-shell` to change the password*
 
@@ -225,6 +257,11 @@ You should ensure that the Neo4j instance is started.
 . Invoke `cypher-shell` sending movieDB.cypher as input. You should see something like the following:
 
 image::{imagedir}/L03-Ex2-LoadMovieDB-cypher-shell.png[Ex2-LoadMovieDB-cypher-shell,width=1000,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 [start=11]
 . The database is now populated with the _Movie_ data. Log in to `cypher-shell` and execute a Cypher statement to retrieve data from the database, for example: `MATCH (p:Person) WHERE p.name='Tom Cruise' RETURN p.name, p.born;` You should see the following:
@@ -284,6 +321,11 @@ Then, if you want to create a database from any offline backup file to use for a
 [NOTE]
 Dumping and loading a database is done when the Neo4j instance is stopped. Later in this module, you will learn about online backup and restore. Offline backup is typically done for initial setup and development purposes. Online backup and restore is done in a production environment.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Creating and offline backup
 
 To create an offline backup, the Neo4j instance must be stopped.
@@ -310,6 +352,11 @@ Here is an example where we have previously renamed the database to be _movie.db
 image::{imagedir}/DumpDatabase.png[DumpDatabase,width=1000,align=center]
 
 After the dump file, _movie-dump_ is created, you can move it anywhere on the filesystem or network.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Creating a database from an offline backup
 
@@ -340,6 +387,11 @@ Here is an example where we load the contents of *movie-dump* into a database na
 
 image::{imagedir}/LoadDatabase.png[LoadDatabase,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Modifying config for new database
 
 In order to access this newly created and loaded database, we must modify *neo4j.conf* to use *movie2.db* as the active database before starting the Neo4j instance:
@@ -349,6 +401,11 @@ image::{imagedir}/Movie2ActiveDatabase.png[Movie2ActiveDatabase,width=1000,align
 In addition, we must change the owner:group for the database folder and its sub-folders to _neo4j:neo4j_ before we start the Neo4j instance.
 
 A best practice is to examine the log file for the Neo4j instance after you have made any configuration changes to ensure that the instance starts with no errors.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #3: Copying a database*
 
@@ -373,6 +430,11 @@ image::{imagedir}/L03-Ex3-movie-dump.png[Ex3-movie-dump,width=1000,align=center]
 
 image::{imagedir}/L03-Ex3-movie-load.png[Ex3-movie-load,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=7]
 . Modify *neo4j.conf* to use *movie.db* as the active database.
 
@@ -385,6 +447,13 @@ This will recursively change the owner and group to all files and folders includ
 [start=9]
 . Start the Neo4j instance.
 . Examine the log file to ensure that the instance started with no errors.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=11]
 . Access the database using `cypher-shell`. Can you see the movie data in the database?
 
 image::{imagedir}/L03-Ex3-AccessDB.png[Ex3-AccessDB,width=800,align=center]
@@ -397,6 +466,11 @@ Here we have specified a new location for the data in the configuration file:
 
 image::{imagedir}/ModifyDataLocation.png[ModifyDataLocation,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Starting Neo4j instance with a new location
 
 We ensure that the location for the data exists and then we can start the Neo4j instance. If this is the first time Neo4j has been started for this location, a new database named *graph.db* will be created. This is because we are using the default database name in the configuration file.
@@ -404,6 +478,11 @@ We ensure that the location for the data exists and then we can start the Neo4j 
 image::{imagedir}/UsingNewDataLocation.png[UsingNewDataLocation,width=800,align=center]
 
 If you have an existing database that you want to reside in a different location for the Neo4j instance, remember that you must dump and load the database to safely copy it to the new location.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Using a different location for the database
 
@@ -419,6 +498,11 @@ If you are starting the Neo4j instance with a new location and do not want to us
 . Start the Neo4j instance.
 . Examine the log file to ensure it started without errors.
 . Optionally, you can remove the *graph.db* folder as you will be working with a different database you loaded.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #4: Modifying the location of the database*
 
@@ -441,6 +525,13 @@ image::{imagedir}/L03-Ex4-LocationConfig.png[Ex4-LocationConfig,width=900,align=
 [start=5]
 . Start the Neo4j instance.
 . Examine the log file to ensure that the instance started without errors.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=7]
 . Examine the files in the */usr/local/data* location. The instance should have created the *databases* and *dbms* folders. They should look as follows:
 
 image::{imagedir}/L03-Ex4-LocationInUse.png[Ex4-LocationInUse,width=800,align=center]
@@ -456,6 +547,11 @@ image::{imagedir}/L03-Ex4-ActiveDatabase.png[Ex4-ActiveDatabase,width=900,align=
 
 image::{imagedir}/L03-Ex4-LoadDB.png[Ex4-LoadDB,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=11]
 . Ensure that all files and folders including and under *movie3.db* are owned by _neo4j:neo4j_. For example, change directory to the *databases* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j movie3.db` This will recursively change the owner and group to all files and folders under *movie3.db*.
 
@@ -469,6 +565,13 @@ image::{imagedir}/L03-Ex4-Access.png[Ex4-Access,width=800,align=center]
 [start=15]
 . Enter the Cypher statement to change the password: `CALL dbms.changePassword('newPassword');`
 . Enter a Cypher statement to retrieve some data: `MATCH (p:Person) WHERE p.name='Meg Ryan' RETURN p.name, p.born;`
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=17]
 . Exit `cypher-shell`.
 
 image::{imagedir}/L03-Ex4-Access2.png[Ex4-Access2,width=700,align=center]
@@ -491,6 +594,11 @@ image::{imagedir}/ConsistentPassed.png[ConsistentPassed,width=1000,align=center]
 
 No report is written to the reports folder because the consistency check passed.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Inconsistencies found
 
 Here is an example of what an unsuccessful run of the consistency checker should produce:
@@ -500,6 +608,11 @@ image::{imagedir}/Inconsistencies.png[Inconsistencies,width=1000,align=center]
 If inconsistencies are found, a report is generated and placed in the folder specified for the report location.
 
 Inconsistencies in a database are a serious matter that should be looked into with the help of Neo4j Technical Support. 
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #5: Checking consistency of a database*
 
@@ -523,6 +636,13 @@ image::{imagedir}/L03-Ex5-Consistent.png[Ex5-Consistent,width=1000,align=center]
 . Use `neo4j-admin` to create and load *movie3-copy.db* from the movie dump file you created earlier.
 . Ensure that the owner of the *movie3-copy.db* is _neo4j:neo4j_.
 . Next, you will corrupt the database. Modify the file *movie3-copy.db/neostore.nodestore.db* by adding some text to the file.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=7]
 . Run the consistency check tool on *movie3-copy.db* using `neo4j-admin` specifying */usr/local/work/reports* as the folder where the report will be written. The consistency check tool should return something like the following:
 
 image::{imagedir}/L03-Ex5-Inconsistent.png[Ex5-Inconsistent,width=1000,align=center]
@@ -558,6 +678,10 @@ PrepareDB.log
 
 When the *PrepareDB.sh* script runs its scripts, all output will be written to the log file, including error output. Then you can simply check the log file to make sure it ran as expected.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ===  *Exercise #6: Scripting changes to the database*
 
@@ -665,6 +789,11 @@ The configuration setting _dbms.security.procedures.whitelist_ is used to name c
 available from a library. It defines a comma-separated list of procedures that are to be loaded.
 The list may contain both fully-qualified procedure names, and partial names with the wildcard *.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Example: Installing the Graph Algorithms plugin
 
 Suppose we wanted to install the Graph Algorithms library that is compatible with Neo4j 3.5. We find the library in GitHub and simply download the *.jar* file. Here is the https://github.com/neo4j-contrib/neo4j-graph-algorithms/releases[release area] in GitHub for the graph algorithms library:
@@ -672,6 +801,11 @@ Suppose we wanted to install the Graph Algorithms library that is compatible wit
 image::{imagedir}/GitHubGraphAlgos.png[GitHubGraphAlgos,width=800,align=center]
 
 The main page for https://github.com/neo4j-contrib/neo4j-graph-algorithms[Graph Algorithms] in GitHub contains details about the plugin and instructions for installing it.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Example: Download and ownership of plugin
 
@@ -681,6 +815,11 @@ image::{imagedir}/GraphAlgos.png[GraphAlgos,width=1000,align=center]
 
 Ensure that the *.jar* file is owned by _neo4j:neo4j_ and that it has execute permissions.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Example: Sandboxing
 
 The graph algorithms plugin requires _sandboxing_.
@@ -688,11 +827,21 @@ Here is how we enable the procedures in the graph algorithms plugin. We modify t
 
 image::{imagedir}/ConfigGraphAlgos.png[ConfigGraphAlgos,width=600,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Example: Restart with plugin
 
 You must then start or restart the Neo4j instance. Once started, you can then run the script to return the names of the procedures that are available to the Neo4j instance. Here we see that we have the additional procedures for the graph algorithms plugin:
 
 image::{imagedir}/GraphAlgosInstalled.png[GraphAlgosInstalled,width=700,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Example: Installing the APOC plugin
 
@@ -702,11 +851,21 @@ You obtain the plugin from the APOC https://github.com/neo4j-contrib/neo4j-apoc-
 
 image::{imagedir}/APOCDownloadPage.png[APOCDownloadPage,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Example: Download and ownership of plugin
 
 Here we download the *.jar* file, change its permissions to execute, and change the owner to be _neo4j:neo4j_.
 
 image::{imagedir}/APOC.png[APOC,width=800,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Example: Sandboxing
 
@@ -718,11 +877,21 @@ image::{imagedir}/APOCConfig.png[APOCConfig,width=600,align=center]
 
 Since APOC is large, you will most likely want to whitebox specific procedures so that only the procedures needed by the application are loaded into the Neo4j instance at runtime.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Example: Restart with plugin
 
 And here we see the results after restarting the Neo4j instance and running the script to list the procedures loaded in the instance:
 
 image::{imagedir}/APOCLoaded.png[APOCLoaded,width=600,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ===  *Exercise #7: Install a plugin*
 
@@ -747,6 +916,11 @@ For example, you should see the following in the repository main page:
 
 image::{imagedir}/L03-Ex7-GetSpatialLibrary.png[Ex7-GetSpatialLibrary,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 Here is how you download the *.jar* file into the */var/lib/neo4j/plugins* folder. You should confirm that the file size is correct and that the owner is _neo4j:neo4j_ with execute permissions.
 
 image::{imagedir}/L03-Ex7-SpatialLibrary.png[Ex7-SpatialLibrary,width=800,align=center]
@@ -762,6 +936,13 @@ image::{imagedir}/L03-Ex7-SpatialQuery2.png[Ex7-SpatialQuery2,width=1000,align=c
 
 [start=8]
 . In the */usr/local/work* folder, create a script named *ListProcedures.sh* that will write the list of procedures available to the Neo4j instance to the */usr/local/work/Procedures.txt* file.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=9]
 . Run the *ListProcedures.sh* script and examine the contents to also verify that the plugin has been installed. The *Procedures.txt* file should contain these items:
 
 image::{imagedir}/L03-Ex7-SpatialLibraryLoaded.png[Ex7-SpatialLibraryLoaded,width=600,align=center]
@@ -814,6 +995,11 @@ As you learn more about some of the other administrative tasks for a Neo4j insta
 [NOTE]
 The REST API will be deprecated in Neo4j 4.0.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ===  *Exercise #8: Modify the HTTP port*
 
 In this Exercise, you will modify the default HTTP port used by the HTTP instance and use the new port.
@@ -827,6 +1013,13 @@ image::{imagedir}/L03-Ex8-HTTP9999.png[Ex8-HTTP9999,width=800,align=center]
 
 [start=2]
 . Restart the Neo4j instance.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=3]
 . Confirm that the port works by entering the following `curl` command that uses the Neo4j HTTP API to create a node, where it will ask you for the password the _neo4j_ user:
 
 ----
@@ -874,6 +1067,11 @@ neo4j-admin backup --backup-dir=<backup-folder>
 
 This will perform a full backup to _backup-instance-folder-name_ for the Neo4j instance running on _Neo4j-instance-host-address_.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Restoring from a backup
 
 If you need to restore a database from a backup, you must first stop the Neo4j instance. Since the instance is down, you can restore the database on the same server that runs the instance, provided the server has access to the backup location in the network.
@@ -895,6 +1093,11 @@ If you restore a database as _root_, make sure that you change the ownership (re
 
 There are many ways for performing online backups, including incremental backups. See the https://neo4j.com/docs/operations-manual/3.5/backup/[Neo4j Operations Manual] for details.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ===  *Exercise #9: Performing online backup and restore*
 
 In this Exercise, you will perform an online backup of your database where you use the same host for the backup process. Then you will modify the database. Finally, you will restore the database from the backup.
@@ -913,6 +1116,13 @@ image::{imagedir}/L03-Ex9-Backup-config.png[Ex9-Backup-config,width=1000,align=c
 [start=3]
 . Restart the Neo4j instance.
 . Create a folder named */usr/local/backup* and ensure that it is owned by _neo4j:neo4j_.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=5]
 . Perform an online backup of the active database (*movie3.db*).
 The result of the backup should look something like this:
 
@@ -934,8 +1144,12 @@ image::{imagedir}/L03-Ex9-Backup2.png[Ex9-Backup2,width=1000,align=center]
 
 image::{imagedir}/L03-Ex9-Inconsistency.png[Ex9-Inconsistency,width=1000,align=center]
 
-[start=10]
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
+[start=10]
 . Restore the *movie3.db* database from the backup.
 . Check its consistency.
 
@@ -979,6 +1193,11 @@ Here is an example of the *crimes_header.csv* header file for loading nodes of t
 
 The nodes loaded with *Crimes_header.csv* will have the label, _:LABEL_. In addition, the data in the associated *crimes.csv* file will have values for the ID of the record, and property values for _id_, _date_, and _description_. 
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 And here is a portion of the associated *crimes.csv* file for loading nodes of type _Crime_:
 
 ----
@@ -1016,6 +1235,11 @@ Here is a portion of the *crimesBeats.csv* file that will be used to create the 
 8157905,0113,ON_BEAT
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 Here is a portion of a portion of the *crimesPrimaryTypes.csv* file that will be used to create the  relationships between the _Crime_ nodes and the nodes that contain the _CrimeType_ data:
 
 ----
@@ -1045,9 +1269,19 @@ neo4j-admin import  --database <database-name>
 					--report-file <report-file-path>
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 Here is the result of using the `import` command of `neo4j-admin` to create a database and import *.csv* files. 
 
 image::{imagedir}/Import2.png[Import2,width=1000,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ===  *Exercise #10: Importing data with the import command*
 

@@ -14,7 +14,7 @@
 :nextsecttitle: Manage Neo4j
 :nextsect: 3
 :experimental:
-//:imagedir: img
+:imagedir: ../img
 :manual: http://neo4j.com/docs/operations-manual/3.5
 //:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 
@@ -73,11 +73,21 @@ image::{imagedir}/Neo4jServerClients.png[Neo4jClients,width=600,align=center]
 
 As a Neo4j database administrator, you are responsible for the availability and consistency of the Neo4j database.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Example architecture #2: Integrating Neo4j with other databases
 
 Neo4j is often used in combination with other data sources  (https://en.wikipedia.org/wiki/Polyglot_persistence[polyglot persistence]), such as relational or NoSQL databases. Data can be fetched from the different systems in order to be manipulated by an application and subsequently written back to Neo4j. Other solutions can involve loading of data from a number of databases into Neo4j in order to efficiently do connected data analysis on the combined data set.
 
 image::{imagedir}/Polyglot.png[Polyglot,width=700,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Microservices
 
@@ -87,6 +97,11 @@ image::{imagedir}/Microservices.png[Microservices,width=600,align=center]
 
 As a Neo4j database administrator, you are responsible for the availability and consistency of the Neo4j database, and for making the data accessible by applications. Application developers are responsible for the logic in transferring and manipulating data between the databases.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Example architecture #3: Using Neo4j Causal Clustering 
 
 Causal Clustering is used in production environments where high throughput, continuous availability, and reliability are important factors. This feature is available with Neo4j Enterprise Edition. 
@@ -95,6 +110,11 @@ With Causal Clusters, you configure multiple Neo4j instances that communicate wi
 
 image::{imagedir}/ClustersHighLevel.png[ClustersHighLevel,width=700,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Distributed servers in a cluster
 
 A common use for Neo4j is when different data is required in a set of geographic locations. For example, an  online retailer may have different data in the US and Europe. Some data could be shared between different geographically located data centers, but the most heavily updated data needs to physically reside closer to the end-user applications. Neo4j Causal Clusters can be configured to span geographic locations.
@@ -102,6 +122,11 @@ A common use for Neo4j is when different data is required in a set of geographic
 image::{imagedir}/ClustersHighLevelDistributed.png[ClustersHighLevelDistributed,width=800,align=center]
 
 As a Neo4j database administrator, you will be responsible for configuring and monitoring Causal Clusters. You will work with architects to determine the appropriate configuration of the Causal Cluster, taking into account aspects such as: uptime requirements, performance requirements, and redundancy required in order to handle events of Neo4j instance failure or data center failure. 
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Architecting distributed servers
 
@@ -115,6 +140,12 @@ Some decisions you may need to make are:
 
 We will cover the configuration, management and monitoring of Causal Clusters in depth later in this training.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+
 === Example architecture #4: Using Neo4j standalone for graph analytics 
 
 A common use case for Neo4j is for data scientists analyze complex patterns in connected data. Neo4j Bloom, or some other data visualization tool, may be used as the front-end. The following are two common patterns this use case:
@@ -124,6 +155,11 @@ A common use case for Neo4j is for data scientists analyze complex patterns in c
 
 image::{imagedir}/DataAnalytics.png[DataAnalytics,width=300,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Example architecture #5: Neo4j integrated with compute-heavy solutions
 
 Some enterprises need to consolidate large amounts of data for analysis. The data can come from data lakes, NoSQL databases, document stores, relational, all of which is analyzed and placed into a Neo4j database for analytics. A common  architecture for streaming and analyzing data for consolidations is Apache Spark. 
@@ -131,6 +167,11 @@ Some enterprises need to consolidate large amounts of data for analysis. The dat
 image::{imagedir}/GraphCompute.png[GraphCompute,width=800,align=center]
 
 As a Neo4j database administrator, you will work with architects to ensure that the Neo4j database in this type of environment is properly configured and available to the computational engines that will write to the graph.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 == Neo4j versions
 
@@ -157,6 +198,11 @@ The Community Edition is a full functioning version of Neo4j suitable for single
 === Enterprise Edition
 
 The Enterprise Edition extends the functionality of the Community Edition to include key features for performance and scalability such as a clustering architecture for high availability and online backup functionality. It is the right choice for production systems with availability requirements or needs for scaling up or out. Enterprise Edition requires a license from Neo4j.  You can download Neo4j Enterprise Edition from the  https://neo4j.com/download-center/#releases[Neo4j download page]. When you install Neo4j Enterprise Enterprise, you have a 30 day evaluation license.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Neo4j Desktop
 

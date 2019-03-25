@@ -23,6 +23,9 @@ ifdef::backend-html5[]
 
 include::scripts.txt[]
 
+endif::backend-html5[]
+
+
 == About this module
 
 
@@ -52,11 +55,21 @@ There are two types of Neo4j instances in a cluster architecture: core servers a
 
 image::{imagedir}/ClustersArchitecture.png[ClustersArchitecture,width=400,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Core servers
 
 Core servers are used for read and write access to the database. The core servers are used to synchronize updates to the database, regardless of the number and physical locations of the Neo4j instances. By default, in a cluster architecture, a transaction is committed if a majority (_quorum_) of the core servers defined as the minimum required for the cluster have written the data to the physical database.  This coordination  between core servers is implemented using the _Raft_ protocol. You can have a large number of core servers, but the more core servers in the application architecture, the longer a "majority" commit will take. At a minimum, an application should use three core servers to be considered fault-tolerant. If one of the three servers fail, the cluster is still operable for updates to the database. If you want an architecture that can support two servers failing, then you must configure five core servers. You cannot configure a cluster with two core servers because if one server fails, the second server is automatically set to be read-only, leaving your database to be inoperable for updates.
 
 image::{imagedir}/QuorumCommit.png[QuorumCommit,width=600,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Read replica servers
 
@@ -64,11 +77,21 @@ Read replica servers are used to scale data across a distributed network. They o
 
 image::{imagedir}/ReadReplicasPoll.png[ReadReplicasPoll,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Distributed architecture
 
 Here is an example where the core servers are located in one data center, but the read replicas are located in many distributed data centers.
 
 image::{imagedir}/DistributedClusterArchitecture.png[DistributedClusterArchitecture,width=800,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Bookmarks with Causal Clustering
 
@@ -94,6 +117,11 @@ When a core server starts, it first uses a discovery protocol to join the networ
 
 image::{imagedir}/Discovery.png[Discovery,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Core server shutdown
 
 When a core server shuts down, the shutdown may be initiated by an administrator, or it may be due to a hardware or network failure. If the core server that is a _FOLLOWER_ shuts down, the _LEADER_ detects the shutdown and incorporates this information into its operations with the other core servers. If the core server that is the _LEADER_ shuts down, the remaining core servers communicate with each other and an existing _FOLLOWER_ is promoted to the _LEADER_. 
@@ -106,6 +134,10 @@ If a core server shutdown leaves the cluster below a configured threshold for th
 
 image::{imagedir}/ClusterBelowQuorum.png[ClusterBelowQuorum,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Core server updates database
 
@@ -140,6 +172,11 @@ image::{imagedir}/IdentifyMachines.png[IdentifyMachines,width=800,align=center]
 The machines that you designate to run core servers must be reachable from each other. This means that the core machines are part of the membership of the cluster:
 
 image::{imagedir}/ClusterMembers.png[ClusterMembers,width=600,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 ==== Example: Configuration properties
 
@@ -196,11 +233,21 @@ After you have modified the *neo4j.conf* files for the cluster, you start each N
 [NOTE]
 There is a configuration property (_causal_clustering.refuse_to_be_leader_) that you can set to true in the *neo4j.conf* file that specifies that this particular core server will [underline]#never# be a leader. It is [underline]#not# recommended that you set this property.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Viewing the status of the cluster
 
 After you have started the core servers in the cluster, you can access status information about the cluster from `cypher-shell` on any of the core servers in the cluster. You simply enter `CALL dbms.cluster.overview();` and it returns information about the servers in the cluster, specifically, which ones are _FOLLOWERS_ and which one is the _LEADER_.
 
 image::{imagedir}/clusterOverview.png[clusterOverview,width=1000,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Neo4j Enterprise Edition Docker image
 
@@ -262,6 +309,11 @@ In this example, the name of the Docker container is _core3_. We map the conf, d
 [NOTE]
 When using the Neo4j Docker instance, a best practice is to specify more members in the cluster, but not require them to be started when the cluster forms. This will enable you to later add core servers to the cluster. 
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === *Exercise #1: Getting started with clustering*
 
 In this Exercise, you will gain experience with a simple cluster using Docker containers.  You will [underline]#not# use Neo4j instances running on your system, but rather Neo4j instances running in Docker containers where you have installed Docker on your system.
@@ -283,9 +335,21 @@ image::{imagedir}/L04-Ex1-DockerImages.png[L04-Ex1-DockerImages,width=800,align=
 
 [start=3]
 . Navigate to the *neo4j-docker* folder. This is the folder that will contain all configuration changes for the Neo4j instances you will be running in the cluster. Initially, you will be working with three core servers. Here you can see that you have a folder for each core server and each read replica server.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=4]
 . Examine the *create_initial_cores.sh* file. This script creates the network that will be used in your Docker environment and then creates three Docker container instances from the Neo4j image. Each instance will represent a core server. Finally, the script stops the three instances.
 
 image::{imagedir}/L04-Ex1-create_cores.png[L04-Ex1-create_cores,width=1000,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 [start=5]
 . Run *create_initial_cores.sh* as root `sudo ./create_initial_cores.sh <Image ID>` providing as an argument the Image ID of the Neo4j Docker image. 
@@ -303,6 +367,11 @@ image::{imagedir}/L04-Ex1-containersCreated.png[L04-Ex1-containersCreated,width=
 
 image::{imagedir}/L04-Ex1-CoresStarted.png[L04-Ex1-CoresStarted,width=600,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=9]
 . In your non-core server terminal window, confirm that all core servers are running in the network by typing `docker ps -a`.
 
@@ -319,6 +388,11 @@ image::{imagedir}/L04-Ex1-ChangePassword.png[L04-Ex1-ChangePassword,width=800,al
 . Log in to any of the servers and get the cluster overview information in `cypher-shell`. In this image, _core1_ is the _LEADER_:
 
 image::{imagedir}/L04-Ex1-ClusterOverview.png[L04-Ex1-ClusterOverview,width=1000,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 [start=14]
 . Shut down all core servers by typing this in a non-core server terminal window: `docker stop core1 core2 core3`
@@ -348,6 +422,11 @@ image::{imagedir}/Seeding.png[Seeding,width=800,align=center]
 
 If the amount of application data is relatively small (less than 10M nodes) you can also load *.csv* data into a running core server in the cluster where all core servers are started and actively part of the cluster. This will propagate the data to all databases in the cluster.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ===  *Exercise #2: Seeding the cluster databases*
 
 In this Exercise, you will populate the databases in the cluster that you created earlier. Because you are using Docker containers for learning about clustering, you cannot perform the normal seeding procedures as you would in your real production environment because when using the Neo4j Docker containers, the Neo4j instance is already started when you start the container. Instead, you will simply start the core servers in the cluster and connect to [underline]#one of them#. Then you will use `cypher-shell` to load the _Movie_ data into the database and the data will be propagated to the other core servers. 
@@ -366,6 +445,13 @@ image::{imagedir}/L04-Ex2-Core1IsLeader.png[L04-Ex2-Core1IsLeader,width=1000,ali
 
 [start=3]
 . Log in to the core server that is the _LEADER_.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=4]
 . Run `cypher-shell` specifying that the *movie.cypher* statements will be run. *Hint:* You can do this with a single command line: `/var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps < /var/lib/neo4j/data/movieDB.cypher`
 
 image::{imagedir}/L04-Ex2-LoadMovieData.png[L04-Ex2-LoadMovieData,width=800,align=center]
@@ -378,6 +464,13 @@ image::{imagedir}/L04-Ex2-Data-loaded.png[L04-Ex2-Data-loaded,width=800,align=ce
 [start=6]
 . Log out of the core server.
 . Log in to a _FOLLOWER_ core server with `cypher-shell`. *Hint:* For example, you can log in to core2 with `cypher-shell` with the following command: `docker exec -it core2 /var/lib/neo4j/bin/cypher-shell -u neo4j -p training-helps`
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=8]
 . Verify that the _Movie_ data is in the database for this core server.
 
 image::{imagedir}/L04-Ex2-Core2-loaded.png[L04-Ex2-Core2-loaded,width=800,align=center]
@@ -385,6 +478,13 @@ image::{imagedir}/L04-Ex2-Core2-loaded.png[L04-Ex2-Core2-loaded,width=800,align=
 [start=9]
 . Log out of the core server.
 . Log in to the remaining core server that is the _FOLLOWER_ with `cypher-shell`. 
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=11]
 . Verify that the _Movie_ data is in the database for this core server.
 
 image::{imagedir}/L04-Ex2-Core3-loaded.png[L04-Ex2-Core3-loaded,width=800,align=center]
@@ -409,6 +509,11 @@ Applications that update the database should [underline]#always# use _bolt+routi
 * Automatic retries.
 * Causal chaining (bookmarks).
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === bolt and bolt+routing at runtime
 
 For example, if you have a cluster with three core servers and _core1_ is the _LEADER_, your application can only write to _core1_ using the _bolt_ protocol and bolt port for _core1_. An easy way to see this restriction is if you use the default address for `cypher-shell` on the system where a _FOLLOWER_ is running. If you connect via `cypher-shell` to the server on _core2_ and attempt to update the database, you receive an error:
@@ -416,6 +521,11 @@ For example, if you have a cluster with three core servers and _core1_ is the _L
 image::{imagedir}/CannotWriteFollower.png[CannotWriteFollower,width=800,align=center]
 
 When using clustering, [underline]#all# application code that updates the application should use the _bolt+routing_ protocol which will enable applications to be able to write to the database, even in the event of a failure of one of the core servers. Applications should be written with the understanding that transactions are automatically retried.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #3: Accessing the core servers in a cluster*
 
@@ -437,6 +547,13 @@ image::{imagedir}/L04-Ex3_ReadFollower.png[L04-Ex3_ReadFollower,width=800,align=
 
 [start=3]
 . Next, run the script against the other servers in the network. All reads should be successful.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=4]
 . Next, run the *testWrite.sh* script against the same port using the _bolt_ protocol. For example, type `./testWrite.sh bolt 11687`. What you should see is that you can only use the _bolt_ protocol for writing against the _LEADER_.
 
 image::{imagedir}/L04-Ex3_WriteLeaderFollower.png[L04-Ex3_WriteLeaderFollower,width=800,align=center]
@@ -445,6 +562,11 @@ image::{imagedir}/L04-Ex3_WriteLeaderFollower.png[L04-Ex3_WriteLeaderFollower,wi
 . Next, change the protocol from _bolt_ to _bolt+routing_ and write to the core servers that are _FOLLOWER_ servers.  For example, type `./testWrite.sh bolt+routing 12687`. With this protocol, all writes are routed to the _LEADER_ and the application can write to the database.
 
 image::{imagedir}/L04-Ex3_AllCanWriteLeader.png[L04-Ex3_AllCanWriteLeader,width=800,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 [start=6]
 . Next, you will add data to the database with a client that sends the request to a _FOLLOWER_ core server. Run the *addPerson.sh* script against any port  representing a _FOLLOWER_ using the _bolt_ protocol. For example, type `./addPerson.sh bolt+routing 13687 "Willie"`. This will add a _Person_ node to the database for core3.
@@ -498,6 +620,11 @@ Unlike core servers where applications use _bolt+routing_ to access the database
 
 Since the read replica servers are considered "transient", when they shut down, there is no effect to the operation of the cluster. Of course, detection of a shutdown when it is related to a hardware or network failure must be detected so that a new read replica server can be started as clients  depend on read access can continue their work.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === *Exercise #4: Accessing the read replica servers in a cluster*
 
 In this Exercise, you will see how read replica servers can be used to retrieve changed data from the core servers.
@@ -523,6 +650,13 @@ image::{imagedir}/L04-Ex4_Overview.png[L04-Ex4_Overview,width=1000,align=center]
 
 [start=6]
 . Navigate to the *neo4j-docker/testApps* folder. 
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=7]
 . Run the *addPerson.sh* script against any port for a core server using the _bolt+routing_ protocol. For example, type `./addPerson.sh bolt+routing 13687 "Kong"`. This will add a _Person_ node to the database.
 
 image::{imagedir}/L04-Ex4_AddPerson.png[L04-Ex4_AddPerson,width=1000,align=center]
@@ -598,6 +732,11 @@ The Neo4j Operations Manual documents many properties that are related to cluste
 * _causal_clustering.enable_prevoting_ set to `TRUE` can reduce the number of _LEADER_ switches, especially when a new member is introduced to the cluster.
 * _causal_clustering.leader_election_timeout_ can be set to a number of seconds (the default is 7s). The default is typically sufficient, but you may need to increase it slightly if your cluster startup is slower than normal.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === *Exercise #5: Understanding quorum*
 
 In this Exercise, you gain some experience monitoring the cluster as servers shut down and as servers are added.
@@ -619,6 +758,11 @@ image::{imagedir}/L04-Ex5_Overview.png[L04-Ex5_Overview,width=1000,align=center]
 
 image::{imagedir}/L04-Ex5_Core3Shutown.png[L04-Ex5_Core3Shutown,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=4]
 . In the *testApps* folder, run the script *testWrite.sh* providing the protocol of _bolt+routing_ and a port for one of the core servers that is running.  Can the client write to the database?
 
@@ -637,6 +781,13 @@ image::{imagedir}/L04-Ex5_OneCoreNoWrite.png[L04-Ex5_OneCoreNoWrite,width=1000,a
 
 [start=8]
 . Start a core server that you previously stopped.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=9]
 . View the cluster overview. Is there now a _LEADER_? This cluster is operational because it now has a _LEADER_
 
 image::{imagedir}/L04-Ex5_NewLeader.png[L04-Ex5_NewLeader,width=1000,align=center]
@@ -676,7 +827,7 @@ endif::backend-html5[]
 
 Read more about configuring clusters for multi-data center in the https://neo4j.com/docs/operations-manual/current/clustering/multi-data-center/[Neo4j Operations Manual]
 
-== Bookmarks
+=== Bookmarks
 
 Both read and write client applications can create bookmarks within a session that enable them to quickly access a location in the database. The bookmarks can be passed between sessions. See the https://neo4j.com/docs/developer-manual/3.4/drivers/sessions-transactions/[Neo4j Developer Manual] for details about writing code that uses bookmarks.
 
@@ -702,6 +853,11 @@ You log in to the server from where you will be performing the backup (typically
 
 You can add more to the backup command as you can read about in the https://neo4j.com/docs/operations-manual/3.5/backup/causal-clusters/[Neo4j Operations Manual].
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Example: Backing up the cluster
 
 In this example, we have logged in to the read replica server and we perform the backup using the address and backup port for the _LEADER_, _bcore3_. We also specify the location of the backup files and also that we want the backup to be checked for consistency.
@@ -709,6 +865,11 @@ In this example, we have logged in to the read replica server and we perform the
 image::{imagedir}/BackupFromReadReplica.png[BackupFromReadReplica,width=1100,align=center]
 
 Note that this is not an encrypted backup. You will learn about encryption later in this training when you learn about security.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #6: Backing up a cluster*
 
@@ -731,6 +892,11 @@ image::{imagedir}/L04-Ex6_CreateContainers.png[L04-Ex6_CreateContainers,width=80
 
 image::{imagedir}/L04-Ex6_ClusterFormed.png[L04-Ex6_ClusterFormed,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=5]
 . Seed the cluster by loading the movie data into one of the core servers.
 
@@ -750,6 +916,11 @@ dbms.backup.address=bcoreX:6362
 . Check the last transaction ID on the core server that is the _LEADER_.
 
 image::{imagedir}/L04-Ex6_LastTXNCore.png[L04-Ex6_LastTXNCore,width=1000,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 [start=10]
 . Log in to the read replica server and check the last transaction ID. This server will have a different last transaction ID, but in a real application, you will find that this ID value increases at the same rate as it increases in the core servers.
@@ -816,6 +987,8 @@ You should now be able to:
 * Monitor and manage core servers in the cluster.
 * Monitor and manage read replica servers in the cluster.
 * Back up a cluster.
+
+== Grade Quiz and Continue 
 
 ++++
 <a class="next-section medium button" href="../part-5/">Continue to Module 5</a>

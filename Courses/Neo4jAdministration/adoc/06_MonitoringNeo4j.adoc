@@ -21,6 +21,8 @@ ifdef::backend-html5[]
 
 include::scripts.txt[]
 
+endif::backend-html5[]
+
 == About this module
 
 Now that you have gained experience managing a Neo4j instance and database,  managing Neo4j Causal Clusters, and the steps you must take to secure your deployed Neo4j application, you will learn how to monitor the Neo4j instance as it is used by applications.
@@ -89,6 +91,11 @@ The https://neo4j.com/docs/operations-manual/3.5/monitoring/logging/query-loggin
 [NOTE]
 If you have Neo4j Desktop installed on a system, you can use it to run an application called Query Log Analyzer, written by an engineer from Neo4j. This application is a useful tool for viewing queries on your Neo4j Enterprise instance. Here is the https://medium.com/neo4j/meet-the-query-log-analyzer-30b3eb4b1d6[Medium article] that describes the tool and how to install it.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Long-running queries
 
 Inspecting the log file for queries that completed in more than XX milliseconds provides historical information, but what if you suspect that a query is running too long or is hung?
@@ -108,6 +115,11 @@ If the query executes and then *returns a lot of data*, there is no way to monit
 In Neo4j Browser you can use the `:queries` command to see all currently running queries:
 
 image::{imagedir}/ListQueriesBrowser.png[ListQueriesBrowser,width=1000]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Viewing currently running queries (cypher-shell)
 
@@ -130,11 +142,21 @@ Once you have identified the long-running query that you want to kill, in Neo4j 
 
 image::{imagedir}/KillQueryBrowser.png[KillQueryBrowser,width=1000]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 ==== Killing a long-running query (cypher-shell)
 
 Alternatively, in `cypher-shell` you can execute the statement `CALL dbms.killQuery('query-id');`.
 
 image::{imagedir}/KillQueryCypher-shell.png[KillQueryCypher-shell,width=800]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #1: Monitoring queries*
 
@@ -160,6 +182,11 @@ image::{imagedir}/L06-Ex1-LogQueriesTooLong.png[L06-Ex1-LogQueriesTooLong,width=
 [NOTE]
 You should [underline]#never# run this type of query against a large database. It is only presented here for illustrative purposes to show  a long-running query.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=5]
 . Wait about a minute, it should complete.
 
@@ -178,6 +205,11 @@ image::{imagedir}/L06-Ex1-QueryLog.png[L06-Ex1-QueryLog,width=1000,align=center]
 
 image::{imagedir}/L06-Ex1-ListTransactions.png[L06-Ex1-ListTransactions,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=11]
 . In the second _admin_ `cypher-shell` session, execute the Cypher statement to kill the long-running query.
 
@@ -185,6 +217,11 @@ image::{imagedir}/L06-Ex1-KillQuery.png[L06-Ex1-KillQuery,width=1000,align=cente
 
 [start=11]
 . Observe in the _reader__ `cypher-shell` session that the query has been killed.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Automating monitoring of queries
 
@@ -227,6 +264,11 @@ When a lock timeout occurs or when a transaction times out, the client will rece
 [NOTE]
 If you set a transaction timeout without setting the lock timeout, the client session may be deadlocked and the transaction cannot be terminated. This is why it is important to set [underline]#both# of these properties in your Neo4j configuration.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === *Exercise #2: Monitoring transactions*
 
 In this Exercise, you configure Neo4j to [underline]#not# allow transactions that take longer than one second to complete.
@@ -251,6 +293,11 @@ image::{imagedir}/L06-Ex2-LongTransactionTimeOutLog.png[L06-Ex2-LongTransactionT
 
 [NOTE]
 If you attempt to create more than a million _Person_ nodes, you will run into other problems, most notably, running out of virtual memory in the Neo4j instance. You will learn about configuring virtual memory later in this module.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Monitoring locks
 
@@ -279,6 +326,11 @@ With `dbms.listConnections()`, you can identify a connection that:
  
 You terminate the connection to the Neo4j instance with a call to `dbms.killConnection()` where you can provide the connection ID or a comma-separated list of connection IDs with the format `['connectID-xx','connectID-yy']`.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === *Exercise #3: Monitoring connections*
 
 In this Exercise, you access the Neo4j instance from multiple clients and monitor the connections.
@@ -303,6 +355,11 @@ image::{imagedir}/L06-Ex3-ListConnections1.png[L06-Ex3-ListConnections1,width=10
 
 image::{imagedir}/L06-Ex3-ListConnections2.png[L06-Ex3-ListConnections2,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=5]
 . In the first _admin_ `cypher-shell` session, enter the Cypher statement to list all connections to the Neo4j instance.  Do you see all of the connections?
 
@@ -320,10 +377,25 @@ image::{imagedir}/L06-Ex3-ListConnections4.png[L06-Ex3-ListConnections4,width=10
 
 image::{imagedir}/L06-Ex3-KillConnection.png[L06-Ex3-KillConnection,width=1000,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=10]
 . In the window where the write Java application is waiting for you to press *Enter*, press the *Enter* key. You should see a message that the connection was closed.
 
 image::{imagedir}/L06-Ex3-KillConnection2.png[L06-Ex3-KillConnection2,width=800,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === Logging HTTP requests
 
@@ -337,6 +409,11 @@ dbms.logs.http.enabled=true
 ----
 
 With HTTP logging enabled, you will see records for each HTTP request so you should also limit the number of log files to keep and their sizes. Part of your monitoring might be to look for certain patterns in the *http.log* file(s) and in particular, requests made from IP addresses that you may not want accessing the instance.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 === *Exercise #4: Monitoring HTTP requests*
 
@@ -387,9 +464,19 @@ Heap
 |====
 {set:cellbgcolor!}
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Memory consumption of a Neo4j instance
 
 image::{imagedir}/Neo4j-memoryConsumption.png[Neo4j-memoryConsumption,width=600,align=center]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
 
 A Neo4j instance consumes memory as follows:
 
@@ -420,6 +507,11 @@ image::{imagedir}/Neo4j-memrec.png[Neo4j-memrec,width=1000,align=center]
 
 This tool provides recommended memory settings based upon information in your database and also information about available memory on your system.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === Monitoring memory consumption
 
 If you suspect that there is a memory issue with your Neo4j instance, you should temporarily turn on GC logging in the Neo4j configuration: `dbms.logs.gc.enabled=true`.  In addition, records will be written to *debug.log* if an out of memory event occurs in the Neo4j instance. When trying to resolve out of memory issues with your application, you should work with Neo4j Technical Support to determine the cause and solution for the problem.
@@ -448,6 +540,11 @@ In order to use `jcmd` for a Neo4j instance, you must ensure that the instance i
 
 Refer to the https://neo4j.com/docs/operations-manual/3.5/performance/[Neo4j Operations Manual] for guidance about configuring memory, indexes, etc. for the Neo4j instance. In a production environment, you should work with Neo4j Technical Support to ensure that you are monitoring memory usage and have the appropriate settings. The _Performance_ section of the documentation has guidelines that you should consider when configuring your Neo4j instance that are beyond the scope of this training.
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 === *Exercise #5: Monitoring a memory issue*
 
 In this Exercise, you will execute a query that exhausts memory, then you will configure memory settings for the Neo4j instance and execute the query again.
@@ -472,6 +569,11 @@ image::{imagedir}/L06-Ex5-OutOfMemory.png[L06-Ex5-OutOfMemory,width=1000,align=c
 
 image::{imagedir}/L06-Ex5-OutOfMemory2.png[L06-Ex5-OutOfMemory2,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 [start=6]
 . Exit out of `cypher shell`.
 . Stop the Neo4j instance. It may take a few minutes to stop the Neo4j instance as it is cleaning up the transaction log.
@@ -486,13 +588,18 @@ image::{imagedir}/L06-Ex5-memrec.png[L06-Ex5-memrec,width=800,align=center]
 
 image::{imagedir}/L06-Ex5-success.png[L06-Ex5-success,width=800,align=center]
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 *Exercise 5: Taking it further*:
 
 Perform the above steps while using `jcmd` to monitor memory consumption.
 
 In your production application, you must work with developers and users of the application to understand the size of the transactions. You may need to temporarily set the heap and pagecache sizes higher during a special operation. In most cases, you will set these properties to a value that will be sufficient for all transactions. You must work with Neo4j Technical Support if you run into problems with running out of memory or even with starting the Neo4j instance. If the heap and pagecache sizes are too large, the Neo4j instance will not start.
 
-=== Managing log files
+== Managing log files
 
 As an administrator, you will configure the Neo4j instance to log at the appropriate levels. In most production environments, you will archive log files so that they may be viewed at a later time as part of an auditing process or to troubleshoot a problem. Each type of log file (if configured to use) should have its maximum size defined, as well as the number of log files to keep. 
 
@@ -532,7 +639,7 @@ As an administrator, you will configure the Neo4j instance to log at the appropr
 #dbms.logs.security.rotation.keep_number=7
 ----
 
-=== Collecting metrics
+== Collecting metrics
 
 The Neo4j instance automatically collects metrics in the default location for metrics (for example, on Debian, all metrics are placed in */var/lib/neo4j/metrics*). If for some reason, you do not want metrics collected, you can disable them by setting `metrics.enabled=false` in the Neo4j configuration.
 
@@ -553,7 +660,7 @@ image::{imagedir}/Halin2.png[Halin2,width=1100,align=center]
 
 In most cases for a production environment, you will set up a remote service for monitoring and alerting, but then you may also execute ad hoc queries with a tool such as _Halin_.
 
-==== Using JMX queries
+=== Using JMX queries
 
 A Neo4j instance can be monitored with Java Management Extensions (JMX). JMX is a low-level mechanism for monitoring the Neo4j instance. However, a best practice is [underline]#not# to use it for remote monitoring as it is a security vulnerability. In addition, running a tool such as `jconsole` that uses JMX can use production system resources which is also not recommended. 
 
@@ -603,11 +710,21 @@ CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Causal Clustering") YIELD a
        RETURN "Causal Cluster" AS type,row,attributes[row]["value"];
 ----
 
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
 Here is the result of executing this Cypher statement:
 
 image::{imagedir}/CypherJMX.png[CyperJMX,width=800,align=center]
 
-==== *Exercise #6: Querying with JMX*
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+=== *Exercise #6: Querying with JMX*
 
 In this Exercise, you will execute a JMX query to view metrics about the Neo4j instance.
 
@@ -625,6 +742,13 @@ image::{imagedir}/L06-Ex6-CypherJMX1.png[L06-Ex6-CypherJMX1,width=800,align=cent
 
 [start=3]
 . Execute the Cypher statement for creating 1.3 million nodes: `FOREACH (i IN RANGE(1,1300000) | CREATE (:Person {name:'Person' + i}));`.
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+[start=4]
 . Execute the Cypher statement shown above for querying for metrics.
 
 image::{imagedir}/L06-Ex6-CypherJMX2.png[L06-Ex6-CypherJMX2,width=800,align=center]
@@ -678,6 +802,8 @@ You should now be able to:
 * Manage log files.
 * Manage the collection of Neo4j metrics.
 * Use JMX queries.
+
+== Grade Quiz and Continue 
 
 ++++
 <a class="next-section medium button" href="../part-7/">Continue to Module 7</a>
