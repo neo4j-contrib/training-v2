@@ -1,0 +1,440 @@
+<html>
+   <head>
+      <meta charset="utf-8"></meta>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+      <title>Neo4j GraphAcademy: Introduction to Neo4j</title>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,300italic"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/extra.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/chunked-base.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/console.css"></link><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+      <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
+      <script type='text/javascript'
+   src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
+      <script type='text/javascript'>
+        window.trainingPartName = "module-0";
+      </script>
+   </head>
+   <body>
+      <header style="top: 0px;">
+         <a href="../part-0/" id="logo"><img src="https://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png" alt="Neo4j Logo"></a>
+         <ul class="documentation-library">
+            <li id="menu-module-1">
+              <a href="../part-1/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">1</strong>
+              </span>
+              Intro to Graph DBs</a>
+            </li>
+            <li id="menu-module-2">
+              <a href="../part-2/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">2</strong>
+              </span>
+              Intro to Neo4j</a>
+            </li>
+            <li id="menu-module-3">
+              <a href="../part-3/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">3</strong>
+              </span>
+              Dev Env</a>
+            </li>
+            <li id="menu-module-4">
+              <a href="../part-4/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">4</strong>
+              </span>
+              Cypher</a>
+            </li>
+            <li id="menu-module-5">
+              <a href="../part-5/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">5</strong>
+              </span>
+              Advanced Queries</a>
+            </li>
+            <li id="menu-module-6">
+              <a href="../part-6/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">6</strong>
+              </span>
+              Creating Data</a>
+            </li>
+            <li id="menu-module-7">
+              <a href="../part-7/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">7</strong>
+              </span>
+              More</a>
+            </li>
+            <li>
+              <a href="../part-8/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">8</strong>
+              </span>
+              The End</a>
+            </li>
+         </ul>
+         <nav id="header-nav">
+         <span class="nav-previous">
+           
+         </span>
+         <span class="nav-current">
+           <p class="nav-title" style="display: none;"></p>
+         </span>
+         <span class="nav-next">
+           
+         </span>
+         </nav>
+      </header>
+
+
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Setting Up Your Development Environment</h1>
+
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>About this module</h3>
+
+
+<div class="paragraph">
+<p>As a developer learning Cypher, you will create Neo4j Databases, add and update data in them, and query the data.</p>
+</div>
+
+
+<div class="paragraph">
+<p>When you learn to use Neo4j as a developer, you use Neo4j Desktop.</p>
+</div>
+
+
+<div class="paragraph">
+<p>At the end of this module, you should be able to:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+Download and install Neo4j Desktop.
+</li>
+<li>
+Start using Neo4j Desktop:
+<div class="ulist">
+<ul>
+<li>
+Create a project and a graph in the project.
+</li>
+<li>
+Start a graph (database).
+</li>
+</ul>
+</div>
+</li>
+<li>
+Start using Neo4j Browser:
+<div class="ulist">
+<ul>
+<li>
+Perform some basic tasks in Neo4j Browser.
+</li>
+<li>
+Load data into a graph.
+</li>
+<li>
+Access the data in a graph.
+</li>
+</ul>
+</div>
+</li>
+<li>
+Optionally create a Neo4j Sandbox if you cannot install Neo4j Desktop on your system.
+</li>
+</ul>
+</div>
+<div  id="_neo4j_desktop" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Neo4j Desktop</h3>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Neo4jDesktop.1.1.8.png" alt="Neo4jDesktop" width="500">
+</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content">
+
+<div class="paragraph">
+<p>The Neo4j Desktop includes the Neo4j Database server which includes the graph engine and kernel so that Cypher statements can be executed to access a database on your system.
+It includes an application called  Neo4j Browser.
+Neo4j Browser enables you to access a Neo4j database using Cypher.
+You can also call built-in procedures that communicate with the database server.
+There are a number of additional libraries and drivers for accessing the Neo4j database from Cypher or from another programming language that you can install in your development environment.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Neo4j Desktop runs on OS X, Linux, and Windows.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div  id="_neo4j_sandbox" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Neo4j Sandbox</h3>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Neo4jSandbox.png" alt="Neo4jSandbox" width="300">
+</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content">
+
+<div class="paragraph">
+<p>The Neo4j Sandbox is a temporary, cloud-based instance of a Neo4j Server with its associated graph that you can access from any Web browser. The database in a Sandbox may be blank or it may be pre-populated. It is started automatically for you when you create the Sandbox.</p>
+</div>
+
+
+<div class="paragraph">
+<p>By default, the Neo4j Sandbox is available for three days, but you can extend it for up to 10 days.
+You can use Neo4j Browser Sync to save Cypher scripts from your Sandbox.</p>
+</div>
+
+
+<div class="paragraph">
+<p>We recommend you use Neo4j Desktop for a real development project.
+The Sandbox is intended as a temporary environment or for learning about the features of Neo4j as well as specific graph use-cases.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div  id="_steps_for_setting_up_your_development_environment_for_this_training" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Steps for setting up your development environment for this training</h3>
+
+
+<div class="paragraph">
+<p>Here is an overview of the steps you will perform to set up your development environment:</p>
+</div>
+<div class="olist arabic">
+<ol style="margin-left: 2.4rem;" class="arabic">
+<li>
+<strong>Getting Started with Neo4j Desktop</strong>:
+<div class="olist loweralpha">
+<ol style="margin-left: 2.4rem;" class="loweralpha" type="a">
+<li>
+Download Neo4j Desktop.
+<div class="olist lowerroman">
+<ol style="margin-left: 2.4rem;" class="lowerroman" type="i">
+<li>
+View/save the installation instructions.
+</li>
+</ol>
+</div>
+</li>
+<li>
+Install Neo4j Desktop.
+</li>
+<li>
+In a project, create a local graph (database) you will use for this course.
+</li>
+<li>
+Start the graph.
+</li>
+</ol>
+</div>
+</li>
+<li>
+<strong>Getting started with Neo4j Browser</strong>:
+<div class="olist loweralpha">
+<ol style="margin-left: 2.4rem;" class="loweralpha" type="a">
+<li>
+Click the Neo4j Browser application.
+</li>
+<li>
+Load the movie data into the graph.
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div  id="_getting_started_with_neo4j_desktop" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Getting Started with Neo4j Desktop</h3>
+
+
+<div class="paragraph">
+<p>Follow along with one of these videos to download, install and get started using Neo4j Desktop. You will create a graph (database) that you will start. This is the graph that  you will later load with the movie data.</p>
+</div>
+
+
+<div class="paragraph">
+<p>If using OS X:</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8yWhuUnPapw?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<br>
+
+
+<div class="paragraph">
+<p>If using Linux:</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SGH_5x3kfdw?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<br>
+
+
+<div class="paragraph">
+<p>If using Windows:</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EO57N03U_sI?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+<div class="paragraph">
+<p><strong>Note</strong>: Before you install on Windows, make sure you have the latest version of PowerShell installed.</p>
+</div>
+</div>
+</div>
+<div  id="_using_neo4j_browser" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Using Neo4j Browser</h3>
+
+
+<div class="paragraph">
+<p>Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data.
+The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables.
+In addition to executing Cypher statements, you can execute a number of system calls that are related to the database being accessed by the Browser.
+For example, you can retrieve the list of queries that are currently running in the server.</p>
+</div>
+
+
+<div class="paragraph">
+<p>There are two ways that you can use Neo4j Browser functionality:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+Open the Neo4j Browser application from Neo4j Desktop (database is local)
+</li>
+<li>
+Use the Neo4j Browser Web interface by specifying a URL in a Web browser using port 7474 (database is local)
+</li>
+</ul>
+</div>
+
+
+<div class="paragraph">
+<p><span class="image"><img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Neo4jBrowser.png" alt="Neo4jBrowser" width="800"></span></p>
+</div>
+
+
+<div class="paragraph">
+<p>The user interface and behavior for the Neo4j Browser application and Neo4j Browser Web interface is identical, except that in the Web interface, you have the option of syncing your settings and scripts to the cloud.</p>
+</div>
+<div  id="_getting_started_with_neo4j_browser" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Getting Started with Neo4j Browser</h3>
+
+
+<div class="paragraph">
+<p>Follow along with this video to become familiar with common tasks in Neo4j Browser and populate the graph that is used for training with the movie data.</p>
+</div>
+
+
+<div class="paragraph">
+<p><strong>Note</strong>: Before you perform the tasks shown in this video, you must have created and started the database in Neo4j Desktop.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rQTximyaETA?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+</div>
+<div  id="_creating_a_neo4j_sandbox_optional" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Creating a Neo4j Sandbox (optional)</h3>
+
+
+<div class="paragraph">
+<p>If you cannot install Neo4j Desktop on your system, then you must create a Neo4j Sandbox to work with during this training. Follow along with this video to create a Neo4j Sandbox. For this course, you should select the latest GA release of Neo4j for your sandbox as you want a blank sandbox for this course. After you create the Sandbox, you will need to populate it with the movie database as shown in the Getting Started with Neo4j Browser video.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rmfgRKPjhl8?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+<div  id="_confirm_your_development_environment_is_properly_set_up" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3><strong>Confirm your development environment is properly set up</strong></h3>
+
+
+<div class="paragraph">
+<p>In Neo4j Browser where you are connected to the database where you have loaded the movie data.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Execute this Cypher statement:</p>
+</div>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MATCH (n) RETURN count(n)</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+
+
+<div class="paragraph">
+<p>If this query returns <strong>171</strong>, then your database has been set up properly and you are ready to start learning Cypher for this training.</p>
+</div>
+</div>
+<div  id="_getting_help" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Getting help</h3>
+
+
+<div class="paragraph">
+<p>If you have problems installing Neo4j Desktop, you can join <a href="http://community.neo4j.com/">Neo4j Community</a> and ask a question <a href="https://community.neo4j.com/c/general/online-training">here</a>.</p>
+</div>
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-dev-setup');
+});
+</script>
+</div>
+</div>
+<div id="sidebar-wrapper">
+        
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Setting Up Your Development Environment</div>
+        <ul class="sectlevel1">
+<li><a href="#_about_this_module">About this module</a>
+<ul class="sectlevel2">
+<li><a href="#_neo4j_desktop">Neo4j Desktop</a></li>
+<li><a href="#_neo4j_sandbox">Neo4j Sandbox</a></li>
+</ul>
+</li>
+<li><a href="#_steps_for_setting_up_your_development_environment_for_this_training">Steps for setting up your development environment for this training</a>
+<ul class="sectlevel2">
+<li><a href="#_getting_started_with_neo4j_desktop">Getting Started with Neo4j Desktop</a></li>
+</ul>
+</li>
+<li><a href="#_using_neo4j_browser">Using Neo4j Browser</a>
+<ul class="sectlevel2">
+<li><a href="#_getting_started_with_neo4j_browser">Getting Started with Neo4j Browser</a></li>
+</ul>
+</li>
+<li><a href="#_creating_a_neo4j_sandbox_optional">Creating a Neo4j Sandbox (optional)</a></li>
+<li><a href="#_confirm_your_development_environment_is_properly_set_up"><strong>Confirm your development environment is properly set up</strong></a></li>
+<li><a href="#_getting_help">Getting help</a></li>
+</ul>
+        </div>
+<div id="progress" style="position:absolute; bottom:100;"></div>
+</div>
