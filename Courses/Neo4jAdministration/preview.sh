@@ -15,7 +15,7 @@ echo "Rendering Training"
 #asciidoctor-pdf -T s adoc/03_ManagingANeo4jDatabase.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/03.yml -o pdf/03_ManagingANeo4jDatabase.pdf
 #asciidoctor-pdf -T s adoc/04_CausalClusteringInNeo4j.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/04.yml -o pdf/04_CausalClusteringInNeo4j.pdf
 #asciidoctor-pdf -T s adoc/05_SecurityInNeo4j.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/05.yml -o pdf/05_SecurityInNeo4j.pdf
-asciidoctor-pdf -T s adoc/06_MonitoringNeo4j.adoc -a allow-uri-read  -a pdf-style=asciidoc-themes/06.yml -o pdf/06_MonitoringNeo4j.pdf
+#asciidoctor-pdf -T s adoc/06_MonitoringNeo4j.adoc -a allow-uri-read  -a pdf-style=asciidoc-themes/06.yml -o pdf/06_MonitoringNeo4j.pdf
 
 #open html/00_AboutThisCourse.html
 #open html/01_IntroductionToNeo4j.html

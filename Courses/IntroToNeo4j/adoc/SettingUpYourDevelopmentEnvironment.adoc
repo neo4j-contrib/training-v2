@@ -1,5 +1,5 @@
 
-= Setting Up Your Development Environment
+= Introduction to Neo4j: Setting Up Your Development Environment
 :presenter: Neo Technology
 :twitter: neo4j
 :email: info@neotechnology.com
@@ -8,23 +8,15 @@
 :doctype: book
 :toc: left
 :toclevels: 3
-:currsect: 0
 :experimental:
 :imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
-ifdef::backend-html5[]
-
-//include::scripts.txt[]
-
-endif::backend-html5[]
 
 == About this module
 
-As a developer learning Cypher, you will create Neo4j Databases, add and update data in them, and query the data. 
-
-When you learn to use Neo4j as a developer, you use Neo4j Desktop.
+You should prepare your development environment before you take the _Introduction to Neo4j_ course.
 
 At the end of this module, you should be able to:
 [square]
@@ -53,21 +45,7 @@ There are a number of additional libraries and drivers for accessing the Neo4j d
 Neo4j Desktop runs on OS X, Linux, and Windows.
 |===
 
-=== Neo4j Sandbox
 
-[frame="none", cols="^.^,<.^"]
-|===
-a|image::{imagedir}/Neo4jSandbox.png[Neo4jSandbox,width=300,align=center]
-a|
-The Neo4j Sandbox is a temporary, cloud-based instance of a Neo4j Server with its associated graph that you can access from any Web browser. The database in a Sandbox may be blank or it may be pre-populated. It is started automatically for you when you create the Sandbox.
-
-By default, the Neo4j Sandbox is available for three days, but you can extend it for up to 10 days. 
-You can use Neo4j Browser Sync to save Cypher scripts from your Sandbox.  
-
-We recommend you use Neo4j Desktop for a real development project. 
-The Sandbox is intended as a temporary environment or for learning about the features of Neo4j as well as specific graph use-cases.
-
-|===
 
 == Steps for setting up your development environment for this training
 
@@ -140,6 +118,32 @@ Follow along with this video to become familiar with common tasks in Neo4j Brows
 ++++
 endif::backend-html5[]
 
+=== *Confirm your development environment is properly set up*
+
+In Neo4j Browser where you are connected to the database where you have loaded the movie data.
+
+Execute this Cypher statement:
+
+[source,cypher-syntax]
+----
+MATCH (n) RETURN count(n)
+----
+
+== Neo4j Sandbox
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/Neo4jSandbox.png[Neo4jSandbox,width=300,align=center]
+a|
+The Neo4j Sandbox is a temporary, cloud-based instance of a Neo4j Server with its associated graph that you can access from any Web browser. The database in a Sandbox may be blank or it may be pre-populated. It is started automatically for you when you create the Sandbox.
+
+By default, the Neo4j Sandbox is available for three days, but you can extend it for up to 10 days.
+You can use Neo4j Browser Sync to save Cypher scripts from your Sandbox.
+
+We recommend you use Neo4j Desktop for a real development project.
+The Sandbox is intended as a temporary environment or for learning about the features of Neo4j as well as specific graph use-cases.
+
+|===
 
 == Creating a Neo4j Sandbox (optional)
 
@@ -154,16 +158,7 @@ If you cannot install Neo4j Desktop on your system, then you must create a Neo4j
 endif::backend-html5[]
 
 
-== *Confirm your development environment is properly set up*
 
-In Neo4j Browser where you are connected to the database where you have loaded the movie data.
-
-Execute this Cypher statement:
-
-[source,cypher-syntax]
-----
-MATCH (n) RETURN count(n)
-----
 
 If this query returns *171*, then your database has been set up properly and you are ready to start learning Cypher for this training.
 
@@ -171,15 +166,3 @@ If this query returns *171*, then your database has been set up properly and you
 
 If you have problems installing Neo4j Desktop, you can join http://community.neo4j.com/[Neo4j Community] and ask a question https://community.neo4j.com/c/general/online-training[here].
 
-ifdef::backend-html5[]
-//include::scripts-end.txt[]
-
-++++
-<script>
-$( document ).ready(function() {
-  Intercom('trackEvent','training-introv2-view-dev-setup');
-});
-</script>
-++++
-
-endif::backend-html5[]
