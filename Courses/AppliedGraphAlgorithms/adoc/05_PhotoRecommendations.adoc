@@ -1,0 +1,117 @@
+= Photo Based Gallery Recomendations
+:presenter: Neo4j
+:twitter: neo4j
+:email: info@neo4j.com
+:neo4j-version: 3.5
+:currentyear: 2019
+:doctype: book
+:toc: left
+:toclevels: 3
+:nextsecttitle: Summary
+:prevsecttitle: Relevant Reviews
+:nextsect: 6
+:currsect: 5
+:prevsect: 4
+:experimental:
+:imagedir: ../img
+:manual: http://neo4j.com/docs/operations-manual/3.5
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+
+++++
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
+  <iframe src="https://www.youtube.com/embed/m0GrcuM8yvg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+</div>
+++++
+_Similarity algorithms and Label Propagation overview_
+
+In this section we'll learn how to use the Label Propagation algorithm to recommend photos.
+
+
+Copy the following command into the query pane of the Neo4j Browser and execute it:
+
+[source, cypher]
+----
+:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/05_photo_recommendations.html
+----
+
+[NOTE]
+====
+.Useful Resources
+
+* https://neo4j.com/docs/graph-algorithms/current/algorithms/label-propagation/[Label Propagation^]
+====
+
+== Exercise
+
+. Complete the Neo4j Browser Guide above "Photo Recommendations" section
+. In Codesandbox, edit the `FETCH_PHOTO_RECOMMENDATIONS` Cypher query in 'src/exercises/exercise4.js' to recommend businesses whose photos belong to the same community.
+
+== Solution
+
+If you get stuck, watch this video for a walk-through of the solution:
+
+++++
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
+  <iframe src="https://www.youtube.com/embed/WxJRuYpQLiQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+</div>
+++++
+_Photo based recommendations solution_
+
+[#module-4.quiz]
+== Check your understanding
+=== Question 1
+
+==== Algorithm Understanding: LPA
+
+Which category of algorithms best describes LPA?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#Centrality#
+- [ ] [.false-answer]#Similarity & ML Workflow#
+- [ ] [.required-answer]#Community Detection#
+- [ ] [.false-answer]#Pathfinding and Search#
+
+== Question 2
+
+==== Running the algorithm in Neo4j
+
+Which voting mechanism does Neo4j's Label Propagation algorithm use?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#Random Walk Method#
+- [ ] [.required-answer]#Pull Method#
+- [ ] [.false-answer]#Push Method#
+- [ ] [.false-answer]#Modularity Optimization Method#
+
+== Summary
+
+You should now be able to:
+[square]
+* TODO: summary info here
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-applied-algos-view-part5');
+});
+</script>
+++++
+
+endif::backend-html5[]

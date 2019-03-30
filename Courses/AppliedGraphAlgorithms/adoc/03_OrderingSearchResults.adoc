@@ -1,0 +1,136 @@
+= Ordering Search Results
+:presenter: Neo4j
+:twitter: neo4j
+:email: info@neo4j.com
+:neo4j-version: 3.5
+:currentyear: 2019
+:doctype: book
+:toc: left
+:toclevels: 3
+:nextsecttitle: Most Relevant Reviews
+:prevsecttitle: Category Hierarchy
+:nextsect: 4
+:currsect: 3
+:prevsect: 2
+:experimental:
+:imagedir: ../img
+:manual: http://neo4j.com/docs/operations-manual/3.5
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+++++
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
+  <iframe src="https://www.youtube.com/embed/mYEGxMScovM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+</div>
+++++
+_Pearson similarity overview and problem statement_
+
+In this section we're going to improve the display of search results. When a user searches for businesses we want to order the results so that we show the most relevant results first. To do that we'll make use of the Pearson similarity metric.
+
+Let's have  a look at the part of the application that we're going to build. Switch to the https://codesandbox.io/s/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app:[CodeSandbox application], select "Business Search", and search for "Pizza" in the category "Restaurants".
+
+You should see something like this:
+
+image::{imagedir}/codesandbox4.png[,width=700,align=center]
+
+Instead of showing results in alphabetical order we want to show the most relevant businesses first. Let's switch back to Neo4j to learn how we can calculate this relevance. Copy the following command into the query pane of the Neo4j Browser and execute it:
+
+[source, cypher]
+----
+:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/03_search_results.html
+----
+
+[NOTE]
+====
+.Useful Resources
+
+* https://neo4j.com/docs/graph-algorithms/current/introduction/#_graph_loading[Graph Loading^]
+* https://neo4j.com/docs/graph-algorithms/current/algorithms/page-rank/[PageRank^]
+====
+
+
+== Exercise 
+
+Now let's update the application to use this new information. We want to find users 
+
+
+Instead of selecting the reviews for our businesses based on the opinions of users unrelated to `user-name`, we'll show reviews written by similar users.
+
+. Be sure you've completed the Neo4j Browser guide section "Search Results"
+. In Codesandbox, edit the Cypher query in `src/exercises/exercise2.js` to return businesses
+
+[NOTE]
+====
+This query should be be in the context of the currently "logged in" user in the application. Since our simple application doesn't have any authentication mechanism we fake this by choosing a user in the dropdown in the "User Profile" section of the application. The id of the currently logged in user will be available as a Cypher parameter `userId` in the query.
+
+So for example, to find the currently logged in user:
+
+`MATCH (me:User {id: $userId})`
+====
+
+== Solution
+
+If you get stuck, watch this video for a walk-through of the solution:
+
+++++
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/ILRjVzBcIVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+</div>
+++++
+_Ordering search results solution_
+
+[#module-2.quiz]
+== Check your understanding
+=== Question 1
+
+==== Algorithm Understanding: Pearson Similarity
+
+Which of the following are valid values that can be returned by the Pearson Similarity algorithm?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.required-answer]#0.72#
+- [ ] [.false-answer]#-3.41#
+- [ ] [.false-answer]#2.34#
+- [ ] [.required-answer]#-0.52#
+
+== Question 2
+==== Running the algorithm in Neo4j
+
+Which of the following are fields returned by the `algo.similarity.pearson` procedure?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.required-answer]#similarityPairs#
+- [ ] [.false-answer]#relationships#
+- [ ] [.required-answer]#p75#
+- [ ] [.required-answer]#writeRelationshipType#
+
+== Summary
+
+You should now be able to:
+[square]
+. Use the Pearson Similarity graph algorithm
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-applied-algos-view-part3');
+});
+</script>
+++++
+
+endif::backend-html5[]

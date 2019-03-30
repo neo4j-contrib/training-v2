@@ -1,0 +1,574 @@
+<html>
+   <head>
+      <meta charset="utf-8"></meta>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+      <title>Neo4j GraphAcademy: Applied Graph Algorithms</title>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,300italic"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/extra.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/chunked-base.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/console.css"></link><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+      <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
+      <script type='text/javascript'
+   src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
+      <script type='text/javascript'>
+        window.trainingPartName = "module-2";
+      </script>
+   </head>
+   <body>
+      <header style="top: 0px;">
+         <a href="../part-0/" id="logo"><img src="https://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png" alt="Neo4j Logo"></a>
+         <ul class="documentation-library">
+            <li id="menu-module-1">
+              <a href="../part-1/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">1</strong>
+              </span>
+              Setup</a>
+            </li>
+            <li id="menu-module-2">
+              <a href="../part-2/" style="color: #000">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">2</strong>
+              </span>
+              Category Hierarchy</a>
+            </li>
+            <li id="menu-module-3">
+              <a href="../part-3/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">3</strong>
+              </span>
+              Ordering Search Results</a>
+            </li>
+            <li id="menu-module-4">
+              <a href="../part-4/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">4</strong>
+              </span>
+              Relevant Reviews</a>
+            </li>
+            <li id="menu-module-5">
+              <a href="../part-5/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">5</strong>
+              </span>
+              Photo Based Recommendations</a>
+            </li>
+            <li id="menu-module-6">
+              <a href="../part-6/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">5</strong>
+              </span>
+              Summary</a>
+            </li>
+         </ul>
+         <nav id="header-nav">
+         <span class="nav-previous">
+           
+              <a accesskey="p" href="../part-1/">
+                <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
+              Setup and Cypher Refresher</a>
+           
+         </span>
+         <span class="nav-current">
+           <p class="nav-title" style="display: none;"></p>
+         </span>
+         <span class="nav-next">
+           
+              <a accesskey="n" href="../part-3/">Ordering Search Results
+                <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
+              </a>
+           
+         </span>
+         </nav>
+      </header>
+
+
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Category Hierarchy</h1>
+
+      <div id="preamble columns medium-12">
+<div class="sectionbody">
+<script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
+<script type='text/javascript'>
+	var loc = window.location;
+	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>
+window.trainingClassName = 'neo4j-applied-algos';
+</script>
+
+<script>Munchkin.init('773-GON-065');</script>
+
+
+<style>
+    @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
+    .modal {
+        width: 775px;
+        height: 775px;
+        padding: 10px;
+        margin: 0;
+    }
+    .blocker {
+        height: initial;
+        background-color: transparent;
+    }
+  a.button {
+    display: block;
+    text-align: center;
+    width: 250px;
+    font-size: 18px;
+    margin-top: 50px;
+    font-family: 'Open Sans';
+    height: 55px;
+    border-style: solid;
+    border-width: 0;
+    cursor: pointer;
+    color: white;
+    padding: 15px;
+    font-weight: 300;
+    background-color: #6dcc9c;
+    border-color: #4ac084;
+  }
+
+  .button a hover {
+      background-color: #4ac084;
+  }
+
+  pre.cypher-syntax {
+    background-color: #eaf1f8;
+  }
+</style>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/underscore.js"></script>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.js"></script>
+<script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
+<script src="https://neo4jsandbox.com/js/js.cookie-2.1.3.min.js"></script>
+<!--script src="/online_training/gadgetUtils.js"></script-->
+<script type="text/javascript">
+  Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
+</script>
+<script src="https://neo4j.com/online_training/tasks.js"></script>
+<script type="text/javascript">
+function renderGadget(containerSelector, options) {
+  if (!options.cypherSetup) return;
+  var frameId = _.uniqueId("exmodal");
+  $(containerSelector).append('<button onclick="setGadgetUrl(\'#' + frameId +
+    '\')" rel="modal:open" class="btn">' + (options.label || 'Gadget') + '</button>');
+
+    $(containerSelector).append(modalWindow(frameId,options));
+  }
+
+function modalWindow(frameId, options) {
+   return `<div id="${frameId}" class="modal-dialog modal fade draggable" style="display:none;text-align:center;vertical-align:middle;" >
+            <iframe data-src="/online_training/cypher-gadget/test.html?cypherSetup=${options.cypherSetup}&${formatTask(options)}" width="725" height="725" frameborder="0" style="margin:5px;"
+              webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+           <div>`;
+}
+/*
+    .modal {
+        width: 775px;
+        height: 675px;
+        padding: 10px;
+        margin: 0;
+    }
+*/
+
+function formatTask(options) {
+  if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
+  if (options.taskName) return "cypherTask="+options.taskName;
+  return "";
+}
+
+
+function setGadgetUrl(sel) {
+  $(sel).modal();
+  $(sel).draggable();
+  var $iframe = $(sel).find("iframe");
+  $iframe.attr("src", $iframe.data("src"));
+}
+</script>
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; height: auto; width: 90%;">
+  <iframe src="https://www.youtube.com/embed/Urb6RcpOL_c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+</div>
+
+
+<div class="paragraph">
+<p><em>Category Hierarchy Algorithm Overview</em></p>
+</div>
+
+
+<div class="paragraph">
+<p>In this section we&#8217;re going to navigate business categories.
+Let&#8217;s first have a look at the part of the application that we&#8217;re going to build.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Switch to the <a href="https://codesandbox.io/s/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app:">CodeSandbox application</a> that you opened in the previous section and select the "Business Search" button. You should be on this screen:</p>
+</div>
+<div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://graphacademy.neo4j.com/img/applied-graph-algos/codesandbox3.png" alt="codesandbox3" width="700">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>We can search for businesses by name and category, but at the moment we have a list of over 100 categories to choose from!
+One way that we could make things easier for our user is if we let them navigate a taxonomy of categories, starting at the top-level. To do this we&#8217;ll use the Overlap Similarity algorithm to identify a category hierarchy in the data. We&#8217;ll need to run the algorithm and make some updates to our data in Neo4j, then update the query used in the application to populate the category drop-down.</p>
+</div>
+
+
+<div class="paragraph">
+<p>To get started, we&#8217;ll switch back to Neo4j. Copy the following command into the query pane of the Neo4j Browser and execute it:</p>
+</div>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/02_category_hierarchy.html</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+</div>
+</div>
+<div  id="_exercise" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise</h3>
+<div class="olist arabic">
+<ol style="margin-left: 2.4rem;" class="arabic">
+<li>
+Complete the Neo4j Browser Guide above to add category hierarchy to the graph using the Overlap Similarity algorithm
+</li>
+<li>
+In Codesandbox, edit the Cypher query in <code>src/exercises/exercise1.js</code> to return only top-level categories to populate the Category drop down in Business Search
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title label"></div>
+</td>
+<td class="content">
+<div class="ulist">
+<div class="title">Useful Resources</div>
+<ul>
+<li>
+<a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-overlap/" target="_blank" rel="noopener">Overlap Similarity</a>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Tips</div>
+<ul>
+<li>
+Remember, you only need to edit the Cypher query in <code>src/exercises/exercise1.js</code>, not any other code in the application
+</li>
+<li>
+In your new query, be sure to keep the same return structure, or otherwise the client application might not be able to interpret that data
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div  id="_solution" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Solution</h3>
+
+
+<div class="paragraph">
+<p>If you get stuck, watch this video for a walk-through of the solution</p>
+</div>
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
+  <iframe src="https://www.youtube.com/embed/blhsQNQySi0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+</div>
+
+
+<div class="paragraph">
+<p><em>Category Hierarchy exercise solution</em></p>
+</div>
+</div>
+<div  id="module-1" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<h3>Check your understanding</h3>
+<div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 1</h3>
+<div  id="_algorithm_understanding_overlap_similarity" class="sect3 "  >
+<h4>Algorithm Understanding: Overlap Similarity</h4>
+
+
+<div class="paragraph">
+<p>Which of the following best describe what the Overlap Similarity algorithm computes?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">the size of the intersection divided by the size of the smaller of the two sets</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">the number of pairwise disagreements between two ranking lists</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">the size of the intersection divided by the size of the union of two sets</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">the minimum number of operations required to transform one string into the other</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_question_2" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 2</h3>
+<div  id="_running_the_algorithm_in_neo4j" class="sect3 "  >
+<h4>Running the algorithm in Neo4j</h4>
+
+
+<div class="paragraph">
+<p>Which of the following parameters can be used to control the threshold for overlap similarity?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">degreeCutoff</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">similarityCutoff</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">minimumSimilarity</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">topK</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_question_3" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 3</h3>
+<div  id="_matching_results" class="sect3 "  >
+<h4>Matching Results</h4>
+
+
+<div class="paragraph">
+<p>Which of these categories are top level categories i.e. they don&#8217;t have any outgoing <code>NARROWER_THAN</code> relationships?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Shopping</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Wine Bars</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Doctors</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Local Flavor</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Grade Quiz and Continue</h3>
+<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/applied-algos/dev/class.js?versionId=wR3anxxzIySNq4IX2Zd1Uzp3CtZ7b001" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/applied-algos/dev/quizes.js?versionId=sz_xsBQ10E6awkPjaNF_0atVttO3_AW9" type="text/javascript"></script>
+
+ <link rel='stylesheet' id='neo-codemirror-css'
+    href="https://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css'
+    media='screen'/>
+
+ <script type='text/javascript'>
+  $('.admonitionblock.note').find('.icon').html('NOTE');
+  $('.admonitionblock.warning').find('.icon').html('WARNING');
+  $('.admonitionblock.information').find('.icon').html('INFO');
+
+  var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
+
+  function textContent(node, out) {
+    if (node.nodeType == 3) return out.push(node.nodeValue);
+    for (var ch = node.firstChild; ch; ch = ch.nextSibling) {
+      textContent(ch, out);
+      if (isBlock.test(node.nodeType)) out.push("\n");
+    }
+  }
+
+  CodeMirror.colorize = function(collection, defaultMode) {
+    if (!collection) collection = document.body.getElementsByTagName("pre");
+
+    for (var i = 0; i < collection.length; ++i) {
+      var syntax = false;
+      var node = collection[i];
+      var mode = node.getAttribute("data-lang") || defaultMode;
+      if (mode == "cypher-syntax") {
+        syntax = true;
+        mode = "cypher";
+      }
+      if (!mode) continue;
+
+      var text = [];
+      textContent(node, text);
+      node.innerHTML = "";
+      CodeMirror.runMode(text.join(""), mode, node);
+
+      node.className += " cm-s-default";
+      if (syntax) {
+        node.className += " cypher-syntax";
+      }
+    }
+  };
+
+  $( document ).ready(function() {
+    if (CodeMirror.colorize) {
+      CodeMirror.colorize(document.body.getElementsByTagName("pre"), 'cypher');
+    }
+  });
+ </script>
+
+
+<script>
+  window.intercomSettings = {
+    app_id: "dt0ig5ab",
+    hide_default_launcher: true
+  };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+<!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
+<script src="https://neo4jsandbox.com/js/jwt-decode.min.js"></script>
+
+
+<script>
+const SITE_URL = window.location;
+
+var getTimeDiff = function(time1, time2) {
+  var hourDiff = time2 - time1;
+  var diffDays = Math.floor(hourDiff / 86400000);
+  var diffHrs = Math.floor((hourDiff % 86400000) / 3600000);
+  var diffMins = Math.floor(((hourDiff % 86400000) % 3600000) / 60000);
+  return {"days": diffDays, "hours": diffHrs, "mins": diffMins};
+}
+
+var attemptRenewToken = function(silent, nextTimeout, nextTimeoutSilent) {
+  console.log('renewAuth attempting');
+  var iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  iframe.src = 'https://neo4j.com/accounts/login?targetUrl=' + encodeURIComponent(SITE_URL);
+  document.body.appendChild(iframe);
+  if (nextTimeout) {
+      setTimeout(
+        function () {
+          attemptRenewToken(nextTimeoutSilent, nextTimeout, nextTimeoutSilent);
+        }, nextTimeout
+      );
+  }
+}
+
+var logout = function() {
+  window.location = 'https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/'
+}
+
+$( document ).ready(function() {
+    var id_token = Cookies.get("com.neo4j.accounts.idToken");
+    var decoded_token = jwt_decode(id_token);
+    var expiresIn = getTimeDiff(Date.now(), (decoded_token.exp) * 1000);
+    if (expiresIn.days > 0 || expiresIn.hours > 0) {
+      // token is good.
+    } else if (expiresIn.days == 0 && expiresIn.hours == 0 && expiresIn.mins > 1 && expiresIn.mins < 60) {
+        // expiring soon, let's immediately get a new token
+        attemptRenewToken(true, 1000*60*30, false);
+    } else {
+        // token is already expired, log user out in UI; token won't work
+        logout();
+    }
+    getQuizStatus();
+
+
+    var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
+    if (userInfoIntercom) {
+      try {
+        window.Intercom("update", {
+          app_id: "dt0ig5ab",
+          name: userInfoIntercom.name,
+          email: userInfoIntercom.email,
+          user_id: userInfoIntercom.sub,
+          hide_default_launcher: true
+        });;
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    Intercom('trackEvent','training-applied-algos-view');
+});
+</script>
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-applied-algos-view-part2');
+});
+</script>
+</div>
+</div>
+<div id="sidebar-wrapper">
+        
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Category Hierarchy</div>
+        <ul class="sectlevel1">
+<li><a href="#_exercise">Exercise</a></li>
+<li><a href="#_solution">Solution</a></li>
+<li><a href="#module-1">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a>
+<ul class="sectlevel3">
+<li><a href="#_algorithm_understanding_overlap_similarity">Algorithm Understanding: Overlap Similarity</a></li>
+</ul>
+</li>
+<li><a href="#_question_2">Question 2</a>
+<ul class="sectlevel3">
+<li><a href="#_running_the_algorithm_in_neo4j">Running the algorithm in Neo4j</a></li>
+</ul>
+</li>
+<li><a href="#_question_3">Question 3</a>
+<ul class="sectlevel3">
+<li><a href="#_matching_results">Matching Results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
+</ul>
+        </div>
+<div id="progress" style="position:absolute; bottom:100;"></div>
+</div>
