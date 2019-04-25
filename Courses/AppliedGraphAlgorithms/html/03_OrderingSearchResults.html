@@ -2,7 +2,7 @@
    <head>
       <meta charset="utf-8"></meta>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-      <title>Neo4j GraphAcademy: Neo4j Administration</title>
+      <title>Neo4j GraphAcademy: Applied Graph Algorithms</title>
       <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
@@ -14,7 +14,7 @@
       <script type='text/javascript'
    src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
-        window.trainingPartName = "module-0";
+        window.trainingPartName = "module-3";
       </script>
    </head>
    <body>
@@ -27,7 +27,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
               </span>
-              Intro to Neo4j</a>
+              Setup</a>
             </li>
             <li id="menu-module-2">
               <a href="../part-2/">
@@ -35,15 +35,15 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">2</strong>
               </span>
-              Overview Of Admin</a>
+              Category Hierarchy</a>
             </li>
             <li id="menu-module-3">
-              <a href="../part-3/">
+              <a href="../part-3/" style="color: #000">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">3</strong>
               </span>
-              Managing a DB</a>
+              Ordering Search Results</a>
             </li>
             <li id="menu-module-4">
               <a href="../part-4/">
@@ -51,7 +51,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">4</strong>
               </span>
-              Causal Clustering</a>
+              Relevant Reviews</a>
             </li>
             <li id="menu-module-5">
               <a href="../part-5/">
@@ -59,27 +59,23 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">5</strong>
               </span>
-              Security</a>
+              Photo Based Recommendations</a>
             </li>
             <li id="menu-module-6">
               <a href="../part-6/">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">6</strong>
+                <strong class="fa-stack-1x">5</strong>
               </span>
-              Monitoring</a>
-            </li>
-            <li id="menu-module-7">
-              <a href="../part-7/">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">7</strong>
-              </span>
-              The End</a>
+              Summary</a>
             </li>
          </ul>
          <nav id="header-nav">
          <span class="nav-previous">
+           
+              <a accesskey="p" href="../part-2/">
+                <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
+              Category Hierarchy</a>
            
          </span>
          <span class="nav-current">
@@ -87,7 +83,7 @@
          </span>
          <span class="nav-next">
            
-              <a accesskey="n" href="../part-1/">Intro to Neo4j
+              <a accesskey="n" href="../part-4/">Most Relevant Reviews
                 <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
               </a>
            
@@ -97,7 +93,7 @@
 
 
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Neo4j Administration</h1>
+<h1>Ordering Search Results</h1>
 
       <div id="preamble columns medium-12">
 <div class="sectionbody">
@@ -107,7 +103,7 @@
 	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-window.trainingClassName = 'neo4j-administration';
+window.trainingClassName = 'neo4j-applied-algos';
 </script>
 
 <script>Munchkin.init('773-GON-065');</script>
@@ -200,260 +196,225 @@ function setGadgetUrl(sel) {
   $iframe.attr("src", $iframe.data("src"));
 }
 </script>
-</div>
-</div>
-<div  id="_about_this_course" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>About this course</h3>
-
-
-<div class="paragraph">
-<p>This course introduces you to Neo4j and some of the most common administration tasks for a production Neo4j application using <strong>Neo4j Enterprise Edition 3.5</strong>.</p>
-</div>
-
-
-
-<div class="paragraph">
-<p>This course is intended for administrators.</p>
-</div>
-
-
-
-<div class="paragraph">
-<p>This self-paced training should take you 6-7 hours to complete if you perform all of the hands-on exercises in the course.  You need not complete the course in one session. At then end of each module are a set of review questions and we keep track of which modules you answered the questions correctly. If you answer all of the review questions correctly, we will email you a <em>Certificate of Completion</em> for this online training.</p>
-</div>
-
-
-
-<div class="paragraph">
-<p>We have set up a discussion area in our <a href="https://community.neo4j.com/c/general/online-training">Neo4j Community Site</a>, if you run into problems in the course and need assistance. You should register on the community site  where you can view other questions and answers for students taking our online training courses. The <em>Neo4j Community Site</em> is an  excellent resource for answering many types of questions posed by other users of Neo4j.</p>
-</div>
-
-
-
-<div class="paragraph">
-<p>There are six modules in this course. Most modules have hands-on exercises you should complete as well as a set of review questions at the end. In order to perform the hands-on exercises for this course, you will need to install the Enterprise Edition of Neo4j which is covered in the module, <em>Overview of Neo4j Administration</em>. For the module, <em>Causal Clustering in Neo4j</em> you will need to install Docker.  We have provided an estimate of how long each module should take you to complete if you perform the hands-on exercises.</p>
-</div>
-
-</div>
-<div  id="_a_href_part_1_introduction_to_neo4j_a" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3><a href="../part-1/">Introduction to Neo4j</a></h3>
-<div class="ulist square">
-<ul class="square">
-<li>
-Describe the components and benefits of the Neo4j Graph Platform.
-</li>
-</ul>
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
+  <iframe src="https://www.youtube.com/embed/mYEGxMScovM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
 </div>
 
 
 <div class="paragraph">
-<p>Estimated time: <em>15 minutes</em></p>
-</div>
-
-</div>
-<div  id="_a_href_part_2_overview_of_neo4j_administration_a" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3><a href="../part-2/">Overview of Neo4j Administration</a></h3>
-<div class="ulist square">
-<ul class="square">
-<li>
-Describe common application architectures that use Neo4j.
-</li>
-<li>
-Determine which edition of Neo4j to use.
-</li>
-<li>
-Download a specific Neo4j version.
-</li>
-<li>
-Determine which deployment option to use.
-</li>
-<li>
-Describe the administrative tasks for Neo4j.
-</li>
-<li>
-Install Neo4j Enterprise Edition.
-</li>
-</ul>
+<p><em>Pearson similarity overview and problem statement</em></p>
 </div>
 
 
 <div class="paragraph">
-<p>Estimated time: <em>45 minutes</em></p>
-</div>
-
-</div>
-<div  id="_a_href_part_3_managing_a_neo4j_database_a" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3><a href="../part-3/">Managing a Neo4j Database</a></h3>
-<div class="ulist square">
-<ul class="square">
-<li>
-Start a Neo4j instance.
-</li>
-<li>
-Stop the Neo4j instance.
-</li>
-<li>
-Set the password for the <em>neo4j</em> user.
-</li>
-<li>
-Copy a Neo4j database.
-</li>
-<li>
-Modify the location for a Neo4j database.
-</li>
-<li>
-Check the consistency of a Neo4j database.
-</li>
-<li>
-Create scripts for modifying a Neo4j database.
-</li>
-<li>
-Manage plugins for a Neo4j database.
-</li>
-<li>
-Configure ports used by the Neo4j instance.
-</li>
-<li>
-Perform an online backup of a Neo4j database.
-</li>
-<li>
-Create a database with the import tool.
-</li>
-</ul>
+<p>In this section we&#8217;re going to improve the display of search results. When a user searches for businesses we want to order the results so that we show the most relevant results first. To do that we&#8217;ll make use of the Pearson similarity metric.</p>
 </div>
 
 
 <div class="paragraph">
-<p>Estimated time: <em>90 minutes</em></p>
-</div>
-
-</div>
-<div  id="_a_href_part_4_causal_clustering_in_neo4j_a" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3><a href="../part-4/">Causal Clustering in Neo4j</a></h3>
-<div class="ulist square">
-<ul class="square">
-<li>
-Describe why you would use clusters.
-</li>
-<li>
-Describe the components of a  cluster.
-</li>
-<li>
-Configure and use a cluster.
-</li>
-<li>
-Seed a cluster with data.
-</li>
-<li>
-Monitor and manage core servers in the cluster.
-</li>
-<li>
-Monitor and manage read replica servers in the cluster.
-</li>
-<li>
-Back up a cluster.
-</li>
-</ul>
+<p>Let&#8217;s have  a look at the part of the application that we&#8217;re going to build. Switch to the <a href="https://codesandbox.io/s/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app:">CodeSandbox application</a>, select "Business Search", and search for "Pizza" in the category "Restaurants".</p>
 </div>
 
 
 <div class="paragraph">
-<p>Estimated time: <em>90 minutes</em></p>
+<p>You should see something like this:</p>
 </div>
-
-</div>
-<div  id="_a_href_part_5_security_in_neo4j_a" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3><a href="../part-5/">Security in Neo4j</a></h3>
-<div class="ulist square">
-<ul class="square">
-<li>
-Describe what security means for an application.
-</li>
-<li>
-Configure a Neo4j instance to use LDAP as the authentication provider.
-</li>
-<li>
-Describe how to secure data-in-transit.
-</li>
-<li>
-Describe how to secure data-at-rest.
-</li>
-<li>
-Configure and use security auditing.
-</li>
-</ul>
+<div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://graphacademy.neo4j.com/img/applied-graph-algos/codesandbox4.png" alt="codesandbox4" width="700">
+</p>
 </div>
 
 
 <div class="paragraph">
-<p>Estimated time: <em>60 minutes</em></p>
+<p>Instead of showing results in alphabetical order we want to show the most relevant businesses first. Let&#8217;s switch back to Neo4j to learn how we can calculate this relevance. Copy the following command into the query pane of the Neo4j Browser and execute it:</p>
 </div>
-
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:play https://guides.neo4j.com/sandbox/applied_graph_algorithms/03_search_results.html</pre>
 </div>
-<div  id="_a_href_part_6_monitoring_neo4j_a" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3><a href="../part-6/">Monitoring Neo4j</a></h3>
-<div class="ulist square">
-<ul class="square">
-<li>
-Describe the categories of monitoring and measurement you can perform with Neo4j.
-</li>
-<li>
-Monitor:
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title label"></div>
+</td>
+<td class="content">
 <div class="ulist">
+<div class="title">Useful Resources</div>
 <ul>
 <li>
-queries
+<a href="https://neo4j.com/docs/graph-algorithms/current/introduction/#_graph_loading" target="_blank" rel="noopener">Graph Loading</a>
 </li>
 <li>
-transactions
-</li>
-<li>
-connections
-</li>
-<li>
-memory usage
+<a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/page-rank/" target="_blank" rel="noopener">PageRank</a>
 </li>
 </ul>
 </div>
-</li>
-<li>
-Manage log files.
-</li>
-<li>
-Manage the collection of Neo4j metrics.
-</li>
-<li>
-Use JMX queries.
-</li>
-</ul>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div  id="_exercise" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise</h3>
+
+
+<div class="paragraph">
+<p>Now let&#8217;s update the application to use this new information. We want to find users</p>
 </div>
 
 
 <div class="paragraph">
-<p>Estimated time: <em>90 minutes</em></p>
+<p>Instead of selecting the reviews for our businesses based on the opinions of users unrelated to <code>user-name</code>, we&#8217;ll show reviews written by similar users.</p>
+</div>
+<div class="olist arabic">
+<ol style="margin-left: 2.4rem;" class="arabic">
+<li>
+Be sure you&#8217;ve completed the Neo4j Browser guide section "Search Results"
+</li>
+<li>
+In Codesandbox, edit the Cypher query in <code>src/exercises/exercise2.js</code> to return businesses
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title label"></div>
+</td>
+<td class="content">
+
+
+<div class="paragraph">
+<p>This query should be be in the context of the currently "logged in" user in the application. Since our simple application doesn&#8217;t have any authentication mechanism we fake this by choosing a user in the dropdown in the "User Profile" section of the application. The id of the currently logged in user will be available as a Cypher parameter <code>userId</code> in the query.</p>
 </div>
 
+
+<div class="paragraph">
+<p>So for example, to find the currently logged in user:</p>
 </div>
-<div  id="_a_href_part_7_summary_a" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3><a href="../part-7/">Summary</a></h3>
-<div class="ulist square">
-<ul class="square">
+
+
+<div class="paragraph">
+<p><code>MATCH (me:User {id: $userId})</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div  id="_solution" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Solution</h3>
+
+
+<div class="paragraph">
+<p>If you get stuck, watch this video for a walk-through of the solution:</p>
+</div>
+<div style="position: relative; overflow: hidden; padding-top: 56.25%; width: 90%;">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/ILRjVzBcIVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+</div>
+
+
+<div class="paragraph">
+<p><em>Ordering search results solution</em></p>
+</div>
+</div>
+<div  id="module-2" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<h3>Check your understanding</h3>
+<div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 1</h3>
+<div  id="_algorithm_understanding_pearson_similarity" class="sect3 "  >
+<h4>Algorithm Understanding: Pearson Similarity</h4>
+
+
+<div class="paragraph">
+<p>Which of the following are valid values that can be returned by the Pearson Similarity algorithm?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
 <li>
-Quiz results.
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">0.72</span>
 </li>
 <li>
-Resources to learn more.
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">-3.41</span>
 </li>
 <li>
-Course feedback.
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">2.34</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">-0.52</span>
 </li>
 </ul>
 </div>
-<a class="medium button" href="../part-1/">Start the Course!</a>
+</div>
+</div>
+</div>
+<div  id="_question_2" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Question 2</h3>
+<div  id="_running_the_algorithm_in_neo4j" class="sect3 "  >
+<h4>Running the algorithm in Neo4j</h4>
+
+
+<div class="paragraph">
+<p>Which of the following are fields returned by the <code>algo.similarity.pearson</code> procedure?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">similarityPairs</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">relationships</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">p75</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">writeRelationshipType</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Summary</h3>
+
+
+<div class="paragraph">
+<p>You should now be able to:</p>
+</div>
+<div class="olist square">
+<ol style="margin-left: 2.4rem;" class="square">
+<li>
+Use the Pearson Similarity graph algorithm
+</li>
+</ol>
+</div>
+</div>
+<div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Grade Quiz and Continue</h3>
+<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
-<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/prod/class.js?versionId=B.qHLLn6X7sLxXsQj1wvBWTObSo3.yTx" type="text/javascript"></script>
-<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/prod/quizes.js?versionId=Cim7H4U4dwHWQq3PwUUYkXK4MD_KLHRA" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/applied-algos/dev/class.js?versionId=wR3anxxzIySNq4IX2Zd1Uzp3CtZ7b001" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/applied-algos/dev/quizes.js?versionId=sz_xsBQ10E6awkPjaNF_0atVttO3_AW9" type="text/javascript"></script>
 
  <link rel='stylesheet' id='neo-codemirror-css'
     href="https://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css'
@@ -579,12 +540,12 @@ $( document ).ready(function() {
         console.error(err);
       }
     }
-    Intercom('trackEvent','training-introv2-view');
+    Intercom('trackEvent','training-applied-algos-view');
 });
 </script>
 <script>
 $( document ).ready(function() {
-  Intercom('trackEvent','training-admin-view-part0');
+  Intercom('trackEvent','training-applied-algos-view-part3');
 });
 </script>
 </div>
@@ -592,16 +553,26 @@ $( document ).ready(function() {
 <div id="sidebar-wrapper">
         
         <div id="toc" class="toc2">
-        <div id="toctitle">Module: Neo4j Administration</div>
+        <div id="toctitle">Module: Ordering Search Results</div>
         <ul class="sectlevel1">
-<li><a href="#_about_this_course">About this course</a></li>
-<li><a href="#_a_href_part_1_introduction_to_neo4j_a"><a href="../part-1/">Introduction to Neo4j</a></a></li>
-<li><a href="#_a_href_part_2_overview_of_neo4j_administration_a"><a href="../part-2/">Overview of Neo4j Administration</a></a></li>
-<li><a href="#_a_href_part_3_managing_a_neo4j_database_a"><a href="../part-3/">Managing a Neo4j Database</a></a></li>
-<li><a href="#_a_href_part_4_causal_clustering_in_neo4j_a"><a href="../part-4/">Causal Clustering in Neo4j</a></a></li>
-<li><a href="#_a_href_part_5_security_in_neo4j_a"><a href="../part-5/">Security in Neo4j</a></a></li>
-<li><a href="#_a_href_part_6_monitoring_neo4j_a"><a href="../part-6/">Monitoring Neo4j</a></a></li>
-<li><a href="#_a_href_part_7_summary_a"><a href="../part-7/">Summary</a></a></li>
+<li><a href="#_exercise">Exercise</a></li>
+<li><a href="#_solution">Solution</a></li>
+<li><a href="#module-2">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a>
+<ul class="sectlevel3">
+<li><a href="#_algorithm_understanding_pearson_similarity">Algorithm Understanding: Pearson Similarity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_question_2">Question 2</a>
+<ul class="sectlevel3">
+<li><a href="#_running_the_algorithm_in_neo4j">Running the algorithm in Neo4j</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
 </ul>
         </div>
 <div id="progress" style="position:absolute; bottom:100;"></div>

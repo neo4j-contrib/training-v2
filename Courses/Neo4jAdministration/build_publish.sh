@@ -12,9 +12,23 @@ while [ "$1" != "" ]; do
 done
 
 echo "Publishing JS---"
-export QUIZES_JS_URL=`python publish_js.py --stage $STAGE --file quizes.js`
+QUIZES_JS_URL=`python publish_js.py --stage $STAGE --file quizes.js`
+if [ $? != 0 ]; then
+  echo $?
+  echo "ABORTING - Unable to publish quizes.js";
+  exit 1;
+else
+  export QUIZES_JS_URL;
+fi
 echo -e "\t$QUIZES_JS_URL"
-export CLASS_JS_URL=`python publish_js.py --stage $STAGE --file class.js`
+
+CLASS_JS_URL=`python publish_js.py --stage $STAGE --file class.js`
+if [ $? != 0 ]; then
+  echo "ABORTING - Unable to publish class.js";
+  exit 1;
+else
+  export CLASS_JS_URL;
+fi
 echo -e "\t$CLASS_JS_URL"
 
 echo "Building webpages---"
