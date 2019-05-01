@@ -73,8 +73,11 @@
     <br/>
     <div>
       <div class="paragraph">
-<p>For the remaining exercises in this course, you will working with data related to flights and airports.
+<p>For the remaining exercises in this course, you will be working with data related to flights and airports.
 In this exercise, you will create nodes and relationships that reflect our very simple  model that has an Airport entity.</p>
+</div>
+<div class="paragraph">
+<p>Here are the tasks for this exercise:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -220,7 +223,7 @@ RETURN n<!--/code--></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH connection = (Airport {code: 'LAS'})-[:CONNECTED_TO]-&gt;(Airport)
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH connection = (:Airport {code: 'LAS'})-[:CONNECTED_TO]-&gt;(:Airport)
 RETURN connection<!--/code--></pre>
 </div>
 </div>

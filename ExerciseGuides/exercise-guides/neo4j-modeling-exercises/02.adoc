@@ -13,8 +13,10 @@ MATCH (n) DETACH DELETE n
 
 == Exercise 2: Getting started with the Airport graph data model (Overview)
 
-For the remaining exercises in this course, you will working with data related to flights and airports.
+For the remaining exercises in this course, you will be working with data related to flights and airports.
 In this exercise, you will create nodes and relationships that reflect our very simple  model that has an Airport entity.
+
+Here are the tasks for this exercise:
 
 * *Exercise 2.1*: Implement the starting model containing Airports.
 * *Exercise 2.2*: Display the nodes and relationships in the graph.
@@ -81,7 +83,7 @@ image::{guides}/img/Ex2_DisplayFirstNodes.png[Ex2_DisplayFirstNodes,width=300]
 
 [source, cypher]
 ----
-MATCH connection = (Airport {code: 'LAS'})-[:CONNECTED_TO]->(Airport)
+MATCH connection = (:Airport {code: 'LAS'})-[:CONNECTED_TO]->(:Airport)
 RETURN connection
 ----
 

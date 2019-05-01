@@ -9,21 +9,23 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/AfterExercise2.png[Empty_database,200,200, role=left]
 
-If your database does not have the same nodes and relationships, you can execute this Cypher statement to reset your graph to what it should be before you start this exercise.
+If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
+
 
 [source,cypher]
 ----
-CALL apoc.cypher.runFile('https://r.neo4j.com/Modeling_AfterExercise2')
+include::scripts/AfterExercise_2.cypher[]
 ----
+
 
 == Exercise 3: Loading Airport data (Overview)
 
 As part of our modeling workflow, we want to answer this initial question:
 
-As an air travel enthusiast, I want to know how airports are connected so that I can find the busiest ones
+*As an air travel enthusiast, I want to know how airports are connected so that I can find the busiest ones.*
 
 In this exercise you will load Airport and flight data for 1000 flights. This will be the data that you use to begin the implementation of the graph model and the refactoring that will occur in the graph.
-This data is in CSV format with headers. Once you have loaded the data, you will explore the data.
+The data that you load is in CSV format with headers. Once you have loaded the data, you will explore the data.
 
 * *Exercise 3.1*: Preview the data.
 * *Exercise 3.2*: Load the Airport data.
@@ -81,10 +83,10 @@ This Cypher code:
 
 * Iterates through each row in the file.
 * Creates nodes with the `Airport` label for the origin and destination airports if they don't already exist.
-* creates a `CONNECTED_TO` relationship between origin and destination airports for each row in the file.
+* Creates a `CONNECTED_TO` relationship between origin and destination airports for each row in the file.
 
 By default properties will be stored as strings.
-We know that `year`, `month`, and `day` are actually numeric values so we'll coerce them using the `toInteger` function.
+We know that `year`, `month`, and `day` are actually numeric values so we coerce them using the `toInteger` function.
 
 == Exercise 3.3: Find the airports with the most outgoing connections. (Instructions)
 
