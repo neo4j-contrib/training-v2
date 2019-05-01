@@ -1,0 +1,528 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 5</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 5</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Creating the Flight node from the CONNECTED_TO relationships  (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Before you begin this exercise, make sure that you have loaded the flights_2019_1k data in Exercise 3.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise3.png" alt="Empty_database" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have the same nodes and relationships, you can execute this Cypher statement to reset your graph to what it should be before you start this exercise.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.cypher.runFile('https://r.neo4j.com/Modeling_AfterExercise3')<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Creating the Flight node from the CONNECTED_TO relationships (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You have seen from profiling a few queries that the current model needs refactoring.
+You will refactor the current graph to fit the new model and then you will profile the queries again.</p>
+</div>
+<div class="paragraph">
+<p>Here are the tasks you will perform:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 5.1</strong>: Add an index to the Airport code property.</p>
+</li>
+<li>
+<p><strong>Exercise 5.2</strong>: Add a unique constraint to the Flight flightId property.</p>
+</li>
+<li>
+<p><strong>Exercise 5.3</strong>: Add an index to the Flight number property.</p>
+</li>
+<li>
+<p><strong>Exercise 5.4</strong>: Refactor the graph to create Flight nodes from the CONNECTED_TO relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 5.5</strong>: Profile our first query that finds all flights that land in Las Vegas.</p>
+</li>
+<li>
+<p><strong>Exercise 5.6</strong>: Profile our second query that finds all flights for airline 'WN' with flight number '1016'.</p>
+</li>
+<li>
+<p><strong>Exercise 5.7</strong>: Delete the CONNECTED_TO relationship from the graph.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.1:  Add an index to the Airport code property. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher statement to add an index to the Airport nodes based upon the code property.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.1:  Add an index to the Airport code property. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher statement to add an index to the Airport nodes based upon the code property.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX ON :Airport(code)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_AirportCodeIndex.png" alt="Ex5_AirportCodeIndex" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.2:  Add a unique constraint to the Flight flightId property. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will be creating nodes of type Flight.
+One of the properties you will adding to a Flight node is an ID that makes each Flight node unique.
+The name of this property will be flightId.</p>
+</div>
+<div class="paragraph">
+<p><strong>Execute the Cypher statement to add a unique constraint to the Flight nodes based upon the flightId property.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.2:  Add a unique constraint to the Flight flightId property. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will be creating nodes of type Flight.
+One of the properties you will adding to a Flight node is an ID that makes each Flight node unique.
+The name of this property will be flightId.</p>
+</div>
+<div class="paragraph">
+<p><strong>Execute the Cypher statement to add a unique constraint to the Flight nodes based upon the flightId property.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (f:Flight)
+ASSERT f.flightId IS UNIQUE<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_FlightIdConstraint.png" alt="Ex5_FlightIdConstraint" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.3:  Add an index to the Flight number property. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher statement to add an index to the Flight nodes based upon the number property.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.3:  Add an index to the Flight number property. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher statement to add an index to the Flight nodes based upon the number property.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX ON :Flight(number)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_FlightNumberIndex.png" alt="Ex5_FlightNumberIndex" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.4:  Refactor the graph to create Flight nodes from the CONNECTED_TO relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Flight nodes will be created from existing CONNECTED_TO relationships where you must keep track of the origin Airport and the destination Airport.
+That is (origin:Airport)-[CONNECTED_TO]&#8594;(destination:Airport).
+The properties for the Flight nodes will be set as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>flightId: connection.airline +  connection.flightNumber +  '<em>' + connection.date +  '</em>' + origin.code + '_' + destination.code</p>
+</li>
+<li>
+<p>date: connection.date</p>
+</li>
+<li>
+<p>airline: connection.airline</p>
+</li>
+<li>
+<p>number: connection.flightNumber</p>
+</li>
+<li>
+<p>departure: connection.departure</p>
+</li>
+<li>
+<p>arrival: connection.arrival</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In addition, the new relationships between Flight and Airport nodes will be ORIGINATES_FROM and LANDS_IN</p>
+</div>
+<div class="paragraph">
+<p>Here is the model  you will refactor to:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Model.png" alt="Ex5_Model" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Execute the Cypher statement to go through all CONNECTED_TO relationships to create the Flight nodes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.4:  Refactor the graph to create Flight nodes from the CONNECTED_TO relationships. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher statement to go through all CONNECTED_TO relationships to create the Flight nodes.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (origin:Airport)-[connection:CONNECTED_TO]-&gt;(destination:Airport)
+MERGE (newFlight:Flight { flightId: connection.airline +  connection.flightNumber +
+       '_' + connection.date +  '_' + origin.code + '_' + destination.code })
+ON CREATE SET newFlight.date = connection.date,
+              newFlight.airline = connection.airline,
+              newFlight.number = connection.flightNumber,
+              newFlight.departure = connection.departure,
+              newFlight.arrival = connection.arrival
+MERGE (origin)&lt;-[:ORIGINATES_FROM]-(newFlight)
+MERGE (newFlight)-[:LANDS_IN]-&gt;(destination)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Refactor.png" alt="Ex5_Refactor" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5:  Profile our first query that finds all flights that land in Las Vegas. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The previous query was:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (origin:Airport)-
+[c:CONNECTED_TO]-&gt;(destination:Airport)
+WHERE destination.code = 'LAS'
+RETURN origin, destination, c<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Modify this query to use the new model and compare your results for this query profile after the refactoring</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5:  Profile our first query that finds all flights that land in Las Vegas. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify this query to use the new model and compare your results for this query profile after the refactoring</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (f:Flight)
+WHERE f.flightId ENDS WITH 'LAS'
+RETURN f.flightId<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Profile1.png" alt="Ex5_Profile1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>The original query had 222 db hits. The revised query with the refactored model is better with 50 db hits.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.6:  Profile our second query that finds all flights for airline 'WN' with flight number '1016'. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The previous query was:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH  (origin:Airport)-[connection:CONNECTED_TO]-&gt;(destination:Airport)
+WHERE connection.airline = 'WN' AND connection.flightNumber = '1016'
+RETURN origin.code, destination.code, connection.date, connection.departure, connection.arrival<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Modify this query to use the new model and compare your results for this query profile after the refactoring</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.6:  Profile our second query that finds all flights for airline 'WN' with flight number '1016'. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify this query to use the new model and compare your results for this query profile after the refactoring</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (origin)&lt;-[:ORIGINATES_FROM]-(flight:Flight)-
+      [:LANDS_IN]-&gt;(destination)
+WHERE flight.airline = 'WN' AND
+      flight.number = '1016' RETURN origin, destination, flight<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Profile2.png" alt="Ex5_Profile2" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>The original query had 2146 db hits. The revised query with the refactored model is better with 19 db hits.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.7:  Delete the CONNECTED_TO relationship from the graph. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher statement to remove the CONNECTED_TO relationships from the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.7:  Delete the CONNECTED_TO relationship from the graph. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher statement to remove the CONNECTED_TO relationships from the graph.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH ()-[connection:CONNECTED_TO]-&gt;()
+DELETE connection<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_DeleteRelationships.png" alt="Ex5_DeleteRelationships" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Creating the Flight node from the CONNECTED_TO relationships  (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you refactored the nodes and relationships in the graph for a  model and implementation that performs better.
+You added indexes and constraints and created Flight nodes from the CONNECTED_TO relationship.
+You also added the ORIGINATES_FROM and LANDS_IN relationships between Flight nodes and Airport nodes.
+Finally, you deleted the CONNECTED_TO relationship.
+You profiled queries to confirm that the refactoring improved query performance.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/06.html'>Continue to Exercise 6</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

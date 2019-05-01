@@ -1,0 +1,514 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 1</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 1</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1: Implementing your first model (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain no nodes or relationships.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Empty_database.png" alt="Empty_database" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database is not empty, you can run the Cypher below to reset it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database.
+If you are using the Blank Neo4j Sandbox, you should have APOC.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1: Implementing your first model (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you will implement a simple model for people in a company and their skills and answer some questions.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 1.1</strong>: Load the database with Person, Company, and Skill nodes.</p>
+</li>
+<li>
+<p><strong>Exercise 1.2</strong>: Where does Ian work and what are  his skills?</p>
+</li>
+<li>
+<p><strong>Exercise 1.3:</strong> Where does Sarah work and what are her skills?</p>
+</li>
+<li>
+<p><strong>Exercise 1.4:</strong> What people in Ian&#8217;s company have similar skills as Ian?</p>
+</li>
+<li>
+<p><strong>Exercise 1.5:</strong> Modify Ian&#8217;s skills.</p>
+</li>
+<li>
+<p><strong>Exercise 1.6:</strong> What are Ian&#8217;s skills?</p>
+</li>
+<li>
+<p><strong>Exercise 1.7:</strong> What people in Ian&#8217;s company have similar skill as Ian?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.1: Load the database with Person, Company, and Skill nodes (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this Cypher code to load the database for this model.</strong></p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/FirstGraphModel-Ex1.png" alt="FirstGraphModel-Ex1" width="300">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE
+(ben:Person{name:'Ben'}),
+(charlie:Person{name:'Charlie'}),
+(lucy:Person{name:'Lucy'}),
+(ian:Person{name:'Ian'}),
+(sarah:Person{name:'Sarah'}),
+(emily:Person{name:'Emily'}),
+(gordon:Person{name:'Gordon'}),
+(kate:Person{name:'Kate'}),
+(acme:Company{name:'Acme, Inc'}),
+(startup:Company{name:'Startup, Ltd'}),
+(neo4j:Skill{name:'Neo4j'}),
+(rest:Skill{name:'REST'}),
+(dotNet:Skill{name:'DotNet'}),
+(ruby:Skill{name:'Ruby'}),
+(sql:Skill{name:'SQL'}),
+(architecture:Skill{name:'Architecture'}),
+(java:Skill{name:'Java'}),
+(python:Skill{name:'Python'}),
+(javascript:Skill{name:'Javascript'}),
+(clojure:Skill{name:'Clojure'}),
+(ben)-[:WORKS_FOR]-&gt;(acme),
+(charlie)-[:WORKS_FOR]-&gt;(acme),
+(lucy)-[:WORKS_FOR]-&gt;(acme),
+(ian)-[:WORKS_FOR]-&gt;(acme),
+(sarah)-[:WORKS_FOR]-&gt;(startup),
+(emily)-[:WORKS_FOR]-&gt;(startup),
+(gordon)-[:WORKS_FOR]-&gt;(startup),
+(kate)-[:WORKS_FOR]-&gt;(startup),
+(ben)-[:HAS_SKILL{level:1}]-&gt;(neo4j),
+(ben)-[:HAS_SKILL{level:3}]-&gt;(rest),
+(charlie)-[:HAS_SKILL{level:2}]-&gt;(neo4j),
+(charlie)-[:HAS_SKILL{level:1}]-&gt;(javascript),
+(charlie)-[:HAS_SKILL{level:1}]-&gt;(sql),
+(lucy)-[:HAS_SKILL{level:3}]-&gt;(dotNet),
+(lucy)-[:HAS_SKILL{level:2}]-&gt;(architecture),
+(lucy)-[:HAS_SKILL{level:1}]-&gt;(python),
+(ian)-[:HAS_SKILL{level:2}]-&gt;(java),
+(ian)-[:HAS_SKILL{level:3}]-&gt;(neo4j),
+(ian)-[:HAS_SKILL{level:2}]-&gt;(rest),
+(sarah)-[:HAS_SKILL{level:1}]-&gt;(neo4j),
+(sarah)-[:HAS_SKILL{level:1}]-&gt;(java),
+(sarah)-[:HAS_SKILL{level:1}]-&gt;(rest),
+(sarah)-[:HAS_SKILL{level:1}]-&gt;(clojure),
+(emily)-[:HAS_SKILL{level:1}]-&gt;(neo4j),
+(emily)-[:HAS_SKILL{level:1}]-&gt;(dotNet),
+(emily)-[:HAS_SKILL{level:1}]-&gt;(python),
+(gordon)-[:HAS_SKILL{level:1}]-&gt;(dotNet),
+(gordon)-[:HAS_SKILL{level:1}]-&gt;(ruby),
+(kate)-[:HAS_SKILL{level:1}]-&gt;(architecture),
+(kate)-[:HAS_SKILL{level:1}]-&gt;(python)<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.2: Where does Ian work and what are his skills? (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display the company that Ian works for and his skills.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.2: Where does Ian work and what are his skills? (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display the company that Ian works for and his skills.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (c:Company)&lt;-[:WORKS_FOR]-(:Person{name:'Ian'})-[r:HAS_SKILL]-&gt;(s:Skill)
+RETURN c.name, s.name, r.level<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex1_IanSkills.png" alt="Ex1_IanSkills" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.3: Where does Sarah work and what are her skills? (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display the company that Sarah works for and her skills.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.3: Where does Sarah work and what are her skills? (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display the company that Sarah works for and her skills.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (c:Company)&lt;-[:WORKS_FOR]-(:Person{name:'Sarah'})-[r:HAS_SKILL]-&gt;(s:Skill)
+RETURN c.name, s.name, r.level<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex1_SarahSkills.png" alt="Ex1_SarahSkills" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.4: What people in Ian&#8217;s company have similar skills as Ian? (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display people in Ian&#8217;s company that have the same skills as Ian.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.4: What people in Ian&#8217;s company have similar skills as Ian?  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display people in Ian&#8217;s company that have the same skills as Ian.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (company)&lt;-[:WORKS_FOR]-(:Person{name:'Ian'})
+                -[:HAS_SKILL]-&gt;(skill),
+(company)&lt;-[:WORKS_FOR]-(colleague)-[:HAS_SKILL]-&gt;(skill)
+RETURN colleague.name AS name,
+count(skill) AS score,
+collect(skill.name) AS skills
+ORDER BY score DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex1_PeopleWithIansSkill.png" alt="Ex1_PeopleWithIansSkill" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.5: Modify Ian&#8217;s skills. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write Cypher that updates Ian&#8217;s skills to include Java, Python, and Neo4j.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.5: Modify Ian&#8217;s skills.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write Cypher that updates Ian&#8217;s skills to include Java, Python, REST, and Neo4j.</strong></p>
+</div>
+<div class="paragraph">
+<p>You can use MERGE to update the nodes and relationships to reflect the skills for Ian as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (p:Person{name:'Ian'})
+MERGE (s1:Skill{name:'Java'})
+MERGE (s2:Skill{name:'Python'})
+MERGE (s3:Skill{name:'Neo4j'})
+MERGE (c)&lt;-[:WORKS_FOR]-(p)
+MERGE (p)-[r1:HAS_SKILL]-&gt;(s1)
+MERGE (p)-[r2:HAS_SKILL]-&gt;(s2)
+MERGE (p)-[r3:HAS_SKILL]-&gt;(s3)
+SET r1.level = 2
+SET r2.level = 2
+SET r3.level = 3
+RETURN   p, s1, s2, s3<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here we use MERGE to ensure duplicate nodes and relationships are not created. For example, we already have nodes and relationships for Java, Neo4j, and REST so some nodes will not be updated.
+The only data that is added to the graph is the relationship for the Python skill.</p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex1_ModifyIanSkills.png" alt="Ex1_ModifyIanSkills" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.6: What are Ian&#8217;s skills? (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display  Ian&#8217;s skills.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.6: What are Ian&#8217;s skills? (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display Ian&#8217;s skills.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (:Person{name:'Ian'})-[r:HAS_SKILL]-&gt;(s:Skill)
+RETURN  s.name, r.level<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see a different set of skills since you modified Ian&#8217;s skills.</p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex1_IanSkills2.png" alt="Ex1_IanSkills2" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.7: What people in Ian&#8217;s company have similar skill as Ian? (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display people in Ian&#8217;s company that have the same skills as Ian.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.7: What people in Ian&#8217;s company have similar skill as Ian?  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query to display people in Ian&#8217;s company that have the same skills as Ian.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (company)&lt;-[:WORKS_FOR]-(:Person{name:'Ian'})
+                -[:HAS_SKILL]-&gt;(skill),
+(company)&lt;-[:WORKS_FOR]-(colleague)-[:HAS_SKILL]-&gt;(skill)
+RETURN colleague.name AS name,
+count(skill) AS score,
+collect(skill.name) AS skills
+ORDER BY score DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see a different result here because you have modified Ian&#8217;s skills.</p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex1_PeopleWithIansSkills2.png" alt="Ex1_PeopleWithIansSkills2" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1: Implementing your first model (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you added Person, Skill, and Company nodes to a graph and added the relationships between the nodes.
+This graph is a very simple model to review the basic process for implementing a model by creating or merging nodes and relationships.
+In the remaining exercises, you will start with a simple model and evolve it by refactoring the data in the graph.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/02.html'>Continue to Exercise 2</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

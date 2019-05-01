@@ -1,0 +1,489 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 3</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 3</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3: Loading Airport data  (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Before you begin this exercise, make sure that you have created the three Airport nodes in the previous exercise.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise2.png" alt="Empty_database" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have the same nodes and relationships, you can execute this Cypher statement to reset your graph to what it should be before you start this exercise.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.cypher.runFile('https://r.neo4j.com/Modeling_AfterExercise2')<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3: Loading Airport data (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>As part of our modeling workflow, we want to answer this initial question:</p>
+</div>
+<div class="paragraph">
+<p>As an air travel enthusiast, I want to know how airports are connected so that I can find the busiest ones</p>
+</div>
+<div class="paragraph">
+<p>In this exercise you will load Airport and flight data for 1000 flights. This will be the data that you use to begin the implementation of the graph model and the refactoring that will occur in the graph.
+This data is in CSV format with headers. Once you have loaded the data, you will explore the data.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 3.1</strong>: Preview the data.</p>
+</li>
+<li>
+<p><strong>Exercise 3.2</strong>: Load the Airport data.</p>
+</li>
+<li>
+<p><strong>Exercise 3.3</strong>: Find the airports with most outgoing connections.</p>
+</li>
+<li>
+<p><strong>Exercise 3.4</strong>: Find the airports with the most incoming connections.</p>
+</li>
+<li>
+<p><strong>Exercise 3.5</strong>: Find all the connections into Las Vegas (LAS).</p>
+</li>
+<li>
+<p><strong>Exercise 3.6</strong>: Find all the connections from Las Vegas (LAS) to Los Angeles (LAX).</p>
+</li>
+<li>
+<p><strong>Exercise 3.7</strong>: Find a specific connection.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.1: Preview the data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Let&#8217;s preview what the data we will be loading looks like.</p>
+</div>
+<div class="paragraph">
+<p>Run the following query to retrieve the first five rows of data to see what data we&#8217;ve got to work with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_1k' AS row
+RETURN row
+LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This query:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Loads the file 'flights__2019_1k'</p>
+</li>
+<li>
+<p>Iterates over the file, referring to each line as the variable <strong>row</strong>.</p>
+</li>
+<li>
+<p>Returns the first 5 lines in the file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We&#8217;ve got lots of different fields but the ones that will be helpful for answering our question are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin</p>
+</li>
+<li>
+<p>Dest</p>
+</li>
+<li>
+<p>FlightNum</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.2: Load the Airport data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Run the following query to create nodes and relationships for these connections:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_1k' AS row
+MERGE (origin:Airport {code: row.Origin})
+MERGE (destination:Airport {code: row.Dest})
+MERGE (origin)-[connection:CONNECTED_TO {
+  airline: row.UniqueCarrier,
+  flightNumber: row.FlightNum,
+  date: toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth)}]-&gt;(destination)
+ON CREATE SET connection.departure = toInteger(row.CRSDepTime), connection.arrival = toInteger(row.CRSArrTime)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Cypher code:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Iterates through each row in the file.</p>
+</li>
+<li>
+<p>Creates nodes with the <code>Airport</code> label for the origin and destination airports if they don&#8217;t already exist.</p>
+</li>
+<li>
+<p>creates a <code>CONNECTED_TO</code> relationship between origin and destination airports for each row in the file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>By default properties will be stored as strings.
+We know that <code>year</code>, <code>month</code>, and <code>day</code> are actually numeric values so we&#8217;ll coerce them using the <code>toInteger</code> function.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.3: Find the airports with the most outgoing connections. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns the top ten airports that have the most outgoing connections.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.3: Find the airports with the most outgoing connections. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns the top ten airports that have the most outgoing connections.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Airport)-[:CONNECTED_TO]-&gt;()
+RETURN a.code, COUNT(*) AS outgoing
+ORDER BY outgoing DESC
+LIMIT 10<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This query:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Finds every node with the <code>Airport</code> label.</p>
+</li>
+<li>
+<p>Finds all outgoing <code>CONNECTED_TO</code> relationships.</p>
+</li>
+<li>
+<p>Counts them up grouped by airport.</p>
+</li>
+<li>
+<p>Returns the <code>Airport</code> nodes and the <code>outgoing</code> count in descending order by <code>outgoing</code>.</p>
+</li>
+<li>
+<p>Limits the number of airports returned to 10.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex3_PopularAirports.png" alt="Ex3_PopularAirports" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.4: Find the airports with the most incoming connections. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns the top ten airports that have the most incoming connections.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.4: Find the airports with the most incoming connections. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns the top ten airports that have the most incoming connections.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Airport)&lt;-[:CONNECTED_TO]-()
+RETURN a.code, COUNT(*) AS incoming
+ORDER BY incoming DESC
+LIMIT 10<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex3_IncomingConnections.png" alt="Ex3_IncomingConnections" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.5: Find all the connections into Las Vegas (LAS). (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns all of the incoming connections to Las Vegas (LAS).</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.5: Find the airports with the most incoming connections. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns all of the incoming connections to Las Vegas (LAS).</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (origin:Airport)-[connection:CONNECTED_TO]-&gt;(destination:Airport)
+WHERE destination.code = 'LAS'
+RETURN origin, destination, connection<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex3_LASIncomingConnections.png" alt="Ex3_LASIncomingConnections" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.6: Find all the connections from Las Vegas (LAS) to Los Angeles (LAX). (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns all of the connections from Las Vegas (LAS) to Los Angeles (LAX).</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.6: Find all the connections from Las Vegas (LAS) to Los Angeles (LAX). (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns all of the connections from Las Vegas (LAS) to Los Angeles (LAX).</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"--> MATCH (origin:Airport {code: 'LAS'})-[connection:CONNECTED_TO]-&gt;(destination:Airport {code: 'LAX'})
+ RETURN origin, destination, connection<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex3_LASToLAXConnections.png" alt="Ex3_LASToLAXConnections" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.7: Find a specific flight. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns connection information about a particular flight where the airline is 'WN' and the flight number is '1016'</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.7: Find a specific flight. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query that returns connection information about a particular flight where the airline is 'WN' and the flight number is '1016'</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH  (origin:Airport)-[connection:CONNECTED_TO]-&gt;(destination:Airport)
+WHERE connection.airline = 'WN' AND connection.flightNumber = '1016'
+RETURN origin.code, destination.code, connection.date, connection.departure, connection.arrival<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This query is reasonably quick because we only have 1,000 connections between airports, but under the covers we&#8217;re actually doing a lot of unnecessary work.</p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex3_WN1016.png" alt="Ex3_WN1016" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3: Loading Airport Data (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you added more data to the graph representing more Airports and 1000 connections between them (flights).
+This graph is still small, but it has enough data that we can start to examine the performance of queries to determine if we can evolve the model (refactor) to yield better query performance.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/04.html'>Continue to Exercise 4</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

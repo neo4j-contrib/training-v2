@@ -1,0 +1,501 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 9</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 9</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9: Maintaining models  (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Before you begin this exercise, make sure that you have performed the loading and refactoring from Exercise 8.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise8.png" alt="AfterExercise8" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have the same nodes and relationships, you can execute this Cypher statement to reset your graph to what it should be before you start this exercise.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.cypher.runFile('https://r.neo4j.com/Modeling_AfterExercise8')<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9: Maintaining models (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In a real application, whether in development or in production, it is likely that in time, the requirements for the application may change.
+As a developer, you must be prepared to refactor (possibly large) graphs and perhaps archive data in the graph that is no longer needed.
+In this exercise, you will perform a few tasks related to maintaining a graph.</p>
+</div>
+<div class="paragraph">
+<p>Here are the tasks you will perform:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 9.1</strong>: Profile a query to find flights in January, 2019 using general relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 9.2</strong>: Profile a query to find flights in January, 2019 using specific relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 9.3</strong>: Add flight data.</p>
+</li>
+<li>
+<p><strong>Exercise 9.4</strong>: Query new flight data.</p>
+</li>
+<li>
+<p><strong>Exercise 9.5</strong>: Archive flight data.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.1:  Profile a query to find flights in January, 2019 using general relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this Cypher statement to find flights in January, 2019 using general relationships</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (origin:Airport {code: 'LAS'})-[:HAS_DAY]-&gt;(originDay:AirportDay),
+(originDay)&lt;-[:ORIGINATES_FROM]-(flight:Flight)
+WHERE originDay.date STARTS WITH '2019-1'
+RETURN flight.date, flight.number, flight.airline, flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_GeneralRelationships.png" alt="Ex9_GeneralRelationships" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>The query produces 47846 db hits.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.2:  Profile a query to find flights in January, 2019 using specific relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this Cypher statement to find flights in January, 2019 using specific relationships</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (origin:Airport {code: 'LAS'})-[:`ON_2019-1-1`|
+                :`ON_2019-1-2`|
+                :`ON_2019-1-3`|
+                :`ON_2019-1-4`|
+                :`ON_2019-1-5`|
+                :`ON_2019-1-6`|
+                :`ON_2019-1-7`|
+                :`ON_2019-1-8`|
+                :`ON_2019-1-9`|
+                :`ON_2019-1-10`|
+                :`ON_2019-1-11`|
+                :`ON_2019-1-12`|
+                :`ON_2019-1-13`|
+                :`ON_2019-1-14`|
+                :`ON_2019-1-15`|
+                :`ON_2019-1-16`|
+                :`ON_2019-1-17`|
+                :`ON_2019-1-18`|
+                :`ON_2019-1-19`|
+                :`ON_2019-1-20`|
+                :`ON_2019-1-21`|
+                :`ON_2019-1-22`|
+                :`ON_2019-1-23`|
+                :`ON_2019-1-24`|
+                :`ON_2019-1-25`|
+                :`ON_2019-1-26`|
+                :`ON_2019-1-27`|
+                :`ON_2019-1-28`|
+                :`ON_2019-1-29`|
+                :`ON_2019-1-30`|
+                :`ON_2019-1-31`
+                ]-&gt;(originDay:AirportDay),
+(originDay)&lt;-[:ORIGINATES_FROM]-(flight:Flight)
+RETURN flight.date, flight.number, flight.airline, flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_SpecificRelationships.png" alt="Ex9_SpecificRelationships" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>The query produces 47815 db hits. A small savings. In this case what Cypher code would you prefer to write?
+The general relationship is much easier to query so in this case, it pays to have both types of relationships in the model.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.3:  Add flight data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You want to add February, 2019 flight data to the graph.</p>
+</div>
+<div class="paragraph">
+<p>*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</p>
+</div>
+<div class="paragraph">
+<p>The file containing the data is 'https://r.neo4j.com/flights_2019_february'*</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.3:  Add flight data. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You want to add February, 2019 flight data to the graph.</p>
+</div>
+<div class="paragraph">
+<p>*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</p>
+</div>
+<div class="paragraph">
+<p>The file containing the data is 'https://r.neo4j.com/flights_2019_february'*</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_february' AS row
+
+MERGE (origin:Airport {code: row.Origin})
+MERGE (destination:Airport {code: row.Dest})
+
+MERGE (newFlight:Flight { flightId: row.UniqueCarrier + row.FlightNum + '_' + row.Year + '-' + row.Month + '-' + row.DayofMonth + '_' + row.Origin + '_' + row.Dest }   )
+ON CREATE SET newFlight.date = toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth),
+              newFlight.airline = row.UniqueCarrier,
+              newFlight.number = row.FlightNum,
+              newFlight.departure = toInteger(row.CRSDepTime),
+              newFlight.arrival = toInteger(row.CRSArrTime)
+MERGE (origin)&lt;-[:ORIGINATES_FROM]-(newFlight)
+MERGE (newFlight)-[:LANDS_IN]-&gt;(destination)
+
+MERGE (originAirportDay:AirportDay {airportDayId: origin.code + '_' + newFlight.date})
+ON CREATE SET originAirportDay.date = newFlight.date
+
+MERGE (destinationAirportDay:AirportDay {airportDayId: destination.code + '_' + newFlight.date})
+ON CREATE SET destinationAirportDay.date = newFlight.date
+
+MERGE (originAirportDay)&lt;-[:ORIGINATES_FROM]-(newFlight)
+MERGE (newFlight)-[:LANDS_IN]-(destinationAirportDay)
+
+MERGE (origin)-[hasDayOrigin:HAS_DAY]-&gt;(originAirportDay)
+MERGE (destination)-[hasDayDestination:HAS_DAY]-&gt;(destinationAirportDay)
+
+WITH *
+UNWIND [[hasDayOrigin, originAirportDay], [hasDayDestination, destinationAirportDay]] AS pair
+
+WITH DISTINCT pair
+WITH apoc.convert.toRelationship(pair[0]) AS hasDay, pair[1] AS day
+
+CALL apoc.create.relationship(startNode(hasDay), "ON_" + day.date, {}, endNode(hasDay) )
+YIELD rel
+RETURN COUNT(*)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_LoadFebFlights.png" alt="Ex9_LoadFebFlights" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.4:  Query new flight data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a query to find all flights in February, 2019</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.4:  Query new flight data. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a query to find all flights in February, 2019</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (originDay:AirportDay)&lt;-[:ORIGINATES_FROM]-(flight:Flight)
+WHERE originDay.date STARTS WITH '2019-2'
+RETURN flight.date, flight.number, flight.airline, flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_QueryFebFlights.png" alt="Ex9_QueryFebFlights" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.5:  Archive flight data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>At some point during your development or production lifecycle, you will want to archive data, especially if the graph is growing large and older data is not required by users.</p>
+</div>
+<div class="paragraph">
+<p>*Write and execute Cypher to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Export flights with the date of '2019-1-1'.</p>
+</li>
+<li>
+<p>Delete these flights from the graph*</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: If you are using a Neo4j sandbox, you will not be able to write the data to a file in the Sandbox.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9.5:  Archive flight data. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>*Write and execute Cypher to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Export flights with the date of '2019-1-1'.*</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.export.csv.query("MATCH (f:Flight {date: '2019-1-1'})
+RETURN  f.airline AS Airline, f.arrival AS Arrival, f.date AS Date, f.departure AS Departure, f.flightId AS `Flight ID`, f.number AS FlightNumber",'/tmp/flights.csv', {})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_Export.png" alt="Ex9_Export" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>And here is what the flights.csv file looks like:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_flights.csv.png" alt="Ex9_flights.csv" width="300">
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>*2. Delete these flights from the graph*</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (airportDay:AirportDay {date: '2019-1-1'})
+DETACH DELETE airportDay;
+MATCH (flight:Flight {date:'2019-1-1'})
+DETACH DELETE flight<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_Delete.png" alt="Ex9_Delete" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9: Maintaining models  (Taking it further)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>If you have time, you can evolve the model further.</p>
+</div>
+<div class="paragraph">
+<p>Here are a couple of files that contain additional data:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://r.neo4j.com/Modeling_Airports" class="bare">https://r.neo4j.com/Modeling_Airports</a></p>
+</div>
+<div class="paragraph">
+<p><a href="https://r.neo4j.com/Modeling_Aircraft" class="bare">https://r.neo4j.com/Modeling_Aircraft</a></p>
+</div>
+<div class="paragraph">
+<p>You can:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add additional airport data from Modeling_Airports and integrate it into the model.</p>
+</li>
+<li>
+<p>Add additional properties to the graph such as flight delays and cancellations from the existing CSV files.</p>
+</li>
+<li>
+<p>Add Modeling_Aircraft data to the graph.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Whatever data you choose to work with, try and think of some questions that you want to answer before you import the data and refactor the model.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 9: Maintaining models (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you performed more queries that contrast the use of general and specific relationships.
+You also added flight data to the graph for a new day as well as archived and deleted flight data from the graph.</p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

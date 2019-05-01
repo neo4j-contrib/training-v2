@@ -1,0 +1,261 @@
+= Exercise 9
+:icons: font
+
+== Exercise 9: Maintaining models  (Preparations)
+
+Before you begin this exercise, make sure that you have performed the loading and refactoring from Exercise 8.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/AfterExercise8.png[AfterExercise8,200,200, role=left]
+
+If your database does not have the same nodes and relationships, you can execute this Cypher statement to reset your graph to what it should be before you start this exercise.
+
+[source,cypher]
+----
+CALL apoc.cypher.runFile('https://r.neo4j.com/Modeling_AfterExercise8')
+----
+
+== Exercise 9: Maintaining models (Overview)
+
+In a real application, whether in development or in production, it is likely that in time, the requirements for the application may change.
+As a developer, you must be prepared to refactor (possibly large) graphs and perhaps archive data in the graph that is no longer needed.
+In this exercise, you will perform a few tasks related to maintaining a graph.
+
+
+Here are the tasks you will perform:
+
+* *Exercise 9.1*: Profile a query to find flights in January, 2019 using general relationships.
+* *Exercise 9.2*: Profile a query to find flights in January, 2019 using specific relationships.
+* *Exercise 9.3*: Add flight data.
+* *Exercise 9.4*: Query new flight data.
+* *Exercise 9.5*: Archive flight data.
+
+Go to the next page to start this exercise.
+
+== Exercise 9.1:  Profile a query to find flights in January, 2019 using general relationships. (Instructions)
+
+*Execute this Cypher statement to find flights in January, 2019 using general relationships*:
+
+[source,cypher]
+----
+PROFILE MATCH (origin:Airport {code: 'LAS'})-[:HAS_DAY]->(originDay:AirportDay),
+(originDay)<-[:ORIGINATES_FROM]-(flight:Flight)
+WHERE originDay.date STARTS WITH '2019-1'
+RETURN flight.date, flight.number, flight.airline, flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex9_GeneralRelationships.png[Ex9_GeneralRelationships,width=300]
+
+The query produces 47846 db hits.
+
+== Exercise 9.2:  Profile a query to find flights in January, 2019 using specific relationships. (Instructions)
+
+*Execute this Cypher statement to find flights in January, 2019 using specific relationships*:
+
+[source,cypher]
+----
+PROFILE MATCH (origin:Airport {code: 'LAS'})-[:`ON_2019-1-1`|
+                :`ON_2019-1-2`|
+                :`ON_2019-1-3`|
+                :`ON_2019-1-4`|
+                :`ON_2019-1-5`|
+                :`ON_2019-1-6`|
+                :`ON_2019-1-7`|
+                :`ON_2019-1-8`|
+                :`ON_2019-1-9`|
+                :`ON_2019-1-10`|
+                :`ON_2019-1-11`|
+                :`ON_2019-1-12`|
+                :`ON_2019-1-13`|
+                :`ON_2019-1-14`|
+                :`ON_2019-1-15`|
+                :`ON_2019-1-16`|
+                :`ON_2019-1-17`|
+                :`ON_2019-1-18`|
+                :`ON_2019-1-19`|
+                :`ON_2019-1-20`|
+                :`ON_2019-1-21`|
+                :`ON_2019-1-22`|
+                :`ON_2019-1-23`|
+                :`ON_2019-1-24`|
+                :`ON_2019-1-25`|
+                :`ON_2019-1-26`|
+                :`ON_2019-1-27`|
+                :`ON_2019-1-28`|
+                :`ON_2019-1-29`|
+                :`ON_2019-1-30`|
+                :`ON_2019-1-31`
+                ]->(originDay:AirportDay),
+(originDay)<-[:ORIGINATES_FROM]-(flight:Flight)
+RETURN flight.date, flight.number, flight.airline, flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex9_SpecificRelationships.png[Ex9_SpecificRelationships,width=300]
+
+The query produces 47815 db hits. A small savings. In this case what Cypher code would you prefer to write?
+The general relationship is much easier to query so in this case, it pays to have both types of relationships in the model.
+
+== Exercise 9.3:  Add flight data. (Instructions)
+
+You want to add February, 2019 flight data to the graph.
+
+*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.
+
+The file containing the data is 'https://r.neo4j.com/flights_2019_february'*
+
+== Exercise 9.3:  Add flight data. (Solution)
+
+You want to add February, 2019 flight data to the graph.
+
+*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.
+
+The file containing the data is 'https://r.neo4j.com/flights_2019_february'*
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_february' AS row
+
+MERGE (origin:Airport {code: row.Origin})
+MERGE (destination:Airport {code: row.Dest})
+
+MERGE (newFlight:Flight { flightId: row.UniqueCarrier + row.FlightNum + '_' + row.Year + '-' + row.Month + '-' + row.DayofMonth + '_' + row.Origin + '_' + row.Dest }   )
+ON CREATE SET newFlight.date = toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth),
+              newFlight.airline = row.UniqueCarrier,
+              newFlight.number = row.FlightNum,
+              newFlight.departure = toInteger(row.CRSDepTime),
+              newFlight.arrival = toInteger(row.CRSArrTime)
+MERGE (origin)<-[:ORIGINATES_FROM]-(newFlight)
+MERGE (newFlight)-[:LANDS_IN]->(destination)
+
+MERGE (originAirportDay:AirportDay {airportDayId: origin.code + '_' + newFlight.date})
+ON CREATE SET originAirportDay.date = newFlight.date
+
+MERGE (destinationAirportDay:AirportDay {airportDayId: destination.code + '_' + newFlight.date})
+ON CREATE SET destinationAirportDay.date = newFlight.date
+
+MERGE (originAirportDay)<-[:ORIGINATES_FROM]-(newFlight)
+MERGE (newFlight)-[:LANDS_IN]-(destinationAirportDay)
+
+MERGE (origin)-[hasDayOrigin:HAS_DAY]->(originAirportDay)
+MERGE (destination)-[hasDayDestination:HAS_DAY]->(destinationAirportDay)
+
+WITH *
+UNWIND [[hasDayOrigin, originAirportDay], [hasDayDestination, destinationAirportDay]] AS pair
+
+WITH DISTINCT pair
+WITH apoc.convert.toRelationship(pair[0]) AS hasDay, pair[1] AS day
+
+CALL apoc.create.relationship(startNode(hasDay), "ON_" + day.date, {}, endNode(hasDay) )
+YIELD rel
+RETURN COUNT(*)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex9_LoadFebFlights.png[Ex9_LoadFebFlights,width=300]
+
+== Exercise 9.4:  Query new flight data. (Instructions)
+
+*Write and execute a query to find all flights in February, 2019*
+
+== Exercise 9.4:  Query new flight data. (Solution)
+
+*Write and execute a query to find all flights in February, 2019*
+
+[source,cypher]
+----
+MATCH (originDay:AirportDay)<-[:ORIGINATES_FROM]-(flight:Flight)
+WHERE originDay.date STARTS WITH '2019-2'
+RETURN flight.date, flight.number, flight.airline, flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex9_QueryFebFlights.png[Ex9_QueryFebFlights,width=300]
+
+
+== Exercise 9.5:  Archive flight data. (Instructions)
+
+At some point during your development or production lifecycle, you will want to archive data, especially if the graph is growing large and older data is not required by users.
+
+*Write and execute Cypher to:
+
+ 1. Export flights with the date of '2019-1-1'.
+ 2. Delete these flights from the graph*
+
+*Note*: If you are using a Neo4j sandbox, you will not be able to write the data to a file in the Sandbox.
+
+== Exercise 9.5:  Archive flight data. (Solution)
+
+*Write and execute Cypher to:
+
+ 1. Export flights with the date of '2019-1-1'.*
+
+[source,cypher]
+----
+CALL apoc.export.csv.query("MATCH (f:Flight {date: '2019-1-1'})
+RETURN  f.airline AS Airline, f.arrival AS Arrival, f.date AS Date, f.departure AS Departure, f.flightId AS `Flight ID`, f.number AS FlightNumber",'/tmp/flights.csv', {})
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex9_Export.png[Ex9_Export,width=300]
+
+And here is what the flights.csv file looks like:
+
+[.thumb]
+image::{guides}/img/Ex9_flights.csv.png[Ex9_flights.csv,width=300]
+
+ *2. Delete these flights from the graph*
+
+[source,cypher]
+----
+MATCH (airportDay:AirportDay {date: '2019-1-1'})
+DETACH DELETE airportDay;
+MATCH (flight:Flight {date:'2019-1-1'})
+DETACH DELETE flight
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex9_Delete.png[Ex9_Delete,width=300]
+
+
+== Exercise 9: Maintaining models  (Taking it further)
+
+If you have time, you can evolve the model further.
+
+Here are a couple of files that contain additional data:
+
+https://r.neo4j.com/Modeling_Airports
+
+https://r.neo4j.com/Modeling_Aircraft
+
+You can:
+
+* Add additional airport data from Modeling_Airports and integrate it into the model.
+* Add additional properties to the graph such as flight delays and cancellations from the existing CSV files.
+* Add Modeling_Aircraft data to the graph.
+
+Whatever data you choose to work with, try and think of some questions that you want to answer before you import the data and refactor the model.
+
+
+== Exercise 9: Maintaining models (Summary)
+
+In this exercise, you performed more queries that contrast the use of general and specific relationships.
+You also added flight data to the graph for a new day as well as archived and deleted flight data from the graph.
+

@@ -1,0 +1,567 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 8</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 8</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Refactoring large graphs  (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Before you begin this exercise, make sure that you have performed the refactoring from Exercise 7.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise7.png" alt="AfterExercise7" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have the same nodes and relationships, you can execute this Cypher statement to reset your graph to what it should be before you start this exercise.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.cypher.runFile('https://r.neo4j.com/Modeling_AfterExercise7')<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Refactoring large graphs (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>As your graph gets larger and you profile the queries that are important to your use cases, you will find that the refactoring is not possible without the ability to batch the refactoring into chunks of processing.
+The APOC library has a number of procedures that are useful for refactoring a graph.
+The procedure that you use the process batches of work on a graph is apoc.periodic.commit().
+In this exercise, you will load 100K flights into the graph and use APOC to help  you refactor the graph.</p>
+</div>
+<div class="paragraph">
+<p>Here are the tasks you will perform:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 8.1</strong>: Load more airports into the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 8.2</strong>: Load 100K flights into the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 8.3</strong>: Prepare the Flight nodes for batch processing.</p>
+</li>
+<li>
+<p><strong>Exercise 8.4</strong>: Refactor the graph to use AirportDay by batching commits.</p>
+</li>
+<li>
+<p><strong>Exercise 8.5</strong>: Prepare the AirportDay nodes for batch processing.</p>
+</li>
+<li>
+<p><strong>Exercise 8.6</strong>: Refactor the graph to use specific relationships by batching commits.</p>
+</li>
+<li>
+<p><strong>Exercise 8.7</strong>: Profile the query that finds flights on a specific day using the general relationship.</p>
+</li>
+<li>
+<p><strong>Exercise 8.8</strong>: Profile the query that finds flights on a specific day using the specific relationship.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.1:  Load more airports into the graph. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this Cypher statement to load the Airport nodes from the CSV file</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_100k'  AS row
+UNWIND [row.Origin, row.Dest] AS airport
+WITH DISTINCT airport
+MERGE (:Airport {code: airport})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_LoadAirports.png" alt="Ex8_LoadAirports" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.2:  Load 100k flights into the graph. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute this Cypher statement to load the Flight nodes from the CSV file</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->USING PERIODIC COMMIT 10000
+LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_100k' AS row
+MATCH (origin:Airport {code: row.Origin})
+MATCH (destination:Airport {code: row.Dest})
+MERGE (newFlight:Flight { flightId: row.UniqueCarrier + row.FlightNum + '_' + row.Year + '-' + row.Month + '-' + row.DayofMonth + '_' + row.Origin + '_' + row.Dest }   )
+ON CREATE SET newFlight.date = toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth),
+              newFlight.airline = row.UniqueCarrier,
+              newFlight.number = row.FlightNum,
+              newFlight.departure = toInteger(row.CRSDepTime),
+              newFlight.arrival = toInteger(row.CRSArrTime)
+MERGE (origin)&lt;-[:ORIGINATES_FROM]-(newFlight)
+MERGE (newFlight)-[:LANDS_IN]-&gt;(destination)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_LoadFlights.png" alt="Ex8_LoadFlights" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.3:  Prepare the Flight nodes for batch processing. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Execute this code to add the <code>Process</code> label to all Flight nodes that will be processed for the batch refactoring:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (f:Flight)
+SET f:Process<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_PrepareFlights.png" alt="Ex8_PrepareFlights" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.4:  Refactor the graph to use AirportDay by batching commits. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is the code that you used previously to refactor the graph to use Airport day:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (origin:Airport)&lt;-[:ORIGINATES_FROM]-(flight:Flight)-
+       [:LANDS_IN]-&gt;(destination:Airport)
+MERGE (originAirportDay:AirportDay
+      {airportDayId: origin.code + '_' + flight.date})
+SET originAirportDay.date = flight.date
+MERGE (destinationAirportDay:AirportDay
+       {airportDayId: destination.code + '_' + flight.date})
+SET destinationAirportDay.date = flight.date
+MERGE (origin)-[:HAS_DAY]-&gt;(originAirportDay)
+MERGE (flight)-[:ORIGINATES_FROM]-&gt;(originAirportDay)
+MERGE (flight)-[:LANDS_IN]-&gt;(destinationAirportDay)
+MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Modify this code to batch process the Flight nodes in batches of 500 and execute the query.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Use apoc.periodic.commit().</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.4:  Refactor the graph to use AirportDay by batching commits. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify this code to batch process the Flight nodes in batches of 500 and execute the query.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.periodic.commit('
+MATCH (flight:Process)
+WITH flight LIMIT {limit}
+
+MATCH (origin:Airport)&lt;-[:ORIGINATES_FROM]-(flight)-[:LANDS_IN]-&gt;(destination:Airport)
+
+MERGE (originAirportDay:AirportDay {airportDayId: origin.code + "_" + flight.date})
+ON CREATE SET originAirportDay.date = flight.date
+
+MERGE (destinationAirportDay:AirportDay {airportDayId: destination.code + "_" + flight.date})
+ON CREATE SET destinationAirportDay.date = flight.date
+
+MERGE (origin)-[:HAS_DAY]-&gt;(originAirportDay)
+MERGE (originAirportDay)&lt;-[:ORIGINATES_FROM]-(flight)
+MERGE (flight)-[:LANDS_IN]-(destinationAirportDay)
+MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)
+
+REMOVE flight:Process
+RETURN COUNT(*)
+
+',{limit:500}
+)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_RefactorAirportDay.png" alt="Ex8_RefactorAirportDay" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.5:  Prepare the AirportDay nodes for batch processing. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Execute this code to add the <code>Process</code> label to all AirportDay nodes that will be processed for the batch refactoring:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (ad:AirportDay)
+SET ad:Process<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_PrepareAirportDays.png" alt="Ex8_PrepareAirportDays" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.6:  Refactor the graph to use specific by batching commits. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>To make the refactoring simpler, first delete all existing specific relationships by executing this Cypher statement:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (airport:Airport)-[r]-&gt;(:AirportDay)
+WHERE NOT TYPE(r) = 'HAS_DAY'
+DELETE r<!--/code--></pre>
+</div>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_DeleteSpecificRelationships.png" alt="Ex8_DeleteSpecificRelationships" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>Here is the code that you used previously to refactor the graph to use specific relationships:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (origin:Airport)-[hasDay:HAS_DAY]-&gt;(ad:AirportDay)
+CALL apoc.create.relationship(startNode(hasDay),
+                              'ON_' + ad.date,
+                              {},
+                              endNode(hasDay) ) YIELD rel
+RETURN COUNT(*)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Modify this code to batch process the AirportDay nodes in batches of 500 and execute the query.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Use apoc.periodic.commit().</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.6:  Refactor the graph to use specific by batching commits. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify this code to batch process the AirportDay nodes in batches of 500 and execute the query.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Use apoc.periodic.commit().</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.periodic.commit('
+  MATCH (ad:Process)
+  WITH ad LIMIT {limit}
+
+  MATCH (origin:Airport)-[hasDay:HAS_DAY]-&gt;(ad:AirportDay)
+  CALL apoc.create.relationship(startNode(hasDay), "ON_" + ad.date, {}, endNode(hasDay) ) YIELD rel
+
+  REMOVE ad:Process
+  RETURN COUNT(*)
+',{limit:500})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_RefactorSpecificRelationships.png" alt="Ex8_RefactorSpecificRelationships" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.7:  Profile the query that finds flights on a specific day using the general relationship. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Previously, we used this query to look for all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3).</p>
+</div>
+<div class="paragraph">
+<p><strong>Execute this query</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (origin:Airport {code: 'LAS'})-[:HAS_DAY]-&gt;(:AirportDay
+      {date: '2019-1-3'})&lt;-[:ORIGINATES_FROM]-(flight:Flight),
+      (flight)-[:LANDS_IN]-&gt;(:AirportDay
+      {date: '2019-1-3'})&lt;-[:HAS_DAY]-(destination:Airport {code: 'MDW'})
+RETURN origin, destination, flight<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_GeneralRelationshipsQuery.png" alt="Ex8_GeneralRelationshipsQuery" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>Previously on the graph with 10k Flights, this query had 1675 db hits.</p>
+</div>
+<div class="paragraph">
+<p>After loading 100k Flights, we see 2771 db hits.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.8:  Profile the query that finds flights on a specific day using the specific relationship. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Previously, we used this query to look for all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3).</p>
+</div>
+<div class="paragraph">
+<p><strong>Execute this query</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (origin:Airport {code: 'LAS'})-
+[:`ON_2019-1-3`]-&gt;(originDay:AirportDay),
+(originDay)&lt;-[:ORIGINATES_FROM]-(flight:Flight),
+(flight)-[:LANDS_IN]-&gt;(destinationDay),
+(destinationDay:AirportDay)&lt;-[:`ON_2019-1-3`]-
+(destination:Airport {code: 'MDW'})
+RETURN flight.date, flight.number, flight.airline,
+flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_SpecificRelationshipsQuery.png" alt="Ex8_SpecificRelationshipsQuery" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>Previously on the graph with 10k Flights, this query had 1578 db hits.</p>
+</div>
+<div class="paragraph">
+<p>After loading 100k Flights, we see 1578 db hits. So we see that using the specific relationship for a larger graph is a benefit.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7: Creating specific relationships  (Taking it further)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Rerun the previous two queries to see if the refactoring to specific relationships changed their performance:</p>
+</div>
+<div class="paragraph">
+<p>This query showed 100 db hits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (origin)&lt;-[:ORIGINATES_FROM]-(flight:Flight)-
+      [:LANDS_IN]-&gt;(destination)
+WHERE flight.airline = 'WN' AND
+      flight.number = '1016' RETURN origin, destination, flight<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This query showed 705 db hits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (f:Flight)
+WHERE f.flightId ENDS WITH 'LAS'
+RETURN f.flightId<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Refactoring large graphs  (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you loaded the graph with 100k flights.
+Then you used apoc.periodic.commit() to refactor the graph in batches of 500 where you added the AirportDay nodes and you added specific relationships.
+You reran the query that looked for flights on a specific day and found that using the specific relationship was faster than using the general relationship.</p>
+</div>
+<div class="paragraph">
+<p>Whenever you change the model and refactor the graph, you must profile your queries to ensure that the changes you have made to the graph will be beneficial.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/09.html'>Continue to Exercise 9
+-</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

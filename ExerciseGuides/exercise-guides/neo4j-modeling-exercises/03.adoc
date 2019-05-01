@@ -1,0 +1,209 @@
+= Exercise 3
+:icons: font
+
+== Exercise 3: Loading Airport data  (Preparations)
+
+Before you begin this exercise, make sure that you have created the three Airport nodes in the previous exercise.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/AfterExercise2.png[Empty_database,200,200, role=left]
+
+If your database does not have the same nodes and relationships, you can execute this Cypher statement to reset your graph to what it should be before you start this exercise.
+
+[source,cypher]
+----
+CALL apoc.cypher.runFile('https://r.neo4j.com/Modeling_AfterExercise2')
+----
+
+== Exercise 3: Loading Airport data (Overview)
+
+As part of our modeling workflow, we want to answer this initial question:
+
+As an air travel enthusiast, I want to know how airports are connected so that I can find the busiest ones
+
+In this exercise you will load Airport and flight data for 1000 flights. This will be the data that you use to begin the implementation of the graph model and the refactoring that will occur in the graph.
+This data is in CSV format with headers. Once you have loaded the data, you will explore the data.
+
+* *Exercise 3.1*: Preview the data.
+* *Exercise 3.2*: Load the Airport data.
+* *Exercise 3.3*: Find the airports with most outgoing connections.
+* *Exercise 3.4*: Find the airports with the most incoming connections.
+* *Exercise 3.5*: Find all the connections into Las Vegas (LAS).
+* *Exercise 3.6*: Find all the connections from Las Vegas (LAS) to Los Angeles (LAX).
+* *Exercise 3.7*: Find a specific connection.
+
+
+Go to the next page to start this exercise.
+
+== Exercise 3.1: Preview the data. (Instructions)
+
+Let's preview what the data we will be loading looks like.
+
+Run the following query to retrieve the first five rows of data to see what data we've got to work with:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_1k' AS row
+RETURN row
+LIMIT 5
+----
+
+This query:
+
+* Loads the file 'flights__2019_1k'
+* Iterates over the file, referring to each line as the variable *row*.
+* Returns the first 5 lines in the file.
+
+We've got lots of different fields but the ones that will be helpful for answering our question are:
+
+ * Origin
+ * Dest
+ * FlightNum
+
+== Exercise 3.2: Load the Airport data. (Instructions)
+
+Run the following query to create nodes and relationships for these connections:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_1k' AS row
+MERGE (origin:Airport {code: row.Origin})
+MERGE (destination:Airport {code: row.Dest})
+MERGE (origin)-[connection:CONNECTED_TO {
+  airline: row.UniqueCarrier,
+  flightNumber: row.FlightNum,
+  date: toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth)}]->(destination)
+ON CREATE SET connection.departure = toInteger(row.CRSDepTime), connection.arrival = toInteger(row.CRSArrTime)
+----
+
+This Cypher code:
+
+* Iterates through each row in the file.
+* Creates nodes with the `Airport` label for the origin and destination airports if they don't already exist.
+* creates a `CONNECTED_TO` relationship between origin and destination airports for each row in the file.
+
+By default properties will be stored as strings.
+We know that `year`, `month`, and `day` are actually numeric values so we'll coerce them using the `toInteger` function.
+
+== Exercise 3.3: Find the airports with the most outgoing connections. (Instructions)
+
+*Write a Cypher query that returns the top ten airports that have the most outgoing connections.*
+
+== Exercise 3.3: Find the airports with the most outgoing connections. (Solution)
+
+*Write a Cypher query that returns the top ten airports that have the most outgoing connections.*
+
+[source, cypher]
+----
+MATCH (a:Airport)-[:CONNECTED_TO]->()
+RETURN a.code, COUNT(*) AS outgoing
+ORDER BY outgoing DESC
+LIMIT 10
+----
+
+This query:
+
+* Finds every node with the `Airport` label.
+* Finds all outgoing `CONNECTED_TO` relationships.
+* Counts them up grouped by airport.
+* Returns the `Airport` nodes and the `outgoing` count in descending order by `outgoing`.
+* Limits the number of airports returned to 10.
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex3_PopularAirports.png[Ex3_PopularAirports,width=300]
+
+== Exercise 3.4: Find the airports with the most incoming connections. (Instructions)
+
+*Write a Cypher query that returns the top ten airports that have the most incoming connections.*
+
+== Exercise 3.4: Find the airports with the most incoming connections. (Solution)
+
+*Write a Cypher query that returns the top ten airports that have the most incoming connections.*
+
+[source, cypher]
+----
+MATCH (a:Airport)<-[:CONNECTED_TO]-()
+RETURN a.code, COUNT(*) AS incoming
+ORDER BY incoming DESC
+LIMIT 10
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex3_IncomingConnections.png[Ex3_IncomingConnections,width=300]
+
+
+== Exercise 3.5: Find all the connections into Las Vegas (LAS). (Instructions)
+
+*Write a Cypher query that returns all of the incoming connections to Las Vegas (LAS).*
+
+== Exercise 3.5: Find the airports with the most incoming connections. (Solution)
+
+*Write a Cypher query that returns all of the incoming connections to Las Vegas (LAS).*
+
+[source, cypher]
+----
+MATCH (origin:Airport)-[connection:CONNECTED_TO]->(destination:Airport)
+WHERE destination.code = 'LAS'
+RETURN origin, destination, connection
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex3_LASIncomingConnections.png[Ex3_LASIncomingConnections,width=300]
+
+== Exercise 3.6: Find all the connections from Las Vegas (LAS) to Los Angeles (LAX). (Instructions)
+
+*Write a Cypher query that returns all of the connections from Las Vegas (LAS) to Los Angeles (LAX).*
+
+== Exercise 3.6: Find all the connections from Las Vegas (LAS) to Los Angeles (LAX). (Solution)
+
+*Write a Cypher query that returns all of the connections from Las Vegas (LAS) to Los Angeles (LAX).*
+
+[source, cypher]
+----
+ MATCH (origin:Airport {code: 'LAS'})-[connection:CONNECTED_TO]->(destination:Airport {code: 'LAX'})
+ RETURN origin, destination, connection
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex3_LASToLAXConnections.png[Ex3_LASToLAXConnections,width=300]
+
+== Exercise 3.7: Find a specific flight. (Instructions)
+
+*Write a Cypher query that returns connection information about a particular flight where the airline is 'WN' and the flight number is '1016'*
+
+== Exercise 3.7: Find a specific flight. (Solution)
+
+*Write a Cypher query that returns connection information about a particular flight where the airline is 'WN' and the flight number is '1016'*
+
+[source, cypher]
+----
+MATCH  (origin:Airport)-[connection:CONNECTED_TO]->(destination:Airport)
+WHERE connection.airline = 'WN' AND connection.flightNumber = '1016'
+RETURN origin.code, destination.code, connection.date, connection.departure, connection.arrival
+----
+
+This query is reasonably quick because we only have 1,000 connections between airports, but under the covers we're actually doing a lot of unnecessary work.
+
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex3_WN1016.png[Ex3_WN1016,width=300]
+
+
+
+== Exercise 3: Loading Airport Data (Summary)
+
+In this exercise, you added more data to the graph representing more Airports and 1000 connections between them (flights).
+This graph is still small, but it has enough data that we can start to examine the performance of queries to determine if we can evolve the model (refactor) to yield better query performance.
+
+pass:a[<a play-topic='{guides}/04.html'>Continue to Exercise 4</a>]
