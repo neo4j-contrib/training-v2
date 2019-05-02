@@ -7,10 +7,9 @@ Before you begin this exercise, make sure that you have performed the refactorin
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise7.png[AfterExercise7,200,200, role=left]
+image::{guides}/img/AfterExercise7.png[AfterExercise7,width=150,role=left]
 
-If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
-
+*If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
@@ -21,7 +20,7 @@ include::scripts/AfterExercise_7.cypher[]
 
 As your graph gets larger and you profile the queries that are important to your use cases, you will find that the refactoring is not possible without the ability to batch the refactoring into chunks of processing.
 The APOC library has a number of procedures that are useful for refactoring a graph.
-The procedure that you use the process batches of work on a graph is apoc.periodic.commit().
+The procedure that you use to process batches of work on a graph is `apoc.periodic.commit()`.
 In this exercise, you will load 100K flights into the graph and use APOC to help  you refactor the graph.
 
 
@@ -29,13 +28,12 @@ Here are the tasks you will perform:
 
 * *Exercise 8.1*: Load more airports into the graph.
 * *Exercise 8.2*: Load 100K flights into the graph.
-* *Exercise 8.3*: Prepare the Flight nodes for batch processing.
-* *Exercise 8.4*: Refactor the graph to use AirportDay by batching commits.
-* *Exercise 8.5*: Prepare the AirportDay nodes for batch processing.
+* *Exercise 8.3*: Prepare the `Flight` nodes for batch processing.
+* *Exercise 8.4*: Refactor the graph to use `AirportDay` by batching commits.
+* *Exercise 8.5*: Prepare the `AirportDay` nodes for batch processing.
 * *Exercise 8.6*: Refactor the graph to use specific relationships by batching commits.
 * *Exercise 8.7*: Profile the query that finds flights on a specific day using the general relationship.
 * *Exercise 8.8*: Profile the query that finds flights on a specific day using the specific relationship.
-
 
 Go to the next page to start this exercise.
 
@@ -81,9 +79,9 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex8_LoadFlights.png[Ex8_LoadFlights,width=300]
 
-== Exercise 8.3:  Prepare the Flight nodes for batch processing. (Instructions)
+== Exercise 8.3:  Prepare the `Flight` nodes for batch processing. (Instructions)
 
-Execute this code to add the `Process` label to all Flight nodes that will be processed for the batch refactoring:
+*Execute this code to add the `Process` label to all `Flight` nodes that will be processed for the batch refactoring:*
 
 [source,cypher]
 ----
@@ -96,7 +94,7 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex8_PrepareFlights.png[Ex8_PrepareFlights,width=300]
 
-== Exercise 8.4:  Refactor the graph to use AirportDay by batching commits. (Instructions)
+== Exercise 8.4:  Refactor the graph to use `AirportDay` by batching commits. (Instructions)
 
 Here is the code that you used previously to refactor the graph to use Airport day:
 
@@ -116,13 +114,15 @@ MERGE (flight)-[:LANDS_IN]->(destinationAirportDay)
 MERGE (destination)-[:HAS_DAY]->(destinationAirportDay)
 ----
 
-*Modify this code to batch process the Flight nodes in batches of 500 and execute the query.*
+*Modify this code to batch process the `Flight` nodes in batches of 500 and execute the query.*
 
-*Hint*: Use apoc.periodic.commit().
+*Hint*: `Use apoc.periodic.commit()`.
 
-== Exercise 8.4:  Refactor the graph to use AirportDay by batching commits. (Solution)
+== Exercise 8.4:  Refactor the graph to use `AirportDay` by batching commits. (Solution)
 
-*Modify this code to batch process the Flight nodes in batches of 500 and execute the query.*
+*Modify this code to batch process the `Flight` nodes in batches of 500 and execute the query.*
+
+*Hint*: `Use apoc.periodic.commit()`.
 
 [source,cypher]
 ----
@@ -155,9 +155,9 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex8_RefactorAirportDay.png[Ex8_RefactorAirportDay,width=300]
 
-== Exercise 8.5:  Prepare the AirportDay nodes for batch processing. (Instructions)
+== Exercise 8.5:  Prepare the `AirportDay` nodes for batch processing. (Instructions)
 
-Execute this code to add the `Process` label to all AirportDay nodes that will be processed for the batch refactoring:
+*Execute this code to add the `Process` label to all `AirportDay` nodes that will be processed for the batch refactoring:*
 
 [source,cypher]
 ----
@@ -172,7 +172,7 @@ image::{guides}/img/Ex8_PrepareAirportDays.png[Ex8_PrepareAirportDays,width=300]
 
 == Exercise 8.6:  Refactor the graph to use specific by batching commits. (Instructions)
 
-To make the refactoring simpler, first delete all existing specific relationships by executing this Cypher statement:
+*To make the refactoring simpler, first delete all existing specific relationships by executing this Cypher statement:*
 
 [source,cypher]
 ----
@@ -180,6 +180,8 @@ MATCH (airport:Airport)-[r]->(:AirportDay)
 WHERE NOT TYPE(r) = 'HAS_DAY'
 DELETE r
 ----
+
+The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex8_DeleteSpecificRelationships.png[Ex8_DeleteSpecificRelationships,width=300]
@@ -196,15 +198,15 @@ CALL apoc.create.relationship(startNode(hasDay),
 RETURN COUNT(*)
 ----
 
-*Modify this code to batch process the AirportDay nodes in batches of 500 and execute the query.*
+*Modify this code to batch process the `AirportDay` nodes in batches of 500 and execute the query.*
 
-*Hint*: Use apoc.periodic.commit().
+*Hint*: Use `apoc.periodic.commit()`.
 
 == Exercise 8.6:  Refactor the graph to use specific by batching commits. (Solution)
 
-*Modify this code to batch process the AirportDay nodes in batches of 500 and execute the query.*
+*Modify this code to batch process the `AirportDay` nodes in batches of 500 and execute the query.*
 
-*Hint*: Use apoc.periodic.commit().
+*Hint*: Use `apoc.periodic.commit()`.
 
 [source,cypher]
 ----
@@ -243,11 +245,10 @@ RETURN origin, destination, flight
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex8_GeneralRelationshipsQuery.png[Ex8_GeneralRelationshipsQuery,width=300]
+image::{guides}/img/Ex8_GeneralRelationshipsQuery.png[Ex8_GeneralRelationshipsQuery,width=150]
 
-Previously on the graph with 10k Flights, this query had 1675 db hits.
-
-After loading 100k Flights, we see 2771 db hits.
+Previously on the graph with 10k flights, this query had 1813 db hits.
+After loading 100k Flights, we see 1863 db hits.
 
 == Exercise 8.8:  Profile the query that finds flights on a specific day using the specific relationship. (Instructions)
 
@@ -272,44 +273,18 @@ ORDER BY flight.date, flight.departure
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex8_SpecificRelationshipsQuery.png[Ex8_SpecificRelationshipsQuery,width=300]
+image::{guides}/img/Ex8_SpecificRelationshipsQuery.png[Ex8_SpecificRelationshipsQuery,width=150]
 
-Previously on the graph with 10k Flights, this query had 1578 db hits.
-
-After loading 100k Flights, we see 1578 db hits. So we see that using the specific relationship for a larger graph is a benefit.
-
-== Exercise 7: Creating specific relationships  (Taking it further)
-
-Rerun the previous two queries to see if the refactoring to specific relationships changed their performance:
-
-This query showed 100 db hits:
-
-[source,cypher]
-----
-PROFILE
-MATCH (origin)<-[:ORIGINATES_FROM]-(flight:Flight)-
-      [:LANDS_IN]->(destination)
-WHERE flight.airline = 'WN' AND
-      flight.number = '1016' RETURN origin, destination, flight
-----
-
-This query showed 705 db hits:
-
-[source,cypher]
-----
-PROFILE
-MATCH (f:Flight)
-WHERE f.flightId ENDS WITH 'LAS'
-RETURN f.flightId
-----
+Previously on the graph with 10k flights, this query had 1716 db hits.
+After loading 100k Flights, we see 1716 db hits again, probably due to the fact that we did not add any more flights on this date.
 
 == Exercise 8: Refactoring large graphs  (Summary)
 
 In this exercise, you loaded the graph with 100k flights.
-Then you used apoc.periodic.commit() to refactor the graph in batches of 500 where you added the AirportDay nodes and you added specific relationships.
+Then you used `apoc.periodic.commit()` to refactor the graph in batches of 500 where you added the `AirportDay` nodes and you added specific relationships.
 You reran the query that looked for flights on a specific day and found that using the specific relationship was faster than using the general relationship.
 
 Whenever you change the model and refactor the graph, you must profile your queries to ensure that the changes you have made to the graph will be beneficial.
 
-pass:a[<a play-topic='{guides}/09.html'>Continue to Exercise 9
--</a>]
+pass:a[<a play-topic='{guides}/09.html'>Continue to Exercise 9</a>]
+

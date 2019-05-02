@@ -1,34 +1,32 @@
 = Exercise 3
 :icons: font
 
-== Exercise 3: Loading Airport data  (Preparations)
+== Exercise 3: Loading airport data  (Preparations)
 
-Before you begin this exercise, make sure that you have created the three Airport nodes in the previous exercise.
+Before you begin this exercise, make sure that you have created the three `Airport` nodes in the previous exercise.
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise2.png[Empty_database,200,200, role=left]
+image::{guides}/img/AfterExercise2.png[Empty_database,width=150,role=left]
 
-If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
-
+*If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise:*
 
 [source,cypher]
 ----
 include::scripts/AfterExercise_2.cypher[]
 ----
 
-
-== Exercise 3: Loading Airport data (Overview)
+== Exercise 3: Loading airport data (Overview)
 
 As part of our modeling workflow, we want to answer this initial question:
 
 *As an air travel enthusiast, I want to know how airports are connected so that I can find the busiest ones.*
 
-In this exercise you will load Airport and flight data for 1000 flights. This will be the data that you use to begin the implementation of the graph model and the refactoring that will occur in the graph.
+In this exercise you will load airport and flight data for 1000 flights. This will be the data that you use to begin the implementation of the graph model and the refactoring that will occur in the graph.
 The data that you load is in CSV format with headers. Once you have loaded the data, you will explore the data.
 
 * *Exercise 3.1*: Preview the data.
-* *Exercise 3.2*: Load the Airport data.
+* *Exercise 3.2*: Load the airport data.
 * *Exercise 3.3*: Find the airports with most outgoing connections.
 * *Exercise 3.4*: Find the airports with the most incoming connections.
 * *Exercise 3.5*: Find all the connections into Las Vegas (LAS).
@@ -42,7 +40,7 @@ Go to the next page to start this exercise.
 
 Let's preview what the data we will be loading looks like.
 
-Run the following query to retrieve the first five rows of data to see what data we've got to work with:
+*Run the following query to retrieve the first five rows of data to see what data we've got to work with:*
 
 [source,cypher]
 ----
@@ -54,18 +52,18 @@ LIMIT 5
 This query:
 
 * Loads the file 'flights__2019_1k'
-* Iterates over the file, referring to each line as the variable *row*.
+* Iterates over the file, referring to each line as the variable `row`.
 * Returns the first 5 lines in the file.
 
-We've got lots of different fields but the ones that will be helpful for answering our question are:
+We have many different fields in this CSV file, but the ones that will be helpful for answering our question are:
 
  * Origin
  * Dest
  * FlightNum
 
-== Exercise 3.2: Load the Airport data. (Instructions)
+== Exercise 3.2: Load the airport data. (Instructions)
 
-Run the following query to create nodes and relationships for these connections:
+*Run the following query to create nodes and relationships for these connections:*
 
 [source,cypher]
 ----
@@ -138,7 +136,6 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex3_IncomingConnections.png[Ex3_IncomingConnections,width=300]
 
-
 == Exercise 3.5: Find all the connections into Las Vegas (LAS). (Instructions)
 
 *Write a Cypher query that returns all of the incoming connections to Las Vegas (LAS).*
@@ -193,19 +190,16 @@ WHERE connection.airline = 'WN' AND connection.flightNumber = '1016'
 RETURN origin.code, destination.code, connection.date, connection.departure, connection.arrival
 ----
 
-This query is reasonably quick because we only have 1,000 connections between airports, but under the covers we're actually doing a lot of unnecessary work.
-
+This query is reasonably fast because we only have 1,000 connections between airports, but under the covers we're actually doing a lot of unnecessary work.
 
 The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex3_WN1016.png[Ex3_WN1016,width=300]
 
+== Exercise 3: Loading airport Data (Summary)
 
-
-== Exercise 3: Loading Airport Data (Summary)
-
-In this exercise, you added more data to the graph representing more Airports and 1000 connections between them (flights).
+In this exercise, you added more data to the graph representing more airports and 1000 connections between them (flights).
 This graph is still small, but it has enough data that we can start to examine the performance of queries to determine if we can evolve the model (refactor) to yield better query performance.
 
 pass:a[<a play-topic='{guides}/04.html'>Continue to Exercise 4</a>]

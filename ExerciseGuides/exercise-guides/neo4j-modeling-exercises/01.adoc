@@ -7,16 +7,16 @@ The database you start with should contain no nodes or relationships.
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/Empty_database.png[Empty_database,200,200, role=left]
+image::{guides}/img/Empty_database.png[Empty_database,width=150,role=left]
 
-If your database is not empty, you can run the Cypher below to reset it:
+*If your database is not empty, you can run the Cypher below to reset it*:
 
 [source, cypher]
 ----
 MATCH (n) DETACH DELETE n
 ----
 
-Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below:
+*Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
 
 [source, cypher]
 ----
@@ -46,11 +46,12 @@ Go to the next page to start this exercise.
 
 == Exercise 1.1: Load the database with Person, Company, and Skill nodes (Instructions)
 
-*Execute this Cypher code to load the database for this model.*
+Here is the data model you will work with in this exercise:
 
 [.thumb]
-image::{guides}/img/FirstGraphModel-Ex1.png[FirstGraphModel-Ex1,width=300]
+image::{guides}/img/FirstGraphModel-Ex1.png[FirstGraphModel-Ex1,width=400]
 
+*Execute this Cypher code to load the database for this model*:
 
 [source, cypher]
 ----
@@ -177,9 +178,13 @@ image::{guides}/img/Ex1_PeopleWithIansSkill.png[Ex1_PeopleWithIansSkill,width=30
 
 *Write Cypher that updates Ian's skills to include Java, Python, REST, and Neo4j.*
 
+*Hint*: Use MERGE to avoid duplication of nodes and relationships.
+
 == Exercise 1.5: Modify Ian's skills.  (Solution)
 
 *Write Cypher that updates Ian's skills to include Java, Python, REST, and Neo4j.*
+
+*Hint*: Use MERGE to avoid duplication of nodes and relationships.
 
 You can use MERGE to update the nodes and relationships to reflect the skills for Ian as follows:
 
@@ -207,14 +212,10 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex1_ModifyIanSkills.png[Ex1_ModifyIanSkills,width=300]
 
+
 == Exercise 1.6: What are Ian's skills? (Instructions)
 
-*Write a query to display  Ian's skills.*
-
-
-== Exercise 1.6: What are Ian's skills? (Solution)
-
-*Write a query to display Ian's skills.*
+*Repeat the query to display Ian's skills.*
 
 [source, cypher]
 ----
@@ -229,14 +230,9 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex1_IanSkills2.png[Ex1_IanSkills2,width=300]
 
-== Exercise 1.7: What people in Ian's company have similar skill as Ian? (Instructions)
+== Exercise 1.7: What people in Ian's company have similar skill as Ian?  (Instructions)
 
-*Write a query to display people in Ian's company that have the same skills as Ian.*
-
-
-== Exercise 1.7: What people in Ian's company have similar skill as Ian?  (Solution)
-
-*Write a query to display people in Ian's company that have the same skills as Ian.*
+*Repeat the query to display people in Ian's company that have the same skills as Ian.*
 
 [source, cypher]
 ----
@@ -260,9 +256,10 @@ image::{guides}/img/Ex1_PeopleWithIansSkills2.png[Ex1_PeopleWithIansSkills2,widt
 == Exercise 1: Implementing your first model (Summary)
 
 
-In this exercise, you added Person, Skill, and Company nodes to a graph and added the relationships between the nodes.
+In this exercise, you added `Person`, `Skill`, and `Company` nodes to a graph and added the relationships between the nodes.
 This graph is a very simple model to review the basic process for implementing a model by creating or merging nodes and relationships.
 In the remaining exercises, you will start with a simple model and evolve it by refactoring the data in the graph.
+As you add data to a graph, you will most often use MERGE so that duplicate nodes and relationships are not created in the graph.
 
 
 pass:a[<a play-topic='{guides}/02.html'>Continue to Exercise 2</a>]

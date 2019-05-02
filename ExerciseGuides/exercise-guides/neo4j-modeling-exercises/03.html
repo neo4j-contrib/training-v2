@@ -50,26 +50,27 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 3: Loading Airport data  (Preparations)</h3>
+    <h3>Exercise 3: Loading airport data  (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Before you begin this exercise, make sure that you have created the three Airport nodes in the previous exercise.</p>
+<p>Before you begin this exercise, make sure that you have created the three <code>Airport</code> nodes in the previous exercise.</p>
 </div>
 <div class="paragraph">
 <p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise2.png" alt="Empty_database" width="200" height="200">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise2.png" alt="Empty_database" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</p>
+<p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
+CALL apoc.schema.assert({},{},true);
 CREATE
   (`0` :Airport {code:'LAS'}) ,
   (`1` :Airport {code:'LAX'}) ,
@@ -86,7 +87,7 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 3: Loading Airport data (Overview)</h3>
+    <h3>Exercise 3: Loading airport data (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -96,7 +97,7 @@ CREATE
 <p><strong>As an air travel enthusiast, I want to know how airports are connected so that I can find the busiest ones.</strong></p>
 </div>
 <div class="paragraph">
-<p>In this exercise you will load Airport and flight data for 1000 flights. This will be the data that you use to begin the implementation of the graph model and the refactoring that will occur in the graph.
+<p>In this exercise you will load airport and flight data for 1000 flights. This will be the data that you use to begin the implementation of the graph model and the refactoring that will occur in the graph.
 The data that you load is in CSV format with headers. Once you have loaded the data, you will explore the data.</p>
 </div>
 <div class="ulist">
@@ -105,7 +106,7 @@ The data that you load is in CSV format with headers. Once you have loaded the d
 <p><strong>Exercise 3.1</strong>: Preview the data.</p>
 </li>
 <li>
-<p><strong>Exercise 3.2</strong>: Load the Airport data.</p>
+<p><strong>Exercise 3.2</strong>: Load the airport data.</p>
 </li>
 <li>
 <p><strong>Exercise 3.3</strong>: Find the airports with most outgoing connections.</p>
@@ -142,7 +143,7 @@ The data that you load is in CSV format with headers. Once you have loaded the d
 <p>Let&#8217;s preview what the data we will be loading looks like.</p>
 </div>
 <div class="paragraph">
-<p>Run the following query to retrieve the first five rows of data to see what data we&#8217;ve got to work with:</p>
+<p><strong>Run the following query to retrieve the first five rows of data to see what data we&#8217;ve got to work with:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -160,7 +161,7 @@ LIMIT 5<!--/code--></pre>
 <p>Loads the file 'flights__2019_1k'</p>
 </li>
 <li>
-<p>Iterates over the file, referring to each line as the variable <strong>row</strong>.</p>
+<p>Iterates over the file, referring to each line as the variable <code>row</code>.</p>
 </li>
 <li>
 <p>Returns the first 5 lines in the file.</p>
@@ -168,7 +169,7 @@ LIMIT 5<!--/code--></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>We&#8217;ve got lots of different fields but the ones that will be helpful for answering our question are:</p>
+<p>We have many different fields in this CSV file, but the ones that will be helpful for answering our question are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -191,11 +192,11 @@ LIMIT 5<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 3.2: Load the Airport data. (Instructions)</h3>
+    <h3>Exercise 3.2: Load the airport data. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Run the following query to create nodes and relationships for these connections:</p>
+<p><strong>Run the following query to create nodes and relationships for these connections:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -460,7 +461,7 @@ RETURN origin.code, destination.code, connection.date, connection.departure, con
 </div>
 </div>
 <div class="paragraph">
-<p>This query is reasonably quick because we only have 1,000 connections between airports, but under the covers we&#8217;re actually doing a lot of unnecessary work.</p>
+<p>This query is reasonably fast because we only have 1,000 connections between airports, but under the covers we&#8217;re actually doing a lot of unnecessary work.</p>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
@@ -478,11 +479,11 @@ RETURN origin.code, destination.code, connection.date, connection.departure, con
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 3: Loading Airport Data (Summary)</h3>
+    <h3>Exercise 3: Loading airport Data (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you added more data to the graph representing more Airports and 1000 connections between them (flights).
+<p>In this exercise, you added more data to the graph representing more airports and 1000 connections between them (flights).
 This graph is still small, but it has enough data that we can start to examine the performance of queries to determine if we can evolve the model (refactor) to yield better query performance.</p>
 </div>
 <div class="paragraph">

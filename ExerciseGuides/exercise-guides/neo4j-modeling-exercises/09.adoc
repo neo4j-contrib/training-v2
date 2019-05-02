@@ -7,10 +7,9 @@ Before you begin this exercise, make sure that you have performed the loading an
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise8.png[AfterExercise8,200,200, role=left]
+image::{guides}/img/AfterExercise8.png[AfterExercise8,width=100,role=left]
 
-If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
-
+*If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
@@ -19,7 +18,7 @@ include::scripts/AfterExercise_8.cypher[]
 
 == Exercise 9: Maintaining models (Overview)
 
-In a real application, whether in development or in production, it is likely that in time, the requirements for the application may change.
+In a real application, whether in development or in production, it is likely that at some point in time, the requirements for the application change.
 As a developer, you must be prepared to refactor (possibly large) graphs and perhaps archive data in the graph that is no longer needed.
 In this exercise, you will perform a few tasks related to maintaining a graph.
 
@@ -50,9 +49,9 @@ ORDER BY flight.date, flight.departure
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex9_GeneralRelationships.png[Ex9_GeneralRelationships,width=300]
+image::{guides}/img/Ex9_GeneralRelationships.png[Ex9_GeneralRelationships,width=150]
 
-The query produces 47846 db hits.
+The query produces 47847 db hits.
 
 == Exercise 9.2:  Profile a query to find flights in January, 2019 using specific relationships. (Instructions)
 
@@ -100,7 +99,7 @@ ORDER BY flight.date, flight.departure
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex9_SpecificRelationships.png[Ex9_SpecificRelationships,width=300]
+image::{guides}/img/Ex9_SpecificRelationships.png[Ex9_SpecificRelationships,width=150]
 
 The query produces 47815 db hits. A small savings. In this case what Cypher code would you prefer to write?
 The general relationship is much easier to query so in this case, it pays to have both types of relationships in the model.
@@ -109,17 +108,17 @@ The general relationship is much easier to query so in this case, it pays to hav
 
 You want to add February, 2019 flight data to the graph.
 
-*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.
+*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.*
 
-The file containing the data is 'https://r.neo4j.com/flights_2019_february'*
+The file containing the data is *'https://r.neo4j.com/flights_2019_february'*
 
 == Exercise 9.3:  Add flight data. (Solution)
 
 You want to add February, 2019 flight data to the graph.
 
-*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.
+*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.*
 
-The file containing the data is 'https://r.neo4j.com/flights_2019_february'*
+The file containing the data is *'https://r.neo4j.com/flights_2019_february'*
 
 [source,cypher]
 ----
@@ -189,20 +188,20 @@ image::{guides}/img/Ex9_QueryFebFlights.png[Ex9_QueryFebFlights,width=300]
 
 == Exercise 9.5:  Archive flight data. (Instructions)
 
-At some point during your development or production lifecycle, you will want to archive data, especially if the graph is growing large and older data is not required by users.
+At some point during your application lifecycle, you will want to archive data, especially if the graph is growing large and older data is not required by users.
 
-*Write and execute Cypher to:
+*Write and execute Cypher to:*
 
- 1. Export flights with the date of '2019-1-1'.
- 2. Delete these flights from the graph*
+*1. Export flights with the date of '2019-1-1'.*
+*2. Delete these flights from the graph.*
 
-*Note*: If you are using a Neo4j sandbox, you will not be able to write the data to a file in the Sandbox.
+*Note*: If you are using a Neo4j Sandbox, you will not be able to write the data to a file in the Sandbox so you can skip this part of the exercise.
 
 == Exercise 9.5:  Archive flight data. (Solution)
 
-*Write and execute Cypher to:
+*Write and execute Cypher to:*
 
- 1. Export flights with the date of '2019-1-1'.*
+*1. Export flights with the date of '2019-1-1'.*
 
 [source,cypher]
 ----
@@ -220,7 +219,7 @@ And here is what the flights.csv file looks like:
 [.thumb]
 image::{guides}/img/Ex9_flights.csv.png[Ex9_flights.csv,width=300]
 
- *2. Delete these flights from the graph*
+*2. Delete these flights from the graph*
 
 [source,cypher]
 ----
@@ -242,15 +241,15 @@ If you have time, you can evolve the model further.
 
 Here are a couple of files that contain additional data:
 
-https://r.neo4j.com/Modeling_Airports
+*https://r.neo4j.com/Modeling_Airports*
 
-https://r.neo4j.com/Modeling_Aircraft
+*https://r.neo4j.com/Modeling_Aircraft*
 
 You can:
 
-* Add additional airport data from Modeling_Airports and integrate it into the model.
+* Add additional airport data from *Modeling_Airports* and integrate it into the model.
 * Add additional properties to the graph such as flight delays and cancellations from the existing CSV files.
-* Add Modeling_Aircraft data to the graph.
+* Add *Modeling_Aircraft* data to the graph.
 
 Whatever data you choose to work with, try and think of some questions that you want to answer before you import the data and refactor the model.
 
@@ -260,3 +259,4 @@ Whatever data you choose to work with, try and think of some questions that you 
 In this exercise, you performed more queries that contrast the use of general and specific relationships.
 You also added flight data to the graph for a new day as well as archived and deleted flight data from the graph.
 
+Congratulations! You have completed the exercises for this course.

@@ -7,9 +7,9 @@ Before you begin this exercise, make sure that you have performed the refactorin
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise6.png[AfterExercise6,200,200, role=left]
+image::{guides}/img/AfterExercise6.png[AfterExercise6,width=150,role=left]
 
-If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
+*If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
@@ -22,17 +22,16 @@ Neo4j is optimized for searching by unique relationship types and in this case t
 
 You will refactor the model to change the `HAS_DAY` relationship to be the date of the flight instead, for example `ON_2019-1-3`.
 
-
 Here are the tasks you will perform:
 
 * *Exercise 7.1*: Refactor the graph to change all `HAS_DAY` relationships to specific day relationships.
-* *Exercise 7.2*: Rewrite and profile the previous query that finds all flights from airport to another on a given day.
+* *Exercise 7.2*: Rewrite and profile the previous query that finds all flights from an airport to another on a given day.
 
 Go to the next page to start this exercise.
 
 == Exercise 7.1:  Refactor the graph to change all `HAS_DAY` relationships to specific day relationships. (Instructions)
 
-Rather than having the `HAS_DAY` relationship from Airport nodes to AirportDay nodes, we want a specific relationship that will be `ON_yyyy-d-m`.
+Rather than having the `HAS_DAY` relationship from `Airport` nodes to `AirportDay` nodes, we want a specific relationship that will be `ON_yyyy-dd-mm`.
 The revised model is:
 
 image::{guides}/img/Ex7_Model.png[Ex7_Model,200,200, role=left]
@@ -62,7 +61,7 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex7_AddSpecificRelationships.png[Ex7_AddSpecificRelationships,width=300]
 
-== Exercise 7.2:  Rewrite and profile the previous query that finds all flights from airport to another on a given day. (Instructions)
+== Exercise 7.2:  Rewrite and profile the previous query that finds all flights from an airport to another on a given day. (Instructions)
 
 Previously, we used this query to look for all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3).
 
@@ -98,17 +97,17 @@ ORDER BY flight.date, flight.departure
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex7_FindFlightsJan3.png[Ex7_FindFlightsJan3,width=300]
+image::{guides}/img/Ex7_FindFlightsJan3.png[Ex7_FindFlightsJan3,width=150]
 
-The previous query before this refactoring yielded 1675 db hits.
-After this refactoring and rewriting the query, we see 1578 db hits, a slight improvement.
+The previous query before this refactoring yielded 1813 db hits.
+After this refactoring and rewriting the query, we see 1716 db hits, a slight improvement.
 If the graph had more data, we would probably see a difference in the performance after the last refactoring.
 
 == Exercise 7: Creating specific relationships  (Taking it further)
 
 Rerun the previous two queries to see if the refactoring to specific relationships changed their performance:
 
-This query showed 100 db hits:
+Previously, this query showed 100 db hits:
 
 [source,cypher]
 ----
@@ -119,7 +118,7 @@ WHERE flight.airline = 'WN' AND
       flight.number = '1016' RETURN origin, destination, flight
 ----
 
-This query showed 705 db hits:
+Previously, this query showed 1408 db hits:
 
 [source,cypher]
 ----
@@ -131,11 +130,11 @@ RETURN f.flightId
 
 == Exercise 7: Creating specific relationships  (Summary)
 
-In this exercise, you refactored the HAS_DAY relationship between the Airport and the AirportDay is now a specific date relationship.
+In this exercise, you refactored the `HAS_DAY` relationship between the `Airport` and the `AirportDay` to be a specific date relationship.
 For the existing graph with 10K flight nodes, this change did not make a significant difference.
 If the graph had more data, we would probably see an improvement.
 
 In the next exercise, you will load even more data in to the graph.
 
-pass:a[<a play-topic='{guides}/08.html'>Continue to Exercise 8
--</a>]
+pass:a[<a play-topic='{guides}/08.html'>Continue to Exercise 8</a>]
+

@@ -1,4 +1,5 @@
 MATCH (n) DETACH DELETE n;
+CALL apoc.schema.assert({},{},true);
 CREATE 
   (`0` :Airport {code:'LAS'}) ,
   (`1` :Airport {code:'LAX'}) ,

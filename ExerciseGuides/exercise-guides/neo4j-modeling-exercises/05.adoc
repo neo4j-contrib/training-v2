@@ -1,46 +1,45 @@
 = Exercise 5
 :icons: font
 
-== Exercise 5: Creating the Flight node from the CONNECTED_TO relationships  (Preparations)
+== Exercise 5: Creating the `Flight` node from the `CONNECTED_TO` relationships  (Preparations)
 
-Before you begin this exercise, make sure that you have loaded the flights_2019_1k data in Exercise 3.
+Before you begin this exercise, make sure that you have loaded the *flights_2019_1k* data in Exercise 3.
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise3.png[Empty_database,200,200, role=left]
+image::{guides}/img/AfterExercise3.png[AfterExercise3,width=150,role=left]
 
-If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
+*If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
 include::scripts/AfterExercise_3.cypher[]
 ----
 
-== Exercise 5: Creating the Flight node from the CONNECTED_TO relationships (Overview)
+== Exercise 5: Creating the `Flight` node from the `CONNECTED_TO` relationships (Overview)
 
 You have seen from profiling a few queries that the current model needs refactoring.
 You will refactor the current graph to fit the new model and then you will profile the queries again.
 
 Here are the tasks you will perform:
 
-
-* *Exercise 5.1*: Add an index to the Airport code property.
-* *Exercise 5.2*: Add a unique constraint to the Flight flightId property.
-* *Exercise 5.3*: Add an index to the Flight number property.
-* *Exercise 5.4*: Refactor the graph to create Flight nodes from the CONNECTED_TO relationships.
+* *Exercise 5.1*: Add an index to the `Airport.code` property.
+* *Exercise 5.2*: Add a unique constraint to the `Flight.flightId` property.
+* *Exercise 5.3*: Add an index to the `Flight.number` property.
+* *Exercise 5.4*: Refactor the graph to create `Flight` nodes from the `CONNECTED_TO` relationships.
 * *Exercise 5.5*: Profile our first query that finds all flights that land in Las Vegas.
 * *Exercise 5.6*: Profile our second query that finds all flights for airline 'WN' with flight number '1016'.
-* *Exercise 5.7*: Delete the CONNECTED_TO relationship from the graph.
+* *Exercise 5.7*: Delete the `CONNECTED_TO` relationship from the graph.
 
 Go to the next page to start this exercise.
 
-== Exercise 5.1:  Add an index to the Airport code property. (Instructions)
+== Exercise 5.1:  Add an index to the `Airport.code` property. (Instructions)
 
 *Execute the Cypher statement to add an index to the Airport nodes based upon the code property.*
 
-== Exercise 5.1:  Add an index to the Airport code property. (Solution)
+== Exercise 5.1:  Add an index to the `Airport.code` property. (Solution)
 
-*Execute the Cypher statement to add an index to the Airport nodes based upon the code property.*
+*Execute the Cypher statement to add an index to the `Airport` nodes based upon the code property.*
 
 [source,cypher]
 ----
@@ -53,21 +52,21 @@ The result returned should be:
 image::{guides}/img/Ex5_AirportCodeIndex.png[Ex5_AirportCodeIndex,width=300]
 
 
-== Exercise 5.2:  Add a unique constraint to the Flight flightId property. (Instructions)
+== Exercise 5.2:  Add a unique constraint to the `Flight.flightId` property. (Instructions)
 
-You will be creating nodes of type Flight.
-One of the properties you will adding to a Flight node is an ID that makes each Flight node unique.
-The name of this property will be flightId.
+You will be creating nodes of type `Flight`.
+One of the properties you will adding to a `Flight` node is an ID that makes each `Flight` node unique.
+The name of this property will be `flightId`.
 
-*Execute the Cypher statement to add a unique constraint to the Flight nodes based upon the flightId property.*
+*Execute the Cypher statement to add a unique constraint to the `Flight` nodes based upon the `flightId` property.*
 
-== Exercise 5.2:  Add a unique constraint to the Flight flightId property. (Solution)
+== Exercise 5.2:  Add a unique constraint to the `Flight.flightId` property. (Solution)
 
-You will be creating nodes of type Flight.
-One of the properties you will adding to a Flight node is an ID that makes each Flight node unique.
-The name of this property will be flightId.
+You will be creating nodes of type `Flight`.
+One of the properties you will adding to a `Flight` node is an ID that makes each `Flight` node unique.
+The name of this property will be `flightId`.
 
-*Execute the Cypher statement to add a unique constraint to the Flight nodes based upon the flightId property.*
+*Execute the Cypher statement to add a unique constraint to the `Flight` nodes based upon the `flightId` property.*
 
 [source,cypher]
 ----
@@ -81,13 +80,13 @@ The result returned should be:
 image::{guides}/img/Ex5_FlightIdConstraint.png[Ex5_FlightIdConstraint,width=300]
 
 
-== Exercise 5.3:  Add an index to the Flight number property. (Instructions)
+== Exercise 5.3:  Add an index to the `Flight.number` property. (Instructions)
 
-*Execute the Cypher statement to add an index to the Flight nodes based upon the number property.*
+*Execute the Cypher statement to add an index to the `Flight` nodes based upon the `number` property.*
 
-== Exercise 5.3:  Add an index to the Flight number property. (Solution)
+== Exercise 5.3:  Add an index to the `Flight.number` property. (Solution)
 
-*Execute the Cypher statement to add an index to the Flight nodes based upon the number property.*
+*Execute the Cypher statement to add an index to the `Flight` nodes based upon the `number` property.*
 
 [source,cypher]
 ----
@@ -102,29 +101,29 @@ image::{guides}/img/Ex5_FlightNumberIndex.png[Ex5_FlightNumberIndex,width=300]
 
 == Exercise 5.4:  Refactor the graph to create Flight nodes from the CONNECTED_TO relationships. (Instructions)
 
-Flight nodes will be created from existing CONNECTED_TO relationships where you must keep track of the origin Airport and the destination Airport.
-That is (origin:Airport)-[CONNECTED_TO]->(destination:Airport).
-The properties for the Flight nodes will be set as follows:
+`Flight` nodes will be created from existing `CONNECTED_TO` relationships where you must keep track of the origin airport and the destination airport.
+For example: `(origin:Airport)-[CONNECTED_TO]->(destination:Airport)`.
+The properties for the `Flight` nodes will be set as follows:
 
-* flightId: connection.airline +  connection.flightNumber +  '_' + connection.date +  '_' + origin.code + '_' + destination.code
-* date: connection.date
-* airline: connection.airline
-* number: connection.flightNumber
-* departure: connection.departure
-* arrival: connection.arrival
+* `flightId:` connection.airline +  connection.flightNumber +  `'_'` + connection.date +  `'_'` + origin.code + `'_'` + destination.code
+* `date`: connection.date
+* `airline`: connection.airline
+* `number`: connection.flightNumber
+* `departure`: connection.departure
+* `arrival`: connection.arrival
 
-In addition, the new relationships between Flight and Airport nodes will be ORIGINATES_FROM and LANDS_IN
+In addition, the new relationships between `Flight` and `Airport` nodes will be `ORIGINATES_FROM` and `LANDS_IN`.
 
 Here is the model  you will refactor to:
 
 [.thumb]
-image::{guides}/img/Ex5_Model.png[Ex5_Model,width=300]
+image::{guides}/img/Ex5_Model.png[Ex5_Model,width=500]
 
-*Execute the Cypher statement to go through all CONNECTED_TO relationships to create the Flight nodes.*
+*Execute the Cypher statement traverse all `CONNECTED_TO` relationships to create the `Flight` nodes.*
 
-== Exercise 5.4:  Refactor the graph to create Flight nodes from the CONNECTED_TO relationships. (Solution)
+== Exercise 5.4:  Refactor the graph to create `Flight` nodes from the `CONNECTED_TO` relationships. (Solution)
 
-*Execute the Cypher statement to go through all CONNECTED_TO relationships to create the Flight nodes.*
+*Execute the Cypher statement traverse all `CONNECTED_TO` relationships to create the `Flight` nodes.*
 
 [source,cypher]
 ----
@@ -175,9 +174,9 @@ RETURN f.flightId
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex5_Profile1.png[Ex5_Profile1,width=300]
+image::{guides}/img/Ex5_Profile1.png[Ex5_Profile1,width=150]
 
-The original query had 222 db hits. The revised query with the refactored model is better with 50 db hits.
+The original query had 222 db hits. The revised query with the refactored model is better with 98 db hits.
 
 == Exercise 5.6:  Profile our second query that finds all flights for airline 'WN' with flight number '1016'. (Instructions)
 
@@ -209,17 +208,17 @@ WHERE flight.airline = 'WN' AND
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex5_Profile2.png[Ex5_Profile2,width=300]
+image::{guides}/img/Ex5_Profile2.png[Ex5_Profile2,width=150]
 
 The original query had 2146 db hits. The revised query with the refactored model is better with 19 db hits.
 
-== Exercise 5.7:  Delete the CONNECTED_TO relationship from the graph. (Instructions)
+== Exercise 5.7:  Delete the `CONNECTED_TO` relationship from the graph. (Instructions)
 
-*Execute the Cypher statement to remove the CONNECTED_TO relationships from the graph.*
+*Execute the Cypher statement to remove the `CONNECTED_TO` relationships from the graph.*
 
-== Exercise 5.7:  Delete the CONNECTED_TO relationship from the graph. (Solution)
+== Exercise 5.7:  Delete the `CONNECTED_TO` relationship from the graph. (Solution)
 
-*Execute the Cypher statement to remove the CONNECTED_TO relationships from the graph.*
+*Execute the Cypher statement to remove the `CONNECTED_TO` relationships from the graph.*
 
 
 [source,cypher]
@@ -234,12 +233,13 @@ The result returned should be:
 image::{guides}/img/Ex5_DeleteRelationships.png[Ex5_DeleteRelationships,width=300]
 
 
-== Exercise 5: Creating the Flight node from the CONNECTED_TO relationships  (Summary)
+== Exercise 5: Creating the `Flight` node from the `CONNECTED_TO` relationships  (Summary)
 
 In this exercise, you refactored the nodes and relationships in the graph for a  model and implementation that performs better.
-You added indexes and constraints and created Flight nodes from the CONNECTED_TO relationship.
-You also added the ORIGINATES_FROM and LANDS_IN relationships between Flight nodes and Airport nodes.
-Finally, you deleted the CONNECTED_TO relationship.
+You added indexes and constraints and created `Flight` nodes from the `CONNECTED_TO` relationships.
+You also added the `ORIGINATES_FROM` and `LANDS_IN` relationships between `Flight` nodes and `Airport` nodes.
 You profiled queries to confirm that the refactoring improved query performance.
+Finally, you deleted the `CONNECTED_TO` relationship.
+
 
 pass:a[<a play-topic='{guides}/06.html'>Continue to Exercise 6</a>]

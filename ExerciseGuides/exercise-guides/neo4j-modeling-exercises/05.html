@@ -50,26 +50,27 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5: Creating the Flight node from the CONNECTED_TO relationships  (Preparations)</h3>
+    <h3>Exercise 5: Creating the <code>Flight</code> node from the <code>CONNECTED_TO</code> relationships  (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Before you begin this exercise, make sure that you have loaded the flights_2019_1k data in Exercise 3.</p>
+<p>Before you begin this exercise, make sure that you have loaded the <strong>flights_2019_1k</strong> data in Exercise 3.</p>
 </div>
 <div class="paragraph">
 <p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise3.png" alt="Empty_database" width="200" height="200">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise3.png" alt="AfterExercise3" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</p>
+<p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
+CALL apoc.schema.assert({},{},true);
 CREATE
   (`0` :Airport {code:'LAS'}) ,
   (`1` :Airport {code:'LAX'}) ,
@@ -94,7 +95,7 @@ ON CREATE SET connection.departure = toInteger(row.CRSDepTime), connection.arriv
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5: Creating the Flight node from the CONNECTED_TO relationships (Overview)</h3>
+    <h3>Exercise 5: Creating the <code>Flight</code> node from the <code>CONNECTED_TO</code> relationships (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -107,16 +108,16 @@ You will refactor the current graph to fit the new model and then you will profi
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 5.1</strong>: Add an index to the Airport code property.</p>
+<p><strong>Exercise 5.1</strong>: Add an index to the <code>Airport.code</code> property.</p>
 </li>
 <li>
-<p><strong>Exercise 5.2</strong>: Add a unique constraint to the Flight flightId property.</p>
+<p><strong>Exercise 5.2</strong>: Add a unique constraint to the <code>Flight.flightId</code> property.</p>
 </li>
 <li>
-<p><strong>Exercise 5.3</strong>: Add an index to the Flight number property.</p>
+<p><strong>Exercise 5.3</strong>: Add an index to the <code>Flight.number</code> property.</p>
 </li>
 <li>
-<p><strong>Exercise 5.4</strong>: Refactor the graph to create Flight nodes from the CONNECTED_TO relationships.</p>
+<p><strong>Exercise 5.4</strong>: Refactor the graph to create <code>Flight</code> nodes from the <code>CONNECTED_TO</code> relationships.</p>
 </li>
 <li>
 <p><strong>Exercise 5.5</strong>: Profile our first query that finds all flights that land in Las Vegas.</p>
@@ -125,7 +126,7 @@ You will refactor the current graph to fit the new model and then you will profi
 <p><strong>Exercise 5.6</strong>: Profile our second query that finds all flights for airline 'WN' with flight number '1016'.</p>
 </li>
 <li>
-<p><strong>Exercise 5.7</strong>: Delete the CONNECTED_TO relationship from the graph.</p>
+<p><strong>Exercise 5.7</strong>: Delete the <code>CONNECTED_TO</code> relationship from the graph.</p>
 </li>
 </ul>
 </div>
@@ -140,7 +141,7 @@ You will refactor the current graph to fit the new model and then you will profi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.1:  Add an index to the Airport code property. (Instructions)</h3>
+    <h3>Exercise 5.1:  Add an index to the <code>Airport.code</code> property. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -154,11 +155,11 @@ You will refactor the current graph to fit the new model and then you will profi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.1:  Add an index to the Airport code property. (Solution)</h3>
+    <h3>Exercise 5.1:  Add an index to the <code>Airport.code</code> property. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute the Cypher statement to add an index to the Airport nodes based upon the code property.</strong></p>
+<p><strong>Execute the Cypher statement to add an index to the <code>Airport</code> nodes based upon the code property.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -181,16 +182,16 @@ You will refactor the current graph to fit the new model and then you will profi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.2:  Add a unique constraint to the Flight flightId property. (Instructions)</h3>
+    <h3>Exercise 5.2:  Add a unique constraint to the <code>Flight.flightId</code> property. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>You will be creating nodes of type Flight.
-One of the properties you will adding to a Flight node is an ID that makes each Flight node unique.
-The name of this property will be flightId.</p>
+<p>You will be creating nodes of type <code>Flight</code>.
+One of the properties you will adding to a <code>Flight</code> node is an ID that makes each <code>Flight</code> node unique.
+The name of this property will be <code>flightId</code>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Execute the Cypher statement to add a unique constraint to the Flight nodes based upon the flightId property.</strong></p>
+<p><strong>Execute the Cypher statement to add a unique constraint to the <code>Flight</code> nodes based upon the <code>flightId</code> property.</strong></p>
 </div>
 	</div>
   </div>
@@ -200,16 +201,16 @@ The name of this property will be flightId.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.2:  Add a unique constraint to the Flight flightId property. (Solution)</h3>
+    <h3>Exercise 5.2:  Add a unique constraint to the <code>Flight.flightId</code> property. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>You will be creating nodes of type Flight.
-One of the properties you will adding to a Flight node is an ID that makes each Flight node unique.
-The name of this property will be flightId.</p>
+<p>You will be creating nodes of type <code>Flight</code>.
+One of the properties you will adding to a <code>Flight</code> node is an ID that makes each <code>Flight</code> node unique.
+The name of this property will be <code>flightId</code>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Execute the Cypher statement to add a unique constraint to the Flight nodes based upon the flightId property.</strong></p>
+<p><strong>Execute the Cypher statement to add a unique constraint to the <code>Flight</code> nodes based upon the <code>flightId</code> property.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -233,11 +234,11 @@ ASSERT f.flightId IS UNIQUE<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.3:  Add an index to the Flight number property. (Instructions)</h3>
+    <h3>Exercise 5.3:  Add an index to the <code>Flight.number</code> property. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute the Cypher statement to add an index to the Flight nodes based upon the number property.</strong></p>
+<p><strong>Execute the Cypher statement to add an index to the <code>Flight</code> nodes based upon the <code>number</code> property.</strong></p>
 </div>
 	</div>
   </div>
@@ -247,11 +248,11 @@ ASSERT f.flightId IS UNIQUE<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.3:  Add an index to the Flight number property. (Solution)</h3>
+    <h3>Exercise 5.3:  Add an index to the <code>Flight.number</code> property. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute the Cypher statement to add an index to the Flight nodes based upon the number property.</strong></p>
+<p><strong>Execute the Cypher statement to add an index to the <code>Flight</code> nodes based upon the <code>number</code> property.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -278,45 +279,45 @@ ASSERT f.flightId IS UNIQUE<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>Flight nodes will be created from existing CONNECTED_TO relationships where you must keep track of the origin Airport and the destination Airport.
-That is (origin:Airport)-[CONNECTED_TO]&#8594;(destination:Airport).
-The properties for the Flight nodes will be set as follows:</p>
+<p><code>Flight</code> nodes will be created from existing <code>CONNECTED_TO</code> relationships where you must keep track of the origin airport and the destination airport.
+For example: <code>(origin:Airport)-[CONNECTED_TO]&#8594;(destination:Airport)</code>.
+The properties for the <code>Flight</code> nodes will be set as follows:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>flightId: connection.airline +  connection.flightNumber +  '<em>' + connection.date +  '</em>' + origin.code + '_' + destination.code</p>
+<p><code>flightId:</code> connection.airline +  connection.flightNumber +  <code>'<em>'</code> + connection.date +  <code>'</em>'</code> + origin.code + <code>'_'</code> + destination.code</p>
 </li>
 <li>
-<p>date: connection.date</p>
+<p><code>date</code>: connection.date</p>
 </li>
 <li>
-<p>airline: connection.airline</p>
+<p><code>airline</code>: connection.airline</p>
 </li>
 <li>
-<p>number: connection.flightNumber</p>
+<p><code>number</code>: connection.flightNumber</p>
 </li>
 <li>
-<p>departure: connection.departure</p>
+<p><code>departure</code>: connection.departure</p>
 </li>
 <li>
-<p>arrival: connection.arrival</p>
+<p><code>arrival</code>: connection.arrival</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>In addition, the new relationships between Flight and Airport nodes will be ORIGINATES_FROM and LANDS_IN</p>
+<p>In addition, the new relationships between <code>Flight</code> and <code>Airport</code> nodes will be <code>ORIGINATES_FROM</code> and <code>LANDS_IN</code>.</p>
 </div>
 <div class="paragraph">
 <p>Here is the model  you will refactor to:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Model.png" alt="Ex5_Model" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Model.png" alt="Ex5_Model" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Execute the Cypher statement to go through all CONNECTED_TO relationships to create the Flight nodes.</strong></p>
+<p><strong>Execute the Cypher statement traverse all <code>CONNECTED_TO</code> relationships to create the <code>Flight</code> nodes.</strong></p>
 </div>
 	</div>
   </div>
@@ -326,11 +327,11 @@ The properties for the Flight nodes will be set as follows:</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.4:  Refactor the graph to create Flight nodes from the CONNECTED_TO relationships. (Solution)</h3>
+    <h3>Exercise 5.4:  Refactor the graph to create <code>Flight</code> nodes from the <code>CONNECTED_TO</code> relationships. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute the Cypher statement to go through all CONNECTED_TO relationships to create the Flight nodes.</strong></p>
+<p><strong>Execute the Cypher statement traverse all <code>CONNECTED_TO</code> relationships to create the <code>Flight</code> nodes.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -407,11 +408,11 @@ RETURN f.flightId<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Profile1.png" alt="Ex5_Profile1" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Profile1.png" alt="Ex5_Profile1" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>The original query had 222 db hits. The revised query with the refactored model is better with 50 db hits.</p>
+<p>The original query had 222 db hits. The revised query with the refactored model is better with 98 db hits.</p>
 </div>
 	</div>
   </div>
@@ -466,7 +467,7 @@ WHERE flight.airline = 'WN' AND
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Profile2.png" alt="Ex5_Profile2" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex5_Profile2.png" alt="Ex5_Profile2" width="150">
 </div>
 </div>
 <div class="paragraph">
@@ -480,11 +481,11 @@ WHERE flight.airline = 'WN' AND
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.7:  Delete the CONNECTED_TO relationship from the graph. (Instructions)</h3>
+    <h3>Exercise 5.7:  Delete the <code>CONNECTED_TO</code> relationship from the graph. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute the Cypher statement to remove the CONNECTED_TO relationships from the graph.</strong></p>
+<p><strong>Execute the Cypher statement to remove the <code>CONNECTED_TO</code> relationships from the graph.</strong></p>
 </div>
 	</div>
   </div>
@@ -494,11 +495,11 @@ WHERE flight.airline = 'WN' AND
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.7:  Delete the CONNECTED_TO relationship from the graph. (Solution)</h3>
+    <h3>Exercise 5.7:  Delete the <code>CONNECTED_TO</code> relationship from the graph. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute the Cypher statement to remove the CONNECTED_TO relationships from the graph.</strong></p>
+<p><strong>Execute the Cypher statement to remove the <code>CONNECTED_TO</code> relationships from the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -522,15 +523,15 @@ DELETE connection<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5: Creating the Flight node from the CONNECTED_TO relationships  (Summary)</h3>
+    <h3>Exercise 5: Creating the <code>Flight</code> node from the <code>CONNECTED_TO</code> relationships  (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>In this exercise, you refactored the nodes and relationships in the graph for a  model and implementation that performs better.
-You added indexes and constraints and created Flight nodes from the CONNECTED_TO relationship.
-You also added the ORIGINATES_FROM and LANDS_IN relationships between Flight nodes and Airport nodes.
-Finally, you deleted the CONNECTED_TO relationship.
-You profiled queries to confirm that the refactoring improved query performance.</p>
+You added indexes and constraints and created <code>Flight</code> nodes from the <code>CONNECTED_TO</code> relationships.
+You also added the <code>ORIGINATES_FROM</code> and <code>LANDS_IN</code> relationships between <code>Flight</code> nodes and <code>Airport</code> nodes.
+You profiled queries to confirm that the refactoring improved query performance.
+Finally, you deleted the <code>CONNECTED_TO</code> relationship.</p>
 </div>
 <div class="paragraph">
 <p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/06.html'>Continue to Exercise 6</a></p>

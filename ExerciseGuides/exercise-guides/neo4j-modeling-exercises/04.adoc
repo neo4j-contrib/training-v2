@@ -3,13 +3,13 @@
 
 == Exercise 4: Profiling queries  (Preparations)
 
-Before you begin this exercise, make sure that you have loaded the flights_2019_1k data in the previous exercise.
+Before you begin this exercise, make sure that you have loaded the *flights_2019_1k* data in the previous exercise.
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise3.png[Empty_database,200,200, role=left]
+image::{guides}/img/AfterExercise3.png[AfterExercise3,width=150,role=left]
 
-If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
+*If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise:*
 
 [source,cypher]
 ----
@@ -19,8 +19,10 @@ include::scripts/AfterExercise_3.cypher[]
 == Exercise 4: Profile queries (Overview)
 
 As part of our modeling workflow, we must analyze queries for our domain and understand their performance with a set of data.
-We currently have data for 1000 connections between airports (flights) and we want to see how expensive our queries against the existing data will be.
-Later in these exercises, you will add more data to the graph, but for now we will analyze queries for the existing graph.
+We currently have data for 1000 connections between airports (flights) and we want to see the cost our queries against the existing data.
+Later in these exercises, you will add more data to the graph, but for now we will analyze queries for the existing data.
+
+*Note*: The PROFILE numbers you see in this browser guide may differ slightly from what you see on your system, because of differences in versions of Neo4j.
 
 In this exercise you will profile and understand the behavior of a couple of queries:
 
@@ -49,9 +51,9 @@ RETURN origin, destination, c
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex4_Profile1.png[Ex4_Profile1,width=200]
+image::{guides}/img/Ex4_Profile1.png[Ex4_Profile1,width=150]
 
-Expand each section of the profile shown. One thing that we could do to reduce the number of db hits is to create an index on Airport.code and the current query is reading all :Airport node labels to find the Airport for LAS.
+Expand each section of the profile shown. One thing that we could do to reduce the number of db hits is to create an index on `Airport.code` and the current query is reading all `Airport` node labels to find the airport for LAS.
 This query does return 13 nodes and 268 relationships so getting the number of db hits lower than 160 (222 - 62) is probably all we can do with this model.
 
 == Exercise 4.2:  What is the cost of finding all flights for airline 'WN' with flight number '1016'? (Instructions)
@@ -73,19 +75,19 @@ RETURN origin.code, destination.code, connection.date, connection.departure, con
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex4_Profile2.png[Ex4_Profile2,width=200]
+image::{guides}/img/Ex4_Profile2.png[Ex4_Profile2,width=150]
 
 Expand each section of the profile shown. Again, creating an index on Airport.code will reduce the number of db hits by 62.
-The query has to read all data for all CONNECTED_TO relationships to find the correct flights.
+The query has to read all data for all `CONNECTED_TO` relationships to find the correct flights.
 The number of db hits of 2146 is too high.
-What we are going to do is change (refactor) our current model so that we do not have to visit all CONNECTED_TO relationships to satisfy the query.
-We will do this by creating a Flight node from a relationship.
+What we are going to do is change (refactor) our current model so that we do not have to visit all `CONNECTED_TO` relationships to satisfy the query.
+We will do this by creating a `Flight` node from a relationship.
 
 == Exercise 4: Profiling queries (Summary)
 
 In this exercise, you profiled the performance of a couple of queries and found that we need to at a minimum:
 
-* Add an index to the Airport.code property.
-* Model a flight as a node.
+* Add an index to the `Airport.code` property.
+* Model a flight as a `Flight` node.
 
 pass:a[<a play-topic='{guides}/05.html'>Continue to Exercise 5</a>]

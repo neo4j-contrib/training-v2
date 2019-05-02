@@ -1,3 +1,8 @@
+CALL apoc.schema.assert({},{},true);
+MATCH (:Flight)-[rel:ORIGINATES_FROM]-(:Airport)  DELETE rel;
+MATCH (:Flight)-[rel:LANDS_IN]-(:Airport) DELETE rel;
+MATCH (:Flight)-[rel:ORIGINATES_FROM]-(:AirportDay)  DELETE rel;
+MATCH (:Flight)-[rel:LANDS_IN]-(:AirportDay) DELETE rel;
 MATCH (n) DETACH DELETE n;
 CREATE 
   (`0` :Airport {code:'LAS'}) ,

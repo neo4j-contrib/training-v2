@@ -61,15 +61,16 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise7.png" alt="AfterExercise7" width="200" height="200">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise7.png" alt="AfterExercise7" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</p>
+<p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
+CALL apoc.schema.assert({},{},true);
 CREATE
   (`0` :Airport {code:'LAS'}) ,
   (`1` :Airport {code:'LAX'}) ,
@@ -147,7 +148,7 @@ RETURN COUNT(*)<!--/code--></pre>
       <div class="paragraph">
 <p>As your graph gets larger and you profile the queries that are important to your use cases, you will find that the refactoring is not possible without the ability to batch the refactoring into chunks of processing.
 The APOC library has a number of procedures that are useful for refactoring a graph.
-The procedure that you use the process batches of work on a graph is apoc.periodic.commit().
+The procedure that you use to process batches of work on a graph is <code>apoc.periodic.commit()</code>.
 In this exercise, you will load 100K flights into the graph and use APOC to help  you refactor the graph.</p>
 </div>
 <div class="paragraph">
@@ -162,13 +163,13 @@ In this exercise, you will load 100K flights into the graph and use APOC to help
 <p><strong>Exercise 8.2</strong>: Load 100K flights into the graph.</p>
 </li>
 <li>
-<p><strong>Exercise 8.3</strong>: Prepare the Flight nodes for batch processing.</p>
+<p><strong>Exercise 8.3</strong>: Prepare the <code>Flight</code> nodes for batch processing.</p>
 </li>
 <li>
-<p><strong>Exercise 8.4</strong>: Refactor the graph to use AirportDay by batching commits.</p>
+<p><strong>Exercise 8.4</strong>: Refactor the graph to use <code>AirportDay</code> by batching commits.</p>
 </li>
 <li>
-<p><strong>Exercise 8.5</strong>: Prepare the AirportDay nodes for batch processing.</p>
+<p><strong>Exercise 8.5</strong>: Prepare the <code>AirportDay</code> nodes for batch processing.</p>
 </li>
 <li>
 <p><strong>Exercise 8.6</strong>: Refactor the graph to use specific relationships by batching commits.</p>
@@ -260,11 +261,11 @@ MERGE (newFlight)-[:LANDS_IN]-&gt;(destination)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 8.3:  Prepare the Flight nodes for batch processing. (Instructions)</h3>
+    <h3>Exercise 8.3:  Prepare the <code>Flight</code> nodes for batch processing. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Execute this code to add the <code>Process</code> label to all Flight nodes that will be processed for the batch refactoring:</p>
+<p><strong>Execute this code to add the <code>Process</code> label to all <code>Flight</code> nodes that will be processed for the batch refactoring:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -288,7 +289,7 @@ SET f:Process<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 8.4:  Refactor the graph to use AirportDay by batching commits. (Instructions)</h3>
+    <h3>Exercise 8.4:  Refactor the graph to use <code>AirportDay</code> by batching commits. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -311,10 +312,10 @@ MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Modify this code to batch process the Flight nodes in batches of 500 and execute the query.</strong></p>
+<p><strong>Modify this code to batch process the <code>Flight</code> nodes in batches of 500 and execute the query.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Hint</strong>: Use apoc.periodic.commit().</p>
+<p><strong>Hint</strong>: <code>Use apoc.periodic.commit()</code>.</p>
 </div>
 	</div>
   </div>
@@ -324,11 +325,14 @@ MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 8.4:  Refactor the graph to use AirportDay by batching commits. (Solution)</h3>
+    <h3>Exercise 8.4:  Refactor the graph to use <code>AirportDay</code> by batching commits. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Modify this code to batch process the Flight nodes in batches of 500 and execute the query.</strong></p>
+<p><strong>Modify this code to batch process the <code>Flight</code> nodes in batches of 500 and execute the query.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: <code>Use apoc.periodic.commit()</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -372,11 +376,11 @@ RETURN COUNT(*)
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 8.5:  Prepare the AirportDay nodes for batch processing. (Instructions)</h3>
+    <h3>Exercise 8.5:  Prepare the <code>AirportDay</code> nodes for batch processing. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Execute this code to add the <code>Process</code> label to all AirportDay nodes that will be processed for the batch refactoring:</p>
+<p><strong>Execute this code to add the <code>Process</code> label to all <code>AirportDay</code> nodes that will be processed for the batch refactoring:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -404,7 +408,7 @@ SET ad:Process<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>To make the refactoring simpler, first delete all existing specific relationships by executing this Cypher statement:</p>
+<p><strong>To make the refactoring simpler, first delete all existing specific relationships by executing this Cypher statement:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -412,6 +416,9 @@ SET ad:Process<!--/code--></pre>
 WHERE NOT TYPE(r) = 'HAS_DAY'
 DELETE r<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
@@ -432,10 +439,10 @@ RETURN COUNT(*)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Modify this code to batch process the AirportDay nodes in batches of 500 and execute the query.</strong></p>
+<p><strong>Modify this code to batch process the <code>AirportDay</code> nodes in batches of 500 and execute the query.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Hint</strong>: Use apoc.periodic.commit().</p>
+<p><strong>Hint</strong>: Use <code>apoc.periodic.commit()</code>.</p>
 </div>
 	</div>
   </div>
@@ -449,10 +456,10 @@ RETURN COUNT(*)<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Modify this code to batch process the AirportDay nodes in batches of 500 and execute the query.</strong></p>
+<p><strong>Modify this code to batch process the <code>AirportDay</code> nodes in batches of 500 and execute the query.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Hint</strong>: Use apoc.periodic.commit().</p>
+<p><strong>Hint</strong>: Use <code>apoc.periodic.commit()</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -507,14 +514,12 @@ RETURN origin, destination, flight<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_GeneralRelationshipsQuery.png" alt="Ex8_GeneralRelationshipsQuery" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_GeneralRelationshipsQuery.png" alt="Ex8_GeneralRelationshipsQuery" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>Previously on the graph with 10k Flights, this query had 1675 db hits.</p>
-</div>
-<div class="paragraph">
-<p>After loading 100k Flights, we see 2771 db hits.</p>
+<p>Previously on the graph with 10k flights, this query had 1813 db hits.
+After loading 100k Flights, we see 1863 db hits.</p>
 </div>
 	</div>
   </div>
@@ -552,51 +557,12 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_SpecificRelationshipsQuery.png" alt="Ex8_SpecificRelationshipsQuery" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_SpecificRelationshipsQuery.png" alt="Ex8_SpecificRelationshipsQuery" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>Previously on the graph with 10k Flights, this query had 1578 db hits.</p>
-</div>
-<div class="paragraph">
-<p>After loading 100k Flights, we see 1578 db hits. So we see that using the specific relationship for a larger graph is a benefit.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 7: Creating specific relationships  (Taking it further)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Rerun the previous two queries to see if the refactoring to specific relationships changed their performance:</p>
-</div>
-<div class="paragraph">
-<p>This query showed 100 db hits:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
-MATCH (origin)&lt;-[:ORIGINATES_FROM]-(flight:Flight)-
-      [:LANDS_IN]-&gt;(destination)
-WHERE flight.airline = 'WN' AND
-      flight.number = '1016' RETURN origin, destination, flight<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This query showed 705 db hits:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
-MATCH (f:Flight)
-WHERE f.flightId ENDS WITH 'LAS'
-RETURN f.flightId<!--/code--></pre>
-</div>
+<p>Previously on the graph with 10k flights, this query had 1716 db hits.
+After loading 100k Flights, we see 1716 db hits again, probably due to the fact that we did not add any more flights on this date.</p>
 </div>
 	</div>
   </div>
@@ -611,15 +577,14 @@ RETURN f.flightId<!--/code--></pre>
     <div>
       <div class="paragraph">
 <p>In this exercise, you loaded the graph with 100k flights.
-Then you used apoc.periodic.commit() to refactor the graph in batches of 500 where you added the AirportDay nodes and you added specific relationships.
+Then you used <code>apoc.periodic.commit()</code> to refactor the graph in batches of 500 where you added the <code>AirportDay</code> nodes and you added specific relationships.
 You reran the query that looked for flights on a specific day and found that using the specific relationship was faster than using the general relationship.</p>
 </div>
 <div class="paragraph">
 <p>Whenever you change the model and refactor the graph, you must profile your queries to ensure that the changes you have made to the graph will be beneficial.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/09.html'>Continue to Exercise 9
--</a></p>
+<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/09.html'>Continue to Exercise 9</a></p>
 </div>
 	</div>
   </div>

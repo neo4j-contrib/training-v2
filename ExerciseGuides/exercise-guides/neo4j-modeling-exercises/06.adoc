@@ -1,22 +1,22 @@
 = Exercise 6
 :icons: font
 
-== Exercise 6: Creating the AirportDay node from the Airport and Flight nodes  (Preparations)
+== Exercise 6: Creating the `AirportDay` node from the `Airport` and `Flight` nodes  (Preparations)
 
 Before you begin this exercise, make sure that you have performed the refactoring from Exercise 5.
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise5.png[AfterExercise5,200,200, role=left]
+image::{guides}/img/AfterExercise5.png[AfterExercise5,width=150,role=left]
 
-If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.
+*If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
 include::scripts/AfterExercise_5.cypher[]
 ----
 
-== Exercise 6: Creating the AirportDay node from the Airport and Flight nodes (Overview)
+== Exercise 6: Creating the `AirportDay` node from the `Airport` and `Flight` nodes (Overview)
 
 Although we have refactored our graph to make two queries perform better, we have yet another query that our model needs to support.
 The new query is one where a user is trying to find flights from one airport to another on a particular day.
@@ -28,8 +28,8 @@ Here are the tasks you will perform:
 
 * *Exercise 6.1*: Add more data to the graph.
 * *Exercise 6.2*: Profile the new query that finds all flights from airport to another on a given day.
-* *Exercise 6.3*: Add a unique constraint on the airportDayId property of the AirportDay node.
-* *Exercise 6.4*: Refactor the graph to create AirportDay nodes from Flight nodes and Airport nodes.
+* *Exercise 6.3*: Add a unique constraint on the `airportDayId` property of the `AirportDay` node.
+* *Exercise 6.4*: Refactor the graph to create `AirportDay` nodes from `Flight` nodes and `Airport` nodes.
 * *Exercise 6.5*: Profile our first query that finds all flights that land in Las Vegas.
 * *Exercise 6.6*: Profile our second query that finds all flights for airline 'WN' with flight number '1016'.
 * *Exercise 6.7*: Profile the new query that finds all flights from airport to another on a given day.
@@ -60,7 +60,6 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex6_Add10KFlights.png[Ex6_Add10KFlights,width=300]
 
-
 == Exercise 6.2:  Profile the new query that finds all flights from airport to another on a given day. (Instructions)
 
 Suppose you are looking for all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3).
@@ -85,19 +84,19 @@ RETURN origin, destination, flight
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex6_FindFlightsJan3.png[Ex6_FindFlightsJan3,width=300]
+image::{guides}/img/Ex6_FindFlightsJan3.png[Ex6_FindFlightsJan3,width=150]
 
-Here we see 2448 db hits.
+Here we see 2586 db hits.
 We have increased the number of flights in the database tenfold, but we might be able to do better.
-We will give it a try and create the AirportDay node where each Airport will have an AirportDay node for each day and they will be connected by the HAS_DAY relationship
+We will give it a try and create the `AirportDay` node where each `Airport` will be connected by a `HAS_DAY` relationship to an `AirportDay` node for each day.
 
-== Exercise 6.3:  Add a unique constraint on the airportDayId property of the AirportDay node.  (Instructions)
+== Exercise 6.3:  Add a unique constraint on the `AirportDay.airportDayId` property.  (Instructions)
 
-*Execute the Cypher statement to add a unique constraint to the AirportDay nodes based upon the airportDayId property.*
+*Execute the Cypher statement to add a unique constraint to the `AirportDay` nodes based upon the `airportDayId` property.*
 
-== Exercise 6.3:  Add a unique constraint on the airportDayId property of the AirportDay node. (Solution)
+== Exercise 6.3:  Add a unique constraint on the `AirportDay.airportDayId` property. (Solution)
 
-*Execute the Cypher statement to add a unique constraint to the AirportDay nodes based upon the airportDayId property.*
+*Execute the Cypher statement to add a unique constraint to the `AirportDay` nodes based upon the `airportDayId` property.*
 
 [source,cypher]
 ----
@@ -111,26 +110,26 @@ The result returned should be:
 image::{guides}/img/Ex6_addConstraint.png[Ex6_addConstraint,width=300]
 
 
-== Exercise 6.4:  Refactor the graph to create AirportDay nodes from Flight nodes and Airport nodes. (Instructions)
+== Exercise 6.4:  Refactor the graph to create `AirportDay` nodes from `Flight` nodes and `Airport nodes`. (Instructions)
 
-AirportDay nodes will be created from existing Flight nodes and their relationships with Airports.
-Each Airport node will have the HAS_DAY relationship with an AirportDay node which represents a particular day.
+`AirportDay` nodes will be created from existing `Flight` nodes and their relationships with `Airports`.
+Each `Airport` node will have the `HAS_DAY` relationship with an `AirportDay` node which represents a particular day.
 
-The properties for the AirportDay nodes will be set as follows:
+The properties for the `AirportDay` nodes will be set as follows:
 
-* airportDayId: origin.code + '_' + flight.date or destination.code '_' + flight.date , depending on whether the relationship is an ORIGINATES_FROM or LANDS_IN relationship.
-* date: flight.date
+* `airportDayId`: origin.code + '_' + flight.date or destination.code '_' + flight.date , depending on whether the relationship is an `ORIGINATES_FROM` or `LANDS_IN` relationship.
+* `date`: flight.date
 
 Here is the model  you will refactor to:
 
 [.thumb]
 image::{guides}/img/Ex6_Model.png[Ex6_Model,width=300]
 
-*Execute the Cypher statement to go through all Flights and how they are connected to Airports to create the AirportDay nodes.*
+*Execute the Cypher statement to go through all `Flights` and how they are connected to `Airports` to create the `AirportDay` nodes.*
 
-== Exercise 6.4:  Refactor the graph to create AirportDay nodes from Flight nodes and Airport nodes. (Solution)
+== Exercise 6.4:  Refactor the graph to create `AirportDay` nodes from `Flight` nodes and `Airport` nodes. (Solution)
 
-*Execute the Cypher statement to go through all Flights and how they are connected to Airports to create the AirportDay nodes.*
+*Execute the Cypher statement to go through all `Flights` and how they are connected to `Airports` to create the `AirportDay` nodes.*
 
 [source,cypher]
 ----
@@ -155,7 +154,7 @@ image::{guides}/img/Ex6_Refactor.png[Ex6_Refactor,width=300]
 
 == Exercise 6.5:  Profile our first query that finds all flights that land in Las Vegas. (Instructions)
 
-Execute this query:
+*Execute this query again with the refactored graph*:
 
 [source,cypher]
 ----
@@ -168,14 +167,14 @@ RETURN f.flightId
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex6_Profile1.png[Ex6_Profile1,width=300]
+image::{guides}/img/Ex6_Profile1.png[Ex6_Profile1,width=150]
 
-The previous query with the previous model had 50 db hits.
-This query now has 705 db hits, but we have increased the number of flights by a factor of 10 so this result is expected.
+This same query with the previous model had 98 db hits.
+This query now has 1408 db hits, but we have increased the number of flights by a factor of 10 so this result is expected.
 
 == Exercise 6.6:  Profile our second query that finds all flights for airline 'WN' with flight number '1016'. (Instructions)
 
-Execute this query:
+*Execute this query again with the refactored graph*:
 
 [source,cypher]
 ----
@@ -189,14 +188,14 @@ WHERE flight.airline = 'WN' AND
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex6_Profile2.png[Ex6_Profile2,width=300]
+image::{guides}/img/Ex6_Profile2.png[Ex6_Profile2,width=150]
 
-The previous query with the previous model had 19 db hits.
+This query with the previous model had 19 db hits.
 This query now has 100 db hits, but we have increased the number of flights by a factor of 10 so this result is expected.
 
 == Exercise 6.7:  Profile the new query that finds all flights from airport to another on a given day. (Instructions)
 
-Our original query to find  all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3) was:
+Our original query to find  all flights that fly from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3) was:
 
 [source,cypher]
 ----
@@ -225,16 +224,16 @@ RETURN origin, destination, flight
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex6_FindFlightsJan3New.png[Ex6_FindFlightsJan3New,width=300]
+image::{guides}/img/Ex6_FindFlightsJan3New.png[Ex6_FindFlightsJan3New,width=150]
 
-The previous query before the refactoring yielded 2448 db hits.
-After the refactoring and rewriting the query, we see 1675 db hits which is an improvement.
+The previous query before the refactoring yielded 2586 db hits.
+After the refactoring and rewriting the query, we see 1813 db hits which is an improvement.
 
-== Exercise 6: Creating the AirportDay node from the Airport and Flight nodes  (Summary)
+== Exercise 6: Creating the `AirportDay` node from the `Airport` and `Flight` nodes  (Summary)
 
 In this exercise, you refactored the nodes and relationships in the graph for a  model and implementation that performs better.
-You created the AirportDay node from Flight nodes so that a date-specfic query will perform better.
-You profiled queries to confirm that they perform better with the refactored graph.
+You created the `AirportDay` node from `Flight` and `Airport` nodes so that a date-specfic query will perform better.
+Then, you profiled queries to confirm that they perform better with the refactored graph.
 
-pass:a[<a play-topic='{guides}/07.html'>Continue to Exercise 7
--</a>]
+pass:a[<a play-topic='{guides}/07.html'>Continue to Exercise 7</a>]
+

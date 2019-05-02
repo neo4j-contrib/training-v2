@@ -61,15 +61,20 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise8.png" alt="AfterExercise8" width="200" height="200">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise8.png" alt="AfterExercise8" width="100">
 </div>
 </div>
 <div class="paragraph">
-<p>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</p>
+<p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.schema.assert({},{},true);
+MATCH (:Flight)-[rel:ORIGINATES_FROM]-(:Airport)  DELETE rel;
+MATCH (:Flight)-[rel:LANDS_IN]-(:Airport) DELETE rel;
+MATCH (:Flight)-[rel:ORIGINATES_FROM]-(:AirportDay)  DELETE rel;
+MATCH (:Flight)-[rel:LANDS_IN]-(:AirportDay) DELETE rel;
+MATCH (n) DETACH DELETE n;
 CREATE
   (`0` :Airport {code:'LAS'}) ,
   (`1` :Airport {code:'LAX'}) ,
@@ -207,7 +212,7 @@ call apoc.periodic.commit('
     <br/>
     <div>
       <div class="paragraph">
-<p>In a real application, whether in development or in production, it is likely that in time, the requirements for the application may change.
+<p>In a real application, whether in development or in production, it is likely that at some point in time, the requirements for the application change.
 As a developer, you must be prepared to refactor (possibly large) graphs and perhaps archive data in the graph that is no longer needed.
 In this exercise, you will perform a few tasks related to maintaining a graph.</p>
 </div>
@@ -264,11 +269,11 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_GeneralRelationships.png" alt="Ex9_GeneralRelationships" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_GeneralRelationships.png" alt="Ex9_GeneralRelationships" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>The query produces 47846 db hits.</p>
+<p>The query produces 47847 db hits.</p>
 </div>
 	</div>
   </div>
@@ -328,7 +333,7 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_SpecificRelationships.png" alt="Ex9_SpecificRelationships" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_SpecificRelationships.png" alt="Ex9_SpecificRelationships" width="150">
 </div>
 </div>
 <div class="paragraph">
@@ -350,10 +355,10 @@ The general relationship is much easier to query so in this case, it pays to hav
 <p>You want to add February, 2019 flight data to the graph.</p>
 </div>
 <div class="paragraph">
-<p>*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</p>
+<p><strong>Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</strong></p>
 </div>
 <div class="paragraph">
-<p>The file containing the data is 'https://r.neo4j.com/flights_2019_february'*</p>
+<p>The file containing the data is <strong>'https://r.neo4j.com/flights_2019_february'</strong></p>
 </div>
 	</div>
   </div>
@@ -370,10 +375,10 @@ The general relationship is much easier to query so in this case, it pays to hav
 <p>You want to add February, 2019 flight data to the graph.</p>
 </div>
 <div class="paragraph">
-<p>*Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</p>
+<p><strong>Using the code you have previously seen and executed, write a Cypher statement to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</strong></p>
 </div>
 <div class="paragraph">
-<p>The file containing the data is 'https://r.neo4j.com/flights_2019_february'*</p>
+<p>The file containing the data is <strong>'https://r.neo4j.com/flights_2019_february'</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -478,23 +483,17 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>At some point during your development or production lifecycle, you will want to archive data, especially if the graph is growing large and older data is not required by users.</p>
+<p>At some point during your application lifecycle, you will want to archive data, especially if the graph is growing large and older data is not required by users.</p>
 </div>
 <div class="paragraph">
-<p>*Write and execute Cypher to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Export flights with the date of '2019-1-1'.</p>
-</li>
-<li>
-<p>Delete these flights from the graph*</p>
-</li>
-</ol>
+<p><strong>Write and execute Cypher to:</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Note</strong>: If you are using a Neo4j sandbox, you will not be able to write the data to a file in the Sandbox.</p>
+<p><strong>1. Export flights with the date of '2019-1-1'.</strong>
+<strong>2. Delete these flights from the graph.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: If you are using a Neo4j Sandbox, you will not be able to write the data to a file in the Sandbox so you can skip this part of the exercise.</p>
 </div>
 	</div>
   </div>
@@ -508,14 +507,10 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>*Write and execute Cypher to:</p>
+<p><strong>Write and execute Cypher to:</strong></p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Export flights with the date of '2019-1-1'.*</p>
-</li>
-</ol>
+<div class="paragraph">
+<p><strong>1. Export flights with the date of '2019-1-1'.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -539,10 +534,8 @@ RETURN  f.airline AS Airline, f.arrival AS Arrival, f.date AS Date, f.departure 
 <img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex9_flights.csv.png" alt="Ex9_flights.csv" width="300">
 </div>
 </div>
-<div class="literalblock">
-<div class="content">
-<pre>*2. Delete these flights from the graph*</pre>
-</div>
+<div class="paragraph">
+<p><strong>2. Delete these flights from the graph</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -578,10 +571,10 @@ DETACH DELETE flight<!--/code--></pre>
 <p>Here are a couple of files that contain additional data:</p>
 </div>
 <div class="paragraph">
-<p><a href="https://r.neo4j.com/Modeling_Airports" class="bare">https://r.neo4j.com/Modeling_Airports</a></p>
+<p><strong><a href="https://r.neo4j.com/Modeling_Airports" class="bare">https://r.neo4j.com/Modeling_Airports</a></strong></p>
 </div>
 <div class="paragraph">
-<p><a href="https://r.neo4j.com/Modeling_Aircraft" class="bare">https://r.neo4j.com/Modeling_Aircraft</a></p>
+<p><strong><a href="https://r.neo4j.com/Modeling_Aircraft" class="bare">https://r.neo4j.com/Modeling_Aircraft</a></strong></p>
 </div>
 <div class="paragraph">
 <p>You can:</p>
@@ -589,13 +582,13 @@ DETACH DELETE flight<!--/code--></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>Add additional airport data from Modeling_Airports and integrate it into the model.</p>
+<p>Add additional airport data from <strong>Modeling_Airports</strong> and integrate it into the model.</p>
 </li>
 <li>
 <p>Add additional properties to the graph such as flight delays and cancellations from the existing CSV files.</p>
 </li>
 <li>
-<p>Add Modeling_Aircraft data to the graph.</p>
+<p>Add <strong>Modeling_Aircraft</strong> data to the graph.</p>
 </li>
 </ul>
 </div>
@@ -616,6 +609,9 @@ DETACH DELETE flight<!--/code--></pre>
       <div class="paragraph">
 <p>In this exercise, you performed more queries that contrast the use of general and specific relationships.
 You also added flight data to the graph for a new day as well as archived and deleted flight data from the graph.</p>
+</div>
+<div class="paragraph">
+<p>Congratulations! You have completed the exercises for this course.</p>
 </div>
 	</div>
   </div>

@@ -61,15 +61,16 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise6.png" alt="AfterExercise6" width="200" height="200">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise6.png" alt="AfterExercise6" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</p>
+<p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
+CALL apoc.schema.assert({},{},true);
 CREATE
   (`0` :Airport {code:'LAS'}) ,
   (`1` :Airport {code:'LAX'}) ,
@@ -153,7 +154,7 @@ MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
 <p><strong>Exercise 7.1</strong>: Refactor the graph to change all <code>HAS_DAY</code> relationships to specific day relationships.</p>
 </li>
 <li>
-<p><strong>Exercise 7.2</strong>: Rewrite and profile the previous query that finds all flights from airport to another on a given day.</p>
+<p><strong>Exercise 7.2</strong>: Rewrite and profile the previous query that finds all flights from an airport to another on a given day.</p>
 </li>
 </ul>
 </div>
@@ -172,7 +173,7 @@ MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>Rather than having the <code>HAS_DAY</code> relationship from Airport nodes to AirportDay nodes, we want a specific relationship that will be <code>ON_yyyy-d-m</code>.
+<p>Rather than having the <code>HAS_DAY</code> relationship from <code>Airport</code> nodes to <code>AirportDay</code> nodes, we want a specific relationship that will be <code>ON_yyyy-dd-mm</code>.
 The revised model is:</p>
 </div>
 <div class="imageblock left">
@@ -229,7 +230,7 @@ RETURN COUNT(*)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 7.2:  Rewrite and profile the previous query that finds all flights from airport to another on a given day. (Instructions)</h3>
+    <h3>Exercise 7.2:  Rewrite and profile the previous query that finds all flights from an airport to another on a given day. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -280,12 +281,12 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex7_FindFlightsJan3.png" alt="Ex7_FindFlightsJan3" width="300">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex7_FindFlightsJan3.png" alt="Ex7_FindFlightsJan3" width="150">
 </div>
 </div>
 <div class="paragraph">
-<p>The previous query before this refactoring yielded 1675 db hits.
-After this refactoring and rewriting the query, we see 1578 db hits, a slight improvement.
+<p>The previous query before this refactoring yielded 1813 db hits.
+After this refactoring and rewriting the query, we see 1716 db hits, a slight improvement.
 If the graph had more data, we would probably see a difference in the performance after the last refactoring.</p>
 </div>
 	</div>
@@ -303,7 +304,7 @@ If the graph had more data, we would probably see a difference in the performanc
 <p>Rerun the previous two queries to see if the refactoring to specific relationships changed their performance:</p>
 </div>
 <div class="paragraph">
-<p>This query showed 100 db hits:</p>
+<p>Previously, this query showed 100 db hits:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -315,7 +316,7 @@ WHERE flight.airline = 'WN' AND
 </div>
 </div>
 <div class="paragraph">
-<p>This query showed 705 db hits:</p>
+<p>Previously, this query showed 1408 db hits:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -337,7 +338,7 @@ RETURN f.flightId<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you refactored the HAS_DAY relationship between the Airport and the AirportDay is now a specific date relationship.
+<p>In this exercise, you refactored the <code>HAS_DAY</code> relationship between the <code>Airport</code> and the <code>AirportDay</code> to be a specific date relationship.
 For the existing graph with 10K flight nodes, this change did not make a significant difference.
 If the graph had more data, we would probably see an improvement.</p>
 </div>
@@ -345,8 +346,7 @@ If the graph had more data, we would probably see an improvement.</p>
 <p>In the next exercise, you will load even more data in to the graph.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/08.html'>Continue to Exercise 8
--</a></p>
+<p><a play-topic='https://guides.neo4j.com/neo4j-modeling-exercises/08.html'>Continue to Exercise 8</a></p>
 </div>
 	</div>
   </div>
