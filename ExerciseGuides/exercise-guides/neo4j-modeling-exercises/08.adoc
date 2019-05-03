@@ -81,7 +81,7 @@ image::{guides}/img/Ex8_LoadFlights.png[Ex8_LoadFlights,width=300]
 
 == Exercise 8.3:  Prepare the `Flight` nodes for batch processing. (Instructions)
 
-*Execute this code to add the `Process` label to all `Flight` nodes that will be processed for the batch refactoring:*
+*Execute this Cypher code to add the `Process` label to all `Flight` nodes that will be processed for the batch refactoring:*
 
 [source,cypher]
 ----
@@ -114,13 +114,13 @@ MERGE (flight)-[:LANDS_IN]->(destinationAirportDay)
 MERGE (destination)-[:HAS_DAY]->(destinationAirportDay)
 ----
 
-*Modify this code to batch process the `Flight` nodes in batches of 500 and execute the query.*
+*Modify this Cypher code to batch process the `Flight` nodes in batches of 500 and execute the code.*
 
 *Hint*: `Use apoc.periodic.commit()`.
 
 == Exercise 8.4:  Refactor the graph to use `AirportDay` by batching commits. (Solution)
 
-*Modify this code to batch process the `Flight` nodes in batches of 500 and execute the query.*
+*Modify this Cypher code to batch process the `Flight` nodes in batches of 500 and execute the query.*
 
 *Hint*: `Use apoc.periodic.commit()`.
 
@@ -157,7 +157,7 @@ image::{guides}/img/Ex8_RefactorAirportDay.png[Ex8_RefactorAirportDay,width=300]
 
 == Exercise 8.5:  Prepare the `AirportDay` nodes for batch processing. (Instructions)
 
-*Execute this code to add the `Process` label to all `AirportDay` nodes that will be processed for the batch refactoring:*
+*Execute this Cypher code to add the `Process` label to all `AirportDay` nodes that will be processed for the batch refactoring:*
 
 [source,cypher]
 ----
@@ -198,13 +198,13 @@ CALL apoc.create.relationship(startNode(hasDay),
 RETURN COUNT(*)
 ----
 
-*Modify this code to batch process the `AirportDay` nodes in batches of 500 and execute the query.*
+*Modify this Cypher code to batch process the `AirportDay` nodes in batches of 500 and execute the code.*
 
 *Hint*: Use `apoc.periodic.commit()`.
 
 == Exercise 8.6:  Refactor the graph to use specific by batching commits. (Solution)
 
-*Modify this code to batch process the `AirportDay` nodes in batches of 500 and execute the query.*
+*Modify this Cypher code to batch process the `AirportDay` nodes in batches of 500 and execute the code.*
 
 *Hint*: Use `apoc.periodic.commit()`.
 
@@ -231,7 +231,7 @@ image::{guides}/img/Ex8_RefactorSpecificRelationships.png[Ex8_RefactorSpecificRe
 
 Previously, we used this query to look for all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3).
 
-*Execute this query*:
+*Execute this Cypher query*:
 
 [source,cypher]
 ----
@@ -254,7 +254,7 @@ After loading 100k Flights, we see 1863 db hits.
 
 Previously, we used this query to look for all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3).
 
-*Execute this query*:
+*Execute this Cypher query*:
 
 [source,cypher]
 ----

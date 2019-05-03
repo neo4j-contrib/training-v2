@@ -35,11 +35,11 @@ Go to the next page to start this exercise.
 
 == Exercise 5.1:  Add an index to the `Airport.code` property. (Instructions)
 
-*Execute the Cypher statement to add an index to the Airport nodes based upon the code property.*
+*Write and execute the Cypher statement to add an index to the Airport nodes based upon the code property.*
 
 == Exercise 5.1:  Add an index to the `Airport.code` property. (Solution)
 
-*Execute the Cypher statement to add an index to the `Airport` nodes based upon the code property.*
+*Write and execute the Cypher statement to add an index to the `Airport` nodes based upon the code property.*
 
 [source,cypher]
 ----
@@ -58,7 +58,7 @@ You will be creating nodes of type `Flight`.
 One of the properties you will adding to a `Flight` node is an ID that makes each `Flight` node unique.
 The name of this property will be `flightId`.
 
-*Execute the Cypher statement to add a unique constraint to the `Flight` nodes based upon the `flightId` property.*
+*Write and execute the Cypher statement to add a unique constraint to the `Flight` nodes based upon the `flightId` property.*
 
 == Exercise 5.2:  Add a unique constraint to the `Flight.flightId` property. (Solution)
 
@@ -66,7 +66,7 @@ You will be creating nodes of type `Flight`.
 One of the properties you will adding to a `Flight` node is an ID that makes each `Flight` node unique.
 The name of this property will be `flightId`.
 
-*Execute the Cypher statement to add a unique constraint to the `Flight` nodes based upon the `flightId` property.*
+*Write and execute the Cypher statement to add a unique constraint to the `Flight` nodes based upon the `flightId` property.*
 
 [source,cypher]
 ----
@@ -82,11 +82,11 @@ image::{guides}/img/Ex5_FlightIdConstraint.png[Ex5_FlightIdConstraint,width=300]
 
 == Exercise 5.3:  Add an index to the `Flight.number` property. (Instructions)
 
-*Execute the Cypher statement to add an index to the `Flight` nodes based upon the `number` property.*
+*Write and execute the Cypher statement to add an index to the `Flight` nodes based upon the `number` property.*
 
 == Exercise 5.3:  Add an index to the `Flight.number` property. (Solution)
 
-*Execute the Cypher statement to add an index to the `Flight` nodes based upon the `number` property.*
+*Write and execute the Cypher statement to add an index to the `Flight` nodes based upon the `number` property.*
 
 [source,cypher]
 ----
@@ -119,11 +119,11 @@ Here is the model  you will refactor to:
 [.thumb]
 image::{guides}/img/Ex5_Model.png[Ex5_Model,width=500]
 
-*Execute the Cypher statement traverse all `CONNECTED_TO` relationships to create the `Flight` nodes.*
+*Write and execute the Cypher statement traverse all `CONNECTED_TO` relationships to create the `Flight` nodes.*
 
 == Exercise 5.4:  Refactor the graph to create `Flight` nodes from the `CONNECTED_TO` relationships. (Solution)
 
-*Execute the Cypher statement traverse all `CONNECTED_TO` relationships to create the `Flight` nodes.*
+*Write and execute the Cypher statement traverse all `CONNECTED_TO` relationships to create the `Flight` nodes.*
 
 [source,cypher]
 ----
@@ -157,11 +157,11 @@ WHERE destination.code = 'LAS'
 RETURN origin, destination, c
 ----
 
-*Modify this query to use the new model and compare your results for this query profile after the refactoring*
+*Modify and execute this query to use the new model and compare your results for this query profile after the refactoring*
 
 == Exercise 5.5:  Profile our first query that finds all flights that land in Las Vegas. (Solution)
 
-*Modify this query to use the new model and compare your results for this query profile after the refactoring*
+*Modify and execute this query to use the new model and compare your results for this query profile after the refactoring*
 
 [source,cypher]
 ----
@@ -190,11 +190,11 @@ WHERE connection.airline = 'WN' AND connection.flightNumber = '1016'
 RETURN origin.code, destination.code, connection.date, connection.departure, connection.arrival
 ----
 
-*Modify this query to use the new model and compare your results for this query profile after the refactoring*
+*Modify and execute this query to use the new model and compare your results for this query profile after the refactoring*
 
 == Exercise 5.6:  Profile our second query that finds all flights for airline 'WN' with flight number '1016'. (Solution)
 
-*Modify this query to use the new model and compare your results for this query profile after the refactoring*
+*Modify and execute this query to use the new model and compare your results for this query profile after the refactoring*
 
 [source,cypher]
 ----
@@ -214,11 +214,11 @@ The original query had 2146 db hits. The revised query with the refactored model
 
 == Exercise 5.7:  Delete the `CONNECTED_TO` relationship from the graph. (Instructions)
 
-*Execute the Cypher statement to remove the `CONNECTED_TO` relationships from the graph.*
+*Write and execute the Cypher statement to remove the `CONNECTED_TO` relationships from the graph.*
 
 == Exercise 5.7:  Delete the `CONNECTED_TO` relationship from the graph. (Solution)
 
-*Execute the Cypher statement to remove the `CONNECTED_TO` relationships from the graph.*
+*Write and execute the Cypher statement to remove the `CONNECTED_TO` relationships from the graph.*
 
 
 [source,cypher]
