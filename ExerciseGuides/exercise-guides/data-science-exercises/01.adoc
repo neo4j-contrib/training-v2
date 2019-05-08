@@ -1,0 +1,135 @@
+= Link Prediction
+:icons: font
+
+== Loading a friends graph
+
+We're going to learn how to use the link prediction algorithms with the help of a small friends graph.
+We can run the script below to populate our database with this graph;
+
+[source, cypher]
+----
+include::scripts/link-prediction.cypher[tag=initial]
+----
+
+== Overview
+
+[subs=attributes]
+++++
+<div style="float:right">
+    <img src="{guides}/img/link-pred.png" height="200px" />
+</div>
+++++
+
+
+In this guide, we will execute some of the link predictions in the Neo4j Graph Algorithms Library:
+
+* *Common Neighbors*
+* *Adamic Adar*
+* *Preferential Attachment*
+
+Go to the next page to get started.
+
+== Common Neighbors (Overview)
+
+[subs=attributes]
+++++
+<div style="float:right">
+    <img src="{guides}/img/common-neighbors.png" height="200px" />
+</div>
+++++
+
+
+One of the simplest measures that we can compute is common neighbors, as http://be.amazd.com/link-prediction/[described by Ahmad Sadraei^]:
+
+[quote]
+____
+The common-neighbors predictor captures the notion that two strangers who have a common friend may be introduced by that friend.
+This introduction has the effect of "closing a triangle" in the graph.
+____
+
+As the name suggests, this measure computes the number of common neighbors that a pair of nodes share.
+
+== Common Neighbors (Function)
+
+Now let's run this measure over the nodes in our sample graph.
+
+[source, cypher]
+----
+include::scripts/link-prediction.cypher[tag=common-neighbors]
+----
+
+
+== Common Neighbors (Exercise)
+
+*Write a query to compute the common neighbors of nodes `A` and `E`.*
+
+== Common Neighbors (Solution)
+
+*Write a query to compute the common neighbors of nodes `A` and `E`.*
+
+[source, cypher]
+----
+include::scripts/link-prediction.cypher[tag=common-neighbors-exercise]
+----
+
+
+== Adamic Adar (Overview)
+
+[subs=attributes]
+++++
+<div style="float:right">
+    <img src="{guides}/img/adamic-adar.png" height="200px" />
+</div>
+++++
+
+
+This algorithm was introduced in 2003 by Lada Adamic and Eytan Adar while researching how to predict links in a social network.
+
+This measure builds the common neighbors, but rather than just counting those neighbors, it *computes the sum of the inverse log of the degree of each of the neighbors*.
+
+The degree of a node is the number of neighbors it has, and the intuition behind this algorithm is that when it comes to closing triangles, nodes of low degree are likely to be more influential.
+
+For example, in a social network, for two people to be introduced by a common friend, the probability of that happening is related to how many other pairs of friends that person has.
+An unpopular person may therefore be more likely to introduce a pair of their friends.
+
+== Adamic Adar (Function)
+
+Now let's run this measure over all the nodes in our sample graph.
+The following query computes Adamic Adar for all pairs of nodes that don't have a `FRIENDS` relationship:
+
+[source, cypher]
+----
+include::scripts/link-prediction.cypher[tag=adamic-adar]
+----
+
+Which pair of nodes are most likely to have a link created between them?
+
+== Preferential Attachment (Overview)
+
+[subs=attributes]
+++++
+<div style="float:right">
+    <img src="{guides}/img/pref-attach.png" height="200px" />
+</div>
+++++
+
+This is one of the most well known concepts amongst network scientists, having been popularised by Albert-László Barabási and Réka Albert through their work on scale-free networks.
+
+The intuition is that *nodes with lots of relationships will gain more relationships*.
+
+This measure is one of the easiest to compute — we take the product of the degree of each node.
+
+== Preferential Attachment (Exercise)
+
+*Write a query to compute the preferential attachment of nodes `C` and `E`.*
+
+
+== Preferential Attachment (Solution)
+
+*Write a query to compute the preferential attachment of nodes `C` and `E`.*
+
+[source, cypher]
+----
+include::scripts/link-prediction.cypher[tag=preferential-attachment-exercise]
+----
+

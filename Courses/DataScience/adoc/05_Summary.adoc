@@ -1,0 +1,91 @@
+
+
+= Summary: Data Science with Neo4j
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.4.4
+:currentyear: 2018
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsect: 4
+:prevsecttitle: Predictions
+:currsect: 5
+:experimental:
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+include::scripts.txt[]
+
+[#module-8.quiz]
+== Quiz Results 
+++++
+<span id="quizes-result"></span>
+++++
+
+== Course Completion Certificate
+++++
+<span id="cert-result"></span>
+++++
+
+== Course Summary
+
+In this course, you have learned how to:
+
+[square]
+* Set up your Neo4j Sandbox development environment for performing the hands-on exercises of this course
+* Query a database for its schema
+* Return and chart the number of node labels and relationship types using matplotlib
+* Build and plot a histogram of papers and their citations using pandas and matplotlib
+* Build a mini recommendation engine with Cypher queries to:
+    ** find potential collaborators for an author
+    ** find relevant papers about a topic for an author
+* Describe what link prediction is
+* Use the link prediction functions in Neo4j
+* Understand the challenges when building machine learning models on graph data
+* Build a link prediction classifier using scikit-learn with features derived from the Neo4j Graph Algorithms library
+
+== Next steps
+
+There are many resources available to you for learning more about doing Data Science with Neo4j.
+
+
+* https://neo4j.com/graph-algorithms-book/[O'Reilly Graph Algorithms Book^]
+
+* https://medium.com/neo4j/tagged/data-science[Neo4j Analytics Category on Medium^]
+
+* https://tbgraph.wordpress.com/[Tomaz Bratanic’s Blog^]
+
+* https://www.octavian.ai/[Octavian AI^]
+
+== Course feedback
+
+We want your feedback on this course. Please provide your https://goo.gl/forms/BEpb5Dsj6CFTvWiI2[feedback] so we can improve this course. 
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part8');
+});
+</script>
+++++
+
+++++
+<script>
+$( document ).ready(function() {
+  $('#cert-result').html("<i>... Checking for certificate ...</i>");
+  getClassCertificate().then( function( value ) {
+    if ('url' in value) {
+      $('#cert-result').html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
+    } else {
+      $('#cert-result').html( "Certificate not available yet.  Did you complete the quizzes at the end of each section?" );
+    }
+  });
+
+});
+</script>
+++++

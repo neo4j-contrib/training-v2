@@ -1,0 +1,155 @@
+= Exploratory Data Analysis
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.4.4
+:currentyear: 2018
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Development Environment
+:prevsect: 1
+:currsect: 2
+:nextsecttitle: Recommendations
+:nextsect: 4
+:experimental:
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+//:imagedir: http://localhost:8001/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+
+== About this module
+
+In the previous section, we setup our Neo4j Sandbox environment containing the citation dataset.
+In this module we're going to explore that data.
+We'll be querying Neo4j and processing the results using tools in the Python ecosystem.
+
+At the end of this module, you should be able to:
+[square]
+* Query a database for its schema
+* Return and chart the number of node labels and relationship types using matplotlib
+* Build and plot a histogram of papers and their citations using pandas and matplotlib
+
+
+== Tools
+
+We'll be using the following Python libraries in this course:
+
+=== py2neo
+
+The https://py2neo.org/v4/[py2neo^] driver enables data scientists to easily integrate Neo4j with tools in the Python Data Science ecosystem.
+It does this by providing functions that translate the results of queries into data structures used by these tools.
+We'll be using this library to execute Cypher queries against Neo4j.
+
+=== pandas
+
+https://pandas.pydata.org/[pandas^] is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language.
+We'll be using this library to do post processing of the data that we query from Neo4j.
+
+=== Matplotlib
+
+https://matplotlib.org/[Matplotlib^] is a Python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.
+We'll be using this library to create charts based on our data.
+
+
+== Citation Dataset
+
+Now we're ready to start exploring the data.
+The graph model for the dataset is shown below:
+
+image::{imagedir}/graph.png[Graph Model,width=600]
+
+We want to get a feeling for what data we're working with, including the distribution of authors, papers, and citations.
+We'll then be able to use this knowledge to help us when we're building a recommendation engine and making predictions on the data.
+
+== Exercise 1: Exploring the data
+
+We're going to explore the data via a Jupyter Notebook hosted on the Google Colaboratory environment.
+We can launch the notebook by clicking on the button below.
+
+When we launch the notebook we'll be asked if we want to reset all runtimes before running.
+This option should be unticked so that we can use our credentials across notebooks.
+
+image::{imagedir}/google-colab.png[Google Colabatory,width=600]
+
+++++
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/online/02_EDA.ipynb">Launch the Notebook!</a>
+<br />
+++++
+
+Once we've attempted the exercises, we can see the answers by launching the following notebook:
+
+++++
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/online/02_EDA_Exercises.ipynb">See answers</a>
+++++
+
+
+
+[#module-2.quiz]
+== Check your understanding
+=== Question 1
+
+What is the name of the procedure that returns the node labels in the database?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.required-answer]#db.labels#
+- [ ] [.false-answer]#db.nodeLabels#
+- [ ] [.false-answer]#db.nodes#
+- [ ] [.false-answer]#dbms.labels#
+
+=== Question 2
+
+Which node label is the most popular one in this dataset?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#Author#
+- [ ] [.required-answer]#Article#
+- [ ] [.false-answer]#Venue#
+
+=== Question 3
+
+What is the mean number of articles published by an author?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#2.064#
+- [ ] [.false-answer]#89.000#
+- [ ] [.required-answer]#1.751#
+- [ ] [.false-answer]#3.000#
+
+
+== Summary
+
+You should now be able to:
+[square]
+* Query a database for its schema
+* Return and chart the number of node labels and relationship types using matplotlib
+* Build and plot a histogram of papers and their citations using pandas and matplotlib
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part2');
+});
+</script>
+++++
+
+endif::backend-html5[]
