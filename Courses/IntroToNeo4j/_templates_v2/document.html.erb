@@ -18,11 +18,22 @@
       </script>
    </head>
    <body>
+      <style type="text/css">
+        .headerlink {
+          margin-left: 10px !important;
+          margin-right: 10px !important;
+        }
+        @media only screen and (max-width: 1350px) {
+          #helplink {
+            display: none;
+          }
+        }
+      </style>
       <header style="top: 0px;">
          <a href="../part-0/" id="logo"><img src="https://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png" alt="Neo4j Logo"></a>
          <ul class="documentation-library">
             <li id="menu-module-1">
-              <a href="../part-1/"<% if attr('currsect') == '1' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-1/"<% if attr('currsect') == '1' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
@@ -30,7 +41,7 @@
               Intro to Graph DBs</a>
             </li>
             <li id="menu-module-2">
-              <a href="../part-2/"<% if attr('currsect') == '2' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-2/"<% if attr('currsect') == '2' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">2</strong>
@@ -38,7 +49,7 @@
               Intro to Neo4j</a>
             </li>
             <li id="menu-module-3">
-              <a href="../part-3/"<% if attr('currsect') == '3' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-3/"<% if attr('currsect') == '3' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">3</strong>
@@ -46,7 +57,7 @@
               Dev Env</a>
             </li>
             <li id="menu-module-4">
-              <a href="../part-4/"<% if attr('currsect') == '4' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-4/"<% if attr('currsect') == '4' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">4</strong>
@@ -54,7 +65,7 @@
               Cypher</a>
             </li>
             <li id="menu-module-5">
-              <a href="../part-5/"<% if attr('currsect') == '5' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-5/"<% if attr('currsect') == '5' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">5</strong>
@@ -62,7 +73,7 @@
               Advanced Queries</a>
             </li>
             <li id="menu-module-6">
-              <a href="../part-6/"<% if attr('currsect') == '6' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-6/"<% if attr('currsect') == '6' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">6</strong>
@@ -70,7 +81,7 @@
               Creating Data</a>
             </li>
             <li id="menu-module-7">
-              <a href="../part-7/"<% if attr('currsect') == '7' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-7/"<% if attr('currsect') == '7' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">7</strong>
@@ -78,7 +89,7 @@
               More</a>
             </li>
             <li>
-              <a href="../part-8/"<% if attr('currsect') == '8' %> style="color: #000"<% end %>>
+              <a class="headerlink" href="../part-8/"<% if attr('currsect') == '8' %> style="color: #000"<% end %>>
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">8</strong>
@@ -86,6 +97,9 @@
               The End</a>
             </li>
          </ul>
+          <div id="helplink" style="position: absolute; top: 10px; right: 30px; font-size: 20px;">
+            <a href="https://community.neo4j.com/c/general/online-training" target="_blank">Need Help?</a>
+          </div>
          <nav id="header-nav">
          <span class="nav-previous">
            <% if (attr? :prevsect)  %>
