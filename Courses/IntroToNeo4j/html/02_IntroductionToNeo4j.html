@@ -237,11 +237,9 @@ function setGadgetUrl(sel) {
 </div>
 
 
-
 <div class="paragraph">
 <p>At the end of this module, you should be able to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -257,7 +255,6 @@ Describe the components and benefits of the Neo4j Graph Platform.
 <p>The Neo4j Graph Platform includes components that enable you to develop your graph-enabled application.
 To better understand the Neo4j Graph Platform, you will learn about these components and the benefits they provide.</p>
 </div>
-
 <div  id="_neo4j_database" class="sect3 "  >
 <h4>Neo4j Database</h4>
 
@@ -267,78 +264,74 @@ To better understand the Neo4j Graph Platform, you will learn about these compon
 The Neo4j Graph Platform includes out-of-the-box tooling that enables you to access graphs in Neo4j Databases.
 In addition, Neo4j provides APIs and drivers that enable you to create applications and custom tooling for accessing and visualizing graphs.</p>
 </div>
-
 </div>
 <div  id="_neo4j_database_index_free_adjacency" class="sect3 "  >
 <h4>Neo4j Database: Index-free adjacency</h4>
-<table class="tableblock frame-none grid-all spread">
+<table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/IndexFreeAdjacency.png" alt="IndexFreeAdjancency" width="300">
 </p>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><div>
+<td class="tableblock halign-left valign-middle"><div class="content">
 
 <div class="paragraph">
 <p>With index free adjacency, when a node or relationship is written to the database, it is stored in the database as connected and any subsequent access to the data is done using pointer navigation which is very fast. Since Neo4j is a native graph database (i.e. it has a graph as its core data model), it supports very large graphs where connected data can be traversed in constant time without the need for an index.</p>
-</div>
-</div></td>
+</div></div></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div  id="_neo4j_database_acid_atomic_consistent_isolated_durable" class="sect3 "  >
 <h4>Neo4j Database: ACID (Atomic, Consistent, Isolated, Durable)</h4>
-<table class="tableblock frame-none grid-all spread">
+<table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ACID.png" alt="ACID" width="400">
 </p>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><div>
+<td class="tableblock halign-left valign-middle"><div class="content">
 
 <div class="paragraph">
 <p>Transactionality is very important for robust applications that require an ACID (atomicity, consistency, isolation, and durability) guarantees for their data.
 If a relationship between nodes is created, not only is the relationship created, but the nodes are updated as connected.
 All of these updates to the database must <span class="underline">all</span> succeed or fail.</p>
-</div>
-</div></td>
+</div></div></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div  id="_clusters" class="sect3 "  >
 <h4>Clusters</h4>
-<table class="tableblock frame-none grid-all spread">
+<table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Clustering.png" alt="Neo4j Clustering" width="300">
 </p>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><div>
+<td class="tableblock halign-left valign-middle"><div class="content">
 
 <div class="paragraph">
 <p>Neo4j supports clusters that provide high availablity, scalability for read access to the data, and failover which is important to many enterprises.</p>
-</div>
-</div></td>
+</div></div></td>
 </tr>
 </tbody>
 </table>
@@ -351,7 +344,6 @@ All of these updates to the database must <span class="underline">all</span> suc
 <p>The Neo4j graph engine is used to interpret Cypher statements and also executes kernel-level code to store and retrieve data, whether it is on disk, or cached in memory.
 The graph engine has been improved with every release of Neo4j to provide the most efficient access to an application&#8217;s graph data. There are many ways that you can tune the performance of the engine to suit your particular application needs.</p>
 </div>
-
 </div>
 <div  id="_language_and_driver_support" class="sect3 "  >
 <h4>Language and driver support</h4>
@@ -364,7 +356,6 @@ The language used for querying the Neo4j database is Cypher, an open source lang
 </div>
 
 
-
 <div class="paragraph">
 <p>In addition, Neo4j supports Java, JavaScript, Python, C#, and Go drivers out of the box that use Neo4j&#8217;s bolt protocol for binary access to the database layer.
 Bolt is an efficient binary protocol that compresses data sent over the wire as well as encrypting the data.
@@ -372,62 +363,58 @@ For example, you can write a Java application that uses the Bolt driver to acces
 </div>
 
 
-
 <div class="paragraph">
 <p>It is also possible for you to develop your own server-side extensions in Java that access the data in the database directly without using Cypher.
 The Neo4j community has developed drivers for a number of languages including Ruby, PHP, and R.
 You can also extend the functionality of Neo4j by creating user defined functions and procedures that are callable from Cypher.</p>
 </div>
-
 </div>
 <div  id="_libraries" class="sect3 "  >
 <h4>Libraries</h4>
-<table class="tableblock frame-none grid-all spread">
+<table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/GraphAlgorithms.png" alt="GraphAlgorithm" width="500">
 </p>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><div>
+<td class="tableblock halign-left valign-middle"><div class="content">
 
 <div class="paragraph">
 <p>Neo4j has a published, open source Cypher library, Awesome Procedures on Cypher (APOC) that contain many useful procedures you can call from Cypher. Another Cypher library is the Graph Algorithms library, shown here, that can help you to analyze data in your graphs.
 Graph analytics are important because with Neo4j, the technology can expose questions about the data that you never thought to ask. And finally, you can use the GraphQL library (tree-based subset of a graph) to access a Neo4j Database. These libraries are available as plug-ins to your Neo4j development environment, but there are many other libraries that have been written by users for accessing Neo4j.</p>
-</div>
-</div></td>
+</div></div></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div  id="_tools" class="sect3 "  >
 <h4>Tools</h4>
-<table class="tableblock frame-none grid-all spread">
+<table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Neo4jTooling.png" alt="Neo4jTooling" width="500">
 </p>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><div>
+<td class="tableblock halign-left valign-middle"><div class="content">
 
 <div class="paragraph">
 <p>In a development environment, you will use the Neo4j Browser or a Web browser to access data and test your Cypher statements, most of which will be used as part of your application code.
 Neo4j Browser is an application that uses the JavaScript Bolt driver to access the graph engine of the Neo4j database server.
 Neo4j also has a new tool called <strong>Bloom</strong> that enables you to visualize a graph without knowing much about Cypher.
 In addition, there are many tools for importing and exporting data between flat files and a Neo4j Database, as well as an ETL tool.</p>
-</div>
-</div></td>
+</div></div></td>
 </tr>
 </tbody>
 </table>
@@ -436,7 +423,6 @@ In addition, there are many tools for importing and exporting data between flat 
 <div class="paragraph">
 <p>In this video, you can see how Neo4j Bloom can be used to examine and modify a Graph, even when you know very little about Cypher:</p>
 </div>
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/KjINhGbG-So" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div  id="_whiteboard_modeling" class="sect3 "  >
@@ -448,8 +434,7 @@ In addition, there are many tools for importing and exporting data between flat 
 You then use the model to create the nodes, relationships, labels, and properties you will use for your Neo4j data.
 Even after the graph has been defined and populated with data, it is  easy to modify the graph as your application needs change.</p>
 </div>
-
-<table class="tableblock frame-none grid-all spread">
+<table class="tableblock frame-none grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -457,17 +442,17 @@ Even after the graph has been defined and populated with data, it is  easy to mo
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Whiteboard1.png" alt="Whiteboard1" width="300">
 </p>
 </div></div></td>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Whiteboard2.png" alt="Whiteboard2" width="300">
 </p>
 </div></div></td>
-<td class="tableblock halign-center valign-middle"><div><div class="imageblock" style="text-align: center;">
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Whiteboard3.png" alt="Whiteboard3" width="300">
 </p>
@@ -495,7 +480,6 @@ Business users use out-of-the box graph visualization tools or they use custom t
 Data analysts and scientists use the analytics capabilities in the Graph Algorithm libraries or use custom libraries to understand and report findings to the enterprise.
 Applications can also integrate with existing databases (SQL or NoSQL), layering Neo4j on top of them to provide rich, graph-enabled access to the data.</p>
 </div>
-
 </div>
 </div>
 <div  id="module-2" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
@@ -509,11 +493,9 @@ Applications can also integrate with existing databases (SQL or NoSQL), layering
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -540,11 +522,9 @@ Applications can also integrate with existing databases (SQL or NoSQL), layering
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -571,11 +551,9 @@ Applications can also integrate with existing databases (SQL or NoSQL), layering
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -601,7 +579,6 @@ Applications can also integrate with existing databases (SQL or NoSQL), layering
 <div class="paragraph">
 <p>You should now be able to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>

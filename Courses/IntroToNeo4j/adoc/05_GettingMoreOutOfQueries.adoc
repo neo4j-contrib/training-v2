@@ -335,7 +335,7 @@ Next, we modify this query to exclude people who directed that movie:
 [source,cypher]
 ----
 MATCH (p:Person)-[:WROTE]->(m:Movie)
-WHERE NOT exists( (p)-[:DIRECTED]->() )
+WHERE NOT exists( (p)-[:DIRECTED]->(m) )
 RETURN p.name, m.title
 ----
 
