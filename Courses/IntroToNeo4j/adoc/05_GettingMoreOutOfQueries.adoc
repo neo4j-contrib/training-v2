@@ -358,7 +358,7 @@ Here is another example where we want to find _Gene Hackman_ and the movies that
 ----
 MATCH (gene:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(other:Person)
 WHERE gene.name= 'Gene Hackman'
-AND exists( (other)-[:DIRECTED]->() )
+AND exists( (other)-[:DIRECTED]->(m) )
 RETURN  gene, other, m
 ----
 

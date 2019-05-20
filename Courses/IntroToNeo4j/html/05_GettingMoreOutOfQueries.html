@@ -662,7 +662,7 @@ data-lang=”{language}” class=””
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (gene:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(other:Person)
 WHERE gene.name= 'Gene Hackman'
-AND exists( (other)-[:DIRECTED]-&gt;() )
+AND exists( (other)-[:DIRECTED]-&gt;(m) )
 RETURN  gene, other, m</pre>
 </div>
 </div>
