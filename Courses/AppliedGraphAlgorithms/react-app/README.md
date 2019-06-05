@@ -1,4 +1,4 @@
-This React app is synced to a CodeSandbox instance [here](https://codesandbox.io/s/github/neo4j-contrib/applied-graph-algorithms-training/tree/master/react-app)
+This React app is synced to a CodeSandbox instance [here](https://codesandbox.io/s/github/neo4j-contrib/training-v2/tree/master/Courses/AppliedGraphAlgorithms/react-app)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
