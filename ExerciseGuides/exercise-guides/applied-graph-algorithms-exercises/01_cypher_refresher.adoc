@@ -1,0 +1,91 @@
+= Applied Graph Algorithms Training
+
+== Applied Graph Algorithms Training
+
+Welcome to the Neo4j Graph Algorithms Online Training Course!
+
+In this guide we're going to get familiar with the Yelp dataset.
+Let's get started!
+
+== Graph Model
+
+This is the graph model that we'll be working with:
+
+image::{img}/yelp.svg[]
+
+== Cypher Refresher
+
+Cypher is a graph query language that we'll be using in this tutorial.
+Let's do some exploratory analysis to get a feel for the data.
+
+== Cypher Refresher: Cities
+
+We'll start by seeing which cities have the most reviews:
+
+[source,cypher]
+----
+MATCH (c:City)
+RETURN c.name, size((c)<-[:IN_CITY]-()) AS numberOfReviews
+ORDER BY numberOfReviews DESC
+LIMIT 10;
+----
+
+The Yelp Public dataset contains data from a sampling of cities, but we'll contain our analysis to businesses in the Phoenix area.
+
+== Cypher Refresher: Most Reviewed Restaurants
+
+We can find the most reviewed restaurants in Phoenix by executing the following query:
+
+[source,cypher]
+----
+MATCH (b:Business)-[:IN_CITY]->(:City {name: "Phoenix"})
+WHERE (b)-[:IN_CATEGORY]->(:Category {name: "Restaurants"})
+RETURN b.id, b.name,
+       [(b)-[:IN_CATEGORY]->(category) | category.name] AS categories,
+       size((b)<-[:REVIEWS]-()) AS reviews
+ORDER BY reviews DESC
+LIMIT 10;
+----
+
+== Cypher Refresher: Interesting People
+
+And who are some interesting people?
+
+[source,cypher]
+----
+MATCH (u:User)-[:WROTE]->()-[:REVIEWS]-(business:Business)
+WHERE (business:Business)-[:IN_CITY]->(:City {name: "Phoenix"})
+
+WITH u, count(*) AS totalReviews
+ORDER BY totalReviews DESC
+LIMIT 1000
+MATCH (u)-[:WROTE]->()-[:REVIEWS]->()-[:IN_CATEGORY]->(cat)
+
+WITH u, totalReviews, cat, count(*) AS count ORDER BY u, count DESC
+WHERE count > 5
+RETURN u.id, u.name, totalReviews, collect(cat.name)[..5] AS categories
+ORDER BY totalReviews DESC;
+----
+
+Let's store some of those interesting users for later.
+Run the following query to store them in the `userIds` parameter:
+
+[source,cypher]
+----
+:param userIds => ["FiKaWcORiTyKi4I7pJp3tQ", "d_TBs6J3twMy9GChqUEXkg", "NwPnvTALYMNZgdiwHHkuAQ"]
+----
+
+== Cypher Refresher: Interesting People
+
+What places have these users been reviewing?
+
+[source,cypher]
+----
+MATCH (u:User)-[:WROTE]->()-[:REVIEWS]->(business:Business)-[:IN_CATEGORY]->(category)
+WHERE u.id IN $userIds AND (business)-[:IN_CITY]->(:City {name: "Phoenix"})
+WITH u, category, count(*) AS count
+ORDER BY u, count DESC
+RETURN u {.*} AS user, collect({category: category.name, count: count})[..5] AS reviews;
+----
+
+Now that we're familiar with the data, let's go back to the Graph Academy Page and learn about Graph Algorithms and the application that we're going to build.

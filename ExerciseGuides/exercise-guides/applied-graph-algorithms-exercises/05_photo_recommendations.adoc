@@ -1,0 +1,108 @@
+= Photo recommendations
+
+== Photo recommendations
+
+In this section we'll learn how to use the Label Propagation algorithm to cluster similar photos.
+
+== Exploring photo tags
+
+The photos have been run through Google's Image Labeling service and those labels are connected to photos by the `HAS_LABEL` relationship.
+We can run the following query to explore this part of the graph:
+
+[source, cypher]
+----
+MATCH path = (p:Photo)-[:HAS_LABEL]->(label)
+RETURN path
+LIMIT 25
+----
+
+== Similar photos
+
+We want to work out which photos are similar to each other based on the labels they've been tagged with.
+We can do this using the https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-jaccard/#algorithms-similarity-jaccard-sample[Jaccard Similarity algorithm^].
+
+Update the following query (copied from the documentation) to:
+
+* Compute similarity between photos based on the labels they have (Hint: you'll need to use the `HAS_LABEL` relationship)
+* Find the top 3 most similar photos (Hint: look at the `topK` parameter)
+* Store the results in Neo4j (Hint: look at the `write` parameter)
+
+[source, cypher]
+----
+// Change this part of the query
+MATCH (p:Person)-[likes:LIKES]->(cuisine)
+WITH {item:id(p), categories: collect(id(cuisine))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the config in this part of the query
+CALL algo.similarity.jaccard(data, {
+
+})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write
+----
+
+== Answer: Similar Photos
+
+This is what the query should look like:
+
+[source, cypher]
+----
+MATCH (p:Photo)-[:HAS_LABEL]->(label)
+WITH {item:id(p), categories: collect(id(label))} as userData
+
+WITH collect(userData) as data
+
+CALL algo.similarity.jaccard(data, {topK: 3, similarityCutoff: 0.9, write: true})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write
+----
+
+== Similar photos
+
+Now let's have a look at the relationships created by the algorithm.
+Run the following query:
+
+[source, cypher]
+----
+MATCH path = (p1:Photo)-[r:SIMILAR]->(p2:Photo)
+RETURN path
+LIMIT 20
+----
+
+== Clustering photos
+
+Now we're going to cluster photos based on the `SIMILAR` relationships.
+Update the following query to do this:
+
+[source, cypher]
+----
+CALL algo.labelPropagation(<nodel-label>, <relationship-type>, {direction: "BOTH"})
+----
+
+== Answer: Clustering photos
+
+This is what the query should look like:
+
+[source, cypher]
+----
+CALL algo.labelPropagation("Photo", "SIMILAR","BOTH")
+----
+
+== Explore photo clusters
+
+Let's see how many photos we have in each cluster.
+We can run the following query to compute this:
+
+[source, cypher]
+----
+MATCH (p:Photo)
+RETURN p.partition AS partition, count(*) AS count
+ORDER BY count DESC
+LIMIT 10
+----
+
+Now let's go back to our application and use these clusters to make business recommendations.

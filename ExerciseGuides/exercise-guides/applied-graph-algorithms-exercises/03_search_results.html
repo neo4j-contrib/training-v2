@@ -1,0 +1,147 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Ordering Search Results</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Ordering Search Results</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Ordering Search Results</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>We want to work out which users are similar to each other so that we can show more appropriate businesses at the top of the list.
+In this section we&#8217;ll learn how to use the Pearson Similarity algorithm to do this.</p>
+</div>
+<div class="paragraph">
+<p>The Pearson Similarity algorithm takes into account not only the overall similarity between users, but also their relative similarity.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>User Similarity</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The query below provides a template for computing the Pearson Similarity of users based on the businesses that they&#8217;ve reviewed.
+Update the query to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute similarity between users based on the common businesses they&#8217;ve reviewed (Hint: you&#8217;ll need to use the <code>WROTE</code> and <code>REVIEWS</code> relationships)</p>
+</li>
+<li>
+<p>Choose a similarity cut off value (Hint: look at the <code>similarityCutOff</code> parameter)</p>
+</li>
+<li>
+<p>Choose a topK value (Hint: look at the <code>topK</code> parameter)</p>
+</li>
+<li>
+<p>Store the results in Neo4j (Hint: look at the <code>write</code> parameter)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.similarity.pearson(
+  "MATCH (u:User)
+   WHERE size((u)-[:WROTE]-&gt;()) &gt; 10
+   // Fill in this part of the query
+   RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
+  {graph: "cypher", skipValue: algo.NaN})<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Answer: User Similarity</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>This is what the query should look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.similarity.pearson(
+ "MATCH (u:User)
+  WHERE size((u)-[:WROTE]-&gt;()) &gt; 10
+  MATCH (u)-[:WROTE]-&gt;(review)-[:REVIEWS]-&gt;(b)
+  RETURN id(u) AS item, id(b) AS category, review.stars as weight",
+  {graph: "cypher", topK: 5, skipValue: algo.NaN(), similarityCutoff: 0.1, write: true})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We want to use this similarity graph to improve the reviews that we show on our application.
+We can find similar users by following the <code>SIMILAR</code> relationship from a user:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (me:User {id: $userId})-[similarity:SIMILAR]-&gt;(other)
+RETURN other, similarity.score AS similarity
+ORDER BY similarity DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s update the application to use this new information.
+Instead of selecting our businesses based on the opinions of users unrelated to <code>user-name</code>, we&#8217;ll show ones reviewed by similar users.</p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>
