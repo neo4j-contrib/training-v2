@@ -1,0 +1,413 @@
+= Exercise 4
+
+== Exercise 4: Filtering queries using the `WHERE` clause (Preparations)
+
+Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
+
+This is what you should see when you click the database icon:   
+   
+image:{guides}/img/InitialDatabase.png[InitialDatabase,200,200]
+
+If your database does not have this number of nodes and relationships, you can use the script below to reset it:
+
+[source,cypher]
+----
+include::scripts/initialDatabase.cypher[]
+----
+
+== Exercise 4: Filtering queries using the `WHERE` clause (Overview)
+
+In the previous exercise, you have filtered your queries based upon node labels, property values, and relationships in a `MATCH` pattern.
+
+In this exercise, you will write queries that filter the results that are returned using a `WHERE` clause.
+First, you will write some queries that filter based upon property values.
+Then you will specify node labels in the filter.
+Next, you will test whether a property exists.
+Then you will filter queries based upon string comparisons.
+Next, you will write queries that filter based upon patterns in the graph.
+Finally, you will test if property values are in a list.
+
+* *Exercise 4.1*: Retrieve all movies that _Tom Cruise_ acted in.
+* *Exercise 4.2*: Retrieve all actors that were born in the 70's.
+* *Exercise 4.3*: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960.
+* *Exercise 4.4*: Retrieve all movies  by testing the node label and a property.
+* *Exercise 4.5*: Retrieve all people that wrote movies by testing the relationship between two nodes.
+* *Exercise 4.6*: Retrieve all people in the graph that do not have a property.
+* *Exercise 4.7*: Retrieve all people related to movies where the relationship has a property.
+* *Exercise 4.8*: Retrieve all actors whose name begins with _James_.
+* *Exercise 4.9*: Retrieve all all _REVIEW_ relationships from the graph with filtered results.
+* *Exercise 4.10*: Retrieve all people who have produced a movie, but have not directed a movie.
+* *Exercise 4.11*: Retrieve the movies and their actors where one of the actors also directed the movie.
+* *Exercise 4.12*: Retrieve all movies that were released in a set of years.
+* *Exercise 4.13*: Retrieve the movies that have an actor's role that is the name of the movie.
+
+Go to the next page to start this exercise.
+
+== Exercise 4.1: Retrieve all movies that _Tom Cruise_ acted in (Instructions)
+
+*Retrieve all movies that _Tom Cruise_ acted in and return their titles.*
+
+*Hint*: Use a `WHERE` clause.
+
+*Hint:* You must specify a variable for the _Person_ and _Movie_ nodes as they are used in the `WHERE` and `RETURN` clauses.
+
+== Exercise 4.1: Retrieve all movies that _Tom Cruise_ acted in (Solution)
+
+*Retrieve all movies that _Tom Cruise_ acted in and return their titles.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WHERE a.name = 'Tom Cruise'
+RETURN m.title as Movie
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/TomCruiseMovies.png[TomCruiseMovies,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.2: Retrieve all actors that were born in the 70's (Instructions)
+
+*Retrieve all actors that were born in the 70's and return their names and year born.*
+
+== Exercise 4.2: Retrieve all actors that were born in the 70's (Solution)
+
+*Retrieve all actors that were born in the 70's and return their names and year born.*
+
+[source, cypher]
+----
+MATCH (a:Person)
+WHERE a.born >= 1970 AND a.born < 1980
+RETURN a.name as Name, a.born as `Year Born`
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/SeventiesActors.png[SeventiesActors,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.3: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960 (Instructions)
+
+*Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960, and return their names and year born.*
+
+== Exercise 4.3: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960 (Solution)
+
+*Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960, and return their names and year born.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WHERE a.born > 1960 AND m.title = 'The Matrix'
+RETURN a.name as Name, a.born as `Year Born`
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/MatrixYoungerActors.png[MatrixYoungerActors,width=400]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.4: Retrieve all movies  by testing the node label and a property (Instructions)
+
+*Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.*
+
+== Exercise 4.4: Retrieve all movies  by testing the node label and a property (Solution)
+
+*Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.*
+
+[source, cypher]
+----
+MATCH (m)
+WHERE m:Movie AND m.released = 2000
+RETURN m.title
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Instructions)
+
+*Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.*
+
+== Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Solution)
+
+*Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.*
+
+[source, cypher]
+----
+MATCH (a)-[rel]->(m)
+WHERE a:Person AND type(rel) = 'WROTE' AND m:Movie
+RETURN a.name as Name, m.title as Movie
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/MatchWritersWhere.png[MatchWritersWhere,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.6: Retrieve all people in the graph that do not have a property (Instructions)
+
+You will write Cypher queries using a `WHERE` clause to test existence.
+
+*Retrieve all people in the graph that do not have a _born_ property, returning their names.*
+
+== Exercise 4.6: Retrieve all people in the graph that do not have a property (Solution)
+
+*Retrieve all people in the graph that do not have a _born_ property, returning their names.*
+
+[source, cypher]
+----
+MATCH (a:Person)
+WHERE NOT exists(a.born)
+RETURN a.name as Name
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/NoYearBorn.png[NoYearBorn,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Instructions)
+
+You will write Cypher queries using a `WHERE` clause to test existence.
+
+*Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.*
+
+== Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Solution)
+
+*Retrieve all people related to movies where the relationship has the _rating_ property, then return their name, movie title, and the rating.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[rel]->(m:Movie)
+WHERE exists(rel.rating)
+RETURN a.name as Name, m.title as Movie, rel.rating as Rating
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RelationshipsWithRatings.png[RelationshipsWithRatings,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.8: Retrieve all actors whose name begins with _James_ (Instructions)
+
+Next you will practice queries that test string properties.
+
+*Retrieve all actors whose name begins with _James_, returning their names.*
+
+== Exercise 4.8: Retrieve all actors whose name begins with _James_ (Solution)
+
+*Retrieve all actors whose name begins with _James_, returning their names.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(:Movie)
+WHERE a.name STARTS WITH 'James'
+RETURN a.name
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ActorsNamedJames.png[ActorsNamedJames,width=400]
+
+The result returned should be:
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph with filtered results (Instructions)
+
+*Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.*
+
+*Hint:* You do not know what case the _fun_ string will be in the summary text.
+
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph with filtered results (Solution)
+
+*Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_, returning the movie title reviewed and the rating and summary of the relationship.*
+
+[source, cypher]
+----
+MATCH (:Person)-[r:REVIEWED]->(m:Movie)
+WHERE toLower(r.summary) CONTAINS 'fun'
+RETURN  m.title as Movie, r.summary as Review, r.rating as Rating
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ReviewsWithFun.png[ReviewsWithFun,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.9: Retrieve all all _REVIEW_ relationships from the graph where the _summary_ of the review contains the string _fun_ (Taking it further - optional)
+
+* Retrieve all movies in the database that have _love_ in their _tagline_ and return the movie titles 
+* Retrieve movies in the database, specifying a regular expression for the content of the _tagline_.
+
+*Hint:* retrieve all of the taglines of the movies to see what you can search for.
+
+== Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie (Instructions)
+
+Next, you will write queries that test patterns.
+
+*Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.*
+
+== Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie (Solution)
+
+*Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:PRODUCED]->(m:Movie)
+WHERE NOT ((a)-[:DIRECTED]->(:Movie))
+RETURN a.name, m.title
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirectors,width=400]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Instructions)
+
+*Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director's name, and the movie title.*
+
+== Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Solution)
+
+*Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director's name, and the movie title.*
+
+[source, cypher]
+----
+MATCH (a1:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(a2:Person)
+WHERE exists( (a2)-[:DIRECTED]->(m) )
+RETURN  a1.name as Actor, a2.name as `Actor/Director`, m.title as Movie
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ActorsAsDirectors.png[ActorsAsDirectors,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.12: Retrieve all movies that were released in a set of years (Instructions)
+
+Next you will perform queries using lists.
+
+*Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.*
+
+== Exercise 4.12: Retrieve all movies that were released in a set of years (Solution)
+
+*Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.released in [2000, 2004, 2008]
+RETURN m.title, m.released
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/MoviesInList.png[MoviesInList,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4.13: Retrieve the movies that have an actor's role that is the name of the movie (Instructions)
+
+*Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and the role.*
+
+== Exercise 4.13: Retrieve the movies that have an actor's role that is the name of the movie (Solution)
+
+*Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and the role.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[r:ACTED_IN]->(m:Movie)
+WHERE m.title in r.roles
+RETURN  m.title as Movie, a.name as Actor
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RoleNameIsMovieName.png[RoleNameIsMovieName,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 4: Filtering queries using the `WHERE` clause (Summary)
+
+In this exercise, you wrote queries that filter the results that are returned using a `WHERE` clause.
+First, you wrote some queries that filter based upon property values.
+Then you specified node labels in the filter.
+Next, you tested whether a property exists.
+Then you filtered queries based upon string comparisons.
+Next, you wrote queries that filter based upon patterns in the graph.
+Finally, you tested if property values are in a list.
+
+pass:a[<a play-topic='{guides}/05.html'>Continue to Exercise 5</a>]

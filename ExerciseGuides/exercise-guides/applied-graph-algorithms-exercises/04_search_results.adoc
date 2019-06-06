@@ -1,0 +1,55 @@
+= Ordering Search Results
+
+== Ordering Search Results
+
+We want to work out which users are similar to each other so that we can show more appropriate businesses at the top of the list.
+In this section we'll learn how to use the Pearson Similarity algorithm to do this.
+
+The Pearson Similarity algorithm takes into account not only the overall similarity between users, but also their relative similarity.
+
+== User Similarity
+
+The query below provides a template for computing the Pearson Similarity of users based on the businesses that they've reviewed.
+Update the query to:
+
+* Compute similarity between users based on the common businesses they've reviewed (Hint: you'll need to use the `WROTE` and `REVIEWS` relationships)
+* Choose a similarity cut off value (Hint: look at the `similarityCutOff` parameter)
+* Choose a topK value (Hint: look at the `topK` parameter)
+* Store the results in Neo4j (Hint: look at the `write` parameter)
+
+[source,cypher]
+----
+CALL algo.similarity.pearson(
+  "MATCH (u:User)
+   WHERE size((u)-[:WROTE]->()) > 10
+   // Fill in this part of the query
+   RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
+  {graph: "cypher", skipValue: algo.NaN})
+----
+
+== Answer: User Similarity
+
+This is what the query should look like:
+
+[source, cypher]
+----
+CALL algo.similarity.pearson(
+ "MATCH (u:User)
+  WHERE size((u)-[:WROTE]->()) > 10
+  MATCH (u)-[:WROTE]->(review)-[:REVIEWS]->(b)
+  RETURN id(u) AS item, id(b) AS category, review.stars as weight",
+  {graph: "cypher", topK: 5, skipValue: algo.NaN(), similarityCutoff: 0.1, write: true})
+----
+
+We want to use this similarity graph to improve the reviews that we show on our application.
+We can find similar users by following the `SIMILAR` relationship from a user:
+
+[source,cypher]
+----
+MATCH (me:User {id: $userId})-[similarity:SIMILAR]->(other)
+RETURN other, similarity.score AS similarity
+ORDER BY similarity DESC
+----
+
+Now let's update the application to use this new information.
+Instead of selecting our businesses based on the opinions of users unrelated to `user-name`, we'll show ones reviewed by similar users.

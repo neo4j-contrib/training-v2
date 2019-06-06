@@ -1,0 +1,216 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Applied Graph Algorithms Training</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Applied Graph Algorithms Training</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Applied Graph Algorithms Training</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Welcome to the Neo4j Graph Algorithms Online Training Course!</p>
+</div>
+<div class="paragraph">
+<p>In this guide we&#8217;re going to get familiar with the Yelp dataset.
+Let&#8217;s get started!</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Graph Model</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>This is the graph model that we&#8217;ll be working with:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/applied_graph_algorithms/images/yelp.svg" alt="yelp">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Cypher Refresher</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Cypher is a graph query language that we&#8217;ll be using in this tutorial.
+Let&#8217;s do some exploratory analysis to get a feel for the data.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Cypher Refresher: Cities</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>We&#8217;ll start by seeing which cities have the most reviews:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (c:City)
+RETURN c.name, size((c)&lt;-[:IN_CITY]-()) AS numberOfReviews
+ORDER BY numberOfReviews DESC
+LIMIT 10;<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Yelp Public dataset contains data from a sampling of cities, but we&#8217;ll contain our analysis to businesses in the Phoenix area.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Cypher Refresher: Most Reviewed Restaurants</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>We can find the most reviewed restaurants in Phoenix by executing the following query:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (b:Business)-[:IN_CITY]-&gt;(:City {name: "Phoenix"})
+WHERE (b)-[:IN_CATEGORY]-&gt;(:Category {name: "Restaurants"})
+RETURN b.id, b.name,
+       [(b)-[:IN_CATEGORY]-&gt;(category) | category.name] AS categories,
+       size((b)&lt;-[:REVIEWS]-()) AS reviews
+ORDER BY reviews DESC
+LIMIT 10;<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Cypher Refresher: Interesting People</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>And who are some interesting people?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (u:User)-[:WROTE]-&gt;()-[:REVIEWS]-(business:Business)
+WHERE (business:Business)-[:IN_CITY]-&gt;(:City {name: "Phoenix"})
+
+WITH u, count(*) AS totalReviews
+ORDER BY totalReviews DESC
+LIMIT 1000
+MATCH (u)-[:WROTE]-&gt;()-[:REVIEWS]-&gt;()-[:IN_CATEGORY]-&gt;(cat)
+
+WITH u, totalReviews, cat, count(*) AS count ORDER BY u, count DESC
+WHERE count &gt; 5
+RETURN u.id, u.name, totalReviews, collect(cat.name)[..5] AS categories
+ORDER BY totalReviews DESC;<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s store some of those interesting users for later.
+Run the following query to store them in the <code>userIds</code> parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:param userIds =&gt; ["FiKaWcORiTyKi4I7pJp3tQ", "d_TBs6J3twMy9GChqUEXkg", "NwPnvTALYMNZgdiwHHkuAQ"]<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Cypher Refresher: Interesting People</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>What places have these users been reviewing?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (u:User)-[:WROTE]-&gt;()-[:REVIEWS]-&gt;(business:Business)-[:IN_CATEGORY]-&gt;(category)
+WHERE u.id IN $userIds AND (business)-[:IN_CITY]-&gt;(:City {name: "Phoenix"})
+WITH u, category, count(*) AS count
+ORDER BY u, count DESC
+RETURN u {.*} AS user, collect({category: category.name, count: count})[..5] AS reviews;<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that we&#8217;re familiar with the data, let&#8217;s go back to the Graph Academy Page and learn about Graph Algorithms and the application that we&#8217;re going to build.</p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>
