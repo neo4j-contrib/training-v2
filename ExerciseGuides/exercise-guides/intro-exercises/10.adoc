@@ -1,0 +1,120 @@
+= Exercise 10
+== Exercise 10: Intermediate query processing (Preparations)
+
+Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
+
+This is what you should see when you click the database icon:
+
+image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+
+If your database does not have this number of nodes and relationships, you can use the script below to reset it:
+
+[source, cypher]
+----
+include::scripts/initialDatabase.cypher[]
+----
+
+
+== Exercise 10: Intermediate query processing (Overview)
+
+In the previous exercises, you have filtered your queries using the `WHERE` clause of a Cypher query.
+
+In this exercise, you will write queries that do additional query processing.
+First, you will write a query that retrieves data with optional results.
+Finally, you will perform intermediate processing during the query using a `WITH` clause.
+
+* *Exercise 10.1*: Specify optional data to be retrieved during the query.
+* *Exercise 10.2*: Retrieve the actors who have acted in exactly five movies.
+* *Exercise 10.3*: Retrieve the movies that have at least 2 directors with other optional data.
+
+Go to the next page to start this exercise.
+
+
+== Exercise 10.1: Specify optional data to be retrieved during the query (Instructions)
+
+*Write a Cypher query to retrieve all people in the graph whose name begins with _Tom_ and optionally retrieve all people named _Tom_ who directed a movie.*
+
+== Exercise 10.1: Specify optional data to be retrieved during the query (Solution)
+
+*Write a Cypher query to retrieve all people in the graph whose name begins with _Tom_ and optionally retrieve all people named _Tom_ who directed a movie.*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WHERE p.name STARTS WITH 'Tom'
+OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie)
+RETURN p.name, m.title
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/OptionalMatch.png[OptionalMatch,width=400]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 10.2: Retrieve the actors who have acted in exactly five movies (Instructions)
+
+Next, you will write queries that perform some intermediate processing using the `WITH` clause.
+
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
+
+== Exercise 10.2: Retrieve the actors who have acted in exactly five movies (Solution)
+
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, count(a) AS numMovies, collect(m.title) AS movies
+WHERE numMovies = 5
+RETURN a.name, movies
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/FiveMovies.png[FiveMovies,width=400]
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 10.3: Retrieve the movies that have at least 2 directors with other optional data (Instructions)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+
+== Exercise 10.3: Retrieve the movies that have at least 2 directors with other optional data (Solution)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WITH m, size((:Person)-[:DIRECTED]->(m)) AS directors
+WHERE directors >= 2
+OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m)
+RETURN  m.title, p.name
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/TopDirectorsAndReviewers.png[TopDirectorsAndReviewers,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 10: Intermediate query processing (Summary)
+
+In this exercise, you wrote queries that do additional query processing.
+First, you wrote a query that retrieves data with optional results.
+Finally, you performed intermediate processing during the query using a `WITH` clause.
+
+pass:a[<a play-topic='{guides}/11.html'>Continue to Exercise 11</a>]
