@@ -34,7 +34,7 @@ def publish_app_js(stage, filename):
     rendered_content = render_template('js/' + filename, **tmpl_vars)
 
   f = s3.put_object(Body=bytes(rendered_content), Bucket='cdn.neo4jlabs.com', Key='graphacademy/data-science/' + stage + '/' + filename, ACL='public-read')
-  print "https://cdn.neo4jlabs.com/graphacademy/data-science/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])
+  print("https://cdn.neo4jlabs.com/graphacademy/data-science/%s/%s?versionId=%s" % (stage, filename, f['VersionId']))
   return f['VersionId']
 
 
@@ -43,19 +43,19 @@ def main(argv):
   try:
      opts, args = getopt.getopt(argv,"h",['stage=','file='])
   except getopt.GetoptError:
-     print 'publish_js.py --stage <stage>'
+     print('publish_js.py --stage <stage>')
      sys.exit(2)
   for opt, arg in opts:
      if opt == '-h':
-        print 'publish_js.py --stage <stage>'
+        print('publish_js.py --stage <stage>')
         sys.exit()
      elif opt in ("--file"):
         filename = arg
      elif opt in ("--stage"):
         stage = arg
 
-  if stage <> 'dev' and stage <> 'prod':
-    print "Stages 'prod' + 'dev' are only supported stages currently"
+  if stage != 'dev' and stage != 'prod':
+    print("Stages 'prod' + 'dev' are only supported stages currently")
     sys.exit()
 
   publish_app_js(stage, filename)

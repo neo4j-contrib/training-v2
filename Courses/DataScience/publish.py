@@ -41,7 +41,7 @@ def publish_app_js(stage, filename):
     rendered_content = render_template('js/' + filename, **tmpl_vars)
 
   f = s3.put_object(Body=bytes(rendered_content), Bucket='cdn.neo4jlabs.com', Key='graphacademy/datascience/' + stage + '/' + filename, ACL='public-read')
-  print "\t\thttps://cdn.neo4jlabs.com/graphacademy/datascience/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])
+  print("\t\thttps://cdn.neo4jlabs.com/graphacademy/datascience/%s/%s?versionId=%s" % (stage, filename, f['VersionId']))
   return f['VersionId']
 
 
@@ -50,7 +50,8 @@ Update wordpress page
 '''
 def update_wordpress_page(pageId, content):
     url = 'https://neo4j.com/wp-json/wp/v2/pages/%d' % (pageId)
-    auth = b64encode('{}:{}'.format(os.getenv('PUBLISH_DOCS_USERNAME'), os.getenv('PUBLISH_DOCS_PASSWORD')))
+    user_password = '{}:{}'.format(os.getenv('PUBLISH_DOCS_USERNAME'), os.getenv('PUBLISH_DOCS_PASSWORD'))
+    auth = b64encode(bytes(user_password.encode("utf-8"))).decode("utf-8")
     headers = {
         'Accept': 'application/json',
         'Authorization': 'Basic {}'.format(auth),
@@ -62,10 +63,10 @@ def update_wordpress_page(pageId, content):
     # build response for update
     response['content'] = content
     headers['Content-Type'] = 'application/json'
-    print "\t%s" % (url)
+    print("\t%s" % (url))
     pr = requests.post(url, headers=headers, data=json.dumps(response))
 
-    return pr.content
+    return pr
 
 
 def main(argv):
@@ -73,27 +74,28 @@ def main(argv):
   try:
      opts, args = getopt.getopt(argv,"h",['stage='])
   except getopt.GetoptError:
-     print 'publish.py --stage <stage>'
+     print('publish.py --stage <stage>')
      sys.exit(2)
   for opt, arg in opts:
      if opt == '-h':
-        print 'publish.py --stage <stage>'
+        print('publish.py --stage <stage>')
         sys.exit()
      elif opt in ("--stage"):
         stage = arg
-  print 'Stage is "%s"' % (stage)
+  print('Stage is "%s"' % (stage))
 
-  if stage <> 'dev' and stage <> 'prod':
-    print "Stages 'prod' + 'dev' are only supported stages currently"
+  if stage != 'dev' and stage != 'prod':
+    print("Stages 'prod' + 'dev' are only supported stages currently")
     sys.exit()
 
   if 'PUBLISH_DOCS_USERNAME' in os.environ and 'PUBLISH_DOCS_PASSWORD' in os.environ:
     # skip publishing JS as we'll publish separately before building web so asciidoc has URLs
-    for key, value in WP_PAGE_IDS.iteritems():
-      print "Publishing %s:" % (key)
-      pageContent = update_wordpress_page(value[stage], get_page_content(key))
+    for key, value in WP_PAGE_IDS.items():
+      print("Publishing %s:" % (key))
+      result = update_wordpress_page(value[stage], get_page_content(key))
+      print(result.status_code)
   else:
-    print "Environment varisbles for PUBLISH_DOCS_USERNAME and PUBLISH_DOCS_PASSWORD must be set"
+    print("Environment varisbles for PUBLISH_DOCS_USERNAME and PUBLISH_DOCS_PASSWORD must be set")
     sys.exit()
 
 if __name__ == "__main__":
