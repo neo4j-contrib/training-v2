@@ -9,13 +9,13 @@ import boto3
 from flask import render_template
 
 
-WP_PAGE_IDS = { "index.part.html": {"dev": 94349, "prod": -1},
-                "00_AboutThisCourse.html": {"dev": 94351, "prod": -1},
-                "01_SettingUpYourDevelopmentEnvironment.html": {"dev": 94357, "prod": -1},
-                "02_ExploratoryDataAnalysis.html": {"dev": 94417, "prod": -1},
-                "03_Recommendations.html": {"dev": 94419, "prod": -1},
-                "04_Predictions.html": {"dev": 94421, "prod": -1},
-                "05_Summary.html": {"dev": 94423, "prod": -1}
+WP_PAGE_IDS = { "index.part.html": {"dev": 94349, "prod": 98573},
+                "00_AboutThisCourse.html": {"dev": 94351, "prod": 98576},
+                "01_SettingUpYourDevelopmentEnvironment.html": {"dev": 94357, "prod": 98579},
+                "02_ExploratoryDataAnalysis.html": {"dev": 94417, "prod": 98581},
+                "03_Recommendations.html": {"dev": 94419, "prod": 98583},
+                "04_Predictions.html": {"dev": 94421, "prod": 98585},
+                "05_Summary.html": {"dev": 94423, "prod": 98587}
               }
 
 fapp = flask.Flask('pub', template_folder='.')
@@ -98,4 +98,3 @@ def main(argv):
 
 if __name__ == "__main__":
    main(sys.argv[1:])
-
