@@ -8,14 +8,14 @@ import sys, getopt
 import boto3
 from flask import render_template
 
-WP_PAGE_IDS = { "index.part.html": {"dev": 94178, "prod": ""},
-                "00_AboutThisCourse.html": {"dev": 94181, "prod": ""},
-                "01_Setup.html": {"dev": 94184, "prod": ""},
-                "02_CategoryHierarchy.html": {"dev": 94186, "prod": ""},
-                "03_OrderingSearchResults.html": {"dev": 94189, "prod": ""},
-                "04_MostRelevantReviews.html": {"dev": 94191, "prod": ""},
-                "05_PhotoRecommendations.html": {"dev": 94193, "prod": ""},
-                "06_Summary.html": {"dev": 94196, "prod": ""}
+WP_PAGE_IDS = { "index.part.html": {"dev": 94178, "prod": 98655},
+                "00_AboutThisCourse.html": {"dev": 94181, "prod": 98659},
+                "01_Setup.html": {"dev": 94184, "prod": 98662},
+                "02_CategoryHierarchy.html": {"dev": 94186, "prod": 98665},
+                "03_OrderingSearchResults.html": {"dev": 94189, "prod": 98667},
+                "04_MostRelevantReviews.html": {"dev": 94191, "prod": 98669},
+                "05_PhotoRecommendations.html": {"dev": 94193, "prod": 98672},
+                "06_Summary.html": {"dev": 94196, "prod": 98674}
               }
 
 fapp = flask.Flask('pub', template_folder='.')
