@@ -1,6 +1,4 @@
-/*
- TODO: instructions / context for
- */
+
 export const FETCH_CATEGORIES_QUERY =
 `
 MATCH (c:Category)

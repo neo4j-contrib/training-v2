@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Usage: sh render.sh [publish]"
-GUIDES=../neo4j-guides
+GUIDES=../../neo4j-guides
 # git clone http://github.com/jexp/neo4j-guides $GUIDES
 
 function render {
@@ -15,7 +15,7 @@ function render {
 
 # -a env-training is a flag to enable full content, if you comment it out, the guides are rendered minimally e.g. for a presentation
 if [ "$1" == "publish" ]; then
-  URL=guides.neo4j.com/sandbox/applied_graph_algorithms
+  URL=guides.neo4j.com/applied_graph_algorithms
   render http://$URL -a env-training -a img=https://$URL/images
   s3cmd put --recursive -P *.html images s3://${URL}/
   s3cmd put -P index.html s3://${URL}
