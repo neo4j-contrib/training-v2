@@ -21,10 +21,10 @@ Update the query to:
 ----
 CALL algo.similarity.pearson(
   "MATCH (u:User)
-   WHERE size((u)-[:WROTE]->()) > 10
+   WHERE size((u)-[:WROTE]->()) > 15
    // Fill in this part of the query
    RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
-  {graph: "cypher", skipValue: algo.NaN})
+  {graph: "cypher", skipValue: algo.NaN()})
 ----
 
 == Answer: User Similarity
@@ -35,7 +35,7 @@ This is what the query should look like:
 ----
 CALL algo.similarity.pearson(
  "MATCH (u:User)
-  WHERE size((u)-[:WROTE]->()) > 10
+  WHERE size((u)-[:WROTE]->()) > 15
   MATCH (u)-[:WROTE]->(review)-[:REVIEWS]->(b)
   RETURN id(u) AS item, id(b) AS category, review.stars as weight",
   {graph: "cypher", topK: 5, skipValue: algo.NaN(), similarityCutoff: 0.1, write: true})

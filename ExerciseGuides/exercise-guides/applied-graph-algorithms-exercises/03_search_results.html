@@ -95,10 +95,10 @@ Update the query to:</p>
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.similarity.pearson(
   "MATCH (u:User)
-   WHERE size((u)-[:WROTE]-&gt;()) &gt; 10
+   WHERE size((u)-[:WROTE]-&gt;()) &gt; 15
    // Fill in this part of the query
    RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
-  {graph: "cypher", skipValue: algo.NaN})<!--/code--></pre>
+  {graph: "cypher", skipValue: algo.NaN()})<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -119,7 +119,7 @@ Update the query to:</p>
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.similarity.pearson(
  "MATCH (u:User)
-  WHERE size((u)-[:WROTE]-&gt;()) &gt; 10
+  WHERE size((u)-[:WROTE]-&gt;()) &gt; 15
   MATCH (u)-[:WROTE]-&gt;(review)-[:REVIEWS]-&gt;(b)
   RETURN id(u) AS item, id(b) AS category, review.stars as weight",
   {graph: "cypher", topK: 5, skipValue: algo.NaN(), similarityCutoff: 0.1, write: true})<!--/code--></pre>
