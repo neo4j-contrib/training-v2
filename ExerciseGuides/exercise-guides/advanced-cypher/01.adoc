@@ -9,12 +9,17 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/Empty_database.png[Empty_database,width=150,role=left]
 
-*If your database is not empty, you can run the Cypher below to reset it*:
+*Regardless of what is in  your graph, run the following script which removes all nodes and relationships from the graph and loads the graph with the "movie" data by executing this Cypher code:*
 
 [source, cypher]
 ----
-MATCH (n) DETACH DELETE n
+include::scripts/initialDatabase.cypher[]
 ----
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+
 
 *Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
 
@@ -28,249 +33,207 @@ RETURN name ORDER BY name ASC
 
 If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database.
 
-*Load the graph with the movie data by executing this Cypher code:*
-
-[source, cypher]
-----
-include::scripts/initialDatabase.cypher[]
-----
-
-This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
-
-image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
 
 
 == Exercise 1: Traversing the graph (Overview)
 
-In this exercise, you will implement a simple model for people in a company and their skills and answer some questions.
+In this exercise, you write some Cypher statements that help you understand traversal in Neo4j.
 
-* *Exercise 1.1*: Load the database with Person, Company, and Skill nodes.
-* *Exercise 1.2*: Where does Ian work and what are  his skills?
-* *Exercise 1.3:* Where does Sarah work and what are her skills?
-* *Exercise 1.4:* What people in Ian's company have similar skills as Ian?
-* *Exercise 1.5:* Modify Ian's skills.
-* *Exercise 1.6:* What are Ian's skills?
-* *Exercise 1.7:* What people in Ian's company have similar skill as Ian?
+* *Exercise 1.1*: Determine the anchor and the number of paths traversed.
+* *Exercise 1.2*: Determine the anchors and number of paths traversed.
+* *Exercise 1.3:* Modify the previous query to use only one anchor.
+* *Exercise 1.4:* Using WITH to chain clauses in a query.
+* *Exercise 1.5:* Uniqueness of relationship path traversal.
+* *Exercise 1.6:* Find the shortest path between two nodes.
 
 
 Go to the next page to start this exercise.
 
-== Exercise 1.1: Load the database with Person, Company, and Skill nodes (Instructions)
+== Exercise 1.1: Determine the anchor and the number of paths traversed. (Instructions)
 
-Here is the data model you will work with in this exercise:
+*Execute this cypher code and then answer these questions*:
+
+[source, cypher]
+----
+MATCH (p:Person)-[:REVIEWED]->(m:Movie)<-[:REVIEWED]-(p2:Person)
+WHERE p.name = 'Jessica Thompson'
+RETURN p, p2, m
+----
+
+*What is the anchor of this query?*
+
+*How many paths are traversed during this query?*
+
+== Exercise 1.1: Determine the anchor and the number of paths traversed. (Solution)
+
+*What is the anchor of this query?*
+
+Answer: The Person node with the name property, Jessica Thompson.
+
+*How many paths are traversed during this query?*
+
+Answer: Three paths are traversed
 
 [.thumb]
-image::{guides}/img/FirstGraphModel-Ex1.png[FirstGraphModel-Ex1,width=400]
+image::{guides}/img/EX1.1.png[EX1.1,width=300]
 
-*Execute this Cypher code to load the database for this model*:
+== Exercise 1.2: Determine the anchors and number of paths traversed. (Instructions)
 
-[source, cypher]
-----
-CREATE
-(ben:Person{name:'Ben'}),
-(charlie:Person{name:'Charlie'}),
-(lucy:Person{name:'Lucy'}),
-(ian:Person{name:'Ian'}),
-(sarah:Person{name:'Sarah'}),
-(emily:Person{name:'Emily'}),
-(gordon:Person{name:'Gordon'}),
-(kate:Person{name:'Kate'}),
-(acme:Company{name:'Acme, Inc'}),
-(startup:Company{name:'Startup, Ltd'}),
-(neo4j:Skill{name:'Neo4j'}),
-(rest:Skill{name:'REST'}),
-(dotNet:Skill{name:'DotNet'}),
-(ruby:Skill{name:'Ruby'}),
-(sql:Skill{name:'SQL'}),
-(architecture:Skill{name:'Architecture'}),
-(java:Skill{name:'Java'}),
-(python:Skill{name:'Python'}),
-(javascript:Skill{name:'Javascript'}),
-(clojure:Skill{name:'Clojure'}),
-(ben)-[:WORKS_FOR]->(acme),
-(charlie)-[:WORKS_FOR]->(acme),
-(lucy)-[:WORKS_FOR]->(acme),
-(ian)-[:WORKS_FOR]->(acme),
-(sarah)-[:WORKS_FOR]->(startup),
-(emily)-[:WORKS_FOR]->(startup),
-(gordon)-[:WORKS_FOR]->(startup),
-(kate)-[:WORKS_FOR]->(startup),
-(ben)-[:HAS_SKILL{level:1}]->(neo4j),
-(ben)-[:HAS_SKILL{level:3}]->(rest),
-(charlie)-[:HAS_SKILL{level:2}]->(neo4j),
-(charlie)-[:HAS_SKILL{level:1}]->(javascript),
-(charlie)-[:HAS_SKILL{level:1}]->(sql),
-(lucy)-[:HAS_SKILL{level:3}]->(dotNet),
-(lucy)-[:HAS_SKILL{level:2}]->(architecture),
-(lucy)-[:HAS_SKILL{level:1}]->(python),
-(ian)-[:HAS_SKILL{level:2}]->(java),
-(ian)-[:HAS_SKILL{level:3}]->(neo4j),
-(ian)-[:HAS_SKILL{level:2}]->(rest),
-(sarah)-[:HAS_SKILL{level:1}]->(neo4j),
-(sarah)-[:HAS_SKILL{level:1}]->(java),
-(sarah)-[:HAS_SKILL{level:1}]->(rest),
-(sarah)-[:HAS_SKILL{level:1}]->(clojure),
-(emily)-[:HAS_SKILL{level:1}]->(neo4j),
-(emily)-[:HAS_SKILL{level:1}]->(dotNet),
-(emily)-[:HAS_SKILL{level:1}]->(python),
-(gordon)-[:HAS_SKILL{level:1}]->(dotNet),
-(gordon)-[:HAS_SKILL{level:1}]->(ruby),
-(kate)-[:HAS_SKILL{level:1}]->(architecture),
-(kate)-[:HAS_SKILL{level:1}]->(python)
-----
-
-
-== Exercise 1.2: Where does Ian work and what are his skills? (Instructions)
-
-*Write a query to display the company that Ian works for and his skills.*
-
-
-== Exercise 1.2: Where does Ian work and what are his skills? (Solution)
-
-*Write a query to display the company that Ian works for and his skills.*
+*Execute this cypher code and then answer these questions*:
 
 [source, cypher]
 ----
-MATCH (c:Company)<-[:WORKS_FOR]-(:Person{name:'Ian'})-[r:HAS_SKILL]->(s:Skill)
-RETURN c.name, s.name, r.level
+MATCH (a1:Person)-[:ACTED_IN]->(m:Movie)
+MATCH (a2:Person)-[:ACTED_IN]->(m)
+   WHERE a1.name = 'Rita Wilson'
+RETURN m, a2
+----
+
+*What are the anchors for each MATCH clause?*
+
+*How many paths are traversed during this query?*
+
+
+== Exercise 1.2: Determine the anchors and number of paths traversed. (Solution)
+
+*What are the anchors for each MATCH clause?*
+
+Answer: The first MATCH uses the Person node with the name, Rita Wilson. The second MATCH uses the found movie node with the title, Sleepless in Seattle.
+
+*How many paths are traversed during this query?*
+
+One path is traversed for the first MATCH clause. Six paths are traversed for the second MATCH clause. Notice that the path from Rita Wilson to the movie Sleepless in Seattle is traversed twice.
+
+[.thumb]
+image::{guides}/img/EX1.2.png[EX1.2,width=300]
+
+== Exercise 1.3: Modify the previous query to use only one anchor. (Instructions)
+
+*Modify this query to use a single anchor and thus reduce the number of paths traversed.*
+
+[source, cypher]
+----
+MATCH (a1:Person)-[:ACTED_IN]->(m:Movie)
+MATCH (a2:Person)-[:ACTED_IN]->(m)
+   WHERE a1.name = 'Rita Wilson'
+RETURN m, a2
+----
+== Exercise 1.3: Modify the previous query to use only one anchor. (Solution)
+
+*Modify this query to use a single anchor and thus reduce the number of paths traversed.*
+
+[source, cypher]
+----
+MATCH (a1:Person)-[:ACTED_IN]->(m:Movie),
+      (a2:Person)-[:ACTED_IN]->(m)
+WHERE a1.name = 'Rita Wilson'
+RETURN m, a2
+----
+
+Notice that for this query, the node Rita Wilson is not visited twice.
+
+[.thumb]
+image::{guides}/img/EX1.3.png[EX1.3,width=300]
+
+== Exercise 1.4: Using WITH to chain clauses in a query. (Instructions)
+
+*We want a query that finds all people who have acted in at least 5 movies. If this found person has also directed a movie, display the person's name and the title of the movie. This code is not correct. Correct it so that it returns the correct results.*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WITH  size((p)-[:ACTED_IN]->(:Movie)) AS movies
+WHERE movies >= 5
+OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie)
+RETURN p.name, m.title
+----
+
+== Exercise 1.4: Using WITH to chain clauses in a query.  (Solution)
+
+*We want a query that finds all people who have acted in at least 5 movies. If this found person has also directed a movie, display the person's name and the title of the movie. This code is not correct. Correct it so that it returns the correct results.*
+
+Here is the solution. We also want to carry the p variable for the optional match. These actors acted in at least 5 movies, but only Tom Hanks also directed a movie.
+
+[source, cypher]
+----
+MATCH (p:Person)
+WITH  p, size((p)-[:ACTED_IN]->(:Movie)) AS movies
+WHERE movies >= 5
+OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie)
+RETURN p.name, m.title
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex1_IanSkills.png[Ex1_IanSkills,width=300]
+image::{guides}/img/EX1.4.png[EX1.4,width=300]
 
-== Exercise 1.3: Where does Sarah work and what are her skills? (Instructions)
+== Exercise 1.5: Uniqueness of relationship path traversal. (Instructions)
 
-*Write a query to display the company that Sarah works for and her skills.*
-
-
-== Exercise 1.3: Where does Sarah work and what are her skills? (Solution)
-
-*Write a query to display the company that Sarah works for and her skills.*
+*Here is query to retrieve the movies and co-actors of Rita Wilson. This query does not return the Rita Wilson node as a coactor. This is because Neo4j does not traverse a relationship path more than once. Modify this query so that the Rita Wilson node will also be returned*
 
 [source, cypher]
 ----
-MATCH (c:Company)<-[:WORKS_FOR]-(:Person{name:'Sarah'})-[r:HAS_SKILL]->(s:Skill)
-RETURN c.name, s.name, r.level
+MATCH (actor:Person {name:'Rita Wilson'})
+       -[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(coActor:Person)
+RETURN m.title, coActor.name
+----
+
+== Exercise 1.5: Uniqueness of relationship path traversal.  (Solution)
+
+*Here is query to retrieve the movies and co-actors of Rita Wilson. This query does not return the Rita Wilson node as a coactor. This is because Neo4j does not traverse a relationship path more than once. Modify this query so that the Rita Wilson node will also be returned*
+
+Here is one way that you can modify the query to traverse the :ACTED_IN relationship twice to return Rita Wilson in the set of coactors.
+
+[source, cypher]
+----
+MATCH (actor:Person {name:'Rita Wilson'})-[:ACTED_IN]->(m:Movie)
+MATCH  (m)<-[:ACTED_IN]-(coActor:Person)
+RETURN m.title, coActor.name
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex1_SarahSkills.png[Ex1_SarahSkills,width=300]
-
-== Exercise 1.4: What people in Ian's company have similar skills as Ian? (Instructions)
-
-*Write a query to display people in Ian's company that have the same skills as Ian.*
+image::{guides}/img/EX1.5.png[EX1.5,width=300]
 
 
-== Exercise 1.4: What people in Ian's company have similar skills as Ian?  (Solution)
+== Exercise 1.6: Find the shortest path between two nodes. (Instructions)
 
-*Write a query to display people in Ian's company that have the same skills as Ian.*
+*Write a query to return the shortest path between the actors Meg Ryan and Al Pacino.*
+
+*PROFILE the query to see how the query executes.*
+
+== Exercise 1.6: Find the shortest path between two nodes. (Solution)
+
+*Write a query to return the shortest path between the actors Meg Ryan and Al Pacino.*
+
+*PROFILE the query to see how the query executes.*
 
 [source, cypher]
 ----
-MATCH (company)<-[:WORKS_FOR]-(:Person{name:'Ian'})
-                -[:HAS_SKILL]->(skill),
-(company)<-[:WORKS_FOR]-(colleague)-[:HAS_SKILL]->(skill)
-RETURN colleague.name AS name,
-count(skill) AS score,
-collect(skill.name) AS skills
-ORDER BY score DESC
+MATCH (start:Person { name: 'Al Pacino' }),
+      (end:Person { name: 'Meg Ryan' }),
+      p = shortestPath((start)-[*]-(end))
+WITH p WHERE length(p) > 1
+RETURN p
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Ex1_PeopleWithIansSkill.png[Ex1_PeopleWithIansSkill,width=300]
+image::{guides}/img/EX1.6.png[EX1.6,width=300]
 
-== Exercise 1.5: Modify Ian's skills. (Instructions)
-
-*Write Cypher that updates Ian's skills to include Java, Python, REST, and Neo4j.*
-
-*Hint*: Use MERGE to avoid duplication of nodes and relationships.
-
-== Exercise 1.5: Modify Ian's skills.  (Solution)
-
-*Write Cypher that updates Ian's skills to include Java, Python, REST, and Neo4j.*
-
-*Hint*: Use MERGE to avoid duplication of nodes and relationships.
-
-You can use MERGE to update the nodes and relationships to reflect the skills for Ian as follows:
-
-[source, cypher]
-----
-MERGE (p:Person{name:'Ian'})
-MERGE (s1:Skill{name:'Java'})
-MERGE (s2:Skill{name:'Python'})
-MERGE (s3:Skill{name:'Neo4j'})
-MERGE (c)<-[:WORKS_FOR]-(p)
-MERGE (p)-[r1:HAS_SKILL]->(s1)
-MERGE (p)-[r2:HAS_SKILL]->(s2)
-MERGE (p)-[r3:HAS_SKILL]->(s3)
-SET r1.level = 2
-SET r2.level = 2
-SET r3.level = 3
-RETURN   p, s1, s2, s3
-----
-
-Here we use MERGE to ensure duplicate nodes and relationships are not created. For example, we already have nodes and relationships for Java, Neo4j, and REST so some nodes will not be updated.
-The only data that is added to the graph is the relationship for the Python skill.
-
-The result returned should be:
+The PROFILE should be:
 
 [.thumb]
-image::{guides}/img/Ex1_ModifyIanSkills.png[Ex1_ModifyIanSkills,width=300]
+image::{guides}/img/EX1.6B.png[EX1.6B,width=300]
 
-
-== Exercise 1.6: What are Ian's skills? (Instructions)
-
-*Repeat the query to display Ian's skills.*
-
-[source, cypher]
-----
-MATCH (:Person{name:'Ian'})-[r:HAS_SKILL]->(s:Skill)
-RETURN  s.name, r.level
-----
-
-You should see a different set of skills since you modified Ian's skills.
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/Ex1_IanSkills2.png[Ex1_IanSkills2,width=300]
-
-== Exercise 1.7: What people in Ian's company have similar skill as Ian?  (Instructions)
-
-*Repeat the query to display people in Ian's company that have the same skills as Ian.*
-
-[source, cypher]
-----
-MATCH (company)<-[:WORKS_FOR]-(:Person{name:'Ian'})
-                -[:HAS_SKILL]->(skill),
-(company)<-[:WORKS_FOR]-(colleague)-[:HAS_SKILL]->(skill)
-RETURN colleague.name AS name,
-count(skill) AS score,
-collect(skill.name) AS skills
-ORDER BY score DESC
-----
-
-You should see a different result here because you have modified Ian's skills.
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/Ex1_PeopleWithIansSkills2.png[Ex1_PeopleWithIansSkills2,width=300]
-
+Notice that for this query a Cartesion product is specified. The Cartesion product, each with a single node is nothing to be concerned about. When Cartesian products become a problem is when each part of the query has thousands+ of nodes.
 
 == Exercise 1: Implementing your first model (Summary)
 
 
-In this exercise, you added `Person`, `Skill`, and `Company` nodes to a graph and added the relationships between the nodes.
-This graph is a very simple model to review the basic process for implementing a model by creating or merging nodes and relationships.
-In the remaining exercises, you will start with a simple model and evolve it by refactoring the data in the graph.
-As you add data to a graph, you will most often use MERGE so that duplicate nodes and relationships are not created in the graph.
-
+In this exercise, you performed a variety of queries to help you better understand traversals in Neo4j. You most important job as a developer will be to minimize traversals.
 
 pass:a[<a play-topic='{guides}/02.html'>Continue to Exercise 2</a>]

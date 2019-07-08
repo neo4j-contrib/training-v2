@@ -1,0 +1,185 @@
+= Exercise 2
+:icons: font
+
+== Exercise 2: Traversing the graph with APOC (Preparations)
+
+The database you start with should contain the "movie" data that you loaded in the previous exercise.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/InitialDatabase.png[InitialDatabase,width=150,role=left]
+
+*If your database does not look like this, run the following script which removes all nodes and relationships from the graph and loads the graph with the "movie" data by executing this Cypher code:*
+
+[source, cypher]
+----
+include::scripts/initialDatabase.cypher[]
+----
+
+*Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC
+----
+
+If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:
+
+. In Neo4j Desktop for the project you are working with, click  *Add Plugin*.
+. Select the install button for APOC.
+. Click the Install button.
+. Close the Add Plugin window.
+. Start or restart the database.
+
+== Exercise 2: Traversing the graph with APOC (Overview)
+
+In this exercise, you write some Cypher statements that use APOC for graph traversal.
+
+* *Exercise 2.1*: Obtain movies that are up to 3 hops away from the actor Hugo Weaving using Cypher.
+* *Exercise 2.2*: Obtain movies that are up to 3 hops away from the actor Hugo Weaving using Cypher with APOC.
+* *Exercise 2.3*: Modify a query to use APOC.
+
+
+Go to the next page to start this exercise.
+
+== Exercise 2.1: Obtain movies that are up to 3 hops away from the actor Hugo Weaving using Cypher. (Instructions)
+
+*Write the Cypher code to return all movies that are up to 3 hops away from the actor Hugo Weaving*
+
+*PROFILE this query.*
+
+*Note*: The profile results will vary depending on whether your cache is warm and what version of Neo4j you are using.
+
+== Exercise 2.1: Obtain movies that are up to 3 hops away from the actor Hugo Weaving using Cypher. (Solution)
+
+*Write the Cypher code to return all movies that are up to 3 hops away from the actor Hugo Weaving*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (p:Person {name: 'Hugo Weaving'})-[*3]-(m:Movie)
+RETURN  DISTINCT m.title
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.1.png[EX2.1,width=300]
+
+*PROFILE this query.*
+
+The profile should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.1B.png[EX2.1B,width=300]
+
+
+Here we see 7513 DB hits.
+
+*Note*: The profile results will vary depending on whether your cache is warm and what version of Neo4j you are using.
+
+== Exercise 2.2: Obtain movies that are up to 3 hops away from the actor Hugo Weaving using Cypher with APOC. (Instructions)
+
+*Write the Cypher code that uses APOC to return all movies that are up to 3 hops away from the actor Hugo Weaving*
+
+*PROFILE this query.*
+
+*Note*: The profile results will vary depending on whether your cache is warm and what version of Neo4j you are using.
+
+
+== Exercise 2.2: Obtain movies that are up to 3 hops away from the actor Hugo Weaving using Cypher with APOC. (Solution)
+
+*Write the Cypher code that uses APOC to return all movies that are up to 3 hops away from the actor Hugo Weaving*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (p:Person {name: 'Hugo Weaving'})
+WITH p
+CALL apoc.path.subgraphNodes(p, {labelFilter:'>Movie',maxLevel:3}) YIELD node AS movie
+RETURN  movie.title
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.2.png[EX2.2,width=300]
+
+*PROFILE this query.*
+
+The profile should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.2B.png[EX2.2B,width=300]
+
+
+Here we see 320 DB hits, much better using APOC.
+
+*Note*: The profile results will vary depending on whether your cache is warm and what version of Neo4j you are using.
+
+== Exercise 2.3: Modify a query to use APOC. (Instructions)
+
+*Here is a Cypher query that retrieves four movies and for each movie, return the :ACTED_IN path to at most three actors.*
+
+[source, cypher]
+----
+MATCH (m:Movie) WITH m LIMIT 4
+RETURN m, [path = (m)<-[:ACTED_IN]-(:Person) | path][0..3] as paths
+----
+
+*Run this query. The results should be:*
+
+[.thumb]
+image::{guides}/img/EX2.3.png[EX2.3,width=300]
+
+*Profile this query. The results should be:*
+
+[.thumb]
+image::{guides}/img/EX2.3B.png[EX2.3B,width=300]
+
+It produces 41 DB hits.
+
+*Rewrite this query to use APOC.*
+
+== Exercise 2.3: Modify a query to use APOC. (Solution)
+
+*Here is a Cypher query that retrieves four movies and for each movie, return the :ACTED_IN path to at most three actors.*
+
+[source]
+----
+MATCH (m:Movie) WITH m LIMIT 4
+RETURN m, [path = (m)<-[:ACTED_IN]-(:Person) | path][0..3] as paths
+----
+
+*Rewrite this query to use APOC.*
+
+[source, cypher]
+----
+MATCH (m:Movie) WITH m LIMIT 4
+RETURN m, [path = (m)<-[:ACTED_IN]-(:Person) | path][0..3] as paths
+----
+
+*Run this query. The results should be:*
+
+[.thumb]
+image::{guides}/img/EX2.3C.png[EX2.3C,width=300]
+
+*Profile this query. The results should be:*
+
+[.thumb]
+image::{guides}/img/EX2.3D.png[EX2.3D,width=300]
+
+It produces 9 DB hits, much better!
+
+
+== Exercise 2: Traversing the graph with APOC (Summary)
+
+
+In this exercise, you performed compared the execution of queries using Cypher for path traversal with the same queries using APOC procedures. I most cases APOC will out-perform Cypher, but this will not always be the case.
+
+pass:a[<a play-topic='{guides}/03.html'>Continue to Exercise 3</a>]
