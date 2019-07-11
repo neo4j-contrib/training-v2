@@ -1,0 +1,247 @@
+== Query Profiling and Using the Count Store
+
+image:http://assets.neo4j.org/img/neo4j_logo.png[] Version 1.0 - Dan F.
+
+The exercises in this graphgist introduce when the Neo4j Count Store is used.
+The Count Store can be very useful for improving query performance.
+
+== Aggregate Queries
+
+Now that we’ve got some data loaded it’s time to write some queries.
+
+As a movie enthusiast
+I want to know how much data I’ve imported
+So that I can check if my import has worked
+We might write the following query to check how many :Person and :Movie nodes we have in our database:
+//setup
+//output
+[source,cypher,subs=attributes]
+MATCH (person:Person), (movie:Movie)
+RETURN COUNT(person), COUNT(movie), count(distinct person), count(distinct movie)
+
+NOTE: Notice the warning about cartesian products
+
+*_This query will take a long time to run (on purpose!)_*
+
+Run the :queries command on the command line if you want to kill the query using the
+following steps:
+
+Step1
+
+image:https://se1.neo4j.com/kill_query_1.png[Kill Query, title="Kill Query Step 1"]
+
+Step 2
+
+image:https://se1.neo4j.com/kill_query_2.png[Kill Query, title="Kill Query Step 2"]
+
+== Profiling our counting query
+
+To figure out why our query didn’t return we’ll need to look at its execution.
+
+EXPLAIN is useful to see what the query planner _expects_ the execution plan to be.
+PROFILE runs the command and outputs _what was executed_ to run the query.
+//setup
+//output
+[source,cypher,subs=attributes]
+EXPLAIN
+MATCH (person:Person), (movie:Movie)
+RETURN COUNT(person), COUNT(movie), count(distinct person), count(distinct movie)
+
+What we get back is an execution plan which describes the Cypher operators used to execute this query. You can read more about these in the developer manual
+
+We’ve got a cartesian product between movies and people which resulted in there being more than 100m rows to process. This is the equivalent of a cross join in SQL.
+
+== Fixing our counting query
+
+We can fix this query by counting :Person and :Movie nodes separately and use the WITH clause
+to combine results.
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE
+MATCH (:Person)
+WITH count(*) as personCount
+MATCH (:Movie)
+RETURN personCount, count(*) AS movieCount;
+
+Take a look at the PROFILE output and compare to the EXPLAIN plan output of the original query.
+
+== Find the most prolific actor/actress
+
+....
+- As a movie enthusiast
+- I want to find the most popular actor/actress
+- So that I can watch some of their movies
+....
+
+We can write the following query to find the person who’s acted in the most movies:
+//setup
+//output
+[source,cypher,subs=attributes]
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+RETURN a.name, count(*)
+ORDER BY count(*) DESC
+LIMIT 10;
+
+The query has a fast execution, but we can make it run faster!
+
+== PROFILE our query to find the most prolific actor/actress
+
+Let’s profile our query to see what operations are going on behind the scenes:
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+RETURN a.name, count(*)
+ORDER BY count(*) DESC
+LIMIT 10;
+
+From the execution plan we can see that it’s doing an unnecessary Projection on a.name.
+By grouping on the name property we are forcing Cypher to look up the name of
+every Person in the database when we’re only interested in the ten most prolific ones.
+
+== Lazy property evaluation
+
+ A better approach is to group on the node and then look up the name property
+ after we’ve found the top 10 actors. The WITH clause comes in handy again:
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH a, count(*) as count
+ORDER BY count DESC
+LIMIT 10
+RETURN a.name, count
+
+We can do even better if we don’t specify the :Movie label on the right hand
+side of the ACTED_IN relationship. Since this database only contains people
+acting in movies it’s unnecessary for this query.
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE
+MATCH (a:Person)-[:ACTED_IN]->()
+WITH a, count(*) as count
+ORDER BY count DESC
+LIMIT 10
+RETURN a.name, count
+
+Can we do even better?
+
+== The Counts Store
+
+Neo4j has a counts store which it uses for generating execution plans
+and which we can sometimes use to speed up aggregate queries.
+
+image:https://se1.neo4j.com/images/image:https://se1.neo4j.com/images/kill_queries_1.png[HappyThumb, title="Happy Learning Thumb"]
+
+== Count Store / No Count Store
+
+Neo4j has a counts store which it uses for generating execution plans
+and which we can sometimes use to speed up aggregate queries.
+
+Let’s try a few queries to get the hang of where it’s being used and what type of count operations we should expect to be fast.
+
+Queries for for all nodes *uses* the Count Store
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE MATCH () RETURN COUNT(*)
+
+Queries for nodes with one label  *uses* the Count Store
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE MATCH (:Person) RETURN COUNT(*)
+
+Queries for nodes with multiple labels  *_DOES NOT use_* the Count Store
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE MATCH (:Person:Engineer) RETURN COUNT(*)
+
+Queries with no direction on relationships  *_DOES NOT use_* the Count Store
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE MATCH (:Movie)-[:ACTED_IN]-() RETURN COUNT(*)
+
+Queries with _one_ defined direction on a relationship  *uses* the Count Store
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE MATCH (:Movie)<-[:ACTED_IN]-() RETURN COUNT(*)
+
+Queries with direction on _both_ sides of a relationship  *_DOES NOT use_* the Count Store
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE MATCH (:Movie)<-[:ACTED_IN]-(:Person) RETURN COUNT(*)
+
+== Count Store Recap
+
+This was our most recent version of the query:
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE
+MATCH (a:Person)-[:ACTED_IN]->()
+WITH a, count(*) as count
+ORDER BY count DESC
+LIMIT 10
+RETURN a.name, count
+
+We want to count the (:Person)-[:ACTED_IN]→() relationship which is one of the
+types of things stored in the count store. Unfortunately we can see from the
+execution plan that all the ACTED_IN relationships are being evaluated which
+isn’t what we want.
+
+When this happens we can force the planner to do what we want by using the SIZE
+function to count the number of relationships. The following query makes use
+of the counts store via the GetDegree operator.
+
+//setup
+//output
+[source,cypher,subs=attributes]
+PROFILE
+MATCH (a:Person)
+WITH a, SIZE((a)-[:ACTED_IN]->()) AS count
+ORDER BY count DESC
+LIMIT 10
+RETURN a.name, count
+
+Using our count store knowledge
+
+To recap, this was our most recent version of the query:
+
+PROFILE
+MATCH (a:Person)-[:ACTED_IN]->()
+WITH a, count(*) as count
+ORDER BY count DESC
+LIMIT 10
+RETURN a.name, count
+We want to count the (:Person)-[:ACTED_IN]→() relationship which is one of the types of things stored in the count store. Unfortunately we can see from the execution plan that all the ACTED_IN relationships are being evaluated which isn’t what we want.
+
+When this happens we can force the planner to do what we want by using the SIZE function to count the number of relationships. The following query makes use of the counts store via the GetDegree operator
+
+PROFILE
+MATCH (a:Person)
+WITH a, SIZE((a)-[:ACTED_IN]->()) AS count
+ORDER BY count DESC
+LIMIT 10
+RETURN a.name, count
+
+That’s probably about as fast as we can get that query, and although it was
+quick to start with you’ve hopefully now picked up some techniques.

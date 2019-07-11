@@ -1,0 +1,145 @@
+= Exercise 4
+:icons: font
+
+== Exercise 4: Combining query results (Preparations)
+
+The database you start with should contain the "movie" data that you loaded in the first exercise.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/InitialDatabase.png[InitialDatabase,width=150,role=left]
+
+*If your database does not look like this, run the following script which removes all nodes and relationships from the graph and loads the graph with the "movie" data by executing this Cypher code:*
+
+[source, cypher]
+----
+include::scripts/initialDatabase.cypher[]
+----
+
+*Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC
+----
+
+If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:
+
+. Make sure Neo4j Desktop is online.
+. In Neo4j Desktop for the project you are working with, click  *Add Plugin*.
+. Select the install button for APOC.
+. Click the Install button.
+. Close the Add Plugin window.
+. Start or restart the database.
+
+== Exercise 4: Combining query results (Overview)
+
+In this exercise, you write some Cypher statements that combine the results of two separate queries:
+
+* *Exercise 4.1*: Write a query to combine query results with UNION.
+* *Exercise 4.2*: USE APOC to sort the combined query results that use UNION.
+* *Exercise 4.3*: Use UNWIND to sort the combined query results.
+
+Go to the next page to start this exercise.
+
+== Exercise 4.1: Write a query to combine query results with UNION. (Instructions)
+
+*Write the Cypher code to combine the results of a retrieval of all actors that were born after 1960 and a retrieval of all writers that were born after 1960.
+Each query will return the name of the person, their age, and their Role (either Actor or Writer).*
+
+== Exercise 4.1: Write a query to combine query results with UNION. (Solution)
+
+*Write the Cypher code to combine the results of a retrieval of all actors that were born after 1960 and a retrieval of all writers that were born after 1960.
+Each query will return the name of the person, their age, and their Role (either Actor or Writer).*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]-()
+WHERE a.born  >  1960
+RETURN DISTINCT a.name AS Name, date().year - a.born AS Age, 'Actor' AS Role
+UNION
+MATCH (d:Person)-[:WROTE]-()
+WHERE d.born > 1960
+RETURN DISTINCT d.name AS Name, date().year - d.born AS Age, 'Writer' AS Role
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX4.1.png[EX4.1,width=300]
+
+== Exercise 4.2: USE APOC to sort the combined query results that use UNION. (Instructions)
+
+*Modify the previous query to be executed using APOC so that you can sort the results returned by age.*
+
+== Exercise 4.2: USE APOC to sort the combined query results that use UNION. (Solution)
+
+*Modify the previous query to be executed using APOC so that you can sort the results returned by age.*
+
+Here is the code:
+
+[source, cypher]
+----
+CALL apoc.cypher.run('MATCH (a:Person)-[:ACTED_IN]-()
+WHERE a.born  >  1960
+RETURN DISTINCT a.name AS Name, date().year - a.born AS Age, "Actor" AS Role
+UNION
+MATCH (d:Person)-[:WROTE]-()
+WHERE d.born > 1960
+RETURN DISTINCT d.name AS Name, date().year - d.born AS Age, "Writer" AS Role',{}) YIELD value
+WITH value
+RETURN value.Name as Name, value.Age as Age, value.Role as Role ORDER BY Age
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX4.2.png[EX4.2,width=300]
+
+
+== Exercise 4.3: Use UNWIND to sort the combined query results. (Instructions)
+
+*Rewrite the query to not use APOC and to use collect() and UNWIND to sort the results, rather than UNION.*
+
+
+== Exercise 4.3: Use UNWIND to sort the combined query results. (Solution)
+
+*Rewrite the query to not use APOC and to use collect() and UNWIND to sort the results, rather than UNION.*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]-()
+WHERE a.born  >  1960
+WITH collect({Name:a.name, Age: date().year - a.born, Role: 'Actor'}) as result1
+MATCH (d:Person)-[:WROTE]-()
+WHERE d.born > 1960
+WITH result1 + collect({Name:d.name, Age: date().year - d.born, Role: 'Writer'}) AS allResults
+UNWIND allResults as result
+WITH result.Name as Name, result.Age as Age, result.Role as Role RETURN DISTINCT Name, Age, Role ORDER BY Age
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX4.3.png[EX4.3,width=300]
+
+
+== Exercise 4: Taking it further
+
+. Profile the queries you have written to see which query performs best.
+. Create a query where using UNION is not better than the alternatives.
+
+== Exercise 4: Combining query results   (Summary)
+
+
+In this exercise, you have written queries that combine results using UNION and collect/UNWIND.
+The most performant solution you use for your application will depend on the data model and the amount of data in the graph.
+
+pass:a[<a play-topic='{guides}/05.html'>Continue to Exercise 5</a>]
