@@ -1,0 +1,546 @@
+= Exercise 5
+:icons: font
+
+== Exercise 5: Loading normalized data (Preparations)
+
+*Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC
+----
+
+If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:
+
+. Make sure Neo4j Desktop is online.
+. In Neo4j Desktop for the project you are working with, click  *Add Plugin*.
+. Select the install button for APOC.
+. Click the Install button.
+. Close the Add Plugin window.
+. Start or restart the database.
+
+== Exercise 5: Loading normalized data (Overview)
+
+In this exercise, you will first remove all data and indexes from the database so you can start fresh, then  you will load normalized data into the database.
+
+* *Exercise 5.1*: Remove all nodes, relationships, and indexes from the database.
+* *Exercise 5.2*: Determine how large the datasets are that you will be loading.
+* *Exercise 5.3*: Examine the data you will be loading.
+* *Exercise 5.4*: Write Cypher code to transform the data you will be loading.
+* *Exercise 5.5*: Create the indexes and constraints.
+* *Exercise 5.6*: Load the Movie data.
+* *Exercise 5.7*: Load the Person data.
+* *Exercise 5.8*: Load the data to create the :DIRECTED relationships.
+* *Exercise 5.9*: Load the data to create the :ACTED_IN relationships.
+* *Exercise 5.10*: Create the Genre nodes and :IS_GENRE relationships.
+
+Go to the next page to start this exercise.
+
+== Exercise 5.1: Remove all nodes, relationships, and indexes from the database. (Instructions)
+
+*To start with a database that contains no data or indexes, run this code:*
+
+[source, cypher]
+----
+// Remove all indexes and constraints
+CALL apoc.schema.assert({},{},true);
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+MATCH (n:Genre) DETACH DELETE n;
+----
+
+*Note*: Although your database does not contain nodes of all of these types, these are the types you will be working with for the remainder of this course and the same "reset" code will be useful later in this course.
+
+== Exercise 5.1: Remove all nodes, relationships, and indexes from the database. (Solution)
+
+*To start with a database that contains no data or indexes, run this code:*
+
+[source, cypher]
+----
+// Remove all indexes and constraints
+CALL apoc.schema.assert({},{},true);
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+MATCH (n:Genre) DETACH DELETE n;
+----
+
+*Note*: Although your database does not contain nodes of all of these types, these are the types you will be working with for the remainder of this course and the same "reset" code will be useful later in this course.
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.1.png[EX5.1,width=300]
+
+The database should have no nodes and relationships.
+
+== Exercise 5.2: Determine how large the datasets are that you will be loading. (Instructions)
+
+The datasets containing the normalized data are at these locations:
+
+https://data.neo4j.com/advanced-cypher/movies1.csv
+https://data.neo4j.com/advanced-cypher/people.csv
+https://data.neo4j.com/advanced-cypher/roles.csv
+https://data.neo4j.com/advanced-cypher/directors.csv
+
+*Write Cypher code to return the number of lines in each of these CSV files*
+
+== Exercise 5.2: Determine how large the datasets are that you will be loading. (Solution)
+
+The datasets containing the normalized data are at these locations:
+
+https://data.neo4j.com/advanced-cypher/movies1.csv
+https://data.neo4j.com/advanced-cypher/people.csv
+https://data.neo4j.com/advanced-cypher/roles.csv
+https://data.neo4j.com/advanced-cypher/directors.csv
+
+*Write Cypher code to return the number of lines in each of these CSV files*
+
+Here is the code:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS rows
+WITH count(rows) as MoviesRows
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+WITH MoviesRows, count(rows) as PeopleRows
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/roles.csv' AS rows
+WITH MoviesRows, PeopleRows, count(rows) as RolesRows
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/directors.csv' AS rows
+RETURN MoviesRows, PeopleRows, RolesRows, count(rows) as DirectorsRows
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.2.png[EX5.2,width=300]
+
+The number of rows in these files is < 100K so we should not need any special loading options (like USING PERIODIC COMMIT).
+
+== Exercise 5.3: Examine the data you will be loading. (Instructions)
+
+*Write queries to return the first five rows of each CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies*
+
+
+== Exercise 5.3: Examine the data you will be loading. (Solution)
+
+*Write queries to return the first five rows of each CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies*
+
+Here is the code for the movies1.csv file:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS rows
+RETURN rows LIMIT 5
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX5.3.png[EX5.3,width=300]
+
+Note hear that each row represents a movie with a unique ID, movieId.
+
+Here is the code for the people.csv file:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+RETURN rows LIMIT 5
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX5.3B.png[EX5.3B,width=300]
+
+Note hear that each row represents a person with a unique ID, personId.
+
+Here is the code for the roles.csv file:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/roles.csv' AS rows
+RETURN rows LIMIT 5
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX5.3C.png[EX5.3C,width=300]
+
+Note hear that each row has data for a person, personId and a movie, movieId. It is with this roles.csv file that the :ACTED_IN relationship between a person and a movie will be created in the database.
+
+Here is the code for the directors.csv file:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/directors.csv' AS rows
+RETURN rows LIMIT 5
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX5.3D.png[EX5.3D,width=300]
+
+Note hear that each row has data for a person, personId and a movie, movieId. It is with this directed.csv file that the :DIRECTED relationship between a person and a movie will be created in the database.
+
+
+
+== Exercise 5.4: Write Cypher code to transform the data you will be loading. (Instructions)
+
+*In examining the data in these CSV files, we want to transform data as follows before adding it to the database:
+
+  * In movies1.csv: avgVote is of type float
+  * In movies1.csv: releaseYear is of type integer
+  * In movies1.csv: genres is is a list of string values
+  * In people.csv: birthYear is of type integer
+  * In people.csv: deathYear is of type integer
+
+Write Cypher code to transform these values and return the data in the new format. Use LIMIT 5 again to show the transformation for the first five rows. *
+
+
+== Exercise 5.4: Write Cypher code to transform the data you will be loading. (Solution)
+
+*In examining the data in these CSV files, we want to transform data as follows before adding it to the database:
+
+  * In movies1.csv: avgVote is of type float
+  * In movies1.csv: releaseYear is of type integer
+  * In movies1.csv: genres is is a list of string values
+  * In people.csv: birthYear is of type integer
+  * In people.csv: deathYear is of type integer
+
+Write Cypher code to transform these values and return the data in the new format. Use LIMIT 5 again to show the transformation for the first five rows. *
+
+Here is the code for the movies1.csv file:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS rows
+RETURN rows.title as title,
+       toFloat(rows.avgVote) as avgvote,
+       toInteger(rows.releaseYear) as releaseYear,
+       split(rows.genres,":") as genres
+       LIMIT 5
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX5.4.png[EX5.4,width=300]
+
+
+Here is the code for the people.csv file:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+RETURN rows.name as name,
+       toInteger(rows.birthYear) as born,
+       toInteger(rows.deathYear) as died,
+       LIMIT 5
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX5.4B.png[EX5.4B,width=300]
+
+Notice that for the first five rows, these people do not have data for deathYear.
+
+Do a query against the dataset to see if there are any people with a value for deathYear.
+
+Here is the code:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+WITH rows WHERE exists(rows.deathYear)
+RETURN rows.name as name,
+       toInteger(rows.birthYear) as born,
+       toInteger(rows.deathYear) as died
+       LIMIT 5
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX5.4C.png[EX5.4C,width=300]
+
+== Exercise 5.5: Create the indexes and constraints. (Instructions)
+
+The movies1.csv fields will be mapped to Movie node properties as follows:
+
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+The people.csv fields will be mapped to Person node properties as follows:
+
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*To improve loading when nodes are created using MERGE, add uniqueness constraints and indexes as follows:
+
+* Uniqueness constraint on the id property of a Movie node.
+* Uniqueness constraint on the id property of a Person node.
+* Index on the name property of a Person node.
+* Index on the title property of a Movie node.*
+
+
+== Exercise 5.5: Create the indexes and constraints. (Solution)
+
+The movies1.csv fields will be mapped to Movie node properties as follows:
+
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+The people.csv fields will be mapped to Person node properties as follows:
+
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*To improve loading when nodes are created using MERGE, add uniqueness constraints and indexes as follows:
+
+* Uniqueness constraint on the id property of a Movie node.
+* Uniqueness constraint on the id property of a Person node.
+* Index on the name property of a Person node.
+* Index on the title property of a Movie node.*
+
+Here is the code:
+
+[source, cypher]
+----
+CREATE CONSTRAINT ON (m:Movie)
+ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT ON (p:Person)
+ASSERT p.id IS UNIQUE;
+
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.5.png[EX5.5,width=300]
+
+
+== Exercise 5.6: Load the Movie data. (Instructions)
+
+The movies1.csv fields will be mapped to Movie node properties as follows:
+
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+*Load the movies1.csv file to create the Movie nodes in the database.*
+
+
+== Exercise 5.6: Load the Movie data. (Solution)
+
+The movies1.csv fields will be mapped to Movie node properties as follows:
+
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+*Load the movies1.csv file to create the Movie nodes in the database.*
+
+Here is the code:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS row
+MERGE (m:Movie {id:toInteger(row.movieId)})
+    ON CREATE SET
+          m.title = row.title,
+          m.avgVote = toFloat(row.avgVote),
+          m.releaseYear = toInteger(row.releaseYear),
+          m.genres = split(row.genres,":")
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.6.png[EX5.6,width=300]
+
+== Exercise 5.7: Load the Person data. (Instructions)
+
+The people.csv fields will be mapped to Person node properties as follows:
+
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*Load the people.csv file to create the Person nodes in the database.*
+
+
+== Exercise 5.7: Load the Person data. (Solution)
+
+The people.csv fields will be mapped to Person node properties as follows:
+
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*Load the people.csv file to create the Person nodes in the database.*
+
+Here is the code:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/people.csv' as row
+
+MERGE(person:Person {id: toInteger(row.personId)})
+ON CREATE SET person.name = row.name,
+              person.born = toInteger(row.birthYear),
+              person.died = toInteger(row.deathYear)
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.7.png[EX5.7,width=300]
+
+== Exercise 5.8: Load the data to create the :DIRECTED relationships. (Instructions)
+
+*Load the directors.csv file to create the relationship between a Person node and a Movie node in the database. In addition, add the Director label to each Person node with the :DIRECTED relationship.*
+
+
+== Exercise 5.8: Load the data to create the :DIRECTED relationships. (Solution)
+
+*Load the directors.csv file to create the relationship between a Person node and a Movie node in the database. In addition, add the Director label to each Person node with the :DIRECTED relationship.*
+
+Here is the code:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/directors.csv' as row
+
+MATCH (movie:Movie {id:toInteger(row.movieId)})
+MATCH (person:Person {id: toInteger(row.personId)})
+MERGE (person)-[:DIRECTED]->(movie)
+ON CREATE SET person:Director
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.8.png[EX5.8,width=300]
+
+== Exercise 5.9: Load the data to create the :ACTED_IN relationships. (Instructions)
+
+*Load the roles.csv file to create the relationship between a Person node and a Movie node in the database. In addition, set the roles property for the relationship to have the list of characters for the actor. Finally, add the Actor label to each Person node with the :ACTED_IN relationship.*
+
+
+== Exercise 5.9: Load the data to create the :ACTED_IN relationships. (Solution)
+
+*Load the roles.csv file to create the relationship between a Person node and a Movie node in the database. In addition, set the roles property for the relationship to have the list of characters for the actor. Finally, add the Actor label to each Person node with the :ACTED_IN relationship.*
+
+Here is the code:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/roles.csv' AS row
+
+MATCH  (movie:Movie  {id: toInteger(row.movieId) })
+MATCH  (person:Person {id: toInteger(row.personId) })
+MERGE  (person)-[r:ACTED_IN]->(movie) ON CREATE SET r.roles = split(coalesce(row.characters,""), ":")
+ON CREATE SET person:Actor
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.9.png[EX5.9,width=300]
+
+== Exercise 5.10: Create the Genre nodes and :IS_GENRE relationships. (Instructions)
+
+Although the Movie nodes have a property, genres, we want a separate node of type Genre.
+Every Movie will have a :IS_GENRE relationship with one or more Genre nodes.
+A Genre node will have a single property, name.
+
+*First, create a uniqueness constraint for the name property for nodes of type Genre.
+Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
+In addition, remove the genres property from the Movie  nodes.*
+
+== Exercise 5.10: Create the Genre nodes and :IS_GENRE relationships. (Solution)
+
+*First, create a uniqueness constraint for the name property for nodes of type Genre.
+Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
+In addition, remove the genres property from the Movie  nodes.*
+
+Here is the code:
+
+[source, cypher]
+----
+CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
+MATCH (m:Movie)
+UNWIND m.genres as names
+WITH distinct names, m
+SET m.genres = null
+MERGE (g:Genre {name:names})
+WITH g, m
+MERGE (g)<-[:IS_GENRE]-(m)
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.10.png[EX5.10,width=300]
+
+Your database should now be as follows:
+
+[.thumb]
+image::{guides}/img/EX5.10B.png[EX5.10B,width=300]
+
+== Exercise 4: Taking it further
+
+. Perform all of the steps in this exercise as a set of statements (including reseting the database at the beginning).
+. Perform some queries to become familiar with the newly-loaded data.
+
+== Exercise 4: Combining query results   (Summary)
+
+
+In this exercise, you have written code to load normalized data into a graph and also create nodes from data in the graph.
+
+pass:a[<a play-topic='{guides}/06.html'>Continue to Exercise 6</a>]
