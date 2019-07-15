@@ -1,0 +1,312 @@
+= Exercise 8
+:icons: font
+
+== Exercise 8: Aggregating data (Preparations)
+
+*1. Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC
+----
+
+If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:
+
+. Make sure Neo4j Desktop is online.
+. In Neo4j Desktop for the project you are working with, click  *Add Plugin*.
+. Select the install button for APOC.
+. Click the Install button.
+. Close the Add Plugin window.
+. Start or restart the database.
+
+*2. Ensure that the virtual memory for Neo4j is set back to its defaults:
+dbms.memory.heap.initial_size=512m
+dbms.memory.heap.max_size=1G*
+
+*3. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
+
+[source, cypher]
+----
+include::scripts/AfterImportDenormalizedData.cypher[]
+----
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/AfterImportDenormalizedData.png[AfterImportDenormalizedData,200,200, role=left]
+
+
+== Exercise 8: Aggregating data (Overview)
+
+In this exercise, you will gain more experience aggregating data with Cypher.
+
+In this exercise, you will:
+
+* *Exercise 8.1*: Remove all nodes and relationships from the database.
+* *Exercise 8.2*: Temporarily modify the virtual memory used by Neo4j.
+* *Exercise 8.3*: Attempt to load the denormalized data for movies and people.
+* *Exercise 8.4*: Profile this query to use PERIODIC COMMIT to load the data.
+* *Exercise 8.5*: Attempt to load the data using PERIODIC COMMIT, but with an eager operator.
+* *Exercise 7.6*: Increase the virtual memory to show the profile of the query.
+* *Exercise 7.7*: Use APOC to load the data.
+
+Go to the next page to start this exercise.
+
+== Exercise 7.1: Remove all nodes and relationships from the database. (Instructions)
+
+*To start with a database that contains no data, run this code just like you did in the previous exercise:*
+
+[source, cypher]
+----
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+MATCH (n:Genre) DETACH DELETE n
+----
+
+The database should have no nodes and relationships.
+
+== Exercise 7.2: Temporarily modify the virtual memory used by Neo4j. (Instructions)
+
+For this exercise, you will set the virtual memory used by Neo4j to an artificially low value. This will enable you to simulate an out of memory error.
+
+*. Stop the database in Neo4j Desktop.
+. Click the Manage button for the database.
+. Click the Settings for the database. This opens an editable view of the neo4j.conf file for the database.
+. The default virtual memory for Neo4j is:
+.. dbms.memory.heap.initial_size=512m
+..   dbms.memory.heap.max_size=1G
+. Modify these values to be 128m.
+. Click Apply.
+. Start the database*
+
+The settings should look like this:
+
+[.thumb]
+image::{guides}/img/EX7.2.png[EX7.2,width=300]
+
+== Exercise 7.3: Attempt to load the denormalized data for movies and people. (Instructions)
+
+*Run the Cypher code you wrote to load the denormalized data as two MERGE clauses with no collection od data, but not the code to create the relationships.*
+
+== Exercise 7.3: Attempt to load the denormalized data for movies and people. (Solution)
+
+*Run the Cypher code you wrote to load the denormalized data as two MERGE clauses with no collection od data, but not the code to create the relationships.*
+
+Here is the code:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+MERGE (m:Movie {id:toInteger(row.movieId)})
+   ON CREATE SET m.title=row.title, m.avgVote=toFloat(row.avgVote),
+      m.releaseYear=toInteger(row.releaseYear), m.genres=split(row.genres,":")
+MERGE (p:Person {id: toInteger(row.personId)})
+   ON CREATE SET p.name = row.name, p.born = toInteger(row.birthYear),
+      p.died = toInteger(row.deathYear)
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX7.3.png[EX7.3,width=300]
+
+This load which you were able to do previously with the default virtual memory settings now fails due to out of memory. No data is written to the database.
+
+== Exercise 7.4: Profile this query to use PERIODIC COMMIT to load the data. (Instructions)
+
+*Repeat the previous execution, but add the PERIODIC COMMIT clause and profile the query.*
+
+*Note*: You may receive an error that the database needs to be restarted due to the previous error, in which case you should restart the database.
+
+== Exercise 7.4: Profile this query to use PERIODIC COMMIT to load the data. (Solution)
+
+*Repeat the previous execution, but add the PERIODIC COMMIT clause and profile the query.*
+
+*Note*: You may receive an error that the database needs to be restarted due to the previous error, in which case you should restart the database.
+
+Here is the code:
+
+[source, cypher]
+----
+PROFILE USING PERIODIC COMMIT 500 LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+MERGE (m:Movie {id:toInteger(row.movieId)})
+   ON CREATE SET m.title=row.title, m.avgVote=toFloat(row.avgVote),
+      m.releaseYear=toInteger(row.releaseYear), m.genres=split(row.genres,":")
+MERGE (p:Person {id: toInteger(row.personId)})
+   ON CREATE SET p.name = row.name, p.born = toInteger(row.birthYear),
+      p.died = toInteger(row.deathYear)
+----
+
+This load is successful because we have specified using PERIOIC COMMIT which will enable the transactions to succeed with a lower virtual memory available.
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX7.4.png[EX7.4,width=300]
+
+
+== Exercise 7.5: Attempt to load the data using PERIODIC COMMIT, but with an eager operator. (Instructions)
+
+*Since you will be loading the data again, delete all of the data in the database by executing this code:*
+
+[source, cypher]
+----
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+----
+
+The database should have no nodes and relationships.
+
+*Repeat the last load statement with a profile, but add a RETURN clause to return the movie titles and order them by title.*
+
+== Exercise 7.5: Attempt to load the data using PERIODIC COMMIT, but with an eager operator. (Solution)
+
+*Since you will be loading the data again, delete all of the data in the database by executing this code:*
+
+[source, cypher]
+----
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+----
+
+The database should have no nodes and relationships.
+
+*Repeat the last load statement with a profile, but add a RETURN clause to return the movie titles and order them by title.*
+
+Here is the code:
+
+[source, cypher]
+----
+PROFILE USING PERIODIC COMMIT 500 LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+MERGE (m:Movie {id:toInteger(row.movieId)})
+   ON CREATE SET m.title=row.title, m.avgVote=toFloat(row.avgVote),
+      m.releaseYear=toInteger(row.releaseYear), m.genres=split(row.genres,":")
+MERGE (p:Person {id: toInteger(row.personId)})
+   ON CREATE SET p.name = row.name, p.born = toInteger(row.birthYear),
+      p.died = toInteger(row.deathYear)
+RETURN m.title ORDER BY m.title
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX7.5.png[EX7.5,width=300]
+
+Here we see that even with using PERIODIC COMMIT, the load fails.
+This is because the ORDER BY in the RETURN clause requires eager operators to sort the data before returning.
+PERIODIC COMMIT was turned off.
+
+== Exercise 7.6: Increase the virtual memory to show the profile of the query. (Instructions)
+
+*. Stop the database in Neo4j Desktop.
+. Click the Manage button for the database.
+. Click the Settings for the database. This opens an editable view of the neo4j.conf file for the database.
+. Set the virtual memory back to its default:
+.. dbms.memory.heap.initial_size=512m
+..   dbms.memory.heap.max_size=1G
+. Click Apply.
+. Start the database*
+
+*Profile the previously executed load.*
+
+== Exercise 7.6: Increase the virtual memory to show the profile of the query.  (Solution)
+
+*. Stop the database in Neo4j Desktop.
+. Click the Manage button for the database.
+. Click the Settings for the database. This opens an editable view of the neo4j.conf file for the database.
+. Set the virtual memory back to its default:
+.. dbms.memory.heap.initial_size=512m
+..   dbms.memory.heap.max_size=1G
+. Click Apply.
+. Start the database*
+
+*Profile the previously executed load.*
+
+[source, cypher]
+----
+PROFILE USING PERIODIC COMMIT 500 LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+MERGE (m:Movie {id:toInteger(row.movieId)})
+   ON CREATE SET m.title=row.title, m.avgVote=toFloat(row.avgVote),
+      m.releaseYear=toInteger(row.releaseYear), m.genres=split(row.genres,":")
+MERGE (p:Person {id: toInteger(row.personId)})
+   ON CREATE SET p.name = row.name, p.born = toInteger(row.birthYear),
+      p.died = toInteger(row.deathYear)
+RETURN m.title ORDER BY m.title
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX7.6.png[EX7.6,width=300]
+
+The load was successful because the virtual memory was increased. USING PERIODIC COMMIT was not used due to the eager operator for sorting the results.
+
+== Exercise 7.7: Use APOC to load the data. (Instructions)
+
+*Execute this code to remove all nodes from the database:*
+
+[source, cypher]
+----
+// Remove all nodes
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n
+----
+
+*Now load the same data into the database using APOC.*
+
+== Exercise 7.7: Use APOC to load the data. (Solution)
+
+*Execute this code to remove all nodes from the database:*
+
+[source, cypher]
+----
+// Remove all nodes
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n
+----
+
+*Now load the same data into the database using APOC.*
+
+Here is the code:
+
+[source, cypher]
+----
+CALL apoc.periodic.iterate(
+"CALL apoc.load.csv('https://data.neo4j.com/advanced-cypher/movies2.csv' ) YIELD map AS row RETURN row",
+"MERGE (m:Movie {id:toInteger(row.movieId)})
+   ON CREATE SET m.title=row.title, m.avgVote=toFloat(row.avgVote),
+      m.releaseYear=toInteger(row.releaseYear), m.genres=split(row.genres,':')
+WITH m, row
+MERGE (p:Person {id: toInteger(row.personId)})
+   ON CREATE SET p.name = row.name, p.born = toInteger(row.birthYear),
+      p.died = toInteger(row.deathYear)",
+{batchSize: 500}
+)
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX7.7.png[EX7.7,width=300]
+
+
+== Exercise 7: Taking it further
+
+Profile the load using apoc.periodic.iterate and compare it with your other profile results.
+
+== Exercise 7: Loading large datasets   (Summary)
+
+
+In this exercise, you lowered the virtual memory required for Neo4j to emulate what an out of memory error would be if you were to attempt to load a large dataset. For large dataset, you must either use PERIODIC COMMIT or you must use apoc.periodic.iterate() combined with apoc.load.csv() to load large datasets.
+pass:a[<a play-topic='{guides}/08.html'>Continue to Exercise 8</a>]
