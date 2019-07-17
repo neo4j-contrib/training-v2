@@ -1,5 +1,16 @@
 <html>
    <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1192232-34"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-1192232-34');
+      </script>
+
+
       <meta charset="utf-8"></meta>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <title>Neo4j GraphAcademy: Introduction to Neo4j</title>
@@ -237,9 +248,11 @@ function setGadgetUrl(sel) {
 </div>
 
 
+
 <div class="paragraph">
 <p>At the end of this module, you should be able to write Cypher statements to:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -299,14 +312,17 @@ Creating relationships
 </div>
 
 
+
 <div class="paragraph">
 <p>When you create a node, you can add it to the graph without connecting it to another node.</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is the simplified syntax for creating a node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">CREATE (optionalVariable optionalLabels {optionalProperties})</pre>
@@ -322,14 +338,17 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here are some examples of creating a single node in Cypher:</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>Add a node to the graph of type <em>Movie</em> with the <em>title</em> <em>Batman Begins</em>. This node can be retrieved using the title. A set of nodes with the label <em>Movie</em> can also be retrieved which will contain this node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE (:Movie {title: 'Batman Begins'})</pre>
@@ -343,6 +362,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Add a node with two labels to the graph of types <em>Movie</em> and <em>Action</em> with the <em>title</em> <em>Batman Begins</em>. This node can be retrieved using the title. A set of nodes with the labels <em>Movie</em> or <em>Action</em> can also be retrieved which will contain this node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE (:Movie:Action {title: 'Batman Begins'})</pre>
@@ -356,6 +376,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Add a node to the graph of types <em>Movie</em> and <em>Action</em> with the <em>title</em> <em>Batman Begins</em>. This node can be retrieved using the title. A set of nodes with the labels <em>Movie</em> or <em>Action</em> can also be retrieved which will contain this node. The variable <em>m</em> can be used for later processing after the <code>CREATE</code> clause:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE (m:Movie:Action {title: 'Batman Begins'})</pre>
@@ -369,6 +390,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Add a node to the graph of types_Movie_ and <em>Action</em> with the <em>title</em> <em>Batman Begins</em>. This node can be retrieved using the title. A set of nodes with the labels <em>Movie</em> or <em>Action</em> can also be retrieved which will contain this node. Here we return the title of the node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE` (m:Movie:Action {title: ' Batman Begins'})
@@ -383,6 +405,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is what you see in Neo4j Browser when you create a node for the movie, <em>Batman Begins</em> where we have selected the node returned to view its properties.:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateBatmanBegins.png" alt="CreateBatmanBegins" width="600">
@@ -396,9 +419,11 @@ Here we see that the <em>id</em> of the node is <em>568</em>. This is not a prop
 </div>
 
 
+
 <div class="paragraph">
 <p>After you have created a node, you can add more properties or labels to it and most importantly, connect it to another node.</p>
 </div>
+
 <div  id="_creating_multiple_nodes" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Creating multiple nodes</h3>
 
@@ -408,9 +433,11 @@ Here we see that the <em>id</em> of the node is <em>568</em>. This is not a prop
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example, where we create some <em>Person</em> nodes that will represent some of the people associated with the movie <em>Batman Begins</em>:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">CREATE
@@ -428,6 +455,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateMultiplePersonNodes.png" alt="CreateMultiplePersonNodes" width="600">
@@ -454,6 +482,7 @@ The graph engine will create a node with the same properties of a node that alre
 <div class="paragraph">
 <p>You will learn about merging data later in this module. Constraints are configured globally for a graph and are covered later in this training.</p>
 </div>
+
 </div>
 <div  id="_adding_labels_to_a_node" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Adding labels to a node</h3>
@@ -464,9 +493,11 @@ The graph engine will create a node with the same properties of a node that alre
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is the simplified syntax for adding labels to a node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">SET x:Label         // adding one label to node referenced by the variable x</pre>
@@ -490,9 +521,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example where we add the <em>Action</em> label to the node that has a label, <em>Movie</em>:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -509,6 +542,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActionLabel.png" alt="SetActionLabel" width="700">
@@ -519,6 +553,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Notice here that we call the built-in function, <code>labels()</code> that returns the set of labels for the node.</p>
 </div>
+
 </div>
 <div  id="_removing_labels_from_a_node" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Removing labels from a node</h3>
@@ -529,9 +564,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is the simplified syntax for removing labels from a node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">REMOVE x:Label	  // remove the label from the node referenced by the variable x</pre>
@@ -547,9 +584,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example where we remove the <em>Action</em> label from the node that has a labels, <em>Movie</em> and <em>Action</em>:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie:Action)
@@ -566,6 +605,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveActionLabel.png" alt="RemoveActionLabel" width="700">
@@ -581,9 +621,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here are simplified syntax examples for adding properties to a node referenced by the variable x:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">SET x.propertyName = value</pre>
@@ -623,10 +665,12 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Note that the type of data for a property is not enforced.
 That is, you can assign a string value to a property that was once a numeric value and visa versa.</p>
 </div>
+
 
 
 <div class="paragraph">
@@ -634,9 +678,11 @@ That is, you can assign a string value to a property that was once a numeric val
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example where we add the properties <em>released</em>  and <em>lengthInMinutes</em> to the movie <em>Batman Begins</em>:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -653,6 +699,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddReleasedMinutesProperties.png" alt="AddReleasedMinutesProperties" width="800">
@@ -663,6 +710,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is another example where we set the property values to the movie node using the JSON-style object containing the property keys and values. Note that <span class="underline">all</span> properties must be included in the object.</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -683,6 +731,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetPropertiesObject.png" alt="SetPropertiesObject" width="800">
@@ -693,6 +742,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Note that when you add a property to a node for the first time in the graph, the property key is added to the graph. So for example, in the previous example, we added the <em>videoFormat</em> and <em>grossMillions</em> property keys to the graph as they have never been used before for a node in the graph. Once a property key is added to the graph, it is <span class="underline">never</span> removed. When you examine the property keys in the database (by executing <code>CALL db.propertyKeys()</code>, you will see all property keys created for the graph, regardless of whether they are currently used for nodes and relationships.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllPropertyKeys.png" alt="AllPropertyKeys" width="700">
@@ -703,6 +753,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is an example where we use the JSON-style object to add the <em>awards</em> property to the node and update the <em>grossMillions</em> property:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -720,6 +771,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddAndUpdateProperties.png" alt="AddAndUpdateProperties" width="800">
@@ -735,9 +787,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here are simplified syntax examples for removing properties from a node referenced by the variable x:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">REMOVE x.propertyName</pre>
@@ -759,6 +813,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Suppose we determined that no other <em>Movie</em> node in the graph has the properties, <em>videoFormat</em> and <em>grossMillions</em>. There is no restriction that nodes of the same type must have the same properties. However, we have decided that we want to remove these properties from this node. Here is example Cypher to remove this property from this <em>Batman Begins</em> node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
@@ -776,13 +831,14 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Assuming that we have previously created the node for the movie with the these properties, here is the result of running this Cypher statement where we remove each property a different way. One way we remove the property using the <code>SET</code> clause to set the property to null. And in another way, we use the <code>REMOVE</code> clause.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveProperties.png" alt="RemoveProperties" width="800">
 </p>
 </div>
 </div>
-<div  id="_exercise_8_creating_nodes" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_strong_exercise_8_creating_nodes_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 8: Creating Nodes</strong></h3>
 
 
@@ -790,6 +846,7 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 8.</p>
 </div>
+
 </div>
 </div>
 <div  id="_creating_relationships" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -801,9 +858,11 @@ and follow the instructions for Exercise 8.</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is the simplified syntax for creating a relationship between two nodes referenced by the variables x and y:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">CREATE (x)-[:REL_TYPE]-&gt;(y)</pre>
@@ -827,14 +886,17 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>In most cases, unless you are connecting nodes at creation time, you will retrieve the two nodes, each with  their own variables, for example, by specifying a <code>WHERE</code> clause to find them, and then use the variables to connect them.</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example. We want to connect the actor, <em>Michael Caine</em> with the movie, <em>Batman Begins</em>. We first retrieve the nodes of interest, then we create the relationship:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person), (m:Movie)
@@ -851,6 +913,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateActedInRelationship.png" alt="CreateActedInRelationship" width="700">
@@ -875,9 +938,11 @@ Before you run these Cypher statements, you may see a warning in Neo4j Browser t
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example where we have already created <em>Person</em> nodes for an actor, <em>Liam Neeson</em>, and a producer, <em>Benjamin Melniker</em>. We create two relationships in this example, one for <em>ACTED_IN</em> and one for <em>PRODUCED</em>.</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person), (m:Movie), (p:Person)
@@ -896,6 +961,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateTwoRelationships.png" alt="CreateTwoRelationships" width="700">
@@ -922,9 +988,11 @@ When you create relationships based upon a <code>MATCH</code> clause, you must b
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is the simplified syntax for adding properties to a relationship referenced by the variable r:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">SET r.propertyName = value</pre>
@@ -965,9 +1033,11 @@ When specify the JSON-style object for assignment to the relationship using <cod
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example where we will add the <em>roles</em> property to the <em>ACTED_IN</em> relationship from <em>Christian Bale</em> to <em>Batman Begins</em> right after we have created the relationship:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person), (m:Movie)
@@ -985,6 +1055,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddRelationshipWithRoles.png" alt="AddRelationshipWithRoles" width="600">
@@ -997,9 +1068,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>You can also add properties to a relationship when the relationship is created. Here is another way to create and add the properties for the relationship:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person), (m:Movie)
@@ -1016,6 +1089,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>By default, the graph engine will create a relationship between two nodes, even if one already exists. You can test to see if the relationship exists before you create it as follows:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person),(m:Movie)
@@ -1052,9 +1126,11 @@ You can prevent duplication of relationships by merging data using the <code>MER
 </div>
 
 
+
 <div class="paragraph">
 <p>Suppose we have added the <em>ACTED_IN</em> relationship between <em>Christian Bale</em> and the movie, <em>Batman Returns</em> where the <em>roles</em> property is added to the relationship. Here is an example to remove the <em>roles</em> property, yet keep the <em>ACTED_IN</em> relationship:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[rel:ACTED_IN]-&gt;(m:Movie)
@@ -1071,13 +1147,14 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result returned. An alternative to <code>REMOVE rel.roles</code> would be <code>SET rel.roles = null</code></p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveRoles.png" alt="RemoveRoles" width="700">
 </p>
 </div>
 </div>
-<div  id="_exercise_9_creating_relationships" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_strong_exercise_9_creating_relationships_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 9: Creating Relationships</strong></h3>
 
 
@@ -1085,6 +1162,7 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 9.</p>
 </div>
+
 </div>
 </div>
 <div  id="_deleting_nodes_and_relationships" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1095,6 +1173,7 @@ and follow the instructions for Exercise 9.</p>
 <p>If a node has no relationships to any other nodes, you can simply delete it from the graph using the <code>DELETE</code> clause.
 Relationships are also deleted using the <code>DELETE</code> clause.</p>
 </div>
+
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1114,6 +1193,7 @@ If you attempt to delete a node in the graph that has relationships in or out of
 <div class="paragraph">
 <p>Here are the existing nodes and relationships for the <em>Batman Begins</em> movie:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships.png" alt="BatmanBeginsRelationships" width="700">
@@ -1126,9 +1206,11 @@ If you attempt to delete a node in the graph that has relationships in or out of
 </div>
 
 
+
 <div class="paragraph">
 <p>In this example, we want to delete the <em>ACTED_IN</em> relationship between <em>Christian Bale</em> and the movie <em>Batman Begins</em>. We find the relationship, and then delete it:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (a:Person)-[rel:ACTED_IN]-&gt;(m:Movie)
@@ -1145,6 +1227,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteRelationship.png" alt="DeleteRelationship" width="700">
@@ -1157,9 +1240,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>We can now query the nodes related to <em>Batman Begins</em> to see that this movie now only has two actors and one producer connected to it:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships2.png" alt="BatmanBeginsRelationships2" width="700">
@@ -1170,6 +1255,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Even though we have deleted the relationship between actor, <em>Christian Bale</em> and the movie <em>Batman Begins</em>, we note that this actor is connected to another movie in the graph, so we should not delete this <em>Christian Bale</em> node.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ChristianBaleConnections.png" alt="ChristianBaleConnections" width="700">
@@ -1180,6 +1266,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>In this example, we find the node for the producer, <em>Benjamin Melniker</em>, as well as his relationship to movie nodes. First, we delete the relationship(s), then we delete the node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)-[rel:PRODUCED]-&gt;(:Movie)
@@ -1195,6 +1282,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteMelniker.png" alt="DeleteMelniker" width="800">
@@ -1205,6 +1293,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>And here we see that we now have only two connections to the <em>Batman Begins</em> movie:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships3.png" alt="BatmanBeginsRelationships3" width="800">
@@ -1221,9 +1310,11 @@ When you specify <code>DETACH DELETE</code> for a node, the relationships to and
 </div>
 
 
+
 <div class="paragraph">
 <p>If were were to attempt to delete the <em>Liam Neeson</em> node without first deleting its relationships:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -1239,6 +1330,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>We would see this error:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/LiamNeesonDeleteError.png" alt="LiamNeesonDeleteError" width="800">
@@ -1249,6 +1341,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here we delete the <em>Liam Neeson</em> node and its relationships to any other nodes:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person)
@@ -1264,6 +1357,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher statement:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteLiamNeeson.png" alt="DeleteLiamNeeson" width="600">
@@ -1274,13 +1368,14 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>And here is what the <em>Batman Begins</em> node and its relationships now look like. There is only one actor, <em>Michael Caine</em> connected to the movie.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships4.png" alt="BatmanBeginsRelationships4" width="700">
 </p>
 </div>
 </div>
-<div  id="_exercise_10_deleting_nodes_and_relationships" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_strong_exercise_10_deleting_nodes_and_relationships_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 10: Deleting Nodes and Relationships</strong></h3>
 
 
@@ -1288,6 +1383,7 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 10.</p>
 </div>
+
 </div>
 </div>
 <div  id="_merging_data_in_the_graph" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1299,15 +1395,18 @@ and follow the instructions for Exercise 10.</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>For exmaple, how the graph engine behaves when a duplicate element is created depends on the type of element:</p>
 </div>
 
 
+
 <div class="paragraph">
 <p></p>
 </div>
-<table class="tableblock frame-none grid-none stripes-none" style="width: 90%;">
+
+<table class="tableblock frame-none grid-none" style="width: 90%;">
 <colgroup>
 <col style="width: 35%;">
 <col style="width: 65%;">
@@ -1342,6 +1441,7 @@ and follow the instructions for Exercise 10.</p>
 <div class="paragraph">
 <p></p>
 </div>
+
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -1359,17 +1459,19 @@ You should never create duplicate nodes or relationships in a graph.
 <div class="paragraph">
 <p>The <code>MERGE</code> clause is used to find elements in the graph. But if the element is not found, it is created.</p>
 </div>
-<table class="tableblock frame-none grid-all stretch">
+
+<table class="tableblock frame-none grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content">
+<td class="tableblock halign-left valign-top"><div>
 
 <div class="paragraph">
 <p>You use the <code>MERGE</code> clause to:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -1386,13 +1488,14 @@ Create a node and relationship to it uniquely in the context of another node.
 </tr>
 </tbody>
 </table>
-<div  id="_using_merge_to_create_nodes" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_using_code_merge_code_to_create_nodes" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Using <code>MERGE</code> to create nodes</h3>
 
 
 <div class="paragraph">
 <p>Here is the simplified syntax for the <code>MERGE</code> clause for creating a node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MERGE (variable:Label{nodeProperties})
@@ -1409,15 +1512,18 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>When you specify <em>nodeProperties</em> for <code>MERGE</code>, you should only use properties that satisfy some sort of uniqueness constraint. You will learn about uniqueness constraints in the next module.</p>
 </div>
+
 
 
 <div class="paragraph">
 <p>Here is what we currently have in the graph for the <em>Person</em>, <em>Michael Caine</em>.
 This node has values for <em>name</em> and <em>born</em>. Notice also that the label for the node is <em>Person</em>.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MichaelCaine.png" alt="MichaelCaine" width="600">
@@ -1428,6 +1534,7 @@ This node has values for <em>name</em> and <em>born</em>. Notice also that the l
 <div class="paragraph">
 <p>Here we use <code>MERGE</code> to find a node with the <em>Actor</em> label with the key property <em>name</em> of <em>Michael Caine</em>, and we set the <em>born</em> property to <em>1933</em>. Our data model has never used the label, <em>Actor</em> so this is a new entity type in our graph.</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MERGE (a:Actor {name: 'Michael Caine'})
@@ -1443,6 +1550,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of running this Cypher example. We do not find a node with the label <em>Actor</em> so the graph engine creates one.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeActorMichaelCaine.png" alt="MergeActorMichaelCaine" width="600">
@@ -1467,9 +1575,11 @@ When you specify the node to merge, you should only use properties that have a u
 </div>
 
 
+
 <div class="paragraph">
 <p>At this point, however, we have two <em>Michael Caine</em> nodes in the graph, one of type <em>Person</em>, and one of type <em>Actor</em>:</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoMichaelCaines.png" alt="TwoMichaelCaines" width="800">
@@ -1488,13 +1598,14 @@ Be mindful that node labels and the properties for a node are significant when m
 </table>
 </div>
 </div>
-<div  id="_using_merge_to_create_relationships" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_using_code_merge_code_to_create_relationships" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Using <code>MERGE</code> to create relationships</h3>
 
 
 <div class="paragraph">
 <p>Here is the syntax for the <code>MERGE</code> clause for creating relationships:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher-syntax">MERGE (variable:Label {nodeProperties})-[:REL_TYPE]-&gt;(otherNode)
@@ -1511,9 +1622,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Although, you can leave out the direction of the relationship being created with the <code>MERGE</code>, in which case a left-to-right arrow will be assumed, a best practice is to always specify the direction of the relationship. However, if you have  bidirectional relationships and you want to avoid creating duplicate relationships, you <span class="underline">must</span> leave off the arrow.</p>
 </div>
+
 </div>
 <div  id="_specifying_creation_behavior_when_merging" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Specifying creation behavior when merging</h3>
@@ -1524,9 +1637,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is an example where create a new node, specifying property values for the new node:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MERGE (a:Person {name: 'Sir Michael Caine'})
@@ -1545,9 +1660,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Here is the resulting nodes that have anything to do with <em>Michael Caine</em>. The most recently created node has the <em>name</em> value of <em>Sir Michael Caine</em>.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllMichaelCaines.png" alt="AllMichaelCaines" width="800">
@@ -1558,6 +1675,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You can also specify an <code>ON MATCH</code> clause during merge processing. If the exact node is found, you can update its properties or labels. Here is an example:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MERGE (a:Person {name: 'Sir Michael Caine'})
@@ -1575,13 +1693,14 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>And here we see that the found node (with the <em>&lt;id&gt;</em> of <em>1920</em>) was updated with the new value for <em>birthPlace</em>.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UpdateToUK.png" alt="UpdateToUK" width="700">
 </p>
 </div>
 </div>
-<div  id="_using_merge_to_create_relationships_2" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_using_code_merge_code_to_create_relationships_2" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Using <code>MERGE</code> to create relationships</h3>
 
 
@@ -1590,9 +1709,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>In this example, we use the <code>MATCH</code> clause to find all <em>Person</em> nodes that represent <em>Michael Caine</em> and we find the movie, <em>Batman Begins</em> that we want to connect to all of these nodes. We already have a connection between one of the <em>Person</em> nodes and the <em>Movie</em> node. We do not want this relationship to be duplicated. This is where we can use <code>MERGE</code> as follows:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (p:Person), (m:Movie)
@@ -1609,6 +1730,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of executing this Cypher statement. It went through all the nodes and added the relationship to the nodes that didn&#8217;t already have the relationship.</p>
 </div>
+
 <div class="imageblock thumb">
 <p class="content">
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeRelationships.png" alt="MergeRelationships" width="800">
@@ -1621,14 +1743,17 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Only if you intentionally want to create a node within the context of another (like a month within a year) then a MERGE pattern with one bound and one unbound node makes sense.</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>For example:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MERGE (fromDate:Date {year: 2018})&lt;-[:IN_YEAR]-(toDate:Date {month: 'January'})</pre>
@@ -1638,7 +1763,7 @@ data-lang=”{language}” class=””
 data-lang=”{language}” class=””
 -->
 </div>
-<div  id="_exercise_11_merging_data_in_the_graph" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_strong_exercise_11_merging_data_in_the_graph_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 11: Merging Data in the graph</strong></h3>
 
 
@@ -1646,6 +1771,7 @@ data-lang=”{language}” class=””
 <p>In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play intro-neo4j-exercises</kbd>
 and follow the instructions for Exercise 11.</p>
 </div>
+
 </div>
 </div>
 <div  id="module-6" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
@@ -1659,9 +1785,11 @@ and follow the instructions for Exercise 11.</p>
 </div>
 
 
+
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
+
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1686,6 +1814,7 @@ and follow the instructions for Exercise 11.</p>
 <div class="paragraph">
 <p>Suppose that you have retrieved a node, <em>s</em> with a property, <em>color</em>:</p>
 </div>
+
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (s:Shape {location: [20,30]})
@@ -1703,9 +1832,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
+
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1732,9 +1863,11 @@ data-lang=”{language}” class=””
 </div>
 
 
+
 <div class="paragraph">
 <p>Select the correct answer.</p>
 </div>
+
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1760,6 +1893,7 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>You should now be able to write Cypher statements to:</p>
 </div>
+
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -1965,30 +2099,30 @@ $( document ).ready(function() {
 <li><a href="#_removing_labels_from_a_node">Removing labels from a node</a></li>
 <li><a href="#_adding_properties_to_a_node">Adding properties to a node</a></li>
 <li><a href="#_removing_properties_from_a_node">Removing properties from a node</a></li>
-<li><a href="#_exercise_8_creating_nodes"><strong>Exercise 8: Creating Nodes</strong></a></li>
+<li><a href="#_strong_exercise_8_creating_nodes_strong"><strong>Exercise 8: Creating Nodes</strong></a></li>
 </ul>
 </li>
 <li><a href="#_creating_relationships">Creating relationships</a>
 <ul class="sectlevel2">
 <li><a href="#_adding_properties_to_relationships">Adding properties to relationships</a></li>
 <li><a href="#_removing_properties_from_a_relationship">Removing properties from a relationship</a></li>
-<li><a href="#_exercise_9_creating_relationships"><strong>Exercise 9: Creating Relationships</strong></a></li>
+<li><a href="#_strong_exercise_9_creating_relationships_strong"><strong>Exercise 9: Creating Relationships</strong></a></li>
 </ul>
 </li>
 <li><a href="#_deleting_nodes_and_relationships">Deleting nodes and relationships</a>
 <ul class="sectlevel2">
 <li><a href="#_deleting_relationships">Deleting relationships</a></li>
 <li><a href="#_deleting_nodes_and_relationships_2">Deleting nodes and relationships</a></li>
-<li><a href="#_exercise_10_deleting_nodes_and_relationships"><strong>Exercise 10: Deleting Nodes and Relationships</strong></a></li>
+<li><a href="#_strong_exercise_10_deleting_nodes_and_relationships_strong"><strong>Exercise 10: Deleting Nodes and Relationships</strong></a></li>
 </ul>
 </li>
 <li><a href="#_merging_data_in_the_graph">Merging data in the graph</a>
 <ul class="sectlevel2">
-<li><a href="#_using_merge_to_create_nodes">Using <code>MERGE</code> to create nodes</a></li>
-<li><a href="#_using_merge_to_create_relationships">Using <code>MERGE</code> to create relationships</a></li>
+<li><a href="#_using_code_merge_code_to_create_nodes">Using <code>MERGE</code> to create nodes</a></li>
+<li><a href="#_using_code_merge_code_to_create_relationships">Using <code>MERGE</code> to create relationships</a></li>
 <li><a href="#_specifying_creation_behavior_when_merging">Specifying creation behavior when merging</a></li>
-<li><a href="#_using_merge_to_create_relationships_2">Using <code>MERGE</code> to create relationships</a></li>
-<li><a href="#_exercise_11_merging_data_in_the_graph"><strong>Exercise 11: Merging Data in the graph</strong></a></li>
+<li><a href="#_using_code_merge_code_to_create_relationships_2">Using <code>MERGE</code> to create relationships</a></li>
+<li><a href="#_strong_exercise_11_merging_data_in_the_graph_strong"><strong>Exercise 11: Merging Data in the graph</strong></a></li>
 </ul>
 </li>
 <li><a href="#module-6">Check your understanding</a>
