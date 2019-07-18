@@ -49,7 +49,7 @@ ON CREATE SET person:Actor;
 CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
 MATCH (m:Movie)
 UNWIND m.genres as names
-WITH distinct names, m
+WITH DISTINCT names, m
 SET m.genres = null
 MERGE (g:Genre {name:names})
 WITH g, m

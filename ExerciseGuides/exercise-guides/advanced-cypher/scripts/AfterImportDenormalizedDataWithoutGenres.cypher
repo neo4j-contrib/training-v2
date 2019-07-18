@@ -46,9 +46,3 @@ CALL apoc.do.when(person.personType = 'ACTOR',
 SET p:Person;  // cannot end query with APOC call
 
 CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
-MATCH (m:Movie)
-UNWIND m.genres as names
-WITH distinct names, m
-MERGE (g:Genre {name:names})
-WITH g, m
-MERGE (g)<-[:IS_GENRE]-(m)

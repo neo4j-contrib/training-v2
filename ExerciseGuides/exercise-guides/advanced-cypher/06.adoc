@@ -396,7 +396,7 @@ MERGE (p:Person {id: person.id})
    ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
 WITH  m, person, p
 CALL apoc.do.when(person.personType = 'ACTOR',
-     "MERGE (p)-[:ACTED_IN {roles: split(coalesce(person.characters,''), ':')}]->(m)
+     "MERGE (p)-[:ACTED_IN {roles: person.roles}]->(m)
                 ON CREATE SET p:Actor",
      "MERGE (p)-[:DIRECTED]->(m)
          ON CREATE SET p:Director",
@@ -430,7 +430,7 @@ Here is the code:
 CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
 MATCH (m:Movie)
 UNWIND m.genres as names
-WITH distinct names, m
+WITH DISTINCT names, m
 SET m.genres = null
 MERGE (g:Genre {name:names})
 WITH g, m

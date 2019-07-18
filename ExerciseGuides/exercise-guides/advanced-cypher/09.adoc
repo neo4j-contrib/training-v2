@@ -1,0 +1,212 @@
+= Exercise 9
+:icons: font
+
+== Exercise 9: Iteration and conditional processing (Preparations)
+
+*1. Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC
+----
+
+If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:
+
+. Make sure Neo4j Desktop is online.
+. In Neo4j Desktop for the project you are working with, click  *Add Plugin*.
+. Select the install button for APOC.
+. Click the Install button.
+. Close the Add Plugin window.
+. Start or restart the database.
+
+*2. Ensure that the virtual memory for Neo4j is set back to its defaults:
+dbms.memory.heap.initial_size=512m
+dbms.memory.heap.max_size=1G*
+
+*3. These exercises assume that you have a fully-loaded movie database without the Genre nodes. Execute this code to reset the database:*
+
+[source, cypher]
+----
+include::scripts/AfterImportDenormalizedDataWithoutGenreNodes.cypher[]
+----
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/AfterImportDenormalizedDataWithoutGenreNodes.png[AfterImportDenormalizedDataWithoutGenreNodes,200,200, role=left]
+
+
+== Exercise 9: Iteration and conditional processing (Overview)
+
+In this exercise, you will gain experience with iterating and writing code to perform conditional processing.
+
+In this exercise, you will:
+
+* *Exercise 9.1*: Collect genres data from the database to create the Genre nodes using FOREACH.
+* *Exercise 9.2*: Use CASE for conditionally returning a value.
+* *Exercise 9.3*: USE CASE and FOREACH to perform conditional updates.
+* *Exercise 8.4*: Profile this query to use PERIODIC COMMIT to load the data.
+* *Exercise 8.5*: Attempt to load the data using PERIODIC COMMIT, but with an eager operator.
+* *Exercise 7.6*: Increase the virtual memory to show the profile of the query.
+* *Exercise 7.7*: Use APOC to load the data.
+
+Go to the next page to start this exercise.
+
+== Exercise 9.1: Collect genres data from the database to create the Genre nodes using FOREACH. (Instructions)
+
+Previously, you wrote code to create the Genre nodes as follows:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+UNWIND m.genres as names
+WITH DISTINCT names, m
+SET m.genres = null
+MERGE (g:Genre {name:names})
+WITH g, m
+MERGE (g)<-[:IS_GENRE]-(m)
+----
+
+This code created the names collection. It then processed each distinct name for a genre to create the Genre nodes and the :IS_GENRE relationships.
+
+*Rewrite this code to use FOREACH to process each Movie node, create the Genre nodes, and the :IS_GENRE relationships.*
+
+== Exercise 9.1: Collect genres data from the database to create the Genre nodes using FOREACH. (Solution)
+
+Previously, you wrote code to create the Genre nodes as follows:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+UNWIND m.genres as names
+WITH DISTINCT names, m
+SET m.genres = null
+MERGE (g:Genre {name:names})
+WITH g, m
+MERGE (g)<-[:IS_GENRE]-(m)
+----
+
+This code created the names collection. It then processed each distinct name for a genre to create the Genre nodes and the :IS_GENRE relationships.
+
+*Rewrite this code to use FOREACH to process each Movie node, create the Genre nodes, and the :IS_GENRE relationships.*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+FOREACH( x in m.genres |
+   MERGE (g:Genre {name:x})
+   CREATE (g)<-[:IS_GENRE]-(m))
+SET m.genres = null
+----
+
+The result of executing this code should be:
+
+[.thumb]
+image::{guides}/img/EX9.1.png[EX9.1,width=300]
+
+== Exercise 9.2: Use CASE for conditionally returning a value. (Instructions)
+
+*You want to modify every movie in the database to add a property, multiDirectors which will have a value of true or false.
+There are many ways to do this. Write the code to transform each Movie node using a CASE clause where  you test the number of Directors for each Movie node.*
+
+*Query the database to determine how many movies have multiple directors.*
+
+== Exercise 9.2: Use CASE for conditionally returning a value. (Solution)
+
+*You want to modify every movie in the database to add a property, multiDirectors which will have a value of true or false.
+There are many ways to do this. Write the code to transform each Movie node using a CASE clause where  you test the number of Directors for each Movie node.*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WITH m,
+CASE
+   WHEN size((m)-[]-(:Director)) > 1 THEN true
+   ELSE false
+END
+   AS MD
+WITH m, MD SET m.multiDirectors = MD
+----
+
+The result of executing this code should be:
+
+[.thumb]
+image::{guides}/img/EX9.2.png[EX9.2,width=300]
+
+*Query the database to determine how many movies have multiple directors.*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.multiDirectors = true
+RETURN count(*)
+----
+
+The result of executing this code should be:
+
+[.thumb]
+image::{guides}/img/EX9.2B.png[EX9.2B,width=300]
+
+== Exercise 9.3: USE CASE and FOREACH to perform conditional updates. (Instructions)
+
+*Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
+Set the values to "yes"/"no" rather than true/false.*
+
+*Query the database to determine how many movies have multiple directors.*
+
+== Exercise 9.3: USE CASE and FOREACH to perform conditional updates. (Solution)
+
+*Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
+Set the values to "yes"/"no" rather than true/false.*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+FOREACH (ignoreMe IN CASE WHEN size((m)-[]-(:Director)) > 1 THEN [1] ELSE [] END |
+   SET m.multiDirectors = "yes")
+FOREACH (ignoreMe IN CASE WHEN size((m)-[]-(:Director)) <= 1 THEN [1] ELSE [] END |
+   SET m.multiDirectors = "no")
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX9.3.png[EX9.3,width=300]
+
+*Query the database to determine how many movies have multiple directors.*
+
+Here is the code:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.multiDirectors = "yes"
+RETURN count(*)
+----
+
+The result of executing this code should be:
+
+[.thumb]
+image::{guides}/img/EX9.3B.png[EX9.3B,width=300]
+
+
+== Exercise 9: Taking it further
+
+. Try using UNWIND as an alternative to FOREACH
+. Profile your code to see which alternatives are better in terms of DB hits.
+
+== Exercise 9: Iteration and conditional processing   (Summary)
+
+
+In this exercise, you gained experience performing conditional processing with Cypher.
+pass:a[<a play-topic='{guides}/10.html'>Continue to Exercise 10</a>]
