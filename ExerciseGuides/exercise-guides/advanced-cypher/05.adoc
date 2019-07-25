@@ -30,12 +30,13 @@ In this exercise, you will first remove all data and indexes from the database s
 * *Exercise 5.2*: Determine how large the datasets are that you will be loading.
 * *Exercise 5.3*: Examine the data you will be loading.
 * *Exercise 5.4*: Write Cypher code to transform the data you will be loading.
-* *Exercise 5.5*: Create the indexes and constraints.
+* *Exercise 5.5*: Create the constraints.
 * *Exercise 5.6*: Load the Movie data.
 * *Exercise 5.7*: Load the Person data.
 * *Exercise 5.8*: Load the data to create the :DIRECTED relationships.
 * *Exercise 5.9*: Load the data to create the :ACTED_IN relationships.
-* *Exercise 5.10*: Create the Genre nodes and :IS_GENRE relationships.
+* *Exercise 5.10*: Create the indexes.
+* *Exercise 5.11*: Create the Genre nodes and :IS_GENRE relationships.
 
 Go to the next page to start this exercise.
 
@@ -287,7 +288,7 @@ The results should be:
 [.thumb]
 image::{guides}/img/EX5.4C.png[EX5.4C,width=300]
 
-== Exercise 5.5: Create the indexes and constraints. (Instructions)
+== Exercise 5.5: Create the constraints. (Instructions)
 
 The movies1.csv fields will be mapped to Movie node properties as follows:
 
@@ -304,15 +305,13 @@ name        --> name
 birthYear   --> born
 deathYear   --> died
 
-*To improve loading when nodes are created using MERGE, add uniqueness constraints and indexes as follows:
+*To improve loading when nodes are created using MERGE, add uniqueness constraints as follows:
 
 * Uniqueness constraint on the id property of a Movie node.
-* Uniqueness constraint on the id property of a Person node.
-* Index on the name property of a Person node.
-* Index on the title property of a Movie node.*
+* Uniqueness constraint on the id property of a Person node.*
 
 
-== Exercise 5.5: Create the indexes and constraints. (Solution)
+== Exercise 5.5: Create the constraints. (Solution)
 
 The movies1.csv fields will be mapped to Movie node properties as follows:
 
@@ -329,12 +328,10 @@ name        --> name
 birthYear   --> born
 deathYear   --> died
 
-*To improve loading when nodes are created using MERGE, add uniqueness constraints and indexes as follows:
+*To improve loading when nodes are created using MERGE, add uniqueness constraints as follows:
 
 * Uniqueness constraint on the id property of a Movie node.
-* Uniqueness constraint on the id property of a Person node.
-* Index on the name property of a Person node.
-* Index on the title property of a Movie node.*
+* Uniqueness constraint on the id property of a Person node.*
 
 Here is the code:
 
@@ -345,10 +342,6 @@ ASSERT m.id IS UNIQUE;
 
 CREATE CONSTRAINT ON (p:Person)
 ASSERT p.id IS UNIQUE;
-
-CREATE INDEX ON :Person(name);
-
-CREATE INDEX ON :Movie(title);
 ----
 
 The results returned should look like this:
@@ -493,7 +486,66 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX5.9.png[EX5.9,width=300]
 
-== Exercise 5.10: Create the Genre nodes and :IS_GENRE relationships. (Instructions)
+== Exercise 5.10: Create the indexes. (Instructions)
+
+The movies1.csv fields will be mapped to Movie node properties as follows:
+
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+The people.csv fields will be mapped to Person node properties as follows:
+
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*To improve retrieval performance, add indexes as follows:
+
+* Index on the name property of a Person node.
+* Index on the title property of a Movie node.*
+
+
+== Exercise 5.5: Create the indexes. (Solution)
+
+The movies1.csv fields will be mapped to Movie node properties as follows:
+
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+The people.csv fields will be mapped to Person node properties as follows:
+
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*To improve retrieval performance, add indexes as follows:
+
+* Index on the name property of a Person node.
+* Index on the title property of a Movie node.*
+
+Here is the code:
+
+[source, cypher]
+----
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX5.10.png[EX5.10,width=300]
+
+== Exercise 5.11: Create the Genre nodes and :IS_GENRE relationships. (Instructions)
 
 Although the Movie nodes have a property, genres, we want a separate node of type Genre.
 Every Movie will have a :IS_GENRE relationship with one or more Genre nodes.
@@ -503,7 +555,7 @@ A Genre node will have a single property, name.
 Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
 In addition, remove the genres property from the Movie  nodes.*
 
-== Exercise 5.10: Create the Genre nodes and :IS_GENRE relationships. (Solution)
+== Exercise 5.11: Create the Genre nodes and :IS_GENRE relationships. (Solution)
 
 *First, create a uniqueness constraint for the name property for nodes of type Genre.
 Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
@@ -526,12 +578,12 @@ MERGE (g)<-[:IS_GENRE]-(m)
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.10.png[EX5.10,width=300]
+image::{guides}/img/EX5.11.png[EX5.11,width=300]
 
 Your database should now be as follows:
 
 [.thumb]
-image::{guides}/img/EX5.10B.png[EX5.10B,width=300]
+image::{guides}/img/EX5.11B.png[EX5.11B,width=300]
 
 == Exercise 5: Taking it further
 

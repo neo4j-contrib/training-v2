@@ -22,190 +22,166 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Close the Add Plugin window.
 . Start or restart the database.
 
-*2. Ensure that the virtual memory for Neo4j is set back to its defaults:
-dbms.memory.heap.initial_size=512m
-dbms.memory.heap.max_size=1G*
-
-*3. These exercises assume that you have a fully-loaded movie database without the Genre nodes. Execute this code to reset the database:*
+*2. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
-include::scripts/AfterImportDenormalizedDataWithoutGenreNodes.cypher[]
+include::scripts/AfterImportDenormalizedData.cypher[]
 ----
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterImportDenormalizedDataWithoutGenreNodes.png[AfterImportDenormalizedDataWithoutGenreNodes,200,200, role=left]
+image::{guides}/img/AfterImportDenormalizedData.png[AfterImportDenormalizedData,200,200, role=left]
 
 
-== Exercise 9: Iteration and conditional processing (Overview)
+== Exercise 10: Working with DB stats and the count store (Overview)
 
 In this exercise, you will view DB stats and use the count store in your queries.
 
 In this exercise, you will:
 
-* *Exercise 9.1*: Collect genres data from the database to create the Genre nodes using FOREACH.
-* *Exercise 9.2*: Use CASE for conditionally returning a value.
-* *Exercise 9.3*: USE CASE and FOREACH to perform conditional updates.
-* *Exercise 8.4*: Profile this query to use PERIODIC COMMIT to load the data.
-* *Exercise 8.5*: Attempt to load the data using PERIODIC COMMIT, but with an eager operator.
-* *Exercise 7.6*: Increase the virtual memory to show the profile of the query.
-* *Exercise 7.7*: Use APOC to load the data.
+* *Exercise 10.1*: Modify a node MATCH query to use the count store.
+* *Exercise 10.2*: Modify a relationship match query to use the count store.
+* *Exercise 10.3*: Modify a query to use size() instead of count().
+* *Exercise 10.4*: Query the count stores in the database.
+
 
 Go to the next page to start this exercise.
 
-== Exercise 9.1: Collect genres data from the database to create the Genre nodes using FOREACH. (Instructions)
+== Exercise 10.1: Modify a node MATCH query to use the count store. (Instructions)
 
-Previously, you wrote code to create the Genre nodes as follows:
-
-[source, cypher]
-----
-MATCH (m:Movie)
-UNWIND m.genres as names
-WITH DISTINCT names, m
-SET m.genres = null
-MERGE (g:Genre {name:names})
-WITH g, m
-MERGE (g)<-[:IS_GENRE]-(m)
-----
-
-This code created the names collection. It then processed each distinct name for a genre to create the Genre nodes and the :IS_GENRE relationships.
-
-*Rewrite this code to use FOREACH to process each Movie node, create the Genre nodes, and the :IS_GENRE relationships.*
-
-== Exercise 9.1: Collect genres data from the database to create the Genre nodes using FOREACH. (Solution)
-
-Previously, you wrote code to create the Genre nodes as follows:
+*Here is a query to count the number of nodes that are Person and Actor nodes.  Profile it and then modify this query to use the count store.*
 
 [source, cypher]
 ----
-MATCH (m:Movie)
-UNWIND m.genres as names
-WITH DISTINCT names, m
-SET m.genres = null
-MERGE (g:Genre {name:names})
-WITH g, m
-MERGE (g)<-[:IS_GENRE]-(m)
+MATCH (:Actor:Person) RETURN count(*)
 ----
 
-This code created the names collection. It then processed each distinct name for a genre to create the Genre nodes and the :IS_GENRE relationships.
+== Exercise 10.1: Modify a node MATCH query to use the count store. (Solution)
 
-*Rewrite this code to use FOREACH to process each Movie node, create the Genre nodes, and the :IS_GENRE relationships.*
-
-Here is the code:
+*Here is a query to count the number of nodes that are Person and Actor nodes.  Profile it and then modify this query to use the count store.*
 
 [source, cypher]
 ----
-MATCH (m:Movie)
-FOREACH( x in m.genres |
-   MERGE (g:Genre {name:x})
-   CREATE (g)<-[:IS_GENRE]-(m))
-SET m.genres = null
+MATCH (:Actor:Person) RETURN count(*)
+----
+
+Since a Person node will always have at least one other type associated with it, you can simply get the count of the nodes with the Actor label to take advantage of using the count store.
+
+Here is the modified code:
+
+[source, cypher]
+----
+PROFILE MATCH (:Actor) RETURN count(*)
 ----
 
 The result of executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX9.1.png[EX9.1,width=300]
+image::{guides}/img/EX10.1.png[EX10.1,width=300]
 
-== Exercise 9.2: Use CASE for conditionally returning a value. (Instructions)
+== Exercise 10.2: Modify a relationship match query to use the count store. (Instructions)
 
-*You want to modify every movie in the database to add a property, multiDirectors which will have a value of true or false.
-There are many ways to do this. Write the code to transform each Movie node using a CASE clause where  you test the number of Directors for each Movie node.*
-
-*Query the database to determine how many movies have multiple directors.*
-
-== Exercise 9.2: Use CASE for conditionally returning a value. (Solution)
-
-*You want to modify every movie in the database to add a property, multiDirectors which will have a value of true or false.
-There are many ways to do this. Write the code to transform each Movie node using a CASE clause where  you test the number of Directors for each Movie node.*
-
-Here is the code:
+*Here is a query to count the number of :DIRECTED relationships in the graph.  Profile it and then modify this query to use the count store.*
 
 [source, cypher]
 ----
-MATCH (m:Movie)
-WITH m,
-CASE
-   WHEN size((m)-[]-(:Director)) > 1 THEN true
-   ELSE false
-END
-   AS MD
-WITH m, MD SET m.multiDirectors = MD
+MATCH ()-[:DIRECTED]-() RETURN count(*)
+----
+
+== Exercise 10.2: Modify a relationship match query to use the count store. (Solution)
+
+*Here is a query to count the number of :DIRECTED relationships in the graph.  Profile it and then modify this query to use the count store.*
+
+[source, cypher]
+----
+MATCH ()-[:DIRECTED]-() RETURN count(*)
+----
+
+In order to take advantage of the count store in a path, you must specify the direction of the relationship.
+
+Here is the modified code:
+
+[source, cypher]
+----
+MATCH ()-[:DIRECTED]->() RETURN count(*)
 ----
 
 The result of executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX9.2.png[EX9.2,width=300]
+image::{guides}/img/EX10.2.png[EX10.2,width=300]
 
-*Query the database to determine how many movies have multiple directors.*
+== Exercise 10.3: Modify a query to use size() instead of count(). (Instructions)
 
-Here is the code:
+*Here is a query to count the number of :IS_GENRE relationships per movie in the graph.  Profile it and then modify this query to use size() rather than count().*
 
 [source, cypher]
 ----
-MATCH (m:Movie)
-WHERE m.multiDirectors = true
-RETURN count(*)
+MATCH (m:Movie)-[:IS_GENRE]->()
+RETURN m, count(*) AS genreCount ORDER BY genreCount DESC
+----
+
+== Exercise 10.3: Modify a query to use size() instead of count(). (Solution)
+
+*Here is a query to count the number of :IS_GENRE relationships per movie in the graph.  Profile it and then modify this query to use size() rather than count().*
+
+[source, cypher]
+----
+MATCH (m:Movie)-[:IS_GENRE]->()
+RETURN m, count(*) AS genreCount ORDER BY genreCount DESC
+----
+
+When you profile this query, you see 29,767 DB hits:
+
+The result of executing this code should be:
+
+[.thumb]
+image::{guides}/img/EX10.3.png[EX10.3,width=300]
+
+
+Here is the modified code:
+
+[source, cypher]
+----
+PROFILE MATCH (m:Movie)
+RETURN m, size((m)-[:IS_GENRE]->()) as genreCount ORDER BY genreCount DESC
 ----
 
 The result of executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX9.2B.png[EX9.2B,width=300]
+image::{guides}/img/EX10.3B.png[EX10.3B,width=300]
 
-== Exercise 9.3: USE CASE and FOREACH to perform conditional updates. (Instructions)
+Here we see fewer DB hits of 18,694.
 
-*Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
-Set the values to "yes"/"no" rather than true/false.*
+== Exercise 10.4: Query the count stores in the database. (Instructions)
 
-*Query the database to determine how many movies have multiple directors.*
+*Write a query to return the values in the count store for the database.*
 
-== Exercise 9.3: USE CASE and FOREACH to perform conditional updates. (Solution)
+== Exercise 10.4: Query the count stores in the database. (Solution)
 
-*Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
-Set the values to "yes"/"no" rather than true/false.*
+*Write a query to return the values in the count store for the database.*
 
 Here is the code:
 
 [source, cypher]
 ----
-MATCH (m:Movie)
-FOREACH (ignoreMe IN CASE WHEN size((m)-[]-(:Director)) > 1 THEN [1] ELSE [] END |
-   SET m.multiDirectors = "yes")
-FOREACH (ignoreMe IN CASE WHEN size((m)-[]-(:Director)) <= 1 THEN [1] ELSE [] END |
-   SET m.multiDirectors = "no")
-----
-
-The results should be:
-
-[.thumb]
-image::{guides}/img/EX9.3.png[EX9.3,width=300]
-
-*Query the database to determine how many movies have multiple directors.*
-
-Here is the code:
-
-[source, cypher]
-----
-MATCH (m:Movie)
-WHERE m.multiDirectors = "yes"
-RETURN count(*)
+CALL db.stats.retrieve('GRAPH COUNTS')
 ----
 
 The result of executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX9.3B.png[EX9.3B,width=300]
-
+image::{guides}/img/EX10.4.png[EX10.4,width=300]
 
 == Exercise 10: Taking it further
 
-.
+. Perform queries the utilize the count store and compare them to count store values returned from the call to db.stats.retrieve().
+. Look at other types of data returned from db.stats.retrieve().
 
 == Exercise 10: Working with DB stats and the count store   (Summary)
 
 
 In this exercise, you gained experience viewing DB stats and using the count store in your queries.
-pass:a[<a play-topic='{guides}/10.html'>Continue to Exercise 10</a>]
+pass:a[<a play-topic='{guides}/11.html'>Continue to Exercise 11</a>]

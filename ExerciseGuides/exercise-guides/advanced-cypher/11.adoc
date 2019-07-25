@@ -1,0 +1,101 @@
+= Exercise 11
+:icons: font
+
+== Exercise 11: Preparing for query tuning (Preparations)
+
+*1. Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC
+----
+
+If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:
+
+. Make sure Neo4j Desktop is online.
+. In Neo4j Desktop for the project you are working with, click  *Add Plugin*.
+. Select the install button for APOC.
+. Click the Install button.
+. Close the Add Plugin window.
+. Start or restart the database.
+
+*2. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
+
+[source, cypher]
+----
+include::scripts/AfterImportDenormalizedData.cypher[]
+----
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/AfterImportDenormalizedData.png[AfterImportDenormalizedData,200,200, role=left]
+
+
+== Exercise 11: Preparing for query tuning (Overview)
+
+In this exercise, you prepare your development environment for query tuning.
+
+In this exercise, you will:
+
+* *Exercise 11.1*: Modify the configuration for maximum virtual memory and a pagecache size that matches your database size.
+* *Exercise 11.2*: Warm up the pagecache.
+
+Go to the next page to start this exercise.
+
+== Exercise 11.1: Modify the configuration for maximum virtual memory and a pagecache size that matches your database size. (Instructions)
+
+*Determine the size of your database.*
+
+*Set the virtual memory and pagecache sizes in the configuration for your database, then restart the database.*
+
+
+== Exercise 11.1: Modify the configuration for maximum virtual memory and a pagecache size that matches your database size. (Solution)
+
+*Determine the size of your database.*
+
+You should determine the total size of your database by using the :sysinfo command in Neo4j Browser:
+
+[.thumb]
+image::{guides}/img/EX11.1.png[EX11.1,width=300]
+
+*Set the virtual memory and pagecache sizes in the configuration for your database, then restart the database.*
+
+Make these changes to the configuration in the settings tab as follows:
+
+[.thumb]
+image::{guides}/img/EX11.1B.png[EX11.1B,width=300]
+
+== Exercise 11.2: Warm up the pagecache. (Instructions)
+
+*Execute Cypher code to retrieve the entire database into the pagecache.*
+
+
+== Exercise 11.2: Warm up the pagecache. (Solution)
+
+*Execute Cypher code to retrieve the entire database into the pagecache.*
+
+Here is the code:
+
+[source, cypher]
+----
+CALL apoc.warmup.run(true,true,true)
+----
+
+The result of executing this code should be:
+
+[.thumb]
+image::{guides}/img/EX11.2.png[EX11.2,width=300]
+
+
+== Exercise 11: Taking it further
+
+. Create a set of queries (from past queries you have done) that contain parameters rather than string constants.
+. Set parameters that will be used for the parameterized queries. The best reuse of the querycache is to use parameters.
+
+== Exercise 11: Preparing for query tuning   (Summary)
+
+In this exercise, you set up your development environment for query tuning.
+pass:a[<a play-topic='{guides}/12.html'>Continue to Exercise 12</a>]

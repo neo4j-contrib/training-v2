@@ -72,12 +72,12 @@ Here is the code:
 PROFILE MATCH (m:Movie)
 WITH m LIMIT 5
 WITH m, collect (m.title) AS t, collect(m.avgVote) AS r
-UNWIND t as Titles
-UNWIND r as Ratings
-RETURN Titles, Ratings
+UNWIND t as titles
+UNWIND r as ratings
+RETURN titles, ratings
 ----
 
-The result of performing this code should be:
+The result of performing this code should look something like this:
 
 [.thumb]
 image::{guides}/img/EX8.1.png[EX8.1,width=300]
@@ -98,9 +98,9 @@ Here is the code:
 PROFILE MATCH (m:Movie)
 WITH m ORDER BY m.avgVote DESC LIMIT 5
 WITH m, collect (m.title) AS t, collect(m.avgVote) AS r
-UNWIND t as Titles
-UNWIND r as Ratings
-RETURN Titles, Ratings
+UNWIND t as titles
+UNWIND r as ratings
+RETURN titles, ratings
 ----
 
 The result of performing this code should be:
@@ -122,8 +122,8 @@ Because the data needed to be sorted, all records needed to be read before they 
 [source, cypher]
 ----
 MATCH (m:Movie)
-WITH collect(m.genres) AS Genres
-RETURN Genres, size(Genres)
+WITH collect(m.genres) AS genres
+RETURN genres, size(genres)
 ----
 
 *Rewrite this code to use APOC to remove the embedded lists and also remove duplicates.*
@@ -135,8 +135,8 @@ RETURN Genres, size(Genres)
 [source, cypher]
 ----
 MATCH (m:Movie)
-WITH collect(m.genres) AS Genres
-RETURN Genres, size(Genres)
+WITH collect(m.genres) AS genres
+RETURN genres, size(genres)
 ----
 
 The result returned should be:
@@ -151,12 +151,12 @@ Here is the code:
 [source, cypher]
 ----
 MATCH (m:Movie)
-WITH collect(m.genres) AS Genres
+WITH collect(m.genres) AS genres
 // remove embedded lists
-WITH apoc.coll.flatten(Genres) AS allGenres
+WITH apoc.coll.flatten(genres) AS allGenres
 // remove duplicates
-WITH apoc.coll.toSet(allGenres) AS GenreList
-RETURN GenreList, size(GenreList)
+WITH apoc.coll.toSet(allGenres) AS genreList
+RETURN genreList, size(genreList)
 ----
 
 The result returned should be:
@@ -199,9 +199,8 @@ WHERE p.born > 1970
 WITH p, collect(act.roles) AS roleList, collect(m) AS movieList
 WITH p, movieList, apoc.coll.flatten(roleList) AS allRoles
 // remove duplicates
-WITH p,  movieList, apoc.coll.toSet(allRoles) AS TrimmedRoleList
-RETURN p { .name, .born,  roles: TrimmedRoleList, movies: [x in movieList | x.title] }
-AS Actor
+WITH p,  movieList, apoc.coll.toSet(allRoles) AS trimmedRoleList
+RETURN p { .name, .born,  roles: trimmedRoleList, movies: [x in movieList | x.title] } AS actor
 ----
 
 The results should be:

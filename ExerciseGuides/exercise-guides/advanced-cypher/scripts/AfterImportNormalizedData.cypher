@@ -11,9 +11,6 @@ ASSERT m.id IS UNIQUE;
 CREATE CONSTRAINT ON (p:Person)
 ASSERT p.id IS UNIQUE;
 
-CREATE INDEX ON :Person(name);
-
-CREATE INDEX ON :Movie(title);
 
 LOAD CSV WITH HEADERS FROM
      'https://data.neo4j.com/advanced-cypher/movies1.csv' AS row
@@ -45,6 +42,10 @@ MATCH  (movie:Movie  {id: toInteger(row.movieId) })
 MATCH  (person:Person {id: toInteger(row.personId) })
 MERGE  (person)-[r:ACTED_IN]->(movie) ON CREATE SET r.roles = split(coalesce(row.characters,""), ":")
 ON CREATE SET person:Actor;
+
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
 
 CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
 MATCH (m:Movie)

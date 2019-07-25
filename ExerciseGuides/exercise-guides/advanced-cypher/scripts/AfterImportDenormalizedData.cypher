@@ -16,11 +16,6 @@ ASSERT m.id IS UNIQUE;
 CREATE CONSTRAINT ON (p:Person)
 ASSERT p.id IS UNIQUE;
 
-CREATE INDEX ON :Person(name);
-
-CREATE INDEX ON :Movie(title);
-
-
 LOAD CSV WITH HEADERS FROM
      'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
 WITH row.movieId as movieId, 
@@ -45,10 +40,14 @@ CALL apoc.do.when(person.personType = 'ACTOR',
      {m:m, p:p, person:person}) YIELD value AS value 
 SET p:Person;  // cannot end query with APOC call
 
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
+
 CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
 MATCH (m:Movie)
 UNWIND m.genres as names
-WITH distinct names, m
+WITH DISTINCT names, m
 MERGE (g:Genre {name:names})
 WITH g, m
 MERGE (g)<-[:IS_GENRE]-(m)

@@ -29,12 +29,13 @@ In this exercise, you will first remove all data and indexes from the database s
 * *Exercise 6.1*: Remove all nodes, relationships, and indexes from the database.
 * *Exercise 6.2*: Determine how large the dataset is that you will be loading.
 * *Exercise 6.3*: Examine the data you will be loading.
-* *Exercise 6.4*: Create the indexes and constraints.
+* *Exercise 6.4*: Create the constraints.
 * *Exercise 6.5*: Load the movie and person data by merging the movie data from the row and then the person data.
 * *Exercise 6.6*: Remove all nodes and relationships from the database and then profile the same load.
 * *Exercise 6.7*: Remove all nodes and relationships from the database.
 * *Exercise 6.8*: Load and merge the movie data while collecting the person data, then use unwind to merge the person data.
-* *Exercise 6.9*: Create the Genre nodes and :IS_GENRE relationships.
+* *Exercise 6.9*: Create the indexes.
+* *Exercise 6.10*: Create the Genre nodes and :IS_GENRE relationships.
 
 Go to the next page to start this exercise.
 
@@ -120,7 +121,7 @@ image::{guides}/img/EX6.3.png[EX6.3,width=300]
 
 Notice that each row has movie data and person data. Each row uses a movieId and personId to uniquely identify a movie or person. A row also has a field, personType, where the field will either have a value, "ACTOR" or a value, "DIRECTOR".
 
-== Exercise 6.4: Create the indexes and constraints. (Instructions)
+== Exercise 6.4: Create the constraints. (Instructions)
 
 The movies2.csv fields will be mapped to Movie and Person node properties as follows:
 
@@ -139,17 +140,13 @@ name        --> name
 birthYear   --> born
 deathYear   --> died
 
-Just as you did previously with the normalized data, you will the data and will use the characters list for creating the roles for each actor.
-
-*To improve loading when nodes are created using MERGE, add uniqueness constraints and indexes as follows, just as you did for the nornalized data:
+*To improve loading when nodes are created using MERGE, add uniqueness constraints as follows, just as you did for the nornalized data:
 
 * Uniqueness constraint on the id property of a Movie node.
-* Uniqueness constraint on the id property of a Person node.
-* Index on the name property of a Person node.
-* Index on the title property of a Movie node.*
+* Uniqueness constraint on the id property of a Person node.*
 
 
-== Exercise 6.4: Create the indexes and constraints. (Solution)
+== Exercise 6.4: Create the constraints. (Solution)
 
 The movies2.csv fields will be mapped to Movie and Person node properties as follows:
 
@@ -168,14 +165,10 @@ name        --> name
 birthYear   --> born
 deathYear   --> died
 
-Just as you did previously with the normalized data, you will the data and will use the characters list for creating the roles for each actor.
-
-*To improve loading when nodes are created using MERGE, add uniqueness constraints and indexes as follows:
+*To improve loading when nodes are created using MERGE, add uniqueness constraints as follows, just as you did for the nornalized data:
 
 * Uniqueness constraint on the id property of a Movie node.
-* Uniqueness constraint on the id property of a Person node.
-* Index on the name property of a Person node.
-* Index on the title property of a Movie node.*
+* Uniqueness constraint on the id property of a Person node.*
 
 Here is the code:
 
@@ -186,10 +179,6 @@ ASSERT m.id IS UNIQUE;
 
 CREATE CONSTRAINT ON (p:Person)
 ASSERT p.id IS UNIQUE;
-
-CREATE INDEX ON :Person(name);
-
-CREATE INDEX ON :Movie(title)
 ----
 
 The results returned should look like this:
@@ -335,7 +324,7 @@ image::{guides}/img/EX6.6.png[EX6.6,width=300]
 
 This load required 347,705 DB hits.
 
-== Exercise 6.7: Remove all nodes, relationships, and indexes from the database. (Instructions)
+== Exercise 6.7: Remove all nodes and relationships from the database. (Instructions)
 
 *Next, you will try another alternative for loading the denormalized data so you should execute this code the remove all existing nodes and relationships:*
 
@@ -348,7 +337,7 @@ MATCH (n:Actor) DETACH DELETE n;
 MATCH (n:Movie) DETACH DELETE n
 ----
 
-== Exercise 6.7: Remove all nodes, relationships, and indexes from the database. (Solution)
+== Exercise 6.7: Remove all nodes and relationships from the database. (Solution)
 
 *Next, you will try another alternative for loading the denormalized data so you should execute this code the remove all existing nodes and relationships:*
 
@@ -411,13 +400,79 @@ image::{guides}/img/EX6.8.png[EX6.8,width=300]
 
 The method of loading the data required 290,026 DB hits, which is better than the previous method. Collecting the results and unwinding them is much more efficient.
 
-== Exercise 6.9: Create the Genre nodes and :IS_GENRE relationships. (Instructions)
+== Exercise 6.9: Create the indexes. (Instructions)
+
+The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+
+For Movie nodes:
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+*Note*: The tagline data will not be loaded.
+
+For Person nodes:
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*To improve retrieval performance, create indexes as follows, just as you did for the normalized data:
+
+* Index on the name property of a Person node.
+* Index on the title property of a Movie node.*
+
+
+== Exercise 6.9: Create the indexes and constraints. (Solution)
+
+The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+
+For Movie nodes:
+movieId     --> id
+title       --> title
+avgVote     --> avgVote
+releaseYear --> releaseYear
+genres      --> genres
+
+*Note*: The tagline data will not be loaded.
+
+For Person nodes:
+personId    --> id
+name        --> name
+birthYear   --> born
+deathYear   --> died
+
+*To improve retrieval performance, create indexes as follows, just as you did for the normalized data:
+
+* Index on the name property of a Person node.
+* Index on the title property of a Movie node.*
+
+
+Here is the code:
+
+[source, cypher]
+----
+
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title)
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX6.9.png[EX6.9,width=300]
+
+
+== Exercise 6.10: Create the Genre nodes and :IS_GENRE relationships. (Instructions)
 
 *Just as you did for the load of the normalized data,  create a uniqueness constraint for the name property for nodes of type Genre.
 Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
 In addition, remove the genres property from the Movie  nodes.*
 
-== Exercise 6.9: Create the Genre nodes and :IS_GENRE relationships. (Solution)
+== Exercise 6.10: Create the Genre nodes and :IS_GENRE relationships. (Solution)
 
 *Just as you did for the load of the normalized data,  create a uniqueness constraint for the name property for nodes of type Genre.
 Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
@@ -440,12 +495,12 @@ MERGE (g)<-[:IS_GENRE]-(m)
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX6.9.png[EX6.9,width=300]
+image::{guides}/img/EX6.10.png[EX6.10,width=300]
 
 Your database should now be as follows:
 
 [.thumb]
-image::{guides}/img/EX6.9B.png[EX6.9B,width=300]
+image::{guides}/img/EX6.10B.png[EX6.10B,width=300]
 
 == Exercise 6: Taking it further
 

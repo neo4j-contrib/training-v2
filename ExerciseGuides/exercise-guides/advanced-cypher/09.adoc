@@ -22,11 +22,7 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Close the Add Plugin window.
 . Start or restart the database.
 
-*2. Ensure that the virtual memory for Neo4j is set back to its defaults:
-dbms.memory.heap.initial_size=512m
-dbms.memory.heap.max_size=1G*
-
-*3. These exercises assume that you have a fully-loaded movie database without the Genre nodes. Execute this code to reset the database:*
+*2. These exercises assume that you have a fully-loaded movie database without the Genre nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
@@ -46,11 +42,7 @@ In this exercise, you will:
 
 * *Exercise 9.1*: Collect genres data from the database to create the Genre nodes using FOREACH.
 * *Exercise 9.2*: Use CASE for conditionally returning a value.
-* *Exercise 9.3*: USE CASE and FOREACH to perform conditional updates.
-* *Exercise 8.4*: Profile this query to use PERIODIC COMMIT to load the data.
-* *Exercise 8.5*: Attempt to load the data using PERIODIC COMMIT, but with an eager operator.
-* *Exercise 7.6*: Increase the virtual memory to show the profile of the query.
-* *Exercise 7.7*: Use APOC to load the data.
+* *Exercise 9.3*: Use CASE and FOREACH to perform conditional updates.
 
 Go to the next page to start this exercise.
 
@@ -130,8 +122,8 @@ CASE
    WHEN size((m)-[]-(:Director)) > 1 THEN true
    ELSE false
 END
-   AS MD
-WITH m, MD SET m.multiDirectors = MD
+   AS md
+WITH m, md SET m.multiDirectors = md
 ----
 
 The result of executing this code should be:
@@ -155,14 +147,14 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX9.2B.png[EX9.2B,width=300]
 
-== Exercise 9.3: USE CASE and FOREACH to perform conditional updates. (Instructions)
+== Exercise 9.3: Use CASE and FOREACH to perform conditional updates. (Instructions)
 
 *Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
 Set the values to "yes"/"no" rather than true/false.*
 
 *Query the database to determine how many movies have multiple directors.*
 
-== Exercise 9.3: USE CASE and FOREACH to perform conditional updates. (Solution)
+== Exercise 9.3: Use CASE and FOREACH to perform conditional updates. (Solution)
 
 *Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
 Set the values to "yes"/"no" rather than true/false.*

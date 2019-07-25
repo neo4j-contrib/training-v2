@@ -61,11 +61,13 @@ Here is the code:
 ----
 MATCH (a:Person)-[:ACTED_IN]-()
 WHERE a.born  >  1960
-RETURN DISTINCT a.name AS Name, date().year - a.born AS Age, 'Actor' AS Role
+WITH DISTINCT a
+RETURN a.name AS name, date().year - a.born AS age, 'Actor' AS role
 UNION
-MATCH (d:Person)-[:WROTE]-()
-WHERE d.born > 1960
-RETURN DISTINCT d.name AS Name, date().year - d.born AS Age, 'Writer' AS Role
+MATCH (w:Person)-[:WROTE]-()
+WHERE w.born > 1960
+WITH DISTINCT w
+RETURN  w.name AS name, date().year - w.born AS age, 'Writer' AS Role
 ----
 
 The results returned should look like this:
@@ -87,13 +89,15 @@ Here is the code:
 ----
 CALL apoc.cypher.run('MATCH (a:Person)-[:ACTED_IN]-()
 WHERE a.born  >  1960
-RETURN DISTINCT a.name AS Name, date().year - a.born AS Age, "Actor" AS Role
+WITH DISTINCT a
+RETURN  a.name AS name, date().year - a.born AS age, "Actor" AS role
 UNION
-MATCH (d:Person)-[:WROTE]-()
-WHERE d.born > 1960
-RETURN DISTINCT d.name AS Name, date().year - d.born AS Age, "Writer" AS Role',{}) YIELD value
+MATCH (w:Person)-[:WROTE]-()
+WHERE w.born > 1960
+WITH DISTINCT w
+RETURN  w.name AS name, date().year - w.born AS age, "Writer" AS role',{}) YIELD value
 WITH value
-RETURN value.Name as Name, value.Age as Age, value.Role as Role ORDER BY Age
+RETURN value.name as name, value.age as age, value.role as role ORDER BY age
 ----
 
 The results returned should look like this:
@@ -117,12 +121,12 @@ Here is the code:
 ----
 MATCH (a:Person)-[:ACTED_IN]-()
 WHERE a.born  >  1960
-WITH collect({Name:a.name, Age: date().year - a.born, Role: 'Actor'}) as result1
-MATCH (d:Person)-[:WROTE]-()
-WHERE d.born > 1960
-WITH result1 + collect({Name:d.name, Age: date().year - d.born, Role: 'Writer'}) AS allResults
+WITH collect({name:a.name, age: date().year - a.born, role: 'Actor'}) as result1
+MATCH (w:Person)-[:WROTE]-()
+WHERE w.born > 1960
+WITH result1 + collect({name:w.name, age: date().year - w.born, role: 'Writer'}) AS allResults
 UNWIND allResults as result
-WITH result.Name as Name, result.Age as Age, result.Role as Role RETURN DISTINCT Name, Age, Role ORDER BY Age
+WITH result.name as name, result.age as age, result.role as role RETURN DISTINCT name, age, role ORDER BY age
 ----
 
 The results should be:
