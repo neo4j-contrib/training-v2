@@ -33,8 +33,10 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/AfterImportDenormalizedData.png[AfterImportDenormalizedData,200,200, role=left]
 
-*3. In this exercise, you will be running queries as you have done so in your Neo4j Browser.
-In order to monitor queries, you must open a Web browser and start another Neo4j Browser session.
+*3. In this exercise, you will be running queries as you have done so in your main Neo4j Browser session.
+In order to monitor locking, you must open a Web browser and start another Neo4j Browser session.
+If you have done this for the previous exercise, you should be all set and you can ignore the rest of these setup instructions.
+
 In most cases, you should be able to enter this address to connect to your started database:
 
 https://localhost:7474
@@ -47,235 +49,133 @@ Here is what a Web browser should appear as if you have correctly connected to t
 
 image::{guides}/img/MonitoringBrowserWindow.png[MonitoringBrowserWindow,200,200, role=left]
 
-== Exercise 14: Monitoring queries (Overview)
+== Exercise 15: Monitoring locking (Overview)
 
-In this exercise, you gain more experience monitoring queries and using the Query Log Analyzer tool.
+In this exercise, you gain more experience monitoring locking in a multi-user environment.
 
 In this exercise, you will:
 
-* *Exercise 14.1*: Monitor and kill a long-running query.
-* *Exercise 14.2*: Prepare for query logging.
-* *Exercise 14.3*: Install the Query Log Analyzer Tool.
-* *Exercise 14.4*: Execute some queries that will be logged.
-* *Exercise 14.5*: View the queries logged using the Query Log Analyzer Tool.
+* *Exercise 15.1*: Execute code that holds a write lock on a node.
+* *Exercise 15.2*: Execute code that attempts to lock the same node.
+* *Exercise 15.3*: Write code to monitor locking.
 
 Go to the next page to start this exercise.
 
-== Exercise 14.1: Monitor and kill a long-running query. (Instructions)
+== Exercise 15.1: Execute code that holds a write lock on a node. (Instructions)
 
-*Here is a query that will run for a long time.
-Execute this query in the Neo4j Browser session (main session) you have used throughout this training.*
-
-[source, cypher]
-----
-MATCH (a), (b), (c), (d), (e) RETURN count(id(a))
-----
-
-*In the monitoring Neo4j Browser session you started in a different window, monitor the queries using the `:queries` command.*
-
-*In the monitoring Neo4j Browser session, kill the query that you started above in the Neo4j Browser display shown for `:queries` command.*
-
-*Repeat the query again that runs for a long time in your main Neo4j Browser session.*
-
-*In the monitoring Neo4j Browser session, call the cypher procedure to list the queries and return the query and the query ID.*
-
-*In the monitoring Neo4j Browser session, call the cypher procedure to kill the query.*
-
-
-== Exercise 14.1: Monitor and kill a long-running query. (Solution)
-
-*Here is a query that will run for a long time.
-Execute this query in the Neo4j Browser session (main session) you have used throughout this training.*
+*Here is code that holds a lock on a node for a long time (200 seconds).
+Execute this code in your main Neo4j Browser session.*
 
 [source, cypher]
 ----
-MATCH (a), (b), (c), (d), (e) RETURN count(id(a))
+MATCH (a:Actor)
+WHERE a.name = 'Doris Day'
+SET a.died= 2019
+WITH a
+call apoc.util.sleep(200000)
+RETURN a.died
 ----
 
-*In the monitoring Neo4j Browser session you started in a different window, monitor the queries using the `:queries` command.*
+== Exercise 15.1: Execute code that holds a write lock on a node. (Solution)
+
+*Here is code that holds a lock on a node for a long time (200 seconds).
+Execute this code in your main Neo4j Browser session.*
+
+[source, cypher]
+----
+MATCH (a:Actor)
+WHERE a.name = 'Doris Day'
+SET a.died= 2019
+WITH a
+call apoc.util.sleep(200000)
+RETURN a.died
+----
 
 This is what you should see:
 
 [.thumb]
-image::{guides}/img/EX14.1.png[EX14.1,width=300]
+image::{guides}/img/EX15.1.png[EX15.1,width=300]
 
-*In the monitoring Neo4j Browser session, kill the query that you started above in the Neo4j Browser display shown for `:queries` command.*
+== Exercise 15.2: Execute code that attempts to lock the same node. (Instructions)
 
-You should select the query to kill and kill it as shown here:
-
-[.thumb]
-image::{guides}/img/EX14.1B.png[EX14.1B,width=300]
-
-You should see this in your main Neo4j Browser session:
-
-[.thumb]
-image::{guides}/img/EX14.1C.png[EX14.1C,width=300]
-
-*Repeat the query again that runs for a long time in your main Neo4j Browser session.*
-
-*In the monitoring Neo4j Browser session, call the cypher procedure to list the queries and return the query and the query ID.*
-
-You should execute this code:
+*In the monitoring Neo4j Session, execute this code that attempts to lock the same node:*
 
 [source, cypher]
 ----
-CALL dbms.listQueries() YIELD query, queryId, elapsedTimeMillis
+MATCH (a:Actor)
+WHERE a.name = 'Doris Day'
+SET a.died= 2000
+RETURN a.died
 ----
 
-The result of executing this code should be:
+When you run this code, it will hang because it is waiting for the other client to release the lock on the node.
 
-[.thumb]
-image::{guides}/img/EX14.1D.png[EX14.1D,width=300]
+*You can terminate this node in the monitoring Neo4j Browser session by simply click the "X" in the top right corner of the window.*
 
-*In the monitoring Neo4j Browser session, call the cypher procedure to kill the query.*
+== Exercise 15.2: Execute code that attempts to lock the same node. (Solution)
 
-You should execute this code:
+*In the monitoring Neo4j Session, execute this code that attempts to lock the same node:*
 
 [source, cypher]
 ----
-CALL dbms.listQueries() YIELD query, queryId, elapsedTimeMillis
-WHERE query STARTS WITH 'MATCH' AND elapsedTimeMillis > 5000
-CALL dbms.killQuery(queryId) YIELD queryId as qid, message
-RETURN "Query: " + " " +  qid +" " + message as result
+MATCH (a:Actor)
+WHERE a.name = 'Doris Day'
+SET a.died= 2000
+RETURN a.died
 ----
 
-The result of executing this code should be:
+When you run this code, it will hang because it is waiting for the other client to release the lock on the node.
+
+*You can terminate this node in the monitoring Neo4j Browser session by simply click the "X" in the top right corner of the window.*
+
+When you see that this simple query hangs, click the "X" to kill it in the monitoring Neo4j Browser session:
 
 [.thumb]
-image::{guides}/img/EX14.1E.png[EX14.1E,width=300]
+image::{guides}/img/EX15.2.png[EX15.2,width=300]
 
-And again you should see the failure in your main Neo4j Browser session.
+== Exercise 15.3: Write code to monitor locking. (Instructions)
 
-== Exercise 14.2: Prepare for query logging. (Instructions)
+The update should complete in the main Neo4j Browser window. Next, you will prepare to monitor locking.
 
-*Add these settings to enable query logging:*
+*In the monitoring Neo4j Browser session, write code to monitor locking.*
 
-*Hint*: You can add them to the end of the settings file.
+*In the main Neo4j Browser window, recall the last statement and re-execute it to hold the write lock for 200 seconds.*
 
-[source]
+*In the monitoring Neo3j Browser session, execute the code to monitor locking.*
+
+== Exercise 15.3: Write code to monitor locking. (Solution)
+
+The update should complete in the main Neo4j Browser window. Next, you will prepare to monitor locking.
+
+*In the monitoring Neo4j Browser session, write code to monitor locking.*
+
+Here is the code:
+
+[source, cypher]
 ----
-dbms.logs.query.enabled=true
-# If the execution of query takes more time than this threshold,
-# the query is logged. If set to zero then all queries
-dbms.logs.query.threshold=100ms
-dbms.logs.query.parameter_logging_enabled=true
-dbms.logs.query.time_logging_enabled=true
-dbms.logs.query.allocation_logging_enabled=true
-dbms.logs.query.page_logging_enabled=true
-dbms.track_query_cpu_time=true
-dbms.track_query_allocation=true
-----
-
-== Exercise 14.2: Prepare for query logging.  (Solution)
-
-*Add these settings to enable query logging:*
-
-*Hint*: You can add them to the end of the settings file.
-
-. In Neo4j Desktop click *Manage* for the currently running database.
-. Click the *Settings* tab.
-. Add the following code to the end of this file.
-. Click *Apply*. You need not restart the database yet as you will be restarting it after you install the Query Log Analyzer tool.
-
-[source]
-----
-dbms.logs.query.enabled=true
-# If the execution of query takes more time than this threshold,
-# the query is logged. If set to zero then all queries
-dbms.logs.query.threshold=100ms
-dbms.logs.query.parameter_logging_enabled=true
-dbms.logs.query.time_logging_enabled=true
-dbms.logs.query.allocation_logging_enabled=true
-dbms.logs.query.page_logging_enabled=true
-dbms.track_query_cpu_time=true
-dbms.track_query_allocation=true
+CALL dbms.listTransactions() YIELD currentQueryId , currentQuery
+WHERE currentQuery STARTS WITH "MATCH (a:Actor)"
+CALL dbms.listActiveLocks(currentQueryId) YIELD mode, resourceType
+RETURN mode, resourceType
 ----
 
-You should now see this in your Neo4j Desktop:
+*In the main Neo4j Browser window, recall the last statement and re-execute it to hold the write lock for 200 seconds.*
+
+*In the monitoring Neo3j Browser session, execute the code to monitor locking.*
+
+You should see something like this:
 
 [.thumb]
-image::{guides}/img/EX14.2.png[EX14.2,width=300]
+image::{guides}/img/EX15.3.png[EX15.3,width=300]
 
-== Exercise 14.3: Install the Query Log Analyzer Tool. (Instructions)
+== Exercise 15: Taking it further
 
-*From Neo4j Desktop install the Query Log Analyzer Tool for your project.*
+. Try locking contention with three users.
+. Write code to kill the query found with the lock.
 
-*Note:* You must have a recent version of Neo4j Desktop. Make sure your version is up-to-date.
+== Exercise 15: Monitoring queries   (Summary)
 
-== Exercise 14.3: Install the Query Log Analyzer Tool.  (Solution)
+In this exercise, you gained experience with monitoring locks.
 
-*From Neo4j Desktop install the Query Log Analyzer Tool for your project.*
+Congratulations! You have completed the exercises for this course.
 
-*Note:* You must have a recent version of Neo4j Desktop. Make sure your version is up-to-date.
-
-. In Neo4j Desktop, for the project your are working with for this course, click *Add Application*.
-. Click *Add* for the Query Log Analyzer.
-. Click *OK*.
-. Restart the database.
-
-You should now see this in your Neo4j Desktop:
-
-[.thumb]
-image::{guides}/img/EX14.3.png[EX14.3,width=300]
-
-You are now ready to analyze queries that are logged. (Completed queries).
-
-== Exercise 14.4: Execute some queries that will be logged. (Instructions)
-
-*From your main Neo4j Browser session, type `:history` to view many of your past queries. Select a set of them to execute.*
-
-*Confirm that the queries have been written to the query.log file.*
-
-*Make a note of the location of the query.log file as you will be opening it in the Query Log Analyzer Tool.*
-
-== Exercise 14.4: Execute some queries that will be logged.  (Solution)
-
-*From your main Neo4j Browser session, type `:history` to view many of your past queries. Select a set of them to execute.*
-
-*Confirm that the queries have been written to the query.log file.*
-
-. Click the *Manage* button in Neo4j Desktop.
-. Click the *Open Folder* button.
-. Ensure that *query.log* exists in the *log* folder.
-
-*Make a note of the location of the query.log file as you will be opening it in the Query Log Analyzer Tool.*
-
-== Exercise 14.5: View the queries logged using the Query Log Analyzer Tool. (Instructions)
-
-*From Neo4j Desktop, open the Neo4j Query Log Analyzer Tool.*
-
-*Select the *query.log* file.*
-
-*Click *Analyze File*.*
-
-*Explore the queries logged.*
-
-== Exercise 14.5: View the queries logged using the Query Log Analyzer Tool. (Solution)
-
-*From Neo4j Desktop, open the Neo4j Query Log Analyzer Tool.*
-
-*Select the *query.log* file.*
-
-You should now see this the Query Log Analyzer Tool UI where you have selected the query.log file:
-
-[.thumb]
-image::{guides}/img/EX14.5.png[EX14.5,width=300]
-
-*Click *Analyze File*.*
-
-Depending on what queries were logged, you should now see this:
-
-[.thumb]
-image::{guides}/img/EX14.5B.png[EX14.5B,width=300]
-
-*Explore the queries logged.*
-
-== Exercise 14: Taking it further
-
-. Write custom code to kill specific types of queries.
-. Analyze a larger set of queries.
-
-== Exercise 14: Monitoring queries   (Summary)
-
-In this exercise, you gained experience with monitoring and killing long-running queries and you got your feet wet with logging queries and monitoring them with the Query Log Analyzer Tool.
-pass:a[<a play-topic='{guides}/15.html'>Continue to Exercise 15</a>]
