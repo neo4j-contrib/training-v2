@@ -23,7 +23,7 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Start or restart the database.
 
 
-*2. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
+*2. This exercise assumes that you have a fully-loaded movie database with the `Genre` nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
@@ -51,7 +51,7 @@ Go to the next page to start this exercise.
 
 == Exercise 13.1: Improve a query and observe how indexes are used. (Instructions)
 
-*Here is a query that retrieves the name for the actor, Meg Ryan and the movies she has acted in that contain the word Love. Execute this query and note whether an index is used.*
+Here is a query that retrieves the name for the actor, Meg Ryan and the movies she has acted in that contain the word "Love".
 
 [source, cypher]
 ----
@@ -61,11 +61,13 @@ WHERE a.name = 'Meg Ryan' AND m.title CONTAINS 'Love'
 RETURN m.title ORDER BY m.title DESC
 ----
 
-*Rewrite this query to improve its performance.*
+*1. Execute this query and note whether an index is used.*
+
+*2. Rewrite this query to improve its performance.*
 
 == Exercise 13.1: Improve a query and observe how indexes are used. (Solution)
 
-*Here is a query that retrieves the name for the actor, Meg Ryan and the movies she has acted in that contain the word Love. Execute this query and note whether an index is used.*
+Here is a query that retrieves the name for the actor, Meg Ryan and the movies she has acted in that contain the word "Love".
 
 [source, cypher]
 ----
@@ -74,11 +76,15 @@ MATCH (a)-[:ACTED_IN]->(m:Movie)
 WHERE a.name = 'Meg Ryan' AND m.title CONTAINS 'Love'
 RETURN m.title ORDER BY m.title DESC
 ----
+
+*1. Execute this query and note whether an index is used.*
 
 The profile when executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX13.1.png[EX13.1,width=300]
+image::{guides}/img/EX13.1.png[EX13.1,width=150]
+
+{nbsp} +
 
 Notice that the index is not used to retrieve the person node. You must specify :Person in the path for the query to use the index.
 
@@ -87,9 +93,11 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX13.1B.png[EX13.1B,width=300]
 
-*Rewrite this query to improve its performance.*
+{nbsp} +
 
-Here is the rewritten code:
+*2. Rewrite this query to improve its performance.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -104,7 +112,7 @@ RETURN  a.name, movies
 The profile when executing this code should show fewer rows processed:
 
 [.thumb]
-image::{guides}/img/EX13.1C.png[EX13.1C,width=300]
+image::{guides}/img/EX13.1C.png[EX13.1C,width=150]
 
 The result of executing this code should be:
 
@@ -114,7 +122,7 @@ image::{guides}/img/EX13.1D.png[EX13.1D,width=300]
 
 == Exercise 13.2: Specify the use of two indexes for a query. (Instructions)
 
-*Execute this Cypher code to retrieve the titles of movies that Tom Cruise acted in and Steven Spielberg directed.*
+*1. Execute this Cypher code to retrieve the titles of movies that Tom Cruise acted in and Steven Spielberg directed.*
 
 [source, cypher]
 ----
@@ -125,11 +133,13 @@ AND p2.name = 'Steven Spielberg'
 RETURN m.title
 ----
 
-*Modify this query to perform better by using two indexes.*
+{nbsp} +
+
+*2. Modify this query to perform better by using two indexes.*
 
 == Exercise 13.2: Specify the use of two indexes for a query.  (Solution)
 
-*Execute this Cypher code to retrieve the titles of movies that Tom Cruise acted in and Steven Spielberg directed.*
+*1. Execute this Cypher code to retrieve the titles of movies that Tom Cruise acted in and Steven Spielberg directed.*
 
 [source, cypher]
 ----
@@ -139,22 +149,21 @@ WHERE p1.name = 'Tom Cruise'
 AND p2.name = 'Steven Spielberg'
 RETURN m.title
 ----
-
 
 The profile for executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX13.2.png[EX13.2,width=300]
+image::{guides}/img/EX13.2.png[EX13.2,width=150]
 
 Notice that the index is used for p2.
 
-*Modify this query to perform better by using two indexes.*
+*2. Modify this query to perform better by using two indexes.*
 
-Here is the improved code:
+Here is the solution code:
 
 [source, cypher]
 ----
-MATCH (p1:Person)-[:ACTED_IN]->(m)<-[:DIRECTED]-(p2:Person)
+PROFILE MATCH (p1:Person)-[:ACTED_IN]->(m)<-[:DIRECTED]-(p2:Person)
 USING INDEX p1:Person(name)
 USING INDEX p2:Person(name)
 WHERE p1.name = 'Tom Cruise'
@@ -169,25 +178,26 @@ image::{guides}/img/EX13.2B.png[EX13.2B,width=300]
 
 == Exercise 13.3: Create and use a fulltext schema index on a node property. (Instructions)
 
-*Write and execute a query using the existing index on the Movie.title property to retrieve all movie titles that contain these strings:
-'Part Two'
-'Part II'
-'Part 2'
-*
+*1. Write and execute a query using the existing index on the `Movie.title` property to retrieve all movie titles that contain these strings:*
 
-*Create a fulltext schema index on the Movie title property.*
+* *'Part Two'*
+* *'Part II'*
+* *'Part 2'*
 
-*Perform the same query using the fulltext schema index.*
+
+*2. Create a fulltext schema index on the `Movie.title` property.*
+
+*3. Perform the same query using the fulltext schema index.*
 
 == Exercise 13.3: Create and use a fulltext schema index on a node property.   (Solution)
 
-*Write and execute a query using the existing index on the Movie.title property to retrieve all movie titles that contain these strings:
-'Part Two'
-'Part II'
-'Part 2'
-*
+*1. Write and execute a query using the existing index on the `Movie.title` property to retrieve all movie titles that contain these strings:*
 
-Here is the code:
+* *'Part Two'*
+* *'Part II'*
+* *'Part 2'*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -201,18 +211,22 @@ The result of executing this query should be the following:
 [.thumb]
 image::{guides}/img/EX13.3.png[EX13.3,width=300]
 
-*Create a fulltext schema index on the Movie title property.*
+{nbsp} +
 
-Here is the code:
+*2. Create a fulltext schema index on the `Movie.title` property.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
 CALL db.index.fulltext.createNodeIndex('MovieTitle',['Movie'], ['title'])
 ----
 
-*Perform the same query using the fulltext schema index.*
+{nbsp} +
 
-Here is the code:
+*3. Perform the same query using the fulltext schema index.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -225,13 +239,12 @@ The result of executing this query should be the following:
 [.thumb]
 image::{guides}/img/EX13.3B.png[EX13.3B,width=300]
 
-
 == Exercise 13.4: Create and use a fulltext schema index on a relationship. (Instructions)
 
-In the current database you are working with, the :ACTED_IN relationship has a single property, roles which is an array of strings.
-You cannot use a fulltext schema index on an array type so in order to create an index on a relationship for searching, you will first add a property to all :ACTED_IN relationship that creates a new property, roleList.
+In the current database you are working with, the `:ACTED_IN` relationship has a single property, `roles` which is an array of strings.
+You cannot use a fulltext schema index on an array type so in order to create an index on a relationship for searching, you will first add a property to all `:ACTED_IN` relationships that creates a new property, `roleList`.
 
-*Execute this Cypher code to create this new property for all :ACTED_IN relationships:*
+*1. Execute this Cypher code to create this new property for all `:ACTED_IN` relationships:*
 
 [source, cypher]
 ----
@@ -240,17 +253,19 @@ WITH rel, REDUCE(s = HEAD(rel.roles), n IN TAIL(rel.roles) | s + ', ' + n) AS re
 SET rel.roleList = result
 ----
 
-*Create a fulltext schema index on the roleList property of the :ACTED_IN relationships.*
+{nbsp} +
 
-*Write and execute the query to find all :ACTED_IN relationships in the database containing the role "Batman" using fulltext schema index search and return the names of the actors and the movies for these roles.*
+*2. Create a fulltext schema index on the roleList property of the `:ACTED_IN` relationships.*
+
+*3. Write and execute the query to find all `:ACTED_IN` relationships in the database containing the role `"Batman"` using fulltext schema index search and return the names of the actors and the movies for these roles.*
 
 
 == Exercise 13.4: Create and use a fulltext schema index on a relationship. (Solution)
 
-In the current database you are working with, the :ACTED_IN relationship has a single property, roles which is an array of strings.
-You cannot use a fulltext schema index on an array type so in order to create an index on a relationship for searching, you will first add a property to all :ACTED_IN relationship that creates a new property, roleList.
+In the current database you are working with, the `:ACTED_IN` relationship has a single property, `roles` which is an array of strings.
+You cannot use a fulltext schema index on an array type so in order to create an index on a relationship for searching, you will first add a property to all `:ACTED_IN` relationships that creates a new property, `roleList`.
 
-*Execute this Cypher code to create this new property for all :ACTED_IN relationships:*
+*1. Execute this Cypher code to create this new property for all `:ACTED_IN` relationships:*
 
 [source, cypher]
 ----
@@ -259,18 +274,27 @@ WITH rel, REDUCE(s = HEAD(rel.roles), n IN TAIL(rel.roles) | s + ', ' + n) AS re
 SET rel.roleList = result
 ----
 
-*Create a fulltext schema index on the roleList property of the :ACTED_IN relationships.*
+Here is the result of running this code:
 
-Here is the code:
+[.thumb]
+image::{guides}/img/EX13.4.png[EX13.4,width=300]
+
+{nbsp} +
+
+*2. Create a fulltext schema index on the roleList property of the `:ACTED_IN` relationships.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
 CALL db.index.fulltext.createRelationshipIndex('Roles',['ACTED_IN'], ['roleList'])
 ----
 
-*Write and execute the query to find all :ACTED_IN relationships in the database containing the role "Batman" using fulltext schema index search and return the names of the actors and the movies for these roles.*
+{nbsp} +
 
-Here is the code:
+*3. Write and execute the query to find all `:ACTED_IN` relationships in the database containing the role `"Batman"` using fulltext schema index search and return the names of the actors and the movies for these roles.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -283,8 +307,7 @@ RETURN a.name, relationship.roleList, m.title
 Here is the result of running this code:
 
 [.thumb]
-image::{guides}/img/EX13.4.png[EX13.4,width=300]
-
+image::{guides}/img/EX13.4B.png[EX13.4B,width=300]
 
 == Exercise 13: Taking it further
 

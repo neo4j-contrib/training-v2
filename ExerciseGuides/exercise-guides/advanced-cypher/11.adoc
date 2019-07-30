@@ -22,7 +22,7 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Close the Add Plugin window.
 . Start or restart the database.
 
-*2. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
+*2. This exercise assumes that you have a fully-loaded movie database with the `Genre` nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
@@ -47,21 +47,23 @@ Go to the next page to start this exercise.
 
 == Exercise 11.1: Modify the configuration for maximum virtual memory and a pagecache size that matches your database size. (Instructions)
 
-*Determine the size of your database.*
+*1. Determine the size of your database.*
 
-*Set the virtual memory and pagecache sizes in the configuration for your database, then restart the database.*
+*2. Set the virtual memory and pagecache sizes in the configuration for your database, then restart the database.*
 
 
 == Exercise 11.1: Modify the configuration for maximum virtual memory and a pagecache size that matches your database size. (Solution)
 
-*Determine the size of your database.*
+*1. Determine the size of your database.*
 
-You should determine the total size of your database by using the :sysinfo command in Neo4j Browser:
+You should determine the total size of your database by using the `:sysinfo` command in Neo4j Browser:
 
 [.thumb]
 image::{guides}/img/EX11.1.png[EX11.1,width=300]
 
-*Set the virtual memory and pagecache sizes in the configuration for your database, then restart the database.*
+{nbsp} +
+
+*2. Set the virtual memory and pagecache sizes in the configuration for your database, then restart the database.*
 
 Make these changes to the configuration in the settings tab as follows:
 
@@ -77,7 +79,7 @@ image::{guides}/img/EX11.1B.png[EX11.1B,width=300]
 
 *Execute Cypher code to retrieve the entire database into the pagecache.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -93,7 +95,7 @@ image::{guides}/img/EX11.2.png[EX11.2,width=300]
 == Exercise 11: Taking it further
 
 . Create a set of queries (from past queries you have done) that contain parameters rather than string constants.
-. Set parameters that will be used for the parameterized queries. The best reuse of the querycache is to use parameters.
+. Set parameters that will be used for the parameterized queries. The best reuse of the query cache is to use parameters.
 
 == Exercise 11: Preparing for query tuning   (Summary)
 

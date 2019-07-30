@@ -9,12 +9,16 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/InitialDatabase.png[InitialDatabase,width=150,role=left]
 
-*If your database does not look like this, run the following script which removes all nodes and relationships from the graph and loads the graph with the "movie" data by executing this Cypher code:*
+{nbsp} +
+
+*If your database does not look like this, run the following script which removes all nodes and relationships from the graph and loads the graph with the "mini movie" data:*
 
 [source, cypher]
 ----
 include::scripts/initialDatabase.cypher[]
 ----
+
+{nbsp} +
 
 *Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
 
@@ -96,7 +100,7 @@ image::{guides}/img/EX3.2.png[EX3.2,width=300]
 
 == Exercise 3.3: Use pattern comprehension to extract data for lists. (Instructions)
 
-*Here is a Cypher query that retrieves all movies and returns the list of distinct actor names and director names for each movie.*
+Here is a Cypher query that retrieves all movies and returns the list of distinct actor names and director names for each movie.
 
 [source, cypher]
 ----
@@ -104,17 +108,15 @@ MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person)
 RETURN m.title AS Movie ,collect(DISTINCT a.name) AS Actors, collect(DISTINCT d.name) AS Directors
 ----
 
-*Run this query. The results should be:*
+{nbsp} +
 
-[.thumb]
-image::{guides}/img/EX3.3.png[EX3.3,width=300]
+*1. Run this query.*
 
-
-*Rewrite to return the same results using pattern comprehension to extract the data for the Actors and Directors lists.*
+*2. Rewrite to return the same results using pattern comprehension to extract the data for the Actors and Directors lists.*
 
 == Exercise 3.3: Use pattern comprehension to extract data for lists. (Solution)
 
-*Here is a Cypher query that retrieves all movies and returns the list of distinct actor names and director names for each movie.*
+Here is a Cypher query that retrieves all movies and returns the list of distinct actor names and director names for each movie.
 
 [source, cypher]
 ----
@@ -122,15 +124,20 @@ MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person)
 RETURN m.title AS Movie ,collect(DISTINCT a.name) AS Actors, collect(DISTINCT d.name) AS Directors
 ----
 
-*Run this query. The results should be:*
+{nbsp} +
+
+*1. Run this query.*
+
+The results should be:
 
 [.thumb]
 image::{guides}/img/EX3.3.png[EX3.3,width=300]
 
+{nbsp} +
 
-*Rewrite to return the same results using pattern comprehension to extract the data for the Actors and Directors lists.*
+*2. Rewrite to return the same results using pattern comprehension to extract the data for the Actors and Directors lists.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -146,20 +153,19 @@ The results should be:
 [.thumb]
 image::{guides}/img/EX3.3B.png[EX3.3B,width=300]
 
-
 == Exercise 3.4: Use list comprehension to create another list. (Instructions)
 
 *Write a Cypher query that retrieves all Movie titles and year released and then returns a list of all movies and how many years ago they were released. Use list comprehension to extract the year released from the list and calculate the number of years ago that the movie was released.*
 
-*Hint*: Use date().year for the current year.
+*Hint*: Use `date().year` for the current year.
 
 == Exercise 3.4: Use list comprehension to create another list. (Solution)
 
 *Write a Cypher query that retrieves all Movie titles and year released and then returns a list of all movies and how many years ago they were released. Use list comprehension to extract the year released from the list and calculate the number of years ago that the movie was released.*
 
-*Hint*: Use date().year for the current year.
+*Hint*: Use `date().year` for the current year.
 
-Here is the code:
+Here is the solution code:
 
 [source]
 ----
@@ -175,15 +181,14 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/EX3.4.png[EX3.4,width=300]
 
-
 == Exercise 3: Taking it further
 
-. Profile the queries you have written to see whether using pattern comprehension performs better than using explicit collect() calls.
+. Profile the queries you have written to see whether using pattern comprehension performs better than using explicit `collect()` calls.
 . Use list projection to return the ages of all of the actors.
 
 == Exercise 3: Working with UNWIND, pattern and list comprehension  (Summary)
 
 
-In this exercise, you gained some experience with UNWIND, as well as pattern comprehension and list comprehension in your queries.
+In this exercise, you gained some experience with `UNWIND`, as well as pattern comprehension and list comprehension in your queries.
 
 pass:a[<a play-topic='{guides}/04.html'>Continue to Exercise 4</a>]

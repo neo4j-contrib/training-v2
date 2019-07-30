@@ -1,0 +1,703 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 14</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 14</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14: Monitoring queries (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure Neo4j Desktop is online.</p>
+</li>
+<li>
+<p>In Neo4j Desktop for the project you are working with, click  <strong>Add Plugin</strong>.</p>
+</li>
+<li>
+<p>Select the install button for APOC.</p>
+</li>
+<li>
+<p>Click the Install button.</p>
+</li>
+<li>
+<p>Close the Add Plugin window.</p>
+</li>
+<li>
+<p>Start or restart the database.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>2. This exercise assumes that you have a fully-loaded movie database with the <code>Genre</code> nodes. Execute this code to reset the database:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.schema.assert({},{},true);
+
+MATCH (n:Person) DETACH DELETE n;
+
+MATCH (n:Director) DETACH DELETE n;
+
+MATCH (n:Actor) DETACH DELETE n;
+
+MATCH (n:Movie) DETACH DELETE n;
+
+MATCH (n:Genre) DETACH DELETE n;
+
+CREATE CONSTRAINT ON (m:Movie)
+ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT ON (p:Person)
+ASSERT p.id IS UNIQUE;
+
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+WITH row.movieId as movieId,
+row.title as title,
+row.genres as genres,
+toInteger(row.releaseYear) as releaseYear,
+toFloat(row.avgVote) as avgVote,
+collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,""),':')}) as people
+MERGE (m:Movie {id:movieId})
+   ON CREATE SET m.title=title, m.avgVote=avgVote,
+      m.releaseYear=releaseYear, m.genres=split(genres,":")
+WITH *
+UNWIND people as person
+MERGE (p:Person {id: person.id})
+   ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+WITH  m, person, p
+CALL apoc.do.when(person.personType = 'ACTOR',
+     "MERGE (p)-[:ACTED_IN {roles: person.roles}]-&gt;(m)
+                ON CREATE SET p:Actor",
+     "MERGE (p)-[:DIRECTED]-&gt;(m)
+         ON CREATE SET p:Director",
+     {m:m, p:p, person:person}) YIELD value AS value
+SET p:Person;  // cannot end query with APOC call
+
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
+
+CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
+MATCH (m:Movie)
+UNWIND m.genres as name
+WITH DISTINCT name, m
+MERGE (g:Genre {name:name})
+WITH g, m
+MERGE (g)&lt;-[:IS_GENRE]-(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: This reset script will fail if you have fulltext schema indexes in the database.
+Before you run this script, you must run this code to drop the fulltext schema indexes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->call db.index.fulltext.drop('Roles');
+call db.index.fulltext.drop('MovieTitle')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/advanced-cypher-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/AfterImportDenormalizedData.png" alt="AfterImportDenormalizedData" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>3. In this exercise, you will be running queries as you have done so in your Neo4j Browser.
+In order to monitor queries, you must open a Web browser and start another Neo4j Browser session.
+In most cases, you should be able to enter this address to connect to your started database:</strong></p>
+</div>
+<div class="paragraph">
+<p><a href="https://localhost:7474" class="bare">https://localhost:7474</a></p>
+</div>
+<div class="paragraph">
+<p><strong>If this port has changed, it will be specified in the settings for the database and you should use those settings.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>If you can successfully open Neo4j Browser at a particular port, simply enter the password for the ndo4j user and you should be ready to monitor any queries you are executing in your other Neo4j Browser window.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Here is what a Web browser should appear as if you have correctly connected to the started database:</strong></p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/MonitoringBrowserWindow.png" alt="MonitoringBrowserWindow" width="300" height="200">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14: Monitoring queries (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gain more experience monitoring queries and using the Query Log Analyzer tool.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 14.1</strong>: Monitor and kill a long-running query.</p>
+</li>
+<li>
+<p><strong>Exercise 14.2</strong>: Prepare for query logging.</p>
+</li>
+<li>
+<p><strong>Exercise 14.3</strong>: Install the Query Log Analyzer Tool.</p>
+</li>
+<li>
+<p><strong>Exercise 14.4</strong>: Execute some queries that will be logged.</p>
+</li>
+<li>
+<p><strong>Exercise 14.5</strong>: View the queries logged using the Query Log Analyzer Tool.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.1: Monitor and kill a long-running query. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is a query that will run for a long time:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a), (b), (c), (d), (e) RETURN count(id(a))<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this query in the Neo4j Browser session (main session) you have used throughout this training.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. In the monitoring Neo4j Browser session you started in a different window, monitor the queries using the <code>:queries</code> command.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>3. In the monitoring Neo4j Browser session, kill the query that you started above in the Neo4j Browser display shown for <code>:queries</code> command.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>4. Repeat the query again that runs for a long time in your main Neo4j Browser session.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>5. In the monitoring Neo4j Browser session, call the cypher procedure to list the queries and return the query and the query ID.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>6. In the monitoring Neo4j Browser session, call the cypher procedure to kill the query.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.1: Monitor and kill a long-running query. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is a query that will run for a long time:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a), (b), (c), (d), (e) RETURN count(id(a))<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this query in the Neo4j Browser session (main session) you have used throughout this training.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. In the monitoring Neo4j Browser session you started in a different window, monitor the queries using the <code>:queries</code> command.</strong></p>
+</div>
+<div class="paragraph">
+<p>This is what you should see:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.1.png" alt="EX14.1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>3. In the monitoring Neo4j Browser session, kill the query that you started above in the Neo4j Browser display shown for <code>:queries</code> command.</strong></p>
+</div>
+<div class="paragraph">
+<p>You should select the query to kill and kill it as shown here:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.1B.png" alt="EX14.1B" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>You should see this in your main Neo4j Browser session:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.1C.png" alt="EX14.1C" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>4. Repeat the query again that runs for a long time in your main Neo4j Browser session.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>5. In the monitoring Neo4j Browser session, call the cypher procedure to list the queries and return the query and the query ID.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.listQueries() YIELD query, queryId, elapsedTimeMillis<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.1D.png" alt="EX14.1D" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>6. In the monitoring Neo4j Browser session, call the cypher procedure to kill the query.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.listQueries() YIELD query, queryId, elapsedTimeMillis
+WHERE query STARTS WITH 'MATCH' AND elapsedTimeMillis &gt; 5000
+CALL dbms.killQuery(queryId) YIELD queryId as qid, message
+RETURN "Query: " + " " +  qid +" " + message as result<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.1E.png" alt="EX14.1E" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>And again you should see the failure in your main Neo4j Browser session.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.2: Prepare for query logging. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add these settings to enable query logging:</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You can add them to the end of the settings file.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>dbms.logs.query.enabled=true
+# If the execution of query takes more time than this threshold,
+# the query is logged. If set to zero then all queries
+dbms.logs.query.threshold=100ms
+dbms.logs.query.parameter_logging_enabled=true
+dbms.logs.query.time_logging_enabled=true
+dbms.logs.query.allocation_logging_enabled=true
+dbms.logs.query.page_logging_enabled=true
+dbms.track_query_cpu_time=true
+dbms.track_query_allocation=true</pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.2: Prepare for query logging.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add these settings to enable query logging:</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You can add them to the end of the settings file.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Neo4j Desktop click <strong>Manage</strong> for the currently running database.</p>
+</li>
+<li>
+<p>Click the <strong>Settings</strong> tab.</p>
+</li>
+<li>
+<p>Add the following code to the end of this file.</p>
+</li>
+</ol>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>dbms.logs.query.enabled=true
+# If the execution of query takes more time than this threshold,
+# the query is logged. If set to zero then all queries
+dbms.logs.query.threshold=100ms
+dbms.logs.query.parameter_logging_enabled=true
+dbms.logs.query.time_logging_enabled=true
+dbms.logs.query.allocation_logging_enabled=true
+dbms.logs.query.page_logging_enabled=true
+dbms.track_query_cpu_time=true
+dbms.track_query_allocation=true</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Click <strong>Apply</strong>. You need not restart the database yet as you will be restarting it after you install the Query Log Analyzer tool.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You should now see this in your Neo4j Desktop:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.2.png" alt="EX14.2" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.3: Install the Query Log Analyzer Tool. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>From Neo4j Desktop install the Query Log Analyzer Tool for your project.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> You must have a recent version of Neo4j Desktop. Make sure your version is up-to-date.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.3: Install the Query Log Analyzer Tool.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>From Neo4j Desktop install the Query Log Analyzer Tool for your project.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> You must have a recent version of Neo4j Desktop. Make sure your version is up-to-date.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Neo4j Desktop, for the project your are working with for this course, click <strong>Add Application</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Add</strong> for the Query Log Analyzer.</p>
+</li>
+<li>
+<p>Click <strong>OK</strong>.</p>
+</li>
+<li>
+<p>Restart the database.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You should now see this in your Neo4j Desktop:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.3.png" alt="EX14.3" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>You are now ready to analyze queries that are logged. (Completed queries).</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.4: Execute some queries that will be logged. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. From your main Neo4j Browser session, type <code>:history</code> to view many of your past queries. Select a set of them to execute.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Confirm that the queries have been written to the query.log file.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>3. Make a note of the location of the query.log file as you will be opening it in the Query Log Analyzer Tool.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.4: Execute some queries that will be logged.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. From your main Neo4j Browser session, type <code>:history</code> to view many of your past queries. Select a set of them to execute.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Confirm that the queries have been written to the query.log file.</strong></p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Click the <strong>Manage</strong> button in Neo4j Desktop.</p>
+</li>
+<li>
+<p>Click the <strong>Open Folder</strong> button.</p>
+</li>
+<li>
+<p>Ensure that <strong>query.log</strong> exists in the <strong>log</strong> folder.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>3. Make a note of the location of the query.log file as you will be opening it in the Query Log Analyzer Tool.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.5: View the queries logged using the Query Log Analyzer Tool. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. From Neo4j Desktop, open the Neo4j Query Log Analyzer Tool.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Select the query.log file.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>3. Click Analyze File.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>4. Explore the queries logged.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.5: View the queries logged using the Query Log Analyzer Tool. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. From Neo4j Desktop, open the Neo4j Query Log Analyzer Tool.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Select the query.log file.</strong></p>
+</div>
+<div class="paragraph">
+<p>You should now see this the Query Log Analyzer Tool UI where you have selected the query.log file:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.5.png" alt="EX14.5" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>3. Click Analyze File.</strong></p>
+</div>
+<div class="paragraph">
+<p>Depending on what queries were logged, you should now see this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX14.5B.png" alt="EX14.5B" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>4. Explore the queries logged.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Write custom code to kill specific types of queries.</p>
+</li>
+<li>
+<p>Analyze a larger set of queries.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14: Monitoring queries   (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gained experience with monitoring and killing long-running queries and you got your feet wet with logging queries and monitoring them with the Query Log Analyzer Tool.
+<a play-topic='https://guides.neo4j.com/advanced-cypher-exercises/15.html'>Continue to Exercise 15</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

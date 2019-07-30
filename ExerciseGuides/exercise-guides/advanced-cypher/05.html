@@ -1,0 +1,1307 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 5</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 5</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Loading normalized data (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure Neo4j Desktop is online.</p>
+</li>
+<li>
+<p>In Neo4j Desktop for the project you are working with, click  <strong>Add Plugin</strong>.</p>
+</li>
+<li>
+<p>Select the install button for APOC.</p>
+</li>
+<li>
+<p>Click the Install button.</p>
+</li>
+<li>
+<p>Close the Add Plugin window.</p>
+</li>
+<li>
+<p>Start or restart the database.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Loading normalized data (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you will first remove all data and indexes from the database so you can start fresh, then  you will load normalized data into the database.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 5.1</strong>: Remove all nodes, relationships, and indexes from the database.</p>
+</li>
+<li>
+<p><strong>Exercise 5.2</strong>: Determine how large the datasets are that you will be loading.</p>
+</li>
+<li>
+<p><strong>Exercise 5.3</strong>: Examine the data you will be loading.</p>
+</li>
+<li>
+<p><strong>Exercise 5.4</strong>: Write Cypher code to transform the data you will be loading.</p>
+</li>
+<li>
+<p><strong>Exercise 5.5</strong>: Create the constraints.</p>
+</li>
+<li>
+<p><strong>Exercise 5.6</strong>: Load the <code>Movie</code> data.</p>
+</li>
+<li>
+<p><strong>Exercise 5.7</strong>: Load the <code>Person</code> data.</p>
+</li>
+<li>
+<p><strong>Exercise 5.8</strong>: Load the data to create the <code>:DIRECTED</code> relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 5.9</strong>: Load the data to create the <code>:ACTED_IN</code> relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 5.10</strong>: Create the indexes.</p>
+</li>
+<li>
+<p><strong>Exercise 5.11</strong>: Create the Genre nodes and <code>:IS_GENRE</code> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.1: Remove all nodes, relationships, and indexes from the database. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>To start with a database that contains no data or indexes, run this code:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Remove all indexes and constraints
+CALL apoc.schema.assert({},{},true);
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+MATCH (n:Genre) DETACH DELETE n;<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: Although your database does not contain nodes of all of these types, these are the types you will be working with for the remainder of this course and the same "reset" code will be useful later in this course.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.1: Remove all nodes, relationships, and indexes from the database. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>To start with a database that contains no data or indexes, run this code:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Remove all indexes and constraints
+CALL apoc.schema.assert({},{},true);
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+MATCH (n:Genre) DETACH DELETE n;<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: Although your database does not contain nodes of all of these types, these are the types you will be working with for the remainder of this course and the same "reset" code will be useful later in this course.</p>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.1.png" alt="EX5.1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>The database should have no nodes and relationships.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.2: Determine how large the datasets are that you will be loading. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The datasets containing the normalized data are at these locations:</p>
+</div>
+<table class="table tableblock frame-none grid-none" style="width: 100%;">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/movies1.csv" class="bare">https://data.neo4j.com/advanced-cypher/movies1.csv</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/people.csv" class="bare">https://data.neo4j.com/advanced-cypher/people.csv</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/roles.csv" class="bare">https://data.neo4j.com/advanced-cypher/roles.csv</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/directors.csv" class="bare">https://data.neo4j.com/advanced-cypher/directors.csv</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Write Cypher code to return the number of lines in each of these CSV files.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.2: Determine how large the datasets are that you will be loading. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The datasets containing the normalized data are at these locations:</p>
+</div>
+<table class="table tableblock frame-none grid-none" style="width: 100%;">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/movies1.csv" class="bare">https://data.neo4j.com/advanced-cypher/movies1.csv</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/people.csv" class="bare">https://data.neo4j.com/advanced-cypher/people.csv</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/roles.csv" class="bare">https://data.neo4j.com/advanced-cypher/roles.csv</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://data.neo4j.com/advanced-cypher/directors.csv" class="bare">https://data.neo4j.com/advanced-cypher/directors.csv</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Write Cypher code to return the number of lines in each of these CSV files.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS rows
+WITH count(rows) as MoviesRows
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+WITH MoviesRows, count(rows) as PeopleRows
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/roles.csv' AS rows
+WITH MoviesRows, PeopleRows, count(rows) as RolesRows
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/directors.csv' AS rows
+RETURN MoviesRows, PeopleRows, RolesRows, count(rows) as DirectorsRows<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.2.png" alt="EX5.2" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>The number of rows in these files is &lt; 100K so we should not need any special loading options (like <code>USING PERIODIC COMMIT</code>).</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.3: Examine the data you will be loading. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write queries to return the first five rows of each CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.3: Examine the data you will be loading. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write queries to return the first five rows of each CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code for the <strong>movies1.csv</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS rows
+RETURN rows LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.3.png" alt="EX5.3" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Note here that each row represents a movie with a unique ID, <code>movieId</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code for the <strong>people.csv</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+RETURN rows LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.3B.png" alt="EX5.3B" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Note hear that each row represents a person with a unique ID, <code>personId</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code for the <strong>roles.csv</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/roles.csv' AS rows
+RETURN rows LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.3C.png" alt="EX5.3C" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Note here that each row has data for a person, personId and a movie, <code>movieId</code>. It is with this <strong>roles.csv</strong> file that the <code>:ACTED_IN</code> relationship between a person and a movie will be created in the database.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code for the <strong>directors.csv</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/directors.csv' AS rows
+RETURN rows LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.3D.png" alt="EX5.3D" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Note here that each row has data for a person, <code>personId</code> and a movie, <code>movieId</code>. It is with this <strong>directors.csv</strong> file that the <code>:DIRECTED</code> relationship between a person and a movie will be created in the database.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.4: Write Cypher code to transform the data you will be loading. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In examining the data in these CSV files, we want to transform data as follows before adding it to the database:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In <strong>movies1.csv</strong>: <code>avgVote</code> is of type float.</p>
+</li>
+<li>
+<p>In <strong>movies1.csv</strong>: <code>releaseYear</code> is of type integer.</p>
+</li>
+<li>
+<p>In <strong>movies1.csv</strong>: <code>genres</code> is is a list of string values.</p>
+</li>
+<li>
+<p>In <strong>people.csv</strong>: <code>birthYear</code> is of type integer.</p>
+</li>
+<li>
+<p>In <strong>people.csv</strong>: <code>deathYear</code> is of type integer.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Write Cypher code to transform these values and return the data in the new format. Use <code>LIMIT 5</code> again to show the transformation for the first five rows.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.4: Write Cypher code to transform the data you will be loading. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In examining the data in these CSV files, we want to transform data as follows before adding it to the database:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In <strong>movies1.csv</strong>: <code>avgVote</code> is of type float.</p>
+</li>
+<li>
+<p>In <strong>movies1.csv</strong>: <code>releaseYear</code> is of type integer.</p>
+</li>
+<li>
+<p>In <strong>movies1.csv</strong>: <code>genres</code> is is a list of string values.</p>
+</li>
+<li>
+<p>In <strong>people.csv</strong>: <code>birthYear</code> is of type integer.</p>
+</li>
+<li>
+<p>In <strong>people.csv</strong>: <code>deathYear</code> is of type integer.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Write Cypher code to transform these values and return the data in the new format. Use <code>LIMIT 5</code> again to show the transformation for the first five rows.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code for the <strong>movies1.csv</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS rows
+RETURN rows.title as title,
+       toFloat(rows.avgVote) as avgvote,
+       toInteger(rows.releaseYear) as releaseYear,
+       split(rows.genres,":") as genres
+       LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.4.png" alt="EX5.4" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code for the <strong>people.csv</strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+RETURN rows.name as name,
+       toInteger(rows.birthYear) as born,
+       toInteger(rows.deathYear) as died
+       LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.4B.png" alt="EX5.4B" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Notice that for the first five rows, these people do not have data for <code>deathYear</code>.</p>
+</div>
+<div class="paragraph">
+<p>Do a query against the dataset to see if there are any people with a value for <code>deathYear</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/people.csv' AS rows
+WITH rows WHERE exists(rows.deathYear)
+RETURN rows.name as name,
+       toInteger(rows.birthYear) as born,
+       toInteger(rows.deathYear) as died
+       LIMIT 5<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.4C.png" alt="EX5.4C" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5: Create the constraints. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The <strong>movies1.csv</strong> fields will be mapped to <code>Movie</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">movieId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The <strong>people.csv</strong> fields will be mapped to <code>Person</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">personId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">birthYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">born</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deathYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">died</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>To improve loading when nodes are created using <code>MERGE</code>, add uniqueness constraints as follows:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Uniqueness constraint on the <code>id</code> property of a <code>Movie</code> node.</strong></p>
+</li>
+<li>
+<p><strong>Uniqueness constraint on the <code>id</code> property of a <code>Person</code> node.</strong></p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5: Create the constraints. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The <strong>movies1.csv</strong> fields will be mapped to <code>Movie</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">movieId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The <strong>people.csv</strong> fields will be mapped to <code>Person</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">personId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">birthYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">born</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deathYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">died</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>To improve loading when nodes are created using <code>MERGE</code>, add uniqueness constraints as follows:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Uniqueness constraint on the <code>id</code> property of a <code>Movie</code> node.</strong></p>
+</li>
+<li>
+<p><strong>Uniqueness constraint on the <code>id</code> property of a <code>Person</code> node.</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (m:Movie)
+ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT ON (p:Person)
+ASSERT p.id IS UNIQUE<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.5.png" alt="EX5.5" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.6: Load the <code>Movie</code> data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The <strong>movies1.csv</strong> fields will be mapped to <code>Movie</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">movieId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Load the movies1.csv file to create the <code>Movie</code> nodes in the database.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.6: Load the <code>Movie</code> data. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The <strong>movies1.csv</strong> fields will be mapped to <code>Movie</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">movieId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avgVote</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">releaseYear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">genres</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Load the movies1.csv file to create the <code>Movie</code> nodes in the database.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies1.csv' AS row
+MERGE (m:Movie {id:toInteger(row.movieId)})
+    ON CREATE SET
+          m.title = row.title,
+          m.avgVote = toFloat(row.avgVote),
+          m.releaseYear = toInteger(row.releaseYear),
+          m.genres = split(row.genres,":")<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.6.png" alt="EX5.6" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.7: Load the <code>Person</code> data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The <strong>people.csv</strong> fields will be mapped to <code>Person</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">personId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">birthYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">born</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deathYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">died</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Load the people.csv file to create the <code>Person</code> nodes in the database.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.7: Load the <code>Person</code> data. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The <strong>people.csv</strong> fields will be mapped to <code>Person</code> node properties as follows:</p>
+</div>
+<table class="table tableblock frame-none grid-all" style="width: 100%;">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>row field</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>property</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">personId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">birthYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">born</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deathYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">died</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Load the people.csv file to create the <code>Person</code> nodes in the database.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/people.csv' as row
+
+MERGE(person:Person {id: toInteger(row.personId)})
+ON CREATE SET person.name = row.name,
+              person.born = toInteger(row.birthYear),
+              person.died = toInteger(row.deathYear)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.7.png" alt="EX5.7" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.8: Load the data to create the <code>:DIRECTED</code> relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the directors.csv file to create the relationship between a <code>Person</code> node and a <code>Movie</code> node in the database. In addition, add the <code>Director</code> label to each <code>Person</code> node with the <code>:DIRECTED</code> relationship.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.8: Load the data to create the <code>:DIRECTED</code> relationships. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the directors.csv file to create the relationship between a <code>Person</code> node and a <code>Movie</code> node in the database. In addition, add the <code>Director</code> label to each <code>Person</code> node with the <code>:DIRECTED</code> relationship.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/directors.csv' as row
+
+MATCH (movie:Movie {id:toInteger(row.movieId)})
+MATCH (person:Person {id: toInteger(row.personId)})
+MERGE (person)-[:DIRECTED]-&gt;(movie)
+ON CREATE SET person:Director<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.8.png" alt="EX5.8" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.9: Load the data to create the <code>:ACTED_IN</code> relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the roles.csv file to create the relationship between a <code>Person</code> node and a <code>Movie</code> node in the database. In addition, set the <code>roles</code> property for the relationship to have the list of characters for the actor. Finally, add the <code>Actor</code> label to each <code>Person</code> node with the <code>:ACTED_IN</code> relationship.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.9: Load the data to create the <code>:ACTED_IN</code> relationships. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the roles.csv file to create the relationship between a <code>Person</code> node and a <code>Movie</code> node in the database. In addition, set the <code>roles</code> property for the relationship to have the list of characters for the actor. Finally, add the <code>Actor</code> label to each <code>Person</code> node with the <code>:ACTED_IN</code> relationship.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM 'https://data.neo4j.com/advanced-cypher/roles.csv' AS row
+
+MATCH  (movie:Movie  {id: toInteger(row.movieId) })
+MATCH  (person:Person {id: toInteger(row.personId) })
+MERGE  (person)-[r:ACTED_IN]-&gt;(movie) ON CREATE SET r.roles = split(coalesce(row.characters,""), ":")
+ON CREATE SET person:Actor<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.9.png" alt="EX5.9" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.10: Create the indexes. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>To improve retrieval performance, add indexes as follows:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Index on the <code>name</code> property of a <code>Person</code> node.</strong></p>
+</li>
+<li>
+<p><strong>Index on the <code>title</code> property of a <code>Movie</code> node.</strong></p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5: Create the indexes. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>To improve retrieval performance, add indexes as follows:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Index on the <code>name</code> property of a <code>Person</code> node.</strong></p>
+</li>
+<li>
+<p><strong>Index on the <code>title</code> property of a <code>Movie</code> node.</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.10.png" alt="EX5.10" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.11: Create the <code>Genre</code> nodes and <code>:IS_GENRE</code> relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Although the <code>Movie</code> nodes have a property, <code>genres</code>, we want a separate node of type <code>Genre</code>.
+Every <code>Movie</code> will have a <code>:IS_GENRE</code> relationship with one or more <code>Genre</code> nodes.
+A <code>Genre</code> node will have a single property, <code>name</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>First, create a uniqueness constraint for the <code>name</code> property for nodes of type <code>Genre</code>.
+Then use the data in the graph to create <code>Genre</code> nodes from the <code>Movie</code> nodes and add the <code>:IS_GENRE</code> relationships between <code>Movie</code> nodes and <code>Genre</code> nodes.
+In addition, remove the <code>genres</code> property from the <code>Movie</code>  nodes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.11: Create the <code>Genre</code> nodes and <code>:IS_GENRE</code> relationships. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Although the <code>Movie</code> nodes have a property, <code>genres</code>, we want a separate node of type <code>Genre</code>.
+Every <code>Movie</code> will have a <code>:IS_GENRE</code> relationship with one or more <code>Genre</code> nodes.
+A <code>Genre</code> node will have a single property, <code>name</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>First, create a uniqueness constraint for the <code>name</code> property for nodes of type <code>Genre</code>.
+Then use the data in the graph to create <code>Genre</code> nodes from the <code>Movie</code> nodes and add the <code>:IS_GENRE</code> relationships between <code>Movie</code> nodes and <code>Genre</code> nodes.
+In addition, remove the <code>genres</code> property from the <code>Movie</code>  nodes.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
+MATCH (m:Movie)
+UNWIND m.genres as name
+WITH DISTINCT name, m
+SET m.genres = null
+MERGE (g:Genre {name:name})
+WITH g, m
+MERGE (g)&lt;-[:IS_GENRE]-(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.11.png" alt="EX5.11" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Your database should now be as follows:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX5.11B.png" alt="EX5.11B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Perform all of the steps in this exercise as a set of statements (including resetting the database at the beginning).</p>
+</li>
+<li>
+<p>Perform some queries to become familiar with the newly-loaded data.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Loading normalized data   (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you have written code to load normalized data into a graph and also create nodes from data in the graph.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/advanced-cypher-exercises/06.html'>Continue to Exercise 6</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

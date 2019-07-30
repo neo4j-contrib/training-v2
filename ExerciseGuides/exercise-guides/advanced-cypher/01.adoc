@@ -9,7 +9,8 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/Empty_database.png[Empty_database,width=150,role=left]
 
-*Regardless of what is in  your graph, run the following script which removes all nodes and relationships from the graph and loads the graph with the "movie" data by executing this Cypher code:*
+{nbsp} +
+*Regardless of what is in  your graph, run the following script to remove all nodes and relationships from the graph and load the graph with the "mini movie" data:*
 
 [source, cypher]
 ----
@@ -20,7 +21,7 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
 
-
+{nbsp} +
 *Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
 
 [source, cypher]
@@ -31,9 +32,9 @@ WHERE name STARTS WITH 'apoc.'
 RETURN name ORDER BY name ASC
 ----
 
+{nbsp} +
+
 If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database.
-
-
 
 == Exercise 1: Traversing the graph (Overview)
 
@@ -51,7 +52,7 @@ Go to the next page to start this exercise.
 
 == Exercise 1.1: Determine the anchor and the number of paths traversed. (Instructions)
 
-*Execute this cypher code and then answer these questions*:
+*1. Execute this cypher code and then answer these questions*:
 
 [source, cypher]
 ----
@@ -60,26 +61,28 @@ WHERE p.name = 'Jessica Thompson'
 RETURN p, p2, m
 ----
 
-*What is the anchor of this query?*
+*2. What is the anchor of this query?*
 
-*How many paths are traversed during this query?*
+*3. How many paths are traversed during this query?*
 
 == Exercise 1.1: Determine the anchor and the number of paths traversed. (Solution)
 
-*What is the anchor of this query?*
+*1. Execute this cypher code and then answer these questions*:
 
-Answer: The Person node with the name property, Jessica Thompson.
+*2. What is the anchor of this query?*
 
-*How many paths are traversed during this query?*
+*Answer*: The Person node with the name property, Jessica Thompson.
 
-Answer: Three paths are traversed
+*3. How many paths are traversed during this query?*
+
+*Answer*: Three paths are traversed
 
 [.thumb]
 image::{guides}/img/EX1.1.png[EX1.1,width=300]
 
 == Exercise 1.2: Determine the anchors and number of paths traversed. (Instructions)
 
-*Execute this cypher code and then answer these questions*:
+*1. Execute this cypher code and then answer these questions*:
 
 [source, cypher]
 ----
@@ -89,38 +92,35 @@ MATCH (a2:Person)-[:ACTED_IN]->(m)
 RETURN m, a2
 ----
 
-*What are the anchors for each MATCH clause?*
+*2. What are the anchors for each MATCH clause?*
 
-*How many paths are traversed during this query?*
+*3. How many paths are traversed during this query?*
 
 
 == Exercise 1.2: Determine the anchors and number of paths traversed. (Solution)
 
-*What are the anchors for each MATCH clause?*
+*1. Execute this cypher code and then answer these questions*:
 
-Answer: The first MATCH uses the Person node with the name, Rita Wilson. The second MATCH uses the found movie node with the title, Sleepless in Seattle.
+*2. What are the anchors for each MATCH clause?*
 
-*How many paths are traversed during this query?*
+*Answer*: The first MATCH uses the Person node with the name, Rita Wilson. The second MATCH uses the found movie node with the title, Sleepless in Seattle.
 
-One path is traversed for the first MATCH clause. Six paths are traversed for the second MATCH clause. Notice that the path from Rita Wilson to the movie Sleepless in Seattle is traversed twice.
+*3. How many paths are traversed during this query?*
+
+*Answer*: One path is traversed for the first MATCH clause. Six paths are traversed for the second MATCH clause. Notice that the path from Rita Wilson to the movie Sleepless in Seattle is traversed twice.
 
 [.thumb]
 image::{guides}/img/EX1.2.png[EX1.2,width=300]
 
 == Exercise 1.3: Modify the previous query to use only one anchor. (Instructions)
 
-*Modify this query to use a single anchor and thus reduce the number of paths traversed.*
+*Modify the previous query use a single anchor and thus reduce the number of paths traversed.*
 
-[source, cypher]
-----
-MATCH (a1:Person)-[:ACTED_IN]->(m:Movie)
-MATCH (a2:Person)-[:ACTED_IN]->(m)
-   WHERE a1.name = 'Rita Wilson'
-RETURN m, a2
-----
 == Exercise 1.3: Modify the previous query to use only one anchor. (Solution)
 
-*Modify this query to use a single anchor and thus reduce the number of paths traversed.*
+*Modify the previous query to use a single anchor and thus reduce the number of paths traversed.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -130,14 +130,14 @@ WHERE a1.name = 'Rita Wilson'
 RETURN m, a2
 ----
 
-Notice that for this query, the node Rita Wilson is not visited twice.
+Notice that for this query, the node, Rita Wilson is not visited twice.
 
 [.thumb]
 image::{guides}/img/EX1.3.png[EX1.3,width=300]
 
 == Exercise 1.4: Using WITH to chain clauses in a query. (Instructions)
 
-*We want a query that finds all people who have acted in at least 5 movies. If this found person has also directed a movie, display the person's name and the title of the movie. This code is not correct. Correct it so that it returns the correct results.*
+We want a query that finds all people who have acted in at least 5 movies. If this found person has also directed a movie, display the person's name and the title of the movie. This code is not correct.
 
 [source, cypher]
 ----
@@ -148,11 +148,26 @@ OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie)
 RETURN p.name, m.title
 ----
 
+{nbsp} +
+
+*Correct this code so that it returns the correct results.*
+
 == Exercise 1.4: Using WITH to chain clauses in a query.  (Solution)
 
-*We want a query that finds all people who have acted in at least 5 movies. If this found person has also directed a movie, display the person's name and the title of the movie. This code is not correct. Correct it so that it returns the correct results.*
+We want a query that finds all people who have acted in at least 5 movies. If this found person has also directed a movie, display the person's name and the title of the movie. This code is not correct.
 
-Here is the solution. We also want to carry the p variable for the optional match. These actors acted in at least 5 movies, but only Tom Hanks also directed a movie.
+[source, cypher]
+----
+MATCH (p:Person)
+WITH  size((p)-[:ACTED_IN]->(:Movie)) AS movies
+WHERE movies >= 5
+OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie)
+RETURN p.name, m.title
+----
+
+*Correct this code so that it returns the correct results.*
+
+Here is the solution code. We also want to carry the p variable for the optional match. These actors acted in at least 5 movies, but only Tom Hanks also directed a movie.
 
 [source, cypher]
 ----
@@ -170,7 +185,9 @@ image::{guides}/img/EX1.4.png[EX1.4,width=300]
 
 == Exercise 1.5: Uniqueness of relationship path traversal. (Instructions)
 
-*Here is query to retrieve the movies and co-actors of Rita Wilson. This query does not return the Rita Wilson node as a coactor. This is because Neo4j does not traverse a relationship path more than once. Modify this query so that the Rita Wilson node will also be returned*
+Here is query to retrieve the movies and co-actors of Rita Wilson. This query does not return the Rita Wilson node as a coactor. This is because Neo4j does not traverse a relationship path more than once.
+
+*Modify this query so that the Rita Wilson node will also be returned.*
 
 [source, cypher]
 ----
@@ -181,9 +198,11 @@ RETURN m.title, coActor.name
 
 == Exercise 1.5: Uniqueness of relationship path traversal.  (Solution)
 
-*Here is query to retrieve the movies and co-actors of Rita Wilson. This query does not return the Rita Wilson node as a coactor. This is because Neo4j does not traverse a relationship path more than once. Modify this query so that the Rita Wilson node will also be returned*
+Here is query to retrieve the movies and co-actors of Rita Wilson. This query does not return the Rita Wilson node as a coactor. This is because Neo4j does not traverse a relationship path more than once.
 
-Here is one way that you can modify the query to traverse the :ACTED_IN relationship twice to return Rita Wilson in the set of coactors.
+*Modify this query so that the Rita Wilson node will also be returned.*
+
+Here is one way that you can modify the query to traverse the `:ACTED_IN` relationship twice to return Rita Wilson in the set of coactors.
 
 [source, cypher]
 ----
@@ -200,15 +219,15 @@ image::{guides}/img/EX1.5.png[EX1.5,width=300]
 
 == Exercise 1.6: Find the shortest path between two nodes. (Instructions)
 
-*Write a query to return the shortest path between the actors Meg Ryan and Al Pacino.*
+*1. Write a query to return the shortest path between the actors Meg Ryan and Al Pacino.*
 
-*PROFILE the query to see how the query executes.*
+*2. PROFILE the query to see how the query executes.*
 
 == Exercise 1.6: Find the shortest path between two nodes. (Solution)
 
-*Write a query to return the shortest path between the actors Meg Ryan and Al Pacino.*
+*1. Write a query to return the shortest path between the actors Meg Ryan and Al Pacino.*
 
-*PROFILE the query to see how the query executes.*
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -224,10 +243,16 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/EX1.6.png[EX1.6,width=300]
 
+{nbsp} +
+
+*2. PROFILE the query to see how the query executes.*
+
 The PROFILE should be:
 
 [.thumb]
 image::{guides}/img/EX1.6B.png[EX1.6B,width=300]
+
+{nbsp} +
 
 Notice that for this query a Cartesion product is specified. The Cartesion product, each with a single node is nothing to be concerned about. When Cartesian products become a problem is when each part of the query has thousands+ of nodes.
 

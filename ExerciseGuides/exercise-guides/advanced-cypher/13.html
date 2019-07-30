@@ -1,0 +1,654 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 13</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 13</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13: Using indexes (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure Neo4j Desktop is online.</p>
+</li>
+<li>
+<p>In Neo4j Desktop for the project you are working with, click  <strong>Add Plugin</strong>.</p>
+</li>
+<li>
+<p>Select the install button for APOC.</p>
+</li>
+<li>
+<p>Click the Install button.</p>
+</li>
+<li>
+<p>Close the Add Plugin window.</p>
+</li>
+<li>
+<p>Start or restart the database.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>2. This exercise assumes that you have a fully-loaded movie database with the <code>Genre</code> nodes. Execute this code to reset the database:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.schema.assert({},{},true);
+
+MATCH (n:Person) DETACH DELETE n;
+
+MATCH (n:Director) DETACH DELETE n;
+
+MATCH (n:Actor) DETACH DELETE n;
+
+MATCH (n:Movie) DETACH DELETE n;
+
+MATCH (n:Genre) DETACH DELETE n;
+
+CREATE CONSTRAINT ON (m:Movie)
+ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT ON (p:Person)
+ASSERT p.id IS UNIQUE;
+
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+WITH row.movieId as movieId,
+row.title as title,
+row.genres as genres,
+toInteger(row.releaseYear) as releaseYear,
+toFloat(row.avgVote) as avgVote,
+collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,""),':')}) as people
+MERGE (m:Movie {id:movieId})
+   ON CREATE SET m.title=title, m.avgVote=avgVote,
+      m.releaseYear=releaseYear, m.genres=split(genres,":")
+WITH *
+UNWIND people as person
+MERGE (p:Person {id: person.id})
+   ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+WITH  m, person, p
+CALL apoc.do.when(person.personType = 'ACTOR',
+     "MERGE (p)-[:ACTED_IN {roles: person.roles}]-&gt;(m)
+                ON CREATE SET p:Actor",
+     "MERGE (p)-[:DIRECTED]-&gt;(m)
+         ON CREATE SET p:Director",
+     {m:m, p:p, person:person}) YIELD value AS value
+SET p:Person;  // cannot end query with APOC call
+
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
+
+CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
+MATCH (m:Movie)
+UNWIND m.genres as name
+WITH DISTINCT name, m
+MERGE (g:Genre {name:name})
+WITH g, m
+MERGE (g)&lt;-[:IS_GENRE]-(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/advanced-cypher-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/AfterImportDenormalizedData.png" alt="AfterImportDenormalizedData" width="200" height="200">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13: Using indexes (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gain more experience with indexes.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 13.1</strong>: Improve a query and observe how indexes are used.</p>
+</li>
+<li>
+<p><strong>Exercise 13.2</strong>: Specify the use of two indexes for a query.</p>
+</li>
+<li>
+<p><strong>Exercise 13.3</strong>: Create and use a fulltext schema index on a node property.</p>
+</li>
+<li>
+<p><strong>Exercise 13.4</strong>: Create and use a fulltext schema index on a relationship.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.1: Improve a query and observe how indexes are used. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is a query that retrieves the name for the actor, Meg Ryan and the movies she has acted in that contain the word "Love".</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (a)-[:ACTED_IN]-&gt;(m:Movie)
+WHERE a.name = 'Meg Ryan' AND m.title CONTAINS 'Love'
+RETURN m.title ORDER BY m.title DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this query and note whether an index is used.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query to improve its performance.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.1: Improve a query and observe how indexes are used. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is a query that retrieves the name for the actor, Meg Ryan and the movies she has acted in that contain the word "Love".</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (a)-[:ACTED_IN]-&gt;(m:Movie)
+WHERE a.name = 'Meg Ryan' AND m.title CONTAINS 'Love'
+RETURN m.title ORDER BY m.title DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this query and note whether an index is used.</strong></p>
+</div>
+<div class="paragraph">
+<p>The profile when executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.1.png" alt="EX13.1" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Notice that the index is not used to retrieve the person node. You must specify :Person in the path for the query to use the index.</p>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.1B.png" alt="EX13.1B" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query to improve its performance.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
+WHERE a.name = 'Meg Ryan' and m.title CONTAINS "Love"
+WITH a, m ORDER BY m.title
+WITH a, collect(m.title) as movies
+RETURN  a.name, movies<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The profile when executing this code should show fewer rows processed:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.1C.png" alt="EX13.1C" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.1D.png" alt="EX13.1D" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.2: Specify the use of two indexes for a query. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of movies that Tom Cruise acted in and Steven Spielberg directed.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (p1:Person)-[:ACTED_IN]-&gt;(m)&lt;-[:DIRECTED]-(p2:Person)
+WHERE p1.name = 'Tom Cruise'
+AND p2.name = 'Steven Spielberg'
+RETURN m.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Modify this query to perform better by using two indexes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.2: Specify the use of two indexes for a query.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of movies that Tom Cruise acted in and Steven Spielberg directed.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (p1:Person)-[:ACTED_IN]-&gt;(m)&lt;-[:DIRECTED]-(p2:Person)
+WHERE p1.name = 'Tom Cruise'
+AND p2.name = 'Steven Spielberg'
+RETURN m.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The profile for executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.2.png" alt="EX13.2" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that the index is used for p2.</p>
+</div>
+<div class="paragraph">
+<p><strong>2. Modify this query to perform better by using two indexes.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (p1:Person)-[:ACTED_IN]-&gt;(m)&lt;-[:DIRECTED]-(p2:Person)
+USING INDEX p1:Person(name)
+USING INDEX p2:Person(name)
+WHERE p1.name = 'Tom Cruise'
+AND p2.name = 'Steven Spielberg'
+RETURN m.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The profile for executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.2B.png" alt="EX13.2B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.3: Create and use a fulltext schema index on a node property. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Write and execute a query using the existing index on the <code>Movie.title</code> property to retrieve all movie titles that contain these strings:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>'Part Two'</strong></p>
+</li>
+<li>
+<p><strong>'Part II'</strong></p>
+</li>
+<li>
+<p><strong>'Part 2'</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>2. Create a fulltext schema index on the <code>Movie.title</code> property.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>3. Perform the same query using the fulltext schema index.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.3: Create and use a fulltext schema index on a node property.   (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Write and execute a query using the existing index on the <code>Movie.title</code> property to retrieve all movie titles that contain these strings:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>'Part Two'</strong></p>
+</li>
+<li>
+<p><strong>'Part II'</strong></p>
+</li>
+<li>
+<p><strong>'Part 2'</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WHERE m.title CONTAINS 'Part II' OR m.title CONTAINS 'Part Two' OR m.title Contains 'Part 2'
+RETURN m.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this query should be the following:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.3.png" alt="EX13.3" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Create a fulltext schema index on the <code>Movie.title</code> property.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.createNodeIndex('MovieTitle',['Movie'], ['title'])<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>3. Perform the same query using the fulltext schema index.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.queryNodes("MovieTitle", '"Part Two" OR "Part II" OR "Part 2"') YIELD node, score
+RETURN node.title,  score<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this query should be the following:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.3B.png" alt="EX13.3B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.4: Create and use a fulltext schema index on a relationship. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In the current database you are working with, the <code>:ACTED_IN</code> relationship has a single property, <code>roles</code> which is an array of strings.
+You cannot use a fulltext schema index on an array type so in order to create an index on a relationship for searching, you will first add a property to all <code>:ACTED_IN</code> relationships that creates a new property, <code>roleList</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this Cypher code to create this new property for all <code>:ACTED_IN</code> relationships:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Actor)-[rel:ACTED_IN]-(m)
+WITH rel, REDUCE(s = HEAD(rel.roles), n IN TAIL(rel.roles) | s + ', ' + n) AS result
+SET rel.roleList = result<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Create a fulltext schema index on the roleList property of the <code>:ACTED_IN</code> relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>3. Write and execute the query to find all <code>:ACTED_IN</code> relationships in the database containing the role <code>"Batman"</code> using fulltext schema index search and return the names of the actors and the movies for these roles.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13.4: Create and use a fulltext schema index on a relationship. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In the current database you are working with, the <code>:ACTED_IN</code> relationship has a single property, <code>roles</code> which is an array of strings.
+You cannot use a fulltext schema index on an array type so in order to create an index on a relationship for searching, you will first add a property to all <code>:ACTED_IN</code> relationships that creates a new property, <code>roleList</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this Cypher code to create this new property for all <code>:ACTED_IN</code> relationships:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Actor)-[rel:ACTED_IN]-(m)
+WITH rel, REDUCE(s = HEAD(rel.roles), n IN TAIL(rel.roles) | s + ', ' + n) AS result
+SET rel.roleList = result<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is the result of running this code:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.4.png" alt="EX13.4" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Create a fulltext schema index on the roleList property of the <code>:ACTED_IN</code> relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.createRelationshipIndex('Roles',['ACTED_IN'], ['roleList'])<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>3. Write and execute the query to find all <code>:ACTED_IN</code> relationships in the database containing the role <code>"Batman"</code> using fulltext schema index search and return the names of the actors and the movies for these roles.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.queryRelationships('Roles', 'Batman') YIELD relationship, score
+WITH relationship
+MATCH (a:Actor)-[relationship]-&gt;(m:Movie)
+RETURN a.name, relationship.roleList, m.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is the result of running this code:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX13.4B.png" alt="EX13.4B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use parameters in some of the queries you have worked on in this exercise.</p>
+</li>
+<li>
+<p>Perform some profiling to see if you can improve any of the queries in this exercise.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 13: Preparing for query tuning   (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, gained experience with index use in Cypher, including fulltext schema indexes.
+<a play-topic='https://guides.neo4j.com/advanced-cypher-exercises/14.html'>Continue to Exercise 14</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

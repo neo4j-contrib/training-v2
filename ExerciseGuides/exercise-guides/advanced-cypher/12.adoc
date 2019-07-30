@@ -22,12 +22,13 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Close the Add Plugin window.
 . Start or restart the database.
 
-*2. Ensure that the virtual memory and pagecache settings have been adjusted to be:
-dbms.memory.heap.initial_size=8G
-dbms.memory.heap.max_size=16G
-dbms.memory.pagecache.size=800m*
+*2. Ensure that the virtual memory and pagecache settings have been adjusted to be:*
 
-*3. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
+* dbms.memory.heap.initial_size=8G
+* dbms.memory.heap.max_size=16G
+* dbms.memory.pagecache.size=800m*
+
+*3. This exercise assumes that you have a fully-loaded movie database with the `Genre` nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
@@ -56,7 +57,7 @@ Go to the next page to start this exercise.
 
 == Exercise 12.1: Reduce rows processed by collecting intermediate results during the query. (Instructions)
 
-*Here is a query that retrieves the genres and directors for a movie. Execute this query and note how many rows are processed.*
+Here is a query that retrieves the genres and directors for a movie.
 
 [source, cypher]
 ----
@@ -65,11 +66,13 @@ MATCH (movie)<-[:DIRECTED]-(director)
 RETURN genre, director, movie
 ----
 
-*Rewrite this query to reduce the number of rows processed by collection results during the query.*
+*1. Execute this query and note how many rows are processed.*
+
+*2. Rewrite this query to reduce the number of rows processed by collection results during the query.*
 
 == Exercise 12.1: Reduce rows processed by collecting intermediate results during the query. (Solution)
 
-*Here is a query that retrieves the genres and directors for a movie. Execute this query and note how many rows are processed.*
+Here is a query that retrieves the genres and directors for a movie.
 
 [source, cypher]
 ----
@@ -77,20 +80,28 @@ PROFILE MATCH (movie:Movie {title:'Up'})-[:IS_GENRE]-(genre)
 MATCH (movie)<-[:DIRECTED]-(director)
 RETURN genre, director, movie
 ----
+
+{nbsp} +
+
+*1. Execute this query and note how many rows are processed.*
 
 The profile when executing this code should be:
 
 [.thumb]
 image::{guides}/img/EX12.1.png[EX12.1,width=300]
 
+{nbsp} +
+
 The result of executing this code should be:
 
 [.thumb]
 image::{guides}/img/EX12.1B.png[EX12.1B,width=300]
 
-*Rewrite this query to reduce the number of rows processed by collection results during the query.*
+{nbsp} +
 
-Here is the rewritten code:
+*2. Rewrite this query to reduce the number of rows processed by collection results during the query.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -106,6 +117,8 @@ The profile when executing this code should show fewer rows processed:
 [.thumb]
 image::{guides}/img/EX12.1C.png[EX12.1C,width=300]
 
+{nbsp} +
+
 The result of executing this code should be:
 
 [.thumb]
@@ -113,7 +126,7 @@ image::{guides}/img/EX12.1D.png[EX12.1D,width=300]
 
 == Exercise 12.2: Reduce cardinalities for variable-length paths. (Instructions)
 
-*Execute this Cypher code to retrieve the titles of all movies that are up to 5 hops away from Tom Hanks.*
+*1. Execute this Cypher code to retrieve the titles of all movies that are up to 5 hops away from Tom Hanks.*
 
 [source, cypher]
 ----
@@ -122,11 +135,13 @@ MATCH (:Person{name:'Tom Hanks'})-[:ACTED_IN*..5]-(movie)
 RETURN movie.title
 ----
 
-*Modify this query to reduce the number of rows processed.*
+{nbsp} +
+
+*2. Modify this query to reduce the number of rows processed.*
 
 == Exercise 12.2: Reduce cardinalities for variable-length paths.  (Solution)
 
-*Execute this Cypher code to retrieve the titles of all movies that are up to 5 hops away from Tom Hanks.*
+*1. Execute this Cypher code to retrieve the titles of all movies that are up to 5 hops away from Tom Hanks.*
 
 [source, cypher]
 ----
@@ -138,11 +153,13 @@ RETURN movie.title
 The result of executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX12.2.png[EX12.2,width=300]
+image::{guides}/img/EX12.2.png[EX12.2,width=150]
 
-*Modify this query to reduce the number of rows processed.*
+{nbsp} +
 
-Here is the code:
+*2. Modify this query to reduce the number of rows processed.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -155,11 +172,11 @@ RETURN movie.title
 The result of executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX12.2B.png[EX12.2B,width=300]
+image::{guides}/img/EX12.2B.png[EX12.2B,width=150]
 
 == Exercise 12.3: Improve a query that returns unrelated data. (Instructions)
 
-*Execute this Cypher code to retrieve the titles of all movies  released before 1950 and people born before 1920.*
+*1. Execute this Cypher code to retrieve the titles of all movies  released before 1950 and people born before 1920.*
 
 [source, cypher]
 ----
@@ -168,11 +185,13 @@ WHERE  p.born < 1920 AND m.releaseYear < 1950
 RETURN p, m
 ----
 
-*What is wrong with this query? Modify this query to optimize it.*
+{nbsp} +
+
+*2. What is wrong with this query? Modify this query to optimize it.*
 
 == Exercise 12.3: Improve a query that returns unrelated data.   (Solution)
 
-*Execute this Cypher code to retrieve the titles of all movies released before 1920 and people born before 1920.*
+*1. Execute this Cypher code to retrieve the titles of all movies released before 1920 and people born before 1920.*
 
 [source, cypher]
 ----
@@ -182,15 +201,16 @@ WITH collect(p.name) as people, collect(m.title) as movies
 RETURN people, movies
 ----
 
-*What is wrong with this query? Modify this query to optimize it.*
-
 The result of executing this query should be the following where we see a cartesian product:
 
 [.thumb]
-image::{guides}/img/EX12.3.png[EX12.3,width=300]
+image::{guides}/img/EX12.3.png[EX12.3,width=200]
 
+{nbsp} +
 
-Here is the improved code:
+*2. What is wrong with this query? Modify this query to optimize it.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -206,11 +226,11 @@ RETURN people, movies
 The result of executing this code should be:
 
 [.thumb]
-image::{guides}/img/EX12.3B.png[EX12.3B,width=300]
+image::{guides}/img/EX12.3B.png[EX12.3B,width=200]
 
 == Exercise 12.4: Rewrite a query to collect data using pattern comprehension. (Instructions)
 
-*Execute this Cypher code to retrieve the titles of of movies that an young actor (born after 1990) has acted in in the three year period of 2010 to 2012.*
+*1. Execute this Cypher code to retrieve the titles of of movies that an young actor (born after 1990) has acted in in the three year period of 2010 to 2012.*
 
 [source, cypher]
 ----
@@ -220,11 +240,13 @@ RETURN a.name as actor, a.born as born,
 collect(DISTINCT m.title) AS titles ORDER BY actor
 ----
 
-*Rewrite this query to collect data using pattern comprehension to collect the titles.*
+{nbsp} +
+
+*2. Rewrite this query to collect data using pattern comprehension to collect the titles.*
 
 == Exercise 12.4: Rewrite a query to collect data using pattern comprehension.  (Solution)
 
-*Execute this Cypher code to retrieve the titles of of movies that an young actor (born after 1990) has acted in in the three year period of 2010 to 2012.*
+*1. Execute this Cypher code to retrieve the titles of of movies that an young actor (born after 1990) has acted in in the three year period of 2010 to 2012.*
 
 [source, cypher]
 ----
@@ -237,12 +259,13 @@ collect(DISTINCT m.title) AS titles ORDER BY actor
 The result of executing this query should be the following:
 
 [.thumb]
-image::{guides}/img/EX12.4.png[EX12.4,width=300]
+image::{guides}/img/EX12.4.png[EX12.4,width=150]
 
+{nbsp} +
 
-*Rewrite this query to collect data using pattern comprehension to collect the titles.*
+*2. Rewrite this query to collect data using pattern comprehension to collect the titles.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -255,14 +278,15 @@ RETURN a.name AS actor,  a.born AS born,
 The result of executing this query should be the following:
 
 [.thumb]
-image::{guides}/img/EX12.4B.png[EX12.4B,width=300]
+image::{guides}/img/EX12.4B.png[EX12.4B,width=200]
 
+{nbsp} +
 
 If you look at the rows returned with this code, you will notice that empty titles collections are produced which is not the case in the previous query.
 
 == Exercise 12.5: Rewrite a query that limits results. (Instructions)
 
-*Execute this Cypher code to return a movie released in 2015 along with its actors.*
+*1. Execute this Cypher code to return a movie released in 2015 along with its actors.*
 
 [source, cypher]
 ----
@@ -273,11 +297,13 @@ WITH movie, collect(actor.name) as actors
 RETURN movie.title, actors LIMIT 1
 ----
 
-*Rewrite this query with a small change to perform better.*
+{nbsp} +
+
+*2. Rewrite this query with a small change to perform better.*
 
 == Exercise 12.5: Rewrite a query that limits results.  (Solution)
 
-*Execute this Cypher code to return a movie released in 2015 along with its actors.*
+*1. Execute this Cypher code to return a movie released in 2015 along with its actors.*
 
 [source, cypher]
 ----
@@ -291,11 +317,13 @@ RETURN movie.title, actors LIMIT 1
 Here is the profile when executing this query:
 
 [.thumb]
-image::{guides}/img/EX12.5.png[EX12.5,width=300]
+image::{guides}/img/EX12.5.png[EX12.5,width=125]
 
-*Rewrite this query with a small change to perform better.*
+{nbsp} +
 
-Here is the modified query:
+*2. Rewrite this query with a small change to perform better.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -310,11 +338,11 @@ RETURN movie.title, actors
 The profile for executing this rewritten query should be the following:
 
 [.thumb]
-image::{guides}/img/EX12.5B.png[EX12.5B,width=300]
+image::{guides}/img/EX12.5B.png[EX12.5B,width=150]
 
 == Exercise 12.6: Defer property access. (Instructions)
 
-*Execute this Cypher code to return the top ten movies with the largest casts.*
+*1. Execute this Cypher code to return the top ten movies with the largest casts.*
 
 [source, cypher]
 ----
@@ -324,11 +352,13 @@ RETURN m.title as title, count(a) as numActors
 ORDER BY numActors DESC LIMIT 10
 ----
 
-*Rewrite this query with a small change to perform better by deferring property access.*
+{nbsp} +
+
+*2. Rewrite this query with a small change to perform better by deferring property access.*
 
 == Exercise 12.6: Defer property access.  (Solution)
 
-*Execute this Cypher code to return the top ten movies with the largest casts.*
+*1. Execute this Cypher code to return the top ten movies with the largest casts.*
 
 [source, cypher]
 ----
@@ -341,11 +371,13 @@ ORDER BY numActors DESC LIMIT 10
 Here is the profile when executing this query:
 
 [.thumb]
-image::{guides}/img/EX12.6.png[EX12.6,width=300]
+image::{guides}/img/EX12.6.png[EX12.6,width=150]
 
-*Rewrite this query with a small change to perform better by deferring property access.*
+{nbsp} +
 
-Here is the modified query:
+*2. Rewrite this query with a small change to perform better by deferring property access.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -358,7 +390,7 @@ RETURN m.title, numActors
 The profile for executing this rewritten query should be the following:
 
 [.thumb]
-image::{guides}/img/EX12.6B.png[EX12.6B,width=300]
+image::{guides}/img/EX12.6B.png[EX12.6B,width=150]
 
 
 == Exercise 12: Taking it further
@@ -376,7 +408,7 @@ RETURN a.name AS actor,  a.born AS born,
 
 Modify this query so that empty collections are not returned.
 
-== Exercise 11: Preparing for query tuning   (Summary)
+== Exercise 12: Preparing for query tuning   (Summary)
 
 In this exercise, you modified queries to perform better.
 pass:a[<a play-topic='{guides}/13.html'>Continue to Exercise 13</a>]

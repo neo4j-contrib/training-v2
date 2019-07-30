@@ -22,32 +22,43 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Close the Add Plugin window.
 . Start or restart the database.
 
-*2. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
+*2. This exercise assumes that you have a fully-loaded movie database with the `Genre` nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
 include::scripts/AfterImportDenormalizedData.cypher[]
 ----
 
+*Note*: This reset script will fail if you have fulltext schema indexes in the database.
+Before you run this script, you must run this code to drop the fulltext schema indexes:
+
+[source, cypher]
+----
+call db.index.fulltext.drop('Roles');
+call db.index.fulltext.drop('MovieTitle')
+----
+
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
 image::{guides}/img/AfterImportDenormalizedData.png[AfterImportDenormalizedData,200,200, role=left]
 
+{nbsp} +
+
 *3. In this exercise, you will be running queries as you have done so in your main Neo4j Browser session.
 In order to monitor locking, you must open a Web browser and start another Neo4j Browser session.
-If you have done this for the previous exercise, you should be all set and you can ignore the rest of these setup instructions.
+If you have done this for the previous exercise, you should be all set and you can ignore the rest of these setup instructions.*
 
-In most cases, you should be able to enter this address to connect to your started database:
+*In most cases, you should be able to enter this address to connect to your started database:*
 
 https://localhost:7474
 
-If this port has changed, it will be specified in the settings for the database and you should use those settings.
+*If this port has changed, it will be specified in the settings for the database and you should use those settings.*
 
-If you can successfully open Neo4j Browser at a particular port, simply enter the password for the ndo4j user and you should be ready to monitor any queries you are executing in your other Neo4j Browser window.
+*If you can successfully open Neo4j Browser at a particular port, simply enter the password for the ndo4j user and you should be ready to monitor any queries you are executing in your other Neo4j Browser window.*
 
-Here is what a Web browser should appear as if you have correctly connected to the started database:
+*Here is what a Web browser should appear as if you have correctly connected to the started database:*
 
-image::{guides}/img/MonitoringBrowserWindow.png[MonitoringBrowserWindow,200,200, role=left]
+image::{guides}/img/MonitoringBrowserWindow.png[MonitoringBrowserWindow,300,200, role=left]
 
 == Exercise 15: Monitoring locking (Overview)
 
@@ -63,8 +74,7 @@ Go to the next page to start this exercise.
 
 == Exercise 15.1: Execute code that holds a write lock on a node. (Instructions)
 
-*Here is code that holds a lock on a node for a long time (200 seconds).
-Execute this code in your main Neo4j Browser session.*
+Here is code that holds a lock on a node for a long time (200 seconds).
 
 [source, cypher]
 ----
@@ -75,11 +85,12 @@ WITH a
 call apoc.util.sleep(200000)
 RETURN a.died
 ----
+
+*Execute this code in your main Neo4j Browser session.*
 
 == Exercise 15.1: Execute code that holds a write lock on a node. (Solution)
 
-*Here is code that holds a lock on a node for a long time (200 seconds).
-Execute this code in your main Neo4j Browser session.*
+Here is code that holds a lock on a node for a long time (200 seconds).
 
 [source, cypher]
 ----
@@ -90,6 +101,8 @@ WITH a
 call apoc.util.sleep(200000)
 RETURN a.died
 ----
+
+*Execute this code in your main Neo4j Browser session.*
 
 This is what you should see:
 
@@ -98,7 +111,7 @@ image::{guides}/img/EX15.1.png[EX15.1,width=300]
 
 == Exercise 15.2: Execute code that attempts to lock the same node. (Instructions)
 
-*In the monitoring Neo4j Session, execute this code that attempts to lock the same node:*
+*1. In the monitoring Neo4j Browser session, execute this code that attempts to lock the same node:*
 
 [source, cypher]
 ----
@@ -108,13 +121,13 @@ SET a.died= 2000
 RETURN a.died
 ----
 
-When you run this code, it will hang because it is waiting for the other client to release the lock on the node.
+*When you run this code, it will hang because it is waiting for the other client to release the lock on the node.*
 
-*You can terminate this node in the monitoring Neo4j Browser session by simply click the "X" in the top right corner of the window.*
+*2. Terminate this query in the monitoring Neo4j Browser session by simply click the "X" in the top right corner of the window.*
 
 == Exercise 15.2: Execute code that attempts to lock the same node. (Solution)
 
-*In the monitoring Neo4j Session, execute this code that attempts to lock the same node:*
+*1. In the monitoring Neo4j Browser session, execute this code that attempts to lock the same node:*
 
 [source, cypher]
 ----
@@ -124,11 +137,9 @@ SET a.died= 2000
 RETURN a.died
 ----
 
-When you run this code, it will hang because it is waiting for the other client to release the lock on the node.
+*When you run this code, it will hang because it is waiting for the other client to release the lock on the node.*
 
-*You can terminate this node in the monitoring Neo4j Browser session by simply click the "X" in the top right corner of the window.*
-
-When you see that this simple query hangs, click the "X" to kill it in the monitoring Neo4j Browser session:
+*2. Terminate this query in the monitoring Neo4j Browser session by simply click the "X" in the top right corner of the window.*
 
 [.thumb]
 image::{guides}/img/EX15.2.png[EX15.2,width=300]
@@ -137,19 +148,19 @@ image::{guides}/img/EX15.2.png[EX15.2,width=300]
 
 The update should complete in the main Neo4j Browser window. Next, you will prepare to monitor locking.
 
-*In the monitoring Neo4j Browser session, write code to monitor locking.*
+*1. In the monitoring Neo4j Browser session, write code to monitor locking.*
 
-*In the main Neo4j Browser window, recall the last statement and re-execute it to hold the write lock for 200 seconds.*
+*2. In the main Neo4j Browser window, recall the last statement and re-execute it to hold the write lock for 200 seconds.*
 
-*In the monitoring Neo3j Browser session, execute the code to monitor locking.*
+*3. In the monitoring Neo3j Browser session, execute the code to monitor locking.*
 
 == Exercise 15.3: Write code to monitor locking. (Solution)
 
 The update should complete in the main Neo4j Browser window. Next, you will prepare to monitor locking.
 
-*In the monitoring Neo4j Browser session, write code to monitor locking.*
+*1. In the monitoring Neo4j Browser session, write code to monitor locking.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -159,9 +170,9 @@ CALL dbms.listActiveLocks(currentQueryId) YIELD mode, resourceType
 RETURN mode, resourceType
 ----
 
-*In the main Neo4j Browser window, recall the last statement and re-execute it to hold the write lock for 200 seconds.*
+*2. In the main Neo4j Browser window, recall the last statement and re-execute it to hold the write lock for 200 seconds.*
 
-*In the monitoring Neo3j Browser session, execute the code to monitor locking.*
+*3. In the monitoring Neo3j Browser session, execute the code to monitor locking.*
 
 You should see something like this:
 

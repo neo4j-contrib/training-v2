@@ -35,7 +35,7 @@ In this exercise, you will first remove all data and indexes from the database s
 * *Exercise 6.7*: Remove all nodes and relationships from the database.
 * *Exercise 6.8*: Load and merge the movie data while collecting the person data, then use unwind to merge the person data.
 * *Exercise 6.9*: Create the indexes.
-* *Exercise 6.10*: Create the Genre nodes and :IS_GENRE relationships.
+* *Exercise 6.10*: Create the `Genre` nodes and `:IS_GENRE` relationships.
 
 Go to the next page to start this exercise.
 
@@ -57,6 +57,20 @@ MATCH (n:Genre) DETACH DELETE n
 
 
 == Exercise 6.1: Remove all nodes, relationships, and indexes from the database. (Solution)
+
+*To start with a database that contains no data or indexes, run this code just like you did in the previous exercise:*
+
+[source, cypher]
+----
+// Remove all indexes and constraints
+CALL apoc.schema.assert({},{},true);
+// Remove all nodes/relationships
+MATCH (n:Person) DETACH DELETE n;
+MATCH (n:Director) DETACH DELETE n;
+MATCH (n:Actor) DETACH DELETE n;
+MATCH (n:Movie) DETACH DELETE n;
+MATCH (n:Genre) DETACH DELETE n
+----
 
 The results returned should look like this:
 
@@ -81,7 +95,7 @@ https://data.neo4j.com/advanced-cypher/movies2.csv
 
 *Write Cypher code to return the number of lines in this file.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -95,17 +109,23 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX6.2.png[EX6.2,width=300]
 
-The number of rows in this file is < 100K so we should not need any special loading options (like USING PERIODIC COMMIT).
+{nbsp} +
+
+The number of rows in this file is < 100K so we should not need any special loading options (like `USING PERIODIC COMMIT`).
 
 == Exercise 6.3: Examine the data you will be loading. (Instructions)
 
-*Since this is denormalized data, you will need to examine more rows to understand how the data has been normalized. Write a query to return the first 50 rows of the CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies.*
+Since this is denormalized data, you will need to examine more rows to understand how the data has been normalized.
+
+*Write a query to return the first 50 rows of the CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies.*
 
 == Exercise 6.3: Examine the data you will be loading. (Solution)
 
-*Since this is denormalized data, you will need to examine more rows to understand how the data has been normalized. Write a query to return the first 50 rows of the CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies.*
+Since this is denormalized data, you will need to examine more rows to understand how the data has been normalized.
 
-Here is the code:
+*Write a query to return the first 50 rows of the CSV file. Make a note of the header names and if IDs are being used to uniquely identify people and movies.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -119,58 +139,102 @@ The results should be:
 [.thumb]
 image::{guides}/img/EX6.3.png[EX6.3,width=300]
 
-Notice that each row has movie data and person data. Each row uses a movieId and personId to uniquely identify a movie or person. A row also has a field, personType, where the field will either have a value, "ACTOR" or a value, "DIRECTOR".
+{nbsp} +
+
+Notice that each row has movie data and person data. Each row uses a `movieId` and `personId` to uniquely identify a movie or person. A row also has a field, `personType`, where the field will either have a value, "ACTOR" or a value, "DIRECTOR".
 
 == Exercise 6.4: Create the constraints. (Instructions)
 
-The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+The *movies2.csv* fields will be mapped to `Movie` and `Person` node properties as follows:
 
-For Movie nodes:
-movieId     --> id
-title       --> title
-avgVote     --> avgVote
-releaseYear --> releaseYear
-genres      --> genres
+For `Movie` nodes:
+
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|movieId
+|id
+|title
+|title
+|avgVote
+|avgVote
+|releaseYear
+|releaseYear
+|genres
+|genres
+|===
 
 *Note*: The tagline data will not be loaded.
 
-For Person nodes:
-personId    --> id
-name        --> name
-birthYear   --> born
-deathYear   --> died
+For `Person` nodes:
 
-*To improve loading when nodes are created using MERGE, add uniqueness constraints as follows, just as you did for the nornalized data:
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|personId
+|id
+|name
+|name
+|birthYear
+|born
+|deathYear
+|died
+|===
 
-* Uniqueness constraint on the id property of a Movie node.
-* Uniqueness constraint on the id property of a Person node.*
+*To improve loading when nodes are created using `MERGE`, add uniqueness constraints as follows, just as you did for the normalized data:*
+
+* *Uniqueness constraint on the `id` property of a `Movie` node.*
+* *Uniqueness constraint on the `id` property of a `Person` node.*
 
 
 == Exercise 6.4: Create the constraints. (Solution)
 
-The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+The *movies2.csv* fields will be mapped to `Movie` and `Person` node properties as follows:
 
-For Movie nodes:
-movieId     --> id
-title       --> title
-avgVote     --> avgVote
-releaseYear --> releaseYear
-genres      --> genres
+For `Movie` nodes:
+
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|movieId
+|id
+|title
+|title
+|avgVote
+|avgVote
+|releaseYear
+|releaseYear
+|genres
+|genres
+|===
 
 *Note*: The tagline data will not be loaded.
 
-For Person nodes:
-personId    --> id
-name        --> name
-birthYear   --> born
-deathYear   --> died
+For `Person` nodes:
 
-*To improve loading when nodes are created using MERGE, add uniqueness constraints as follows, just as you did for the nornalized data:
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|personId
+|id
+|name
+|name
+|birthYear
+|born
+|deathYear
+|died
+|===
 
-* Uniqueness constraint on the id property of a Movie node.
-* Uniqueness constraint on the id property of a Person node.*
+*To improve loading when nodes are created using `MERGE`, add uniqueness constraints as follows, just as you did for the normalized data:*
 
-Here is the code:
+* *Uniqueness constraint on the `id` property of a `Movie` node.*
+* *Uniqueness constraint on the `id` property of a `Person` node.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -178,7 +242,7 @@ CREATE CONSTRAINT ON (m:Movie)
 ASSERT m.id IS UNIQUE;
 
 CREATE CONSTRAINT ON (p:Person)
-ASSERT p.id IS UNIQUE;
+ASSERT p.id IS UNIQUE
 ----
 
 The results returned should look like this:
@@ -186,58 +250,101 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX6.4.png[EX6.4,width=300]
 
-
 == Exercise 6.5: Load the movie and person data by merging the movie data from the row and then the person data. (Instructions)
 
-The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+The *movies2.csv* fields will be mapped to `Movie` and `Person` node properties as follows:
 
-For Movie nodes:
-movieId     --> id
-title       --> title
-avgVote     --> avgVote
-releaseYear --> releaseYear
-genres      --> genres
+For `Movie` nodes:
+
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|movieId
+|id
+|title
+|title
+|avgVote
+|avgVote
+|releaseYear
+|releaseYear
+|genres
+|genres
+|===
 
 *Note*: The tagline data will not be loaded.
 
-For Person nodes:
-personId    --> id
-name        --> name
-birthYear   --> born
-deathYear   --> died
+For `Person` nodes:
 
-*Load the movies2.csv file to:
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|personId
+|id
+|name
+|name
+|birthYear
+|born
+|deathYear
+|died
+|===
 
-. Use MERGE to create the Movie node.
-. Use MERGE to create the Person node.
-. Use conditional processing to create the relationships, :DIRECTED and :ACTED_IN (using apoc.do.when).*
+
+*Load the movies2.csv file to:*
+
+. *Use `MERGE` to create the `Movie` node.*
+. *Use `MERGE` to create the `Person` node.*
+. *Use conditional processing to create the relationships, `:DIRECTED` and `:ACTED_IN` (using apoc.do.when).*
 
 == Exercise 6.5: Load the movie and person data by merging the movie data from the row and then the person data. (Solution)
 
-The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+The *movies2.csv* fields will be mapped to `Movie` and `Person` node properties as follows:
 
-For Movie nodes:
-movieId     --> id
-title       --> title
-avgVote     --> avgVote
-releaseYear --> releaseYear
-genres      --> genres
+For `Movie` nodes:
+
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|movieId
+|id
+|title
+|title
+|avgVote
+|avgVote
+|releaseYear
+|releaseYear
+|genres
+|genres
+|===
 
 *Note*: The tagline data will not be loaded.
 
-For Person nodes:
-personId    --> id
-name        --> name
-birthYear   --> born
-deathYear   --> died
+For `Person` nodes:
 
-*Load the movies2.csv file to:
+[cols="20,80",frame=none, stripes=none]
+|===
+*row field*
+|*property*
+|personId
+|id
+|name
+|name
+|birthYear
+|born
+|deathYear
+|died
+|===
 
-. Use MERGE to create the Movie node.
-. Use MERGE to create the Person node.
-. Use conditional processing to create the relationships, :DIRECTED and :ACTED_IN (using apoc.do.when).*
 
-Here is the code:
+*Load the movies2.csv file to:*
+
+. *Use `MERGE` to create the `Movie` node.*
+. *Use `MERGE` to create the `Person` node.*
+. *Use conditional processing to create the relationships, `:DIRECTED` and `:ACTED_IN` (using apoc.do.when).*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -265,8 +372,7 @@ image::{guides}/img/EX6.5.png[EX6.5,width=300]
 
 == Exercise 6.6: Remove all nodes and relationships from the database and then profile the same load. (Instructions)
 
-
-*Execute this code to remove all nodes and relationships in the database:*
+*1. Execute this code to remove all nodes and relationships in the database:*
 
 [source, cypher]
 ----
@@ -279,11 +385,13 @@ MATCH (n:Actor) DETACH DELETE n;
 MATCH (n:Movie) DETACH DELETE n
 ----
 
-*Profile the previously executed load.*
+{nbsp} +
+
+*2. Profile the previously executed load.*
 
 == Exercise 6.6: Remove all nodes and relationships from the database and then profile the same load. (Solution)
 
-*Execute this code to remove all nodes and relationships in the database:*
+*1. Execute this code to remove all nodes and relationships in the database:*
 
 [source, cypher]
 ----
@@ -296,7 +404,9 @@ MATCH (n:Actor) DETACH DELETE n;
 MATCH (n:Movie) DETACH DELETE n
 ----
 
-*Profile the previously executed load.*
+{nbsp} +
+
+*2. Profile the previously executed load.*
 
 [source, cypher]
 ----
@@ -322,7 +432,9 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX6.6.png[EX6.6,width=300]
 
-This load required 347,705 DB hits.
+{nbsp} +
+
+This load required 347,703 DB hits.
 
 == Exercise 6.7: Remove all nodes and relationships from the database. (Instructions)
 
@@ -359,15 +471,13 @@ The database should have no nodes and relationships.
 
 == Exercise 6.8: Load and merge the movie data while collecting the person data, then use unwind to merge the person data. (Instructions)
 
-*Load the Load the movie data while collecting the person data, then use unwind to merge the person data. Just like you did previously, call apoc.doc.when() to add the relationships. Profile this load.*
-
+*Load the movie data while collecting the person data, then use unwind to merge the person data. Just like you did previously, `CALL apoc.doc.when()` to add the relationships. Profile this load.*
 
 == Exercise 6.8: Load and merge the movie data while collecting the person data, then use unwind to merge the person data. (Solution)
 
-*Load the Load the movie data while collecting the person data, then use unwind to merge the person data. Just like you did previously, call apoc.doc.when() to add the relationships. Profile this load.*
+*Load the movie data while collecting the person data, then use unwind to merge the person data. Just like you did previously, `CALL apoc.doc.when()` to add the relationships. Profile this load.*
 
-
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -398,63 +508,29 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX6.8.png[EX6.8,width=300]
 
-The method of loading the data required 290,026 DB hits, which is better than the previous method. Collecting the results and unwinding them is much more efficient.
+{nbsp} +
+
+This method of loading the data required 290,026 DB hits, which is better than the previous method. Collecting the results and unwinding them is much more efficient.
 
 == Exercise 6.9: Create the indexes. (Instructions)
 
-The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+*To improve retrieval performance, create indexes as follows, just as you did for the normalized data:*
 
-For Movie nodes:
-movieId     --> id
-title       --> title
-avgVote     --> avgVote
-releaseYear --> releaseYear
-genres      --> genres
-
-*Note*: The tagline data will not be loaded.
-
-For Person nodes:
-personId    --> id
-name        --> name
-birthYear   --> born
-deathYear   --> died
-
-*To improve retrieval performance, create indexes as follows, just as you did for the normalized data:
-
-* Index on the name property of a Person node.
-* Index on the title property of a Movie node.*
+* *Index on the `name` property of a `Person` node.*
+* *Index on the `title` property of a `Movie` node.*
 
 
 == Exercise 6.9: Create the indexes and constraints. (Solution)
 
-The movies2.csv fields will be mapped to Movie and Person node properties as follows:
+*To improve retrieval performance, create indexes as follows, just as you did for the normalized data:*
 
-For Movie nodes:
-movieId     --> id
-title       --> title
-avgVote     --> avgVote
-releaseYear --> releaseYear
-genres      --> genres
+* *Index on the `name` property of a `Person` node.*
+* *Index on the `title` property of a `Movie` node.*
 
-*Note*: The tagline data will not be loaded.
-
-For Person nodes:
-personId    --> id
-name        --> name
-birthYear   --> born
-deathYear   --> died
-
-*To improve retrieval performance, create indexes as follows, just as you did for the normalized data:
-
-* Index on the name property of a Person node.
-* Index on the title property of a Movie node.*
-
-
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
-
 CREATE INDEX ON :Person(name);
 
 CREATE INDEX ON :Movie(title)
@@ -466,28 +542,28 @@ The results returned should look like this:
 image::{guides}/img/EX6.9.png[EX6.9,width=300]
 
 
-== Exercise 6.10: Create the Genre nodes and :IS_GENRE relationships. (Instructions)
+== Exercise 6.10: Create the `Genre` nodes and `:IS_GENRE` relationships. (Instructions)
 
-*Just as you did for the load of the normalized data,  create a uniqueness constraint for the name property for nodes of type Genre.
-Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
-In addition, remove the genres property from the Movie  nodes.*
+*Just as you did for the load of the normalized data,  create a uniqueness constraint for the `name` property for nodes of type `Genre`.
+Then use the data in the graph to create `Genre` nodes from the `Movie` nodes and add the `:IS_GENRE` relationships between `Movie` nodes and `Genre` nodes.
+In addition, remove the `genres` property from the `Movie`  nodes.*
 
-== Exercise 6.10: Create the Genre nodes and :IS_GENRE relationships. (Solution)
+== Exercise 6.10: Create the `Genre` nodes and `:IS_GENRE` relationships. (Solution)
 
-*Just as you did for the load of the normalized data,  create a uniqueness constraint for the name property for nodes of type Genre.
-Then use the data in the graph to create Genre nodes from the Movie nodes and add the :IS_GENRE relationships between Movie nodes and Genre nodes.
-In addition, remove the genres property from the Movie  nodes.*
+*Just as you did for the load of the normalized data,  create a uniqueness constraint for the `name` property for nodes of type `Genre`.
+Then use the data in the graph to create `Genre` nodes from the `Movie` nodes and add the `:IS_GENRE` relationships between `Movie` nodes and `Genre` nodes.
+In addition, remove the `genres` property from the `Movie`  nodes.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
 CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
 MATCH (m:Movie)
-UNWIND m.genres as names
-WITH DISTINCT names, m
+UNWIND m.genres as name
+WITH DISTINCT name, m
 SET m.genres = null
-MERGE (g:Genre {name:names})
+MERGE (g:Genre {name:name})
 WITH g, m
 MERGE (g)<-[:IS_GENRE]-(m)
 ----
@@ -507,7 +583,6 @@ image::{guides}/img/EX6.10B.png[EX6.10B,width=300]
 Perform some queries to become familiar with the newly-loaded data.
 
 == Exercise 6: Loading denormalized data   (Summary)
-
 
 In this exercise, you have written code to load denormalized data into a graph and also create nodes from data in the graph. You have seen that one way that you can optimize the load is to save the data during one pass into a collection and unwind the data for processing.
 

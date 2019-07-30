@@ -46,8 +46,8 @@ CREATE INDEX ON :Movie(title);
 
 CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
 MATCH (m:Movie)
-UNWIND m.genres as names
-WITH DISTINCT names, m
-MERGE (g:Genre {name:names})
+UNWIND m.genres as name
+WITH DISTINCT name, m
+MERGE (g:Genre {name:name})
 WITH g, m
 MERGE (g)<-[:IS_GENRE]-(m)

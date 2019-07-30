@@ -9,12 +9,16 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/InitialDatabase.png[InitialDatabase,width=150,role=left]
 
-*If your database does not look like this, run the following script which removes all nodes and relationships from the graph and loads the graph with the "movie" data by executing this Cypher code:*
+{nbsp} +
+
+*If your database does not look like this, run the following script which removes all nodes and relationships from the graph and loads the graph with the "mini movie" data:*
 
 [source, cypher]
 ----
 include::scripts/initialDatabase.cypher[]
 ----
+
+{nbsp} +
 
 *Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below*:
 
@@ -39,23 +43,23 @@ If this code does not return the list of APOC procedures, then you must ensure t
 
 In this exercise, you write some Cypher statements that combine the results of two separate queries:
 
-* *Exercise 4.1*: Write a query to combine query results with UNION.
-* *Exercise 4.2*: USE APOC to sort the combined query results that use UNION.
-* *Exercise 4.3*: Use UNWIND to sort the combined query results.
+* *Exercise 4.1*: Write a query to combine query results with `UNION`.
+* *Exercise 4.2*: USE APOC to sort the combined query results that use `UNION`.
+* *Exercise 4.3*: Use `UNWIND` to sort the combined query results.
 
 Go to the next page to start this exercise.
 
-== Exercise 4.1: Write a query to combine query results with UNION. (Instructions)
+== Exercise 4.1: Write a query to combine query results with `UNION`. (Instructions)
 
 *Write the Cypher code to combine the results of a retrieval of all actors that were born after 1960 and a retrieval of all writers that were born after 1960.
 Each query will return the name of the person, their age, and their Role (either Actor or Writer).*
 
-== Exercise 4.1: Write a query to combine query results with UNION. (Solution)
+== Exercise 4.1: Write a query to combine query results with `UNION`. (Solution)
 
 *Write the Cypher code to combine the results of a retrieval of all actors that were born after 1960 and a retrieval of all writers that were born after 1960.
 Each query will return the name of the person, their age, and their Role (either Actor or Writer).*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -67,7 +71,7 @@ UNION
 MATCH (w:Person)-[:WROTE]-()
 WHERE w.born > 1960
 WITH DISTINCT w
-RETURN  w.name AS name, date().year - w.born AS age, 'Writer' AS Role
+RETURN  w.name AS name, date().year - w.born AS age, 'Writer' AS role
 ----
 
 The results returned should look like this:
@@ -83,7 +87,7 @@ image::{guides}/img/EX4.1.png[EX4.1,width=300]
 
 *Modify the previous query to be executed using APOC so that you can sort the results returned by age.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -106,16 +110,16 @@ The results returned should look like this:
 image::{guides}/img/EX4.2.png[EX4.2,width=300]
 
 
-== Exercise 4.3: Use UNWIND to sort the combined query results. (Instructions)
+== Exercise 4.3: Use `UNWIND` to sort the combined query results. (Instructions)
 
-*Rewrite the query to not use APOC and to use collect() and UNWIND to sort the results, rather than UNION.*
+*Rewrite the query to not use APOC and to use `collect()` and `UNWIND` to sort the results, rather than `UNION`.*
 
 
-== Exercise 4.3: Use UNWIND to sort the combined query results. (Solution)
+== Exercise 4.3: Use `UNWIND` to sort the combined query results. (Solution)
 
-*Rewrite the query to not use APOC and to use collect() and UNWIND to sort the results, rather than UNION.*
+*Rewrite the query to not use APOC and to use `collect()` and `UNWIND` to sort the results, rather than `UNION`.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -138,12 +142,12 @@ image::{guides}/img/EX4.3.png[EX4.3,width=300]
 == Exercise 4: Taking it further
 
 . Profile the queries you have written to see which query performs best.
-. Create a query where using UNION is not better than the alternatives.
+. Create a query where using `UNION` is not better than the alternatives.
 
 == Exercise 4: Combining query results   (Summary)
 
 
-In this exercise, you have written queries that combine results using UNION and collect/UNWIND.
+In this exercise, you have written queries that combine results using `UNION` and `collect()`/`UNWIND`.
 The most performant solution you use for your application will depend on the data model and the amount of data in the graph.
 
 pass:a[<a play-topic='{guides}/05.html'>Continue to Exercise 5</a>]

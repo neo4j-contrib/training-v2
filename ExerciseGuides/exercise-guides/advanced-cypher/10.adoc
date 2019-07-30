@@ -22,7 +22,7 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Close the Add Plugin window.
 . Start or restart the database.
 
-*2. These exercises assume that you have a fully-loaded movie database with the Genre nodes. Execute this code to reset the database:*
+*2. This exercise assumes that you have a fully-loaded movie database with the `Genre` nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
@@ -40,35 +40,39 @@ In this exercise, you will view DB stats and use the count store in your queries
 
 In this exercise, you will:
 
-* *Exercise 10.1*: Modify a node MATCH query to use the count store.
+* *Exercise 10.1*: Modify a node `MATCH` query to use the count store.
 * *Exercise 10.2*: Modify a relationship match query to use the count store.
-* *Exercise 10.3*: Modify a query to use size() instead of count().
+* *Exercise 10.3*: Modify a query to use `size()` instead of `count()`.
 * *Exercise 10.4*: Query the count stores in the database.
 
 
 Go to the next page to start this exercise.
 
-== Exercise 10.1: Modify a node MATCH query to use the count store. (Instructions)
+== Exercise 10.1: Modify a node `MATCH` query to use the count store. (Instructions)
 
-*Here is a query to count the number of nodes that are Person and Actor nodes.  Profile it and then modify this query to use the count store.*
-
-[source, cypher]
-----
-MATCH (:Actor:Person) RETURN count(*)
-----
-
-== Exercise 10.1: Modify a node MATCH query to use the count store. (Solution)
-
-*Here is a query to count the number of nodes that are Person and Actor nodes.  Profile it and then modify this query to use the count store.*
+Here is a query to count the number of nodes that are `Person` and `Actor` nodes.
 
 [source, cypher]
 ----
 MATCH (:Actor:Person) RETURN count(*)
 ----
 
-Since a Person node will always have at least one other type associated with it, you can simply get the count of the nodes with the Actor label to take advantage of using the count store.
+*Profile it and then modify this query to use the count store.*
 
-Here is the modified code:
+== Exercise 10.1: Modify a node `MATCH` query to use the count store. (Solution)
+
+Here is a query to count the number of nodes that are `Person` and `Actor` nodes.
+
+[source, cypher]
+----
+MATCH (:Actor:Person) RETURN count(*)
+----
+
+*Profile it and then modify this query to use the count store.*
+
+Since a `Person` node will always have at least one other type associated with it, you can simply get the count of the nodes with the `Actor` label to take advantage of using the count store.
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -82,29 +86,33 @@ image::{guides}/img/EX10.1.png[EX10.1,width=300]
 
 == Exercise 10.2: Modify a relationship match query to use the count store. (Instructions)
 
-*Here is a query to count the number of :DIRECTED relationships in the graph.  Profile it and then modify this query to use the count store.*
+Here is a query to count the number of `:DIRECTED` relationships in the graph.
 
 [source, cypher]
 ----
 MATCH ()-[:DIRECTED]-() RETURN count(*)
 ----
+
+*Profile it and then modify this query to use the count store.*
 
 == Exercise 10.2: Modify a relationship match query to use the count store. (Solution)
 
-*Here is a query to count the number of :DIRECTED relationships in the graph.  Profile it and then modify this query to use the count store.*
+Here is a query to count the number of `:DIRECTED` relationships in the graph.
 
 [source, cypher]
 ----
 MATCH ()-[:DIRECTED]-() RETURN count(*)
 ----
 
+*Profile it and then modify this query to use the count store.*
+
 In order to take advantage of the count store in a path, you must specify the direction of the relationship.
 
-Here is the modified code:
+Here is the solution code:
 
 [source, cypher]
 ----
-MATCH ()-[:DIRECTED]->() RETURN count(*)
+PROFILE MATCH ()-[:DIRECTED]->() RETURN count(*)
 ----
 
 The result of executing this code should be:
@@ -112,9 +120,21 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX10.2.png[EX10.2,width=300]
 
-== Exercise 10.3: Modify a query to use size() instead of count(). (Instructions)
+== Exercise 10.3: Modify a query to use `size()` instead of `count()`. (Instructions)
 
-*Here is a query to count the number of :IS_GENRE relationships per movie in the graph.  Profile it and then modify this query to use size() rather than count().*
+Here is a query to count the number of `:IS_GENRE` relationships per movie in the graph.
+
+[source, cypher]
+----
+MATCH (m:Movie)-[:IS_GENRE]->()
+RETURN m, count(*) AS genreCount ORDER BY genreCount DESC
+----
+
+*Profile it and then modify this query to use `size()` rather than `count()`.*
+
+== Exercise 10.3: Modify a query to use `size()` instead of `count()`. (Solution)
+
+Here is a query to count the number of `:IS_GENRE` relationships per movie in the graph.
 
 [source, cypher]
 ----
@@ -122,15 +142,9 @@ MATCH (m:Movie)-[:IS_GENRE]->()
 RETURN m, count(*) AS genreCount ORDER BY genreCount DESC
 ----
 
-== Exercise 10.3: Modify a query to use size() instead of count(). (Solution)
+{nbsp} +
 
-*Here is a query to count the number of :IS_GENRE relationships per movie in the graph.  Profile it and then modify this query to use size() rather than count().*
-
-[source, cypher]
-----
-MATCH (m:Movie)-[:IS_GENRE]->()
-RETURN m, count(*) AS genreCount ORDER BY genreCount DESC
-----
+*Profile it and then modify this query to use `size()` rather than `count()`.*
 
 When you profile this query, you see 29,767 DB hits:
 
@@ -139,8 +153,9 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX10.3.png[EX10.3,width=300]
 
+{nbsp} +
 
-Here is the modified code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -153,6 +168,8 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX10.3B.png[EX10.3B,width=300]
 
+{nbsp} +
+
 Here we see fewer DB hits of 18,694.
 
 == Exercise 10.4: Query the count stores in the database. (Instructions)
@@ -163,7 +180,7 @@ Here we see fewer DB hits of 18,694.
 
 *Write a query to return the values in the count store for the database.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -177,8 +194,9 @@ image::{guides}/img/EX10.4.png[EX10.4,width=300]
 
 == Exercise 10: Taking it further
 
-. Perform queries the utilize the count store and compare them to count store values returned from the call to db.stats.retrieve().
-. Look at other types of data returned from db.stats.retrieve().
+. Perform queries the utilize the count store and compare them to count store values returned from the call to `db.stats.retrieve()`.
+. Look at other types of data returned from `db.stats.retrieve()`.
+. Use APOC to retrieve stats from the database.
 
 == Exercise 10: Working with DB stats and the count store   (Summary)
 

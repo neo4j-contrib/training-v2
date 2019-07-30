@@ -26,7 +26,7 @@ If this code does not return the list of APOC procedures, then you must ensure t
 dbms.memory.heap.initial_size=512m
 dbms.memory.heap.max_size=1G*
 
-*3. These exercises assume that you have a fully-loaded movie database without the Genre nodes. Execute this code to reset the database:*
+*3. This exercise assumes that you have a fully-loaded movie database without the `Genre` nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
@@ -55,17 +55,15 @@ Go to the next page to start this exercise.
 
 == Exercise 8.1: Profile the collection of data. (Instructions)
 
-*Profile and write a query to return any five movies and their ratings (avgVote).*
+*1. Profile and write a query to return any five movies and their ratings (avgVote).*
 
-*Profile and write a query to return the top five movies based upon their ratings.*
-
-*Hint*: Do not use APOC.
+*2. Profile and write a query to return the top five movies based upon their ratings. Do not use APOC.*
 
 == Exercise 8.1: Profile the collection of data. (Solution)
 
-*Profile and write a query to return any five movies and their ratings (avgVote).*
+*1. Profile and write a query to return any five movies and their ratings (avgVote).*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -82,16 +80,18 @@ The result of performing this code should look something like this:
 [.thumb]
 image::{guides}/img/EX8.1.png[EX8.1,width=300]
 
+{nbsp} +
+
 The profile is:
 
 [.thumb]
 image::{guides}/img/EX8.1B.png[EX8.1B,width=300]
 
-*Profile and write a query to return the top five movies based upon their ratings.*
+{nbsp} +
 
-*Hint*: Do not use APOC.
+*2. Profile and write a query to return the top five movies based upon their ratings. Do not use APOC.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -106,18 +106,22 @@ RETURN titles, ratings
 The result of performing this code should be:
 
 [.thumb]
-image::{guides}/img/EX8.1C.png[EX8.1C,width=300]
+image::{guides}/img/EX8.1C.png[EX8.1C,width=200]
+
+{nbsp} +
 
 The profile is:
 
 [.thumb]
 image::{guides}/img/EX8.1D.png[EX8.1D,width=300]
 
+{nbsp} +
+
 Because the data needed to be sorted, all records needed to be read before they could be limited to 5.
 
 == Exercise 8.2: Use APOC to work with collections. (Instructions)
 
-*Here is Cypher code to collect the list of genres from each movie. Execute this code:*
+Here is Cypher code to collect the list of genres from each movie.
 
 [source, cypher]
 ----
@@ -126,11 +130,13 @@ WITH collect(m.genres) AS genres
 RETURN genres, size(genres)
 ----
 
-*Rewrite this code to use APOC to remove the embedded lists and also remove duplicates.*
+*1. Execute this code.*
+
+*2. Rewrite this code to use APOC to remove the embedded lists and also remove duplicates.*
 
 == Exercise 8.2: Use APOC to work with collections. (Solution)
 
-*Here is Cypher code to collect the list of genres from each movie. Execute this code:*
+Here is Cypher code to collect the list of genres from each movie.
 
 [source, cypher]
 ----
@@ -138,15 +144,19 @@ MATCH (m:Movie)
 WITH collect(m.genres) AS genres
 RETURN genres, size(genres)
 ----
+
+*1. Execute this code.*
 
 The result returned should be:
 
 [.thumb]
 image::{guides}/img/EX8.2.png[EX8.2,width=300]
 
-*Rewrite this code to use APOC to remove the embedded lists and also remove duplicates.*
+{nbsp} +
 
-Here is the code:
+*2. Rewrite this code to use APOC to remove the embedded lists and also remove duplicates.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -168,12 +178,14 @@ image::{guides}/img/EX8.2B.png[EX8.2B,width=300]
 
 Suppose you want to create a map for every Actor which looks as follows:
 
+....
 {
   name: <name of actor>,
   born: <year actor born>,
   roles: [roles that this actor has played in all of his/her movies]
   movies: [titles of the movies this actor has acted in]
 }
+....
 
 *Write a Cypher query to return this data as a  map for every actor who was born after the year 1970.*
 
@@ -181,16 +193,18 @@ Suppose you want to create a map for every Actor which looks as follows:
 
 Suppose you want to create a map for every Actor which looks as follows:
 
+....
 {
   name: <name of actor>,
   born: <year actor born>,
   roles: [roles that this actor has played in all of his/her movies]
   movies: [titles of the movies this actor has acted in]
 }
+....
 
 *Write a Cypher query to return this data as a map for every actor who was born after the year 1970.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -208,11 +222,13 @@ The results should be:
 [.thumb]
 image::{guides}/img/EX8.3.png[EX8.3,width=300]
 
+{nbsp} +
+
 This load which you were able to do previously with the default virtual memory settings now fails due to out of memory. No data is written to the database.
 
 == Exercise 8.4: Use pattern comprehension to customize data returned. (Instructions)
 
-*Execute this code to add the Genre nodes and relationships to the graph:*
+*1. Execute this code to add the `Genre` nodes and relationships to the graph:*
 
 [source, cypher]
 ----
@@ -225,8 +241,11 @@ WITH g, m
 MERGE (g)<-[:IS_GENRE]-(m)
 ----
 
-*Write a query that retrieves all Genre nodes and returns the following map:
+{nbsp} +
 
+*2. Write a query that retrieves all Genre nodes and returns the following map:*
+
+....
 {
 Genre: <genre name>,
 Movies: [<titles of movies for this genre released in the year 2010>]
@@ -234,12 +253,13 @@ Movies: [<titles of movies for this genre released in the year 2010>]
 {
 <next genre>}
 }
+....
 
-Use pattern comprehension for the :IS_GENRE relationship to assemble the list of movie titles with the release year of 2010.*
+*Use pattern comprehension for the `:IS_GENRE` relationship to assemble the list of movie titles with the release year of 2010.*
 
 == Exercise 8.4: Use pattern comprehension to customize data returned. (Solution)
 
-*Execute this code to add the Genre nodes and relationships to the graph:*
+*1. Execute this code to add the `Genre` nodes and relationships to the graph:*
 
 [source, cypher]
 ----
@@ -257,10 +277,11 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX8.4.png[EX8.4,width=300]
 
+{nbsp} +
 
-*Write a query that retrieves all Genre nodes and returns the following map:
+*2. Write a query that retrieves all Genre nodes and returns the following map:*
 
-
+....
 {
 Genre: <genre name>,
 Movies: [<titles of movies for this genre released in the year 2010>]
@@ -268,11 +289,12 @@ Movies: [<titles of movies for this genre released in the year 2010>]
 {
 <next genre>}
 }
+....
 
-Use pattern comprehension for the :IS_GENRE relationship to assemble the list of movie titles with the release year of 2010.*
+*Use pattern comprehension for the `:IS_GENRE` relationship to assemble the list of movie titles with the release year of 2010.*
 
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -295,7 +317,7 @@ image::{guides}/img/EX8.4B.png[EX8.4B,width=300]
 
 *Write a query that retrieves all directors born after 1980 and returns their properties grouped by the year they were born.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -310,14 +332,12 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX8.5.png[EX8.5,width=300]
 
-
 == Exercise 8: Taking it further
 
 . Explore and write other queries that use APOC map functions.
 . PROFILE some of the queries  you have written and see if you can improve them.
 
 == Exercise 8: Aggregating data   (Summary)
-
 
 In this exercise, you gained more experience aggregating data and using aggregated data with Cypher.
 pass:a[<a play-topic='{guides}/09.html'>Continue to Exercise 9</a>]

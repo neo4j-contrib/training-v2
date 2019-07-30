@@ -1,0 +1,676 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 8</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 8</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Aggregating data (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure Neo4j Desktop is online.</p>
+</li>
+<li>
+<p>In Neo4j Desktop for the project you are working with, click  <strong>Add Plugin</strong>.</p>
+</li>
+<li>
+<p>Select the install button for APOC.</p>
+</li>
+<li>
+<p>Click the Install button.</p>
+</li>
+<li>
+<p>Close the Add Plugin window.</p>
+</li>
+<li>
+<p>Start or restart the database.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>2. Ensure that the virtual memory for Neo4j is set back to its defaults:
+dbms.memory.heap.initial_size=512m
+dbms.memory.heap.max_size=1G</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>3. This exercise assumes that you have a fully-loaded movie database without the <code>Genre</code> nodes. Execute this code to reset the database:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.schema.assert({},{},true);
+
+MATCH (n:Person) DETACH DELETE n;
+
+MATCH (n:Director) DETACH DELETE n;
+
+MATCH (n:Actor) DETACH DELETE n;
+
+MATCH (n:Movie) DETACH DELETE n;
+
+MATCH (n:Genre) DETACH DELETE n;
+
+CREATE CONSTRAINT ON (m:Movie)
+ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT ON (p:Person)
+ASSERT p.id IS UNIQUE;
+
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+WITH row.movieId as movieId,
+row.title as title,
+row.genres as genres,
+toInteger(row.releaseYear) as releaseYear,
+toFloat(row.avgVote) as avgVote,
+collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,""),':')}) as people
+MERGE (m:Movie {id:movieId})
+   ON CREATE SET m.title=title, m.avgVote=avgVote,
+      m.releaseYear=releaseYear, m.genres=split(genres,":")
+WITH *
+UNWIND people as person
+MERGE (p:Person {id: person.id})
+   ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+WITH  m, person, p
+CALL apoc.do.when(person.personType = 'ACTOR',
+     "MERGE (p)-[:ACTED_IN {roles: person.roles}]-&gt;(m)
+                ON CREATE SET p:Actor",
+     "MERGE (p)-[:DIRECTED]-&gt;(m)
+         ON CREATE SET p:Director",
+     {m:m, p:p, person:person}) YIELD value AS value
+SET p:Person;  // cannot end query with APOC call
+
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
+
+CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/advanced-cypher-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/AfterImportDenormalizedDataWithoutGenreNodes.png" alt="AfterImportDenormalizedDataWithoutGenreNodes" width="200" height="200">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Aggregating data (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you will gain more experience aggregating data and using aggregated data with Cypher.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 8.1</strong>: Profile the collection of data.</p>
+</li>
+<li>
+<p><strong>Exercise 8.2</strong>: Use APOC to work with collections.</p>
+</li>
+<li>
+<p><strong>Exercise 8.3</strong>: Use the properties of a relationship to create a map.</p>
+</li>
+<li>
+<p><strong>Exercise 8.4</strong>: Use pattern comprehension to customize data returned.</p>
+</li>
+<li>
+<p><strong>Exercise 8.5</strong>: Use APOC to group data returned.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.1: Profile the collection of data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Profile and write a query to return any five movies and their ratings (avgVote).</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Profile and write a query to return the top five movies based upon their ratings. Do not use APOC.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.1: Profile the collection of data. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Profile and write a query to return any five movies and their ratings (avgVote).</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (m:Movie)
+WITH m LIMIT 5
+WITH m, collect (m.title) AS t, collect(m.avgVote) AS r
+UNWIND t as titles
+UNWIND r as ratings
+RETURN titles, ratings<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of performing this code should look something like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.1.png" alt="EX8.1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>The profile is:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.1B.png" alt="EX8.1B" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Profile and write a query to return the top five movies based upon their ratings. Do not use APOC.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (m:Movie)
+WITH m ORDER BY m.avgVote DESC LIMIT 5
+WITH m, collect (m.title) AS t, collect(m.avgVote) AS r
+UNWIND t as titles
+UNWIND r as ratings
+RETURN titles, ratings<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of performing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.1C.png" alt="EX8.1C" width="200">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>The profile is:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.1D.png" alt="EX8.1D" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Because the data needed to be sorted, all records needed to be read before they could be limited to 5.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.2: Use APOC to work with collections. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is Cypher code to collect the list of genres from each movie.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WITH collect(m.genres) AS genres
+RETURN genres, size(genres)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this code.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this code to use APOC to remove the embedded lists and also remove duplicates.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.2: Use APOC to work with collections. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is Cypher code to collect the list of genres from each movie.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WITH collect(m.genres) AS genres
+RETURN genres, size(genres)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this code.</strong></p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.2.png" alt="EX8.2" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this code to use APOC to remove the embedded lists and also remove duplicates.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WITH collect(m.genres) AS genres
+// remove embedded lists
+WITH apoc.coll.flatten(genres) AS allGenres
+// remove duplicates
+WITH apoc.coll.toSet(allGenres) AS genreList
+RETURN genreList, size(genreList)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.2B.png" alt="EX8.2B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.3: Use the properties of a relationship to create a map. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Suppose you want to create a map for every Actor which looks as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+  name: &lt;name of actor&gt;,
+  born: &lt;year actor born&gt;,
+  roles: [roles that this actor has played in all of his/her movies]
+  movies: [titles of the movies this actor has acted in]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Write a Cypher query to return this data as a  map for every actor who was born after the year 1970.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.3: Use the properties of a relationship to create a map. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Suppose you want to create a map for every Actor which looks as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+  name: &lt;name of actor&gt;,
+  born: &lt;year actor born&gt;,
+  roles: [roles that this actor has played in all of his/her movies]
+  movies: [titles of the movies this actor has acted in]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Write a Cypher query to return this data as a map for every actor who was born after the year 1970.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)&lt;-[act:ACTED_IN]-(p:Person)
+WHERE p.born &gt; 1970
+WITH p, collect(act.roles) AS roleList, collect(m) AS movieList
+WITH p, movieList, apoc.coll.flatten(roleList) AS allRoles
+// remove duplicates
+WITH p,  movieList, apoc.coll.toSet(allRoles) AS trimmedRoleList
+RETURN p { .name, .born,  roles: trimmedRoleList, movies: [x in movieList | x.title] } AS actor<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.3.png" alt="EX8.3" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>This load which you were able to do previously with the default virtual memory settings now fails due to out of memory. No data is written to the database.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.4: Use pattern comprehension to customize data returned. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this code to add the <code>Genre</code> nodes and relationships to the graph:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+UNWIND m.genres as names
+WITH DISTINCT names, m
+SET m.genres = null
+MERGE (g:Genre {name:names})
+WITH g, m
+MERGE (g)&lt;-[:IS_GENRE]-(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Write a query that retrieves all Genre nodes and returns the following map:</strong></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+Genre: &lt;genre name&gt;,
+Movies: [&lt;titles of movies for this genre released in the year 2010&gt;]
+}
+{
+&lt;next genre&gt;}
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Use pattern comprehension for the <code>:IS_GENRE</code> relationship to assemble the list of movie titles with the release year of 2010.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.4: Use pattern comprehension to customize data returned. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this code to add the <code>Genre</code> nodes and relationships to the graph:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+UNWIND m.genres as names
+WITH DISTINCT names, m
+SET m.genres = null
+MERGE (g:Genre {name:names})
+WITH g, m
+MERGE (g)&lt;-[:IS_GENRE]-(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.4.png" alt="EX8.4" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Write a query that retrieves all Genre nodes and returns the following map:</strong></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+Genre: &lt;genre name&gt;,
+Movies: [&lt;titles of movies for this genre released in the year 2010&gt;]
+}
+{
+&lt;next genre&gt;}
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Use pattern comprehension for the <code>:IS_GENRE</code> relationship to assemble the list of movie titles with the release year of 2010.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (g:Genre)
+RETURN  {Genre: g.name, Movies: [(g)&lt;-[:IS_GENRE]-(m) WHERE m.releaseYear = 2010| m.title]}<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here are the results returned:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.4B.png" alt="EX8.4B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.5: Use APOC to group data returned. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query that retrieves all directors born after 1980 and returns their properties grouped by the year they were born.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.5: Use APOC to group data returned. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query that retrieves all directors born after 1980 and returns their properties grouped by the year they were born.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (d:Director)
+WHERE d.born &gt; 1980
+WITH collect(properties(d)) AS directors
+RETURN apoc.map.groupByMulti(directors,"born")<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX8.5.png" alt="EX8.5" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Explore and write other queries that use APOC map functions.</p>
+</li>
+<li>
+<p>PROFILE some of the queries  you have written and see if you can improve them.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Aggregating data   (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gained more experience aggregating data and using aggregated data with Cypher.
+<a play-topic='https://guides.neo4j.com/advanced-cypher-exercises/09.html'>Continue to Exercise 9</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

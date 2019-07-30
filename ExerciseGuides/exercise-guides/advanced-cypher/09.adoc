@@ -22,7 +22,7 @@ If this code does not return the list of APOC procedures, then you must ensure t
 . Close the Add Plugin window.
 . Start or restart the database.
 
-*2. These exercises assume that you have a fully-loaded movie database without the Genre nodes. Execute this code to reset the database:*
+*2. This exercise assumes that you have a fully-loaded movie database without the `Genre` nodes. Execute this code to reset the database:*
 
 [source, cypher]
 ----
@@ -40,34 +40,15 @@ In this exercise, you will gain experience with iterating and writing code to pe
 
 In this exercise, you will:
 
-* *Exercise 9.1*: Collect genres data from the database to create the Genre nodes using FOREACH.
-* *Exercise 9.2*: Use CASE for conditionally returning a value.
-* *Exercise 9.3*: Use CASE and FOREACH to perform conditional updates.
+* *Exercise 9.1*: Collect genres data from the database to create the Genre nodes using `FOREACH`.
+* *Exercise 9.2*: Use `CASE` for conditionally returning a value.
+* *Exercise 9.3*: Use `CASE` and `FOREACH` to perform conditional updates.
 
 Go to the next page to start this exercise.
 
-== Exercise 9.1: Collect genres data from the database to create the Genre nodes using FOREACH. (Instructions)
+== Exercise 9.1: Collect genres data from the database to create the Genre nodes using `FOREACH`. (Instructions)
 
-Previously, you wrote code to create the Genre nodes as follows:
-
-[source, cypher]
-----
-MATCH (m:Movie)
-UNWIND m.genres as names
-WITH DISTINCT names, m
-SET m.genres = null
-MERGE (g:Genre {name:names})
-WITH g, m
-MERGE (g)<-[:IS_GENRE]-(m)
-----
-
-This code created the names collection. It then processed each distinct name for a genre to create the Genre nodes and the :IS_GENRE relationships.
-
-*Rewrite this code to use FOREACH to process each Movie node, create the Genre nodes, and the :IS_GENRE relationships.*
-
-== Exercise 9.1: Collect genres data from the database to create the Genre nodes using FOREACH. (Solution)
-
-Previously, you wrote code to create the Genre nodes as follows:
+Previously, you wrote code to create the `Genre` nodes as follows:
 
 [source, cypher]
 ----
@@ -80,18 +61,35 @@ WITH g, m
 MERGE (g)<-[:IS_GENRE]-(m)
 ----
 
-This code created the names collection. It then processed each distinct name for a genre to create the Genre nodes and the :IS_GENRE relationships.
+This code created the names collection. It then processed each distinct name for a genre to create the `Genre` nodes and the `:IS_GENRE` relationships.
 
-*Rewrite this code to use FOREACH to process each Movie node, create the Genre nodes, and the :IS_GENRE relationships.*
+*Rewrite this code to use `FOREACH` to process each `Movie` node, create the `Genre` nodes, and the `:IS_GENRE` relationships.*
 
-Here is the code:
+== Exercise 9.1: Collect genres data from the database to create the Genre nodes using `FOREACH`. (Solution)
+
+Previously, you wrote code to create the `Genre` nodes as follows:
 
 [source, cypher]
 ----
 MATCH (m:Movie)
-FOREACH( x in m.genres |
-   MERGE (g:Genre {name:x})
-   CREATE (g)<-[:IS_GENRE]-(m))
+UNWIND m.genres as names
+WITH DISTINCT names, m
+SET m.genres = null
+MERGE (g:Genre {name:names})
+WITH g, m
+MERGE (g)<-[:IS_GENRE]-(m)
+----
+
+This code created the names collection. It then processed each distinct name for a genre to create the `Genre` nodes and the `:IS_GENRE` relationships.
+
+*Rewrite this code to use `FOREACH` to process each `Movie` node, create the `Genre` nodes, and the `:IS_GENRE` relationships.*
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+FOREACH( x in m.genres | MERGE (g:Genre {name:x}) CREATE (g)<-[:IS_GENRE]-(m))
 SET m.genres = null
 ----
 
@@ -100,19 +98,21 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX9.1.png[EX9.1,width=300]
 
-== Exercise 9.2: Use CASE for conditionally returning a value. (Instructions)
+== Exercise 9.2: Use `CASE` for conditionally returning a value. (Instructions)
 
-*You want to modify every movie in the database to add a property, multiDirectors which will have a value of true or false.
-There are many ways to do this. Write the code to transform each Movie node using a CASE clause where  you test the number of Directors for each Movie node.*
+You want to modify every movie in the database to add a property, `multiDirectors` which will have a value of `true` or `false`.
 
-*Query the database to determine how many movies have multiple directors.*
+*1. There are many ways to do this. Write the code to transform each `Movie` node using a `CASE` clause where you test the number of directors for each `Movie` node.*
 
-== Exercise 9.2: Use CASE for conditionally returning a value. (Solution)
+*2. Query the database using this new property to determine how many movies have multiple directors.*
 
-*You want to modify every movie in the database to add a property, multiDirectors which will have a value of true or false.
-There are many ways to do this. Write the code to transform each Movie node using a CASE clause where  you test the number of Directors for each Movie node.*
+== Exercise 9.2: Use `CASE` for conditionally returning a value. (Solution)
 
-Here is the code:
+You want to modify every movie in the database to add a property, `multiDirectors` which will have a value of `true` or `false`.
+
+*1. There are many ways to do this. Write the code to transform each `Movie` node using a `CASE` clause where you test the number of directors for each `Movie` node.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -131,9 +131,11 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX9.2.png[EX9.2,width=300]
 
-*Query the database to determine how many movies have multiple directors.*
+{nbsp} +
 
-Here is the code:
+*2. Query the database using this new property to determine how many movies have multiple directors.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -147,19 +149,19 @@ The result of executing this code should be:
 [.thumb]
 image::{guides}/img/EX9.2B.png[EX9.2B,width=300]
 
-== Exercise 9.3: Use CASE and FOREACH to perform conditional updates. (Instructions)
+== Exercise 9.3: Use `CASE` and `FOREACH` to perform conditional updates. (Instructions)
 
-*Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
-Set the values to "yes"/"no" rather than true/false.*
+*1. Rewrite the previous code to use `CASE` and `FOREACH` together to update the `Movie` node in the `FOREACH` clause.
+Set the values to `"yes"`/`"no"` rather than `true`/`false`.*
 
-*Query the database to determine how many movies have multiple directors.*
+*2. Query the database to determine how many movies have multiple directors.*
 
-== Exercise 9.3: Use CASE and FOREACH to perform conditional updates. (Solution)
+== Exercise 9.3: Use `CASE` and `FOREACH` to perform conditional updates. (Solution)
 
-*Rewrite the previous code to use CASE and FOREACH together to update the Movie node in the FOREACH clause.
-Set the values to "yes"/"no" rather than true/false.*
+*1. Rewrite the previous code to use `CASE` and `FOREACH` together to update the `Movie` node in the `FOREACH` clause.
+Set the values to `"yes"`/`"no"` rather than `true`/`false`.*
 
-Here is the code:
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -170,14 +172,16 @@ FOREACH (ignoreMe IN CASE WHEN size((m)-[]-(:Director)) <= 1 THEN [1] ELSE [] EN
    SET m.multiDirectors = "no")
 ----
 
-The results should be:
+The result should be:
 
 [.thumb]
 image::{guides}/img/EX9.3.png[EX9.3,width=300]
 
-*Query the database to determine how many movies have multiple directors.*
+{nbsp} +
 
-Here is the code:
+*2. Query the database to determine how many movies have multiple directors.*
+
+Here is the solution code:
 
 [source, cypher]
 ----
@@ -194,7 +198,7 @@ image::{guides}/img/EX9.3B.png[EX9.3B,width=300]
 
 == Exercise 9: Taking it further
 
-. Try using UNWIND as an alternative to FOREACH
+. Try using `UNWIND` as an alternative to `FOREACH`
 . Profile your code to see which alternatives are better in terms of DB hits.
 
 == Exercise 9: Iteration and conditional processing   (Summary)

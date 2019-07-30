@@ -1,0 +1,804 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 12</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 12</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12: Optimizing queries (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Verify that your Neo4j Browser session has access to the APOC library by executing the Cypher below</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.'
+RETURN name ORDER BY name ASC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this code does not return the list of APOC procedures, then you must ensure that the APOC library is available by installing the plugin (Neo4j Desktop) and restarting the database as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure Neo4j Desktop is online.</p>
+</li>
+<li>
+<p>In Neo4j Desktop for the project you are working with, click  <strong>Add Plugin</strong>.</p>
+</li>
+<li>
+<p>Select the install button for APOC.</p>
+</li>
+<li>
+<p>Click the Install button.</p>
+</li>
+<li>
+<p>Close the Add Plugin window.</p>
+</li>
+<li>
+<p>Start or restart the database.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>2. Ensure that the virtual memory and pagecache settings have been adjusted to be:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>dbms.memory.heap.initial_size=8G</p>
+</li>
+<li>
+<p>dbms.memory.heap.max_size=16G</p>
+</li>
+<li>
+<p>dbms.memory.pagecache.size=800m*</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>3. This exercise assumes that you have a fully-loaded movie database with the <code>Genre</code> nodes. Execute this code to reset the database:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.schema.assert({},{},true);
+
+MATCH (n:Person) DETACH DELETE n;
+
+MATCH (n:Director) DETACH DELETE n;
+
+MATCH (n:Actor) DETACH DELETE n;
+
+MATCH (n:Movie) DETACH DELETE n;
+
+MATCH (n:Genre) DETACH DELETE n;
+
+CREATE CONSTRAINT ON (m:Movie)
+ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT ON (p:Person)
+ASSERT p.id IS UNIQUE;
+
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/advanced-cypher/movies2.csv' AS row
+WITH row.movieId as movieId,
+row.title as title,
+row.genres as genres,
+toInteger(row.releaseYear) as releaseYear,
+toFloat(row.avgVote) as avgVote,
+collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,""),':')}) as people
+MERGE (m:Movie {id:movieId})
+   ON CREATE SET m.title=title, m.avgVote=avgVote,
+      m.releaseYear=releaseYear, m.genres=split(genres,":")
+WITH *
+UNWIND people as person
+MERGE (p:Person {id: person.id})
+   ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+WITH  m, person, p
+CALL apoc.do.when(person.personType = 'ACTOR',
+     "MERGE (p)-[:ACTED_IN {roles: person.roles}]-&gt;(m)
+                ON CREATE SET p:Actor",
+     "MERGE (p)-[:DIRECTED]-&gt;(m)
+         ON CREATE SET p:Director",
+     {m:m, p:p, person:person}) YIELD value AS value
+SET p:Person;  // cannot end query with APOC call
+
+CREATE INDEX ON :Person(name);
+
+CREATE INDEX ON :Movie(title);
+
+CREATE CONSTRAINT ON (g:Genre) ASSERT g.name IS UNIQUE;
+MATCH (m:Movie)
+UNWIND m.genres as name
+WITH DISTINCT name, m
+MERGE (g:Genre {name:name})
+WITH g, m
+MERGE (g)&lt;-[:IS_GENRE]-(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/advanced-cypher-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/AfterImportDenormalizedData.png" alt="AfterImportDenormalizedData" width="200" height="200">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12: Optimizing queries (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you profile queries and optimize them using some best practices.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 12.1</strong>: Reduce rows processed by collecting intermediate results during the query.</p>
+</li>
+<li>
+<p><strong>Exercise 12.2</strong>: Reduce cardinalities for variable-length paths.</p>
+</li>
+<li>
+<p><strong>Exercise 12.3</strong>: Improve a query that returns unrelated data.</p>
+</li>
+<li>
+<p><strong>Exercise 12.4</strong>: Rewrite a query to collect data using pattern comprehension.</p>
+</li>
+<li>
+<p><strong>Exercise 12.5</strong>: Rewrite a query that limits results.</p>
+</li>
+<li>
+<p><strong>Exercise 12.6</strong>: Defer property access.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.1: Reduce rows processed by collecting intermediate results during the query. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is a query that retrieves the genres and directors for a movie.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (movie:Movie {title:'Up'})-[:IS_GENRE]-(genre)
+MATCH (movie)&lt;-[:DIRECTED]-(director)
+RETURN genre, director, movie<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this query and note how many rows are processed.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query to reduce the number of rows processed by collection results during the query.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.1: Reduce rows processed by collecting intermediate results during the query. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is a query that retrieves the genres and directors for a movie.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (movie:Movie {title:'Up'})-[:IS_GENRE]-(genre)
+MATCH (movie)&lt;-[:DIRECTED]-(director)
+RETURN genre, director, movie<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>1. Execute this query and note how many rows are processed.</strong></p>
+</div>
+<div class="paragraph">
+<p>The profile when executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.1.png" alt="EX12.1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.1B.png" alt="EX12.1B" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query to reduce the number of rows processed by collection results during the query.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (movie:Movie {title:'Up'})-[:IS_GENRE]-&gt;(g)
+WITH movie, collect(g) as genres
+MATCH (movie)&lt;-[:DIRECTED]-(director)
+WITH movie, genres, collect(director) as directors
+RETURN genres, movie, directors<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The profile when executing this code should show fewer rows processed:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.1C.png" alt="EX12.1C" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.1D.png" alt="EX12.1D" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Reduce cardinalities for variable-length paths. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of all movies that are up to 5 hops away from Tom Hanks.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (:Person{name:'Tom Hanks'})-[:ACTED_IN*..5]-(movie)
+RETURN movie.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Modify this query to reduce the number of rows processed.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Reduce cardinalities for variable-length paths.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of all movies that are up to 5 hops away from Tom Hanks.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (:Person{name:'Tom Hanks'})-[:ACTED_IN*..5]-(movie)
+RETURN movie.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.2.png" alt="EX12.2" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Modify this query to reduce the number of rows processed.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (:Person{name:'Tom Hanks'})-[:ACTED_IN*..5]-(movie)
+WITH DISTINCT movie
+RETURN movie.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.2B.png" alt="EX12.2B" width="150">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Improve a query that returns unrelated data. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of all movies  released before 1950 and people born before 1920.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (p:Person), (m:Movie)
+WHERE  p.born &lt; 1920 AND m.releaseYear &lt; 1950
+RETURN p, m<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. What is wrong with this query? Modify this query to optimize it.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Improve a query that returns unrelated data.   (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of all movies released before 1920 and people born before 1920.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (p:Person), (m:Movie)
+WHERE  p.born &lt; 1920 AND m.releaseYear &lt; 1920
+WITH collect(p.name) as people, collect(m.title) as movies
+RETURN people, movies<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this query should be the following where we see a cartesian product:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.3.png" alt="EX12.3" width="200">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. What is wrong with this query? Modify this query to optimize it.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (p:Person)
+WHERE  p.born &lt; 1920
+WITH collect(p.name) AS people
+MATCH (m:Movie)
+WHERE  m.releaseYear &lt; 1920
+WITH collect(m.title) as movies, people
+RETURN people, movies<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this code should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.3B.png" alt="EX12.3B" width="200">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Rewrite a query to collect data using pattern comprehension. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of of movies that an young actor (born after 1990) has acted in in the three year period of 2010 to 2012.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a:Actor)-[:ACTED_IN]-&gt;(m:Movie)
+WHERE 2010 &lt;= m.releaseYear &lt;= 2012 AND a.born &gt; 1990
+RETURN a.name as actor, a.born as born,
+collect(DISTINCT m.title) AS titles ORDER BY actor<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query to collect data using pattern comprehension to collect the titles.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Rewrite a query to collect data using pattern comprehension.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to retrieve the titles of of movies that an young actor (born after 1990) has acted in in the three year period of 2010 to 2012.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a:Actor)-[:ACTED_IN]-&gt;(m:Movie)
+WHERE 2010 &lt;= m.releaseYear &lt;= 2012 AND a.born &gt; 1990
+RETURN a.name as actor, a.born as born,
+collect(DISTINCT m.title) AS titles ORDER BY actor<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this query should be the following:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.4.png" alt="EX12.4" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query to collect data using pattern comprehension to collect the titles.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a:Actor)
+WHERE a.born &gt; 1990
+RETURN a.name AS actor,  a.born AS born,
+[(a)--&gt;(x) WHERE 2010 &lt;= x.releaseYear &lt;= 2012 | x.title] AS titles ORDER BY actor<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of executing this query should be the following:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.4B.png" alt="EX12.4B" width="200">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you look at the rows returned with this code, you will notice that empty titles collections are produced which is not the case in the previous query.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.5: Rewrite a query that limits results. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to return a movie released in 2015 along with its actors.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (movie:Movie)
+WHERE movie.releaseYear = 2015
+OPTIONAL MATCH (movie)&lt;-[:ACTED_IN]-(actor)
+WITH movie, collect(actor.name) as actors
+RETURN movie.title, actors LIMIT 1<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query with a small change to perform better.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.5: Rewrite a query that limits results.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to return a movie released in 2015 along with its actors.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (movie:Movie)
+WHERE movie.releaseYear = 2015
+OPTIONAL MATCH (movie)&lt;-[:ACTED_IN]-(actor)
+WITH movie, collect(actor.name) as actors
+RETURN movie.title, actors LIMIT 1<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is the profile when executing this query:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.5.png" alt="EX12.5" width="125">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query with a small change to perform better.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (movie:Movie)
+WHERE movie.releaseYear = 2015
+WITH movie LIMIT 1
+OPTIONAL MATCH (movie)&lt;-[:ACTED_IN]-(actor)
+WITH movie, collect(actor.name) as actors
+RETURN movie.title, actors<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The profile for executing this rewritten query should be the following:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.5B.png" alt="EX12.5B" width="150">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Defer property access. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to return the top ten movies with the largest casts.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (a)-[:ACTED_IN]-&gt;(m:Movie)
+RETURN m.title as title, count(a) as numActors
+ORDER BY numActors DESC LIMIT 10<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query with a small change to perform better by deferring property access.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Defer property access.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>1. Execute this Cypher code to return the top ten movies with the largest casts.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (a)-[:ACTED_IN]-&gt;(m:Movie)
+RETURN m.title as title, count(a) as numActors
+ORDER BY numActors DESC LIMIT 10<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is the profile when executing this query:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.6.png" alt="EX12.6" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2. Rewrite this query with a small change to perform better by deferring property access.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (a)-[:ACTED_IN]-&gt;(m:Movie)
+WITH m, count(a) as numActors ORDER by numActors DESC LIMIT 10
+RETURN m.title, numActors<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The profile for executing this rewritten query should be the following:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX12.6B.png" alt="EX12.6B" width="150">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use parameters in some of the queries you have worked on in this exercise.</p>
+</li>
+<li>
+<p>In Exercise 12.4, the revised query was:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a:Actor)
+WHERE a.born &gt; 1990
+RETURN a.name AS actor,  a.born AS born,
+[(a)--&gt;(x) WHERE 2010 &lt;= x.releaseYear &lt;= 2012 | x.title] AS titles ORDER BY actor<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Modify this query so that empty collections are not returned.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12: Preparing for query tuning   (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you modified queries to perform better.
+<a play-topic='https://guides.neo4j.com/advanced-cypher-exercises/13.html'>Continue to Exercise 13</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>
