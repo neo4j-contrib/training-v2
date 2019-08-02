@@ -38,7 +38,7 @@ CALL apoc.do.when(person.personType = 'ACTOR',
      "MERGE (p)-[:DIRECTED]->(m)
          ON CREATE SET p:Director",
      {m:m, p:p, person:person}) YIELD value AS value 
-SET p:Person;  // cannot end query with APOC call
+RETURN count(*);  // cannot end query with APOC call
 
 CREATE INDEX ON :Person(name);
 

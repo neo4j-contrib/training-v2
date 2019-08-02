@@ -36,7 +36,6 @@ In this exercise, you will:
 * *Exercise 7.4*: Profile this query to use `PERIODIC COMMIT` to load the data.
 * *Exercise 7.5*: Attempt to load the data using `PERIODIC COMMIT`, but with an eager operator.
 * *Exercise 7.6*: Increase the virtual memory to show the profile of the query.
-* *Exercise 7.7*: Use APOC to load the data.
 
 Go to the next page to start this exercise.
 
@@ -243,58 +242,6 @@ image::{guides}/img/EX7.6.png[EX7.6,width=300]
 {nbsp} +
 
 The load was successful because the virtual memory was increased. `USING PERIODIC COMMIT` was not used due to the eager operator for sorting the results.
-
-== Exercise 7.7: Use APOC to load the data. (Instructions)
-
-*1. Execute this code to remove all nodes from the database:*
-
-[source, cypher]
-----
-// Remove all nodes
-MATCH (n:Person) DETACH DELETE n;
-MATCH (n:Movie) DETACH DELETE n
-----
-
-{nbsp} +
-
-*2. Now load the same data into the database using APOC.*
-
-== Exercise 7.7: Use APOC to load the data. (Solution)
-
-*1. Execute this code to remove all nodes from the database:*
-
-[source, cypher]
-----
-// Remove all nodes
-MATCH (n:Person) DETACH DELETE n;
-MATCH (n:Movie) DETACH DELETE n
-----
-
-{nbsp} +
-
-*2. Now load the same data into the database using APOC.*
-
-Here is the solution code:
-
-[source, cypher]
-----
-CALL apoc.periodic.iterate(
-"CALL apoc.load.csv('https://data.neo4j.com/advanced-cypher/movies2.csv' ) YIELD map AS row RETURN row",
-"MERGE (m:Movie {id:toInteger(row.movieId)})
-   ON CREATE SET m.title=row.title, m.avgVote=toFloat(row.avgVote),
-      m.releaseYear=toInteger(row.releaseYear), m.genres=split(row.genres,':')
-WITH m, row
-MERGE (p:Person {id: toInteger(row.personId)})
-   ON CREATE SET p.name = row.name, p.born = toInteger(row.birthYear),
-      p.died = toInteger(row.deathYear)",
-{batchSize: 500}
-)
-----
-
-The results returned should look like this:
-
-[.thumb]
-image::{guides}/img/EX7.7.png[EX7.7,width=300]
 
 == Exercise 7: Taking it further
 

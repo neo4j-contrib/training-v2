@@ -128,9 +128,6 @@ The effect of lowering this virtual memory setting for Neo4j will allow you to s
 <li>
 <p><strong>Exercise 7.6</strong>: Increase the virtual memory to show the profile of the query.</p>
 </li>
-<li>
-<p><strong>Exercise 7.7</strong>: Use APOC to load the data.</p>
-</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -544,86 +541,6 @@ RETURN m.title ORDER BY m.title<!--/code--></pre>
 </div>
 <div class="paragraph">
 <p>The load was successful because the virtual memory was increased. <code>USING PERIODIC COMMIT</code> was not used due to the eager operator for sorting the results.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 7.7: Use APOC to load the data. (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>1. Execute this code to remove all nodes from the database:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Remove all nodes
-MATCH (n:Person) DETACH DELETE n;
-MATCH (n:Movie) DETACH DELETE n<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>&#160;<br></p>
-</div>
-<div class="paragraph">
-<p><strong>2. Now load the same data into the database using APOC.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 7.7: Use APOC to load the data. (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>1. Execute this code to remove all nodes from the database:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Remove all nodes
-MATCH (n:Person) DETACH DELETE n;
-MATCH (n:Movie) DETACH DELETE n<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>&#160;<br></p>
-</div>
-<div class="paragraph">
-<p><strong>2. Now load the same data into the database using APOC.</strong></p>
-</div>
-<div class="paragraph">
-<p>Here is the solution code:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.periodic.iterate(
-"CALL apoc.load.csv('https://data.neo4j.com/advanced-cypher/movies2.csv' ) YIELD map AS row RETURN row",
-"MERGE (m:Movie {id:toInteger(row.movieId)})
-   ON CREATE SET m.title=row.title, m.avgVote=toFloat(row.avgVote),
-      m.releaseYear=toInteger(row.releaseYear), m.genres=split(row.genres,':')
-WITH m, row
-MERGE (p:Person {id: toInteger(row.personId)})
-   ON CREATE SET p.name = row.name, p.born = toInteger(row.birthYear),
-      p.died = toInteger(row.deathYear)",
-{batchSize: 500}
-)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The results returned should look like this:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/advanced-cypher-exercises/img/EX7.7.png" alt="EX7.7" width="300">
-</div>
 </div>
 	</div>
   </div>
