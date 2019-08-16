@@ -654,7 +654,7 @@ You can use the <code>size()</code> function to calculate the size of a list for
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie),
       (m)&lt;-[:PRODUCED]-(p:Person)
-WITH  m, collect(a.name) AS cast, collect(DISTINCT p.name) AS producers
+WITH  m, collect(DISTINCT a.name) AS cast, collect(DISTINCT p.name) AS producers
 RETURN DISTINCT m.title, cast, producers
 ORDER BY size(cast)<!--/code--></pre>
 </div>

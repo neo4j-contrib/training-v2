@@ -48,7 +48,7 @@ You can use the `size()` function to calculate the size of a list for ordering p
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie),
       (m)<-[:PRODUCED]-(p:Person)
-WITH  m, collect(a.name) AS cast, collect(DISTINCT p.name) AS producers
+WITH  m, collect(DISTINCT a.name) AS cast, collect(DISTINCT p.name) AS producers
 RETURN DISTINCT m.title, cast, producers
 ORDER BY size(cast)
 ----
