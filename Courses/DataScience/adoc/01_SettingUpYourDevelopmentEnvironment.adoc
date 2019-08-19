@@ -1,5 +1,5 @@
 
-= Setting Up Development Environment
+= Setting Up your Development Environment
 :presenter: Neo Technology
 :twitter: neo4j
 :email: info@neotechnology.com
@@ -29,13 +29,13 @@ endif::backend-html5[]
 
 As a data scientist, you will create Neo4j Databases, add and update data in them, and query the data.
 When you learn to use Neo4j as a data scientist, you have two options ⎼ the Neo4j Desktop or the Neo4j Sandbox.
-In his module you will learn how to setup the Neo4j Sandbox for use in the rest of the course, and connect to it from Jupyter notebooks hosted in Google Colabatory.
+In this module you will learn how to setup the Neo4j Sandbox for use in the rest of the course, and connect to it from Jupyter notebooks hosted in Google Colabatory.
 
-At the end of this module, you should be able to:
+In this module, you will:
 [square]
 * Create a Neo4j Sandbox for learning Neo4j.
-* Start using  Neo4j Browser.
-* Connect to your Neo4j Sandbox from Google Colaboratory
+* Connect to the Citations database with  Neo4j Browser.
+* Launch a Jupyter Notebook in Google Colaboratory and connect to the Citations database.
 
 == Neo4j Sandbox
 
@@ -55,28 +55,24 @@ The Sandbox is intended as a temporary environment or for learning about the fea
 
 |===
 
-== Steps for setting up your development environment for this training
+=== *How to set up a Neo4j Sandbox*
 
-. Start a https://neo4j.com/sandbox-v2/citations/[Neo4j Sandbox^] (use the Citations one).
-The Sandbox has a Neo4j database with a pre-loaded dataset.
-
-
-== *Guided Exercise: Creating a Neo4j Sandbox*
-
-[NOTE]
-In order to perform the hands-on exercises for this training, you must create a Neo4j Sandbox.
-
-ifdef::backend-html5[]
-If you want to run the Neo4j Database server in the cloud using a Neo4j sandbox, follow along with this video to create a Neo4j sandbox for training purposes.
-For this course, you should select the Citations sandbox.
+This video shows you how to create a Neo4j Sandbox. If you have never used or created a Neo4j Sandbox before, you might find it helpful to watch this video before you create your Citations Sandbox for this course.
 
 ++++
 <iframe width="560" height="315" src="https://www.youtube.com/embed/rmfgRKPjhl8?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 ++++
 
-endif::backend-html5[]
+=== Step 1: Create the Citations Sandbox
 
-== Using Neo4j Browser
+. Create a https://neo4j.com/sandbox-v2/citations/[Citations Sandbox^].
+. Select *Launch Sandbox* button and then wait for it to start.
+
+The Sandbox has a Neo4j database with a pre-loaded Citations dataset.
+
+*Note:* You must create the Citations Sandbox with the above link and you must be signed in to the sandbox site. You *cannot* create it from the public Neo4j Sandbox site.
+
+=== Using Neo4j Browser
 
 Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data.
 The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables.
@@ -84,20 +80,25 @@ In addition to executing Cypher statements, you can execute a number of system c
 For example, you can retrieve the list of queries that are currently running in the server.
 
 You can use Neo4j Browser functionality via the web interface.
-This can be accessed by specifying a URL in a Web browser using port 7474.
 
-image:{imagedir}/Neo4jBrowser.png[Neo4jBrowser,width=800]
+=== Step 2: Connect to the Citations database with Neo4j Browser
 
-== Google Colaboratory
+Open a Neo4j Browser connection to the Citations Sandbox by clicking the *Launch Browser* button in the *Get Started* tab for the Sandbox as shown here:
 
-In this course we're going to be using Jupyter Notebook hosted on the Google Colaboratory environment.
-All the notebooks in this course assume that we've created a connection to our Neo4j Sandbox instance, so we're going to set that up now.
+image:{imagedir}/OpenNeo4jBrowser.png[OpenNeo4jBrowser,width=800]
 
-When we launch the notebook we'll be asked if we want to reset all runtimes before running.
-This option should be unticked so that we can use our credentials across notebooks.
+A new Web browser tab should open with a connection to the Citations Sandbox:
 
-image::{imagedir}/google-colab.png[Google Colabatory,width=600]
+image:{imagedir}/Neo4jBrowser-DataScience.png[Neo4jBrowser-DataScience,width=800]
 
+If  you have never used Neo4j Browser before for a Sandbox, you might find the Guided Tour of the Sandbox helpful, otherwise, simply close it.
+
+=== Step 3: Open a Jupyter Notebook in Google Colaboratory and connect to the Citations database
+
+In this course you will use Jupyter Notebook hosted on the Google Colaboratory environment.
+All the notebooks in this course require a connection to your Neo4j Sandbox instance, so you will test that now.
+
+Launch the notebook by clicking below. This will open a tab for the Jupyter Notebook where you will set it up to connect to the Neo4j Sandbox.
 
 ++++
 <a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/mneedham/data-science-training/blob/online/00_Environment.ipynb">Launch the Notebook!</a>
@@ -106,11 +107,12 @@ image::{imagedir}/google-colab.png[Google Colabatory,width=600]
 
 == Summary
 
-You should now be able to:
+You should now have set up your development environment by:
 [square]
-* Create a Neo4j Sandbox for learning Neo4j.
-* Launch the Neo4j Browser
-* Connect to your Neo4j Sandbox from Google Colaboratory
+* Creating a Neo4j Sandbox for learning Neo4j.
+* Connecting to the Citations database with  Neo4j Browser.
+* Launching a Jupyter Notebook in Google Colaboratory and connecting to the Citations database.
+
 
 == Continue
 
