@@ -37,12 +37,7 @@ You should see something like this:
 
 image::{imagedir}/codesandbox4.png[,width=700,align=center]
 
-Instead of showing results in alphabetical order we want to show the most relevant businesses first. Let's switch back to Neo4j to learn how we can calculate this relevance. Copy the following command into the query pane of the Neo4j Browser and execute it:
-
-[source, cypher]
-----
-:play applied_graph_algorithms/03_search_results.html
-----
+Instead of showing results in alphabetical order you will modify the application to show the most relevant businesses first.
 
 [NOTE]
 ====
@@ -55,13 +50,17 @@ Instead of showing results in alphabetical order we want to show the most releva
 
 == Exercise 
 
-Now let's update the application to use this new information. We want to find users 
+Now let's update the application to use this new information.
 
 
 Instead of selecting the reviews for our businesses based on the opinions of users unrelated to `user-name`, we'll show reviews written by similar users.
 
-. Be sure you've completed the Neo4j Browser guide section "Search Results"
-. In Codesandbox, edit the Cypher query in `src/exercises/exercise2.js` to return businesses
+. In Neo4j Browser, perform the steps in Neo4j Browser guide section "Search Results". (:play applied_graph_algorithms/03_search_results.html)
+. In CodeSandbox, edit the Cypher query in `src/exercises/exercise2.js` to return businesses.
+. Save this file.
+. In the CodeSandbox browser, select a user from the *User Profile* drop down. This will set this user for the search.
+. Then select Business Search, providing entering *pizza* for the search text and selecting Restaurant for the category. You should see a list of restaurants that are relevant to that user.
+. Try selecting a different user and then search for pizza restaurants. You should see a different set of restaurants.
 
 [NOTE]
 ====

@@ -33,21 +33,16 @@ a|
 Neo4j Sandbox is a hosted Neo4j tool that allows us to run private instances of Neo4j without having to install Neo4j locally. We can choose Neo4j Sandbox usecases that come pre-loaded with datasets and our Neo4j Sandbox instances can be accessed over the internet, making them useful for building sample applications. While Neo4j Browser is the primary way to interact with Neo4j instances hosted by Neo4j Sandbox, for this course we will also connect our sandbox instance to a simple web application.
 |===
 
-Log in to Neo4j Sandbox and launch a Yelp usecase, using this special button:
-++++
-<a href="https://neo4j.com/sandbox-v2/yelp" class="button" style="margin-top: 10px">Launch Yelp Sandbox</a>
-++++
-
 == Neo4j Browser Guides
 
 [frame="none", cols="^.^,<.^"]
 |===
 a|image::{imagedir}/browserguide2.png[Neo4j Browser Guide,width=500,align=center]
 a|
-Neo4j Browser Guides are documents that embed text, images, and Cypher queries inside Neo4j Browser in a carousel like series of slides. We'll make use of Neo4j Browser Guides to to show us how to use graph algorithms in Cypher and Neo4j. Each module will have a browser guide to help "guide" us through the content. 
+Neo4j Browser Guides are documents that embed text, images, and Cypher queries inside Neo4j Browser in a carousel like series of slides. We use Neo4j Browser Guides to show how to use graph algorithms in Cypher and Neo4j. Each module will have a browser guide to help "guide" you through the content.
 |===
 
-You can access the guides for this course by running:
+You can access the guides for this course by running this command in Neo4j Browser:
 
 [source,cypher]
 ----
@@ -60,10 +55,10 @@ You can access the guides for this course by running:
 |===
 a|image::{imagedir}/algosplugin.png[Neo4j Graph Algorithms plugin,width=500,align=center]
 a|
-The focus of this course is on using the graph algorithms available in the Neo4j Graph Algorithms Plugin. The plugin implements four types of graph algorithms: Path Finding, Centrality, Community Detection, Similarity. The first 3 are classic graph algorithms and the 4th can be used on its own or in combination with the other 3.
+The focus of this course is on using the graph algorithms available in the Neo4j Graph Algorithms Plugin. The plugin implements four types of graph algorithms: Path Finding, Centrality, Community Detection, Similarity. The first three are classic graph algorithms and the fourth can be used on its own or in combination with the other three.
 |===
 
-This plugin is available in Neo4j Sandbox by default so you won't need to worry about installing.
+This plugin is available in the Yelp Sandbox by default so you won't need to worry about installing.
 
 == CodeSandbox React Application
 
@@ -71,10 +66,10 @@ This plugin is available in Neo4j Sandbox by default so you won't need to worry 
 |===
 a|image::{imagedir}/codesandbox2.png[CodeSandbox,width=500,align=center]
 a|
-Since this an applied course, we want to see how to enhance features of an actual application. We'll use an existing React application for this part of the course. CodeSandbox is a hosted environment that allows us to edit, run, and preview JavaScript applications, all in the browser.
+Since this an applied course, we want to see how to enhance features of an actual application. You will use an existing React application for this part of the course. CodeSandbox is a hosted environment that allows you to edit, run, and preview JavaScript applications, all in the browser.
 |===
 
-This CodeSandbox contains all the client code for the application that we'll be building. You'll want to have CodeSandbox open in another tab as you work through the application: https://codesandbox.io/s/github/neo4j-contrib/training-v2/tree/master/Courses/AppliedGraphAlgorithms/react-app[Launch CodeSandbox^]
+This CodeSandbox contains all the client code for the application that you will build. You will want to have CodeSandbox open in another tab as you work through the application.
 
 == The Yelp Public Dataset
 
@@ -109,9 +104,17 @@ The rest of the course will follow this structure:
 Your exercise for this module is to get all the tools up and running and talking to each other.
 
 . Create a https://neo4j.com/sandbox-v2/yelp[Yelp Neo4j Sandbox instance^].
-. Complete the first Neo4j Browser Guide "Cypher Refresher".
+    *Note*: You must log in to the Neo4j Sandbox site. This may require you to register with Neo4j.
+. In the *Get Started* tab of the Yelp Sandbox, click the *Launch Browser* button to open a Neo4j Browser for the Yelp database.
+. Complete the first Neo4j Browser Guide (:play applied_graph_algorithms) "Cypher Refresher".
 . Open the https://codesandbox.io/s/github/neo4j-contrib/training-v2/tree/master/Courses/AppliedGraphAlgorithms/react-app[React application in CodeSandbox^]. This is the initial version of our business reviews application.
-. Edit the .env file in CodeSandbox, replacing the default environment variables with the credentials for your Yelp Neo4j Sandbox
+. Edit the *.env* file in CodeSandbox, replacing the default environment variables with the credentials for your Yelp Neo4j Sandbox.
+.. Replace the value for REACT_APP_NEO4J_URI with the value of *JavaScript Bolt URL* from the *Details* tab of the Yelp Sandbox.
+.. Replace the value for REACT_APP_NEO4J_PASSWORD with the *Password* in the *Details* tab of the Yelp Sandbox.
+. Save the *.env* file.
+    *Note*: After you have saved your changes to the *.env* file , CodeSandbox automatically forks this instance for you.
+. Click the refresh icon to connect the CodeSandbox Browser (on the right) to the database.
+. Confirm that you can now view data in the database by selecting a name in the drop down (initially selected with Delores). Data should be retrieved for each user.
 
 [NOTE]
 ====
@@ -149,7 +152,7 @@ Select the correct answers.
 === Question 2
 === Cypher refresher
 
-In your Yelp Neo4j Sandbox instance write a Cypher query to find all the businesses connected to the Category "Breweries". How many breweries are there in the dataset?
+Using the Neo4j Browser for your Yelp Neo4j Sandbox instance write a Cypher query to find all the businesses connected to the Category "Breweries". How many breweries are there in the dataset?
 
 Select the correct answer.
 [%interactive]
@@ -163,10 +166,12 @@ Select the correct answer.
 
 You should now be have:
 [square]
-* Created a Yelp Neo4j Sandbox instance
-* Opened the businesses reviews application in CodeSandbox
-* Connected your React CodeSandbox application to your Neo4j Sandbox instance
-* Completed the Cypher Refresher section in the Neo4j Browser Guide
+* Created a Yelp Neo4j Sandbox instance.
+* Opened a Neo4j Browser for the Yelp database.
+* Completed the Cypher Refresher section in the Neo4j Browser Guide.
+* Opened the businesses reviews application in CodeSandbox.
+* Connected your React CodeSandbox application to your Neo4j Sandbox instance.
+
 
 == Grade Quiz and Continue 
 

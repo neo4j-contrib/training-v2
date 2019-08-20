@@ -35,12 +35,6 @@ In this section we'll learn how to use the Personalized PageRank algorithm to id
 
 image::{imagedir}/codesandbox5.png[,width=700,align=center]
 
-Next, copy the following command into the query pane of the Neo4j Browser and execute it:
-
-[source, cypher]
-----
-:play applied_graph_algorithms/04_relevant_reviews.html
-----
 
 [NOTE]
 ====
@@ -51,8 +45,9 @@ Next, copy the following command into the query pane of the Neo4j Browser and ex
 
 == Exercise
 
-. Complete the Neo4j Browser Guide section for "Relevant Reviews"
-. In Codesandbox, edit the Cypher query in `src/exercises/exercise3.js` to return reviews ordered by whether or not the business has been reviewed by a "trusted" user.
+. In Neo4j Browser, perform the steps in the  Neo4j Browser guide section "Relevant Reviews". (:play applied_graph_algorithms/04_relevant_reviews.html)
+. In CodeSandbox, edit the Cypher query in `src/exercises/exercise3.js` to return reviews ordered by whether or not the business has been reviewed by a "trusted" user.
+. Save this file. Then perform a search on behalf of as user by first selecting a user. Then select the restaurant category and in the search pane, specify the string *Mamma* for the name of the restaurant. This will search for restaurants that start with that name that have reviews that are  most relevant to the user with the remaining reviews in chronological order. You can select a restaurant to see the reviews.
 
 == Solution
 
@@ -76,9 +71,9 @@ Which of the following best describe the Personalized PageRank algorithm?
 Select the correct answer.
 [%interactive]
 - [ ] [.false-answer]#It measures similarity of the structural context in which objects occur, based on their relationships with other objects.#
-- [ ] [.required-answer]#It's a variation of the PageRank algorithm that is biased towards a set of source nodes#
-- [ ] [.false-answer]#It computes the influence of a node by measuring the number of the immediate neighbors and also all other nodes in the network that connect to the node under consideration through these immediate neighbors#
-- [ ] [.false-answer]#It's a variation of the PageRank algorithm that reduces the bias that PageRank has towards assigning higher scores to nodes with relationships from nodes that have few outgoing relationships.#
+- [ ] [.required-answer]#It is a variation of the PageRank algorithm that is biased towards a set of source nodes.#
+- [ ] [.false-answer]#It computes the influence of a node by measuring the number of the immediate neighbors and also all other nodes in the network that connect to the node under consideration through these immediate neighbors.#
+- [ ] [.false-answer]#It is a variation of the PageRank algorithm that reduces the bias that PageRank has towards assigning higher scores to nodes with relationships from nodes that have few outgoing relationships.#
 
 == Question 2
 === Running the algorithm in Neo4j
