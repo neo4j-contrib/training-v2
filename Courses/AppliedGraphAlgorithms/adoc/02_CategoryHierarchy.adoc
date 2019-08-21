@@ -30,32 +30,22 @@ endif::backend-html5[]
 ++++
 _Category Hierarchy Algorithm Overview_
 
-In this section we're going to navigate business categories.
-Let's first have a look at the part of the application that we're going to build.
-
-Switch to the https://codesandbox.io/s/github/neo4j-contrib/training-v2/tree/master/Courses/AppliedGraphAlgorithms/react-app[CodeSandbox application^] that you opened in the previous section and select the "Business Search" button. You should be on this screen:
+In this module, you will improve navigation for business categories.
+Let's first have a look at the part of the application that you will enhance.
 
 image::{imagedir}/codesandbox3.png[,width=700,align=center]
-
 
 We can search for businesses by name and category, but at the moment we have a list of over 100 categories to choose from!
 One way that we could make things easier for our user is if we let them navigate a taxonomy of categories, starting at the top-level. To do this we'll use the Overlap Similarity algorithm to identify a category hierarchy in the data. We'll need to run the algorithm and make some updates to our data in Neo4j, then update the query used in the application to populate the category drop-down.
 
-To get started, we'll switch back to Neo4j. Copy the following command into the query pane of the Neo4j Browser and execute it:
-
-[source, cypher]
-----
-:play applied_graph_algorithms/02_category_hierarchy.html
-----
-
 
 == Exercise
 
-. Click *Business Search* in the CodeSandbox Browser and then click the pane for selecting a category. You should see a very long list of categories. You will use the Overlap Similarity algorithm to create relationships in the graph that will be used to identify the top-level categories.
-. Complete the Neo4j Browser Guide for *Category Hierarchy* to add category hierarchy to the graph using the Overlap Similarity algorithm.
+. In CodeSandbox Browser, click *Business Search* and then click the pane for selecting a category. You should see a very long list of categories. You will use the Overlap Similarity algorithm to create relationships in the graph that will be used to identify the top-level categories.
+. In Neo4j Browser, complete the steps for *Category Hierarchy* (:play applied_graph_algorithms/02_category_hierarchy.html) to add category hierarchy to the graph using the Overlap Similarity algorithm.
 . In CodeSandbox, edit the Cypher query in `src/exercises/exercise1.js` to return only top-level categories to populate the Category drop down in Business Search.
-. Save your changes to exercise1.js.
-. Click *Business Search* in the CodeSandbox Browser and then click the pane for selecting a category. Is the list of categories smaller?
+. Save your changes to *exercise1.js*.
+. In CodeSandbox Browser, click *Business Search* and then click the pane for selecting a category. Is the list of categories smaller?
 
 [NOTE]
 ====
@@ -86,7 +76,7 @@ _Category Hierarchy exercise solution_
 
 === Algorithm Understanding: Overlap Similarity
 
-Which of the following best describe what the Overlap Similarity algorithm computes?
+Which of the following best describes what the Overlap Similarity algorithm computes?
 
 Select the correct answer.
 [%interactive]
@@ -111,7 +101,7 @@ Select the correct answer.
 === Question 3
 === Matching Results
 
-Which of these categories are top level categories i.e. they don't have any outgoing `NARROWER_THAN` relationships?
+Which of these categories are top-level categories i.e. they don't have any outgoing `NARROWER_THAN` relationships?
 
 Select the correct answers.
 [%interactive]
@@ -119,6 +109,12 @@ Select the correct answers.
 - [ ] [.false-answer]#Wine Bars#
 - [ ] [.false-answer]#Doctors#
 - [ ] [.required-answer]#Local Flavor#
+
+== Summary
+
+You should now be able to:
+[square]
+* Use the Overlap Similarity graph algorithm.
 
 == Grade Quiz and Continue
 
