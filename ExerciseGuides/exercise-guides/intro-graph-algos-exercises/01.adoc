@@ -1,0 +1,203 @@
+= Exercise 1
+:icons: font
+
+== Exercise 1: Setting up your development environment
+
+Before you perform the exercises for this course, you must do the following:
+
+. Downloaded the Yelp dataset. (*Note*: This database is 1G and will take a while to download)
+https://s3.amazonaws.com/neo4j-sandbox-usecase-datastores/v3_5/yelp.db.zip
+. Unzip the zip file. It will create a *yelp.db* folder.
+. In Neo4j Desktop, create a project and a local graph, providing a password you will remember.
+    *Note*: Do not start the database!
+.Install the APOC plugin in the project.
+.Install the Graph Algorithms plugin  in the project.
+.Install Graph Algorithms Playground in the project.
+.Copy the *yelp.db* folder to your local graph:
+.. Click the *Manage* button for the local graph you just created.
+.. Click the *Open Folder* button.
+.. Navigate to *data/databases*.
+.. Copy the *yelp.db*  folder that you unzipped to *databases*.
+.. Rename the *yelp.db* folder to *graph.db*.
+. Start the database.
+. Open Neo4j Browser for the project.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/YelpLoaded.png[YelpLoaded,width=150,role=left]
+
+Go to the next page to continue setup.
+
+== Verify libraries and graph apps are ready
+
+*Verify that your Neo4j Browser session has access to the apoc and algo libraries by executing the Cypher below*:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.' OR name STARTS WITH 'algo'
+RETURN name ORDER BY name ASC
+----
+
+{nbsp} +
+
+If this code does not return the list of apoc and algo procedures, then you must ensure that the these libraries are available by installing the plugin (Neo4j Desktop) and restarting the database.
+
+Go to the next page to continue setup.
+
+== Test if Graph Applications Playground (NEuler) is installed
+
+*In Neo4j Desktop, click the image for the Graph Applications Playground.*
+* Does it open a new window?
+** If not, you may need to reinstall it.
+
+Go to the next page to continue setup.
+
+== Use Graph Applications Playground (NEuler) to load some more data
+
+In Graph Applications Playground (NEuler):
+
+.*1. Click the database icon in the left pane.*
+.*2. Load the Game of Thrones data.*
+.*3. Close NEuler.*
+.*4. Open NEuler.*
+.*5. Load the European Roads data.*
+.*6. Close NEuler.*
+
+*Note*: Do not load the Twitter data as it conflicts with other data in the graph.
+
+*7. In Neo4j Browser, confirm that your database looks as follows:*
+
+[.thumb]
+image::{guides}/img/AfterNEulerLoad.png[AfterNEulerLoad,width=300]
+
+Go to the next page to continue setup.
+
+== Load some additional graphs used for the exercises
+
+*Execute each of these Cypher code blocks to add these graphs to the database*:
+
+[source, cypher]
+----
+MERGE (nAlice:Person {name:'Alice'})
+MERGE (nBridget:Person {name:'Bridget'})
+MERGE (nCharles:Person {name:'Charles'})
+MERGE (nDoug:Person {name:'Doug'})
+MERGE (nMark:Person {name:'Mark'})
+MERGE (nMichael:Person {name:'Michael'})
+MERGE (nAlice)-[:HELPS]->(nBridget)
+MERGE (nAlice)-[:HELPS]->(nCharles)
+MERGE (nMark)-[:HELPS]->(nDoug)
+MERGE (nMark)-[:HELPS]->(nMichael)
+MERGE (nBridget)-[:HELPS]->(nMichael)
+MERGE (nDoug)-[:HELPS]->(nMark)
+MERGE (nMichael)-[:HELPS]->(nAlice)
+MERGE (nAlice)-[:HELPS]->(nMichael)
+MERGE (nBridget)-[:HELPS]->(nAlice)
+MERGE (nMichael)-[:HELPS]->(nBridget)
+----
+
+[source, cypher]
+----
+MERGE (a:Employee {name:'Anna'})
+MERGE (b:Employee {name:'Dolores'})
+MERGE (c:Employee {name:'Matt'})
+MERGE (d:Employee {name:'Larry'})
+MERGE (e:Employee {name:'Stefan'})
+MERGE (f:Employee {name:'Sophia'})
+MERGE (g:Employee {name:'Robin'})
+MERGE (h:Employee {name:'Joe'})
+MERGE (i:Employee {name:'Robert'})
+MERGE (a)-[:WORKS_WITH {weight:1.0}]->(b)
+MERGE (a)-[:WORKS_WITH {weight:-1.0}]->(c)
+MERGE (a)-[:WORKS_WITH {weight:1.0}]->(d)
+MERGE (a)-[:WORKS_WITH {weight:-1.0}]->(e)
+MERGE (a)-[:WORKS_WITH {weight:1.0}]->(f)
+MERGE (a)-[:WORKS_WITH {weight:-1.0}]->(g)
+MERGE (b)-[:WORKS_WITH {weight:-1.0}]->(c)
+MERGE (c)-[:WORKS_WITH {weight:1.0}]->(d)
+MERGE (d)-[:WORKS_WITH {weight:-1.0}]->(e)
+MERGE (e)-[:WORKS_WITH {weight:1.0}]->(f)
+MERGE (f)-[:WORKS_WITH {weight:-1.0}]->(g)
+MERGE (g)-[:WORKS_WITH {weight:1.0}]->(b)
+MERGE (h)-[:KNOWS]->(c)
+MERGE (i)-[:KNOWS]->(c)
+----
+
+[source, cypher]
+----
+MERGE (home:Page {name:"Home"})
+MERGE (about:Page {name:"About"})
+MERGE (product:Page {name:"Product"})
+MERGE (links:Page {name:"Links"})
+MERGE (a:Page {name:"Site A"})
+MERGE (b:Page {name:"Site B"})
+MERGE (c:Page {name:"Site C"})
+MERGE (d:Page {name:"Site D"})
+MERGE (home)-[:LINKS]->(about)
+MERGE (about)-[:LINKS]->(home)
+MERGE (product)-[:LINKS]->(home)
+MERGE (home)-[:LINKS]->(product)
+MERGE (links)-[:LINKS]->(home)
+MERGE (home)-[:LINKS]->(links)
+MERGE (links)-[:LINKS]->(a)
+MERGE (a)-[:LINKS]->(home)
+MERGE (links)-[:LINKS]->(b)
+MERGE (b)-[:LINKS]->(home)
+MERGE (links)-[:LINKS]->(c)
+MERGE (c)-[:LINKS]->(home)
+MERGE (links)-[:LINKS]->(d)
+MERGE (d)-[:LINKS]->(home)
+----
+
+[source, cypher]
+----
+MERGE (french:Cuisine {name:'French'})
+MERGE (italian:Cuisine {name:'Italian'})
+MERGE (indian:Cuisine {name:'Indian'})
+MERGE (lebanese:Cuisine {name:'Lebanese'})
+MERGE (portuguese:Cuisine {name:'Portuguese'})
+MERGE (british:Cuisine {name:'British'})
+MERGE (mauritian:Cuisine {name:'Mauritian'})
+
+MERGE (zhen:Customer {name: "Zhen"})
+MERGE (praveena:Customer {name: "Praveena"})
+MERGE (michael:Customer {name: "Michael"})
+MERGE (arya:Customer {name: "Arya"})
+MERGE (karin:Customer {name: "Karin"})
+
+MERGE (praveena)-[:LIKES {score: 9}]->(indian)
+MERGE (praveena)-[:LIKES {score: 7}]->(portuguese)
+MERGE (praveena)-[:LIKES {score: 8}]->(british)
+MERGE (praveena)-[:LIKES {score: 1}]->(mauritian)
+
+MERGE (zhen)-[:LIKES {score: 10}]->(french)
+MERGE (zhen)-[:LIKES {score: 6}]->(indian)
+MERGE (zhen)-[:LIKES {score: 2}]->(british)
+
+MERGE (michael)-[:LIKES {score: 8}]->(french)
+MERGE (michael)-[:LIKES {score: 7}]->(italian)
+MERGE (michael)-[:LIKES {score: 9}]->(indian)
+MERGE (michael)-[:LIKES {score: 3}]->(portuguese)
+
+MERGE (arya)-[:LIKES {score: 10}]->(lebanese)
+MERGE (arya)-[:LIKES {score: 10}]->(italian)
+MERGE (arya)-[:LIKES {score: 7}]->(portuguese)
+MERGE (arya)-[:LIKES {score: 9}]->(mauritian)
+
+MERGE (karin)-[:LIKES {score: 9}]->(lebanese)
+MERGE (karin)-[:LIKES {score: 7}]->(italian)
+MERGE (karin)-[:LIKES {score: 10}]->(portuguese)
+----
+
+
+*Your database should now look as follows:*
+
+[.thumb]
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+
+
+Your database is now set up and ready for you to gain experience with graph algorithms.
+
+pass:a[<a play-topic='{guides}/02.html'>Continue to Exercise 2</a>]

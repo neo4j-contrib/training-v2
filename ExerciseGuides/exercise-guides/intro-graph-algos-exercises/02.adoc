@@ -1,0 +1,145 @@
+= Exercise 2
+:icons: font
+
+== Exercise 2: Connected components (Preparations)
+
+The database you start with should contain all of the data you loaded in the setup for this course.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+
+{nbsp} +
+
+If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
+
+== Exercise 2: Connected components (Overview)
+
+In this exercise, you will gain some experience with writing Cypher for the strongly connected and connected graph algorithms using the European Roads dataset.
+
+
+* *Exercise 2.1*: View the European Roads dataset schema.
+* *Exercise 2.2*: Find all strongly connected *Place* nodes.
+* *Exercise 2.3*: Verify results of strongly connected execution.
+* *Exercise 2.4*: Find all connected places, writing their setId information to the graph.
+
+
+Go to the next page to start this exercise.
+
+== Exercise 2.1: View the European Roads dataset schema. (Instructions)
+
+The European Roads dataset contains *Place* nodes that are connected by the *EROAD* relationship. Write a query to view some of the nodes and relationships in this dataset. What are the properties?
+
+== Exercise 2.1: View the European Roads dataset schema. (Solution)
+
+The European Roads dataset contains *Place* nodes that are connected by the *EROAD* relationship. Write a query to view some of the nodes and relationships in this dataset. What are the properties?
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (p:Place)-[:EROAD]-(p2:Place)
+RETURN p, p2 LIMIT 10
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.1.png[EX2.1,width=300]
+
+The properties for a *Place* node are *name* and *countryCode*.
+
+The properties for an *EROAD* relationship are *distance*, *road_number*, and *watercrossing*.
+
+== Exercise 2.2: Find all strongly connected Place nodes (Instructions)
+
+A strongly connected node is one where there is a path both  in and out of a node to another node in the graph. Write a query to return the nodes for each strongly connected partition in the graph for the *Place* nodes and the *EROAD* relationship.
+
+*Hint*: you will use *algo.scc.stream*.
+
+== Exercise 2.2: Find all strongly connected Place nodes (Solution)
+
+A strongly connected node is one where there is a path both  in and out of a node to another node in the graph. Write a query to return the nodes for each strongly connected partition in the graph for the *Place* nodes and the *EROAD* relationship.
+
+*Hint*: you will use *algo.scc.stream*.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.scc.stream("Place", "EROAD")
+YIELD nodeId, partition
+RETURN partition, collect(algo.getNodeById(nodeId).name) AS places
+ORDER BY size(places) DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.2.png[EX2.2,width=300]
+
+== Exercise 2.3: Verify results of strongly connected execution. (Instructions)
+
+Using the data that was returned, pick a partition and write a query to return all nodes in that partition by checking whether the name of the node matches what was returned from the execution of the algorithm.
+
+== Exercise 2.3: Verify results of strongly connected execution. (Solution)
+
+Using the data that was returned, pick a partition and write a query to return all nodes in that partition by checking whether the name of the node matches what was returned from the execution of the algorithm.
+
+Here is a query to return all nodes in a partition containing four Place nodes:
+
+[source]
+----
+MATCH (x:Place) WHERE
+x.name IN ["Aveiro", "Coimbra", "Lisboa", "Santarem", "Leiria"]
+RETURN x
+----
+
+The results should be:
+
+[.thumb]
+image::{guides}/img/EX2.3.png[EX2.3,width=300]
+
+{nbsp} +
+
+Here we see that every *Place* node has a path to an from it to get to any other node in the partition.
+
+== Exercise 2.4: Find all connected places, writing their setId information to the graph. (Instructions)
+
+A  connected node is one where there is a path in any direction from one node another node in the graph. Write a query to return the nodes for each connected partition in the graph for the *Place* nodes and the *EROAD* relationship. Write the value returned from the algorithm, *setId* as the property, *unionFind_partition* in each *Place* node.
+
+*Hint*: you will use *algo.unionFind.stream*.
+
+== Exercise 2.4: Find all connected places, writing their setId information to the graph. (Instructions)
+
+A  connected node is one where there is a path in any direction from one node another node in the graph. Write a query to return the nodes for each connected partition in the graph for the *Place* nodes and the *EROAD* relationship. Write the value returned from the algorithm, *setId* as the property, *unionFind_partition* in each *Place* node.
+
+*Hint*: you will use *algo.unionFind.stream*.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.unionFind.stream("Place", "EROAD",{writeProperty:"unionFind_partition"})
+YIELD nodeId, setId
+RETURN setId, collect(algo.getNodeById(nodeId).name) AS places
+ORDER BY size(places) DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.4.png[EX2.4,width=300]
+
+Notice that most of the nodes are in the same partition.
+
+== Exercise 2: Taking it further
+
+. Try using the non-stream version of the algorithms.
+. Try using the function.
+
+== Exercise 2: Connected components (Summary)
+
+In this exercise, you gained some experience with writing Cypher for the strongly connected and connected graph algorithms using the European Roads dataset.
+
+pass:a[<a play-topic='{guides}/03.html'>Continue to Exercise 3</a>]
