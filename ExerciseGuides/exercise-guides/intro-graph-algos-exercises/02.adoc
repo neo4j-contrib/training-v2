@@ -21,7 +21,8 @@ In this exercise, you will gain some experience with writing Cypher for the stro
 * *Exercise 2.1*: View the European Roads dataset schema.
 * *Exercise 2.2*: Find all strongly connected *Place* nodes.
 * *Exercise 2.3*: Verify results of strongly connected execution.
-* *Exercise 2.4*: Find all connected places, writing their setId information to the graph.
+* *Exercise 2.4*: Find all connected places, writing unionFind partition information to the graph.
+* *Exercise 2.5*: Verify results of the connected  nodes execution.
 
 
 Go to the next page to start this exercise.
@@ -55,13 +56,13 @@ The properties for an *EROAD* relationship are *distance*, *road_number*, and *w
 
 A strongly connected node is one where there is a path both  in and out of a node to another node in the graph. Write a query to return the nodes for each strongly connected partition in the graph for the *Place* nodes and the *EROAD* relationship.
 
-*Hint*: you will use *algo.scc.stream*.
+*Hint*: you will use `algo.scc.stream`.
 
 == Exercise 2.2: Find all strongly connected Place nodes (Solution)
 
 A strongly connected node is one where there is a path both  in and out of a node to another node in the graph. Write a query to return the nodes for each strongly connected partition in the graph for the *Place* nodes and the *EROAD* relationship.
 
-*Hint*: you will use *algo.scc.stream*.
+*Hint*: you will use `algo.scc.stream`.
 
 Here is the solution code:
 
@@ -104,26 +105,27 @@ image::{guides}/img/EX2.3.png[EX2.3,width=300]
 
 Here we see that every *Place* node has a path to an from it to get to any other node in the partition.
 
-== Exercise 2.4: Find all connected places, writing their setId information to the graph. (Instructions)
+== Exercise 2.4: Find all connected places, writing unionFind partition information to the graph. (Instructions)
 
-A  connected node is one where there is a path in any direction from one node another node in the graph. Write a query to return the nodes for each connected partition in the graph for the *Place* nodes and the *EROAD* relationship. Write the value returned from the algorithm, *setId* as the property, *unionFind_partition* in each *Place* node.
+A  connected node is one where there is a path in any direction from one node another node in the graph.
+Write the Cypher code to find all connected *Place* nodes and set the property, *unionFind_partition* for each node based upon the result of the algorithm.
+Specify that the weight property for the *Place* nodes is named *weight*.
 
-*Hint*: you will use *algo.unionFind.stream*.
+*Hint*: you will use `algo.unionFind`.
 
-== Exercise 2.4: Find all connected places, writing their setId information to the graph. (Instructions)
+== Exercise 2.4: Find all connected places, writing their unionFind partition information to the graph. (Solution)
 
-A  connected node is one where there is a path in any direction from one node another node in the graph. Write a query to return the nodes for each connected partition in the graph for the *Place* nodes and the *EROAD* relationship. Write the value returned from the algorithm, *setId* as the property, *unionFind_partition* in each *Place* node.
+A  connected node is one where there is a path in any direction from one node another node in the graph.
+Write the Cypher code to find all connected *Place* nodes and set the property, *unionFind_partition* for each node based upon the result of the algorithm.
+Specify that the weight property for the *Place* nodes is named *weight*.
 
-*Hint*: you will use *algo.unionFind.stream*.
+*Hint*: you will use `algo.unionFind`.
 
 Here is the solution code:
 
 [source, cypher]
 ----
-CALL algo.unionFind.stream("Place", "EROAD",{writeProperty:"unionFind_partition"})
-YIELD nodeId, setId
-RETURN setId, collect(algo.getNodeById(nodeId).name) AS places
-ORDER BY size(places) DESC
+CALL algo.unionFind("Place", "EROAD",{writeProperty:"unionFind_partition",weightProperty: "weight"})
 ----
 
 The results returned should look like this:
@@ -131,11 +133,37 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX2.4.png[EX2.4,width=300]
 
+
+== Exercise 2.5: Verify results of the connected  nodes execution. (Instructions)
+
+Write a query to return all *unionFind_partition* values in the graph containing *Place* nodes.
+For each distinct partition value, return the list of places.
+
+== Exercise 2.5: Verify results of the connected  nodes execution. (Instructions)
+
+Write a query to return all *unionFind_partition* values in the graph containing *Place* nodes.
+For each distinct partition value, return the list of places.
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (node:Place)
+RETURN DISTINCT node.unionFind_partition, collect(node.name) AS places
+ORDER BY node.unionFind_partition DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.5.png[EX2.5,width=300]
+
 Notice that most of the nodes are in the same partition.
 
 == Exercise 2: Taking it further
 
-. Try using the non-stream version of the algorithms.
+. Try using different configuration values.
+. Try using the stream version of the algorithm.
 . Try using the function.
 
 == Exercise 2: Connected components (Summary)
