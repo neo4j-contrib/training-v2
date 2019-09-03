@@ -25,7 +25,7 @@ We'll start by seeing which cities have the most reviews:
 [source,cypher]
 ----
 MATCH (c:City)
-RETURN c.name, size((c)<-[:IN_CITY]-()) AS numberOfReviews
+RETURN c.name, size((c)<-[:IN_CITY]-(:Business)<-[:REVIEWS]-(:Review)) AS numberOfReviews
 ORDER BY numberOfReviews DESC
 LIMIT 10;
 ----
