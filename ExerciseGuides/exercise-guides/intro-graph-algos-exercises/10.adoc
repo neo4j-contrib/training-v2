@@ -1,0 +1,397 @@
+= Exercise 10
+:icons: font
+
+== Exercise 10: Similarity (Preparations)
+
+The database you start with should contain all of the data you loaded in the setup for this course.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+
+{nbsp} +
+
+If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
+
+== Exercise 10: Similarity (Overview)
+
+Similarity algorithms are useful for analyzing datasets to determine how alike nodes are based upon their properties.
+
+In this exercise, you will execute some Similarity algorithms on the Yelp dataset:
+
+* *Exercise 10.1*: Run the Overlap Similarity algorithm on some sample data.
+* *Exercise 10.2*: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset.
+* *Exercise 10.3*: Modify and view the updated graph after running the Overlap Similarity algorithm.
+* *Exercise 10.4*: Run the Pearson Similarity algorithm for users who have reviewed businesses.
+* *Exercise 10.5*: Run the Jaccard Similarity algorithm for photos that have been similarly tagged.
+
+Go to the next page to start this exercise.
+
+== Exercise 10.1: Run the Overlap Similarity algorithm on some sample data. (Instructions/Solution)
+
+Suppose  you want to compute the similarity of categories based on the same businesses being tagged with that category.
+First, see how the algorithm works with some dummy data by executing this code:
+
+[source, cypher]
+----
+WITH [
+  {item: 7, categories: [10,11,12]},
+  {item: 8, categories: [10,11]},
+  {item: 9, categories: [11,12,13,14,15]}
+] AS data
+CALL algo.similarity.overlap.stream(data)
+YIELD item1, item2, similarity
+RETURN item1, item2, similarity
+ORDER BY similarity DESC
+----
+
+In this query, dataset, item 8 has a similarity score of 1.0 with item 7, which means that item 8 is a complete subset of item 7.
+Item 7 itself is a subset of item 9, but it’s not a complete subset as item 7 has one category that item 9 does not.
+
+
+== Exercise 10.2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Instructions)
+
+Now you will run the algorithm on the Yelp dataset.
+First, you need to build a collection of items like you did in the previous example, but this time the collection will consist of data from our graph rather than being hard-coded.
+
+This code provides a template for computing the Overlap Similarity of categories based on the businesses tagged with those categories:
+
+[source, cypher]
+----
+// Change this part of the query
+MATCH (book:Book)-[:HAS_GENRE]->(genre)
+WITH {item:id(genre), categories: collect(id(book))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the config in this part of the query
+CALL algo.similarity.overlap(data, {
+
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99
+----
+
+Update update this code to:
+
+* Compute similarity between categories based on the business tagged with that category.
+  *Hint*: You will use the *IN_CATEGORY* relationship.
+
+* Choose a similarity cut off value.
+  *Hint*: Use the *similarityCutOff* configuration parameter.
+
+* Store the results in the graph.
+  *Hint*: Use the *write* configuration parameter.
+
+== Exercise 10.2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Solution)
+
+Now you will run the algorithm on the Yelp dataset.
+First, you need to build a collection of items like you did in the previous example, but this time the collection will consist of data from our graph rather than being hard-coded.
+
+This code provides a template for computing the Overlap Similarity of categories based on the businesses tagged with those categories:
+
+[source, cypher]
+----
+MATCH (category:Category)<-[:IN_CATEGORY]-(business)
+WITH {item:id(category), categories: collect(id(business))} AS userData
+
+WITH collect(userData) as data
+
+CALL algo.similarity.overlap(data, {
+  write: true, similarityCutoff: 0.75
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99;
+----
+
+Update update this query to:
+
+* Compute similarity between categories based on the business tagged with that category.
+  *Hint*: You will use the *IN_CATEGORY* relationship.
+
+* Choose a similarity cut off value.
+  *Hint*: Use the *similarityCutOff* configuration parameter.
+
+* Store the results in the graph.
+  *Hint*: Use the *write* configuration parameter.
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (category:Category)<-[:IN_CATEGORY]-(business)
+WITH {item:id(category), categories: collect(id(business))} AS userData
+
+WITH collect(userData) as data
+
+CALL algo.similarity.overlap(data, {
+  write: true, similarityCutoff: 0.75
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX10.2.png[EX10.2,width=300]
+
+== Exercise 10.3: Modify and view the updated graph after running the Overlap Similarity algorithm. (Instructions/Solution)
+
+The algorithm you just ran created relationships between nodes that are not strictly adjacent in the hierarchy.
+Run this code to remove those transitive relationships:
+
+[source, cypher]
+----
+MATCH (g1:Category)-[:NARROWER_THAN*2..]->(g3:Category),
+      (g1)-[d:NARROWER_THAN]->(g3)
+DELETE d
+----
+
+View the hierarchy that has been created. Execute this query return 10 of these paths:
+
+[source, cypher]
+----
+MATCH path = (category:Category)-[:NARROWER_THAN*]->(superCategory:Category)
+RETURN path
+LIMIT 10
+----
+
+Note that top-level categories do not have an outgoing *NARROWER_THAN* relationship.
+
+
+== Exercise 10.4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Instructions)
+
+You want to see the similarity between users who reviewed businesses.
+
+The query below provides a template for computing the Pearson Similarity of users based on the businesses that they have reviewed.
+
+[source, cypher]
+----
+CALL algo.similarity.pearson(
+  "MATCH (u:User)
+   WHERE size((u)-[:WROTE]->()) > 15
+   // Fill in this part of the query
+   RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
+  {graph: "cypher", skipValue: algo.NaN()})
+----
+
+Update this query to:
+
+* Compute similarity between users based on the common businesses they have reviewed
+  *Hint*: You will need to use the *WROTE* and *REVIEWS* relationships.
+
+* Choose a similarity cut off value.
+  *Hint*: Use the *similarityCutOff* configuration parameter.
+
+* Choose a topK value.
+  *Hint*: Use the *topK* configuration parameter.
+
+* Store the results in the graph.
+  *Hint*: Use the *write* configuration parameter.
+
+== Exercise 10.4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Solution)
+
+You want to see the similarity between users who reviewed businesses.
+
+The query below provides a template for computing the Pearson Similarity of users based on the businesses that they have reviewed.
+
+[source, cypher]
+----
+CALL algo.similarity.pearson(
+  "MATCH (u:User)
+   WHERE size((u)-[:WROTE]->()) > 15
+   // Fill in this part of the query
+   RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
+  {graph: "cypher", skipValue: algo.NaN()})
+----
+
+Update this query to:
+
+* Compute similarity between users based on the common businesses they have reviewed
+  *Hint*: You will need to use the *WROTE* and *REVIEWS* relationships.
+
+* Choose a similarity cut off value.
+  *Hint*: Use the *similarityCutOff* configuration parameter.
+
+* Choose a topK value.
+  *Hint*: Use the *topK* configuration parameter.
+
+* Store the results in the graph.
+  *Hint*: Use the *write* configuration parameter.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.similarity.pearson(
+ "MATCH (u:User)
+  WHERE size((u)-[:WROTE]->()) > 15
+  MATCH (u)-[:WROTE]->(review)-[:REVIEWS]->(b)
+  RETURN id(u) AS item, id(b) AS category, review.stars as weight",
+  {graph: "cypher", topK: 5, skipValue: algo.NaN(), similarityCutoff: 0.1, write: true})
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX10.4A.png[EX10.4A,width=300]
+
+In an application we would use this similarity graph to improve the reviews that we show the user.
+
+Run this command to set this parameter that will hold valid userId values:
+
+[source, cypher]
+----
+:param userIds => ["FiKaWcORiTyKi4I7pJp3tQ", "d_TBs6J3twMy9GChqUEXkg", "NwPnvTALYMNZgdiwHHkuAQ"]
+----
+
+Run this query to find similar users by following the *SIMILAR* relationship from the first user:
+
+[source, cypher]
+----
+MATCH (u:User {id: $userIds[0]})-[similarity:SIMILAR]->(other)
+RETURN other, similarity.score AS similarity
+ORDER BY similarity DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX10.4B.png[EX10.4B,width=300]
+
+== Exercise 10.5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Instructions)
+
+The photos in this graph have been run through Google’s Image Labeling service and those labels are connected to photos by the *HAS_LABEL* relationship.
+Run the following query to explore this part of the graph:
+
+[source, cypher]
+----
+MATCH path = (p:Photo)-[:HAS_LABEL]->(label)
+RETURN path
+LIMIT 25
+----
+
+We want to determine which photos are similar to each other based on the labels they have been tagged with.
+You can do this using the Jaccard Similarity algorithm. Here is the starting template for the code:
+
+[source, cypher]
+----
+// Change this part of the query
+MATCH (p:Person)-[likes:LIKES]->(cuisine)
+WITH {item:id(p), categories: collect(id(cuisine))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the config in this part of the query
+CALL algo.similarity.jaccard(data, {
+
+})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write
+----
+
+Update this query to:
+
+* Compute similarity between photos based on the labels they have.
+  *Hint*: Use the *HAS_LABEL* relationship.
+
+* Find the top 3 most similar photos.
+  *Hint*: Use the *topK* configuration parameter.
+
+* Store the results in the graph.
+  *Hint*: Use the *write* configuration parameter.
+
+== Exercise 10.5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Solution)
+
+The photos in this graph have been run through Google’s Image Labeling service and those labels are connected to photos by the *HAS_LABEL* relationship.
+Run the following query to explore this part of the graph:
+
+[source, cypher]
+----
+MATCH path = (p:Photo)-[:HAS_LABEL]->(label)
+RETURN path
+LIMIT 25
+----
+
+We want to determine which photos are similar to each other based on the labels they have been tagged with.
+You can do this using the Jaccard Similarity algorithm. Here is the starting template for the code:
+
+[source, cypher]
+----
+// Change this part of the query
+MATCH (p:Person)-[likes:LIKES]->(cuisine)
+WITH {item:id(p), categories: collect(id(cuisine))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the config in this part of the query
+CALL algo.similarity.jaccard(data, {
+
+})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write
+----
+
+Update this query to:
+
+* Compute similarity between photos based on the labels they have.
+  *Hint*: Use the *HAS_LABEL* relationship.
+
+* Find the top 3 most similar photos.
+  *Hint*: Use the *topK* configuration parameter.
+
+* Store the results in the graph.
+  *Hint*: Use the *write* configuration parameter.
+
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (p:Photo)-[:HAS_LABEL]->(label)
+WITH {item:id(p), categories: collect(id(label))} as userData
+
+WITH collect(userData) as data
+
+CALL algo.similarity.jaccard(data, {topK: 3, similarityCutoff: 0.9, write: true})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX10.5A.png[EX10.5A,width=300]
+
+Run this query to find the *SIMILAR* relationships created:
+
+[source, cypher]
+----
+MATCH path = (p1:Photo)-[r:SIMILAR]->(p2:Photo)
+RETURN path
+LIMIT 20
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX10.5B.png[EX10.5B,width=300]
+
+== Exercise 10: Taking it further
+
+Use the similarity scores written to the graph to perform Community Detection analysis.
+
+== Exercise 10: Similarity (Summary)
+
+Similarity algorithms are useful for analyzing datasets to determine how alike nodes are based upon their properties.
+
+In this exercise, you gained experience with some Similarity algorithms on the Yelp dataset.
+
+pass:a[<a play-topic='{guides}/11.html'>Continue to Exercise 11</a>]

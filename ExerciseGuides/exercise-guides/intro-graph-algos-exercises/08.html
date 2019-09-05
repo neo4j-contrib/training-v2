@@ -1,0 +1,587 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 8</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 8</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Centrality (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Centrality (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>There are several centrality algorithms that help you identify important nodes in the graph.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will execute a number of centrality algorithms for the European Roads dataset:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 8.1</strong>: Perform Closeness Centrality analysis.</p>
+</li>
+<li>
+<p><strong>Exercise 8.2</strong>: View data related to the Closeness Centrality analysis.</p>
+</li>
+<li>
+<p><strong>Exercise 8.3</strong>: Perform a variation of Closeness Centrality analysis: Wasserman and Faust.</p>
+</li>
+<li>
+<p><strong>Exercise 8.4</strong>: View data related to the Wasserman and Faust analysis.</p>
+</li>
+<li>
+<p><strong>Exercise 8.5</strong>: Perform a variation of Closeness Centrality analysis: Harmonic Centrality.</p>
+</li>
+<li>
+<p><strong>Exercise 8.6</strong>: View data related to the Harmonic Centrality analysis.</p>
+</li>
+<li>
+<p><strong>Exercise 8.7</strong>: Perform Betweenness Centrality analysis.</p>
+</li>
+<li>
+<p><strong>Exercise 8.8</strong>: Perform a variation of Betweenness Centrality analysis: Randomized-Approximate Brandes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.1: Perform Closeness Centrality analysis. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will start with the Closeness Centrality algorithm, which works out the average 'farness' of a node from all other nodes.</p>
+</div>
+<div class="paragraph">
+<p>Write Cypher code to perform Closeness Centrality analysis on the <strong>Place</strong> nodes using the <strong>EROADS</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the stream variation of the algorithm.</p>
+</li>
+<li>
+<p>Return the results ordering by <strong>centrality</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Call <code>algo.closeness.stream</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.1: Perform Closeness Centrality analysis. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will start with the Closeness Centrality algorithm, which works out the average 'farness' of a node from all other nodes.</p>
+</div>
+<div class="paragraph">
+<p>Write Cypher code to perform Closeness Centrality analysis on the <strong>Place</strong> nodes using the <strong>EROADS</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the stream variation of the algorithm.</p>
+</li>
+<li>
+<p>Return the results ordering by <strong>centrality</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Call <code>algo.closeness.stream</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.closeness.stream("Place", "EROAD")
+YIELD nodeId, centrality
+RETURN algo.getNodeById(nodeId).name AS place, centrality
+ORDER BY centrality DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX8.1.png" alt="EX8.1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>A score of 1.0 means that the node has a direct link to every node that it is able to reach.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.2: View data related to the Closeness Centrality analysis. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will look one of the places that has a Closeness Centrality of 1.0 and see how well it is connected.</p>
+</div>
+<div class="paragraph">
+<p>Run the following query to find all the places that we can get to from Granada:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = (:Place {name: "Granada"})-[:EROAD*]-()
+RETURN path<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you double-click any of the nodes connected to Granada you will see that there are no other nodes connected to them.
+These three nodes would therefore be their own connected component, and within that component Granada is very well connected.</p>
+</div>
+<div class="paragraph">
+<p>Granada is not particularly well connected to the rest of the graph though!</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.3: Perform a variation of Closeness Centrality analysis: Wasserman and Faust. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The Wasserman and Faust variation of the algorithm dampens the Closeness Centrality score to account for this.</p>
+</div>
+<div class="paragraph">
+<p>To use this variation you must add the configuration setting of <code>improved: true</code>.</p>
+</div>
+<div class="paragraph">
+<p>Modify the call to <code>algo.closeness.stream</code> you performed earlier to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the non-stream variation of the algorithm.</p>
+</li>
+<li>
+<p>Write the property, <strong>closeness</strong>.</p>
+</li>
+<li>
+<p>Add the improved: true value to the configuration.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.3: Perform a variation of Closeness Centrality analysis: Wasserman and Faust. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The Wasserman and Faust variation of the algorithm dampens the Closeness Centrality score to account for this.</p>
+</div>
+<div class="paragraph">
+<p>To use this variation you must add the configuration setting of <code>improved: true</code>.</p>
+</div>
+<div class="paragraph">
+<p>Modify the call to <code>algo.closeness.stream</code> you performed earlier to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the non-stream variation of the algorithm.</p>
+</li>
+<li>
+<p>Write the property, <strong>closeness</strong>.</p>
+</li>
+<li>
+<p>Add the improved: true value to the configuration.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.closeness("Place", "EROAD", {improved: true, writeProperty: "closeness"})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX8.3.png" alt="EX8.3" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.4: View data related to the Wasserman and Faust analysis. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Run the following query to return the closeness value for the three places that were closely connected earlier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (place:Place)
+WHERE place.name IN ["Granada", "Málaga", "Jaén"]
+RETURN place.name, place.closeness
+ORDER BY place.closeness DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With the Wasserman and Faust analysis, we see that the score for Granada is significantly less that it was with the original Closeness Centrality analysis.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.5: Perform a variation of Closeness Centrality analysis: Harmonic Centrality. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Another variant of the algorithm is Harmonic Centrality.</p>
+</div>
+<div class="paragraph">
+<p>To use this variation you must remove the configuration setting of <code>improved: true</code> and specify a different property to write, <strong>harmonic</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Modify the call to <code>algo.closeness</code> you performed earlier write the <strong>harmonic</strong> property.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.5: Perform a variation of Closeness Centrality analysis: Harmonic Centrality. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Another variant of the algorithm is Harmonic Centrality.</p>
+</div>
+<div class="paragraph">
+<p>To use this variation you must remove the configuration setting of <code>improved: true</code> and specify a different property to write, <strong>harmonic</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Modify the call to <code>algo.closeness</code> you performed earlier write the <strong>harmonic</strong> property.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.closeness.harmonic("Place", "EROAD", {writeProperty: "harmonic"})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX8.5.png" alt="EX8.5" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.6: View data related to the Harmonic Centrality analysis. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to find the place that has the highest harmonic centrality score?</p>
+</div>
+<div class="paragraph">
+<p>Are the top places the same as we see with closeness centrality?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.6: View data related to the Harmonic Centrality analysis. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to find the place that has the highest harmonic centrality score?</p>
+</div>
+<div class="paragraph">
+<p>Are the top places the same as we see with closeness centrality?</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (place:Place)
+RETURN place.name, place.closeness, place.harmonic
+ORDER BY place.harmonic DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX8.6.png" alt="EX8.6" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.7: Perform Betweenness Centrality analysis. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The Betweenness centrality algorithm detects the amount of influence a node has over the flow of information in a graph.
+It is often used to find nodes that serve as a bridge from one part of a graph to another.</p>
+</div>
+<div class="paragraph">
+<p>The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently like on these paths will have the highest score.</p>
+</div>
+<div class="paragraph">
+<p>Write the Cypher code to perform the stream variation of the Betweenness Centrality algorithm. It will return a centrality value.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Call <code>algo.betweenness.stream</code> with no special configuration values.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.7: Perform Betweenness Centrality analysis. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The Betweenness centrality algorithm detects the amount of influence a node has over the flow of information in a graph.
+It is often used to find nodes that serve as a bridge from one part of a graph to another.</p>
+</div>
+<div class="paragraph">
+<p>The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently like on these paths will have the highest score.</p>
+</div>
+<div class="paragraph">
+<p>Write the Cypher code to perform the stream variation of the Betweenness Centrality algorithm.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Call <code>algo.betweenness.stream</code> with no special configuration values. It will return a centrality value.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.betweenness.stream("Place", "EROAD")
+YIELD nodeId, centrality
+RETURN algo.getNodeById(nodeId).name AS user, centrality
+ORDER BY centrality DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX8.7.png" alt="EX8.7" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8.8: Perform a variation of Betweenness Centrality analysis: Randomized-Approximate Brandes. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>On very large graphs it is not really feasible to run all these shortest path computations, so we might choose to use an approximate version of the algorithm.</p>
+</div>
+<div class="paragraph">
+<p>The following query runs the RA-Brandes algorithm which calculates betweenness based on sampling parts of the graph. Run this analysis:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.betweenness.sampled.stream("Place", "EROAD", {strategy:"degree"})
+YIELD nodeId, centrality
+RETURN algo.getNodeById(nodeId).name AS user, centrality
+ORDER BY centrality DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see similar results as with the normal version, but will see a different result each time.</p>
+</div>
+<div class="paragraph">
+<p>Try running this algorithm a few times to see how the results change.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Try the Randomized-Approximate Brandes analysis with different values for:
+* strategy
+* probability
+* maxDepth</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 8: Centrality (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>There are several centrality algorithms that help you identify important nodes in the graph.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you ran a number of centrality algorithms for the European Roads dataset.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/intro-graph-algos-exercises/09.html'>Continue to Exercise 9</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

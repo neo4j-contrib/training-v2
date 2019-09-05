@@ -1,0 +1,127 @@
+= Exercise 6
+:icons: font
+
+== Exercise 6: Triadic Balance (Preparations) (LEAVE OUT because library code fails)
+
+The database you start with should contain all of the data you loaded in the setup for this course.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+
+{nbsp} +
+
+If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
+
+== Exercise 6: Triadic Balance (Overview)
+
+The Triadic Balance  is an algorithm that counts the number of balanced and unbalanced triads a node is member of.
+It uses a signed graph model to differentiate between positive and negative relationships using the sign of the weight.
+
+In this exercise, you will analyze the Triadic Balance for the Game of Thrones (GOT) dataset:
+
+* *Exercise 6.1*: Prepare the graph for analysis by assigning balance scores for each relationship.
+* *Exercise 6.2*: Run the Triadic Balance algorithm.
+* *Exercise 6.3*: Examine the results of running the algorithm.
+
+Go to the next page to start this exercise.
+
+== Exercise 6.1: Prepare the graph for analysis by assigning balance scores for each relationship. (Instructions)
+
+The GOT dataset has *Character* nodes that are related to each other using the *INTERACTS_SEASONn* relationship.
+In this graph, these relationships have a *weight* property.
+
+Write Cypher code to modify each *INTERACTS_SEASON1* relationship so that it has a new property, *weightScore*.
+The value for *weightScore* will be 1 if *weight* is greater than the mean for all *ITERACTS_SEASON1* relationships, otherwise it will be -1.
+
+*Hint*: Use `avg()` to compute the mean for all relationships.
+
+== Exercise 6.1: Prepare the graph for analysis by assigning balance scores for each relationship. (Solution)
+
+The GOT dataset has *Character* nodes that are related to each other using the *INTERACTS_SEASONn* relationship.
+In this graph, these relationships have a *weight* property.
+
+Write Cypher code to modify each *INTERACTS_SEASON1* relationship so that it has a new property, *weightScore*.
+The value for *weightScore* will be 1 if *weight* is greater than the mean for all *ITERACTS_SEASON1* relationships, otherwise it will be -1.
+
+*Hint*: Use `avg()` to compute the mean for all relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH ()-[r:INTERACTS_SEASON1]-()
+WITH avg(r.weight) AS mean
+MATCH ()-[r:INTERACTS_SEASON1]-()
+WITH r, CASE WHEN r.weight > mean THEN 1 ELSE -1 END as balanceWeight
+SET r.weightScore = balanceWeight
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX6.1A.png[EX6.1A,width=300]
+
+[.thumb]
+image::{guides}/img/EX6.1B.png[EX6.1B,width=300]
+
+
+== Exercise 6.2: Run the Triadic Balance algorithm. (Instructions)
+
+Write the Cypher code to calculate the Triadic Balance for the *Character* nodes with the *INTERACTS_SEASON1* relationship using the *weightScore* property as the weight property.
+
+== Exercise 6.2: Run the Triadic Balance algorithm. (Solution)
+
+Write the Cypher code to calculate the Triadic Balance for the *Character* nodes with the *INTERACTS_SEASON1* relationship using the *weightScore* property as the weight property.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.balancedTriads('Character', 'INTERACTS_SEASON1',
+{concurrency:4, write:true, weightProperty:'weightScore', balancedProperty:'balanced',
+unbalancedProperty:'unbalanced'})
+YIELD loadMillis, computeMillis, writeMillis, nodeCount, balancedTriadCount,
+unbalancedTriadCount
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX6.2.png[EX6.2,width=300]
+
+
+== Exercise 6.3: Examine the results of running the algorithm. (Instructions)
+
+Write a query to find all characters who are in more unbalanced triads than balanced ones.
+
+== Exercise 6.3: Examine the results of running the algorithm. (Solution)
+
+Write a query to find all characters who are in more unbalanced triads than balanced ones.
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (n:Character) WHERE n.unbalanced > n.balanced
+RETURN n.name, n.unbalanced, n.balanced ORDER BY n.unbalanced DESC LIMIT 100
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX6.3.png[EX6.3,width=300]
+
+== Exercise 6: Taking it further
+
+. Try using the stream version of the algorithm.
+. Perform the analysis of different seasons.
+
+== Exercise 6: Triadic Balance (Summary)
+
+The Triadic Balance  is an algorithm that counts the number of balanced and unbalanced triads a node is member of.
+It uses a signed graph model to differentiate between positive and negative relationships using the sign of the weight.
+
+In this exercise, you analyzed  the Triadic Balance for the Game of Thrones (GOT) dataset.
+
+pass:a[<a play-topic='{guides}/07.html'>Continue to Exercise 7</a>]

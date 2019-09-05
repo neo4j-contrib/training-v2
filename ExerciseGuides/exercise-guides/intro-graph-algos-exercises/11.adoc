@@ -1,0 +1,94 @@
+= Exercise 11
+:icons: font
+
+== Exercise 11: Link Prediction (Preparations)
+
+This exercise will use a very small sample graph.
+
+Execute this code to load the nodes and relationships into the graph:
+
+[source, cypher]
+----
+UNWIND [["A", "C"], ["A", "B"], ["B", "D"],
+        ["B", "C"], ["B", "E"], ["C", "D"]] AS pair
+MERGE (n1:Node {name: pair[0]})
+MERGE (n2:Node {name: pair[1]})
+MERGE (n1)-[:HAS_FRIEND]-(n2)
+----
+
+This graph should look as follows:
+
+[.thumb]
+image::{guides}/img/NODE_HAS_FRIEND.png[NODE_HAS_FRIEND,width=300]
+
+== Exercise 11: Link Prediction (Overview)
+
+Link Prediction algorithms are useful applications that recommend outcomes and for machine learning.
+
+In this exercise, you will gain some experience with Link Prediction algorithms on small sample graph of *Node* nodes with the *HAS_FRIEND* relationships:
+
+* *Exercise 11.1*: Run the Common Neighbors algorithm.
+* *Exercise 11.2*: Run the Adamic Adar algorithm.
+* *Exercise 11.3*: Run the Preferential Attachment algorithm.
+
+Go to the next page to start this exercise.
+
+== Exercise 11.1: Run the Common Neighbors algorithm. (Instructions/Solution)
+
+The common-neighbors predictor captures the notion that two strangers who have a common friend may be introduced by that friend. This introduction has the effect of "closing a triangle" in the graph.
+
+As the name suggests, this measure computes the number of common neighbors that a pair of nodes share.We want to compute the similarity of categories based on the same businesses being tagged with that category.
+
+First, run this algorithm as a function by executing this code:
+
+[source, cypher]
+----
+MATCH (a:Node {name: 'A'})
+MATCH (d:Node {name: 'D'})
+RETURN algo.linkprediction.commonNeighbors(a, d) AS score
+----
+
+This function returns a score of 2 meaning that nodes A and D have two nodes in common.
+
+Modify this query to find the score for nodes A and E.
+
+== Exercise 11.2: Run the Adamic Adar algorithm. (Instructions/Solution)
+
+Now you will perform link prediction over all the nodes in our sample graph.
+Run this code that computes Adamic Adar for all pairs of nodes that do not have a *HAS_FRIEND*` relationship:
+[source, cypher]
+----
+MATCH (a:Node), (b:Node)
+WHERE a <> b AND a.name < b.name AND not((a)-[:HAS_FRIEND]-(b))
+RETURN a.name, b.name, algo.linkprediction.adamicAdar(a, b) AS score
+ORDER BY score DESC
+----
+
+Which pair of nodes are more likely to have a link created between them?
+
+== Exercise 11.3: Run the Preferential Attachment algorithm. (Instructions/Solution)
+
+The intuition is that nodes with many relationships will gain more relationships.
+
+This measure is one of the easiest to compute by taking the product of the degree of each node.
+
+Run this code that computes Preferential Attachment score nodes C and E:
+
+[source, cypher]
+----
+MATCH (a:Node {name: 'C'})
+MATCH (d:Node {name: 'E'})
+RETURN algo.linkprediction.preferentialAttachment(a, d) AS score
+----
+
+== Exercise 11: Taking it further
+
+Perform some Link Prediction analysis with some of the larger datasets.
+
+== Exercise 11: Link Prediction (Summary)
+
+Link Prediction algorithms are useful applications that recommend outcomes and for machine learning.
+
+In this exercise, you gained some experience with Link Prediction algorithms on small sample graph of *Node* nodes with the *HAS_FRIEND* relationships.
+
+

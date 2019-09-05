@@ -1,0 +1,312 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 3</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 3</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3: Triangle Count (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3: Triangle Count (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you will gain some experience with writing Cypher to implement the Triangle count algorithm using the European Roads dataset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 3.1</strong>: Retrieve the triangles in the European Roads dataset.</p>
+</li>
+<li>
+<p><strong>Exercise 3.2</strong>: Determine the triangle count and clustering coefficient for each <strong>Place</strong> node.</p>
+</li>
+<li>
+<p><strong>Exercise 3.3</strong>: Verify results of the clustering coefficient.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.1: Retrieve the triangles in the European Roads dataset. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return the set of triangles in the graph between <strong>Place</strong> node using the <strong>EROAD</strong> relationship.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.triangle.stream</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.1: Retrieve the triangles in the European Roads dataset. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return the set of triangles in the graph between <strong>Place</strong> node using the <strong>EROAD</strong> relationship.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.triangle.stream</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.triangle.stream("Place","EROAD")
+YIELD nodeA, nodeB, nodeC
+RETURN algo.getNodeById(nodeA).name AS nodeA,
+       algo.getNodeById(nodeB).name AS nodeB,
+       algo.getNodeById(nodeC).name AS nodeC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX3.1.png" alt="EX3.1" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.2: Determine the triangle count and clustering coefficient for each <strong>Place</strong> node. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return the triangle count and clustering coefficient for each <strong>Place</strong> node using the <strong>EROAD</strong> relationship.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.triangleCount.stream</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.2: Determine the triangle count and clustering coefficient for each <strong>Place</strong> node. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return the triangle count and clustering coefficient for each <strong>Place</strong> node using the <strong>EROAD</strong> relationship.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.triangleCount.stream</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.triangleCount.stream('Place', 'EROAD')
+YIELD nodeId, triangles, coefficient
+WHERE coefficient &gt; 0
+RETURN algo.getNodeById(nodeId).name AS place, coefficient, triangles
+ORDER BY coefficient DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX3.2.png" alt="EX3.2" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>A score of 1 means that all the node&#8217;s neighbors are connected to each other.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.3: Verify results of the clustering coefficient. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to confirm that the clustering coefficient scores of 1 are correct.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3.3: Verify results of the clustering coefficient.  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to confirm that the clustering coefficient scores of 1 are correct.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code for verifying the triangles for the <strong>Bradford</strong> node:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding"><!--code-->MATCH (p1:Place {name: "Bradford"})-[:EROAD]-(neighbor)
+WITH p1, collect(neighbor) AS neighbors
+UNWIND neighbors AS node1
+UNWIND neighbors AS node2
+OPTIONAL MATCH neighborPath = (node1)-[:EROAD]-(node2)
+OPTIONAL MATCH nodePath = (node1)-[:EROAD]-(p1)-[:EROAD]-(node2)
+RETURN neighborPath, nodePath<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX3.3.png" alt="EX3.3" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Check out other nodes with a clustering coefficient of 1.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Write code to add the coefficient property to the <strong>Place</strong> nodes.</p>
+</li>
+<li>
+<p>Try using the non-stream version of the algorithms.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 3: Triangle Count (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gained some experience with writing Cypher to implement the Triangle count algorithm to return the triangle count and clustering coefficient for the <strong>Place</strong> nodes of  the European Roads dataset.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/intro-graph-algos-exercises/04.html'>Continue to Exercise 4</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

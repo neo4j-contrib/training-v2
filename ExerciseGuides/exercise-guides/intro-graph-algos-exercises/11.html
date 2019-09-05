@@ -1,0 +1,233 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 11</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 11</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11: Link Prediction (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>This exercise will use a very small sample graph.</p>
+</div>
+<div class="paragraph">
+<p>Execute this code to load the nodes and relationships into the graph:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->UNWIND [["A", "C"], ["A", "B"], ["B", "D"],
+        ["B", "C"], ["B", "E"], ["C", "D"]] AS pair
+MERGE (n1:Node {name: pair[0]})
+MERGE (n2:Node {name: pair[1]})
+MERGE (n1)-[:HAS_FRIEND]-(n2)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This graph should look as follows:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/NODE_HAS_FRIEND.png" alt="NODE_HAS_FRIEND" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11: Link Prediction (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Link Prediction algorithms are useful applications that recommend outcomes and for machine learning.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will gain some experience with Link Prediction algorithms on small sample graph of <strong>Node</strong> nodes with the <strong>HAS_FRIEND</strong> relationships:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 11.1</strong>: Run the Common Neighbors algorithm.</p>
+</li>
+<li>
+<p><strong>Exercise 11.2</strong>: Run the Adamic Adar algorithm.</p>
+</li>
+<li>
+<p><strong>Exercise 11.3</strong>: Run the Preferential Attachment algorithm.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.1: Run the Common Neighbors algorithm. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The common-neighbors predictor captures the notion that two strangers who have a common friend may be introduced by that friend. This introduction has the effect of "closing a triangle" in the graph.</p>
+</div>
+<div class="paragraph">
+<p>As the name suggests, this measure computes the number of common neighbors that a pair of nodes share.We want to compute the similarity of categories based on the same businesses being tagged with that category.</p>
+</div>
+<div class="paragraph">
+<p>First, run this algorithm as a function by executing this code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Node {name: 'A'})
+MATCH (d:Node {name: 'D'})
+RETURN algo.linkprediction.commonNeighbors(a, d) AS score<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This function returns a score of 2 meaning that nodes A and D have two nodes in common.</p>
+</div>
+<div class="paragraph">
+<p>Modify this query to find the score for nodes A and E.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.2: Run the Adamic Adar algorithm. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Now you will perform link prediction over all the nodes in our sample graph.
+Run this code that computes Adamic Adar for all pairs of nodes that do not have a <strong>HAS_FRIEND</strong>` relationship:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Node), (b:Node)
+WHERE a &lt;&gt; b AND a.name &lt; b.name AND not((a)-[:HAS_FRIEND]-(b))
+RETURN a.name, b.name, algo.linkprediction.adamicAdar(a, b) AS score
+ORDER BY score DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which pair of nodes are more likely to have a link created between them?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.3: Run the Preferential Attachment algorithm. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The intuition is that nodes with many relationships will gain more relationships.</p>
+</div>
+<div class="paragraph">
+<p>This measure is one of the easiest to compute by taking the product of the degree of each node.</p>
+</div>
+<div class="paragraph">
+<p>Run this code that computes Preferential Attachment score nodes C and E:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Node {name: 'C'})
+MATCH (d:Node {name: 'E'})
+RETURN algo.linkprediction.preferentialAttachment(a, d) AS score<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Perform some Link Prediction analysis with some of the larger datasets.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11: Link Prediction (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Link Prediction algorithms are useful applications that recommend outcomes and for machine learning.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you gained some experience with Link Prediction algorithms on small sample graph of <strong>Node</strong> nodes with the <strong>HAS_FRIEND</strong> relationships.</p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

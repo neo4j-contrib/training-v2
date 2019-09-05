@@ -1,0 +1,665 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 10</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 10</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10: Similarity (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10: Similarity (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Similarity algorithms are useful for analyzing datasets to determine how alike nodes are based upon their properties.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will execute some Similarity algorithms on the Yelp dataset:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 10.1</strong>: Run the Overlap Similarity algorithm on some sample data.</p>
+</li>
+<li>
+<p><strong>Exercise 10.2</strong>: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset.</p>
+</li>
+<li>
+<p><strong>Exercise 10.3</strong>: Modify and view the updated graph after running the Overlap Similarity algorithm.</p>
+</li>
+<li>
+<p><strong>Exercise 10.4</strong>: Run the Pearson Similarity algorithm for users who have reviewed businesses.</p>
+</li>
+<li>
+<p><strong>Exercise 10.5</strong>: Run the Jaccard Similarity algorithm for photos that have been similarly tagged.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.1: Run the Overlap Similarity algorithm on some sample data. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Suppose  you want to compute the similarity of categories based on the same businesses being tagged with that category.
+First, see how the algorithm works with some dummy data by executing this code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->WITH [
+  {item: 7, categories: [10,11,12]},
+  {item: 8, categories: [10,11]},
+  {item: 9, categories: [11,12,13,14,15]}
+] AS data
+CALL algo.similarity.overlap.stream(data)
+YIELD item1, item2, similarity
+RETURN item1, item2, similarity
+ORDER BY similarity DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this query, dataset, item 8 has a similarity score of 1.0 with item 7, which means that item 8 is a complete subset of item 7.
+Item 7 itself is a subset of item 9, but it’s not a complete subset as item 7 has one category that item 9 does not.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Now you will run the algorithm on the Yelp dataset.
+First, you need to build a collection of items like you did in the previous example, but this time the collection will consist of data from our graph rather than being hard-coded.</p>
+</div>
+<div class="paragraph">
+<p>This code provides a template for computing the Overlap Similarity of categories based on the businesses tagged with those categories:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Change this part of the query
+MATCH (book:Book)-[:HAS_GENRE]-&gt;(genre)
+WITH {item:id(genre), categories: collect(id(book))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the config in this part of the query
+CALL algo.similarity.overlap(data, {
+
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Update update this code to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute similarity between categories based on the business tagged with that category.
+<strong>Hint</strong>: You will use the <strong>IN_CATEGORY</strong> relationship.</p>
+</li>
+<li>
+<p>Choose a similarity cut off value.
+<strong>Hint</strong>: Use the <strong>similarityCutOff</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Store the results in the graph.
+<strong>Hint</strong>: Use the <strong>write</strong> configuration parameter.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Now you will run the algorithm on the Yelp dataset.
+First, you need to build a collection of items like you did in the previous example, but this time the collection will consist of data from our graph rather than being hard-coded.</p>
+</div>
+<div class="paragraph">
+<p>This code provides a template for computing the Overlap Similarity of categories based on the businesses tagged with those categories:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (category:Category)&lt;-[:IN_CATEGORY]-(business)
+WITH {item:id(category), categories: collect(id(business))} AS userData
+
+WITH collect(userData) as data
+
+CALL algo.similarity.overlap(data, {
+  write: true, similarityCutoff: 0.75
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99;<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Update update this query to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute similarity between categories based on the business tagged with that category.
+<strong>Hint</strong>: You will use the <strong>IN_CATEGORY</strong> relationship.</p>
+</li>
+<li>
+<p>Choose a similarity cut off value.
+<strong>Hint</strong>: Use the <strong>similarityCutOff</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Store the results in the graph.
+<strong>Hint</strong>: Use the <strong>write</strong> configuration parameter.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (category:Category)&lt;-[:IN_CATEGORY]-(business)
+WITH {item:id(category), categories: collect(id(business))} AS userData
+
+WITH collect(userData) as data
+
+CALL algo.similarity.overlap(data, {
+  write: true, similarityCutoff: 0.75
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX10.2.png" alt="EX10.2" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.3: Modify and view the updated graph after running the Overlap Similarity algorithm. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The algorithm you just ran created relationships between nodes that are not strictly adjacent in the hierarchy.
+Run this code to remove those transitive relationships:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (g1:Category)-[:NARROWER_THAN*2..]-&gt;(g3:Category),
+      (g1)-[d:NARROWER_THAN]-&gt;(g3)
+DELETE d<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>View the hierarchy that has been created. Execute this query return 10 of these paths:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = (category:Category)-[:NARROWER_THAN*]-&gt;(superCategory:Category)
+RETURN path
+LIMIT 10<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that top-level categories do not have an outgoing <strong>NARROWER_THAN</strong> relationship.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You want to see the similarity between users who reviewed businesses.</p>
+</div>
+<div class="paragraph">
+<p>The query below provides a template for computing the Pearson Similarity of users based on the businesses that they have reviewed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.similarity.pearson(
+  "MATCH (u:User)
+   WHERE size((u)-[:WROTE]-&gt;()) &gt; 15
+   // Fill in this part of the query
+   RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
+  {graph: "cypher", skipValue: algo.NaN()})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Update this query to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute similarity between users based on the common businesses they have reviewed
+<strong>Hint</strong>: You will need to use the <strong>WROTE</strong> and <strong>REVIEWS</strong> relationships.</p>
+</li>
+<li>
+<p>Choose a similarity cut off value.
+<strong>Hint</strong>: Use the <strong>similarityCutOff</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Choose a topK value.
+<strong>Hint</strong>: Use the <strong>topK</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Store the results in the graph.
+<strong>Hint</strong>: Use the <strong>write</strong> configuration parameter.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You want to see the similarity between users who reviewed businesses.</p>
+</div>
+<div class="paragraph">
+<p>The query below provides a template for computing the Pearson Similarity of users based on the businesses that they have reviewed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.similarity.pearson(
+  "MATCH (u:User)
+   WHERE size((u)-[:WROTE]-&gt;()) &gt; 15
+   // Fill in this part of the query
+   RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
+  {graph: "cypher", skipValue: algo.NaN()})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Update this query to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute similarity between users based on the common businesses they have reviewed
+<strong>Hint</strong>: You will need to use the <strong>WROTE</strong> and <strong>REVIEWS</strong> relationships.</p>
+</li>
+<li>
+<p>Choose a similarity cut off value.
+<strong>Hint</strong>: Use the <strong>similarityCutOff</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Choose a topK value.
+<strong>Hint</strong>: Use the <strong>topK</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Store the results in the graph.
+<strong>Hint</strong>: Use the <strong>write</strong> configuration parameter.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.similarity.pearson(
+ "MATCH (u:User)
+  WHERE size((u)-[:WROTE]-&gt;()) &gt; 15
+  MATCH (u)-[:WROTE]-&gt;(review)-[:REVIEWS]-&gt;(b)
+  RETURN id(u) AS item, id(b) AS category, review.stars as weight",
+  {graph: "cypher", topK: 5, skipValue: algo.NaN(), similarityCutoff: 0.1, write: true})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX10.4A.png" alt="EX10.4A" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>In an application we would use this similarity graph to improve the reviews that we show the user.</p>
+</div>
+<div class="paragraph">
+<p>Run this command to set this parameter that will hold valid userId values:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:param userIds =&gt; ["FiKaWcORiTyKi4I7pJp3tQ", "d_TBs6J3twMy9GChqUEXkg", "NwPnvTALYMNZgdiwHHkuAQ"]<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this query to find similar users by following the <strong>SIMILAR</strong> relationship from the first user:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (u:User {id: $userIds[0]})-[similarity:SIMILAR]-&gt;(other)
+RETURN other, similarity.score AS similarity
+ORDER BY similarity DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX10.4B.png" alt="EX10.4B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The photos in this graph have been run through Google’s Image Labeling service and those labels are connected to photos by the <strong>HAS_LABEL</strong> relationship.
+Run the following query to explore this part of the graph:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = (p:Photo)-[:HAS_LABEL]-&gt;(label)
+RETURN path
+LIMIT 25<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We want to determine which photos are similar to each other based on the labels they have been tagged with.
+You can do this using the Jaccard Similarity algorithm. Here is the starting template for the code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Change this part of the query
+MATCH (p:Person)-[likes:LIKES]-&gt;(cuisine)
+WITH {item:id(p), categories: collect(id(cuisine))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the config in this part of the query
+CALL algo.similarity.jaccard(data, {
+
+})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Update this query to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute similarity between photos based on the labels they have.
+<strong>Hint</strong>: Use the <strong>HAS_LABEL</strong> relationship.</p>
+</li>
+<li>
+<p>Find the top 3 most similar photos.
+<strong>Hint</strong>: Use the <strong>topK</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Store the results in the graph.
+<strong>Hint</strong>: Use the <strong>write</strong> configuration parameter.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10.5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The photos in this graph have been run through Google’s Image Labeling service and those labels are connected to photos by the <strong>HAS_LABEL</strong> relationship.
+Run the following query to explore this part of the graph:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = (p:Photo)-[:HAS_LABEL]-&gt;(label)
+RETURN path
+LIMIT 25<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We want to determine which photos are similar to each other based on the labels they have been tagged with.
+You can do this using the Jaccard Similarity algorithm. Here is the starting template for the code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Change this part of the query
+MATCH (p:Person)-[likes:LIKES]-&gt;(cuisine)
+WITH {item:id(p), categories: collect(id(cuisine))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the config in this part of the query
+CALL algo.similarity.jaccard(data, {
+
+})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Update this query to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compute similarity between photos based on the labels they have.
+<strong>Hint</strong>: Use the <strong>HAS_LABEL</strong> relationship.</p>
+</li>
+<li>
+<p>Find the top 3 most similar photos.
+<strong>Hint</strong>: Use the <strong>topK</strong> configuration parameter.</p>
+</li>
+<li>
+<p>Store the results in the graph.
+<strong>Hint</strong>: Use the <strong>write</strong> configuration parameter.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Photo)-[:HAS_LABEL]-&gt;(label)
+WITH {item:id(p), categories: collect(id(label))} as userData
+
+WITH collect(userData) as data
+
+CALL algo.similarity.jaccard(data, {topK: 3, similarityCutoff: 0.9, write: true})
+
+YIELD p25, p50, p90, p99, p999, p100,  write
+RETURN p25, p50, p90, p99, p999, p100, write<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX10.5A.png" alt="EX10.5A" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>Run this query to find the <strong>SIMILAR</strong> relationships created:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH path = (p1:Photo)-[r:SIMILAR]-&gt;(p2:Photo)
+RETURN path
+LIMIT 20<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX10.5B.png" alt="EX10.5B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Use the similarity scores written to the graph to perform Community Detection analysis.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 10: Similarity (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Similarity algorithms are useful for analyzing datasets to determine how alike nodes are based upon their properties.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you gained experience with some Similarity algorithms on the Yelp dataset.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/intro-graph-algos-exercises/11.html'>Continue to Exercise 11</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

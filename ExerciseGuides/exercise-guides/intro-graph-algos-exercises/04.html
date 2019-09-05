@@ -1,0 +1,278 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 4</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 4</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4: Label Propagation (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4: Label Propagation (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In the Connected components exercise, you used the <code>unionFind</code> algorithm to write partition information to each <strong>Place</strong> node.
+This property was named <strong>unionFind_partition</strong>. In this exercise, you will gain some experience with writing Cypher to implement the Label Propagation algorithm using the European Roads dataset.
+This algorithm enables you to determine discreet sets of nodes that form clusters based upon how they are connected, as well as the weight of the connections.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 4.1</strong>: Add a partition property to each node using Label Propagation.</p>
+</li>
+<li>
+<p><strong>Exercise 4.2</strong>: Verify the results of executing the algorithm.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.1: Add a partition property to each node using Label Propagation. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform the Label Propagation algorithm on the <strong>Place</strong> nodes and the the <strong>EROAD</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The algorithm will perform 10 iterations.</p>
+</li>
+<li>
+<p>The analysis will be done using BOTH directions.</p>
+</li>
+<li>
+<p>The algorithm will write a property named <strong>partition</strong> to each node with the computed value.</p>
+</li>
+<li>
+<p>The weight property name is <strong>weight</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.labelPropagation</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.1: Add a partition property to each node using Label Propagation. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform the Label Propagation algorithm on the <strong>Place</strong> nodes and the the <strong>EROAD</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The algorithm will perform 10 iterations.</p>
+</li>
+<li>
+<p>The analysis will be done using BOTH directions.</p>
+</li>
+<li>
+<p>The algorithm will write a property named <strong>partition</strong> to each node with the computed value.</p>
+</li>
+<li>
+<p>The weight property name is <strong>weight</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.labelPropagation</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.labelPropagation("Place", "EROAD", { iterations: 10, direction: "BOTH", writeProperty: "partition", weightProperty: "weight" })<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX4.1.png" alt="EX4.1" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.2: Verify the results of executing the algorithm. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>partition</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct partition value, return the list of places.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.2: Verify the results of executing the algorithm. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>partition</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct partition value, return the list of places.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (node:Place)
+RETURN DISTINCT node.partition, collect(node.name) AS places
+ORDER BY node.partition DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX4.2.png" alt="EX4.2" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Try using the stream version of the algorithm.</p>
+</li>
+<li>
+<p>Try different configuration values, for example number of iterations.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4: Label Propagation (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gained some experience with writing Cypher to implement the Label Propagation algorithm using the European Roads dataset.
+This algorithm enables you to determine discreet sets of nodes that form clusters based upon how they are connected, as well as the weight of the connections.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/intro-graph-algos-exercises/05.html'>Continue to Exercise 5</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

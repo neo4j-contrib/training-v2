@@ -1,0 +1,241 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 7</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 7</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7: PageRank (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7: PageRank (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>PageRank measures the transitive influence or connectivity of nodes.
+It can be computed by iteratively distributing one node’s rank (originally based on degree) over its neighbors.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will analyze PageRank for the European Roads dataset:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 7.1</strong>: Perform the PageRank algorithm on the <strong>Place</strong> nodes and <strong>EROADS</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7.1: Perform the PageRank algorithm on the <strong>Place</strong> nodes and <strong>EROADS</strong> relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform PageRank analysis on the <strong>Place</strong> nodes using the <strong>EROADS</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the stream variation of the algorithm.</p>
+</li>
+<li>
+<p>Specify 2 iterations.</p>
+</li>
+<li>
+<p>Specify both directions.</p>
+</li>
+<li>
+<p>Specify a dampening factor of .85.</p>
+</li>
+<li>
+<p>Return the results ordering by <strong>score</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Call <code>algo.pageRank.stream</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7.1: Perform the PageRank algorithm on the <strong>Place</strong> and <strong>EROADS</strong> relationships. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform PageRank analysis on the <strong>Place</strong> nodes using the <strong>EROADS</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the stream variation of the algorithm.</p>
+</li>
+<li>
+<p>Specify 20 iterations.</p>
+</li>
+<li>
+<p>Specify both directions.</p>
+</li>
+<li>
+<p>Specify a dampening factor of .85.</p>
+</li>
+<li>
+<p>Return the results ordering by <strong>score</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Call <code>algo.pageRank.stream</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.pageRank.stream('Place', 'EROAD', {iterations:20, dampingFactor:0.85, direction: "BOTH"})
+YIELD nodeId, score
+RETURN algo.getNodeById(nodeId).name AS page, score
+ORDER BY score DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX7.1.png" alt="EX7.1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>Here we see that Berlin, Munchen, and Paris are the most popular places.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Change the iterations and dampening factor to see how it affects the results.</p>
+</li>
+<li>
+<p>Try using the non-stream version of the algorithm.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 7: PageRank (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>PageRank measures the transitive influence or connectivity of nodes.
+It can be computed by iteratively distributing one node’s rank (originally based on degree) over its neighbors.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you analyzed PageRank for the European Roads dataset.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/intro-graph-algos-exercises/08.html'>Continue to Exercise 8</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

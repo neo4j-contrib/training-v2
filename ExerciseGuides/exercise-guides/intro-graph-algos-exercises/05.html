@@ -1,0 +1,528 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 5</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 5</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Louvain Modularity (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Louvain Modularity (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The Louvain Modularity algorithm finds clusters by comparing community density as it assigns nodes to different groups.
+You can think of this as a “what if” analysis to try out various grouping with the goal of eventually reaching a global optimum.</p>
+</div>
+<div class="paragraph">
+<p>It also reveals a hierarchy of communities at different scales, which is useful for understanding the structure of a network at different levels of granularity.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will perform the following with the European Roads dataset:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 5.1</strong>: Run the Louvain Modularity algorithm to add a community property to each node.</p>
+</li>
+<li>
+<p><strong>Exercise 5.2</strong>: Examine the results of executing the algorithm.</p>
+</li>
+<li>
+<p><strong>Exercise 5.3</strong>: Run the Louvain Modularity algorithm to discover a hierarchy of communities within the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 5.4</strong>: Examine the results of executing the algorithm.</p>
+</li>
+<li>
+<p><strong>Exercise 5.5</strong>: View the partitioning of the data.</p>
+</li>
+<li>
+<p><strong>Exercise 5.6</strong>: View finer-grained partition data.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.1: Run the Louvain Modularity algorithm to add a community property to each node. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform the Louvain Modularity algorithm on the <strong>Place</strong> nodes and the the <strong>EROAD</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The analysis will be done using BOTH directions.</p>
+</li>
+<li>
+<p>The algorithm will write a property named <strong>community</strong> to each node with the computed value.</p>
+</li>
+<li>
+<p>The weight property name is <strong>weight</strong>.</p>
+</li>
+<li>
+<p>YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.louvain</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.1: Run the Louvain Modularity algorithm to add a community property to each node. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform the Louvain Modularity algorithm on the <strong>Place</strong> nodes and the the <strong>EROAD</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The analysis will be done using BOTH directions.</p>
+</li>
+<li>
+<p>The algorithm will write a property named <strong>community</strong> to each node with the computed value.</p>
+</li>
+<li>
+<p>The weight property name is <strong>weight</strong>.</p>
+</li>
+<li>
+<p>YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.louvain</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.louvain('Place', 'EROAD',
+{writeProperty:'community', weightProperty: 'weight', direction: 'Both' })
+YIELD nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX5.1.png" alt="EX5.1" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.2: Verify the results of executing the algorithm. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>community</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct community value, return the list of places.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.2: Verify the results of executing the algorithm. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>community</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct community value, return the list of places.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (node:Place)
+RETURN DISTINCT node.community, collect(node.name) AS places
+ORDER BY node.community DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX5.2.png" alt="EX5.2" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see, the algorithm created 24 different communities.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.3: Run the Louvain Modularity algorithm to discover a hierarchy of communities within the graph. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform the Louvain Modularity algorithm on the <strong>Place</strong> nodes and the the <strong>EROAD</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The analysis will be done using BOTH directions.</p>
+</li>
+<li>
+<p>Specify that intermediate communities are to be analized.</p>
+</li>
+<li>
+<p>The algorithm will write a property named <strong>communities</strong> to each node with the computed value for intermediate communities.</p>
+</li>
+<li>
+<p>The weight property name is <strong>weight</strong>.</p>
+</li>
+<li>
+<p>YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.louvain</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.3: Run the Louvain Modularity algorithm to discover a hierarchy of communities within the graph. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write Cypher code to perform the Louvain Modularity algorithm on the <strong>Place</strong> nodes and the the <strong>EROAD</strong> relationship using these guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The analysis will be done using BOTH directions.</p>
+</li>
+<li>
+<p>Specify that intermediate communities are to be analized.</p>
+</li>
+<li>
+<p>The algorithm will write a property named <strong>communities</strong> to each node with the computed value for intermediate communities.</p>
+</li>
+<li>
+<p>The weight property name is <strong>weight</strong>.</p>
+</li>
+<li>
+<p>YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will call <code>algo.louvain</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.louvain('Place', 'EROAD',
+{includeIntermediateCommunities: true, intermediateCommunitiesWriteProperty:'communities', weightProperty: 'weight', direction: 'Both' })
+YIELD nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX5.3.png" alt="EX5.3" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.4: Verify the results of executing the algorithm. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>communities</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct communities value, return the list of places.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.4: Verify the results of executing the algorithm. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>communities</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct communities value, return the list of places.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (node:Place)
+RETURN DISTINCT node.communities, collect(node.name) AS places
+ORDER BY node.communities<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX5.4.png" alt="EX5.4" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5: View the partitioning of the data. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You can then query the graph to find which nodes are in each partition.
+Let’s start with the final (and most coarse grained partition):</p>
+</div>
+<div class="paragraph">
+<p>Execute this code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (place:Place)
+RETURN place.communities[-1] AS community, collect(place.name) AS places
+ORDER BY size(places) DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX5.5A.png" alt="EX5.5A" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to find one of the intermediate partitions you can execute this code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (place:Place)
+RETURN place.communities[0] AS community, collect(place.name) AS places
+ORDER BY size(places) DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX5.5B.png" alt="EX5.5B" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.6: View finer-grained partition data. (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>It may be easier to see how the algorithm works if we look at the intermediate partitions for a single place.
+Let’s explore the clusters that London was assigned to.</p>
+</div>
+<div class="paragraph">
+<p>You can find the first (and finest-grained) partition by running the following query:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->WITH 0 AS index
+MATCH (home:Place {name: "London"})
+MATCH (place:Place) WHERE place.communities[index] = home.communities[index]
+RETURN place.communities[index] AS community, collect(place.name) AS places
+ORDER BY size(places) DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX5.6.png" alt="EX5.6" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>If we want to find the coarser-grained partitions we can change the first line of the query to look at different indexes in the array.
+Try changing it to 1, 2, and 3 to see the clusters that London ends up in.</p>
+</div>
+<div class="paragraph">
+<p>Try looking up the partitions for another place. e.g. Berlin, Paris, Amsterdam.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Try using the stream version of the algorithm.</p>
+</li>
+<li>
+<p>Try different configuration values.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Louvain Modularity (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gained some experience with writing Cypher to implement the Louvain Modularity algorithm using the European Roads dataset.
+The Louvain Modularity algorithm finds clusters by comparing community density as it assigns nodes to different groups.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/intro-graph-algos-exercises/06.html'>Continue to Exercise 6</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

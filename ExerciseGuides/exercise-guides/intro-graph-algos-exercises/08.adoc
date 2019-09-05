@@ -1,0 +1,263 @@
+= Exercise 8
+:icons: font
+
+== Exercise 8: Centrality (Preparations)
+
+The database you start with should contain all of the data you loaded in the setup for this course.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+
+{nbsp} +
+
+If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
+
+== Exercise 8: Centrality (Overview)
+
+There are several centrality algorithms that help you identify important nodes in the graph.
+
+In this exercise, you will execute a number of centrality algorithms for the European Roads dataset:
+
+* *Exercise 8.1*: Perform Closeness Centrality analysis.
+* *Exercise 8.2*: View data related to the Closeness Centrality analysis.
+* *Exercise 8.3*: Perform a variation of Closeness Centrality analysis: Wasserman and Faust.
+* *Exercise 8.4*: View data related to the Wasserman and Faust analysis.
+* *Exercise 8.5*: Perform a variation of Closeness Centrality analysis: Harmonic Centrality.
+* *Exercise 8.6*: View data related to the Harmonic Centrality analysis.
+* *Exercise 8.7*: Perform Betweenness Centrality analysis.
+* *Exercise 8.8*: Perform a variation of Betweenness Centrality analysis: Randomized-Approximate Brandes.
+
+Go to the next page to start this exercise.
+
+== Exercise 8.1: Perform Closeness Centrality analysis. (Instructions)
+
+You will start with the Closeness Centrality algorithm, which works out the average 'farness' of a node from all other nodes.
+
+Write Cypher code to perform Closeness Centrality analysis on the *Place* nodes using the *EROADS* relationship using these guidelines:
+
+* Use the stream variation of the algorithm.
+* Return the results ordering by *centrality*.
+
+*Hint*: Call `algo.closeness.stream`.
+
+== Exercise 8.1: Perform Closeness Centrality analysis. (Solution)
+
+You will start with the Closeness Centrality algorithm, which works out the average 'farness' of a node from all other nodes.
+
+Write Cypher code to perform Closeness Centrality analysis on the *Place* nodes using the *EROADS* relationship using these guidelines:
+
+* Use the stream variation of the algorithm.
+* Return the results ordering by *centrality*.
+
+*Hint*: Call `algo.closeness.stream`.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.closeness.stream("Place", "EROAD")
+YIELD nodeId, centrality
+RETURN algo.getNodeById(nodeId).name AS place, centrality
+ORDER BY centrality DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX8.1.png[EX8.1,width=300]
+
+A score of 1.0 means that the node has a direct link to every node that it is able to reach.
+
+== Exercise 8.2: View data related to the Closeness Centrality analysis. (Instructions/Solution)
+
+You will look one of the places that has a Closeness Centrality of 1.0 and see how well it is connected.
+
+Run the following query to find all the places that we can get to from Granada:
+
+[source, cypher]
+----
+MATCH path = (:Place {name: "Granada"})-[:EROAD*]-()
+RETURN path
+----
+
+If you double-click any of the nodes connected to Granada you will see that there are no other nodes connected to them.
+These three nodes would therefore be their own connected component, and within that component Granada is very well connected.
+
+Granada is not particularly well connected to the rest of the graph though!
+
+== Exercise 8.3: Perform a variation of Closeness Centrality analysis: Wasserman and Faust. (Instructions)
+
+The Wasserman and Faust variation of the algorithm dampens the Closeness Centrality score to account for this.
+
+To use this variation you must add the configuration setting of `improved: true`.
+
+Modify the call to `algo.closeness.stream` you performed earlier to:
+
+* Use the non-stream variation of the algorithm.
+* Write the property, *closeness*.
+* Add the improved: true value to the configuration.
+
+== Exercise 8.3: Perform a variation of Closeness Centrality analysis: Wasserman and Faust. (Solution)
+
+The Wasserman and Faust variation of the algorithm dampens the Closeness Centrality score to account for this.
+
+To use this variation you must add the configuration setting of `improved: true`.
+
+Modify the call to `algo.closeness.stream` you performed earlier to:
+
+* Use the non-stream variation of the algorithm.
+* Write the property, *closeness*.
+* Add the improved: true value to the configuration.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.closeness("Place", "EROAD", {improved: true, writeProperty: "closeness"})
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX8.3.png[EX8.3,width=300]
+
+== Exercise 8.4: View data related to the Wasserman and Faust analysis. (Instructions/Solution)
+
+Run the following query to return the closeness value for the three places that were closely connected earlier:
+
+[source, cypher]
+----
+MATCH (place:Place)
+WHERE place.name IN ["Granada", "Málaga", "Jaén"]
+RETURN place.name, place.closeness
+ORDER BY place.closeness DESC
+----
+
+With the Wasserman and Faust analysis, we see that the score for Granada is significantly less that it was with the original Closeness Centrality analysis.
+
+== Exercise 8.5: Perform a variation of Closeness Centrality analysis: Harmonic Centrality. (Instructions)
+
+Another variant of the algorithm is Harmonic Centrality.
+
+To use this variation you must remove the configuration setting of `improved: true` and specify a different property to write, *harmonic*.
+
+Modify the call to `algo.closeness` you performed earlier write the *harmonic* property.
+
+
+== Exercise 8.5: Perform a variation of Closeness Centrality analysis: Harmonic Centrality. (Solution)
+
+Another variant of the algorithm is Harmonic Centrality.
+
+To use this variation you must remove the configuration setting of `improved: true` and specify a different property to write, *harmonic*.
+
+Modify the call to `algo.closeness` you performed earlier write the *harmonic* property.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.closeness.harmonic("Place", "EROAD", {writeProperty: "harmonic"})
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX8.5.png[EX8.5,width=300]
+
+== Exercise 8.6: View data related to the Harmonic Centrality analysis. (Instructions)
+
+Write a query to find the place that has the highest harmonic centrality score?
+
+Are the top places the same as we see with closeness centrality?
+
+
+== Exercise 8.6: View data related to the Harmonic Centrality analysis. (Solution)
+
+Write a query to find the place that has the highest harmonic centrality score?
+
+Are the top places the same as we see with closeness centrality?
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (place:Place)
+RETURN place.name, place.closeness, place.harmonic
+ORDER BY place.harmonic DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX8.6.png[EX8.6,width=300]
+
+== Exercise 8.7: Perform Betweenness Centrality analysis. (Instructions)
+
+The Betweenness centrality algorithm detects the amount of influence a node has over the flow of information in a graph.
+It is often used to find nodes that serve as a bridge from one part of a graph to another.
+
+The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently like on these paths will have the highest score.
+
+Write the Cypher code to perform the stream variation of the Betweenness Centrality algorithm. It will return a centrality value.
+
+*Hint*: Call `algo.betweenness.stream` with no special configuration values.
+
+== Exercise 8.7: Perform Betweenness Centrality analysis. (Solution)
+
+The Betweenness centrality algorithm detects the amount of influence a node has over the flow of information in a graph.
+It is often used to find nodes that serve as a bridge from one part of a graph to another.
+
+The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently like on these paths will have the highest score.
+
+Write the Cypher code to perform the stream variation of the Betweenness Centrality algorithm.
+
+*Hint*: Call `algo.betweenness.stream` with no special configuration values. It will return a centrality value.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.betweenness.stream("Place", "EROAD")
+YIELD nodeId, centrality
+RETURN algo.getNodeById(nodeId).name AS user, centrality
+ORDER BY centrality DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX8.7.png[EX8.7,width=300]
+
+== Exercise 8.8: Perform a variation of Betweenness Centrality analysis: Randomized-Approximate Brandes. (Instructions/Solution)
+
+On very large graphs it is not really feasible to run all these shortest path computations, so we might choose to use an approximate version of the algorithm.
+
+The following query runs the RA-Brandes algorithm which calculates betweenness based on sampling parts of the graph. Run this analysis:
+[source, cypher]
+----
+CALL algo.betweenness.sampled.stream("Place", "EROAD", {strategy:"degree"})
+YIELD nodeId, centrality
+RETURN algo.getNodeById(nodeId).name AS user, centrality
+ORDER BY centrality DESC
+----
+
+You should see similar results as with the normal version, but will see a different result each time.
+
+Try running this algorithm a few times to see how the results change.
+
+== Exercise 8: Taking it further
+
+Try the Randomized-Approximate Brandes analysis with different values for:
+* strategy
+* probability
+* maxDepth
+
+
+== Exercise 8: Centrality (Summary)
+
+There are several centrality algorithms that help you identify important nodes in the graph.
+
+In this exercise, you ran a number of centrality algorithms for the European Roads dataset.
+
+pass:a[<a play-topic='{guides}/09.html'>Continue to Exercise 9</a>]

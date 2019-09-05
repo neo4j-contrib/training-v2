@@ -1,0 +1,81 @@
+= Exercise 7
+:icons: font
+
+== Exercise 7: PageRank (Preparations)
+
+The database you start with should contain all of the data you loaded in the setup for this course.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+
+{nbsp} +
+
+If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
+
+== Exercise 7: PageRank (Overview)
+
+PageRank measures the transitive influence or connectivity of nodes.
+It can be computed by iteratively distributing one node’s rank (originally based on degree) over its neighbors.
+
+In this exercise, you will analyze PageRank for the European Roads dataset:
+
+* *Exercise 7.1*: Perform the PageRank algorithm on the *Place* nodes and *EROADS* relationships.
+
+Go to the next page to start this exercise.
+
+== Exercise 7.1: Perform the PageRank algorithm on the *Place* nodes and *EROADS* relationships. (Instructions)
+
+Write Cypher code to perform PageRank analysis on the *Place* nodes using the *EROADS* relationship using these guidelines:
+
+* Use the stream variation of the algorithm.
+* Specify 2 iterations.
+* Specify both directions.
+* Specify a dampening factor of .85.
+* Return the results ordering by *score*.
+
+*Hint*: Call `algo.pageRank.stream`.
+
+== Exercise 7.1: Perform the PageRank algorithm on the *Place* and *EROADS* relationships. (Solution)
+
+Write Cypher code to perform PageRank analysis on the *Place* nodes using the *EROADS* relationship using these guidelines:
+
+* Use the stream variation of the algorithm.
+* Specify 20 iterations.
+* Specify both directions.
+* Specify a dampening factor of .85.
+* Return the results ordering by *score*.
+
+*Hint*: Call `algo.pageRank.stream`.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.pageRank.stream('Place', 'EROAD', {iterations:20, dampingFactor:0.85, direction: "BOTH"})
+YIELD nodeId, score
+RETURN algo.getNodeById(nodeId).name AS page, score
+ORDER BY score DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX7.1.png[EX7.1,width=300]
+
+Here we see that Berlin, Munchen, and Paris are the most popular places.
+
+
+== Exercise 7: Taking it further
+
+. Change the iterations and dampening factor to see how it affects the results.
+. Try using the non-stream version of the algorithm.
+
+== Exercise 7: PageRank (Summary)
+
+PageRank measures the transitive influence or connectivity of nodes.
+It can be computed by iteratively distributing one node’s rank (originally based on degree) over its neighbors.
+
+In this exercise, you analyzed PageRank for the European Roads dataset.
+
+pass:a[<a play-topic='{guides}/08.html'>Continue to Exercise 8</a>]
