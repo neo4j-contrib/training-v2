@@ -7,7 +7,7 @@ The database you start with should contain all of the data you loaded in the set
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
 
 {nbsp} +
 
@@ -32,13 +32,13 @@ Go to the next page to start this exercise.
 == Exercise 9.1: Find the shortest path with Cypher. (Instructions/Solution)
 
 You will start with a query that finds the shortest path in terms of hops (number of relationships) between two nodes.
-Execute the following query uses Neo4j’s built in shortest path function to find a path between Århus and Roma:
+Execute the following query uses Cypher’s built in shortest path function to find a path between Århus and Roma:
 
 [source, cypher]
 ----
 MATCH p=shortestPath((start:Place {name: "Århus"})-[rels:EROAD*]-(end:Place {name: "Roma"}))
 RETURN [place in nodes(p) | place.name][1..-1] AS journey,
-       length(nodes(p)[1..-1]) AS intermediatePlaces,
+       size(nodes(p)[1..-1]) AS intermediatePlaces,
        reduce(s = 0, r in rels | s + r.distance) AS total_distance
 ----
 
@@ -49,27 +49,27 @@ Modify this code to specify two different places to find the shortest path betwe
 
 == Exercise 9.2: Find the shortest weighted path with the Shortest Path algorithm. (Instructions)
 
-The previous query finds us the path that goes through the fewest other cities, but it’s not necessarily the shortest in terms of distance.
+The previous query finds us the path that goes through the fewest other cities, but it is not necessarily the shortest in terms of distance.
 
 The shortestPath algorithm takes into account the weight of the relationships to determine the shortest path.
 
 Write code to call to `algo.shortestPath.stream` using the following guidelines:
 
-* Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm)
+* Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm.)
 * Specify *distance* as the property to use for the weight.
-* Return the node name and the cost
+* Return the node name and the cost.
 
 == Exercise 9.2: Find the shortest weighted path with the Shortest Path algorithm. (Solution)
 
-The previous query finds us the path that goes through the fewest other cities, but it’s not necessarily the shortest in terms of distance.
+The previous query finds us the path that goes through the fewest other cities, but it is not necessarily the shortest in terms of distance.
 
 The shortestPath algorithm takes into account the weight of the relationships to determine the shortest path.
 
 Write code to call to `algo.shortestPath.stream` using the following guidelines:
 
-* Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm)
+* Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm.)
 * Specify *distance* as the property to use for the weight.
-* Return the node name and the cost
+* Return the node name and the cost.
 
 Here is the solution code:
 
@@ -85,10 +85,11 @@ return n.name, cost
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX9.2.png[EX9.2,width=300]
+image::{guides}/img/EX9.2.png[EX9.2,width=400]
+
+{nbsp} +
 
 With this algorithm, we see that the shortest path here used the distances between nodes to indeed find the shortest part of 2147.
-
 
 == Exercise 9.3: Find the shortest paths using Ken's K-shortest Path algorithm. (Instructions)
 
@@ -143,7 +144,7 @@ RETURN index,
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX9.3.png[EX9.3,width=300]
+image::{guides}/img/EX9.3.png[EX9.3,width=400]
 
 == Exercise 9.4: Find the shortest path between two nodes using the Single Source Shortest Path algorithm. (Instructions/Solution)
 
@@ -166,7 +167,7 @@ Modify this code to specify a different starting location.
 
 The Minimum Spanning Tree algorithm starts from a given node, and finds all its reachable nodes and the set of relationships that connect the nodes together with the minimum possible weight.
 
-The following code calculates this tree starting from Amsterdam, and stores relationships of type `MINST` between the nodes in the tree.
+The following code calculates this tree starting from Amsterdam, and stores relationships of type *MINST* between the nodes in the tree.
 Run this code to create the Minimum Spanning Tree relationships:
 
 [source, cypher]

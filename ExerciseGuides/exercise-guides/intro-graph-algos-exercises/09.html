@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="150">
 </div>
 </div>
 <div class="paragraph">
@@ -126,13 +126,13 @@ In this exercise you will gain experience with a variety of Pathfinding algorith
     <div>
       <div class="paragraph">
 <p>You will start with a query that finds the shortest path in terms of hops (number of relationships) between two nodes.
-Execute the following query uses Neo4j’s built in shortest path function to find a path between Århus and Roma:</p>
+Execute the following query uses Cypher’s built in shortest path function to find a path between Århus and Roma:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH p=shortestPath((start:Place {name: "Århus"})-[rels:EROAD*]-(end:Place {name: "Roma"}))
 RETURN [place in nodes(p) | place.name][1..-1] AS journey,
-       length(nodes(p)[1..-1]) AS intermediatePlaces,
+       size(nodes(p)[1..-1]) AS intermediatePlaces,
        reduce(s = 0, r in rels | s + r.distance) AS total_distance<!--/code--></pre>
 </div>
 </div>
@@ -155,7 +155,7 @@ In this case the path between Århus and Roma is 3148.</p>
     <br/>
     <div>
       <div class="paragraph">
-<p>The previous query finds us the path that goes through the fewest other cities, but it’s not necessarily the shortest in terms of distance.</p>
+<p>The previous query finds us the path that goes through the fewest other cities, but it is not necessarily the shortest in terms of distance.</p>
 </div>
 <div class="paragraph">
 <p>The shortestPath algorithm takes into account the weight of the relationships to determine the shortest path.</p>
@@ -166,13 +166,13 @@ In this case the path between Århus and Roma is 3148.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm)</p>
+<p>Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm.)</p>
 </li>
 <li>
 <p>Specify <strong>distance</strong> as the property to use for the weight.</p>
 </li>
 <li>
-<p>Return the node name and the cost</p>
+<p>Return the node name and the cost.</p>
 </li>
 </ul>
 </div>
@@ -188,7 +188,7 @@ In this case the path between Århus and Roma is 3148.</p>
     <br/>
     <div>
       <div class="paragraph">
-<p>The previous query finds us the path that goes through the fewest other cities, but it’s not necessarily the shortest in terms of distance.</p>
+<p>The previous query finds us the path that goes through the fewest other cities, but it is not necessarily the shortest in terms of distance.</p>
 </div>
 <div class="paragraph">
 <p>The shortestPath algorithm takes into account the weight of the relationships to determine the shortest path.</p>
@@ -199,13 +199,13 @@ In this case the path between Århus and Roma is 3148.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm)</p>
+<p>Use "Århus" and the starting node and "Roma" as the ending node. (You will need to find them in the graph before you run the algorithm.)</p>
 </li>
 <li>
 <p>Specify <strong>distance</strong> as the property to use for the weight.</p>
 </li>
 <li>
-<p>Return the node name and the cost</p>
+<p>Return the node name and the cost.</p>
 </li>
 </ul>
 </div>
@@ -226,8 +226,11 @@ return n.name, cost<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX9.2.png" alt="EX9.2" width="300">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX9.2.png" alt="EX9.2" width="400">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>With this algorithm, we see that the shortest path here used the distances between nodes to indeed find the shortest part of 2147.</p>
@@ -312,7 +315,7 @@ RETURN index,
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX9.3.png" alt="EX9.3" width="300">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX9.3.png" alt="EX9.3" width="400">
 </div>
 </div>
 	</div>
@@ -359,7 +362,7 @@ ORDER BY distance<!--/code--></pre>
 <p>The Minimum Spanning Tree algorithm starts from a given node, and finds all its reachable nodes and the set of relationships that connect the nodes together with the minimum possible weight.</p>
 </div>
 <div class="paragraph">
-<p>The following code calculates this tree starting from Amsterdam, and stores relationships of type <code>MINST</code> between the nodes in the tree.
+<p>The following code calculates this tree starting from Amsterdam, and stores relationships of type <strong>MINST</strong> between the nodes in the tree.
 Run this code to create the Minimum Spanning Tree relationships:</p>
 </div>
 <div class="listingblock">

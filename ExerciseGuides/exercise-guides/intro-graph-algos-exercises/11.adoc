@@ -19,7 +19,7 @@ MERGE (n1)-[:HAS_FRIEND]-(n2)
 This graph should look as follows:
 
 [.thumb]
-image::{guides}/img/NODE_HAS_FRIEND.png[NODE_HAS_FRIEND,width=300]
+image::{guides}/img/NODE_HAS_FRIEND.png[NODE_HAS_FRIEND,width=400]
 
 == Exercise 11: Link Prediction (Overview)
 
@@ -37,7 +37,7 @@ Go to the next page to start this exercise.
 
 The common-neighbors predictor captures the notion that two strangers who have a common friend may be introduced by that friend. This introduction has the effect of "closing a triangle" in the graph.
 
-As the name suggests, this measure computes the number of common neighbors that a pair of nodes share.We want to compute the similarity of categories based on the same businesses being tagged with that category.
+As the name suggests, this measure computes the number of common neighbors that a pair of nodes share. We want to compute the similarity of categories based on the same businesses being tagged with that category.
 
 First, run this algorithm as a function by executing this code:
 
@@ -55,7 +55,7 @@ Modify this query to find the score for nodes A and E.
 == Exercise 11.2: Run the Adamic Adar algorithm. (Instructions/Solution)
 
 Now you will perform link prediction over all the nodes in our sample graph.
-Run this code that computes Adamic Adar for all pairs of nodes that do not have a *HAS_FRIEND*` relationship:
+Run this code that computes Adamic Adar for all pairs of nodes that do not have a *HAS_FRIEND* relationship:
 [source, cypher]
 ----
 MATCH (a:Node), (b:Node)
@@ -72,7 +72,7 @@ The intuition is that nodes with many relationships will gain more relationships
 
 This measure is one of the easiest to compute by taking the product of the degree of each node.
 
-Run this code that computes Preferential Attachment score nodes C and E:
+Run this code that computes Preferential Attachment score for nodes C and E:
 
 [source, cypher]
 ----
@@ -83,7 +83,7 @@ RETURN algo.linkprediction.preferentialAttachment(a, d) AS score
 
 == Exercise 11: Taking it further
 
-Perform some Link Prediction analysis with some of the larger datasets.
+Perform some Link Prediction analysis with some of the larger datasets in your database.
 
 == Exercise 11: Link Prediction (Summary)
 

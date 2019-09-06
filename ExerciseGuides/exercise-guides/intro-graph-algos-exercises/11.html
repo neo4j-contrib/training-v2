@@ -73,7 +73,7 @@ MERGE (n1)-[:HAS_FRIEND]-(n2)<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/NODE_HAS_FRIEND.png" alt="NODE_HAS_FRIEND" width="300">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/NODE_HAS_FRIEND.png" alt="NODE_HAS_FRIEND" width="400">
 </div>
 </div>
 	</div>
@@ -124,7 +124,7 @@ MERGE (n1)-[:HAS_FRIEND]-(n2)<!--/code--></pre>
 <p>The common-neighbors predictor captures the notion that two strangers who have a common friend may be introduced by that friend. This introduction has the effect of "closing a triangle" in the graph.</p>
 </div>
 <div class="paragraph">
-<p>As the name suggests, this measure computes the number of common neighbors that a pair of nodes share.We want to compute the similarity of categories based on the same businesses being tagged with that category.</p>
+<p>As the name suggests, this measure computes the number of common neighbors that a pair of nodes share. We want to compute the similarity of categories based on the same businesses being tagged with that category.</p>
 </div>
 <div class="paragraph">
 <p>First, run this algorithm as a function by executing this code:</p>
@@ -155,7 +155,7 @@ RETURN algo.linkprediction.commonNeighbors(a, d) AS score<!--/code--></pre>
     <div>
       <div class="paragraph">
 <p>Now you will perform link prediction over all the nodes in our sample graph.
-Run this code that computes Adamic Adar for all pairs of nodes that do not have a <strong>HAS_FRIEND</strong>` relationship:</p>
+Run this code that computes Adamic Adar for all pairs of nodes that do not have a <strong>HAS_FRIEND</strong> relationship:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -186,7 +186,7 @@ ORDER BY score DESC<!--/code--></pre>
 <p>This measure is one of the easiest to compute by taking the product of the degree of each node.</p>
 </div>
 <div class="paragraph">
-<p>Run this code that computes Preferential Attachment score nodes C and E:</p>
+<p>Run this code that computes Preferential Attachment score for nodes C and E:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -207,7 +207,7 @@ RETURN algo.linkprediction.preferentialAttachment(a, d) AS score<!--/code--></pr
     <br/>
     <div>
       <div class="paragraph">
-<p>Perform some Link Prediction analysis with some of the larger datasets.</p>
+<p>Perform some Link Prediction analysis with some of the larger datasets in your database.</p>
 </div>
 	</div>
   </div>

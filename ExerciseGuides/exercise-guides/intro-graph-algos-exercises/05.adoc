@@ -7,7 +7,7 @@ The database you start with should contain all of the data you loaded in the set
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
 
 {nbsp} +
 
@@ -33,23 +33,23 @@ Go to the next page to start this exercise.
 
 == Exercise 5.1: Run the Louvain Modularity algorithm to add a community property to each node. (Instructions)
 
-Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the the *EROAD* relationship using these guidelines:
+Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the *EROAD* relationship using these guidelines:
 
 * The analysis will be done using BOTH directions.
 * The algorithm will write a property named *community* to each node with the computed value.
 * The weight property name is *weight*.
-* YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
+* `YIELD` the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
 
 *Hint*: You will call `algo.louvain`.
 
 == Exercise 5.1: Run the Louvain Modularity algorithm to add a community property to each node. (Solution)
 
-Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the the *EROAD* relationship using these guidelines:
+Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the *EROAD* relationship using these guidelines:
 
 * The analysis will be done using BOTH directions.
 * The algorithm will write a property named *community* to each node with the computed value.
 * The weight property name is *weight*.
-* YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
+* `YIELD` the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
 
 *Hint*: You will call `algo.louvain`.
 
@@ -65,7 +65,7 @@ YIELD nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.1.png[EX5.1,width=300]
+image::{guides}/img/EX5.1.png[EX5.1,width=400]
 
 == Exercise 5.2: Verify the results of executing the algorithm. (Instructions)
 
@@ -89,31 +89,33 @@ ORDER BY node.community DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.2.png[EX5.2,width=300]
+image::{guides}/img/EX5.2.png[EX5.2,width=400]
 
-As you can see, the algorithm created 24 different communities.
+{nbsp} +
+
+As you can see, the algorithm created 25 different communities.
 
 == Exercise 5.3: Run the Louvain Modularity algorithm to discover a hierarchy of communities within the graph. (Instructions)
 
-Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the the *EROAD* relationship using these guidelines:
+Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the *EROAD* relationship using these guidelines:
 
 * The analysis will be done using BOTH directions.
 * Specify that intermediate communities are to be analized.
 * The algorithm will write a property named *communities* to each node with the computed value for intermediate communities.
 * The weight property name is *weight*.
-* YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
+* `YIELD` the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
 
 *Hint*: You will call `algo.louvain`.
 
 == Exercise 5.3: Run the Louvain Modularity algorithm to discover a hierarchy of communities within the graph. (Solution)
 
-Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the the *EROAD* relationship using these guidelines:
+Write Cypher code to perform the Louvain Modularity algorithm on the *Place* nodes and the *EROAD* relationship using these guidelines:
 
 * The analysis will be done using BOTH directions.
 * Specify that intermediate communities are to be analized.
 * The algorithm will write a property named *communities* to each node with the computed value for intermediate communities.
 * The weight property name is *weight*.
-* YIELD the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
+* `YIELD` the following results: nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis.
 
 *Hint*: You will call `algo.louvain`.
 
@@ -129,7 +131,7 @@ YIELD nodes, communityCount, iterations, loadMillis, computeMillis, writeMillis
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.3.png[EX5.3,width=300]
+image::{guides}/img/EX5.3.png[EX5.3,width=400]
 
 == Exercise 5.4: Verify the results of executing the algorithm. (Instructions)
 
@@ -153,7 +155,7 @@ ORDER BY node.communities
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.4.png[EX5.4,width=300]
+image::{guides}/img/EX5.4.png[EX5.4,width=400]
 
 == Exercise 5.5: View the partitioning of the data. (Instructions/Solution)
 
@@ -172,7 +174,9 @@ ORDER BY size(places) DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.5A.png[EX5.5A,width=300]
+image::{guides}/img/EX5.5A.png[EX5.5A,width=400]
+
+{nbsp} +
 
 If you want to find one of the intermediate partitions you can execute this code:
 
@@ -186,7 +190,7 @@ ORDER BY size(places) DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.5B.png[EX5.5B,width=300]
+image::{guides}/img/EX5.5B.png[EX5.5B,width=400]
 
 == Exercise 5.6: View finer-grained partition data. (Instructions/Solution)
 
@@ -207,13 +211,14 @@ ORDER BY size(places) DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX5.6.png[EX5.6,width=300]
+image::{guides}/img/EX5.6.png[EX5.6,width=400]
+
+{nbsp} +
 
 If we want to find the coarser-grained partitions we can change the first line of the query to look at different indexes in the array.
 Try changing it to 1, 2, and 3 to see the clusters that London ends up in.
 
 Try looking up the partitions for another place. e.g. Berlin, Paris, Amsterdam.
-
 
 == Exercise 5: Taking it further
 
@@ -225,4 +230,4 @@ Try looking up the partitions for another place. e.g. Berlin, Paris, Amsterdam.
 In this exercise, you gained some experience with writing Cypher to implement the Louvain Modularity algorithm using the European Roads dataset.
 The Louvain Modularity algorithm finds clusters by comparing community density as it assigns nodes to different groups.
 
-pass:a[<a play-topic='{guides}/06.html'>Continue to Exercise 6</a>]
+pass:a[<a play-topic='{guides}/07.html'>Continue to Exercise 7</a>] (We will skip Exercise 6.)

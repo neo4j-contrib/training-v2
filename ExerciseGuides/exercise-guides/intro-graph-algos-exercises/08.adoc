@@ -7,7 +7,7 @@ The database you start with should contain all of the data you loaded in the set
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
 
 {nbsp} +
 
@@ -65,7 +65,9 @@ ORDER BY centrality DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX8.1.png[EX8.1,width=300]
+image::{guides}/img/EX8.1.png[EX8.1,width=400]
+
+{nbsp} +
 
 A score of 1.0 means that the node has a direct link to every node that it is able to reach.
 
@@ -96,7 +98,7 @@ Modify the call to `algo.closeness.stream` you performed earlier to:
 
 * Use the non-stream variation of the algorithm.
 * Write the property, *closeness*.
-* Add the improved: true value to the configuration.
+* Add the *improved: true* value to the configuration.
 
 == Exercise 8.3: Perform a variation of Closeness Centrality analysis: Wasserman and Faust. (Solution)
 
@@ -108,7 +110,7 @@ Modify the call to `algo.closeness.stream` you performed earlier to:
 
 * Use the non-stream variation of the algorithm.
 * Write the property, *closeness*.
-* Add the improved: true value to the configuration.
+* Add the *improved: true* value to the configuration.
 
 Here is the solution code:
 
@@ -120,7 +122,7 @@ CALL algo.closeness("Place", "EROAD", {improved: true, writeProperty: "closeness
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX8.3.png[EX8.3,width=300]
+image::{guides}/img/EX8.3.png[EX8.3,width=400]
 
 == Exercise 8.4: View data related to the Wasserman and Faust analysis. (Instructions/Solution)
 
@@ -144,7 +146,6 @@ To use this variation you must remove the configuration setting of `improved: tr
 
 Modify the call to `algo.closeness` you performed earlier write the *harmonic* property.
 
-
 == Exercise 8.5: Perform a variation of Closeness Centrality analysis: Harmonic Centrality. (Solution)
 
 Another variant of the algorithm is Harmonic Centrality.
@@ -163,7 +164,7 @@ CALL algo.closeness.harmonic("Place", "EROAD", {writeProperty: "harmonic"})
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX8.5.png[EX8.5,width=300]
+image::{guides}/img/EX8.5.png[EX8.5,width=400]
 
 == Exercise 8.6: View data related to the Harmonic Centrality analysis. (Instructions)
 
@@ -190,14 +191,14 @@ ORDER BY place.harmonic DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX8.6.png[EX8.6,width=300]
+image::{guides}/img/EX8.6.png[EX8.6,width=400]
 
 == Exercise 8.7: Perform Betweenness Centrality analysis. (Instructions)
 
 The Betweenness centrality algorithm detects the amount of influence a node has over the flow of information in a graph.
 It is often used to find nodes that serve as a bridge from one part of a graph to another.
 
-The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently like on these paths will have the highest score.
+The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently occur on these paths will have the highest score.
 
 Write the Cypher code to perform the stream variation of the Betweenness Centrality algorithm. It will return a centrality value.
 
@@ -208,7 +209,7 @@ Write the Cypher code to perform the stream variation of the Betweenness Central
 The Betweenness centrality algorithm detects the amount of influence a node has over the flow of information in a graph.
 It is often used to find nodes that serve as a bridge from one part of a graph to another.
 
-The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently like on these paths will have the highest score.
+The algorithm calculates the shortest path between all pairs of nodes in the graph, and the nodes that most frequently occur on these paths will have the highest score.
 
 Write the Cypher code to perform the stream variation of the Betweenness Centrality algorithm.
 
@@ -227,7 +228,7 @@ ORDER BY centrality DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX8.7.png[EX8.7,width=300]
+image::{guides}/img/EX8.7.png[EX8.7,width=400]
 
 == Exercise 8.8: Perform a variation of Betweenness Centrality analysis: Randomized-Approximate Brandes. (Instructions/Solution)
 
@@ -249,6 +250,7 @@ Try running this algorithm a few times to see how the results change.
 == Exercise 8: Taking it further
 
 Try the Randomized-Approximate Brandes analysis with different values for:
+
 * strategy
 * probability
 * maxDepth

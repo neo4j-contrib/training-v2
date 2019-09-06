@@ -7,7 +7,7 @@ The database you start with should contain all of the data you loaded in the set
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
 
 {nbsp} +
 
@@ -48,6 +48,8 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX2.1.png[EX2.1,width=300]
 
+{nbsp} +
+
 The properties for a *Place* node are *name* and *countryCode*.
 
 The properties for an *EROAD* relationship are *distance*, *road_number*, and *watercrossing*.
@@ -56,13 +58,13 @@ The properties for an *EROAD* relationship are *distance*, *road_number*, and *w
 
 A strongly connected node is one where there is a path both  in and out of a node to another node in the graph. Write a query to return the nodes for each strongly connected partition in the graph for the *Place* nodes and the *EROAD* relationship.
 
-*Hint*: you will use `algo.scc.stream`.
+*Hint*: You will use `algo.scc.stream`.
 
 == Exercise 2.2: Find all strongly connected Place nodes (Solution)
 
 A strongly connected node is one where there is a path both  in and out of a node to another node in the graph. Write a query to return the nodes for each strongly connected partition in the graph for the *Place* nodes and the *EROAD* relationship.
 
-*Hint*: you will use `algo.scc.stream`.
+*Hint*: You will use `algo.scc.stream`.
 
 Here is the solution code:
 
@@ -103,7 +105,7 @@ image::{guides}/img/EX2.3.png[EX2.3,width=300]
 
 {nbsp} +
 
-Here we see that every *Place* node has a path to an from it to get to any other node in the partition.
+Here we see that every *Place* node has a path to and from it to get to any other node in the partition.
 
 == Exercise 2.4: Find all connected places, writing unionFind partition information to the graph. (Instructions)
 
@@ -111,7 +113,7 @@ A  connected node is one where there is a path in any direction from one node an
 Write the Cypher code to find all connected *Place* nodes and set the property, *unionFind_partition* for each node based upon the result of the algorithm.
 Specify that the weight property for the *Place* nodes is named *weight*.
 
-*Hint*: you will use `algo.unionFind`.
+*Hint*: You will use `algo.unionFind`.
 
 == Exercise 2.4: Find all connected places, writing their unionFind partition information to the graph. (Solution)
 
@@ -119,7 +121,7 @@ A  connected node is one where there is a path in any direction from one node an
 Write the Cypher code to find all connected *Place* nodes and set the property, *unionFind_partition* for each node based upon the result of the algorithm.
 Specify that the weight property for the *Place* nodes is named *weight*.
 
-*Hint*: you will use `algo.unionFind`.
+*Hint*: You will use `algo.unionFind`.
 
 Here is the solution code:
 
@@ -131,7 +133,7 @@ CALL algo.unionFind("Place", "EROAD",{writeProperty:"unionFind_partition",weight
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX2.4.png[EX2.4,width=300]
+image::{guides}/img/EX2.4.png[EX2.4,width=400]
 
 
 == Exercise 2.5: Verify results of the connected  nodes execution. (Instructions)
@@ -156,7 +158,9 @@ ORDER BY node.unionFind_partition DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX2.5.png[EX2.5,width=300]
+image::{guides}/img/EX2.5.png[EX2.5,width=400]
+
+{nbsp} +
 
 Notice that most of the nodes are in the same partition.
 

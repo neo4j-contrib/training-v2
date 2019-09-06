@@ -7,11 +7,11 @@ The database you start with should contain all of the data you loaded in the set
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+image::{guides}/img/DatabaseAfterExercise9.png[DatabaseAfterExercise9,width=150]
 
 {nbsp} +
 
-If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
+Your database should contain more relationships that were created in Exercise 9. These new relationships are not required for the remainder of these exercises, but you should, at a minimum, have the nodes and relationships that you set up earlier for this course.
 
 == Exercise 10: Similarity (Overview)
 
@@ -46,7 +46,7 @@ ORDER BY similarity DESC
 ----
 
 In this query, dataset, item 8 has a similarity score of 1.0 with item 7, which means that item 8 is a complete subset of item 7.
-Item 7 itself is a subset of item 9, but it’s not a complete subset as item 7 has one category that item 9 does not.
+Item 7 itself is a subset of item 9, but it is not a complete subset as item 7 has one category that item 9 does not.
 
 
 == Exercise 10.2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Instructions)
@@ -73,7 +73,7 @@ YIELD nodes, similarityPairs, p50, p75, p90, p99
 RETURN nodes, similarityPairs, p50, p75, p90, p99
 ----
 
-Update update this code to:
+Modify this code to:
 
 * Compute similarity between categories based on the business tagged with that category.
   *Hint*: You will use the *IN_CATEGORY* relationship.
@@ -106,7 +106,7 @@ YIELD nodes, similarityPairs, p50, p75, p90, p99
 RETURN nodes, similarityPairs, p50, p75, p90, p99;
 ----
 
-Update update this query to:
+Modify this code to:
 
 * Compute similarity between categories based on the business tagged with that category.
   *Hint*: You will use the *IN_CATEGORY* relationship.
@@ -137,7 +137,7 @@ RETURN nodes, similarityPairs, p50, p75, p90, p99
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX10.2.png[EX10.2,width=300]
+image::{guides}/img/EX10.2.png[EX10.2,width=400]
 
 == Exercise 10.3: Modify and view the updated graph after running the Overlap Similarity algorithm. (Instructions/Solution)
 
@@ -179,7 +179,7 @@ CALL algo.similarity.pearson(
   {graph: "cypher", skipValue: algo.NaN()})
 ----
 
-Update this query to:
+Modify this code to:
 
 * Compute similarity between users based on the common businesses they have reviewed
   *Hint*: You will need to use the *WROTE* and *REVIEWS* relationships.
@@ -209,7 +209,7 @@ CALL algo.similarity.pearson(
   {graph: "cypher", skipValue: algo.NaN()})
 ----
 
-Update this query to:
+Modify this code to:
 
 * Compute similarity between users based on the common businesses they have reviewed
   *Hint*: You will need to use the *WROTE* and *REVIEWS* relationships.
@@ -238,7 +238,9 @@ CALL algo.similarity.pearson(
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX10.4A.png[EX10.4A,width=300]
+image::{guides}/img/EX10.4A.png[EX10.4A,width=500]
+
+{nbsp} +
 
 In an application we would use this similarity graph to improve the reviews that we show the user.
 
@@ -261,7 +263,7 @@ ORDER BY similarity DESC
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX10.4B.png[EX10.4B,width=300]
+image::{guides}/img/EX10.4B.png[EX10.4B,width=400]
 
 == Exercise 10.5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Instructions)
 
@@ -295,7 +297,7 @@ YIELD p25, p50, p90, p99, p999, p100,  write
 RETURN p25, p50, p90, p99, p999, p100, write
 ----
 
-Update this query to:
+Modify this code to:
 
 * Compute similarity between photos based on the labels they have.
   *Hint*: Use the *HAS_LABEL* relationship.
@@ -338,7 +340,7 @@ YIELD p25, p50, p90, p99, p999, p100,  write
 RETURN p25, p50, p90, p99, p999, p100, write
 ----
 
-Update this query to:
+Modify this code to:
 
 * Compute similarity between photos based on the labels they have.
   *Hint*: Use the *HAS_LABEL* relationship.
@@ -368,7 +370,9 @@ RETURN p25, p50, p90, p99, p999, p100, write
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX10.5A.png[EX10.5A,width=300]
+image::{guides}/img/EX10.5A.png[EX10.5A,width=500]
+
+{nbsp} +
 
 Run this query to find the *SIMILAR* relationships created:
 
@@ -382,7 +386,7 @@ LIMIT 20
 The results returned should look like this:
 
 [.thumb]
-image::{guides}/img/EX10.5B.png[EX10.5B,width=300]
+image::{guides}/img/EX10.5B.png[EX10.5B,width=500]
 
 == Exercise 10: Taking it further
 

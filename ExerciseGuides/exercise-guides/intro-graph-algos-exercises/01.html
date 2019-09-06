@@ -54,12 +54,47 @@
     <br/>
     <div>
       <div class="paragraph">
-<p>Before you perform the exercises for this course, you must do the following:</p>
+<p>Before you perform the exercises for this course, complete the following steps:</p>
 </div>
-<div class="olist arabic">
+<div class="paragraph">
+<p>Since these steps include downloading a <strong>large</strong> dataset, you <strong>must</strong> complete Steps 1-3  before you start this course.</p>
+</div>
+<div class="paragraph">
+<p><strong>Step 1</strong>: Prepare project for development.
+&#160;<br>
+&#160;<br>
+<strong>Step 2</strong>: Verify libraries are available.
+&#160;<br>
+&#160;<br>
+<strong>Step 3</strong>: Verify Graph Applications Playground (NEuler) is available.
+&#160;<br>
+&#160;<br>
+The following steps can be completed after you have started the course during this exercise (Exercise 1):
+&#160;<br>
+&#160;<br>
+<strong>Step 4</strong>: Use Graph Applications Playground (NEuler) to load some more data.
+&#160;<br>
+&#160;<br>
+<strong>Step 5</strong>: Load some additional graphs used for the exercises.
+&#160;<br>
+&#160;<br>
+Go to the next page to begin setup.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Step 1: Prepare project for development.</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Downloaded the Yelp dataset. (<strong>Note</strong>: This database is 1G and will take a while to download)
+<p>Download the Yelp dataset. (<strong>Note</strong>: This database is 1G and will take a while to download)
 <a href="https://s3.amazonaws.com/neo4j-sandbox-usecase-datastores/v3_5/yelp.db.zip" class="bare">https://s3.amazonaws.com/neo4j-sandbox-usecase-datastores/v3_5/yelp.db.zip</a></p>
 </li>
 <li>
@@ -67,11 +102,56 @@
 </li>
 <li>
 <p>In Neo4j Desktop, create a project and a local graph, providing a password you will remember.
-    <strong>Note</strong>: Do not start the database!
-.Install the APOC plugin in the project.
-.Install the Graph Algorithms plugin  in the project.
-.Install Graph Algorithms Playground in the project.
-.Copy the <strong>yelp.db</strong> folder to your local graph:</p>
+&#160;<br>
+    <strong>Note</strong>: Do <strong>not</strong> start the database!
+    [start=3]</p>
+</li>
+<li>
+<p>Install the necessary plugins in the project.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Click <strong>Add Plugin</strong>.</p>
+</li>
+<li>
+<p>Install the APOC plugin in the project.</p>
+</li>
+<li>
+<p>Install the Graph Algorithms plugin  in the project.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Install Graph Algorithms Playground (application) in the project.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Ensure that Graph Algorithms Playground is download in the graph apps settings area. (You may have to click Discover more graph apps to download it)</p>
+</li>
+<li>
+<p>Click <strong>Add Application</strong>.</p>
+</li>
+<li>
+<p>Select Graph Algorithms Playground.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This is what you should now see for your project:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/PluginsAppInstalled.png" alt="PluginsAppInstalled" width="150">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="6">
+<li>
+<p>Copy the <strong>yelp.db</strong> folder to your local graph:</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
@@ -109,6 +189,9 @@
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>Go to the next page to continue setup.</p>
 </div>
 	</div>
@@ -119,11 +202,11 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Verify libraries and graph apps are ready</h3>
+    <h3>Step 2: Verify libraries are available.</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Verify that your Neo4j Browser session has access to the apoc and algo libraries by executing the Cypher below</strong>:</p>
+<p>Verify that your Neo4j Browser session has access to the apoc and algo libraries by executing the Cypher below:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -150,13 +233,28 @@ RETURN name ORDER BY name ASC<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Test if Graph Applications Playground (NEuler) is installed</h3>
+    <h3>Step 3: Verify Graph Applications Playground (NEuler) is available.</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>In Neo4j Desktop, click the image for the Graph Applications Playground.</strong>
-* Does it open a new window?
-** If not, you may need to reinstall it.</p>
+<p>In Neo4j Desktop, click the image for the Graph Applications Playground.</p>
+</div>
+<div class="paragraph">
+<p>Does it open a new window? It should look as follows:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/NEulerInstalled.png" alt="NEulerInstalled" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If not, you may need to reinstall it.</p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: This is where you should have left off in preparing your development environment for this course.</p>
 </div>
 <div class="paragraph">
 <p>Go to the next page to continue setup.</p>
@@ -169,23 +267,51 @@ RETURN name ORDER BY name ASC<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Use Graph Applications Playground (NEuler) to load some more data</h3>
+    <h3>Step 4: Use Graph Applications Playground (NEuler) to load some more data.</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>In Graph Applications Playground (NEuler):</p>
 </div>
-<div class="paragraph">
-<div class="title"><strong>6. Close NEuler.</strong></div>
-<p><strong>Note</strong>: Do not load the Twitter data as it conflicts with other data in the graph.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click the database icon in the left pane.</p>
+</li>
+<li>
+<p>Load the Game of Thrones data.</p>
+</li>
+<li>
+<p>Close NEuler.</p>
+</li>
+<li>
+<p>Open NEuler.</p>
+</li>
+<li>
+<p>Load the European Roads data.</p>
+</li>
+<li>
+<p>Close NEuler.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p><strong>7. In Neo4j Browser, confirm that your database looks as follows:</strong></p>
+<p><strong>Note</strong>: Do not load the Twitter data as it conflicts with other data in the graph.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>In Neo4j Browser, confirm that your database looks as follows:</p>
+</li>
+</ol>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/AfterNEulerLoad.png" alt="AfterNEulerLoad" width="300">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/AfterNEulerLoad.png" alt="AfterNEulerLoad" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>Go to the next page to continue setup.</p>
@@ -198,11 +324,11 @@ RETURN name ORDER BY name ASC<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Load some additional graphs used for the exercises</h3>
+    <h3>Step 5: Load some additional graphs used for the exercises.</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute each of these Cypher code blocks to add these graphs to the database</strong>:</p>
+<p>Execute each of these Cypher code blocks to add these graphs to the database:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -223,6 +349,9 @@ MERGE (nAlice)-[:HELPS]-&gt;(nMichael)
 MERGE (nBridget)-[:HELPS]-&gt;(nAlice)
 MERGE (nMichael)-[:HELPS]-&gt;(nBridget)<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -251,6 +380,9 @@ MERGE (h)-[:KNOWS]-&gt;(c)
 MERGE (i)-[:KNOWS]-&gt;(c)<!--/code--></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (home:Page {name:"Home"})
@@ -276,6 +408,9 @@ MERGE (c)-[:LINKS]-&gt;(home)
 MERGE (links)-[:LINKS]-&gt;(d)
 MERGE (d)-[:LINKS]-&gt;(home)<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -318,12 +453,15 @@ MERGE (karin)-[:LIKES {score: 10}]-&gt;(portuguese)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Your database should now look as follows:</strong></p>
+<p>Your database should now look as follows:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="300">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>Your database is now set up and ready for you to gain experience with graph algorithms.</p>

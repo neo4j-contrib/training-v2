@@ -3,17 +3,54 @@
 
 == Exercise 1: Setting up your development environment
 
-Before you perform the exercises for this course, you must do the following:
+Before you perform the exercises for this course, complete the following steps:
 
-. Downloaded the Yelp dataset. (*Note*: This database is 1G and will take a while to download)
+Since these steps include downloading a *large* dataset, you *must* complete Steps 1-3  before you start this course.
+
+*Step 1*: Prepare project for development.
+{nbsp} +
+{nbsp} +
+*Step 2*: Verify libraries are available.
+{nbsp} +
+{nbsp} +
+*Step 3*: Verify Graph Applications Playground (NEuler) is available.
+{nbsp} +
+{nbsp} +
+The following steps can be completed after you have started the course during this exercise (Exercise 1):
+{nbsp} +
+{nbsp} +
+*Step 4*: Use Graph Applications Playground (NEuler) to load some more data.
+{nbsp} +
+{nbsp} +
+*Step 5*: Load some additional graphs used for the exercises.
+{nbsp} +
+{nbsp} +
+Go to the next page to begin setup.
+
+== Step 1: Prepare project for development.
+
+. Download the Yelp dataset. (*Note*: This database is 1G and will take a while to download)
 https://s3.amazonaws.com/neo4j-sandbox-usecase-datastores/v3_5/yelp.db.zip
 . Unzip the zip file. It will create a *yelp.db* folder.
 . In Neo4j Desktop, create a project and a local graph, providing a password you will remember.
-    *Note*: Do not start the database!
-.Install the APOC plugin in the project.
-.Install the Graph Algorithms plugin  in the project.
-.Install Graph Algorithms Playground in the project.
-.Copy the *yelp.db* folder to your local graph:
+{nbsp} +
+    *Note*: Do *not* start the database!
+    [start=3]
+. Install the necessary plugins in the project.
+.. Click *Add Plugin*.
+.. Install the APOC plugin in the project.
+.. Install the Graph Algorithms plugin  in the project.
+. Install Graph Algorithms Playground (application) in the project.
+.. Ensure that Graph Algorithms Playground is download in the graph apps settings area. (You may have to click Discover more graph apps to download it)
+.. Click *Add Application*.
+.. Select Graph Algorithms Playground.
+
+This is what you should now see for your project:
+
+image::{guides}/img/PluginsAppInstalled.png[PluginsAppInstalled,width=150,role=left]
+
+[start = 6]
+. Copy the *yelp.db* folder to your local graph:
 .. Click the *Manage* button for the local graph you just created.
 .. Click the *Open Folder* button.
 .. Navigate to *data/databases*.
@@ -26,11 +63,13 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/YelpLoaded.png[YelpLoaded,width=150,role=left]
 
+{nbsp} +
+
 Go to the next page to continue setup.
 
-== Verify libraries and graph apps are ready
+== Step 2: Verify libraries are available.
 
-*Verify that your Neo4j Browser session has access to the apoc and algo libraries by executing the Cypher below*:
+Verify that your Neo4j Browser session has access to the apoc and algo libraries by executing the Cypher below:
 
 [source, cypher]
 ----
@@ -46,37 +85,48 @@ If this code does not return the list of apoc and algo procedures, then you must
 
 Go to the next page to continue setup.
 
-== Test if Graph Applications Playground (NEuler) is installed
+== Step 3: Verify Graph Applications Playground (NEuler) is available.
 
-*In Neo4j Desktop, click the image for the Graph Applications Playground.*
-* Does it open a new window?
-** If not, you may need to reinstall it.
+In Neo4j Desktop, click the image for the Graph Applications Playground.
+
+Does it open a new window? It should look as follows:
+
+image::{guides}/img/NEulerInstalled.png[NEulerInstalled,width=400,role=left]
+
+{nbsp} +
+
+If not, you may need to reinstall it.
+
+*Note*: This is where you should have left off in preparing your development environment for this course.
 
 Go to the next page to continue setup.
 
-== Use Graph Applications Playground (NEuler) to load some more data
+== Step 4: Use Graph Applications Playground (NEuler) to load some more data.
 
 In Graph Applications Playground (NEuler):
 
-.*1. Click the database icon in the left pane.*
-.*2. Load the Game of Thrones data.*
-.*3. Close NEuler.*
-.*4. Open NEuler.*
-.*5. Load the European Roads data.*
-.*6. Close NEuler.*
+.  Click the database icon in the left pane.
+.  Load the Game of Thrones data.
+.  Close NEuler.
+.  Open NEuler.
+.  Load the European Roads data.
+.  Close NEuler.
 
 *Note*: Do not load the Twitter data as it conflicts with other data in the graph.
 
-*7. In Neo4j Browser, confirm that your database looks as follows:*
+[start=7]
+. In Neo4j Browser, confirm that your database looks as follows:
 
 [.thumb]
-image::{guides}/img/AfterNEulerLoad.png[AfterNEulerLoad,width=300]
+image::{guides}/img/AfterNEulerLoad.png[AfterNEulerLoad,width=150]
+
+{nbsp} +
 
 Go to the next page to continue setup.
 
-== Load some additional graphs used for the exercises
+== Step 5: Load some additional graphs used for the exercises.
 
-*Execute each of these Cypher code blocks to add these graphs to the database*:
+Execute each of these Cypher code blocks to add these graphs to the database:
 
 [source, cypher]
 ----
@@ -97,6 +147,8 @@ MERGE (nAlice)-[:HELPS]->(nMichael)
 MERGE (nBridget)-[:HELPS]->(nAlice)
 MERGE (nMichael)-[:HELPS]->(nBridget)
 ----
+
+{nbsp} +
 
 [source, cypher]
 ----
@@ -125,6 +177,8 @@ MERGE (h)-[:KNOWS]->(c)
 MERGE (i)-[:KNOWS]->(c)
 ----
 
+{nbsp} +
+
 [source, cypher]
 ----
 MERGE (home:Page {name:"Home"})
@@ -150,6 +204,8 @@ MERGE (c)-[:LINKS]->(home)
 MERGE (links)-[:LINKS]->(d)
 MERGE (d)-[:LINKS]->(home)
 ----
+
+{nbsp} +
 
 [source, cypher]
 ----
@@ -192,10 +248,12 @@ MERGE (karin)-[:LIKES {score: 10}]->(portuguese)
 ----
 
 
-*Your database should now look as follows:*
+Your database should now look as follows:
 
 [.thumb]
-image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=300]
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
+
+{nbsp} +
 
 Your database is now set up and ready for you to gain experience with graph algorithms.
 
