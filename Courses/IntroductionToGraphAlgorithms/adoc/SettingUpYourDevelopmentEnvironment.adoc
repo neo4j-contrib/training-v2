@@ -1,0 +1,197 @@
+
+= Introduction to Graph Algorithms: Setting Up Your Development Environment
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.5
+:currentyear: 2019
+:doctype: book
+:toc: left
+:toclevels: 3
+:experimental:
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+
+== Preparing for the course
+
+You must prepare your development environment before you take the _Introduction to Graph Algorithms_ course.
+You should bring a laptop to the class that will enable you to access the Internet wirelelessly.
+
+To prepare for this course, you must do the following before coming to class (scroll down for detailed instructions):
+
+. Ensure that you have Neo4j Desktop installed on your laptop.
+. Download the Yelp public dataset.
+. Create a project in Neo4j Desktop for this course.
+. Install the APOC and Graph Algorithms plugins.
+. Install the Graph Algorithms Playground.
+. Copy the Yelp dataset for use in your project.
+
+
+=== Neo4j Desktop
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/Neo4jDesktop.1.1.8.png[Neo4jDesktop,width=500,align=center]
+a|
+The Neo4j Desktop includes the Neo4j Database server which includes the graph engine and kernel so that Cypher statements can be executed to access a database on your system. 
+It includes an application called  Neo4j Browser.  
+Neo4j Browser enables you to access a Neo4j database using Cypher. 
+You can also call built-in procedures that communicate with the database server. 
+There are a number of additional libraries and drivers for accessing the Neo4j database from Cypher or from another programming language that you can install in your development environment.
+
+Neo4j Desktop runs on OS X, Linux, and Windows.
+|===
+
+
+== Step 1: Getting Started with Neo4j Desktop
+
+ifdef::backend-html5[]
+If you need to download and install Neo4j Desktop, you can follow along with one of these videos to download, install and get started using Neo4j Desktop.
+
+If using OS X:
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8yWhuUnPapw?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<br>
+++++
+
+
+{nbsp} +
+
+If using Linux:
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SGH_5x3kfdw?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<br>
+++++
+
+{nbsp} +
+
+If using Windows:
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hIvNexwVYNw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+endif::backend-html5[]
+
+*Note*: Before you install on Windows, make sure you have the latest version of PowerShell installed.
+
+=== Using Neo4j Browser
+
+Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data. 
+The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables. 
+In addition to executing Cypher statements, you can execute a number of system calls that are related to the database being accessed by the Browser. 
+For example, you can retrieve the list of queries that are currently running in the server.
+
+There are two ways that you can use Neo4j Browser functionality:
+[square]
+* Open the Neo4j Browser application from Neo4j Desktop (database is local)
+* Use the Neo4j Browser Web interface by specifying a URL in a Web browser using port 7474 (database is local)
+
+image:{imagedir}/Neo4jBrowser.png[Neo4jBrowser,width=800]
+
+The user interface and behavior for the Neo4j Browser application and Neo4j Browser Web interface is identical, except that in the Web interface, you have the option of syncing your settings and scripts to the cloud.
+
+=== Getting Started with Neo4j Browser
+
+ifdef::backend-html5[]
+Follow along with this video to become familiar with common tasks in Neo4j Browser and populate the graph with movie data.
+
+*Note*: Before you perform the tasks shown in this video, you must have created and started the database in Neo4j Desktop.
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rQTximyaETA?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+++++
+endif::backend-html5[]
+
+== Step 2: Download the Yelp public dataset
+
+. In a Web browser, enter this address to copy the data to your browser's download area.
+*Note*: This is a _large_ file that will take several minutes to download, depending on your ISP.
+
+   https://s3.amazonaws.com/neo4j-sandbox-usecase-datastores/v3_5/yelp.db.zip
+
+[start=2]
+. Unzip this file. It should unzip to a folder named *yelp.db*.
+
+== Step 3: Create a project in Neo4j Desktop for this course
+
+. In Neo4j Desktop, create a new project. You can name it whatever you like.
+. In this newly-created project, create a local graph, giving it a password you will remember.
+
+*Note*: Do *not* start the database.
+
+== Step 4: Install the APOC and Graph Algorithms plugins
+
+For the project you just created click the *Add Plugin* area and install APOC and Graph Algorithms.
+
+Open Neo4j Browser and confirm access to the apoc and algo libraries by executing the Cypher below:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.' OR name STARTS WITH 'algo'
+RETURN name ORDER BY name ASC
+----
+
+{nbsp} +
+
+If this code does not return the list of apoc and algo procedures, then you must ensure that the these libraries are available by installing the plugin (Neo4j Desktop) and restarting the database.
+
+== Step 5: Install the Graph Algorithms Playground
+
+. Open the Graph Applications pane on the left side of Neo4j Desktop.
+. If Graph Algorithms Playground is not shown as an available application, click the *Discover more Graph Apps* link to find and instgall Graph Algorithms Playground.
+. Close the Graph Applications pane on the left to return to your project.
+. Click the *Add Application* area to install Graph Algorithms Playground for your project.
+
+After installing the Graph Algorithms Playground, your project should appear as follows:
+
+image:img/PluginsAppInstalled.png[PluginsAppInstalled,width=400]
+
+== Step 6: Copy the Yelp dataset for use in your project
+
+. Click the *Manage* button for the local graph you just created.
+. Click *Open Folder*.
+. Navigate to data/databases.
+. Copy the *yelp.db*  folder that you unzipped to databases.
+. Rename the *yelp.db* folder to *graph.db*.
+. Start the database. Is should appear as follows:
+
+image:img/YelpLoaded.png[YelpLoaded,width=150]
+
+
+*Congratulations!* You are now ready to perform the exercises for this course.
+
+== Special consideration if you will not have Internet during the class
+
+If you are notified that you will not have Internet access during the class or if you choose to not use the Internet during the class,
+then you must load this data from the Graph Algorithms Playground application.
+
+Open Graph Applications Playground (NEuler) for your project. It should appear as follows:
+
+image:img/NEulerInstalled.png[NEulerInstalled,width=800]
+
+Perform the following steps in NEuler:
+
+.  Click the database icon in the left pane.
+.  Load the Game of Thrones data.
+.  Close NEuler.
+.  Open NEuler.
+.  Load the European Roads data.
+.  Close NEuler.
+
+*Note*: Do not load the Twitter data as it conflicts with other data in the graph.
+
+[start=7]
+. In Neo4j Browser, confirm that your database looks as follows:
+
+[.thumb]
+image:img/AfterNEulerLoad.png[AfterNEulerLoad,width=150]
+
+== Getting help
+
+If you have problems installing Neo4j Desktop, you can join http://community.neo4j.com/[Neo4j Community] and ask a question https://community.neo4j.com/c/general/online-training[here].
+
