@@ -61,7 +61,7 @@
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise8.png" alt="AfterExercise8" width="100">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/AfterExercise8.png" alt="AfterExercise8" width="150">
 </div>
 </div>
 <div class="paragraph">
@@ -200,6 +200,9 @@ call apoc.periodic.commit('
 ',{limit:500})<!--/code--></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
+</div>
 	</div>
   </div>
 </slide>
@@ -273,6 +276,9 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>The query produces 47847 db hits.</p>
 </div>
 	</div>
@@ -337,6 +343,9 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>The query produces 47815 db hits. A small savings. In this case what Cypher code would you prefer to write?
 The general relationship is much easier to query so in this case, it pays to have both types of relationships in the model.</p>
 </div>
@@ -358,7 +367,7 @@ The general relationship is much easier to query so in this case, it pays to hav
 <p><strong>Using the code you have previously seen and executed, write and execute the Cypher code to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</strong></p>
 </div>
 <div class="paragraph">
-<p>The file containing the data is <strong>'https://r.neo4j.com/flights_2019_february'</strong></p>
+<p>The file containing the data is <strong>'https://r.neo4j.com/flights_2019_february'</strong>, or copied to your import folder.</p>
 </div>
 	</div>
   </div>
@@ -378,7 +387,7 @@ The general relationship is much easier to query so in this case, it pays to hav
 <p><strong>Using the code you have previously seen and executed, write and execute the Cypher code to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.</strong></p>
 </div>
 <div class="paragraph">
-<p>The file containing the data is <strong>'https://r.neo4j.com/flights_2019_february'</strong></p>
+<p>The file containing the data is <strong>'https://r.neo4j.com/flights_2019_february'</strong>, or copied to your import folder.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -418,6 +427,9 @@ CALL apoc.create.relationship(startNode(hasDay), "ON_" + day.date, {}, endNode(h
 YIELD rel
 RETURN COUNT(*)<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
@@ -530,6 +542,9 @@ RETURN  f.airline AS Airline, f.arrival AS Arrival, f.date AS Date, f.departure 
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>And here is what the flights.csv file looks like:</p>
 </div>
 <div class="imageblock thumb">
@@ -571,7 +586,7 @@ DETACH DELETE flight<!--/code--></pre>
 <p>If you have time, you can evolve the model further.</p>
 </div>
 <div class="paragraph">
-<p>Here are a couple of files that contain additional data:</p>
+<p>Here are a couple of files that contain additional data (you may have also copied them to the import folder):</p>
 </div>
 <div class="paragraph">
 <p><strong><a href="https://r.neo4j.com/Modeling_Airports" class="bare">https://r.neo4j.com/Modeling_Airports</a></strong></p>

@@ -7,7 +7,7 @@ Before you begin this exercise, make sure that you have performed the loading an
 
 This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
 
-image::{guides}/img/AfterExercise8.png[AfterExercise8,width=100,role=left]
+image::{guides}/img/AfterExercise8.png[AfterExercise8,width=150,role=left]
 
 *If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
@@ -15,6 +15,8 @@ image::{guides}/img/AfterExercise8.png[AfterExercise8,width=100,role=left]
 ----
 include::scripts/AfterExercise_8.cypher[]
 ----
+
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
 
 == Exercise 9: Maintaining models (Overview)
 
@@ -50,6 +52,8 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex9_GeneralRelationships.png[Ex9_GeneralRelationships,width=150]
+
+{nbsp} +
 
 The query produces 47847 db hits.
 
@@ -101,6 +105,8 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex9_SpecificRelationships.png[Ex9_SpecificRelationships,width=150]
 
+{nbsp} +
+
 The query produces 47815 db hits. A small savings. In this case what Cypher code would you prefer to write?
 The general relationship is much easier to query so in this case, it pays to have both types of relationships in the model.
 
@@ -110,7 +116,7 @@ You want to add February, 2019 flight data to the graph.
 
 *Using the code you have previously seen and executed, write and execute the Cypher code to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.*
 
-The file containing the data is *'https://r.neo4j.com/flights_2019_february'*
+The file containing the data is *'https://r.neo4j.com/flights_2019_february'*, or copied to your import folder.
 
 == Exercise 9.3:  Add flight data. (Solution)
 
@@ -118,7 +124,7 @@ You want to add February, 2019 flight data to the graph.
 
 *Using the code you have previously seen and executed, write and execute the Cypher code to load the February, 2019 flight data making sure that the AirportDay and specific and general relationships are added.*
 
-The file containing the data is *'https://r.neo4j.com/flights_2019_february'*
+The file containing the data is *'https://r.neo4j.com/flights_2019_february'*, or copied to your import folder.
 
 [source,cypher]
 ----
@@ -159,6 +165,8 @@ YIELD rel
 RETURN COUNT(*)
 ----
 
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
+
 The result returned should be:
 
 [.thumb]
@@ -184,7 +192,6 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex9_QueryFebFlights.png[Ex9_QueryFebFlights,width=300]
-
 
 == Exercise 9.5:  Archive flight data. (Instructions)
 
@@ -216,6 +223,8 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex9_Export.png[Ex9_Export,width=300]
 
+{nbsp} +
+
 And here is what the flights.csv file looks like:
 
 [.thumb]
@@ -236,12 +245,11 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex9_Delete.png[Ex9_Delete,width=300]
 
-
 == Exercise 9: Maintaining models  (Taking it further)
 
 If you have time, you can evolve the model further.
 
-Here are a couple of files that contain additional data:
+Here are a couple of files that contain additional data (you may have also copied them to the import folder):
 
 *https://r.neo4j.com/Modeling_Airports*
 

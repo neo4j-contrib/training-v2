@@ -65,6 +65,9 @@
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise:</strong></p>
 </div>
 <div class="listingblock">
@@ -86,6 +89,9 @@ MERGE (origin)-[connection:CONNECTED_TO {
   date: toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth)}]-&gt;(destination)
 ON CREATE SET connection.departure = toInteger(row.CRSDepTime), connection.arrival = toInteger(row.CRSArrTime)<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
 </div>
 	</div>
   </div>
@@ -168,6 +174,9 @@ RETURN origin, destination, c<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>Expand each section of the profile shown. One thing that we could do to reduce the number of db hits is to create an index on <code>Airport.code</code> and the current query is reading all <code>Airport</code> node labels to find the airport for LAS.
 This query does return 13 nodes and 268 relationships so getting the number of db hits lower than 160 (222 - 62) is probably all we can do with this model.</p>
 </div>
@@ -214,6 +223,9 @@ RETURN origin.code, destination.code, connection.date, connection.departure, con
 <div class="content">
 <img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex4_Profile2.png" alt="Ex4_Profile2" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>Expand each section of the profile shown. Again, creating an index on Airport.code will reduce the number of db hits by 62.

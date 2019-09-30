@@ -9,12 +9,16 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/AfterExercise3.png[AfterExercise3,width=150,role=left]
 
+{nbsp} +
+
 *If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
 include::scripts/AfterExercise_3.cypher[]
 ----
+
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
 
 == Exercise 5: Creating the `Flight` node from the `CONNECTED_TO` relationships (Overview)
 
@@ -119,6 +123,8 @@ Here is the model  you will refactor to:
 [.thumb]
 image::{guides}/img/Ex5_Model.png[Ex5_Model,width=500]
 
+{nbsp} +
+
 *Write and execute the Cypher statement traverse all `CONNECTED_TO` relationships to create the `Flight` nodes.*
 
 == Exercise 5.4:  Refactor the graph to create `Flight` nodes from the `CONNECTED_TO` relationships. (Solution)
@@ -176,6 +182,8 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex5_Profile1.png[Ex5_Profile1,width=150]
 
+{nbsp} +
+
 The original query had 222 db hits. The revised query with the refactored model is better with 98 db hits.
 
 == Exercise 5.6:  Profile our second query that finds all flights for airline 'WN' with flight number '1016'. (Instructions)
@@ -209,6 +217,8 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex5_Profile2.png[Ex5_Profile2,width=150]
+
+{nbsp} +
 
 The original query had 2146 db hits. The revised query with the refactored model is better with 19 db hits.
 

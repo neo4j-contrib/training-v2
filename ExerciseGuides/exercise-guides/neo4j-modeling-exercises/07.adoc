@@ -9,12 +9,16 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/AfterExercise6.png[AfterExercise6,width=150,role=left]
 
+{nbsp} +
+
 *If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
 include::scripts/AfterExercise_6.cypher[]
 ----
+
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
 
 == Exercise 7: Creating specific relationships (Overview)
 
@@ -34,7 +38,9 @@ Go to the next page to start this exercise.
 Rather than having the `HAS_DAY` relationship from `Airport` nodes to `AirportDay` nodes, we want a specific relationship that will be `ON_yyyy-dd-mm`.
 The revised model is:
 
-image::{guides}/img/Ex7_Model.png[Ex7_Model,200,200, role=left]
+image::{guides}/img/Ex7_Model.png[Ex7_Model,400]
+
+{nbsp} +
 
 *Write and execute the Cypher statement to refactor the model.*
 
@@ -98,6 +104,8 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex7_FindFlightsJan3.png[Ex7_FindFlightsJan3,width=150]
+
+{nbsp} +
 
 The previous query before this refactoring yielded 1813 db hits.
 After this refactoring and rewriting the query, we see 1716 db hits, a slight improvement.

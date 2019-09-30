@@ -65,6 +65,9 @@
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
 </div>
 <div class="listingblock">
@@ -133,6 +136,9 @@ CALL apoc.create.relationship(startNode(hasDay),
                               endNode(hasDay) ) YIELD rel
 RETURN COUNT(*)<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
 </div>
 	</div>
   </div>
@@ -208,6 +214,9 @@ MERGE (:Airport {code: airport})<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
+</div>
+<div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
@@ -244,6 +253,9 @@ ON CREATE SET newFlight.date = toInteger(row.Year) + '-' + toInteger(row.Month) 
 MERGE (origin)&lt;-[:ORIGINATES_FROM]-(newFlight)
 MERGE (newFlight)-[:LANDS_IN]-&gt;(destination)<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
@@ -426,6 +438,9 @@ DELETE r<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>Here is the code that you used previously to refactor the graph to use specific relationships:</p>
 </div>
 <div class="listingblock">
@@ -518,6 +533,9 @@ RETURN origin, destination, flight<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>Previously on the graph with 10k flights, this query had 1813 db hits.
 After loading 100k Flights, we see 1863 db hits.</p>
 </div>
@@ -559,6 +577,9 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 <div class="content">
 <img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex8_SpecificRelationshipsQuery.png" alt="Ex8_SpecificRelationshipsQuery" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>Previously on the graph with 10k flights, this query had 1716 db hits.

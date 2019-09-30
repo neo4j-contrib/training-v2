@@ -65,6 +65,9 @@
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
 </div>
 <div class="listingblock">
@@ -128,6 +131,9 @@ MERGE (flight)-[:LANDS_IN]-&gt;(destinationAirportDay)
 MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
+</div>
 	</div>
   </div>
 </slide>
@@ -176,10 +182,13 @@ MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
 <p>Rather than having the <code>HAS_DAY</code> relationship from <code>Airport</code> nodes to <code>AirportDay</code> nodes, we want a specific relationship that will be <code>ON_yyyy-dd-mm</code>.
 The revised model is:</p>
 </div>
-<div class="imageblock left">
+<div class="imageblock">
 <div class="content">
-<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex7_Model.png" alt="Ex7_Model" width="200" height="200">
+<img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex7_Model.png" alt="Ex7_Model" width="400">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p><strong>Write and execute the Cypher statement to refactor the model.</strong></p>
@@ -283,6 +292,9 @@ ORDER BY flight.date, flight.departure<!--/code--></pre>
 <div class="content">
 <img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex7_FindFlightsJan3.png" alt="Ex7_FindFlightsJan3" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>The previous query before this refactoring yielded 1813 db hits.

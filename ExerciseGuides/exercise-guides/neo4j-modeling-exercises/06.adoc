@@ -9,12 +9,16 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/AfterExercise5.png[AfterExercise5,width=150,role=left]
 
+{nbsp} +
+
 *If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
 include::scripts/AfterExercise_5.cypher[]
 ----
+
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
 
 == Exercise 6: Creating the `AirportDay` node from the `Airport` and `Flight` nodes (Overview)
 
@@ -55,6 +59,8 @@ MERGE (newFlight)-[:ORIGINATES_FROM]->(origin)
 MERGE (newFlight)-[:LANDS_IN]->(destination)
 ----
 
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
+
 The result returned should be:
 
 [.thumb]
@@ -85,6 +91,8 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex6_FindFlightsJan3.png[Ex6_FindFlightsJan3,width=150]
+
+{nbsp} +
 
 Here we see 2586 db hits.
 We have increased the number of flights in the database tenfold, but we might be able to do better.
@@ -124,6 +132,8 @@ Here is the model  you will refactor to:
 
 [.thumb]
 image::{guides}/img/Ex6_Model.png[Ex6_Model,width=300]
+
+{nbsp} +
 
 *Write and execute the Cypher statement to go through all `Flights` and how they are connected to `Airports` to create the `AirportDay` nodes.*
 
@@ -169,6 +179,8 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex6_Profile1.png[Ex6_Profile1,width=150]
 
+{nbsp} +
+
 This same query with the previous model had 98 db hits.
 This query now has 1408 db hits, but we have increased the number of flights by a factor of 10 so this result is expected.
 
@@ -189,6 +201,8 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex6_Profile2.png[Ex6_Profile2,width=150]
+
+{nbsp} +
 
 This query with the previous model had 19 db hits.
 This query now has 100 db hits, but we have increased the number of flights by a factor of 10 so this result is expected.
@@ -225,6 +239,8 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex6_FindFlightsJan3New.png[Ex6_FindFlightsJan3New,width=150]
+
+{nbsp} +
 
 The previous query before the refactoring yielded 2586 db hits.
 After the refactoring and rewriting the query, we see 1813 db hits which is an improvement.

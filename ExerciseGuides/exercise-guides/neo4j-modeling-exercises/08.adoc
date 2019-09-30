@@ -9,12 +9,16 @@ This is what you should see when you click the database icon image:{guides}/img/
 
 image::{guides}/img/AfterExercise7.png[AfterExercise7,width=150,role=left]
 
+{nbsp} +
+
 *If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.*
 
 [source,cypher]
 ----
 include::scripts/AfterExercise_7.cypher[]
 ----
+
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
 
 == Exercise 8: Refactoring large graphs (Overview)
 
@@ -49,6 +53,8 @@ WITH DISTINCT airport
 MERGE (:Airport {code: airport})
 ----
 
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
+
 The result returned should be:
 
 [.thumb]
@@ -73,6 +79,8 @@ ON CREATE SET newFlight.date = toInteger(row.Year) + '-' + toInteger(row.Month) 
 MERGE (origin)<-[:ORIGINATES_FROM]-(newFlight)
 MERGE (newFlight)-[:LANDS_IN]->(destination)
 ----
+
+*Note*: You must use the "file:///" syntax for loading the data from the import folder.
 
 The result returned should be:
 
@@ -186,6 +194,8 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex8_DeleteSpecificRelationships.png[Ex8_DeleteSpecificRelationships,width=300]
 
+{nbsp} +
+
 Here is the code that you used previously to refactor the graph to use specific relationships:
 
 [source,cypher]
@@ -247,6 +257,8 @@ The result returned should be:
 [.thumb]
 image::{guides}/img/Ex8_GeneralRelationshipsQuery.png[Ex8_GeneralRelationshipsQuery,width=150]
 
+{nbsp} +
+
 Previously on the graph with 10k flights, this query had 1813 db hits.
 After loading 100k Flights, we see 1863 db hits.
 
@@ -274,6 +286,8 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/Ex8_SpecificRelationshipsQuery.png[Ex8_SpecificRelationshipsQuery,width=150]
+
+{nbsp} +
 
 Previously on the graph with 10k flights, this query had 1716 db hits.
 After loading 100k Flights, we see 1716 db hits again, probably due to the fact that we did not add any more flights on this date.

@@ -65,6 +65,9 @@
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
 </div>
 <div class="listingblock">
@@ -102,6 +105,9 @@ MERGE (newFlight)-[:LANDS_IN]-&gt;(destination);
 MATCH ()-[connection:CONNECTED_TO]-&gt;()
 DELETE connection<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
 </div>
 	</div>
   </div>
@@ -181,6 +187,9 @@ MERGE (newFlight)-[:LANDS_IN]-&gt;(destination)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
+</div>
+<div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
@@ -238,6 +247,9 @@ RETURN origin, destination, flight<!--/code--></pre>
 <div class="content">
 <img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex6_FindFlightsJan3.png" alt="Ex6_FindFlightsJan3" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>Here we see 2586 db hits.
@@ -323,6 +335,9 @@ Each <code>Airport</code> node will have the <code>HAS_DAY</code> relationship w
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p><strong>Write and execute the Cypher statement to go through all <code>Flights</code> and how they are connected to <code>Airports</code> to create the <code>AirportDay</code> nodes.</strong></p>
 </div>
 	</div>
@@ -394,6 +409,9 @@ RETURN f.flightId<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
 <p>This same query with the previous model had 98 db hits.
 This query now has 1408 db hits, but we have increased the number of flights by a factor of 10 so this result is expected.</p>
 </div>
@@ -427,6 +445,9 @@ WHERE flight.airline = 'WN' AND
 <div class="content">
 <img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex6_Profile2.png" alt="Ex6_Profile2" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>This query with the previous model had 19 db hits.
@@ -488,6 +509,9 @@ RETURN origin, destination, flight<!--/code--></pre>
 <div class="content">
 <img src="https://guides.neo4j.com/neo4j-modeling-exercises/img/Ex6_FindFlightsJan3New.png" alt="Ex6_FindFlightsJan3New" width="150">
 </div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
 </div>
 <div class="paragraph">
 <p>The previous query before the refactoring yielded 2586 db hits.
