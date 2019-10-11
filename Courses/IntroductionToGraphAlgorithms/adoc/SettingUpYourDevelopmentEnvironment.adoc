@@ -73,9 +73,32 @@ If using Windows:
 ++++
 <iframe width="560" height="315" src="https://www.youtube.com/embed/hIvNexwVYNw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ++++
-endif::backend-html5[]
+
+{nbsp} +
 
 *Note*: Before you install on Windows, make sure you have the latest version of PowerShell installed.
+
+endif::backend-html5[]
+
+ifdef::backend-pdf[]
+
+If you need to download and install Neo4j Desktop, you can follow along with one of these videos to download, install and get started using Neo4j Desktop.
+
+If using OS X:
+
+https://www.youtube.com/embed/8yWhuUnPapw?rel=0
+
+If using Linux:
+
+https://www.youtube.com/embed/SGH_5x3kfdw?rel=0
+
+If using Windows:
+
+https://www.youtube.com/embed/hIvNexwVYNw
+
+*Note*: Before you install on Windows, make sure you have the latest version of PowerShell installed.
+
+endif::backend-pdf[]
 
 === Using Neo4j Browser
 
@@ -91,6 +114,8 @@ There are two ways that you can use Neo4j Browser functionality:
 
 image:{imagedir}/Neo4jBrowser.png[Neo4jBrowser,width=800]
 
+{nbsp} +
+
 The user interface and behavior for the Neo4j Browser application and Neo4j Browser Web interface is identical, except that in the Web interface, you have the option of syncing your settings and scripts to the cloud.
 
 === Getting Started with Neo4j Browser
@@ -104,6 +129,16 @@ Follow along with this video to become familiar with common tasks in Neo4j Brows
 <iframe width="560" height="315" src="https://www.youtube.com/embed/rQTximyaETA?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 ++++
 endif::backend-html5[]
+
+
+ifdef::backend-pdf[]
+Follow along with this video to become familiar with common tasks in Neo4j Browser and populate the graph with movie data.
+
+*Note*: Before you perform the tasks shown in this video, you must have created and started the database in Neo4j Desktop.
+
+https://www.youtube.com/embed/rQTximyaETA?rel=0
+
+endif::backend-pdf[]
 
 == Step 2: Download the Yelp public dataset
 
@@ -124,9 +159,11 @@ endif::backend-html5[]
 
 == Step 4: Install the APOC and Graph Algorithms plugins
 
-For the project you just created click the *Add Plugin* area and install APOC and Graph Algorithms.
+. For the project you just created click the *Add Plugin* area and install APOC and Graph Algorithms.
 
-Open Neo4j Browser and confirm access to the apoc and algo libraries by executing the Cypher below:
+. In Neo4j Desktop, start the database.
+
+. Open Neo4j Browser and confirm access to the apoc and algo libraries by executing the Cypher below:
 
 [source, cypher]
 ----
@@ -149,7 +186,9 @@ If this code does not return the list of apoc and algo procedures, then you must
 
 After installing the Graph Algorithms Playground, your project should appear as follows:
 
-image:img/PluginsAppInstalled.png[PluginsAppInstalled,width=400]
+image:../html/img/PluginsAppInstalled.png[PluginsAppInstalled,width=400]
+
+{nbsp} +
 
 == Step 6: Copy the Yelp dataset for use in your project
 
@@ -158,10 +197,12 @@ image:img/PluginsAppInstalled.png[PluginsAppInstalled,width=400]
 . Navigate to data/databases.
 . Copy the *yelp.db*  folder that you unzipped to databases.
 . Rename the *yelp.db* folder to *graph.db*.
-. Start the database. Is should appear as follows:
+. Start the database.
+. Open Neo4j Browser and click the Database icon. Is should appear as follows:
 
-image:img/YelpLoaded.png[YelpLoaded,width=150]
+image:../html/img/YelpLoaded.png[YelpLoaded,width=150]
 
+{nbsp} +
 
 *Congratulations!* You are now ready to perform the exercises for this course.
 
@@ -172,7 +213,9 @@ then you must load this data from the Graph Algorithms Playground application.
 
 Open Graph Applications Playground (NEuler) for your project. It should appear as follows:
 
-image:img/NEulerInstalled.png[NEulerInstalled,width=800]
+image:../html/img/NEulerInstalled.png[NEulerInstalled,width=800]
+
+{nbsp} +
 
 Perform the following steps in NEuler:
 
@@ -189,7 +232,9 @@ Perform the following steps in NEuler:
 . In Neo4j Browser, confirm that your database looks as follows:
 
 [.thumb]
-image:img/AfterNEulerLoad.png[AfterNEulerLoad,width=150]
+image:../html/img/AfterNEulerLoad.png[AfterNEulerLoad,width=150]
+
+{nbsp} +
 
 == Getting help
 
