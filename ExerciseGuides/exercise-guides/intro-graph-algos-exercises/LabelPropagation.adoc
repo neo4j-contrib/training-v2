@@ -1,7 +1,7 @@
-= Exercise 4
+= Label Propagation
 :icons: font
 
-== Exercise 4: Label Propagation (Preparations)
+== Label Propagation (Preparations)
 
 The database you start with should contain all of the data you loaded in the setup for this course.
 
@@ -13,20 +13,20 @@ image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
 
 If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
 
-== Exercise 4: Label Propagation (Overview)
+== Label Propagation (Overview)
 
-In the Connected components exercise, you used the `unionFind` algorithm to write partition information to each *Place* node.
+In the Weakly Connected components exercise, you used the `unionFind` algorithm to write partition information to each *Place* node.
 This property was named *unionFind_partition*. In this exercise, you will gain some experience with writing Cypher to implement the Label Propagation algorithm using the European Roads dataset.
 This algorithm enables you to determine discreet sets of nodes that form clusters based upon how they are connected, as well as the weight of the connections.
 
 In this exercise, you will:
 
-* *Exercise 4.1*: Add a partition property to each node using Label Propagation.
-* *Exercise 4.2*: Verify the results of executing the algorithm.
+* *Part 1*: Add a partition property to each node using Label Propagation.
+* *Part 2*: Verify the results of executing the algorithm.
 
 Go to the next page to start this exercise.
 
-== Exercise 4.1: Add a partition property to each node using Label Propagation. (Instructions)
+== Part 1: Add a partition property to each node using Label Propagation. (Instructions)
 
 Write Cypher code to perform the Label Propagation algorithm on the *Place* nodes and the the *EROAD* relationship using these guidelines:
 
@@ -37,7 +37,7 @@ Write Cypher code to perform the Label Propagation algorithm on the *Place* node
 
 *Hint*: You will call `algo.labelPropagation`.
 
-== Exercise 4.1: Add a partition property to each node using Label Propagation. (Solution)
+== Part 1: Add a partition property to each node using Label Propagation. (Solution)
 
 Write Cypher code to perform the Label Propagation algorithm on the *Place* nodes and the the *EROAD* relationship using these guidelines:
 
@@ -60,12 +60,12 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX4.1.png[EX4.1,width=400]
 
-== Exercise 4.2: Verify the results of executing the algorithm. (Instructions)
+== Part 2: Verify the results of executing the algorithm. (Instructions)
 
 Write a query to return all *partition* values in the graph containing *Place* nodes.
 For each distinct partition value, return the list of places.
 
-== Exercise 4.2: Verify the results of executing the algorithm. (Solution)
+== Part 2: Verify the results of executing the algorithm. (Solution)
 
 Write a query to return all *partition* values in the graph containing *Place* nodes.
 For each distinct partition value, return the list of places.
@@ -84,14 +84,13 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX4.2.png[EX4.2,width=400]
 
-== Exercise 4: Taking it further
+== Label Propagation: Taking it further
 
 . Try using the stream version of the algorithm.
 . Try different configuration values, for example number of iterations.
 
-== Exercise 4: Label Propagation (Summary)
+== Label Propagation (Summary)
 
 In this exercise, you gained some experience with writing Cypher to implement the Label Propagation algorithm using the European Roads dataset.
 This algorithm enables you to determine discreet sets of nodes that form clusters based upon how they are connected, as well as the weight of the connections.
 
-pass:a[<a play-topic='{guides}/05.html'>Continue to Exercise 5</a>]

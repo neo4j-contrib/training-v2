@@ -1,0 +1,372 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Memory Requirements</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Memory Requirements</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Memory Requirements (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This graph should at a minimum contain the data for Yelp, Graph of Thrones, and European Roads.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Memory Requirements (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Before you run a graph algorithm, it is helpful to understand what the memory requirements will be for loading the data for the analysis, as well as the memory that will be required to run the algorithm. The memrec() function is used to provide you with this information and is available for the support alrorithms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Weakly Connected Components (unionFind)</p>
+</li>
+<li>
+<p>Label Propagation</p>
+</li>
+<li>
+<p>Louvain Modularity</p>
+</li>
+<li>
+<p>PageRank</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will determine the memory requirements for each algorithm on the datasets you have been working with:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Part 1</strong>: Determine the memory requirements for loading each of the datasets.</p>
+</li>
+<li>
+<p><strong>Part 2</strong>: Determine the memory requirements for running algorithms on these graphs.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 1: Determine the memory requirements for loading each of the datasets. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write the Cypher code to determine the memory requirements for loading these graphs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>EROADS dataset using the <strong>Place</strong> nodes and the <strong>EROAD</strong> relationships.</p>
+</li>
+<li>
+<p>Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON1</strong> relationships.</p>
+</li>
+<li>
+<p>Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON5</strong> relationships.</p>
+</li>
+<li>
+<p>Yelp dataset using the <strong>Business</strong> nodes and the <strong>IN_CATEGORY</strong> relationships.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 1: Determine the memory requirements for loading each of the datasets. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write the Cypher code to determine the memory requirements for loading these graphs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>EROADS dataset using the <strong>Place</strong> nodes and the <strong>EROAD</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Place', 'EROAD','graph.load')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This load requires 59Kb of memory.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON1</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Character', 'INTERACTS_SEASON1','graph.load')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This load requires 27Kb of memory.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON5</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Character', 'INTERACTS_SEASON5','graph.load')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This load requires 27Kb of memory.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Yelp dataset using the <strong>Business</strong> nodes and the <strong>IN_CATEGORY</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Business', 'IN_CATEGORY','graph.load')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This load requires 2.2Mb of memory.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 2: Determine the memory requirements for running algorithms on these graphs. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write the Cypher code to determine the memory requirements for running these algorithms on these graphs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>PageRank on the EROADS dataset using the <strong>Place</strong> nodes and the <strong>EROAD</strong> relationships.</p>
+</li>
+<li>
+<p>Weakly Connected Components on the Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON1</strong> relationships.</p>
+</li>
+<li>
+<p>Louvain Modularity on the Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON5</strong> relationships.</p>
+</li>
+<li>
+<p>Louvain Modularity on the Yelp dataset using the <strong>Business</strong> nodes and the <strong>IN_CATEGORY</strong> relationships.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 2: Determine the memory requirements for running algorithms on these graphs. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write the Cypher code to determine the memory requirements for running these algorithms on these graphs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>PageRank on the EROADS dataset using the <strong>Place</strong> nodes and the <strong>EROAD</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Place', 'EROAD','pageRank')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This algorithm requires 104Kb of memory.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Weakly Connected Components on the Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON1</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Character', 'INTERACTS_SEASON1','unionFind')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This algorithm requires 31Kb of memory.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Louvain Modularity on the Game of Thrones dataset using the <strong>Character</strong> nodes and the <strong>INTERACTS_SEASON5</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Character', 'INTERACTS_SEASON5','louvain')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This algorithm requires 120Kb - 148Kb of memory.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Louvain Modularity on the Yelp dataset using the <strong>Business</strong> nodes and the <strong>IN_CATEGORY</strong> relationships.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.memrec('Business', 'IN_CATEGORY','louvain')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This load requires 8.9Mb - 10.9Mb of memory.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Memory Requirements: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Calculate memory requirements for different combinations of graphs and algorithms.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Memory Requirements (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gained some experience estimating the memory requirements for loading graphs into memory and executing some supported algorithms.</p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

@@ -1,7 +1,7 @@
-= Exercise 9
+= Pathfinding
 :icons: font
 
-== Exercise 9: Pathfinding (Preparations)
+== Pathfinding (Preparations)
 
 The database you start with should contain all of the data you loaded in the setup for this course.
 
@@ -13,23 +13,23 @@ image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
 
 If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
 
-== Exercise 9: Pathfinding (Overview)
+== Pathfinding (Overview)
 
 There are many ways that search and path finding can be implemented in Neo4j.
 In this exercise you will gain experience with a variety of Pathfinding algorithms.
 
 In this exercise, you will execute Pathfinding algorithms for the European Roads dataset:
 
-* *Exercise 9.1*: Find the shortest path with Cypher.
-* *Exercise 9.2*: Find the shortest weighted path with the Shortest Path algorithm.
-* *Exercise 9.3*: Find the shortest paths using Ken's K-shortest Path algorithm.
-* *Exercise 9.4*: Find the shortest path between two nodes using the Single Source Shortest Path algorithm.
-* *Exercise 9.5*: Find the Minimum Spanning Tree path from a node.
-* *Exercise 9.6*: Use the Random Walk algorithm.
+* *Part 1*: Find the shortest path with Cypher.
+* *Part 2*: Find the shortest weighted path with the Shortest Path algorithm.
+* *Part 3*: Find the shortest paths using Ken's K-shortest Path algorithm.
+* *Part 4*: Find the shortest path between two nodes using the Single Source Shortest Path algorithm.
+* *Part 5*: Find the Minimum Spanning Tree path from a node.
+* *Part 6*: Use the Random Walk algorithm.
 
 Go to the next page to start this exercise.
 
-== Exercise 9.1: Find the shortest path with Cypher. (Instructions/Solution)
+== Part 1: Find the shortest path with Cypher. (Instructions/Solution)
 
 You will start with a query that finds the shortest path in terms of hops (number of relationships) between two nodes.
 Execute the following query uses Cypher’s built in shortest path function to find a path between Århus and Roma:
@@ -47,7 +47,7 @@ In this case the path between Århus and Roma is 3148.
 
 Modify this code to specify two different places to find the shortest path between them.
 
-== Exercise 9.2: Find the shortest weighted path with the Shortest Path algorithm. (Instructions)
+== Part 2: Find the shortest weighted path with the Shortest Path algorithm. (Instructions)
 
 The previous query finds us the path that goes through the fewest other cities, but it is not necessarily the shortest in terms of distance.
 
@@ -59,7 +59,7 @@ Write code to call to `algo.shortestPath.stream` using the following guidelines:
 * Specify *distance* as the property to use for the weight.
 * Return the node name and the cost.
 
-== Exercise 9.2: Find the shortest weighted path with the Shortest Path algorithm. (Solution)
+== Part 2: Find the shortest weighted path with the Shortest Path algorithm. (Solution)
 
 The previous query finds us the path that goes through the fewest other cities, but it is not necessarily the shortest in terms of distance.
 
@@ -91,7 +91,7 @@ image::{guides}/img/EX9.2.png[EX9.2,width=400]
 
 With this algorithm, we see that the shortest path here used the distances between nodes to indeed find the shortest part of 2147.
 
-== Exercise 9.3: Find the shortest paths using Ken's K-shortest Path algorithm. (Instructions)
+== Part 3: Find the shortest paths using Ken's K-shortest Path algorithm. (Instructions)
 
 What if you want to find the 2nd shortest path, or 3rd shortest path between two nodes?
 You can use the Yen’s algorithm to do this.
@@ -110,7 +110,7 @@ RETURN index,
 
 Modify this code to find the three shortest paths between London and Berlin.
 
-== Exercise 9.3: Find the shortest paths using Ken's K-shortest Path algorithm. (Solution)
+== Part 3: Find the shortest paths using Ken's K-shortest Path algorithm. (Solution)
 
 What you want to find the 2nd shortest path, or 3rd shortest path between two nodes?
 You can use the Yen’s algorithm to do this.
@@ -146,7 +146,7 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX9.3.png[EX9.3,width=400]
 
-== Exercise 9.4: Find the shortest path between two nodes using the Single Source Shortest Path algorithm. (Instructions/Solution)
+== Part 4: Find the shortest path between two nodes using the Single Source Shortest Path algorithm. (Instructions/Solution)
 
 The Single Source Shortest Path algorithm finds the shortest path from a specified node to all other nodes.
 
@@ -163,7 +163,7 @@ ORDER BY distance
 
 Modify this code to specify a different starting location.
 
-== Exercise 9.5:  Find the Minimum Spanning Tree path from a node. (Instructions/Solution)
+== Part 5:  Find the Minimum Spanning Tree path from a node. (Instructions/Solution)
 
 The Minimum Spanning Tree algorithm starts from a given node, and finds all its reachable nodes and the set of relationships that connect the nodes together with the minimum possible weight.
 
@@ -187,7 +187,7 @@ MATCH path = (p:Place {name:"Amsterdam"})-[:MINST*]-(end)
 RETURN [n in nodes(path) | n.name]
 ----
 
-== Exercise 9.6:   Use the Random Walk algorithm. (Instructions/Solution)
+== Part 6:   Use the Random Walk algorithm. (Instructions/Solution)
 
 The Random Walk algorithm starts from a node (which you can choose to provide), chooses a neighbor to navigate to at random, and then does the same from that node, keeping the resulting path in a list.
 
@@ -227,13 +227,12 @@ RETURN path
 
 You can see that there is only one road in and out of these places, which is why the random walk often goes back and forwards between these nodes.
 
-== Exercise 9: Taking it further
+== Pathfinding: Taking it further
 
 Try some Pathfinding analysis on the Yelp dataset.
 
-== Exercise 9: Pathfinding (Summary)
+== Pathfinding (Summary)
 
 There are many ways that search and path finding can be implemented in Neo4j.
 In this exercise you gained experience with a variety of Pathfinding algorithms using the European Roads dataset.
 
-pass:a[<a play-topic='{guides}/10.html'>Continue to Exercise 10</a>]

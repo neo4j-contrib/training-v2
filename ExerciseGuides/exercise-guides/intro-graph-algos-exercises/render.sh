@@ -1,19 +1,22 @@
 echo "Usage: sh render.sh [publish]"
 GUIDES=neo4j-guides
 
+
 function render {
 $GUIDES/run.sh Exercises.adoc index.html +1 "$@"
-$GUIDES/run.sh 01.adoc 01.html +1 "$@"
-$GUIDES/run.sh 02.adoc 02.html +1 "$@"
-$GUIDES/run.sh 03.adoc 03.html +1 "$@"
-$GUIDES/run.sh 04.adoc 04.html +1 "$@"
-$GUIDES/run.sh 05.adoc 05.html +1 "$@"
-#$GUIDES/run.sh 06.adoc 06.html +1 "$@"
-$GUIDES/run.sh 07.adoc 07.html +1 "$@"
-$GUIDES/run.sh 08.adoc 08.html +1 "$@"
-$GUIDES/run.sh 09.adoc 09.html +1 "$@"
-$GUIDES/run.sh 10.adoc 10.html +1 "$@"
-$GUIDES/run.sh 11.adoc 11.html +1 "$@"
+$GUIDES/run.sh SetUpYourDevelopmentEnvironment.adoc SetUpYourDevelopmentEnvironment.html +1 "$@"
+$GUIDES/run.sh WeaklyConnectedComponents.adoc WeaklyConnectedComponents.html +1 "$@"
+$GUIDES/run.sh LabelPropagation.adoc LabelPropagation.html +1 "$@"
+$GUIDES/run.sh LouvainModularity.adoc LouvainModularity.html +1 "$@"
+$GUIDES/run.sh StronglyConnectedComponents.adoc StronglyConnectedComponents.html +1 "$@"
+#$GUIDES/run.sh TriadicBalance.adoc TriadicBalance.html +1 "$@"
+$GUIDES/run.sh TriangleCount.adoc TriangleCount.html +1 "$@"
+$GUIDES/run.sh PageRank.adoc PageRank.html +1 "$@"
+$GUIDES/run.sh Centrality.adoc Centrality.html +1 "$@"
+$GUIDES/run.sh Pathfinding.adoc Pathfinding.html +1 "$@"
+$GUIDES/run.sh Similarity.adoc Similarity.html +1 "$@"
+$GUIDES/run.sh LinkPrediction.adoc LinkPrediction.html +1 "$@"
+$GUIDES/run.sh MemoryRequirements.adoc MemoryRequirements.html +1 "$@"
 }
 
 if [ "$1" == "publish" ]; then

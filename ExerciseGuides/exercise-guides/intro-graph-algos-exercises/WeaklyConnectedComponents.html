@@ -1,0 +1,304 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Weakly Connected Components</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Weakly Connected Components</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Weakly Connected Components (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database you start with should contain all of the data you loaded in the setup for this course.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/LoadedDatabase.png" alt="LoadedDatabase" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Weakly Connected Components (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you will gain some experience with writing Cypher for weakly connected graph algorithm using the European Roads dataset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Part 1</strong>: View the European Roads dataset schema.</p>
+</li>
+<li>
+<p><strong>Part 2</strong>: Find all connected places, writing unionFind partition information to the graph.</p>
+</li>
+<li>
+<p><strong>Part 3</strong>: Verify results of the weakly connected  nodes execution.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 1: View the European Roads dataset schema. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The European Roads dataset contains <strong>Place</strong> nodes that are connected by the <strong>EROAD</strong> relationship. Write a query to view some of the nodes and relationships in this dataset. What are the properties?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 1: View the European Roads dataset schema. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The European Roads dataset contains <strong>Place</strong> nodes that are connected by the <strong>EROAD</strong> relationship. Write a query to view some of the nodes and relationships in this dataset. What are the properties?</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Place)-[:EROAD]-(p2:Place)
+RETURN p, p2 LIMIT 10<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX2.1.png" alt="EX2.1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>The properties for a <strong>Place</strong> node are <strong>name</strong> and <strong>countryCode</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The properties for an <strong>EROAD</strong> relationship are <strong>distance</strong>, <strong>road_number</strong>, and <strong>watercrossing</strong>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 2: Find all weakly connected places, writing unionFind partition information to the graph. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>A  weakly connected node is one where there is a path in any direction from one node another node in the graph.
+Write the Cypher code to find all weakly connected <strong>Place</strong> nodes and set the property, <strong>unionFind_partition</strong> for each node based upon the result of the algorithm.
+Specify that the weight property for the <strong>Place</strong> nodes is named <strong>weight</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will use <code>algo.unionFind</code>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 2: Find all connected places, writing their unionFind partition information to the graph. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>A  weakly connected node is one where there is a path in any direction from one node another node in the graph.
+Write the Cypher code to find all weakly connected <strong>Place</strong> nodes and set the property, <strong>unionFind_partition</strong> for each node based upon the result of the algorithm.
+Specify that the weight property for the <strong>Place</strong> nodes is named <strong>weight</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: You will use <code>algo.unionFind</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.unionFind("Place", "EROAD",{writeProperty:"unionFind_partition",weightProperty: "weight"})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX2.4.png" alt="EX2.4" width="400">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 3: Verify results of the connected  nodes execution. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>unionFind_partition</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct partition value, return the list of places.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Part 3: Verify results of the connected  nodes execution. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Write a query to return all <strong>unionFind_partition</strong> values in the graph containing <strong>Place</strong> nodes.
+For each distinct partition value, return the list of places.</p>
+</div>
+<div class="paragraph">
+<p>Here is the solution code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (node:Place)
+RETURN DISTINCT node.unionFind_partition, collect(node.name) AS places
+ORDER BY node.unionFind_partition DESC<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results returned should look like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX2.5.png" alt="EX2.5" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>Notice that most of the nodes are in the same partition.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Weakly Connected Components: Taking it further</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Try using different configuration values.</p>
+</li>
+<li>
+<p>Try using the stream version of the algorithm.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Weakly Connected Components (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you gained some experience with writing Cypher for the weakly connected graph algorithms using the European Roads dataset.</p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

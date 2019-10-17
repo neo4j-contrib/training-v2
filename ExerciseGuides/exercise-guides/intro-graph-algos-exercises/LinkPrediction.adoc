@@ -1,7 +1,7 @@
-= Exercise 11
+= Link Prediction
 :icons: font
 
-== Exercise 11: Link Prediction (Preparations)
+== Link Prediction (Preparations)
 
 This exercise will use a very small sample graph.
 
@@ -21,19 +21,19 @@ This graph should look as follows:
 [.thumb]
 image::{guides}/img/NODE_HAS_FRIEND.png[NODE_HAS_FRIEND,width=400]
 
-== Exercise 11: Link Prediction (Overview)
+== Link Prediction (Overview)
 
 Link Prediction algorithms are useful applications that recommend outcomes and for machine learning.
 
 In this exercise, you will gain some experience with Link Prediction algorithms on small sample graph of *Node* nodes with the *HAS_FRIEND* relationships:
 
-* *Exercise 11.1*: Run the Common Neighbors algorithm.
-* *Exercise 11.2*: Run the Adamic Adar algorithm.
-* *Exercise 11.3*: Run the Preferential Attachment algorithm.
+* *Part 1*: Run the Common Neighbors algorithm.
+* *Part 2*: Run the Adamic Adar algorithm.
+* *Part 3*: Run the Preferential Attachment algorithm.
 
 Go to the next page to start this exercise.
 
-== Exercise 11.1: Run the Common Neighbors algorithm. (Instructions/Solution)
+== Part 1: Run the Common Neighbors algorithm. (Instructions/Solution)
 
 The common-neighbors predictor captures the notion that two strangers who have a common friend may be introduced by that friend. This introduction has the effect of "closing a triangle" in the graph.
 
@@ -52,7 +52,7 @@ This function returns a score of 2 meaning that nodes A and D have two nodes in 
 
 Modify this query to find the score for nodes A and E.
 
-== Exercise 11.2: Run the Adamic Adar algorithm. (Instructions/Solution)
+== Part 2: Run the Adamic Adar algorithm. (Instructions/Solution)
 
 Now you will perform link prediction over all the nodes in our sample graph.
 Run this code that computes Adamic Adar for all pairs of nodes that do not have a *HAS_FRIEND* relationship:
@@ -66,7 +66,7 @@ ORDER BY score DESC
 
 Which pair of nodes are more likely to have a link created between them?
 
-== Exercise 11.3: Run the Preferential Attachment algorithm. (Instructions/Solution)
+== Part 3: Run the Preferential Attachment algorithm. (Instructions/Solution)
 
 The intuition is that nodes with many relationships will gain more relationships.
 
@@ -81,11 +81,11 @@ MATCH (d:Node {name: 'E'})
 RETURN algo.linkprediction.preferentialAttachment(a, d) AS score
 ----
 
-== Exercise 11: Taking it further
+== Link Prediction: Taking it further
 
 Perform some Link Prediction analysis with some of the larger datasets in your database.
 
-== Exercise 11: Link Prediction (Summary)
+== Link Prediction (Summary)
 
 Link Prediction algorithms are useful applications that recommend outcomes and for machine learning.
 

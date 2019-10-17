@@ -1,0 +1,120 @@
+= Weakly Connected Components
+:icons: font
+
+== Weakly Connected Components (Preparations)
+
+The database you start with should contain all of the data you loaded in the setup for this course.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
+
+{nbsp} +
+
+If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
+
+== Weakly Connected Components (Overview)
+
+In this exercise, you will gain some experience with writing Cypher for weakly connected graph algorithm using the European Roads dataset.
+
+
+* *Part 1*: View the European Roads dataset schema.
+* *Part 2*: Find all connected places, writing unionFind partition information to the graph.
+* *Part 3*: Verify results of the weakly connected  nodes execution.
+
+
+Go to the next page to start this exercise.
+
+== Part 1: View the European Roads dataset schema. (Instructions)
+
+The European Roads dataset contains *Place* nodes that are connected by the *EROAD* relationship. Write a query to view some of the nodes and relationships in this dataset. What are the properties?
+
+== Part 1: View the European Roads dataset schema. (Solution)
+
+The European Roads dataset contains *Place* nodes that are connected by the *EROAD* relationship. Write a query to view some of the nodes and relationships in this dataset. What are the properties?
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (p:Place)-[:EROAD]-(p2:Place)
+RETURN p, p2 LIMIT 10
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.1.png[EX2.1,width=300]
+
+{nbsp} +
+
+The properties for a *Place* node are *name* and *countryCode*.
+
+The properties for an *EROAD* relationship are *distance*, *road_number*, and *watercrossing*.
+
+== Part 2: Find all weakly connected places, writing unionFind partition information to the graph. (Instructions)
+
+A  weakly connected node is one where there is a path in any direction from one node another node in the graph.
+Write the Cypher code to find all weakly connected *Place* nodes and set the property, *unionFind_partition* for each node based upon the result of the algorithm.
+Specify that the weight property for the *Place* nodes is named *weight*.
+
+*Hint*: You will use `algo.unionFind`.
+
+== Part 2: Find all connected places, writing their unionFind partition information to the graph. (Solution)
+
+A  weakly connected node is one where there is a path in any direction from one node another node in the graph.
+Write the Cypher code to find all weakly connected *Place* nodes and set the property, *unionFind_partition* for each node based upon the result of the algorithm.
+Specify that the weight property for the *Place* nodes is named *weight*.
+
+*Hint*: You will use `algo.unionFind`.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.unionFind("Place", "EROAD",{writeProperty:"unionFind_partition",weightProperty: "weight"})
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.4.png[EX2.4,width=400]
+
+
+== Part 3: Verify results of the connected  nodes execution. (Instructions)
+
+Write a query to return all *unionFind_partition* values in the graph containing *Place* nodes.
+For each distinct partition value, return the list of places.
+
+== Part 3: Verify results of the connected  nodes execution. (Solution)
+
+Write a query to return all *unionFind_partition* values in the graph containing *Place* nodes.
+For each distinct partition value, return the list of places.
+
+Here is the solution code:
+
+[source, cypher]
+----
+MATCH (node:Place)
+RETURN DISTINCT node.unionFind_partition, collect(node.name) AS places
+ORDER BY node.unionFind_partition DESC
+----
+
+The results returned should look like this:
+
+[.thumb]
+image::{guides}/img/EX2.5.png[EX2.5,width=400]
+
+{nbsp} +
+
+Notice that most of the nodes are in the same partition.
+
+== Weakly Connected Components: Taking it further
+
+. Try using different configuration values.
+. Try using the stream version of the algorithm.
+
+== Weakly Connected Components (Summary)
+
+In this exercise, you gained some experience with writing Cypher for the weakly connected graph algorithms using the European Roads dataset.
+

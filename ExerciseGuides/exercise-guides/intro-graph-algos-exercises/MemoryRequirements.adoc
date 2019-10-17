@@ -1,0 +1,148 @@
+= Memory Requirements
+:icons: font
+
+== Memory Requirements (Preparations)
+
+The database you start with should contain all of the data you loaded in the setup for this course.
+
+This graph should at a minimum contain the data for Yelp, Graph of Thrones, and European Roads.
+
+== Memory Requirements (Overview)
+
+Before you run a graph algorithm, it is helpful to understand what the memory requirements will be for loading the data for the analysis, as well as the memory that will be required to run the algorithm. The memrec() function is used to provide you with this information and is available for the support alrorithms:
+
+* Weakly Connected Components (unionFind)
+* Label Propagation
+* Louvain Modularity
+* PageRank
+
+In this exercise, you will determine the memory requirements for each algorithm on the datasets you have been working with:
+
+* *Part 1*: Determine the memory requirements for loading each of the datasets.
+* *Part 2*: Determine the memory requirements for running algorithms on these graphs.
+
+Go to the next page to start this exercise.
+
+== Part 1: Determine the memory requirements for loading each of the datasets. (Instructions)
+
+Write the Cypher code to determine the memory requirements for loading these graphs:
+
+* EROADS dataset using the *Place* nodes and the *EROAD* relationships.
+* Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON1* relationships.
+* Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON5* relationships.
+* Yelp dataset using the *Business* nodes and the *IN_CATEGORY* relationships.
+
+== Part 1: Determine the memory requirements for loading each of the datasets. (Solution)
+
+Write the Cypher code to determine the memory requirements for loading these graphs:
+
+* EROADS dataset using the *Place* nodes and the *EROAD* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Place', 'EROAD','graph.load')
+----
+
+This load requires 59Kb of memory.
+
+* Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON1* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Character', 'INTERACTS_SEASON1','graph.load')
+----
+
+This load requires 27Kb of memory.
+
+* Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON5* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Character', 'INTERACTS_SEASON5','graph.load')
+----
+
+This load requires 27Kb of memory.
+
+* Yelp dataset using the *Business* nodes and the *IN_CATEGORY* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Business', 'IN_CATEGORY','graph.load')
+----
+
+This load requires 2.2Mb of memory.
+
+
+== Part 2: Determine the memory requirements for running algorithms on these graphs. (Instructions)
+
+Write the Cypher code to determine the memory requirements for running these algorithms on these graphs:
+
+* PageRank on the EROADS dataset using the *Place* nodes and the *EROAD* relationships.
+* Weakly Connected Components on the Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON1* relationships.
+* Louvain Modularity on the Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON5* relationships.
+* Louvain Modularity on the Yelp dataset using the *Business* nodes and the *IN_CATEGORY* relationships.
+
+== Part 2: Determine the memory requirements for running algorithms on these graphs. (Solution)
+
+Write the Cypher code to determine the memory requirements for running these algorithms on these graphs:
+
+* PageRank on the EROADS dataset using the *Place* nodes and the *EROAD* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Place', 'EROAD','pageRank')
+----
+
+This algorithm requires 104Kb of memory.
+
+* Weakly Connected Components on the Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON1* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Character', 'INTERACTS_SEASON1','unionFind')
+----
+
+This algorithm requires 31Kb of memory.
+
+* Louvain Modularity on the Game of Thrones dataset using the *Character* nodes and the *INTERACTS_SEASON5* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Character', 'INTERACTS_SEASON5','louvain')
+----
+
+This algorithm requires 120Kb - 148Kb of memory.
+
+* Louvain Modularity on the Yelp dataset using the *Business* nodes and the *IN_CATEGORY* relationships.
+
+Here is the solution code:
+
+[source, cypher]
+----
+CALL algo.memrec('Business', 'IN_CATEGORY','louvain')
+----
+
+This load requires 8.9Mb - 10.9Mb of memory.
+
+== Memory Requirements: Taking it further
+
+Calculate memory requirements for different combinations of graphs and algorithms.
+
+== Memory Requirements (Summary)
+
+In this exercise, you gained some experience estimating the memory requirements for loading graphs into memory and executing some supported algorithms.
+

@@ -25,7 +25,7 @@
   <carousel class="deck container-fluid">
     <!--slide class="row-fluid">
       <div class="col-sm-3">
-        <h3>Exercise 2</h3>
+        <h3>Strongly Connected Components</h3>
         <p class="lead">Information</p>
 			<!dl>
 				
@@ -44,13 +44,13 @@
     
 
 
-   <h4>Exercise 2</h4>
+   <h4>Strongly Connected Components</h4>
    
 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2: Connected Components (Preparations)</h3>
+    <h3>Strongly Connected Components (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -78,28 +78,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2: Connected Components (Overview)</h3>
+    <h3>Strongly Connected Components (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you will gain some experience with writing Cypher for the strongly connected and connected graph algorithms using the European Roads dataset.</p>
+<p>In this exercise, you will gain some experience with writing Cypher for the strongly connected graph algorithm using the European Roads dataset.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 2.1</strong>: View the European Roads dataset schema.</p>
+<p><strong>Part 1</strong>: View the European Roads dataset schema.</p>
 </li>
 <li>
-<p><strong>Exercise 2.2</strong>: Find all strongly connected <strong>Place</strong> nodes.</p>
+<p><strong>Part 2</strong>: Find all strongly connected <strong>Place</strong> nodes.</p>
 </li>
 <li>
-<p><strong>Exercise 2.3</strong>: Verify results of strongly connected execution.</p>
-</li>
-<li>
-<p><strong>Exercise 2.4</strong>: Find all connected places, writing unionFind partition information to the graph.</p>
-</li>
-<li>
-<p><strong>Exercise 2.5</strong>: Verify results of the connected  nodes execution.</p>
+<p><strong>Part 3</strong>: Verify results of strongly connected execution.</p>
 </li>
 </ul>
 </div>
@@ -114,7 +108,7 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2.1: View the European Roads dataset schema. (Instructions)</h3>
+    <h3>Part 1: View the European Roads dataset schema. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -128,7 +122,7 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2.1: View the European Roads dataset schema. (Solution)</h3>
+    <h3>Part 1: View the European Roads dataset schema. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -168,7 +162,7 @@ RETURN p, p2 LIMIT 10<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2.2: Find all strongly connected Place nodes (Instructions)</h3>
+    <h3>Part 2: Find all strongly connected Place nodes (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -185,7 +179,7 @@ RETURN p, p2 LIMIT 10<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2.2: Find all strongly connected Place nodes (Solution)</h3>
+    <h3>Part 2: Find all strongly connected Place nodes (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -221,7 +215,7 @@ ORDER BY size(places) DESC<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2.3: Verify results of strongly connected execution. (Instructions)</h3>
+    <h3>Part 3: Verify results of strongly connected execution. (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -235,7 +229,7 @@ ORDER BY size(places) DESC<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2.3: Verify results of strongly connected execution. (Solution)</h3>
+    <h3>Part 3: Verify results of strongly connected execution. (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -273,115 +267,7 @@ RETURN x<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2.4: Find all connected places, writing unionFind partition information to the graph. (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>A  connected node is one where there is a path in any direction from one node another node in the graph.
-Write the Cypher code to find all connected <strong>Place</strong> nodes and set the property, <strong>unionFind_partition</strong> for each node based upon the result of the algorithm.
-Specify that the weight property for the <strong>Place</strong> nodes is named <strong>weight</strong>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Hint</strong>: You will use <code>algo.unionFind</code>.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 2.4: Find all connected places, writing their unionFind partition information to the graph. (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>A  connected node is one where there is a path in any direction from one node another node in the graph.
-Write the Cypher code to find all connected <strong>Place</strong> nodes and set the property, <strong>unionFind_partition</strong> for each node based upon the result of the algorithm.
-Specify that the weight property for the <strong>Place</strong> nodes is named <strong>weight</strong>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Hint</strong>: You will use <code>algo.unionFind</code>.</p>
-</div>
-<div class="paragraph">
-<p>Here is the solution code:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL algo.unionFind("Place", "EROAD",{writeProperty:"unionFind_partition",weightProperty: "weight"})<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The results returned should look like this:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX2.4.png" alt="EX2.4" width="400">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 2.5: Verify results of the connected  nodes execution. (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Write a query to return all <strong>unionFind_partition</strong> values in the graph containing <strong>Place</strong> nodes.
-For each distinct partition value, return the list of places.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 2.5: Verify results of the connected  nodes execution. (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Write a query to return all <strong>unionFind_partition</strong> values in the graph containing <strong>Place</strong> nodes.
-For each distinct partition value, return the list of places.</p>
-</div>
-<div class="paragraph">
-<p>Here is the solution code:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (node:Place)
-RETURN DISTINCT node.unionFind_partition, collect(node.name) AS places
-ORDER BY node.unionFind_partition DESC<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The results returned should look like this:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-graph-algos-exercises/img/EX2.5.png" alt="EX2.5" width="400">
-</div>
-</div>
-<div class="paragraph">
-<p>&#160;<br></p>
-</div>
-<div class="paragraph">
-<p>Notice that most of the nodes are in the same partition.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 2: Taking it further</h3>
+    <h3>Strongly Connected Components: Taking it further</h3>
     <br/>
     <div>
       <div class="olist arabic">
@@ -402,14 +288,11 @@ ORDER BY node.unionFind_partition DESC<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 2: Connected Components (Summary)</h3>
+    <h3>Strongly Connected Components (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you gained some experience with writing Cypher for the strongly connected and connected graph algorithms using the European Roads dataset.</p>
-</div>
-<div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-graph-algos-exercises/03.html'>Continue to Exercise 3</a></p>
+<p>In this exercise, you gained some experience with writing Cypher for the strongly connected graph algorithm using the European Roads dataset.</p>
 </div>
 	</div>
   </div>

@@ -1,7 +1,7 @@
-= Exercise 3
+= Triangle Count
 :icons: font
 
-== Exercise 3: Triangle Count (Preparations)
+== Triangle Count (Preparations)
 
 The database you start with should contain all of the data you loaded in the setup for this course.
 
@@ -13,24 +13,24 @@ image::{guides}/img/LoadedDatabase.png[LoadedDatabase,width=150]
 
 If you do not see this in your Neo4j Browser, you will need to perform the setup steps again.
 
-== Exercise 3: Triangle Count (Overview)
+== Triangle Count (Overview)
 
 In this exercise, you will gain some experience with writing Cypher to implement the Triangle count algorithm using the European Roads dataset.
 
 
-* *Exercise 3.1*: Retrieve the triangles in the European Roads dataset.
-* *Exercise 3.2*: Determine the triangle count and clustering coefficient for each *Place* node.
-* *Exercise 3.3*: Verify results of the clustering coefficient.
+* *Part 1*: Retrieve the triangles in the European Roads dataset.
+* *Part 2*: Determine the triangle count and clustering coefficient for each *Place* node.
+* *Part 3*: Verify results of the clustering coefficient.
 
 Go to the next page to start this exercise.
 
-== Exercise 3.1: Retrieve the triangles in the European Roads dataset. (Instructions)
+== Part 1: Retrieve the triangles in the European Roads dataset. (Instructions)
 
 Write a query to return the set of triangles in the graph between *Place* node using the *EROAD* relationship.
 
 *Hint*: You will call `algo.triangle.stream`.
 
-== Exercise 3.1: Retrieve the triangles in the European Roads dataset. (Solution)
+== Part 1: Retrieve the triangles in the European Roads dataset. (Solution)
 
 Write a query to return the set of triangles in the graph between *Place* node using the *EROAD* relationship.
 
@@ -52,13 +52,13 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX3.1.png[EX3.1,width=400]
 
-== Exercise 3.2: Determine the triangle count and clustering coefficient for each *Place* node. (Instructions)
+== Part 2: Determine the triangle count and clustering coefficient for each *Place* node. (Instructions)
 
 Write a query to return the triangle count and clustering coefficient for each *Place* node using the *EROAD* relationship.
 
 *Hint*: You will call `algo.triangleCount.stream`.
 
-== Exercise 3.2: Determine the triangle count and clustering coefficient for each *Place* node. (Solution)
+== Part 2: Determine the triangle count and clustering coefficient for each *Place* node. (Solution)
 
 Write a query to return the triangle count and clustering coefficient for each *Place* node using the *EROAD* relationship.
 
@@ -84,11 +84,11 @@ image::{guides}/img/EX3.2.png[EX3.2,width=400]
 
 A score of 1 means that all the node's neighbors are connected to each other.
 
-== Exercise 3.3: Verify results of the clustering coefficient. (Instructions)
+== Part 3: Verify results of the clustering coefficient. (Instructions)
 
 Write a query to confirm that the clustering coefficient scores of 1 are correct.
 
-== Exercise 3.3: Verify results of the clustering coefficient.  (Solution)
+== Part 3: Verify results of the clustering coefficient.  (Solution)
 
 Write a query to confirm that the clustering coefficient scores of 1 are correct.
 
@@ -115,13 +115,11 @@ image::{guides}/img/EX3.3.png[EX3.3,width=300]
 Check out other nodes with a clustering coefficient of 1.
 
 
-== Exercise 3: Taking it further
+== Triangle Count: Taking it further
 
 . Write code to add the coefficient property to the *Place* nodes.
 . Try using the non-stream version of the algorithms.
 
-== Exercise 3: Triangle Count (Summary)
+== Triangle Count (Summary)
 
 In this exercise, you gained some experience with writing Cypher to implement the Triangle count algorithm to return the triangle count and clustering coefficient for the *Place* nodes of  the European Roads dataset.
-
-pass:a[<a play-topic='{guides}/04.html'>Continue to Exercise 4</a>]

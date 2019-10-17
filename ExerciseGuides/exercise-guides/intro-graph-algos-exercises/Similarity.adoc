@@ -1,7 +1,7 @@
-= Exercise 10
+= Similarity
 :icons: font
 
-== Exercise 10: Similarity (Preparations)
+== Similarity (Preparations)
 
 The database you start with should contain all of the data you loaded in the setup for this course.
 
@@ -13,21 +13,21 @@ image::{guides}/img/DatabaseAfterExercise9.png[DatabaseAfterExercise9,width=150]
 
 Your database should contain more relationships that were created in Exercise 9. These new relationships are not required for the remainder of these exercises, but you should, at a minimum, have the nodes and relationships that you set up earlier for this course.
 
-== Exercise 10: Similarity (Overview)
+== Similarity (Overview)
 
 Similarity algorithms are useful for analyzing datasets to determine how alike nodes are based upon their properties.
 
 In this exercise, you will execute some Similarity algorithms on the Yelp dataset:
 
-* *Exercise 10.1*: Run the Overlap Similarity algorithm on some sample data.
-* *Exercise 10.2*: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset.
-* *Exercise 10.3*: Modify and view the updated graph after running the Overlap Similarity algorithm.
-* *Exercise 10.4*: Run the Pearson Similarity algorithm for users who have reviewed businesses.
-* *Exercise 10.5*: Run the Jaccard Similarity algorithm for photos that have been similarly tagged.
+* *Part 1*: Run the Overlap Similarity algorithm on some sample data.
+* *Part 2*: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset.
+* *Part 3*: Modify and view the updated graph after running the Overlap Similarity algorithm.
+* *Part 4*: Run the Pearson Similarity algorithm for users who have reviewed businesses.
+* *Part 5*: Run the Jaccard Similarity algorithm for photos that have been similarly tagged.
 
 Go to the next page to start this exercise.
 
-== Exercise 10.1: Run the Overlap Similarity algorithm on some sample data. (Instructions/Solution)
+== Part 1: Run the Overlap Similarity algorithm on some sample data. (Instructions/Solution)
 
 Suppose  you want to compute the similarity of categories based on the same businesses being tagged with that category.
 First, see how the algorithm works with some dummy data by executing this code:
@@ -48,8 +48,7 @@ ORDER BY similarity DESC
 In this query, dataset, item 8 has a similarity score of 1.0 with item 7, which means that item 8 is a complete subset of item 7.
 Item 7 itself is a subset of item 9, but it is not a complete subset as item 7 has one category that item 9 does not.
 
-
-== Exercise 10.2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Instructions)
+== Part 2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Instructions)
 
 Now you will run the algorithm on the Yelp dataset.
 First, you need to build a collection of items like you did in the previous example, but this time the collection will consist of data from our graph rather than being hard-coded.
@@ -84,7 +83,7 @@ Modify this code to:
 * Store the results in the graph.
   *Hint*: Use the *write* configuration parameter.
 
-== Exercise 10.2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Solution)
+== Part 2: Run the Overlap Similarity algorithm for categories of businesses in the Yelp dataset. (Solution)
 
 Now you will run the algorithm on the Yelp dataset.
 First, you need to build a collection of items like you did in the previous example, but this time the collection will consist of data from our graph rather than being hard-coded.
@@ -139,7 +138,7 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX10.2.png[EX10.2,width=400]
 
-== Exercise 10.3: Modify and view the updated graph after running the Overlap Similarity algorithm. (Instructions/Solution)
+== Part 3: Modify and view the updated graph after running the Overlap Similarity algorithm. (Instructions/Solution)
 
 The algorithm you just ran created relationships between nodes that are not strictly adjacent in the hierarchy.
 Run this code to remove those transitive relationships:
@@ -163,7 +162,7 @@ LIMIT 10
 Note that top-level categories do not have an outgoing *NARROWER_THAN* relationship.
 
 
-== Exercise 10.4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Instructions)
+== Part 4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Instructions)
 
 You want to see the similarity between users who reviewed businesses.
 
@@ -193,7 +192,7 @@ Modify this code to:
 * Store the results in the graph.
   *Hint*: Use the *write* configuration parameter.
 
-== Exercise 10.4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Solution)
+== Part 4: Run the Pearson Similarity algorithm for users who have reviewed businesses. (Solution)
 
 You want to see the similarity between users who reviewed businesses.
 
@@ -265,7 +264,7 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX10.4B.png[EX10.4B,width=400]
 
-== Exercise 10.5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Instructions)
+== Part 5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Instructions)
 
 The photos in this graph have been run through Google’s Image Labeling service and those labels are connected to photos by the *HAS_LABEL* relationship.
 Run the following query to explore this part of the graph:
@@ -308,7 +307,7 @@ Modify this code to:
 * Store the results in the graph.
   *Hint*: Use the *write* configuration parameter.
 
-== Exercise 10.5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Solution)
+== Part 5: Run the Jaccard Similarity algorithm for photos that have been similarly tagged. (Solution)
 
 The photos in this graph have been run through Google’s Image Labeling service and those labels are connected to photos by the *HAS_LABEL* relationship.
 Run the following query to explore this part of the graph:
@@ -388,14 +387,13 @@ The results returned should look like this:
 [.thumb]
 image::{guides}/img/EX10.5B.png[EX10.5B,width=500]
 
-== Exercise 10: Taking it further
+== Similarity: Taking it further
 
 Use the similarity scores written to the graph to perform Community Detection analysis.
 
-== Exercise 10: Similarity (Summary)
+== Similarity (Summary)
 
 Similarity algorithms are useful for analyzing datasets to determine how alike nodes are based upon their properties.
 
 In this exercise, you gained experience with some Similarity algorithms on the Yelp dataset.
 
-pass:a[<a play-topic='{guides}/11.html'>Continue to Exercise 11</a>]
