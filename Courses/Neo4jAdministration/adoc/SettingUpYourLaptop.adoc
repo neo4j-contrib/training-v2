@@ -9,36 +9,125 @@
 :toc: left
 :toclevels: 3
 :experimental:
-:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
 
-== Course preparation instructions
+== Overview
 
-You should prepare your system before you come to the _Neo4j Administration_ course as follows:
+You should bring a laptop to the class that is properly set up for the class.
 
-. Be prepared to bring a laptop that:
+You may choose to use your personal laptop rather than your work laptop for this course if:
 [square]
-* You have admin privileges to.
-* You can install software (Neo4j, Docker) on.
-* Has at least 5Gb disk space.
-* Can connect wirelessly to the Internet.
+* Your work laptop blocks or restricts Internet access.
+* You want to install Neo4j and Docker and you do not have admin privileges for your work laptop.
 
-[start=2]
+When performing the hands-on exercises for this course, you have two options:
+
+*Option 1: Install  Neo4j and Docker on your laptop*
+[square]
+* You must have at least 5G free disk space.
+* You must have at least 2G RAM.
+* You must have admin privileges to install software.
+* You must have a laptop with Windows, OS X, and Linux (must be a 64-bit system).
+* Neo4j Enterprise Edition can be used for free for 30 days.
+* Docker is free to use.
+* You must have unrestricted WiFi capability during the exercises to download files.
+
+*Option 2: Use an AWS EC2 instance (ubuntu)*
+[square]
+* You must be given access to an EC2 instance (EC2 IP address) for the duration of the course by your instructor.
+* You must have SSH available for accessing the EC2 instance from your laptop.
+* Your access to the AWS EC2 instance is free, but is temporary.
+* You must have unrestricted WiFi capability during the exercises to access the EC2 instances.
+
+To prepare your laptop for the hands-one exercises of this course, you must perform these two Steps:
+
+*Step 1:* Download the Course Guide http://bit.ly/Neo4jAdministration_V1_0[Course Guide].
+
+*Step 2:* Ensure your laptop is prepared for the class using either Option 1 or Option 2.
+
+== Step 2: Option 1: Install Neo4j and Docker on your laptop
+
 . Download the latest Neo4j Enterprise Edition V 3.5.x bits for your type of system from here https://neo4j.com/download-center/#releases[here].  (*Do not install*)
 
 *Note*: When you download Neo4j Enterprise Edition, you  will see installation instructions. Save these instructions as  you will need them during the first Exercise of the class when you install Neo4j Enterprise Edition.
-[start=3]
-. Ensure that Docker Desktop (MAC/Windows) or Docker CE (Debian) is installed (*Hint:* docker --version).
+[start=2]
+. Ensure that the latest Docker Desktop (MAC/Windows) or Docker CE (Debian) is installed (*Hint:* docker --version).
+[square]
 * Here is information about installing https://hub.docker.com/search/?type=edition&offering=community[Docker]
-[start=4]
+[start=3]
 . Download the https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/neo4j-docker.zip[neo4j-docker.zip file] and unzip it to a folder that will be used for saving Neo4j configuration changes for clusters. This will be your working directory for the Causal Clustering Exercises in this training. *Hint*: curl -O https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/neo4j-docker.zip
 . Download the Docker image for Neo4j (*docker pull neo4j:3.5.0-enterprise*).
 . Ensure that your user ID has docker privileges: *sudo usermod -aG docker <username>*. You will have to log in and log out to use the new privileges.
 
+== Step 2: Option 2: Use an AWS EC2 instance
+
+How you connect to the AWS EC2 instance will depend on your platform.
+
+=== Using the AWS EC2 instance from OS X or Linux
+
+. Download the private key file: https://neo4j-training.s3.us-east-2.amazonaws.com/Lab+VM+Files/neo4j-training.pem[neo4j-training.pem] and place it in your home directory.
+. Ensure proper access permissions on the downloaded file:
+
+----
+chmod 400 ~/neo4j-training.pem
+----
+
+[start=3]
+. Open a terminal window.
+. Enter this command to connect to your VM via SSH:
+
+----
+ssh -i ~/neo4j-training.pem ubuntu@<EC2 IP address>
+----
+
+*Note:* Use the EC2 IP address given to you for this course.
+
+image::{imagedir}/MAC-setup1.png[MAC SSH,width=400,align=center]
+
+=== Using the ASWS EC2 instance from Windows
+
+. Download https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html[PuTTY].
+
+*Note:* Most modern laptops will use the 64-bit installer. Confirm by checking your system properties.
+[start=2]
+. Install PuTTY by running the downloaded .exe file.
+
+*Note:* Default settings should be fine. The only thing you might wish to change is that, by default, PuTTY does not create a desktop shortcut. We may open lots of sessions in class, so having a shortcut handy can save some time.
+
+image::{imagedir}/Windows-setup1.png[Install PuTTY,width=400,align=center]
+
+[start=3]
+. Download the private key file: https://neo4j-training.s3.us-east-2.amazonaws.com/Lab+VM+Files/neo4j-training.ppk[neo4j-training.ppk]
+. Open PuTTY.
+. In the left side menu, expand SSH and click *Auth*.
+. Enter the location where you downloaded the private key.
+
+image::{imagedir}/Windows-setup2.png[Configure SSH,width=400,align=center]
+
+[start=7]
+. In the left menu, click *Session*.
+. Enter the EC2 IP address given to your for this course.
+. In the Saved Sessions box, enter a memorable name.
+. Click *Save*.
+
+*Note:* Saving this configuration allows you to simply Load the connection parameters whenever you wish to open a new session, instead of retyping everything
+
+image::{imagedir}/Windows-setup3.png[PuTTY Session Info,width=400,align=center]
+
+[start=11]
+. Click *Open* to start a new session. A terminal window will appear.
+
+image::{imagedir}/Windows-setup4.png[Open Session,width=400,align=center]
+
+[start=12]
+. Log in as user *ubuntu*.
+
+image::{imagedir}/Windows-setup5.png[Login ubuntu,width=400,align=center]
 
 == Getting help
 
-If you have problems installing Neo4j Desktop, you can join http://community.neo4j.com/[Neo4j Community] and ask a question https://community.neo4j.com/c/general/online-training[here].
+If you have problems installing Neo4j Desktop or preparing for this course, you can join http://community.neo4j.com/[Neo4j Community] and ask a question https://community.neo4j.com/c/general/online-training[here].
 

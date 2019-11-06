@@ -436,43 +436,104 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_course_preparation_instructions">Course preparation instructions</a></li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_step_2_option_1_install_neo4j_and_docker_on_your_laptop">Step 2: Option 1: Install Neo4j and Docker on your laptop</a></li>
+<li><a href="#_step_2_option_2_use_an_aws_ec2_instance">Step 2: Option 2: Use an AWS EC2 instance</a>
+<ul class="sectlevel2">
+<li><a href="#_using_the_aws_ec2_instance_from_os_x_or_linux">Using the AWS EC2 instance from OS X or Linux</a></li>
+<li><a href="#_using_the_asws_ec2_instance_from_windows">Using the ASWS EC2 instance from Windows</a></li>
+</ul>
+</li>
 <li><a href="#_getting_help">Getting help</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_course_preparation_instructions">Course preparation instructions</h2>
+<h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You should prepare your system before you come to the <em>Neo4j Administration</em> course as follows:</p>
+<p>You should bring a laptop to the class that is properly set up for the class.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Be prepared to bring a laptop that:</p>
+<div class="paragraph">
+<p>You may choose to use your personal laptop rather than your work laptop for this course if:</p>
+</div>
 <div class="ulist square">
 <ul class="square">
 <li>
-<p>You have admin privileges to.</p>
+<p>Your work laptop blocks or restricts Internet access.</p>
 </li>
 <li>
-<p>You can install software (Neo4j, Docker) on.</p>
-</li>
-<li>
-<p>Has at least 5Gb disk space.</p>
-</li>
-<li>
-<p>Can connect wirelessly to the Internet.</p>
+<p>You want to install Neo4j and Docker and you do not have admin privileges for your work laptop.</p>
 </li>
 </ul>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>When performing the hands-on exercises for this course, you have two options:</p>
 </div>
+<div class="paragraph">
+<p><strong>Option 1: Install  Neo4j and Docker on your laptop</strong></p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p>You must have at least 5G free disk space.</p>
+</li>
+<li>
+<p>You must have at least 2G RAM.</p>
+</li>
+<li>
+<p>You must have admin privileges to install software.</p>
+</li>
+<li>
+<p>You must have a laptop with Windows, OS X, and Linux (must be a 64-bit system).</p>
+</li>
+<li>
+<p>Neo4j Enterprise Edition can be used for free for 30 days.</p>
+</li>
+<li>
+<p>Docker is free to use.</p>
+</li>
+<li>
+<p>You must have unrestricted WiFi capability during the exercises to download files.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Option 2: Use an AWS EC2 instance (ubuntu)</strong></p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p>You must be given access to an EC2 instance (EC2 IP address) for the duration of the course by your instructor.</p>
+</li>
+<li>
+<p>You must have SSH available for accessing the EC2 instance from your laptop.</p>
+</li>
+<li>
+<p>Your access to the AWS EC2 instance is free, but is temporary.</p>
+</li>
+<li>
+<p>You must have unrestricted WiFi capability during the exercises to access the EC2 instances.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To prepare your laptop for the hands-one exercises of this course, you must perform these two Steps:</p>
+</div>
+<div class="paragraph">
+<p><strong>Step 1:</strong> Download the Course Guide <a href="http://bit.ly/Neo4jAdministration_V1_0">Course Guide</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Step 2:</strong> Ensure your laptop is prepared for the class using either Option 1 or Option 2.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_2_option_1_install_neo4j_and_docker_on_your_laptop">Step 2: Option 1: Install Neo4j and Docker on your laptop</h2>
+<div class="sectionbody">
 <div class="olist arabic">
-<ol class="arabic" start="2">
+<ol class="arabic">
 <li>
 <p>Download the latest Neo4j Enterprise Edition V 3.5.x bits for your type of system from here <a href="https://neo4j.com/download-center/#releases">here</a>.  (<strong>Do not install</strong>)</p>
 </li>
@@ -482,11 +543,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Note</strong>: When you download Neo4j Enterprise Edition, you  will see installation instructions. Save these instructions as  you will need them during the first Exercise of the class when you install Neo4j Enterprise Edition.</p>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="3">
+<ol class="arabic" start="2">
 <li>
-<p>Ensure that Docker Desktop (MAC/Windows) or Docker CE (Debian) is installed (<strong>Hint:</strong> docker --version).</p>
-<div class="ulist">
-<ul>
+<p>Ensure that the latest Docker Desktop (MAC/Windows) or Docker CE (Debian) is installed (<strong>Hint:</strong> docker --version).</p>
+<div class="ulist sqyuare">
+<ul class="sqyuare">
 <li>
 <p>Here is information about installing <a href="https://hub.docker.com/search/?type=edition&amp;offering=community">Docker</a></p>
 </li>
@@ -507,17 +568,163 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
+<h2 id="_step_2_option_2_use_an_aws_ec2_instance">Step 2: Option 2: Use an AWS EC2 instance</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>How you connect to the AWS EC2 instance will depend on your platform.</p>
+</div>
+<div class="sect2">
+<h3 id="_using_the_aws_ec2_instance_from_os_x_or_linux">Using the AWS EC2 instance from OS X or Linux</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the private key file: <a href="https://neo4j-training.s3.us-east-2.amazonaws.com/Lab+VM+Files/neo4j-training.pem">neo4j-training.pem</a> and place it in your home directory.</p>
+</li>
+<li>
+<p>Ensure proper access permissions on the downloaded file:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>chmod 400 ~/neo4j-training.pem</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Open a terminal window.</p>
+</li>
+<li>
+<p>Enter this command to connect to your VM via SSH:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ssh -i ~/neo4j-training.pem ubuntu@&lt;EC2 IP address&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> Use the EC2 IP address given to you for this course.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/MAC-setup1.png" alt="MAC SSH" width="400">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_asws_ec2_instance_from_windows">Using the ASWS EC2 instance from Windows</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">PuTTY</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> Most modern laptops will use the 64-bit installer. Confirm by checking your system properties.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Install PuTTY by running the downloaded .exe file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> Default settings should be fine. The only thing you might wish to change is that, by default, PuTTY does not create a desktop shortcut. We may open lots of sessions in class, so having a shortcut handy can save some time.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/Windows-setup1.png" alt="Install PuTTY" width="400">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Download the private key file: <a href="https://neo4j-training.s3.us-east-2.amazonaws.com/Lab+VM+Files/neo4j-training.ppk">neo4j-training.ppk</a></p>
+</li>
+<li>
+<p>Open PuTTY.</p>
+</li>
+<li>
+<p>In the left side menu, expand SSH and click <strong>Auth</strong>.</p>
+</li>
+<li>
+<p>Enter the location where you downloaded the private key.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/Windows-setup2.png" alt="Configure SSH" width="400">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>In the left menu, click <strong>Session</strong>.</p>
+</li>
+<li>
+<p>Enter the EC2 IP address given to your for this course.</p>
+</li>
+<li>
+<p>In the Saved Sessions box, enter a memorable name.</p>
+</li>
+<li>
+<p>Click <strong>Save</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> Saving this configuration allows you to simply Load the connection parameters whenever you wish to open a new session, instead of retyping everything</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/Windows-setup3.png" alt="PuTTY Session Info" width="400">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="11">
+<li>
+<p>Click <strong>Open</strong> to start a new session. A terminal window will appear.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/Windows-setup4.png" alt="Open Session" width="400">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="12">
+<li>
+<p>Log in as user <strong>ubuntu</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/Windows-setup5.png" alt="Login ubuntu" width="400">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_getting_help">Getting help</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you have problems installing Neo4j Desktop, you can join <a href="http://community.neo4j.com/">Neo4j Community</a> and ask a question <a href="https://community.neo4j.com/c/general/online-training">here</a>.</p>
+<p>If you have problems installing Neo4j Desktop or preparing for this course, you can join <a href="http://community.neo4j.com/">Neo4j Community</a> and ask a question <a href="https://community.neo4j.com/c/general/online-training">here</a>.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-03-27 16:41:17 CDT
+Last updated 2019-10-24 14:35:52 CDT
 </div>
 </div>
 </body>
