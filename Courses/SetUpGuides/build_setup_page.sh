@@ -12,4 +12,4 @@ open  html/AdvancedCypher_pre-class_Setup.html
 
 asciidoctor  adoc/Setup_IntroGraphAlgos.adoc -o html/IntroGraphAlgos_pre-class_Setup.html
 asciidoctor-pdf -T s adoc/Setup_IntroGraphAlgos.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/IntroGraphAlgos.yml -o pdf/Setup_IntroGraphAlgos.pdf
-open  html/IntroGraphAlgos_pre-class_Setup.html
+#open  html/IntroGraphAlgos_pre-class_Setup.html
