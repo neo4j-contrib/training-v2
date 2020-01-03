@@ -1,0 +1,1260 @@
+
+= Getting More Out of Queries
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.4.4
+:currentyear: 2018
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Intro to Cypher
+:prevsect: 4
+:currsect: 5
+:nextsecttitle: Creating Data
+:nextsect: 6
+:experimental:
+:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+You have learned how to query nodes and relationships in a graph using simple patterns. 
+You learned how to use node labels, relationship types, and properties to filter your queries. 
+Cypher provides a rich set of `MATCH` clauses and keywords you can use to get more out of your queries.
+
+At the end of this module, you should be able to write Cypher statements to:
+[square]
+* Filter queries using the `WHERE` clause
+* Control query processing
+* Control what results are returned
+* Work with Cypher lists and dates
+
+
+=== Filtering queries using `WHERE`
+
+You have learned how to specify values for properties of nodes and relationships to filter what data is returned from the `MATCH` and `RETURN` clauses. 
+The format for filtering you have learned thus far only tests equality, where you must specify values for the properties to test with. 
+What if you wanted more flexibility about how the query is filtered? 
+For example, you want to retrieve all movies released after 2000, or retrieve all actors born after 1970 who acted in movies released before 1995. 
+Most applications need more flexibility in how data is filtered.
+
+The most common clause you use to filter queries is the `WHERE` clause that follows a `MATCH` clause. 
+In the `WHERE` clause, you can place conditions that are evaluated at runtime to filter the query. 
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Previously, you learned to write simple query as follows:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie {released: 2008}) 
+RETURN p, m
+----
+
+Here is one way you specify the same query using the `WHERE` clause:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie) 
+WHERE m.released = 2008
+RETURN p, m
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+In this example, you can only refer to named nodes or relationships in a `WHERE` clause so remember that you must specify a variable for any node or relationship you are testing in the `WHERE` clause. 
+The benefit of using a `WHERE` clause is that you can specify potentially complex conditions for the query. 
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+For example:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
+WHERE m.released = 2008 OR m.released = 2009
+RETURN p, m
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Specifying ranges in WHERE clauses
+
+Not only can the equality `=` be tested, but you can test ranges, existence, strings, as well as specify logical operations during the query. 
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is an example of specifying a range for filtering the query:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie) 
+WHERE m.released >= 2003 AND m.released <= 2004
+RETURN p.name, m.title, m.released
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/MoviesBetween2003And2004.png[MoviesBetween2003And2004,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+You can also specify the same query as:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie) 
+WHERE 2003 <= m.released <= 2004
+RETURN p.name, m.title, m.released
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+You can specify conditions in a `WHERE` clause that return a value of `true` or `false` (for example predicates). 
+For testing numeric values, you use the standard numeric comparison operators. Each condition can be combined for runtime evaluation using the boolean operators `AND`, `OR`, `XOR`, and `NOT`.  
+There are a number of numeric functions you can use in your conditions. 
+See the _Neo4j Cypher Manual's_ section _Mathematical Functions_ for more information.
+
+A special condition in a query is when the retrieval returns an unknown value called `null`. 
+You should read the _Neo4j Cypher Manual's_ section _Working with null_ to understand how  `null` values are used at runtime.
+
+==== Testing labels 
+
+Thus far, you have used the node labels to filter queries in a `MATCH` clause. 
+You can filter node labels in the `WHERE` clause also:
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+For example, these two Cypher queries:
+
+[source,cypher]
+----
+MATCH (p:Person) 
+RETURN p.name
+----
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(:Movie {title: 'The Matrix'}) 
+RETURN p.name
+----
+
+can be rewritten using `WHERE` clauses as follows:
+
+[source,cypher]
+----
+MATCH (p)
+WHERE p:Person
+RETURN p.name
+----
+
+[source,cypher]
+----
+MATCH (p)-[:ACTED_IN]->(m)
+WHERE p:Person AND m:Movie AND m.title='The Matrix'
+RETURN p.name
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+Not all node labels need to be tested during a query, but if your graph has multiple labels for the same node, filtering it by the node label will provide better query performance.
+
+==== Testing the existence of a property
+
+Recall that a property is associated with a particular node or relationship. 
+A property is not associated with a node with a particular label or relationship type.  
+In one of our queries earlier, we saw that the movie "Something's Gotta Give" is the only movie in the _Movie_ database that does not have a _tagline_ property. 
+Suppose we only want to return the movies that the actor, _Jack Nicholson_ acted in with the condition that they must all have a tagline.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is the query to retrieve the specified movies where we test the existence of the _tagline_ property:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
+WHERE p.name='Jack Nicholson' AND exists(m.tagline)
+RETURN m.title, m.tagline
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/JackNicholsonMoviesWithTaglines.png[JackNicholsonMoviesWithTaglines,width=900]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Testing strings
+
+Cypher has a set of string-related keywords that you can use in your `WHERE` clauses to test string property values. 
+You can specify `STARTS WITH`, `ENDS WITH`, and `CONTAINS`.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+For example, to find all actors in the _Movie_ database whose first name is _Michael_, you would write:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->()
+WHERE p.name STARTS WITH 'Michael'
+RETURN p.name
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/ActorsNamedMichael.png[ActorsNamedMichael,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Note that the comparison of strings is case-sensitive. 
+There are a number of string-related functions you can use to further test strings. 
+For example, if you want to test a value, regardless of its case, you could call the `toLower()` function to convert the string to lower case before it is compared.
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->()
+WHERE toLower(p.name) STARTS WITH 'michael'
+RETURN p.name
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+[NOTE]
+In this example where we are converting a property to lower case, if an index has been created for this property, it will not be used at runtime.
+
+See the _String functions_ section of the _Neo4j Cypher Manual_ for more information. 
+It is sometimes useful to use the built-in string functions to modify the data that is returned in the query in the RETURN clause.
+
+==== Testing with regular expressions
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+If you prefer, you can test property values using regular expressions.
+You use the syntax `=~` to specify the regular expression you are testing with.
+Here is an example where we test the name of the _Person_ using a regular expression to retrieve all _Person_ nodes with a _name_ property that begins with 'Tom':
+
+[source,cypher]
+----
+MATCH (p:Person)
+WHERE p.name =~'Tom.*'
+RETURN p.name
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/MatchTomsRegex.png[MatchTomsRegex,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+[NOTE]
+If you specify a regular expression. The index will never be used. In addition, the property value must fully match the regular expression.
+
+==== Testing with patterns
+
+Sometimes during a query, you may want to perform additional filtering using the relationships between nodes being visited during the query. For example, during retrieval, you may want to exclude certain paths traversed. 
+You can specify a `NOT` specifier on a pattern in a `WHERE` clause.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is an example where we want to return all _Person_ nodes of people who wrote movies:
+[source,cypher]
+----
+MATCH (p:Person)-[:WROTE]->(m:Movie)
+RETURN p.name, m.title
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/WroteMovies.png[WroteMovies,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Next, we modify this query to exclude people who directed that movie:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:WROTE]->(m:Movie)
+WHERE NOT exists( (p)-[:DIRECTED]->(m) )
+RETURN p.name, m.title
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/WroteMoviesNotDirected.png[WroteMoviesNotDirected,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is another example where we want to find _Gene Hackman_ and the movies that he acted in with another person who also directed the movie. 
+
+[source,cypher]
+----
+MATCH (gene:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(other:Person)
+WHERE gene.name= 'Gene Hackman'
+AND exists( (other)-[:DIRECTED]->(m) )
+RETURN  gene, other, m
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/ExistsPattern.png[ExistsPattern,width=700]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Testing with list values
+
+If you have a set of values you want to test with, you can place them in a list or you can test with an existing list in the graph. 
+
+You can define the list in the `WHERE` clause. 
+During the query, the graph engine will compare each property with the values `IN` the list. 
+You can place either numeric or string values in the list, but typically, elements of the list are of the same type of data. 
+If you are testing with a property of a string type, then all the elements of the list should be strings. 
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+In this example, we only want to retrieve _Person_ nodes of people born in 1965 or 1970:
+
+[source,cypher]
+----
+MATCH (p:Person)
+WHERE p.born IN [1965, 1970]
+RETURN p.name as name, p.born as yearBorn
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/UsingIN.png[UsingIN,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+You can also compare a value to an existing list in the graph. 
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+We know that the _:ACTED_IN_ relationship has a property, _roles_ that contains the list of roles an actor had in a particular movie they acted in. 
+Here is the query we write to return the name of the actor who played _Neo_ in the movie _The Matrix_:
+
+[source,cypher]
+----
+MATCH (p:Person)-[r:ACTED_IN]->(m:Movie)
+WHERE  'Neo' IN r.roles AND m.title='The Matrix'
+RETURN p.name
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/UsingINRoles.png[UsingINRoles,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+[NOTE]
+There are a number of syntax elements of Cypher that we have not covered in this training. For example, you can specify `CASE` logic in your conditional testing for your `WHERE` clauses. You can learn more about these syntax elements in the _Neo4j Cypher Manual_ and the _Cypher Refcard_.
+
+=== *Exercise 4: Filtering queries using the `WHERE` clause*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
+and follow the instructions for Exercise 4.
+
+=== Controlling query processing
+
+Now that you have learned how to provide filters for your queries by testing properties, relationships, and patterns using the `WHERE` clause, you will learn some additional Cypher techniques for controlling what the graph engine does during the query.
+
+==== Specifying multiple `MATCH` patterns
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+This `MATCH` clause includes a pattern  specified by two paths separated by a comma:
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie), 
+      (m:Movie)<-[:DIRECTED]-(d:Person)
+WHERE m.released = 2000
+RETURN a.name, m.title, d.name
+----
+
+If possible, you should write the same query as follows:
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person)
+WHERE m.released = 2000
+RETURN a.name, m.title, d.name
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+There are, however, some queries where you will need to specify two or more patterns. 
+Multiple patterns are used when a query is complex and cannot be satisfied with a single pattern. 
+This is useful when you are looking for a specific node in the graph and want to connect it to a different node. 
+You will learn about creating nodes and relationships later in this training. 
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+==== Example 1: Using two MATCH patterns
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here are some examples of specifying two paths in a `MATCH` clause. 
+In the first example, we want the actors that worked with _Keanu Reeves_ to meet _Hugo Weaving_, who has worked with _Keanu Reeves_. 
+Here we retrieve the actors who acted in the same movies as _Keanu Reeves_, but not when _Hugo Weaving_ acted in the same movie. 
+To do this, we specify two paths for the `MATCH`:
+
+[source,cypher]
+----
+MATCH (keanu:Person)-[:ACTED_IN]->(movie:Movie)<-[:ACTED_IN]-(n:Person),
+     (hugo:Person)
+WHERE keanu.name='Keanu Reeves' AND
+      hugo.name='Hugo Weaving'
+AND NOT (hugo)-[:ACTED_IN]->(movie)
+RETURN n.name
+----
+
+When you perform this type of query, you may see a warning in the query edit pane stating that the pattern represents a cartesian product and may require a lot of resources to perform the query. 
+You should only perform these types of queries if you know the data well and the implications of doing the query.
+
+[.thumb]
+image::{imagedir}/CartesionProductWarning.png[CartesionProductWarning,width=800]
+
+Here is the result of executing this query:
+
+[.thumb]
+image::{imagedir}/KeanuFriendsForHugo.png[KeanuFriendsForHugo,width=700]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Example 2: Using two MATCH patterns
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is another example where two patterns are necessary. 
+Suppose we want to retrieve the movies that _Meg Ryan_ acted in and their respective directors, as well as the other actors that acted in these movies. 
+Here is the query to do this:
+
+[source,cypher]
+----
+MATCH (meg:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),
+      (other:Person)-[:ACTED_IN]->(m)
+WHERE meg.name = 'Meg Ryan'
+RETURN m.title as movie, d.name AS director , other.name AS `co-actors`
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/MegsCoActors.png[MegsCoActors,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+==== Setting path variables
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+You have previously seen how you can assign a path used in a `MATCH` clause to a variable. This is useful if you want to reuse the path later in the same query or if you want to return the path. So the previous Cypher statement could return the path as follows:
+
+[source,cypher]
+----
+MATCH megPath = (meg:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),
+      (other:Person)-[:ACTED_IN]->(m)
+WHERE meg.name = 'Meg Ryan'
+RETURN megPath
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/MegPath.png[MegPath,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+==== Specifying varying length paths
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Any graph that represents social networking, trees, or hierarchies will most likely have multiple paths of varying lengths. 
+Think of the _connected_ relationship in _LinkedIn_ and how connections are made by people connected to more people.  
+The _Movie_ database for this training does not have much depth of relationships, but it does have the _:FOLLOWS_ relationship that you learned about earlier:
+
+[.thumb]
+image::{imagedir}/FollowsRelationships.png[FollowsRelationships,width=400]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+You write a `MATCH` clause where  you want to find all of the followers of the followers of a _Person_ by specifying a numeric value for the number of hops in the path. 
+Here is an example where we want to retrieve all _Person_ nodes that are exactly two hops away:
+
+[source,cypher]
+----
+MATCH (follower:Person)-[:FOLLOWS*2]->(p:Person)
+WHERE follower.name = 'Paul Blythe'
+RETURN p
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/TwoHopRelationship.png[TwoHopRelationship,width=700]
+
+If we had specified `[:FOLLOWS*]` rather than `[:FOLLOWS*2]`, the query would return all _Person_ nodes that are in the `:FOLLOWS` path from _Paul Blythe_.
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+
+Here are simplified syntax examples for how varying length patterns are specified in Cypher:
+
+Retrieve [.underline]#all# paths of any length with the relationship, _:RELTYPE_ from _nodeA_ to _nodeB_ and beyond:
+[source,cypher-syntax]
+----
+(nodeA)-[:RELTYPE*]->(nodeB)
+----
+
+Retrieve [.underline]#all# paths of any length with the relationship, _:RELTYPE_ from _nodeA_ to _nodeB_ or from _nodeB_ to _nodeA_ and beyond. This is usually a very expensive query so you should place limits on how many nodes are retrieved:
+[source,cypher-syntax]
+----
+(nodeA)-[:RELTYPE*]-(nodeB)
+----
+
+Retrieve the paths of length 3 with the relationship, _:RELTYPE_ from _nodeA_ to _nodeB_:
+[source,cypher-syntax]
+----
+(node1)-[:RELTYPE*3]->(node2)
+----
+
+Retrieve the paths of lengths 1, 2, or 3 with the relationship, _:RELTYPE_ from _nodeA_ to _nodeB_, _nodeB_ to _nodeC_, as well as, _nodeC_ to _nodeD) (up to three hops):
+[source,cypher-syntax]
+----
+(node1)-[:RELTYPE*1..3]->(node2)
+----
+
+
+You can learn more about varying paths in the _Patterns_ section of the _Neo4j Cypher Manual_.
+
+==== Finding the shortest path
+
+A built-in function that you may find useful in a graph that has many ways of traversing the graph to get to the same node is the `shortestPath()` function. Using the shortest path between two nodes improves the performance of the query.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+In this example, we want to discover a shortest path between the movies _The Matrix_ and _A Few Good Men_. In our `MATCH` clause, we set the variable _p_ to the result of calling `shortestPath()`, and then return _p_. In the call to `shortestPath()`, notice that we specify `*` for the relationship. This means any relationship; for the traversal.
+
+[source,cypher]
+----
+MATCH p = shortestPath((m1:Movie)-[*]-(m2:Movie))
+WHERE m1.title = 'A Few Good Men' AND
+      m2.title = 'The Matrix'
+RETURN  p
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/ShortestPath1.png[ShortestPath1,width=800]
+
+Notice that the graph engine has traversed many types of relationships to get to the end node.
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+When you use the `shortestPath()` function, the query editor will show a warning that this type of query could potentially run for a long time. You should heed the warning, especially for large graphs. Read the _Graph Algorithms_ documentation about the shortest path algorithm.
+
+When you use `ShortestPath()`, you can specify a upper limits for the shortest path. In addition, you should aim to provide the patterns for the from an to nodes that execute efficiently. For example, use labels and indexes.
+
+==== Specifying optional pattern matching
+
+`OPTIONAL MATCH` matches patterns with your graph, just like `MATCH` does.
+The difference is that if no matches are found, `OPTIONAL MATCH` will use NULLs for missing parts of the pattern.
+`OPTIONAL MATCH` could be considered the Cypher equivalent of the outer join in SQL.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is an example where we query the graph for all people whose name starts with _James_.  
+The `OPTIONAL MATCH` is specified to include people who have reviewed movies: 
+
+[source,cypher]
+----
+MATCH (p:Person)
+WHERE p.name STARTS WITH 'James'
+OPTIONAL MATCH (p)-[r:REVIEWED]->(m:Movie)
+RETURN p.name, type(r), m.title
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/OptionalMatch.png[OptionalMatch,width=800]
+
+Notice that for all rows that do not have the _:REVIEWED_ relationship, a _null_ value is returned for the movie part of the query, as well as the relationship.
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+==== Aggregation in Cypher
+
+Aggregation in Cypher is different from aggregation in SQL. In Cypher, you need not specify a grouping key. As soon as an aggregation function is used, all non-aggregated result columns become grouping keys. The grouping is implicitly done, based upon the fields in the `RETURN` clause.
+
+For example, in this Cypher statement, all rows returned with the same values for _a.name_ and _d.name_ are counted and only returned once.
+
+[source,cypher]
+----
+// implicitly groups by a.name and d.name
+MATCH (a)-[:ACTED_IN]->(m)<-[:DIRECTED]-(d)
+RETURN a.name, d.name, count(*)
+----
+
+With this result returned:
+
+[.thumb]
+image::{imagedir}/Aggregation.png[Aggregation,width=800]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+==== Collecting results
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Cypher has a built-in function, `collect()` that enables you to aggregate a value into a list. 
+Here is an example where we collect the list of movies that _Tom Cruise_ acted in:
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
+WHERE p.name ='Tom Cruise'
+RETURN collect(m.title) AS `movies for Tom Cruise`
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/TomCruiseMovieCollection.png[TomCruiseMovieCollection,width=800]
+
+In Cypher, there is no "GROUP BY" clause as there is in SQL. The graph engine uses non-aggregated columns as an automatic grouping key.
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Counting results
+
+The Cypher `count()` function is very useful when you want to count the number of occurrences of a particular query result. 
+If you specify `count(n)`, the graph engine calculates the number of occurrences of _n_. 
+If you specify `count(*)`, the graph engine calculates the number of rows retrieved, including those with `null` values.
+When you use `count()`, the graph engine does an implicit group by based upon the aggregation.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is an example where we count the paths retrieved where an actor and director collaborated in a movie and the `count()` function is used to count the number of paths found for each actor/director collaboration.
+
+[source,cypher]
+----
+MATCH (actor:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(director:Person)
+RETURN actor.name, director.name, count(m) AS collaborations, collect(m.title) AS movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/ActorDirectorCollaborations.png[ActorDirectorCollaborations,width=900]
+
+
+There are more aggregating functions such as `min()` or `max()` that you can also use in your queries. 
+These are described in the _Aggregating Functions_ section of the _Neo4j Cypher Manual_.
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Additional processing using `WITH`
+
+During the execution of a `MATCH` clause, you can specify that you want some intermediate calculations or values that will be used for further processing of the query, or for limiting the number of results before further processing is done.  
+You use the `WITH` clause to perform intermediate processing or data flow operations.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is an example where we start the query processing by retrieving all actors and their movies. 
+During the query processing, want to only return actors that have 2 or 3 movies.
+All other actors and the aggregated results are filtered out. This type of query is a replacement for SQL's "HAVING" clause.
+The `WITH` clause does the counting and collecting, but is then used in the subsequent `WHERE` clause to limit how many paths are visited. 
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, count(a) AS numMovies, collect(m.title) as movies
+WHERE numMovies > 1 AND numMovies < 4
+RETURN a.name, numMovies, movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/ActorsWith2or3Movies.png[ActorsWith2or3Movies,width=800]
+
+When you use the `WITH` clause, you specify the variables from the previous part of the query you want to pass on to the next part of the query. 
+In this example, the variable _a_ is specified to be passed on in the query, but _m_ is not. Since _m_ is not specified to be passed on, _m_ will not be available later in the query. 
+Notice that for the `RETURN` clause, _a_, _numMovies_, and _movies_ are available for use.
+
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+[NOTE]
+You have to name all expressions with an alias in a `WITH` that are not simple variables.
+
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is another example where we want to find all actors who have acted in at least five movies, and find (optionally) the movies they directed and return the person and those movies.
+
+[source,cypher]
+----
+MATCH (p:Person)
+WITH p, size((p)-[:ACTED_IN]->(:Movie)) AS movies
+WHERE movies >= 5
+OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie)
+RETURN p.name, m.title
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/PopularActorsWithAtLeast5Movies.png[PopularActorsWithAtLeast5Movies,width=800]
+
+In this example, we first retrieve all people, but then specify a pattern in the `WITH` clause where we calculate the number of `:ACTED_IN` relationships retrieved using the `size()` function. If this value is greater than five, we then also retrieve the `:DIRECTED` paths to return the name of the person and the title of the movie they directed. In the result, we see that these actors acted in more than five movies, but _Tom Hanks_ is the only actor who directed a movie and thus the only person to have a value for the movie.
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+=== *Exercise 5: Controlling query processing*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
+and follow the instructions for Exercise 5.
+
+=== Controlling how results are returned
+
+Next, you will learn some additional Cypher techniques for controlling how results are returned from a query.
+
+==== Eliminating duplication
+
+You have seen a number of query results where there is duplication in the results returned.  
+In most cases, you want to eliminate duplicated results. 
+You do so by using the `DISTINCT` keyword.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is a simple example where duplicate data is returned. 
+_Tom Hanks_ both acted in and directed the movie, _That Thing You Do_, so the movie is returned twice in the result stream:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | :ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'
+RETURN m.released, collect(m.title) AS movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Duplication.png[Duplication,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+We can eliminate the duplication by specifying the DISTINCT keyword as follows:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | :ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'
+RETURN m.released, collect(DISTINCT m.title) AS movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/NoDuplication.png[NoDuplication,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+==== Using WITH and DISTINCT to eliminate duplication
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Another way that you can avoid duplication is to with `WITH` and `DISTINCT` together as follows:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | :ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'
+WITH DISTINCT m
+RETURN m.released, m.title
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/NoDuplication2.png[NoDuplication2,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Ordering results
+
+If you want the results to be sorted, you specify the expression to use for the sort using the `ORDER BY` keyword and whether you want the order to be descending using the `DESC` keyword. 
+Ascending order is the default.
+Note that you can provide multiple sort expressions and the result will be sorted in that order.
+Just as you can use `DISTINCT` with `WITH` to eliminate duplication, you can use `ORDER BY` with `WITH` to control the sorting of results.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+In this example, we specify that the release date of the movies for _Tom Hanks_ will be returned in descending order.
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | :ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'
+RETURN m.released, collect(DISTINCT m.title) AS movies ORDER BY m.released DESC
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Ordering.png[Ordering,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Limiting the number of results
+
+Although you can filter queries to reduce the number of results returned, you may also want to limit the number of results. 
+This is useful if you have very large result sets and you only need to see the beginning or end of a set of ordered results. 
+You can use the `LIMIT` keyword to specify the number of results returned. Furthermore, you can use the `LIMIT` keyword with the `WITH` clause to limit results.
+
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Suppose you want to see the titles of the ten most recently released movies. 
+You could do so as follows where you limit the number of results using the `LIMIT` keyword as follows:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+RETURN m.title as title, m.released as year ORDER BY m.released DESC LIMIT 10
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Limit.png[Limit,width=600]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Controlling the number of results using WITH
+
+Previously, you saw how you can use the `WITH` clause to perform some intermediate processing during a query. You can use the `WITH` clause to limit the number of results.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+In this example, we count the number of movies during the query and we return the results once we have reached 5 movies:
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH a, count(*) AS numMovies, collect(m.title) as movies
+WHERE numMovies = 5
+RETURN a.name, numMovies, movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Count5Movies.png[Count5Movies,width=900]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+=== *Exercise 6: Controlling results returned*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
+and follow the instructions for Exercise 6.
+
+=== Working with Cypher data
+
+Thus far, you have specified both string and numeric types in your Cypher queries. 
+You have also learned that nodes and relationships can have properties, whose values are structured like JSON objects. 
+You have also learned that the `collect()` function can create lists of values or objects where a list is comma-separated and you can use the `IN` keyword to search for a value in a list. 
+Next, you will learn more about working with lists and dates in Cypher.
+
+==== Lists
+
+There are many built-in Cypher functions that you can use to build or access elements in lists.  
+A Cypher `map` is list of key/value pairs where each element of the list is of the format key: value. For example, a map of months and the number of days per month could be:
+
+`[Jan: 31, Feb: 28, Mar: 31, Apr: 30 , May: 31, Jun: 30 , Jul: 31, Aug: 31, Sep: 30, Oct: 31, Nov: 30, Dec: 31]`
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+You can collect values for a list during a query and when you return results, you can sort by the size of the list using the `size()` function as follows:
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  m, count(m) AS numCast, collect(a.name) as cast
+RETURN m.title, cast, numCast ORDER BY size(cast)
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/CastList.png[CastList,width=900]
+
+You can read more about working with lists in the _List Functions_ section of the _Neo4j Cypher Manual_. 
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+==== Unwinding lists
+
+There may be some situations where you want to perform the opposite of collecting results, but rather separate the lists into separate rows. This functionality is done using the `UNWIND` clause. 
+
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is an example where we create a list with three elements, unwind the list and then return the values. Since there are three elements, three rows are returned with the values:
+
+[source,cypher]
+----
+WITH [1, 2, 3] AS list
+UNWIND list AS row
+RETURN list, row
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Unwind3.png[Unwind3,width=700]
+
+Notice that there is no `MATCH` clause. You need not query the database to execute Cypher statements, but you do need the `RETURN` clause here to return the calculated values from the Cypher query.
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+[NOTE]
+The `UNWIND` clause is frequently used when importing data into a graph.
+
+==== Dates
+
+Cypher has a built-in `date()` function, as well as other temporal values and functions that you can use to calculate temporal values. You use a combination of numeric, temporal, spatial, list and string functions to calculate values that are useful to your application. 
+For example, suppose you wanted to calculate the age of a _Person_ node, given a year they were born (the _born_ property must exist and have a value).
+
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here is example Cypher to retrieve all actors from the graph, and if they have a value for _born_, calculate the _age_ value.
+
+[source,cypher]
+----
+MATCH (actor:Person)-[:ACTED_IN]->(:Movie)
+WHERE exists(actor.born)
+// calculate the age
+with DISTINCT actor, date().year  - actor.born as age
+RETURN actor.name, age as `age today`
+   	  ORDER BY actor.born DESC
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Age.png[Age,width=800]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+Consult the _Neo4j Cypher Manual_ for more information about the built-in functions available for working with data of all types:
+[square]
+* Predicate
+* Scalar
+* List
+* Mathematical
+* String
+* Temporal
+* Spatial
+
+=== *Exercise 7: Working with Cypher data*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
+and follow the instructions for Exercise 7.
+
+[#module-5.quiz]
+== Check your understanding
+=== Question 1
+
+Suppose you want to add a `WHERE` clause at the end of this statement to filter the results retrieved. 
+
+[source,cypher]
+----
+MATCH (p:Person)-[rel]->(m:Movie)<-[:PRODUCED]-(:Person)
+----
+
+What variables, can you test in the `WHERE` clause:
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#p#
+- [ ] [.required-answer]#rel#
+- [ ] [.required-answer]#m#
+- [ ] [.false-answer]#PRODUCED#
+
+
+=== Question 2
+
+Suppose you want to retrieve all movies that have a _released_ property value that is 2000, 2002, 2004, 2006, or 2008.  Here is an incomplete Cypher example to return the _title_ property values of all movies released in these years.
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WHERE m.released XX [2000, 2002, 2004, 2006, 2008]
+RETURN m.title
+----
+
+What keyword do you specify for XX?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.false-answer]#CONTAINS#
+- [ ] [.required-answer]#IN#
+- [ ] [.false-answer]#IS#
+- [ ] [.false-answer]#EQUALS#
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+=== Question 3
+
+Given this Cypher query:
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  m, count(m) AS numMovies, collect(m.title) as movies
+WHERE numMovies > 1 AND numMovies < 4
+RETURN //??
+----
+
+What variables or aliases can be used to return values?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#a#
+- [ ] [.required-answer]#m#
+- [ ] [.required-answer]#numMovies#
+- [ ] [.required-answer]#movies#
+
+== Summary
+
+You should now be able to write Cypher statements to:
+[square]
+
+* Filter queries using the `WHERE` clause
+* Control query processing
+* Control what results are returned
+* Work with Cypher lists and dates
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part5');
+});
+</script>
+++++
+
+endif::backend-html5[]
