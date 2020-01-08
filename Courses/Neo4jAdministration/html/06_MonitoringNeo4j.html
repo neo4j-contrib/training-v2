@@ -168,7 +168,7 @@ window.trainingClassName = 'neo4j-administration';
 <script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.js"></script>
 <script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
 <script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
-<script src="https://neo4jsandbox.com/js/js.cookie-2.1.3.min.js"></script>
+<script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/js.cookie-2.1.3.min.js"></script>
 <!--script src="/online_training/gadgetUtils.js"></script-->
 <script type="text/javascript">
   Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
@@ -224,11 +224,9 @@ function setGadgetUrl(sel) {
 </div>
 
 
-
 <div class="paragraph">
 <p>At the end of this module, you should be able to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -274,17 +272,14 @@ Use JMX queries.
 </div>
 
 
-
 <div class="paragraph">
 <p>The Neo4j instance writes events to log files where you can configure the level of logging you want to perform. In addition, Neo4j writes metrics to a directory that is dedicated for collecting runtime data. The <a href="https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/">Neo4j Operations Manual</a> describes these files and locations that you will be working with in this module.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Some linux installations may use a system service to collect log files and allow you to access log data with <code>journalctl</code> as described in the <a href="https://neo4j.com/docs/operations-manual/3.5/installation/linux/systemd/">Neo4j Operations Manual</a>. You have already seen some of the events that are written to the <strong>neo4j.log</strong> file (<code>journalctl -u neo4j</code> on Debian)  when the Neo4j instance starts and you want to confirm that it started successfully. In addition, you have seen error events written to <strong>debug.log</strong> when attempting to start a Neo4j instance in a Causal Cluster. You have also seen authentication events that are written to the <strong>security.log</strong> file when users connect to the Neo4j instance.</p>
 </div>
-
 <div  id="_monitoring_log_files" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Monitoring log files</h3>
 
@@ -292,7 +287,6 @@ Use JMX queries.
 <div class="paragraph">
 <p>In the previous module, <em>Security in Neo4j</em>, you learned about the authentication events that are written to the <strong>security.log</strong> file. The categories of events that you configure for and monitor in log files that you will learn about in this module include:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -329,7 +323,6 @@ You have learned how to monitor core and read replica servers in a Neo4j Causal 
 <div class="paragraph">
 <p>In addition, you can configure the Neo4j instance to collect metrics that are related to events, but can be viewed in tools (such as Grafana) that use the Graphite or Prometheus protocols to help you monitor your application. In most cases, you will want to configure a tool such as Nagios to provide alerts when certain metrics or events are detected in Neo4j. Note that you can also set up alerts in Grafana, but Nagios is a better choice for alerts. CloudWatch is another UI that is commonly use for monitoring and alerting with AWS deployments.</p>
 </div>
-
 </div>
 </div>
 <div  id="_monitoring_queries" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -341,11 +334,9 @@ You have learned how to monitor core and read replica servers in a Neo4j Causal 
 </div>
 
 
-
 <div class="paragraph">
 <p>As an administrator, you can configure Neo4j to write information about queries that completed to the <strong>query.log</strong> file. You can provide settings that will log information about queries that took a long time to complete. You can also monitor currently running queries and if need be, kill them if they are taking too long.</p>
 </div>
-
 <div  id="_configuring_query_logging" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Configuring query logging</h3>
 
@@ -355,11 +346,9 @@ You have learned how to monitor core and read replica servers in a Neo4j Causal 
 </div>
 
 
-
 <div class="paragraph">
 <p>For example, here are the properties you would set in the Neo4j configuration to log a message and provide information when a query takes more than 1000ms to complete:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>dbms.logs.query.enabled=true
@@ -380,7 +369,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>The <a href="https://neo4j.com/docs/operations-manual/3.5/monitoring/logging/query-logging/">Neo4j Operations Manual</a> has a section on the configuration settings you can specify to log query events to the <strong>query.log</strong> file.</p>
 </div>
-
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -403,11 +391,9 @@ If you have Neo4j Desktop installed on a system, you can use it to run an applic
 </div>
 
 
-
 <div class="paragraph">
 <p>There are two reasons why a Cypher query may take a long time:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -437,7 +423,6 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 <div class="paragraph">
 <p>If the query executes and then <strong>returns a lot of data</strong>, there is no way to monitor it or kill the query.  If the Neo4j instance has many of these <strong>rogue</strong> queries running, it will slow down considerably so you should aim to limit these types of queries.</p>
 </div>
-
 </div>
 <div  id="_viewing_currently_running_queries_neo4j_browser" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Viewing currently running queries (Neo4j Browser)</h3>
@@ -446,7 +431,6 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 <div class="paragraph">
 <p>In Neo4j Browser you can use the <code>:queries</code> command to see all currently running queries:</p>
 </div>
-
 <div class="imageblock">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/ListQueriesBrowser.png" alt="ListQueriesBrowser" width="1000">
@@ -460,7 +444,6 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 <div class="paragraph">
 <p>In <code>cypher-shell</code> you execute <code>CALL dbms.listQueries() YIELD username, queryId, query, elapsedTimeMillis;</code>.</p>
 </div>
-
 <div class="imageblock">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/ListQueriesCypher-shell.png" alt="ListQueriesCypher-shell" width="1000">
@@ -485,11 +468,9 @@ Due to a limitation in the database, there is a very small possibility that not 
 </div>
 
 
-
 <div class="paragraph">
 <p>If you have the <em>admin</em> role, you can view (and kill) queries from all users. If you do not have an <em>admin</em> role, you will only be able to view your own queries.</p>
 </div>
-
 </div>
 <div  id="_killing_a_long_running_query" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Killing a long-running query</h3>
@@ -500,11 +481,9 @@ Due to a limitation in the database, there is a very small possibility that not 
 </div>
 
 
-
 <div class="paragraph">
 <p>Once you have identified the long-running query that you want to kill, in Neo4j Browser, you can kill it by double-clicking the icon in the <em>Kill</em> column.</p>
 </div>
-
 <div class="imageblock">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/KillQueryBrowser.png" alt="KillQueryBrowser" width="1000">
@@ -517,7 +496,6 @@ Due to a limitation in the database, there is a very small possibility that not 
 <div class="paragraph">
 <p>Alternatively, in <code>cypher-shell</code> you can execute the statement <code>CALL dbms.killQuery('query-id');</code>.</p>
 </div>
-
 <div class="imageblock">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/KillQueryCypher-shell.png" alt="KillQueryCypher-shell" width="800">
@@ -525,7 +503,7 @@ Due to a limitation in the database, there is a very small possibility that not 
 </div>
 </div>
 </div>
-<div  id="_strong_exercise_1_monitoring_queries_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_1_monitoring_queries" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #1: Monitoring queries</strong></h3>
 
 
@@ -534,11 +512,9 @@ Due to a limitation in the database, there is a very small possibility that not 
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>Before you begin:</strong></p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -554,7 +530,6 @@ Ensure that the database you are using is <strong>movie3.db</strong>.
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -664,7 +639,6 @@ Observe in the <em>reader_</em> <code>cypher-shell</code> session that the query
 <div class="paragraph">
 <p>Some queries against the Neo4j instance are not simply queries, but are Cypher statements that load data from CSV files. These types of Cypher statements could take a considerable amount of time to complete. One option for you to help automate the killing of long-running queries is to create a script that executes a Cypher statement such as the following:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CALL dbms.listQueries() YIELD query, elapsedTimeMillis, queryId, username
@@ -683,7 +657,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>This Cypher statement will retrieve all queries that are running for longer than 30000 ms that do not perform a LOAD operation and kill them. You could place this code into a script that is run at regular intervals.</p>
 </div>
-
 </div>
 </div>
 <div  id="_monitoring_transactions" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -695,11 +668,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>A transaction is either a read-only transaction or a read-write transaction. Read-only transactions never block other clients as they acquire <em>share</em> locks, but can take a long period of time to execute as you saw in the previous Exercise. A read-write transaction acquires <em>exclusive</em> locks during the transaction and may be blocked by other transactions that have acquired <em>exclusive</em> locks on the same resources. In some scenarios, a deadlock could occur if one transaction is blocked and is also blocking another transaction from acquiring the exclusive locks it needs.</p>
 </div>
-
 
 
 <div class="paragraph">
@@ -707,11 +678,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>In addition, you should configure an upper limit for how long a transaction can run. This will depend on your particular application, but it should be set to a value that is greater than the lock timeout value. This is called a <em>transaction guard</em> which is a good thing in a production system. In fact, you can use <em>transaction guard</em> to automatically kill queries that take longer than xx minutes to execute.</p>
 </div>
-
 <div  id="_example_configuring_transaction_guard" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Example: Configuring transaction guard</h3>
 
@@ -719,7 +688,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is an example of the configuration settings for lock acquisition timeout and <em>transaction guard</em> where the transaction will fail if it exceeds one second or the request waits more than 10 milliseconds to acquire a write lock:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre># transaction guard: max duration of any transaction
@@ -736,7 +704,6 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>When a lock timeout occurs or when a transaction times out, the client will receive an error and a record is written to the <strong>debug.log</strong> file.</p>
 </div>
-
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -750,7 +717,7 @@ If you set a transaction timeout without setting the lock timeout, the client se
 </table>
 </div>
 </div>
-<div  id="_strong_exercise_2_monitoring_transactions_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_2_monitoring_transactions" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #2: Monitoring transactions</strong></h3>
 
 
@@ -759,11 +726,9 @@ If you set a transaction timeout without setting the lock timeout, the client se
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>Before you begin:</strong></p>
 </div>
-
 
 
 <div class="paragraph">
@@ -771,11 +736,9 @@ If you set a transaction timeout without setting the lock timeout, the client se
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -829,7 +792,6 @@ If you attempt to create more than a million <em>Person</em> nodes, you will run
 <div class="paragraph">
 <p>You can query the Neo4j instance&#8217;s currently running transactions. If you see transactions that are running for a long time, you can further query the Neo4j instance to determine what locks each long-running query is holding. To read more about monitoring locks, see this <a href="https://support.neo4j.com/hc/en-us/articles/360006827474-How-to-diagnose-locking-issues">Neo4j Support Knowledge Base article</a>.</p>
 </div>
-
 </div>
 </div>
 <div  id="_monitoring_connections" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -841,17 +803,14 @@ If you attempt to create more than a million <em>Person</em> nodes, you will run
 </div>
 
 
-
 <div class="paragraph">
 <p>The default ports used by a Neo4j instance are documented in the <a href="https://neo4j.com/docs/operations-manual/3.5/configuration/ports/">Neo4j Operations Manual</a>. And you have learned that you can modify the port numbers used by a Neo4j instance. As you learned in a previous lesson about securing Neo4j, for a secure Neo4j application, you should <span class="underline">not</span> use any default port numbers.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>As an administrator, you can view the current connections to a Neo4j instance from <code>cypher-shell</code> by executing the call to <code>dbms.listConnections()</code>:</p>
 </div>
-
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/listConnections.png" alt="listConnections" width="1100">
@@ -862,7 +821,6 @@ If you attempt to create more than a million <em>Person</em> nodes, you will run
 <div class="paragraph">
 <p>The connection with the userAgent value of <em>neo4j-java/dev</em> is the cypher-shell session. Any connections that are <em>javascript</em> are from the Web interface to Neo4j Browser. The other connections are for a <em>java</em> application. You could write a query to screen for connections from certain IP addresses that are forbidden. How you identify these IP addresses will depend on your security administrator for your application.</p>
 </div>
-
 <div  id="_monitoring_and_terminating_connections" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Monitoring and terminating connections</h3>
 
@@ -870,7 +828,6 @@ If you attempt to create more than a million <em>Person</em> nodes, you will run
 <div class="paragraph">
 <p>With <code>dbms.listConnections()</code>, you can identify a connection that:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -889,9 +846,8 @@ is from a suspect IP address.
 <div class="paragraph">
 <p>You terminate the connection to the Neo4j instance with a call to <code>dbms.killConnection()</code> where you can provide the connection ID or a comma-separated list of connection IDs with the format <code>['connectID-xx','connectID-yy']</code>.</p>
 </div>
-
 </div>
-<div  id="_strong_exercise_3_monitoring_connections_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_3_monitoring_connections" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #3: Monitoring connections</strong></h3>
 
 
@@ -900,11 +856,9 @@ is from a suspect IP address.
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>Before you begin:</strong></p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -926,7 +880,6 @@ Make sure that <strong>write.sh</strong> has execute permissions (<code>chmod +x
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -1021,11 +974,9 @@ In the window where the write Java application is waiting for you to press <stro
 </div>
 
 
-
 <div class="paragraph">
 <p>You can set this property in <strong>neo4j.conf</strong> to log these requests:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre># To enable HTTP logging, uncomment this line
@@ -1040,9 +991,8 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>With HTTP logging enabled, you will see records for each HTTP request so you should also limit the number of log files to keep and their sizes. Part of your monitoring might be to look for certain patterns in the <strong>http.log</strong> file(s) and in particular, requests made from IP addresses that you may not want accessing the instance.</p>
 </div>
-
 </div>
-<div  id="_strong_exercise_4_monitoring_http_requests_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_4_monitoring_http_requests" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #4: Monitoring HTTP requests</strong></h3>
 
 
@@ -1051,11 +1001,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>Before you begin:</strong></p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -1071,7 +1019,6 @@ Stop the Neo4j instance.
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -1107,18 +1054,15 @@ View the records in the <strong>http.log</strong> file.
 </div>
 
 
-
 <div class="paragraph">
 <p>This training does not teach about performance tuning, but it introduces you to how memory is used by a Neo4j instance and how you can perform basic monitoring of memory usage.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>In a JVM, memory is consumed by a number of internal resources:</p>
 </div>
-
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 80%;">
@@ -1161,7 +1105,6 @@ View the records in the <strong>http.log</strong> file.
 <div class="paragraph">
 <p></p>
 </div>
-
 <div  id="_memory_consumption_of_a_neo4j_instance" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Memory consumption of a Neo4j instance</h3>
 <div class="imageblock" style="text-align: center;">
@@ -1174,8 +1117,7 @@ View the records in the <strong>http.log</strong> file.
 <div class="paragraph">
 <p>A Neo4j instance consumes memory as follows:</p>
 </div>
-
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stripes-none stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 80%;">
@@ -1208,11 +1150,9 @@ View the records in the <strong>http.log</strong> file.
 </div>
 
 
-
 <div class="paragraph">
 <p>Heap allocation is where the runtime data resides including query execution, graph management, and transaction state.</p>
 </div>
-
 <div  id="_initial_memory_settings_for_a_database" class="sect3 "  >
 <h4>Initial memory settings for a database</h4>
 
@@ -1222,11 +1162,9 @@ View the records in the <strong>http.log</strong> file.
 </div>
 
 
-
 <div class="paragraph">
 <p>Initially, you can obtain a recommendation for property settings related to memory from information in the database using the <code>memrec</code> command of <code>neo4j-admin</code>:</p>
 </div>
-
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/Neo4j-memrec.png" alt="Neo4j-memrec" width="1000">
@@ -1237,7 +1175,6 @@ View the records in the <strong>http.log</strong> file.
 <div class="paragraph">
 <p>This tool provides recommended memory settings based upon information in your database and also information about available memory on your system.</p>
 </div>
-
 </div>
 </div>
 <div  id="_monitoring_memory_consumption" class="sect2 columns medium-12" style='padding-left: 0;' >
@@ -1247,7 +1184,6 @@ View the records in the <strong>http.log</strong> file.
 <div class="paragraph">
 <p>If you suspect that there is a memory issue with your Neo4j instance, you should temporarily turn on GC logging in the Neo4j configuration: <code>dbms.logs.gc.enabled=true</code>.  In addition, records will be written to <strong>debug.log</strong> if an out of memory event occurs in the Neo4j instance. When trying to resolve out of memory issues with your application, you should work with Neo4j Technical Support to determine the cause and solution for the problem.</p>
 </div>
-
 </div>
 <div  id="_using_jcmd_to_obtain_summary_information" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Using jcmd to obtain summary information</h3>
@@ -1258,11 +1194,9 @@ View the records in the <strong>http.log</strong> file.
 </div>
 
 
-
 <div class="paragraph">
 <p>Here is an example of a <code>jcmd</code> execution to get summary information about memory usage on the system:</p>
 </div>
-
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/jcmd.png" alt="jcmd" width="1000">
@@ -1276,7 +1210,6 @@ View the records in the <strong>http.log</strong> file.
 <div class="paragraph">
 <p>If you suspect that certain parts of the application or a transaction is consuming too much memory, you can run <code>jcmd</code> to get a baseline, and then run it again to compare the differences in memory consumption as follows:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>jcmd &lt;PID for Neo4j instance&gt; VM.native_memory baseline
@@ -1304,9 +1237,8 @@ In order to use <code>jcmd</code> for a Neo4j instance, you must ensure that the
 <div class="paragraph">
 <p>Refer to the <a href="https://neo4j.com/docs/operations-manual/3.5/performance/">Neo4j Operations Manual</a> for guidance about configuring memory, indexes, etc. for the Neo4j instance. In a production environment, you should work with Neo4j Technical Support to ensure that you are monitoring memory usage and have the appropriate settings. The <em>Performance</em> section of the documentation has guidelines that you should consider when configuring your Neo4j instance that are beyond the scope of this training.</p>
 </div>
-
 </div>
-<div  id="_strong_exercise_5_monitoring_a_memory_issue_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_5_monitoring_a_memory_issue" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #5: Monitoring a memory issue</strong></h3>
 
 
@@ -1315,11 +1247,9 @@ In order to use <code>jcmd</code> for a Neo4j instance, you must ensure that the
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>Before you begin:</strong></p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -1338,7 +1268,6 @@ Modify the Neo4j configuration to <span class="underline">not</span> time out if
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -1415,17 +1344,14 @@ Log in to <code>cypher-shell</code> as <em>publisher/publisher</em> and try the 
 </div>
 
 
-
 <div class="paragraph">
 <p>Perform the above steps while using <code>jcmd</code> to monitor memory consumption.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>In your production application, you must work with developers and users of the application to understand the size of the transactions. You may need to temporarily set the heap and pagecache sizes higher during a special operation. In most cases, you will set these properties to a value that will be sufficient for all transactions. You must work with Neo4j Technical Support if you run into problems with running out of memory or even with starting the Neo4j instance. If the heap and pagecache sizes are too large, the Neo4j instance will not start.</p>
 </div>
-
 </div>
 </div>
 <div  id="_managing_log_files" class="sect1 columns medium-12" style='padding-left: 0;' >
@@ -1435,7 +1361,6 @@ Log in to <code>cypher-shell</code> as <em>publisher/publisher</em> and try the 
 <div class="paragraph">
 <p>As an administrator, you will configure the Neo4j instance to log at the appropriate levels. In most production environments, you will archive log files so that they may be viewed at a later time as part of an auditing process or to troubleshoot a problem. Each type of log file (if configured to use) should have its maximum size defined, as well as the number of log files to keep.</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre># Number of HTTP logs to keep.
@@ -1486,17 +1411,14 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p>Metrics are collected in CSV format by default on disk, but Neo4j supports Graphite and Prometheus as protocols to publish those metrics to remote services.  A typical way that customers set this up is to configure Prometheus and then have some external service pull the metrics as needed from Neo4j.  In this way, you don&#8217;t need to set anything up around CSV metrics, but you can readily integrate Neo4j with any other monitoring application that can utilize Prometheus or Graphite. Examples of those include Stackdriver, Grafana, and DataDog. You typically set up these remote services for 24/7 monitoring and alerting.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>Your options for collecting and viewing metrics are described in the <a href="https://neo4j.com/docs/operations-manual/3.5/monitoring/metrics/">Neo4j Operations Manual</a> which include:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -1515,7 +1437,6 @@ Querying the Neo4j instance using <code>dbms.queryJMX</code>.
 <div class="paragraph">
 <p><a href="https://halin.graphapp.io/">Halin</a> has been developed for querying the Neo4j instance. Here are a couple of screen shots when using <em>Halin</em> for viewing metrics:</p>
 </div>
-
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/Halin1.png" alt="Halin1" width="1100">
@@ -1531,7 +1452,6 @@ Querying the Neo4j instance using <code>dbms.queryJMX</code>.
 <div class="paragraph">
 <p>In most cases for a production environment, you will set up a remote service for monitoring and alerting, but then you may also execute ad hoc queries with a tool such as <em>Halin</em>.</p>
 </div>
-
 <div  id="_using_jmx_queries" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3>Using JMX queries</h3>
 
@@ -1541,17 +1461,14 @@ Querying the Neo4j instance using <code>dbms.queryJMX</code>.
 </div>
 
 
-
 <div class="paragraph">
 <p>Neo4j supports the use of JMX in Cypher queries. This is something that is safe to do remotely and does not consume resources locally.</p>
 </div>
 
 
-
 <div class="paragraph">
 <p>For example, here is a rather long Cypher statement that retrieves the same information that you would expect to see when you run the <code>:sysinfo</code> command in Neo4j Browser:</p>
 </div>
-
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre>CALL dbms.queryJmx("org.neo4j:instance=kernel#0,name=Store file sizes") YIELD attributes
@@ -1603,14 +1520,13 @@ data-lang=”{language}” class=””
 <div class="paragraph">
 <p>Here is the result of executing this Cypher statement:</p>
 </div>
-
 <div class="imageblock" style="text-align: center;">
 <p class="content">
 <img src="https://graphacademy.neo4j.com/img/neo4j-administration/CypherJMX.png" alt="CyperJMX" width="800">
 </p>
 </div>
 </div>
-<div  id="_strong_exercise_6_querying_with_jmx_strong" class="sect2 columns medium-12" style='padding-left: 0;' >
+<div  id="_exercise_6_querying_with_jmx" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise #6: Querying with JMX</strong></h3>
 
 
@@ -1619,11 +1535,9 @@ data-lang=”{language}” class=””
 </div>
 
 
-
 <div class="paragraph">
 <p><strong>Before you begin:</strong></p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -1639,7 +1553,6 @@ Open a terminal window.
 <div class="paragraph">
 <p><strong>Exercise steps</strong>:</p>
 </div>
-
 <div class="olist arabic">
 <ol style="margin-left: 2.4rem;" class="arabic">
 <li>
@@ -1687,11 +1600,9 @@ Execute the Cypher statement shown above for querying for metrics.
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1718,11 +1629,9 @@ Execute the Cypher statement shown above for querying for metrics.
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answer.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1749,11 +1658,9 @@ Execute the Cypher statement shown above for querying for metrics.
 </div>
 
 
-
 <div class="paragraph">
 <p>Select the correct answers.</p>
 </div>
-
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1779,7 +1686,6 @@ Execute the Cypher statement shown above for querying for metrics.
 <div class="paragraph">
 <p>You should now be able to:</p>
 </div>
-
 <div class="ulist square">
 <ul class="square">
 <li>
@@ -1821,8 +1727,8 @@ Use JMX queries.
 <a class="next-section medium button" href="../part-7/">Continue to Module 7</a>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
-<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/prod/class.js?versionId=jSpZgxKJ18XvI9UpP0bNUH6._HYWmgAN" type="text/javascript"></script>
-<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/prod/quizes.js?versionId=XK70qvWsKD2U0dLvhI0_GjVcb34eUFnx" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/prod/class.js?versionId=TKUI_Cqnr79nVfv8QMtGIVHyL43VXEqE" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/prod/quizes.js?versionId=b.4eMnWNdfWkSa1y31lt0sLed2NNoHKc" type="text/javascript"></script>
 
  <link rel='stylesheet' id='neo-codemirror-css'
     href="https://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css'
@@ -1885,7 +1791,7 @@ Use JMX queries.
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 
 <!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
-<script src="https://neo4jsandbox.com/js/jwt-decode.min.js"></script>
+<script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/jwt-decode.min.js"></script>
 
 
 <script>
@@ -1981,23 +1887,23 @@ $( document ).ready(function() {
 <li><a href="#_killing_a_long_running_query_cypher_shell">Killing a long-running query (cypher-shell)</a></li>
 </ul>
 </li>
-<li><a href="#_strong_exercise_1_monitoring_queries_strong"><strong>Exercise #1: Monitoring queries</strong></a></li>
+<li><a href="#_exercise_1_monitoring_queries"><strong>Exercise #1: Monitoring queries</strong></a></li>
 <li><a href="#_automating_monitoring_of_queries">Automating monitoring of queries</a></li>
 </ul>
 </li>
 <li><a href="#_monitoring_transactions">Monitoring transactions</a>
 <ul class="sectlevel2">
 <li><a href="#_example_configuring_transaction_guard">Example: Configuring transaction guard</a></li>
-<li><a href="#_strong_exercise_2_monitoring_transactions_strong"><strong>Exercise #2: Monitoring transactions</strong></a></li>
+<li><a href="#_exercise_2_monitoring_transactions"><strong>Exercise #2: Monitoring transactions</strong></a></li>
 <li><a href="#_monitoring_locks">Monitoring locks</a></li>
 </ul>
 </li>
 <li><a href="#_monitoring_connections">Monitoring connections</a>
 <ul class="sectlevel2">
 <li><a href="#_monitoring_and_terminating_connections">Monitoring and terminating connections</a></li>
-<li><a href="#_strong_exercise_3_monitoring_connections_strong"><strong>Exercise #3: Monitoring connections</strong></a></li>
+<li><a href="#_exercise_3_monitoring_connections"><strong>Exercise #3: Monitoring connections</strong></a></li>
 <li><a href="#_logging_http_requests">Logging HTTP requests</a></li>
-<li><a href="#_strong_exercise_4_monitoring_http_requests_strong"><strong>Exercise #4: Monitoring HTTP requests</strong></a></li>
+<li><a href="#_exercise_4_monitoring_http_requests"><strong>Exercise #4: Monitoring HTTP requests</strong></a></li>
 </ul>
 </li>
 <li><a href="#_monitoring_memory_usage">Monitoring memory usage</a>
@@ -2010,14 +1916,14 @@ $( document ).ready(function() {
 <li><a href="#_monitoring_memory_consumption">Monitoring memory consumption</a></li>
 <li><a href="#_using_jcmd_to_obtain_summary_information">Using jcmd to obtain summary information</a></li>
 <li><a href="#_using_jcmd_in_practice">Using jcmd in practice</a></li>
-<li><a href="#_strong_exercise_5_monitoring_a_memory_issue_strong"><strong>Exercise #5: Monitoring a memory issue</strong></a></li>
+<li><a href="#_exercise_5_monitoring_a_memory_issue"><strong>Exercise #5: Monitoring a memory issue</strong></a></li>
 </ul>
 </li>
 <li><a href="#_managing_log_files">Managing log files</a></li>
 <li><a href="#_collecting_metrics_2">Collecting metrics</a>
 <ul class="sectlevel2">
 <li><a href="#_using_jmx_queries">Using JMX queries</a></li>
-<li><a href="#_strong_exercise_6_querying_with_jmx_strong"><strong>Exercise #6: Querying with JMX</strong></a></li>
+<li><a href="#_exercise_6_querying_with_jmx"><strong>Exercise #6: Querying with JMX</strong></a></li>
 </ul>
 </li>
 <li><a href="#module-6">Check your understanding</a>

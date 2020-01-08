@@ -1,3 +1,6 @@
+CALL apoc.schema.assert({},{},true);
+MATCH (n) DETACH DELETE n;
+
 CREATE (TheMatrix:Movie {title:'The Matrix', released:1999, tagline:'Welcome to the Real World'})
 CREATE (Keanu:Person {name:'Keanu Reeves', born:1964})
 CREATE (Carrie:Person {name:'Carrie-Anne Moss', born:1967})
@@ -539,13 +542,13 @@ MERGE (sirMichaelCaine:Person {name: 'Sir Michael Caine'})
 ON CREATE SET sirMichaelCaine.birthPlace = 'UK',
               sirMichaelCaine.born = 1934
 
-CREATE (sirMichaelCaine)-[:ACTED_IN]->(batmanBegins)
+CREATE (sirMichaelCaine)-[:ACTED_IN]->(batmanBegins);
 
-CREATE CONSTRAINT UniqueMovieTitleConstraint ON (m:Movie) ASSERT m.title IS UNIQUE
+CREATE CONSTRAINT UniqueMovieTitleConstraint ON (m:Movie) ASSERT m.title IS UNIQUE;
 
 MATCH (p:Person) 
 WHERE NOT exists(p.born)
-SET p.born = 0
+SET p.born = 0;
 
-CREATE CONSTRAINT UniqueNameBornConstraint ON (p:Person) ASSERT (p.name, p.born) IS NODE KEY
+CREATE CONSTRAINT UniqueNameBornConstraint ON (p:Person) ASSERT (p.name, p.born) IS NODE KEY;
 

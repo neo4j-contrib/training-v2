@@ -128,11 +128,6 @@ In Cypher, you can place a comment (starts with `//`) anywhere in your Cypher to
 When you are first learning about the data (nodes, labels, etc.) in a graph, it is helpful to examine the data model of the graph. 
 You do so by executing `CALL db.schema.visualization()`, which calls the Neo4j procedure that returns information about the nodes, labels, and relationships in the graph.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 For example, when we run this procedure in our training environment, we see the following in the result pane. 
 Here we see that the graph has 2 labels defined for nodes, _Person_ and _Movie_. 
 Each type of nodes is displayed in a different color.  
@@ -140,9 +135,6 @@ The relationships between nodes are also displayed, which you will learn about l
 
 [.thumb]
 image::{imagedir}/call_db.schema.visualization.png[call_db.schema.visualization,width=500,role="thumb"]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 === Using MATCH to retrieve nodes
 
@@ -207,29 +199,16 @@ image::{imagedir}/PersonNodes-graph.png[PersonNodes-graph,width=700]
 [NOTE]
 When you specify a pattern for a `MATCH` clause, you should always specify a node label if possible. In doing so, the graph engine uses an index to retrieve the nodes which will perform better than not using a label for the `MATCH`.
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 One thing to notice in this example is that some of the displayed nodes are connected by the _FOLLOWS_ relationship.
 The visualization shows the relationship between these nodes because he have specified *Connect result nodes* in our Neo4j Browser settings.
 Some of the Person nodes represent people who reviewed Movies and as such, they follow each other.
 
 ==== Viewing nodes as table data
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 We can also view the nodes as table data where the nodes and their associated property values are shown in a JSON-style format:
 
 [.thumb]
 image::{imagedir}/PersonNodes-table.png[PersonNodes-table,width=500]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 When nodes are displayed as table values, the node labels and ids are not shown, only the property values for the nodes. Node ids are unique identifiers and are set by the graph engine when a node is created.
 
@@ -245,19 +224,10 @@ Recall that nodes are used to represent the entities of your business model.
 A property is defined for a node and not for a type of node. 
 All nodes of the same type need not have the same properties. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 For example, in the _Movie_ graph, all _Movie_ nodes have both _title_  and _released_ properties.  
 However, it is not a requirement that every _Movie_ node has a property, _tagline_. 
 
-
 image::{imagedir}/MovieProperties.png[MovieProperties,width=600,align=center]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 Properties can be used to filter queries  so that a subset of the graph is retrieved. 
 In addition, with the `RETURN` clause, you can return property values from the retrieved nodes, rather than the nodes. 
@@ -267,19 +237,11 @@ In addition, with the `RETURN` clause, you can return property values from the r
 As you prepare to create Cypher queries that use property values to filter a query, you can view the values for property keys of a graph by simply clicking the Database icon in Neo4j Browser. 
 Alternatively, you can execute  `CALL db.propertyKeys`,  which calls the Neo4j library method that returns the property keys for the graph.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is what you will see in the result pane when you call the method to return the property keys in the _Movie_ graph. 
 This result stream contains all property keys in the graph. It does not display which nodes utilize these property keys.
 
 [.thumb]
 image::{imagedir}/call_db.PropertyKeys.png[call_db.PropertyKeys,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Retrieving nodes filtered by a property value
 
@@ -383,12 +345,6 @@ MATCH (variable {prop1:value})
 RETURN variable.prop2, variable.prop3 
 ----
 
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 In this example, we use the _born_ property to filter the query, but rather than returning the nodes, we return the _name_  and _born_ values for every node that satisfies the query.
 
 [source,cypher]
@@ -401,9 +357,6 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/MatchPersonBorn1965.png[MatchPersonBorn1965,width=600]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Specifying aliases for column headings
 
@@ -419,11 +372,6 @@ RETURN variable.propertyKey2 AS alias2
 [NOTE]
 If you want a heading to contain a space between strings, you must specify the alias with the back tick _`_ character, rather than a single or double quote character. In fact, you can specify any variable, label, relationship type, or property key with a space also by using the back tick _`_ character.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here we specify aliases for the returned property values:
 [source,cypher]
 ----
@@ -435,9 +383,6 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/UsingAliases.png[UsingAliases,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 === *Exercise 2: Filtering queries using property values*
 
@@ -502,11 +447,6 @@ _where:_
 You can run `CALL db.schema.visualizaton()` to view the relationship types in the graph.
 In the _Movie_ graph, we see these relationships between the nodes:
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here we see that this graph has a total of 6 relationship types between the nodes. Some _Person_ nodes are connected to other _Person_ nodes using the _FOLLOWS_ relationship type. 
 All of the other relationships in this graph are from _Person_ nodes to _Movie_ nodes.
 
@@ -514,22 +454,8 @@ All of the other relationships in this graph are from _Person_ nodes to _Movie_ 
 image::{imagedir}/call_db.schema-relationships.png[call_db.schema-relationships,width=600]
 
 The relationship types can also be viewed by selecting the arrow to the right in the relationship type row.
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
 
 ==== Using a relationship in a query
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 Here is an example where we retrieve the _Person_ nodes that have the _ACTED_IN_ relationship to the _Movie_, _The Matrix_. 
 In other words, show me the actors that acted in _The Matrix_.
@@ -547,16 +473,6 @@ image::{imagedir}/ActorsInMatrix.png[ActorsInMatrix,width=600]
 
 For this query, we are using the variable _p_ to represent the _Person_ nodes during the query, the variable _m_ to represent the _Movie_ node retrieved, and the variable _rel_ to represent the relationship for the relationship type, _ACTED_IN_.
 We return a graph with the _Person_ nodes, the _Movie_ node and their _ACTED_IN_ relationships.
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 *Important:* You specify node labels whenever possible in your queries as it optimizes the retrieval in the graph engine. 
 That is, you should *not* specify this same query as:
@@ -566,17 +482,9 @@ That is, you should *not* specify this same query as:
 MATCH (p)-[rel:ACTED_IN]->(m {title:'The Matrix'}) 
 RETURN p,m
 ----
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Querying by multiple relationships
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is another example where we want to know the movies that _Tom Hanks_ acted in and directed:
 
 [source,cypher]
@@ -591,22 +499,9 @@ The result returned is:
 image::{imagedir}/TomHanksActedDirected.png[TomHanksActedDirected,width=700]
 
 Notice that there are multiple rows returned for the movie, _That Thing You Do_. This is because _Tom Hanks_ acted in and directed that movie.
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
 
 ==== Using anonymous nodes in a query
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Suppose you wanted to retrieve the actors that acted in _The Matrix_, but you do not need any information returned about the _Movie_ node. 
 You need not specify a variable for a node in a query if that node is not returned or used for later processing in the query. 
 You can simply use the anonymous node in the query as follows:
@@ -621,25 +516,12 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/AnonymousMovieNode.png[AnonymousMovieNode,width=600]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 [NOTE]
 A best practice is to place named nodes (those with variables) before anonymous nodes in a `MATCH` clause.
 
-ifdef::backend-pdf[]
-// force page break
-<<<
-endif::backend-pdf[]
-
 ==== Using an anonymous relationship for a query
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Suppose you want to find all people who are in any way connected to the movie, _The Matrix_. 
 You can specify an empty relationship type in the query so that all relationships are traversed and the appropriate results are returned.  
 In this example, we want to retrieve all _Person_ nodes that have any type of connection to the _Movie_ node, with the _title_, _The Matrix_.
@@ -655,16 +537,7 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/AllRelationshipsMatrix.png[AllRelationshipsMatrix,width=600]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here are other examples of using the anonymous relationship:
 [source,cypher]
 ----
@@ -685,19 +558,11 @@ RETURN p, m
 ----
 
 In this training, we will use `+-->+`, `--`, and `+<--+` to represent anonymous relationships as it is a Cypher best practice.
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Retrieving the relationship types
 
 There is a built-in function, `type()` that returns the relationship type of a relationship. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is an example where we use the _rel_ variable to hold the relationships retrieved.
 We then use this variable to return the relationship types.
 
@@ -711,9 +576,6 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/MatrixRelationshipTypes.png[MatrixRelationshipTypes,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Retrieving properties for relationships
 
@@ -721,25 +583,12 @@ Recall that a node can have as set of properties, each identified by its propert
 Relationships can also have properties. 
 This enables your graph model to provide more data about the relationships between the nodes.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is an example from the _Movie_ graph. 
 The movie, _The Da Vinci Code_ has two people that reviewed it, _Jessica Thompson_ and _James Thompson_. Each of these _Person_ nodes has the _REVIEWED_ relationship to the _Movie_ node for _The Da Vinci Code_. 
 Each relationship has properties that further describe the relationship using the _summary_ and _rating_ properties.
 
 image::{imagedir}/REVIEWEDProperties.png[ReviewedProperties,width=700,align=center]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Just as you can specify property values for filtering nodes for a query, you can specify property values for a relationship. This query returns the name of of the person who gave the movie a rating of _65._
 
 [source,cypher]
@@ -752,9 +601,6 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/ReturnPersonRating65.png[ReturnPersonRating65,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 === Using patterns for queries 
 
@@ -762,26 +608,12 @@ Thus far, you have learned how to specify nodes, properties, and relationships i
 Since relationships are directional, it is important to understand how patterns are used in graph traversal during query execution.
 How a graph is traversed for a query depends on what directions are defined for relationships and how the pattern is specified in the `MATCH` clause.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is an example of where the _FOLLOWS_ relationship is used in the _Movie_ graph. 
 Notice that this relationship is directional.
 
 [.thumb]
 image::{imagedir}/FollowsRelationships.png[FollowsRelationships,width=500]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 We can perform a query that returns all _Person_ nodes who follow _Angela Scope_:
 
 [source,cypher]
@@ -794,15 +626,6 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/AngelaFollowers.png[AngelaFollowers,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 For this query the Person node for Angela Scope is the anchor of the query.
 It is the first node that is retrieved from the graph.
@@ -811,15 +634,7 @@ In this case there is only one relationship that is defined that points to the A
 
 [.thumb]
 image::{imagedir}/AngelaFollowersQueryTraversal.png[AngelaFollowers,width=250]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 If we reverse the direction in the pattern, the query returns different results:
 
 [source,cypher]
@@ -832,19 +647,11 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/FollowedByAngela.png[FollowedByAngela,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 In this case the query engine found the Angela Scope node as the anchor and then looked for all relationships _out from_ the Angela Scope node.
 
 ==== Querying by any direction of the relationship
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 We can also find out what _Person_ nodes are connected by the _FOLLOWS_ relationship in either direction by removing the directional arrow from the pattern.
 
 [source,cypher]
@@ -857,33 +664,16 @@ We also return the Angela Scope node so that we can see the relationships in the
 
 [.thumb]
 image::{imagedir}/AngelaFromTo.png[AngelaFromTo,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 In this case the Angela Scope node is the anchor and the query engine traverses all _FOLLOWS_ relationships both in and out of the Angela Scope Node.
 
 [.thumb]
 image::{imagedir}/AngelaConnectionsQueryTraversal.png[AngelaConnectionsQueryTraversal,width=250]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Traversing multiple relationships
 
 Since we have a graph, we can traverse through nodes to obtain relationships further into the traversal. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 For example, we can write a Cypher query to return all followers of the followers of _Jessica Thompson_.
 
 [source,cypher]
@@ -896,15 +686,6 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/FollowersOfJessicaFollowers.png[FollowersOfJessicaFollowers,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 For this query the _Jessica Thompson_ node is the anchor.
 Then from the Jessica Thompson node, the query engine looks for any relationships into that node.
@@ -913,25 +694,9 @@ It finds only one node, _Paul Blythe_ that matches the query.
 
 [.thumb]
 image::{imagedir}/FollowersOfFollowersQueryTraversal.png[FollowersOfFollowersQueryTraversal,width=250]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 This query could also be modified to return each person along the matched path by specifying variables for the nodes and returning them.
 For example:
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 [source,cypher]
 ----
@@ -944,17 +709,9 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/NodesInPathForFollowersOfJessicaFollowers.png[NodesInPathForFollowersOfJessicaFollowers,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Using patterns to focus the query
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 As you gain more experience with Cypher, you will see how patterns in your queries enable you to focus on the relationships in the graph.
 For example, suppose we want to retrieve all unique relationships between an actor, a movie, and a director.
 This query will return many unique rows of information that provide this pattern in the graph:
@@ -973,19 +730,10 @@ image::{imagedir}/TraversalInTwoDirections.png[TraversalInTwoDirections,width=80
 In this query, notice that there are multiple records returned for a movie, each with its set of values for the actor and director.
 Each row is unique since the focal point of the query is the actor/director for a particular movie.
 
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
 ==== Returning paths
 
 In addition, you can assign a variable to the path and return the path as follows:
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 [source,cypher]
 ----
 MATCH  path = (:Person)-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(:Person {name:'Jessica Thompson'}) 
@@ -996,18 +744,10 @@ The result returned is:
 
 [.thumb]
 image::{imagedir}/ReturnPath.png[ReturnPath,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 Here is another example where multiple paths are returned.
 The query is to return all paths from actors to a movie that was directed by Ron Howard
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 [source,cypher]
 ----
 MATCH  path = (:Person)-[:ACTED_IN]->(:Movie)<-[:DIRECTED]-(:Person {name:'Ron Howard'})
@@ -1018,9 +758,6 @@ Multiple paths are returned. Even if we set Neo4j Browser to not connect result 
 
 [.thumb]
 image::{imagedir}/ReturnRonHowardPaths.png[ReturnRonHowardPaths,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 [NOTE]
 A best practice is to specify direction in your `MATCH` statements. This will optimize queries, especially for larger graphs.
@@ -1041,11 +778,6 @@ Here are the *Neo4j-recommended* Cypher coding standards that we use in this tra
 * Place named nodes and relationships (that use variables) before anonymous nodes and relationships in your `MATCH` clauses when possible.
 * Specify anonymous relationships with `+-->+`, `--`, or `+<--+`
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is an example showing some best coding practices:
 
 [source,cypher]
@@ -1054,9 +786,6 @@ MATCH (:Person {name: 'Diane Keaton'})-[movRel:ACTED_IN]->
 (:Movie {title:"Something's Gotta Give"}) 
 RETURN movRel.roles
 ----
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 We recommend that you follow the https://neo4j.com/docs/cypher-manual/current/styleguide/[Cypher Style Guide^] when writing your Cypher statements.
 

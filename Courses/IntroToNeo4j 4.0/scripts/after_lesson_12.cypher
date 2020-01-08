@@ -1,3 +1,6 @@
+CALL apoc.schema.assert({},{},true);
+MATCH (n) DETACH DELETE n;
+
 CREATE (TheMatrix:Movie {title:'The Matrix', released:1999, tagline:'Welcome to the Real World'})
 CREATE (Keanu:Person {name:'Keanu Reeves', born:1964})
 CREATE (Carrie:Person {name:'Carrie-Anne Moss', born:1967})

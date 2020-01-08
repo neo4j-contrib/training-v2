@@ -54,11 +54,6 @@ Most applications need more flexibility in how data is filtered.
 The most common clause you use to filter queries is the `WHERE` clause that typically follows a `MATCH` clause.
 In the `WHERE` clause, you can place conditions that are evaluated at runtime to filter the query. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Previously, you learned to write simple query as follows:
 
 [source,cypher]
@@ -75,20 +70,12 @@ MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
 WHERE m.released = 2008
 RETURN p, m
 ----
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Testing multiple values
 
 In this example, you can only refer to named nodes or relationships in a `WHERE` clause so remember that you must specify a variable for any node or relationship you are testing in the `WHERE` clause. 
 The benefit of using a `WHERE` clause is that you can specify potentially complex conditions for the query. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 For example:
 
 [source,cypher]
@@ -97,19 +84,11 @@ MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
 WHERE m.released = 2008 OR m.released = 2009
 RETURN p, m
 ----
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Testing ranges
 
 Not only can the equality `=` be tested, but you can test ranges, existence, strings, as well as specify logical operations during the query. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is an example of specifying a range for filtering the query:
 
 [source,cypher]
@@ -123,15 +102,7 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/MoviesBetween2003And2004.png[MoviesBetween2003And2004,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 You can also specify the same query as:
 
 [source,cypher]
@@ -140,9 +111,6 @@ MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
 WHERE 2003 <= m.released <= 2004
 RETURN p.name, m.title, m.released
 ----
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 You can specify conditions in a `WHERE` clause that return a value of `true` or `false` (for example predicates). 
 For testing numeric values, you use the standard numeric comparison operators. Each condition can be combined for runtime evaluation using the boolean operators `AND`, `OR`, `XOR`, and `NOT`.  
@@ -156,12 +124,6 @@ You should read the _Neo4j Cypher Manual's_ section _Working with null_ to under
 
 Thus far, you have used the node labels to filter queries in a `MATCH` clause. 
 You can filter node labels in the `WHERE` clause also:
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 For example, these two Cypher queries:
 
@@ -198,11 +160,6 @@ Here is the result of running this second query:
 [.thumb]
 image::{imagedir}/TestLabels.png[TestLabels,width=800]
 
-
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
 Not all node labels need to be tested during a query, but if your graph has multiple labels for the same node, filtering it by the node label will provide better query performance.
 
 ==== Testing existence of a property
@@ -212,11 +169,6 @@ A property is not associated with a node with a particular label or relationship
 In one of our queries earlier, we saw that the movie "Something's Gotta Give" is the only movie in the _Movie_ database that does not have a _tagline_ property. 
 Suppose we only want to return the movies that the actor, _Jack Nicholson_ acted in with the condition that they must all have a tagline.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is the query to retrieve the specified movies where we test the existence of the _tagline_ property:
 
 [source,cypher]
@@ -230,20 +182,12 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/JackNicholsonMoviesWithTaglines.png[JackNicholsonMoviesWithTaglines,width=900]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Testing strings
 
 Cypher has a set of string-related keywords that you can use in your `WHERE` clauses to test string property values. 
 You can specify `STARTS WITH`, `ENDS WITH`, and `CONTAINS`.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 For example, to find all actors in the _Movie_ database whose first name is _Michael_, you would write:
 
 [source,cypher]
@@ -257,15 +201,7 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/ActorsNamedMichael.png[ActorsNamedMichael,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Note that the comparison of strings is case-sensitive. 
 There are a number of string-related functions you can use to further test strings. 
 For example, if you want to test a value, regardless of its case, you could call the `toLower()` function to convert the string to lower case before it is compared.
@@ -276,9 +212,6 @@ MATCH (p:Person)-[:ACTED_IN]->()
 WHERE toLower(p.name) STARTS WITH 'michael'
 RETURN p.name
 ----
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 [NOTE]
 In this example where we are converting a property to lower case, if an index has been created for this property, it will not be used at runtime.
@@ -288,11 +221,6 @@ It is sometimes useful to use the built-in string functions to modify the data t
 
 ==== Testing with regular expressions
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 If you prefer, you can test property values using regular expressions.
 You use the syntax `=~` to specify the regular expression you are testing with.
 Here is an example where we test the name of the _Person_ using a regular expression to retrieve all _Person_ nodes with a _name_ property that begins with 'Tom':
@@ -308,9 +236,6 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/MatchTomsRegex.png[MatchTomsRegex,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 [NOTE]
 If you specify a regular expression. The index will never be used. In addition, the property value must fully match the regular expression.
@@ -320,11 +245,6 @@ If you specify a regular expression. The index will never be used. In addition, 
 Sometimes during a query, you may want to perform additional filtering using the relationships between nodes being visited during the query. For example, during retrieval, you may want to exclude certain paths traversed. 
 You can specify a `NOT` specifier on a pattern in a `WHERE` clause.
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is an example where we want to return all _Person_ nodes of people who wrote movies:
 [source,cypher]
 ----
@@ -336,15 +256,6 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/WroteMovies.png[WroteMovies,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
-
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 
 Next, we modify this query to exclude people who directed that particular movie:
 
@@ -359,15 +270,7 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/WroteMoviesNotDirected.png[WroteMoviesNotDirected,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 Here is another example where we want to find _Gene Hackman_ and the movies that he acted in with another person who also directed the movie. 
 
 [source,cypher]
@@ -382,9 +285,6 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/ExistsPattern.png[ExistsPattern,width=700]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 ==== Testing with list values
 
@@ -396,11 +296,6 @@ During the query, the graph engine will compare each property with the values `I
 You can place either numeric or string values in the list, but typically, elements of the list are of the same type of data. 
 If you are testing with a property of a string type, then all the elements of the list should be strings. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 In this example, we only want to retrieve _Person_ nodes of people born in 1965 or 1970:
 
 [source,cypher]
@@ -414,17 +309,9 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/UsingIN.png[UsingIN,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 You can also compare a value to an existing list in the graph. 
 
-ifdef::backend-pdf[]
-[cols=1, frame="none"]
-|===
-a|
-endif::backend-pdf[]
 We know that the _:ACTED_IN_ relationship has a property, _roles_ that contains the list of roles an actor had in a particular movie they acted in. 
 Here is the query we write to return the name of the actor who played _Neo_ in the movie _The Matrix_:
 
@@ -439,9 +326,6 @@ Here is the result:
 
 [.thumb]
 image::{imagedir}/UsingINRoles.png[UsingINRoles,width=800]
-ifdef::backend-pdf[]
-|===
-endif::backend-pdf[]
 
 Later in this course, you will learn how to create lists from your queries by aggregating data in the graph.
 

@@ -1,0 +1,465 @@
+= Using LOAD CSV for Import
+
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Overview of Importing Data into Neo4j
+:currsect: 17
+:nextsecttitle: Using Cypher and APOC for Import
+:nextsect: 18
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+In many applications, you want to populate your graph with comes from data that was written to _.csv_ files or files of other types.
+There are many nuances and best practices for loading data into a graph from files.
+In this lesson, you will be introduced to some simple steps for loading CSV data into your graph with Cypher.
+
+At the end of this module, you should be able to:
+[square]
+
+* Use parameters in your Cypher statements.
+* Analyze Cypher execution.
+* Monitor queries.
+* Manage constraints and node keys for the graph.
+* Import data into a graph from CSV files.
+* Manage indexes for the graph.
+* Access Neo4j resources.
+
+
+
+== Loading data with Cypher
+
+In Cypher, you can:
+
+* Load data from a URL (http(s) or file).
+* Process data as a stream of records.
+* Create or update the graph with the data being loaded.
+* Use transactions during the load.
+* Transform and convert values from the load stream.
+* Load up to 10M nodes and relationships.
+
+== Steps for loading data with Cypher
+
+CSV import is commonly used to import data into a graph.
+If you want to import data from CSV, you will need to first develop a model that describes how data from your CSV maps to data in your graph.
+
+Assuming that you have an agreed-upon data model, here are the basic steps you should follow for importing using Cypher:
+
+. Determine how the CSV file will be structured.
+. Determine whether you will use normalized or denormalized data.
+. Ensure IDs to be used in the data are unique.
+. Ensure data in CSV files is properly formatted and "clean".
+. Execute Cypher code to inspect the data.
+. Ensure constraints are created in the graph.
+. Execute Cypher code to load the data.
+. Add indexes to the graph.
+
+== CSV file structure
+
+A CSV file represents rows of a relational table.
+When CSV files are created from your relational database, you must determine:
+
+[square]
+* Whether the CSV file will have header information, describing the names of the fields.
+* What the delimeter will be for the fields in each row.
+
+Including headers in the CSV file reduces syncing issues, but if the size of the CSV files is extremely large, it is sometimes better to separate the headers from the data, especially if multiple files will be split to use the same set of headers.
+
+Here are examples of CSV files with and without headers:
+
+[.thumb]
+image::{imagedir}/WithWithoutHeaders.png[WithWithoutHeaders,width=900]
+
+In these examples, the comma (,) is the field terminator.
+This is the default that Cypher uses.
+If you want to use a different field terminator, you must specify the `FIELDTERMINATOR` clause.
+
+== Normalized or denormalized data
+
+Data normalization is common in relational models.
+This enables you to have CSV files that correspond to a relational table where an ID is used to identify the relationships.
+
+Here is an example where we have normalized data for people, roles, and movies:
+
+[.thumb]
+image::{imagedir}/NormalizedData.png[NormalizedData,width=900]
+
+Notice that the *people.csv* file has a unique ID for every person and the *movies1.csv* file has a unique ID for every movie.
+The *roles.csv* file is used to relate a person to a movie and provide the characters.
+This is the data that could be used to create the _:ACTED_IN_ relationship that you have see in the Movie graph.
+
+Here is an example where we have denormalized data for the same type of data:
+
+[.thumb]
+image::{imagedir}/DenormalizedData.png[DenormalizedData,width=900]
+
+With denormalized data, the data is represented by multiple rows corresponding to the same entity.
+For example, The movie data (including the ID) is repeated in multiple rows, but for a particular movie, a different actor is shown.
+
+=== Importing normalized data using `LOAD CSV`
+
+Cypher provides an elegant built-in way to import tabular CSV data into graph structures.
+
+The `LOAD CSV` clause parses a local in the *import* directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
+Then you can use whichever Cypher operations you want to either create nodes or relationships or to merge with the existing graph.
+
+Here is the simplified syntax for using `LOAD CSV`:
+[source,cypher]
+----
+LOAD CSV WITH HEADERS FROM url-value 
+AS row        // row is a variable that is used to extract data 
+----
+
+The first line of the file must contain a comma-separated list of column names. The _url-value_ can be a resource or a file on your system. Each line contains data that is interpreted as values for each column name. When each line is read from the file, you can perform the necessary processing to create or merge data into the graph.
+
+As CSV files usually represent either node or relationship lists, you will run multiple passes to create nodes and relationships separately.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+The *movies_to_load.csv* file (sample below) contains the data that will add _Movie_ nodes:
+----
+id,title,country,year,summary
+1,Wall Street,USA,1987, Every dream has a price.
+2,The American President,USA,1995, Why can't the most powerful man in the world have the one thing he wants most?
+3,The Shawshank Redemption,USA,1994, Fear can hold you prisoner. Hope can set you free.
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+Before you load data from CSV files into your graph, you should first confirm that the data retrieved looks OK. Rather than creating nodes or relationships, you can simply return information about the data to be loaded. 
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+For example you can execute this Cypher statement to get a count of the data to be loaded from the *movies_to_load.csv* file so you have an idea of how much data will be loaded:
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/intro-neo4j/movies_to_load.csv'
+AS line
+RETURN count(*)
+----
+
+Here is the count result for this particular file:
+[.thumb]
+image::{imagedir}/countOfMoviesToLoad.png[countOfMoviesToLoad,width=900]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+You might even want to visually inspect the data before you load it to see if it is what you were expecting:
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/intro-neo4j/movies_to_load.csv'
+AS line
+RETURN * LIMIT 1
+----
+
+Here is the result of running the Cypher statement to visually inspect the data:
+[.thumb]
+image::{imagedir}/examineMoviesBeforeLoad.png[examineMoviesBeforeLoad,width=900]
+
+Notice here that the _summary_ column's data has an extra space before the data in the file. In order to ensure that all _tagline_ values in our graph do not have an extra space, we will trim the value before assigning it to the tagline property. Once we are sure you want to load the data into your graph, we do so by assigning values from each row read in to a new node. 
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+You may want to format the data before it is loaded to confirm it matches what you want in your graph:
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/intro-neo4j/movies_to_load.csv'
+AS line
+RETURN line.id, line.title, toInteger(line.year), trim(line.summary)
+----
+
+Here we see how the data will be formatted before it is loaded:
+
+[.thumb]
+image::{imagedir}/FormatMovieDataBeforeLoad.png[FormatMovieDataBeforeLoad,width=900]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+The following query creates the _Movie_ nodes using some of the data from *movies_to_load.csv* as properties:
+[source, cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/intro-neo4j/movies_to_load.csv'
+AS line
+CREATE (movie:Movie { movieId: line.id, title: line.title, released: toInteger(line.year) , tagline: trim(line.summary)})
+----
+
+We assign a value to _movieId_ from the _id_ data in the CSV file. In addition, we assign the data from _summary_ to the _tagline_ property, with a trim. We also convert the data read from  _year_ to an integer using the built-in function `toInteger()` before assigning it to the _released_ property.
+
+Here is the result of loading the *movies_to_load. csv* data into the graph:
+[.thumb]
+image::{imagedir}/loadMovies.png[loadMovies,width=900]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+The *persons_to_load.csv* file (sample below) holds the data that will populate the _Person_ nodes.
+----
+Id,name,birthyear
+1,Charlie Sheen, 1965
+2,Oliver Stone, 1946
+3,Michael Douglas, 1944
+4,Martin Sheen, 1940
+5,Morgan Freeman, 1937
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+In case you already have people in your database, you will want to avoid creating duplicates.
+That's why instead of just creating them, we use `MERGE` to ensure unique entries after the import.
+We use the `ON CREATE` clause to set the values for _name_ and _born_.
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/intro-neo4j/persons_to_load.csv'
+AS line
+MERGE (actor:Person { personId: line.Id })
+ON CREATE SET actor.name = line.name,
+              actor.born = toInteger(trim(line.birthyear))
+----
+
+There are a couple of things to note here. The name of the column is case-sensitive. In addition, notice that the data for the birthyear column as an extra space before the data. To allow this data to be converted to an integer, we must first trim the whitespace using the `trim()` built-in function.
+
+Here is the result of loading the *persons_to_load. csv* data into the graph:
+[.thumb]
+image::{imagedir}/loadPersons.png[loadPersons,width=700]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+The *roles_to_load.csv* file (sample below) holds the data that will populate the relationships between the nodes.
+----
+personId,movieId,role
+1,1,Bud Fox
+4,1,Carl Fox
+3,1,Gordon Gekko
+4,2,A.J. MacInerney
+3,2,President Andrew Shepherd
+5,3,Ellis Boyd 'Red' Redding
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+The query below matches the entries of _line.personId_ and _line.movieId_ to their respective _Movie_ and _Person_ nodes, and creates an _ACTED_IN_ relationship between the person and the movie.
+This model includes a relationship property of _role_, which is passed via _line.role_.
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/intro-neo4j/roles_to_load.csv'
+AS line
+MATCH (movie:Movie { movieId: line.movieId })
+MATCH (person:Person { personId: line.personId })
+CREATE (person)-[:ACTED_IN { roles: [line.role]}]->(movie)
+----
+
+Here is the result of loading the *roles_to_load. csv* data into the graph:
+[.thumb]
+image::{imagedir}/loadRoles.png[loadRoles,width=900]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+=== Importing denormalized data
+
+If your file contains denormalized data, you can run the same file with multiple passes and simple operations as shown above. Alternatively, you might have to use `MERGE` to create nodes and relationships uniquely.
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+For our use case, we can import the data using a CSV structure like this:
+
+*movie_actor_roles_to_load.csv*:
+----
+title;released;summary;actor;birthyear;characters
+Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Michael J. Fox;1961;Marty McFly
+Back to the Future;1985;17 year old Marty McFly got home early last night. 30 years early.;Christopher Lloyd;1938;Dr. Emmet Brown
+----
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+ifdef::backend-pdf[]
+[cols=1, frame="none"]
+|===
+a|
+endif::backend-pdf[]
+Here are the Cypher statements to load this data:
+[source, cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/intro-neo4j/movie_actor_roles_to_load.csv'
+AS line FIELDTERMINATOR ';'
+MERGE (movie:Movie { title: line.title })
+ON CREATE SET movie.released = toInteger(line.released),
+              movie.tagline = line.summary
+MERGE (actor:Person { name: line.actor })
+ON CREATE SET actor.born = toInteger(line.birthyear)
+MERGE (actor)-[r:ACTED_IN]->(movie)
+ON CREATE SET r.roles = split(line.characters,',')
+----
+
+Notice a couple of things in this Cypher statement. This file uses a semi-colon as a field terminator, rather than the default comma. In addition, the built-in method `split()` is used to create the list for the _roles_ property.
+
+Here is the result of loading the *movie_actor_roles_to_load. csv* data into the graph:
+[.thumb]
+image::{imagedir}/loadAll.png[loadAll,width=900]
+ifdef::backend-pdf[]
+|===
+endif::backend-pdf[]
+
+For large denormalized files, it may still make sense to create nodes and relationships separately in multiple passes.
+That would depend on the complexity of the operations and the experienced performance.
+
+=== Importing a large dataset
+
+If you import a larger amount of data (more than 10,000 rows), it is recommended to prefix your `LOAD CSV` clause with a `PERIODIC COMMIT` hint.
+This allows the database to regularly commit the import transactions to avoid memory churn for large transaction-states.
+
+=== *Exercise 16: Importing data*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
+and follow the instructions for Exercise 16.
+
+== Accessing Neo4j resources
+
+There are many ways that you can learn more about Neo4j. A good starting point for learning about the resources available to you is the *Neo4j Learning Resources* page at  https://neo4j.com/developer/resources/.
+
+
+[#module-7.quiz]
+== Check your understanding
+=== Question 1
+
+What Cypher keyword can you use to prefix any Cypher statement to examine how many db hits occurred when the statement executed?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.false-answer]#ANALYZE#
+- [ ] [.false-answer]#EXPLAIN#
+- [ ] [.required-answer]#PROFILE#
+- [ ] [.false-answer]#MONITOR#
+
+
+=== Question 2
+
+What types of constraints can you define for a graph that are asserted when a node or relationship is created or updated?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#unique values for a property of a node#
+- [ ] [.false-answer]#unique values for a property of a relationship#
+- [ ] [.required-answer]#a node must have a certain set of properties with values#
+- [ ] [.required-answer]#a relationship must have a certain set of properties with values#
+
+=== Question 3
+
+In general, what is the maximum number of nodes or relationships that you can easily create using LOAD CSV?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#1K#
+- [ ] [.false-answer]#10K#
+- [ ] [.false-answer]#1M#
+- [ ] [.required-answer]#10M#
+
+== Summary
+
+You should now be able to:
+[square]
+
+* Use parameters in your Cypher statements.
+* Analyze Cypher execution.
+* Monitor queries.
+* Manage constraints and node keys for the graph.
+* Import data into a graph from CSV files.
+* Manage indexes for the graph.
+* Access Neo4j resources.
+
+++++
+<a class="next-section medium button" href="../part-8/">Continue to Module 8</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part7');
+});
+</script>
+++++
+
+endif::backend-html5[]
