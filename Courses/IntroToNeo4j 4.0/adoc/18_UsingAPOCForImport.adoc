@@ -33,6 +33,11 @@ Next, you will learn how you can use some of the APOC procedures to help you imp
 At the end of this module, you should be able to:
 
 [square]
+* Ensure the APOC library is available.
+* Clear a graph of constraints, indexes, nodes, and relationships.
+* Perform conditional processing with APOC during import.
+* Use APOC for importing a CSV.
+
 
 == Installing APOC for use with your graph
 
@@ -58,7 +63,7 @@ RETURN name
 [.thumb]
 image::{imagedir}/APOCInstalled.png[APOCInstalled,width=900]
 
-== Using APOC to clear the database
+== Using APOC to clear the graph
 
 When you are developing code to import data, you may have several attempts to perform the import correctly.
 Rather than creating a new database for each attempt, you can completely clear the database of all constraints, indexes, nodes, and relationships.
@@ -115,19 +120,175 @@ Assuming that we will use the second option for importing the data and we have c
 
 [source,cypher]
 ----
-CREATE CONSTRAINT UniqueMovieIdConstraint ON (m:Movie) ASSERT m.id IS UNIQUE;
-
-CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE
+// import the people and movie data (partial; no relationships)
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv' AS row
+WITH row.movieId as movieId, row.title AS title, row.genres AS genres, toInteger(row.releaseYear) AS releaseYear, toFloat(row.avgVote) AS avgVote,
+collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,""),':')}) AS people
+MERGE (m:Movie {id:movieId})
+   ON CREATE SET m.title=title, m.avgVote=avgVote,
+      m.releaseYear=releaseYear, m.genres=split(genres,":")
+WITH *
+UNWIND people AS person
+MERGE (p:Person {id: person.id})
+   ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
 ----
+
+This code reads the data from a _row_ and creates the _people_ collection that holds the data for a person.
+It creates the _Movie_ nodes based upon the _row_ data.
+With the `WITH *" clause, all variables are carried forward in the query.
+Then the _people_ collection is unwound so that each element in a row can be used to create the _Person_ nodes.
+Everything is in the graph, except for the relationships.
 
 [.thumb]
 image::{imagedir}/APOCInstalled.png[APOCInstalled,width=900]
 
-Regardless of whether you are performing the creation of the _Movie_ and _Person_ nodes in a single pass, this type of denormalized data requires conditional processing.
-That is, the type of relationship created depends on the value of the _personType_ field.
+This is not quite what we want because we have not created the relationships.
+That is, the type of relationship created depends on the value of the _personType_ field in each row of the CSV file.
 This is where APOC can help  you.
+APOC has a procedure that will allow you to perform conditional execution, based upon a value.
 
-== Conditional processing with APOC
+Here is the complete code that utilizes the `apoc.do.when()` procedure:
+
+[source,cypher]
+----
+// import the people and movie data
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv' AS row
+WITH row.movieId as movieId, row.title AS title, row.genres AS genres, toInteger(row.releaseYear) AS releaseYear, toFloat(row.avgVote) AS avgVote,
+collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,""),':')}) AS people
+MERGE (m:Movie {id:movieId})
+   ON CREATE SET m.title=title, m.avgVote=avgVote,
+      m.releaseYear=releaseYear, m.genres=split(genres,":")
+WITH *
+UNWIND people AS person
+MERGE (p:Person {id: person.id})
+   ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+// continue processing and use the personType to create the relationships
+WITH  m, person, p
+CALL apoc.do.when(person.personType = 'ACTOR',
+     "MERGE (p)-[:ACTED_IN {roles: person.roles}]->(m)
+                ON CREATE SET p:Actor",
+     "MERGE (p)-[:DIRECTED]->(m)
+         ON CREATE SET p:Director",
+     {m:m, p:p, person:person}) YIELD value AS value
+RETURN count(*)  // cannot end query with APOC call
+----
+
+After the _Movie_ and _Person_ nodes are created, we use the reference to them to create the relationships between them.
+The first argument to `apoc.do.when() is the data that is tested.
+The second argument is the Cypher code to execute if the test returns true.
+The third argument is the Cypher code to execute if the test returns false.
+The last argument is the object that describes the mapping of variables both outside of the call and inside the call.
+For simplicity, we specify the same values.
+Certain `apoc` calls cannot end a Cypher query so we place a `RETURN count(*)` at the end.
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/DoWhenAPOC.png[DoWhenAPOC,width=900]
+
+== Using APOC to import from CSV
+
+If you cannot load the CSV file with `LOAD CSV` or `USING PERIODIC COMMIT LOAD CSV`, another option is to use APOC for the import.
+Previously, you learned how to clear the data from the graph using `apoc.periodic.iterate()`.
+You use this procedure to load large datasets.
+
+Here is an example:
+
+[source,cypher]
+----
+CALL apoc.periodic.iterate(
+"CALL apoc.load.csv('https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv' ) YIELD map AS row RETURN row",
+"WITH row.movieId as movieId, row.title AS title, row.genres AS genres, toInteger(row.releaseYear) AS releaseYear, toFloat(row.avgVote) AS avgVote,
+ collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,''),':')}) AS people
+ MERGE (m:Movie {id:movieId})
+    ON CREATE SET m.title=title, m.avgVote=avgVote,
+       m.releaseYear=releaseYear, m.genres=split(genres,':')
+ WITH *
+ UNWIND people AS person
+ MERGE (p:Person {id: person.id})
+    ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+ WITH  m, person, p
+ CALL apoc.do.when(person.personType = 'ACTOR',
+      'MERGE (p)-[:ACTED_IN {roles: person.roles}]->(m)
+                 ON CREATE SET p:Actor',
+      'MERGE (p)-[:DIRECTED]->(m)
+          ON CREATE SET p:Director',
+      {m:m, p:p, person:person}) YIELD value AS value
+       RETURN count(*)  ",
+{batchSize: 500}
+)
+----
+
+The first argument to `apoc.periodic.iterate()` is the call to `apoc.load.csv()` where we provide the file name and it returns a _row_.
+The second argument is the same Cypher code you saw earlier.
+The only thing that is different is that you must ensure that the code is in double quotes and the Cypher code does not use double-quotes (or visa versa).
+The final argument is the size of the batch, 500.
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/APOCPeriodicIterate.png[APOCPeriodicIterate,width=900]
+
+
+== Using APOC to load JSON
+
+
+Might also look to see if there is any youtube video coverage
+
+NOTE: this code works! (changed from what is in Browser Guide)
+
+WITH "https://api.stackexchange.com/2.2/search?page=1&pagesize=100&order=asc&sort=creation&tagged=neo4j&site=stackoverflow&filter=!5-i6Zw8Y)4W7vpy91PMYsKM-k9yzEsSC1_Uxlf" AS uri
+CALL apoc.load.json(uri)
+YIELD value AS data
+UNWIND data.items as q
+MERGE (question:Question {id:q.question_id})
+  ON CREATE SET question.title = q.title, question.url = q.share_link, question.created = q.creation_date
+SET question.favorites = q.favorite_count, question.updated = q.last_activity_date, question.views = q.view_count,
+    question.upVotes = q.up_vote_count, question.downVotes = q.down_vote_count
+FOREACH (q_owner IN [o in [q.owner] WHERE o.user_id IS NOT NULL] |
+  MERGE (owner:StackOverflowAccount {id:q.owner.user_id}) ON CREATE SET owner.name = q.owner.display_name SET owner:User, owner:StackOverflow
+  MERGE (owner)-[:POSTED]->(question)
+)
+FOREACH (tagName IN q.tags | MERGE (tag:Tag{name:tagName}) SET tag:StackOverflow MERGE (question)-[:TAGGED]->(tag))
+FOREACH (a IN q.answers |
+   MERGE (answer:Answer {id:a.answer_id})
+   SET answer.accepted = a.is_accepted, answer.upVotes = a.up_vote_count, answer.downVotes = a.down_vote_count,
+       answer:Content, answer:StackOverflow
+   MERGE (question)<-[:ANSWERED]-(answer)
+   FOREACH (a_owner IN [o IN [a.owner] where o.user_id is not null] |
+     MERGE (answerer:User {id:a_owner.user_id})
+     ON CREATE SET answerer.name = a_owner.display_name
+     SET answerer.reputation = a_owner.reputation, answerer.profileImage = a_owner.profile_image
+     MERGE (answer)<-[:POSTED]-(answerer)
+   )
+)
+
+
+This code also works from dzone:
+
+https://dzone.com/articles/apoc-database-integration-import-and-export-with-a
+
+To load the mentioned Game of Thrones graph, I just had to grab the URLs for nodes and relationships, have a quick look at the JSON structures and re-create the graph in Neo4j. Note that for creating dynamic relationship-types from the input data I use apoc.create.relationship.
+
+call apoc.load.json("https://onodo.org/api/visualizations/21/nodes/") yield value
+create (n:Person) set n+=value
+with count(*) as nodes
+call apoc.load.json("https://onodo.org/api/visualizations/21/relations/") yield value
+match (a:Person {id:value.source_id})
+match (b:Person {id:value.target_id})
+call apoc.create.relationship(a,value.relation_type,{},b) yield rel
+return nodes, count(*) as relationships
+
+
+== Using APOC to load XML
+
+This works:
+
+call apoc.load.xml("https://raw.githubusercontent.com/neo4j-contrib/neo4j-apoc-procedures/3.4/src/test/resources/xml/books.xml", '/catalog/book[genre=\"Computer\"]') yield value as book
+WITH book.id as id, [attr IN book._children WHERE attr._type IN ['title','price'] | attr._text] as pairs
+RETURN id, pairs[0] as title, pairs[1] as price
 
 
 == Steps for loading data with Cypher
