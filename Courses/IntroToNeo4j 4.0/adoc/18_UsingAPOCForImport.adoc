@@ -1,4 +1,4 @@
-= Using LOAD CSV for Import
+= Using APOC for Import
 
 :presenter: Neo Technology
 :twitter: neo4j
@@ -8,10 +8,10 @@
 :doctype: book
 :toc: left
 :toclevels: 3
-:prevsecttitle: Overview of Importing Data into Neo4j
-:currsect: 17
-:nextsecttitle: Using Cypher and APOC for Import
-:nextsect: 18
+:prevsecttitle: Using LOAD CSV for Import
+:currsect: 18
+:nextsecttitle: Using an Application for Import
+:nextsect: 19
 :experimental:
 :imagedir: ../img
 //:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
@@ -26,34 +26,109 @@ endif::backend-html5[]
 
 == About this module
 
-In many applications, you want to populate your graph with comes from data that was written to _.csv_ files or files of other types.
-There are many nuances and best practices for loading data into a graph from files.
-In this lesson, you will be introduced to some simple steps for loading CSV data into your graph with Cypher.
+You have just learned how import data into the graph using Cypher's `LOAD CSV` clause.
+This is one of the easiest ways to import data, but it has its limitations.
+Next, you will learn how you can use some of the APOC procedures to help you import data into the graph.
 
 At the end of this module, you should be able to:
 
 [square]
-* Describe the steps for importing data with Cypher
-* Prepare the graph and data for import:
-** Inspect data.
-** Determine if data needs to be transformed.
-** Determine the size of the data that will be imported.
-** Create the Constraints in the graph.
-* Import the data with `LOAD CSV`
-* Create indexes for newly-loaded data.
 
+== Installing APOC for use with your graph
 
+If you are using a Neo4j Sandbox or Neo4j Aura, your database already has access to the APOC library.
+If you are using Neo4j Desktop, you must add the APOC library to your database server you are using.
+Here are the steps for adding the APOC library to your database server in Neo4j Desktop:
 
-== Loading data with Cypher
+. Stop the database.
+. For the project you are working with, select "+" in the Add Plugin panel.
+. Select APOC to install.
+. Close the install panel.
+. Start the database.
 
-In Cypher, you can:
+You can confirm in Neo4j Browser that you have APOC available by executing this code:
 
-* Load data from a URL (http(s) or file).
-* Process data as a stream of records.
-* Create or update the graph with the data being loaded.
-* Use transactions during the load.
-* Transform and convert values from the load stream.
-* Load up to 10M nodes and relationships.
+[source,cypher]
+----
+CALL dbms.procedures()
+YIELD name WHERE name STARTS WITH "apoc"
+RETURN name
+----
+
+[.thumb]
+image::{imagedir}/APOCInstalled.png[APOCInstalled,width=900]
+
+== Using APOC to clear the database
+
+When you are developing code to import data, you may have several attempts to perform the import correctly.
+Rather than creating a new database for each attempt, you can completely clear the database of all constraints, indexes, nodes, and relationships.
+
+Here is one way that you can clear the database:
+[source,cypher]
+----
+// Delete all constraints and indexes
+CALL apoc.schema.assert({},{},true);
+// Delete all nodes and relationships
+CALL apoc.periodic.iterate(
+  'MATCH (n) RETURN n',
+  'DETACH DELETE n',
+  { batchSize:500 }
+)
+----
+
+[.thumb]
+image::{imagedir}/ClearDatabase.png[ClearDatabase,width=900]
+
+== Using APOC during import
+
+One benefit of using APOC for loading data into the graph is that it can sometimes be faster than LOAD CSV.
+In addition, APOC has some procedures that are helpful during the load, one of which is to control conditional processing.
+And as you have already learned, with APOC, you can load large datasets that will fail if using `LOAD CSV` or even `USING PERIODIC COMMIT LOAD CSV`.
+
+Just as you inspect the data, determine if data needs to be transformed, and create uniqueness constraints before the import with `LOAD CSV`,
+you must do the same when using APOC for the import.
+
+== Using APOC for conditional processing
+
+In the previous lesson, we used `LOAD CSV` to load Movie and Person data into the graph and then use the additional CSV files to create the relationships between the nodes.
+Those files represented normalized data where each file basically represents a relational table.
+
+If you want to load denormalized data from a CSV file, you face a couple of challenges.
+Just as a reminder, here is a snippet of a denormalized CSV file:
+
+[.thumb]
+image::{imagedir}/DenormalizedData.png[DenormalizedData,width=900]
+
+To load this data into the graph you could:
+
+. Make a pass through the file to load the _Movie_ nodes.
+. Make a pass through the file to load the _Person_ nodes.
+. Make a pass through the file to create relationships *based upon* the _personType_ field.
+
+If the CSV files are large, making multiple passes might not be ideal if you have load time constraints.
+A better option is to:
+
+. Make a pass through the file to load the _Movie_ nodes, collect the people data and then add the _Person_ nodes.
+. Use the people data to create relationships *based upon* the _personType_ field.
+
+Assuming that we will use the second option for importing the data and we have created the uniqueness constraints as before, here is the Cypher code to create the _Person_ and _Movie_ nodes:
+
+[source,cypher]
+----
+CREATE CONSTRAINT UniqueMovieIdConstraint ON (m:Movie) ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE
+----
+
+[.thumb]
+image::{imagedir}/APOCInstalled.png[APOCInstalled,width=900]
+
+Regardless of whether you are performing the creation of the _Movie_ and _Person_ nodes in a single pass, this type of denormalized data requires conditional processing.
+That is, the type of relationship created depends on the value of the _personType_ field.
+This is where APOC can help  you.
+
+== Conditional processing with APOC
+
 
 == Steps for loading data with Cypher
 

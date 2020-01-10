@@ -88,7 +88,7 @@ Requirements:
 The APOC library is used by virtually all developers to reduce their programming effort.
 You can use many APOC procedures and functions for importing data into the graph.
 One thing that APOC handles very nicely is iteration and batching that may be required for importing complex and large amounts of data.
-In addition to CSV, APOC procedures can be used to read other formats such as XML and JSON.
+In addition to CSV, APOC procedures can be used to read other formats such as XML, GraphML, and JSON.
 
 Requirements:
 
@@ -98,18 +98,9 @@ Requirements:
 * Neo4j database running locally, in Neo4j Aura, in Neo4j Sandbox.
 * Optionally using a Neo4j Cluster.
 
-== Using APOC, Cypher and jdbc for importing data
-
-APOC also has procedures that enable you to connect to a live RDBMS via jdbc to import data.
-To perform this type of import, you must be very comfortable with the source data in the RDBMS.
-
-Requirements:
-
-[square]
-* Neo4j Browser or Cypher-shell.
-* Neo4j database running locally, in Neo4j Aura, in Neo4j Sandbox.
-* Optionally using a Neo4j Cluster.
-* Live RDBMS Server.
+[NOTE]
+You can also use APOC's jdbc connection features to access a live RDBMS.
+This type of connection is not covered in this course.
 
 == Using Drivers via Bolt
 
@@ -135,6 +126,9 @@ With this type of import, the source data is in CSV format. The benefit of impor
 The database is created as part of the import and it is done "offline". That is, the database can only be started after the import has completed.
 If your database will be part of a Cluster, then you will need to have each Cluster member "catch up" to the database that was newly imported.
 
+Using the admin import tool is a very common way of performing an initial load of data into a graph.
+Then as the application evolves, the graph data model might change.
+
 [.thumb]
 image::{imagedir}/adminToolWorkflow.png[adminToolWorkflow,width=600]
 
@@ -148,6 +142,9 @@ Requirements:
 
 Neo4j Labs has created a tool (graph application) that you can use to import data using a live connection to an RDBMS.
 With this tool, you map tables/fields to nodes/properties to perform the import.
+
+Using the ETL tool, although convenient, may not be suitable for all types of loading, especially if you want to implement a complex graph data model.
+That is, the ETL tool is a "generic" load tool.
 
 [.thumb]
 image::{imagedir}/ETLTool.png[ETLTool,width=600]
@@ -185,7 +182,7 @@ Select the correct answers.
 [%interactive]
 
 - [ ] [.false-answer]#Cypher using LOAD CSV#
-- [ ] [.required-answer]#Cypher using APOC procedures#
+- [ ] [.required-answer]#Cypher using APOC jdbc procedures#
 - [ ] [.required-answer]#Java application using both jdbc and Neo4j drivers#
 - [ ] [.required-answer]#Neo4j ETL Tool#
 
