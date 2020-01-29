@@ -1,0 +1,443 @@
+
+= Creating Nodes
+
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Controlling Results Returned
+:prevsect: 8
+:currsect: 9
+:nextsecttitle: Creating Relationships
+:nextsect: 10
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+Using an existing dataset, you have learned how to query the graph with both simple and complex patterns, how to control processing during a query, and how to control how results are returned.
+Next, you will learn how to add data to a graph by creating nodes.
+
+At the end of this module, you should be able to write Cypher statements to:
+[square]
+* Create a node.
+* Add and remove node labels.
+* Add and remove node properties.
+* Update node properties.
+
+== Creating nodes
+
+Recall that a node is an element of a graph representing a domain entity that has zero or more labels, properties, and relationships to or from other nodes in the graph. 
+
+When you create a node, you can add it to the graph without connecting it to another node.
+In virtually all cases, the nodes that you create in a graph will be connected to other nodes and you will learn about creating these connections (relationships) in the next lesson of this training.
+
+Here is the simplified syntax for creating a node:
+
+[source,cypher]
+----
+CREATE (optionalVariable optionalLabels {optionalProperties})
+----
+
+If you plan on referencing the newly created node, you must provide a variable. Whether you provide labels or properties at node creation time is optional. In most cases, you will want to provide some label and property values for a node when created. This will enable you to later retrieve the node. Provided you have a reference to the node (for example, using a `MATCH` clause), you can always add, update, or remove labels and properties at a later time.
+
+Here are some examples of creating a single node in Cypher:
+
+=== Example #1
+Add a node to the graph of type _Movie_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the label _Movie_ can also be retrieved which will contain this node:
+[source,cypher]
+----
+CREATE (:Movie {title: 'Batman Begins'})
+----
+=== Example #2
+Add a node with two labels to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node:
+[source,cypher]
+----
+CREATE (:Movie:Action {title: 'Batman Begins'})
+----
+
+=== Example #3
+Add a node to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. The variable _m_ can be used for later processing after the `CREATE` clause:
+[source,cypher]
+----
+CREATE (m:Movie:Action {title: 'Batman Begins'})
+----
+
+=== Example #4
+Add a node to the graph of types_Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. Here we return the title of the node:
+[source,cypher]
+----
+CREATE (m:Movie:Action {title: ' Batman Begins'})
+RETURN m.title
+----
+
+Here is what you see in Neo4j Browser when you create a node for the movie, _Batman Begins_ where we use the variable, _m_ to return its _title_ property value:
+
+[.thumb]
+image::{imagedir}/CreateBatmanBegins.png[CreateBatmanBegins,width=600]
+
+Here is the node when we retrieve it. It is the only node in the graph with both a label of _Action_ so to retrieve it from the graph is straightforward where we only specify the node labels.
+
+[.thumb]
+image::{imagedir}/RetrieveBatmanBegins.png[RetrieveBatmanBegins,width=600]
+
+When the graph engine creates a node, it automatically assigns a read-only, unique ID to the node.  
+Here we see that the _id_ of the node is _171_. This is not a property of a node, but rather an internal value.
+
+After you have created a node, you can add more properties or labels to it and most importantly, connect it to another node.
+
+== Creating multiple nodes
+
+You can create multiple nodes by simply separating the nodes specified with commas, or by specifying multiple `CREATE` statements.
+
+Here is an example, where we create some _Person_ nodes that will represent some of the people associated with the movie _Batman Begins_: 
+
+[source,cypher]
+----
+CREATE 
+(:Person {name: 'Michael Caine', born: 1933}),
+(:Person {name: 'Liam Neeson', born: 1952}),
+(:Person {name: 'Katie Holmes', born: 1978}),
+(:Person {name: 'Benjamin Melniker', born: 1913})
+----
+
+Here is the result of running this Cypher statement:
+
+[.thumb]
+image::{imagedir}/CreateMultiplePersonNodes.png[CreateMultiplePersonNodes,width=600]
+
+[NOTE]
+The graph engine will create a node with the same properties of a node that already exists. You can prevent this from happening in one of two ways:
+// force line break
+{nbsp} + 
+1. You can use `MERGE` rather than `CREATE` when creating the node.
+// force line break
+{nbsp} + 
+2. You can add constraints to your graph. 
+
+You will learn about merging data later in this course. Constraints are configured globally for a graph and are also covered later in this course.
+
+== Adding labels to a node
+
+You may not know ahead of time what label or labels you want for a node when it is created. You add labels to a node using the `SET` clause.
+
+Here is the simplified syntax for adding labels to a node:
+
+[source,cypher]
+----
+SET x:Label         // adding one label to node referenced by the variable x
+----
+
+[source,cypher]
+----
+SET x:Label1:Label2	// adding two labels to node referenced by the variable x
+----
+
+If you attempt to add a label to a node for which the label already exists, the `SET` processing is ignored.
+
+Here is an example where we add the _Fantasy_ label to the node that has a labels, _Movie_ and _Action_:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Batman Begins'
+SET m:Fantasy
+RETURN labels(m)
+----
+
+Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:
+
+[.thumb]
+image::{imagedir}/SetFantasyLabel.png[SetFantasyLabel,width=700]
+
+Notice here that we call the built-in function, `labels()` that returns the set of labels for the node.
+
+== Removing labels from a node
+
+Perhaps your data model has changed or the underlying data for a node has changed so that the label for a node is no longer useful or valid. 
+
+Here is the simplified syntax for removing a label from a node:
+[source,cypher]
+----
+REMOVE x:Label	  // remove the label from the node referenced by the variable x
+----
+
+Here is the simplified syntax for removing multiple labels from a node:
+[source,cypher]
+----
+REMOVE x:Label1, x:Label2	  // remove the two labels from the node referenced by the variable x
+----
+If you attempt to remove a label from a node for which the label does not exist, the `SET` processing is ignored.
+
+Here is an example where we remove the _Action_  and _Fantasy_ labels from the node that has the label, _Action_:
+
+[source,cypher]
+----
+MATCH (m:Action)
+REMOVE m:Action, m:Fantasy
+RETURN labels(m)
+----
+
+Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:
+
+[.thumb]
+image::{imagedir}/RemoveActionLabel.png[RemoveActionLabel,width=700]
+
+== Adding properties to a node
+
+After you have created a node and have a reference to the node, you can add properties to the node, again using the `SET` keyword. 
+
+Here are simplified syntax examples for adding properties to a node referenced by the variable x:
+
+[source,cypher]
+----
+SET x.propertyName = value
+----
+
+[source,cypher]
+----
+SET x.propertyName1 = value1	, x.propertyName2 = value2 
+----
+
+[source,cypher]
+----
+SET x = {propertyName1: value1, propertyName2: value2}
+----
+
+[source,cypher]
+----
+SET x += {propertyName1: value1, propertyName2: value2}
+----
+
+If the property does not exist, it is added to the node. If the property exists, its value is updated. If the value specified is `null`, the property is removed. 
+
+Note that the type of data for a property is not enforced.  
+That is, you can assign a string value to a property that was once a numeric value and visa versa.
+
+When specify the JSON-style object for assignment (using `=`) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify `+=` when assigning to a property, the value at _valueX_ is updated if the _propertyNnameX_ exists for the node. If the _propertyNameX_ does not exist for the node, then the property is added to the node.
+
+Here is an example where we add the properties _released_  and _lengthInMinutes_ to the movie _Batman Begins_:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Batman Begins'
+SET m.released = 2005, m.lengthInMinutes = 140
+RETURN m
+----
+
+Assuming that we have previously created the node for the movie, here is the result of running this Cypher statement:
+
+[.thumb]
+image::{imagedir}/AddReleasedMinutesProperties.png[AddReleasedMinutesProperties,width=800]
+
+Here is another example where we set the property values to the movie node using the JSON-style object containing the property keys and values. Note that [.underline]#all# properties must be included in the object.
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Batman Begins'
+SET  m = {title: 'Batman Begins', 
+          released: 2005, 
+          lengthInMinutes: 140, 
+          videoFormat: 'DVD', 
+          grossMillions: 206.5}
+RETURN m
+----
+
+Here is the result of running this Cypher statement:
+
+[.thumb]
+image::{imagedir}/SetPropertiesObject.png[SetPropertiesObject,width=800]
+
+Note that when you add a property to a node for the first time in the graph, the property key is added to the graph.
+So for example, in the previous example, we added the _videoFormat_ and _grossMillions_ property keys to the graph as they have never been used before for a node in the graph.
+Once a property key is added to the graph, it is [.underline]#never# removed.
+
+[.thumb]
+image::{imagedir}/AllPropertyKeys1.png[AllPropertyKeys1,width=250]
+
+When you examine the property keys in the database (by executing `CALL db.propertyKeys()`, you will see all property keys created for the graph, regardless of whether they are currently used for nodes and relationships.
+
+[.thumb]
+image::{imagedir}/AllPropertyKeys2.png[AllPropertyKeys2,width=700]
+
+In addition to querying the names of all properties, you can also return the properties of a specific node.
+You can retrieve the properties of a node as a Cypher map:
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Batman Begins'
+RETURN properties(m)
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/PropertyKeysBatmanBegins.png[PropertyKeysBatmanBegins,width=700]
+
+Here is an example where we use the JSON-style object to add the _awards_ property to the node and update the _grossMillions_ property:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Batman Begins'
+SET  m += { grossMillions: 300,
+            awards: 66}
+RETURN m
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/AddAndUpdateProperties.png[AddAndUpdateProperties,width=800]
+
+== Removing properties from a node
+
+There are two ways that you can remove a property from a node. One way is to use the REMOVE keyword. The other way is to set the property's value to `null`.
+
+Here are simplified syntax examples for removing properties from a node referenced by the variable x:
+
+[source,cypher]
+----
+REMOVE x.propertyName
+----
+
+[source,cypher]
+----
+SET x.propertyName = null
+----
+
+Suppose we determined that no other _Movie_ node in the graph has the properties, _videoFormat_ and _grossMillions_.
+There is no restriction that nodes of the same type must have the same properties.
+However, we have decided that we want to remove these properties from this node.
+Here is example Cypher to remove this property from this _Batman Begins_ node:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Batman Begins'
+SET m.grossMillions = null
+REMOVE m.videoFormat
+RETURN m
+----
+
+Assuming that we have previously created the node for the movie with the these properties, here is the result of running this Cypher statement where we remove each property a different way. One way we remove the property using the `SET` clause to set the property to null. And in another way, we use the `REMOVE` clause.
+
+[.thumb]
+image::{imagedir}/RemoveProperties.png[RemoveProperties,width=800]
+
+=== *Exercise 9: Creating nodes*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play 4.0-intro-neo4j-exercises]
+and follow the instructions for Exercise 9.
+
+
+[#module-6.quiz]
+== Check your understanding
+=== Question 1
+
+What Cypher clauses can you use to create a node? 
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#CREATE#
+- [ ] [.false-answer]#CREATE NODE#
+- [ ] [.required-answer]#MERGE#
+- [ ] [.false-answer]#ADD#
+
+
+=== Question 2
+
+Suppose that you have retrieved a node, _s_ with a property, _color_:
+
+[source,cypher]
+----
+MATCH (s:Shape {location: [20,30]})
+???
+RETURN s
+----
+
+What Cypher clause do you add here to delete the _color_ property from this node?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.false-answer]#DELETE s.color#
+- [ ] [.required-answer]#SET s.color=null#
+- [ ] [.required-answer]#REMOVE s.color#
+- [ ] [.false-answer]#SET s.color=?#
+
+=== Question 3
+
+Suppose you have this _Person_ node in the graph:
+
+{
+  "name": "Joe Cool"
+  "birthYear": 1985
+}
+
+After executing this code:
+
+[source,cypher]
+-----
+MATCH (p:Person)
+WHERE p.name = 'Joe Cool'
+SET  p += { salary: 130000,
+            department: 'Engineering'}
+REMOVE p.birthYear
+RETURN p
+-----
+
+What properties have values for this node?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.required-answer]#name n#
+- [ ] [.false-answer]#birthYear#
+- [ ] [.required-answer]#salary n#
+- [ ] [.required-answer]#department#
+
+== Summary
+
+You should now be able to write Cypher statements to:
+[square]
+
+* Create a node.
+* Add and remove node labels.
+* Add and remove node properties.
+* Update node properties.
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-7/">Continue to Module 7</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part6');
+});
+</script>
+++++
+
+endif::backend-html5[]

@@ -1,0 +1,261 @@
+= Using neo4j-admin for Import
+
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Using APOC for Import
+:currsect: 19
+:nextsecttitle: Using an Application for Import
+:nextsect: 20
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+You have just learned how import data into the graph using Cypher together with APOC.
+APOC provides you with more capabilities for import.
+Another way that you can import data into the graph is with and administrative tool, neo4j-admin.
+Next, you will learn how to use neo4j-admin to create a graph from CSV files.
+
+At the end of this module, you should be able to:
+
+[square]
+* Import data from a set of CSV files using the neo4j-admin tool.
+
+== What is neo4j-admin?
+
+A Neo4j installation includes a *bin* folder that contains some useful utilities that can be used by both developers and administrators.
+These include:
+
+[square]
+* *neo4j*, used for starting, stopping, and checking the status of the Neo4j instance.
+* *cypher-shell*, a command-line version of a Cypher interface that enables you to execute Cypher statements.
+* *admin-tool*, used for a number of administrative activities including creating a database from CSV files.
+
+In this lesson, you will learn how to use the import feature of *neo4j-admin*.
+You should use *neo4j-admin* for import when you have extremely large amounts of data to import, for example greater than 10M nodes.
+
+== Preparing for import
+
+Just as you became familiar with the content of CSV files when you imported them with Cypher, you must do the same with the CSV data you will be importing.
+You must understand how headers relate to the data, what the field separator is, and make sure that the data is property formatted.
+Unlike using Cypher to import the data, you don't have the flexibility to transform the data during the import.
+You must ensure that the data in the CSV files is clean and ready for import.
+
+When using neo4j-admin for import, there are differences from importing with Cypher:
+
+[square]
+* The database to be imported into must not exist as it will be created as part of the import.
+* The header information has additional information used for creating the nodes and relationships.
+* Node CSV files are structured differently from relationship CSV files.
+* All CSV files must use the same field separator.
+* You create the constraints (and indexes) after the import.
+
+== CSV files
+
+The format of the CSV files is important.
+For both nodes and relationships, header information must be associated with the data.
+Header information contains an ID to uniquely identify the record, optional node labels or relationship types, and names for the properties representing the imported data.
+A CSV can have a header row, or you can place the header information in a separate file.
+
+== CSV files for nodes
+
+Here is portion of the *beats.csv* file with embedded header information for loading nodes of type _Beat_:
+
+----
+id:ID(beat-ref),:LABEL
+1132,Beat
+0813,Beat
+0513,Beat
+----
+
+The *beats.csv* records represent data that will be loaded into a node with the label _Beat_.
+The _id_ value is used to create the _id_ property for the node.
+The ID(beat-ref) is used to store a reference to the node that is created so that it can be used later in the import.
+
+Here is an example of the *crimes_header.csv* header file for loading nodes of type _Crime_:
+----
+id:ID(crime-ref),:LABEL,date,description
+----
+
+And here is a portion of the associated *crimes.csv* file for loading nodes of type _Crime_:
+
+----
+8920441,Crime,12/07/2012 07:50:00 AM,AUTOMOBILE
+4730813,Crime,05/09/2006 08:20:00 AM,POCKET-PICKING
+7150780,Crime,09/28/2009 01:00:00 AM,CHILD ABANDONMENT
+4556970,Crime,12/16/2005 08:39:24 PM,POSS: CANNABIS 30GMS OR LESS
+9442492,Crime,12/28/2013 12:15:00 PM,OVER $500
+----
+
+The _id_ value is used to create the _id_ property for the node. The label for the node will be _Crime_.
+The _date_ and _description_ values are used to create the respective properties for each node.
+The ID(crime-ref) is used to store a reference to the node that is created so that it can be used later in the import.
+
+Here is a portion of the *primaryTypes.csv* file for loading these nodes:
+
+----
+id:ID(primarytype-ref)
+ARSON
+OBSCENITY
+ROBBERY
+THEFT
+CRIM SEXUAL ASSAULT
+BURGLARY
+----
+
+The _id_ value is used to create the _id_ property for the node.
+The label to be used for creating the node is not specified in the header or the data so it will need to be specified in our argument to perform the import.
+
+== CSV files for relationships
+
+CSV files for loading relationships contain a row for every relationship where the ID for the starting and ending node is specified, as well as the relationship type.
+
+Here is a portion of the *crimesBeats.csv* file that will be used to create the _:ON_BEAT_ relationships between _Crime_ and _Beat_ nodes:
+
+----
+:START_ID(crime-ref),:END_ID(beat-ref),:TYPE
+6978096,0911,ON_BEAT
+3170923,2511,ON_BEAT
+3073515,1012,ON_BEAT
+8157905,0113,ON_BEAT
+----
+
+When the import tool processes this file, it has already saved references to the _Crime_ and _Beat_ nodes previously created.
+We specify the relationship to be created between the _Crime_ and _Beat_ nodes using the _:TYPE_ column, in this case, _ON_BEAT_.
+
+Here is a portion of a portion of the *crimesPrimaryTypes.csv* file that will be used to create the  relationships between the _Crime_ nodes and the nodes that contain the _CrimeType_ data:
+
+----
+:START_ID(crime-ref),:END_ID(primarytype-ref)
+5221115,NARCOTICS
+4522835,DECEPTIVE PRACTICE
+3432518,BATTERY
+6439993,CRIMINAL TRESPASS
+----
+
+When the import tool processes this file, it has already saved references to the _Crime_ and _PrimaryType_ nodes previously created.
+There is no relationship specified in the data so we need to specify it in our argument when we import the data.
+
+
+The relationship, _:TYPE_ is not specified in this file so it will be specified in the arguments when you load the data from this file.
+
+== Importing the data
+
+After you have created or obtained the CSV files for the data, you import the data.
+The data import creates a database so the database you specify must either be empty or should not exist.
+
+Here is the simplified syntax for creating a database from CSV files:
+
+----
+neo4j-admin import  --database <database-name>
+                    --nodes [<rheader-csv-file-1>,]<csv-file-1>
+					--nodes=<Label>=[<rheader-csv-file-2>,]<csv-file-2>
+					--relationships [<jheader-csv-file-1>,]<join-csv-file-1>
+					--relationships=<REL_TYPE>=[<jheader-csv-file-2>,]<join-csv-file-2>
+					--trim-strings=true
+					> import.out
+----
+
+This simplified syntax shows examples of specifying the Label for a node CSV file as well as a relationship type for a relationship CSV file
+In most cases, you will want to use the _trim-strings_ argument to ensure that leading or trailing spaces are not included in the data imported.
+
+[NOTE]
+You should *not* have a space after the "," when specifying a header file with the CSV file.
+
+You should refer to the documentation for details for using the import tool.
+Note that it is possible to specify regular expressions for the files specified when you import.
+
+Here is the what you will be doing in the next exercise to use the `import` command of `neo4j-admin` to create a database and import CSV files.
+
+image::{imagedir}/ImportCrimes1.png[ImportCrimes1,width=1000,align=center]
+
+==  *Exercise 18: Importing data with the import command of neo4j-admin*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play 4.0-intro-neo4j-exercises]
+and follow the instructions for Exercise 18.
+
+[#module-7.quiz]
+== Check your understanding
+=== Question 1
+
+Before you will import data using neo4j-admin, what is one thing you must do?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.false-answer]#Create the database.#
+- [ ] [.required-answer]#Ensure the database does not exist.#
+- [ ] [.false-answer]#Create the constraints in the database.#
+- [ ] [.false-answer]#Create the indexes in the database.#
+
+=== Question 2
+
+Suppose that part of the import command that you issue to neo4j-admin looks like this:
+
+[source]
+----
+--nodes products_header.csv,products.csv
+----
+
+For this part of the import, where does the import process get information about the node labels?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.false-answer]#The products_header.csv file must have a field, _USE_LABEL_.#
+- [ ] [.required-answer]#The products_header.csv file must have a field, _:LABEL_.#
+- [ ] [.false-answer]#The products.csv file must have the label name in the corresponding _USE_LABEL_ column.#
+- [ ] [.required-answer]#The products.csv file must have the label name in corresponding the _:LABEL_ column.#
+
+=== Question 3
+
+Suppose you want to import data using six node CSV files and eight relationship CSV files.
+How many times must you execute the import process using neo4j-admin?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.required-answer]#1#
+- [ ] [.false-answer]#6#
+- [ ] [.false-answer]#8#
+- [ ] [.false-answer]#14#
+
+== Summary
+
+You should now be able to:
+
+[square]
+* Import data from a set of CSV files using the neo4j-admin tool.
+
+++++
+<a class="next-section medium button" href="../part-8/">Continue to Module 8</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part7');
+});
+</script>
+++++
+
+endif::backend-html5[]

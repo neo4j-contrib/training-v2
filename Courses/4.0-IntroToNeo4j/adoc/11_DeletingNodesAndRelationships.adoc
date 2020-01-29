@@ -1,0 +1,234 @@
+
+= Deleting Nodes and Relationships
+
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Creating Relationships
+:prevsect: 10
+:currsect: 11
+:nextsecttitle: Merging Data
+:nextsect: 12
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+You have just learned how to create nodes, relationships, and properties for them.
+Next, you will learn how to delete nodes and relationships in the graph.
+
+At the end of this module, you should be able to write Cypher statements to:
+[square]
+
+* Delete a node
+* Delete a relationship
+* Delete a node and its relationships
+
+
+== Deleting nodes
+
+Suppose you have created a _Person_ node for Jane Doe:
+
+[source,cypher]
+----
+CREATE (p:Person {name: 'Jane Doe'})
+----
+
+You delete this node as follows:
+
+[source,cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Jane Doe'
+DELETE p
+----
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/DeleteJaneDoe.png[DeleteJaneDoe,width=800]
+
+You can delete a node provided:
+
+. You can obtain a reference to it (typically using `MATCH`)
+. The node has no relationships
+
+So if you accidentally created multiple nodes in the graph, you can retrieve them with a `MATCH` clause and delete them.
+
+== Deleting relationships
+
+In our graph, the Katie Holms node already has an _:ACTED_IN_ relationship with the Batman Begins movie.
+Perhaps we were over zealous with the creation of relationships between nodes.
+For example, what if we had this code where relationships were created:
+
+[source,cypher]
+----
+MATCH (a:Person), (m:Movie)
+WHERE a.name = 'Katie Holmes' AND m.title = 'Batman Begins'
+CREATE (a)-[:WROTE]->(m)
+CREATE (a)-[:DIRECTED]->(m)
+WITH a
+MATCH (a)-[rel]-()
+RETURN type(rel)
+----
+
+Here is the result of executing this code:
+[.thumb]
+image::{imagedir}/TooManyRels.png[TooManyRels,width=800]
+
+We see that there are now three relationships from Katie Holmes and Batman Begins.
+
+Provided you have a reference to a relationship, you can delete it.
+So for example, we can find the relationships that we want to delete and then delete them as follows:
+
+[source,cypher]
+----
+MATCH (a:Person)-[rel:WROTE | DIRECTED]->(m:Movie)
+WHERE a.name = 'Katie Holmes' AND m.title = 'Batman Begins'
+DELETE rel
+RETURN a, m
+----
+
+Here is the result of executing this code:
+[.thumb]
+image::{imagedir}/DeleteRels.png[DeleteRels,width=800]
+
+You can confirm that there is only one relationship associated with the Katie Holmes node as follows:
+
+[source,cypher]
+----
+MATCH (a:Person)-[rel]-()
+WHERE a.name = 'Katie Holmes'
+RETURN count(rel) AS `Number of Katie Holmes relationships:`
+----
+
+Here is the result of executing this code:
+[.thumb]
+image::{imagedir}/KatieRels.png[KatieRels,width=800]
+
+== Deleting nodes and relationships
+
+The most efficient way to delete a node and its corresponding relationships is to specify `DETACH DELETE`.  
+When you specify `DETACH DELETE` for a node, the relationships to and from the node are deleted, then the node is deleted.
+
+If were were to attempt to delete the _Liam Neeson_ node without first deleting its relationships:
+
+[source,cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Liam Neeson'
+DELETE p
+----
+
+We would see this error:
+
+[.thumb]
+image::{imagedir}/LiamNeesonDeleteError.png[LiamNeesonDeleteError,width=800]
+
+Here we delete the _Liam Neeson_ node [underline]#and# its relationships to any other nodes:
+
+[source,cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Liam Neeson'
+DETACH DELETE  p
+----
+
+Here is the result of running this Cypher statement:
+
+[.thumb]
+image::{imagedir}/DeleteLiamNeeson.png[DeleteLiamNeeson,width=600]
+
+And here is what the _Batman Begins_ node and its relationships now look like. There is only one actor, _Michael Caine_ connected to the movie.
+
+[.thumb]
+image::{imagedir}/BatmanBeginsRelationships.png[BatmanBeginsRelationships,width=700]
+
+
+=== *Exercise 11: Deleting nodes and relationships*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play 4.0-intro-neo4j-exercises]
+and follow the instructions for Exercise 11.
+
+
+[#module-6.quiz]
+== Check your understanding
+=== Question 1
+
+You can delete a node with the `DELETE` clause.
+What must you do before executing the `DELETE` clause?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#Get a reference to the node.#
+- [ ] [.required-answer]#Ensure the node has no relationships.#
+- [ ] [.false-answer]#Remove all labels from the node.#
+- [ ] [.false-answer]#Remove all properties from the node#
+
+
+=== Question 2
+
+What happens if you attempt to delete a node using `DELETE`, and the node has existing relationships?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#You receive a client error.#
+- [ ] [.false-answer]#The node is deleted.#
+- [ ] [.false-answer]#The node's relationships are deleted.#
+- [ ] [.required-answer]#Nothing is changed in the graph.#
+
+=== Question 3
+
+Suppose you retrieve a node, _n_ in the graph that is related to other nodes. What Cypher clause do you write to delete this node and its relationships in the graph?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#DELETE n#
+- [ ] [.false-answer]#DELETE n WITH RELATIONSHIPS#
+- [ ] [.false-answer]#REMOVE n#
+- [ ] [.required-answer]#DETACH DELETE n#
+
+== Summary
+
+You should now be able to write Cypher statements to:
+[square]
+
+* Delete a node
+* Delete a relationship
+* Delete a node and its relationships
+
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-7/">Continue to Module 7</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part6');
+});
+</script>
+++++
+
+endif::backend-html5[]

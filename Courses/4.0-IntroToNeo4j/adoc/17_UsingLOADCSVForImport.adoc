@@ -1,0 +1,480 @@
+= Using LOAD CSV for Import
+
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Overview of Importing Data into Neo4j
+:currsect: 17
+:nextsecttitle: Using Cypher and APOC for Import
+:nextsect: 18
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+In many applications, you want to populate your graph with comes from data that was written to _.csv_ files or files of other types.
+There are many nuances and best practices for loading data into a graph from files.
+In this lesson, you will be introduced to some simple steps for loading CSV data into your graph with Cypher.
+
+At the end of this module, you should be able to:
+
+[square]
+* Describe the steps for importing data with Cypher
+* Prepare the graph and data for import:
+** Inspect data.
+** Determine if data needs to be transformed.
+** Determine the size of the data that will be imported.
+** Create the Constraints in the graph.
+* Import the data with `LOAD CSV`
+* Create indexes for newly-loaded data.
+
+
+
+== Loading data with Cypher
+
+In Cypher, you can:
+
+* Load data from a URL (http(s) or file).
+* Process data as a stream of records.
+* Create or update the graph with the data being loaded.
+* Use transactions during the load.
+* Transform and convert values from the load stream.
+* Load up to 10M nodes and relationships.
+
+== Steps for loading data with Cypher
+
+CSV import is commonly used to import data into a graph.
+If you want to import data from CSV, you will need to first develop a model that describes how data from your CSV maps to data in your graph.
+
+Assuming that you have an agreed-upon data model, here are the basic steps you should follow for importing using Cypher:
+
+. Determine how the CSV file will be structured.
+. Determine whether you will use normalized or denormalized data.
+. Ensure IDs to be used in the data are unique.
+. Ensure data in CSV files is "clean".
+. Execute Cypher code to inspect the data.
+. Determine if data needs to be transformed.
+. Ensure constraints are created in the graph.
+. Determine the size of the data to be loaded.
+. Execute Cypher code to load the data.
+. Add indexes to the graph.
+
+== CSV file structure
+
+A CSV file represents rows of a relational table.
+When CSV files are created from your relational database, you must determine:
+
+[square]
+* Whether the CSV file will have header information, describing the names of the fields.
+* What the delimeter will be for the fields in each row.
+
+Including headers in the CSV file reduces syncing issues, but if the size of the CSV files is extremely large, it is sometimes better to separate the headers from the data, especially if multiple files will be split to use the same set of headers.
+
+Here are examples of CSV files with and without headers:
+
+[.thumb]
+image::{imagedir}/WithWithoutHeaders.png[WithWithoutHeaders,width=900]
+
+In these examples, the comma (,) is the field terminator.
+This is the default that Cypher uses.
+If you want to use a different field terminator, you must specify the `FIELDTERMINATOR` clause.
+
+== Normalized or denormalized data
+
+Data normalization is common in relational models.
+This enables you to have CSV files that correspond to a relational table where an ID is used to identify the relationships.
+
+Here is an example where we have normalized data for people, roles, and movies:
+
+[.thumb]
+image::{imagedir}/NormalizedData.png[NormalizedData,width=900]
+
+Notice that the *people.csv* file has a unique ID for every person and the *movies1.csv* file has a unique ID for every movie.
+The *roles.csv* file is used to relate a person to a movie and provide the characters.
+This is the data that could be used to create the _:ACTED_IN_ relationship that you have see in the Movie graph.
+
+Here is an example where we have denormalized data for the same type of data:
+
+[.thumb]
+image::{imagedir}/DenormalizedData.png[DenormalizedData,width=900]
+
+With denormalized data, the data is represented by multiple rows corresponding to the same entity.
+For example, The movie data (including the ID) is repeated in multiple rows, but for a particular movie, a different actor is represented.
+
+Most CSV files generated from relational databases are normalized which is what we cover in this course.
+
+== IDs must be unique
+
+When you load data from CSV files, you rely heavily upon the ID's specified in the file.
+In most cases, the ID can be used as a unique property for each node.
+If the IDs in your CSV file are not unique for the same entity (node), you will have problems when you load the data and try to create relationships between existing nodes.
+
+[.thumb]
+image::{imagedir}/UniqueIDs.png[UniqueIDs,width=900]
+
+== Is the data clean?
+
+Before you load CSV data, you should understand how delimeters, quotes, and separators are used for each row.
+
+Here are some things you should check:
+
+[square]
+
+* Check for headers that do not match the data.
+* Are quotes used correctly in the fields?
+** If string contains single quotes, element must be double-quoted.
+** If string contains double quotes, they must be escaped.
+** If an element has no value will an empty string be used or nothing?
+* Are UTF-8 prefixes used (for example \uc)?
+* Do some fields have trailing spaces?
+* Do the fields contain binary zeros?
+* Understand how lists are formed (default is to use colon(:) as the separator.
+* Is comma(,) the delimiter?
+* Any obvious typos?
+
+=== Execute Cypher code to inspect the data at a URL
+
+Before you load the data into your graph, you use Cypher to inspect the data.
+
+With `LOAD CSV`, you can access CSV data at a URL or stored locally.
+
+Here is an example where we can view the first 10 lines of the file at the URL where the headers are included in the CSV file and the default delimiter is the comma character:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/v4.0-intro-neo4j/people.csv'
+AS line
+RETURN line LIMIT 10
+----
+
+[.thumb]
+image::{imagedir}/InspectPeopleCSV.png[InspectPeopleCSV,width=900]
+
+What is shown here is how the data, by default, will be interpreted during the load. For example, notice that the birth year will be interpreted as a string.
+
+=== Execute Cypher code to inspect the data stored locally
+
+You can only load local data into a graph with `LOAD CSV` if the file has been placed in the *import* folder for the database:
+
+[square]
+* Can do this if using Neo4j Desktop which runs a local database.
+* Cannot do this for a cloud-based instance such as a Neo4j Sandbox or Neo4j Aura.
+
+To determine where the *import* folder is for a local database in Neo4j Desktop, you simply go to the *Manage* pane for the database and then select *Open Folder->Import*.
+Here is an example where we can view the first 10 lines of the local file that has been placed in the *import* folder for the database:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'file:///people.csv'
+AS line
+RETURN line LIMIT 10
+----
+
+[.thumb]
+image::{imagedir}/InspectPeopleCSV2.png[InspectPeopleCSV2,width=900]
+
+== Determine if data needs transformation
+
+The data in the rows of a CSV file may not exactly match how you want field values to be placed into node or relationship property values.
+When you inspect a subset of the data, you should be able to determine what transformations will be required.
+As you have seen, data is by default interpreted as a string or null.
+If you want numeric data, then you must transform it with functions such as:
+
+[square]
+* toInteger()
+* toFloat()
+
+For example, we want to transform these field values to numbers as shown here:
+
+[.thumb]
+image::{imagedir}/TransformMovieData1.png[TransformMovieData1,width=900]
+
+You can preview the transformations you will make by returning their values:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'file:///movies1.csv'
+AS line
+RETURN toFloat(line.avgVote), line.genres, toInteger(line.movieId), line.title, toInteger(line.releaseYear) LIMIT 10
+----
+
+[.thumb]
+image::{imagedir}/TransformMovieData2.png[TransformMovieData2,width=900]
+
+In additions, lists in a field may need to be transformed to usable lists in Cypher.
+As you can see in the data, the _genres_ field contains data separated by a colon (:).
+In fact, the _genres_ field is a string and we want to turn it into a Cypher list of string values.
+To do this, we use the `split()`  and `coalesce()' functions as shown here:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'file:///movies1.csv'
+AS line
+RETURN toFloat(line.avgVote), split(coalesce(line.genres,""), ":"), toInteger(line.movieId), line.title, toInteger(line.releaseYear) LIMIT 10
+----
+
+If all fields have data, then `split()` alone will work. If, however, some fields may have no values and you want an empty list created for the property, then you should use `split()` together with `coalesce()`.
+[.thumb]
+image::{imagedir}/TransformMovieData3.png[TransformMovieData3,width=900]
+
+== Creating a new database for this course
+
+Thus far in this course, you have been working with a single database, referred to as the _neo4j-default_ database.
+Assuming that you want to continue using this database as you explore the Movie graph, you will create a new database that will be served by the same database server.
+Note that hosting multiple databases in a single database server is new in release 4.0 of Neo4j.
+
+Here are the steps to create a new database, _Movies_
+
+. In Neo4j Browser, select the system database.
+
+[.thumb]
+image::{imagedir}/CreateMoviesDB1.png[CreateMoviesDB1,width=900]
+
+[start=2]
+. Create the new movies database in the query edit pane with `CREATE DATABASE Movies`
+
+[.thumb]
+image::{imagedir}/CreateMoviesDB2.png[CreateMoviesDB2,width=900]
+
+[start=3]
+. Enter the browser command `:dbs` in the query edit pane to see the list of existing databases.
+
+[.thumb]
+image::{imagedir}/CreateMoviesDB3.png[CreateMoviesDB3,width=900]
+
+[start=4]
+. Enter the browser commend `:use movies` to switch to this newly created, empty database.
+
+[.thumb]
+image::{imagedir}/CreateMoviesDB4.png[CreateMoviesDB4,width=900]
+
+Once you have selected the _movies_ database, all Cypher statements will execute against this new database.
+You can switch between databases simply by selected them im the left Database pane.
+
+== Create the necessary constraints before loading the data
+
+As part of your graph data modeling process, you should have agreed upon properties that will unique identify a node.
+Especially if you have a large amount of data to import, you want to ensure that the data will not introduce duplicate data in the graph.
+To do this, you should create constraints for the data.
+
+For this movie data in the CSV files, we want to ensure that a Movie node is unique as well as a Person node.
+The IDs in the CSV files ideally are unique, but you should create the constraints in the graph to ensure that this will be true when data is imported.
+
+Here is the code for creating the constraints in the graph where we will import data to _Movie_ and _Person_ nodes where the _id_ property will be unique.
+Note that the _id_ property is different from the internal _id_ of a node that is created automatically by the graph engine.
+
+[source,cypher]
+----
+CREATE CONSTRAINT UniqueMovieIdConstraint ON (m:Movie) ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE
+----
+
+After running this code, you will see the constraints defined for the movies graph:
+
+[.thumb]
+image::{imagedir}/CreateMoviesConstraints.png[CreateMoviesConstraints,width=900]
+
+If your load process uses `MERGE`, rather than `CREATE` to create nodes, the load will be VERY slow if constraints are not defined first because `MERGE` needs to determine if the node already exists.
+The uniqueness constraint is itself an index which makes a lookup fast.
+
+Indexes, however, will slow down the creation of data due to added writes, but are necessary if you want transactionally consistent data and indexes in the database.
+You should create additional indexes in the graph after the data is loaded.
+
+== Determine the size of the data to be loaded
+
+It is important for you to understand how much data will be loaded.
+By default LOAD CSV can handle the loading of up to 100K lines/rows.
+
+You can query the size of your CSV files as follows:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'file:///people.csv'
+AS line
+RETURN count(line)
+----
+
+[.thumb]
+image::{imagedir}/SizeOfPeople.png[SizeOfPeople,width=900]
+
+Here we see that the largest file, *people.csv* has fewer that 100K rows so it can easily be loaded with `LOAD CSV`.
+
+== Loading a large CSV file
+
+If the number of rows exceeds 100K, then you have two options.
+
+The first option is to use `USING PERIODIC COMMIT LOAD CSV`.
+Placing `USING PERIODIC COMMIT` enables the load to commit its transactions every 1000 rows which will enable the entire import of a large file to succeed.
+However, there are certain type of Cypher constructs that will prevent `USING PERIODIC COMMIT` to be ignored.
+Cypher statements that use _eager operators_ will prevent you from using `USING PERIODIC COMMIT`.
+Some examples of these eager operators include:
+
+[square]
+* collect()
+* count()
+* ORDER BY
+* DISTINCT
+
+If you cannot use `USING PERIODIC COMMIT` because your Cypher include some eager operators, then you can use APOC to import the data, which you will learn about in the the next lesson.
+
+=== Importing normalized data using `LOAD CSV`
+
+Now you are ready to import the data into your graph.
+
+In this example, we import the movie data:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS FROM
+  'https://data.neo4j.com/v4.0-intro-neo4j/movie1s.csv' as row
+MERGE (m:Movie {id:toInteger(row.movieId)})
+    ON CREATE SET
+          m.title = row.title,
+          m.avgVote = toFloat(row.avgVote),
+          m.releaseYear = toInteger(row.releaseYear),
+          m.genres = split(row.genres,":")
+----
+
+With this code, each line is read as _row_.
+Then we use the row field names (from the header row) to assign values to a new Movie node.
+We use built-in functions to transform the string data in the row into values that are assigned to the properties of the _Movie_ node.
+`MERGE` is the best way to create this code because we have our uniqueness constraint defined for the _id_ property of the Movie node.
+We use `split()` to set the value for the genres property which will be a list.
+
+Here is the result:
+
+[.thumb]
+image::{imagedir}/LoadMovies1.png[LoadMovies1,width=900]
+
+For normalized data, you load all CSV files that contain the data that will be used to create nodes. In our example, this includes the *people.csv* file.
+
+Then you load data that will create the relationships between the _Movie_ and _Person_ nodes.
+
+Both the *directors.csv* and *roles.csv* files contain information about how Movie data is related to Person data.
+
+In this example, we import the data to create the relationships between existing _Movie_ and _Person_ nodes:
+
+[source,cypher]
+----
+LOAD CSV WITH HEADERS FROM https://data.neo4j.com/v4.0-intro-neo4j/directors.csv' AS row
+MATCH (movie:Movie {id:toInteger(row.movieId)})
+MATCH (person:Person {id: toInteger(row.personId)})
+MERGE (person)-[:DIRECTED]->(movie)
+ON CREATE SET person:Director
+----
+
+From each row that is read, we find the _Movie_ node and the _Person_ node.
+Then we create the _:DIRECTED_ relationship between them.
+An finally, we add the _Director_ label to the node.
+
+== Add indexes
+
+The final step after all nodes and relationships have been created in the graph is to create additional indexes.
+These indexes are based upon the most important queries for the graph.
+
+So for example:
+
+[source,cypher]
+----
+// Do this only after ALL data has been imported
+CREATE INDEX MovieTitleIndex ON (m:Movie) FOR (m.title);
+CREATE INDEX PersonNameIndex ON (p:Person) FOR (pname)
+----
+
+These indexes will make lookup of a _Movie_ by _title_ as well as lookup of a _Person_ by _name_ fast.
+These indexes are not unique indexes.
+
+== *Exercise 16: Using LOAD CSV for import*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play 4.0-intro-neo4j-exercises]
+and follow the instructions for Exercise 16.
+
+[#module-7.quiz]
+== Check your understanding
+=== Question 1
+
+When you execute `LOAD CSV` what unit of data is read from the data source?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.false-answer]#A field.#
+- [ ] [.false-answer]#All field values for a single field.#
+- [ ] [.required-answer]#A row.#
+- [ ] [.false-answer]#A table.#
+
+
+=== Question 2
+
+What should you add to the graph before you import using LOAD CSV?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.false-answer]#Indexes for all important queries.#
+- [ ] [.false-answer]#Schema containing the names node labels that will be created.#
+- [ ] [.false-answer]#Schema containing the types that will be assigned to properties during the load.#
+- [ ] [.required-answer]#Uniqueness constraints.#
+
+=== Question 3
+
+In general, what is the maximum rows you can process using LOAD CSV?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#1K#
+- [ ] [.false-answer]#10K#
+- [ ] [.false-answer]#1M#
+- [ ] [.required-answer]#100K0#
+
+== Summary
+
+You should now be able to:
+
+[square]
+* Describe the steps for importing data with Cypher
+* Prepare the graph and data for import:
+** Inspect data.
+** Determine if data needs to be transformed.
+** Determine the size of the data that will be imported.
+** Create the Constraints in the graph.
+* Import the data with `LOAD CSV`
+* Create indexes for newly-loaded data.
+
+++++
+<a class="next-section medium button" href="../part-8/">Continue to Module 8</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part7');
+});
+</script>
+++++
+
+endif::backend-html5[]

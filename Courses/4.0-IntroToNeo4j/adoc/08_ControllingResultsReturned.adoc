@@ -1,0 +1,342 @@
+
+= Controlling Results Returned
+
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Working with Patterns in Queries
+:prevsect: 7
+:currsect: 8
+:nextsecttitle: Creating Nodes
+:nextsect: 9
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+You have learned how to query the database using both simple and complex patterns and you have learned how to control query processing by chaining queries using `WITH`.
+In this module, we focus on controlling how results are processed in the RETURN  and WITH clauses.
+
+At the end of this module, you should be able to write Cypher statements to:
+[square]
+* Eliminate duplication in results.
+* Order results.
+* Limit the number of results.
+
+
+
+== Eliminating duplication
+
+You have seen a number of query results where there is duplication in the results returned.  
+In most cases, you want to eliminate duplicated results. 
+You do so by using the `DISTINCT` keyword.
+
+Here is a simple example where duplicate data is returned. 
+_Tom Hanks_ both acted in and directed the movie, _That Thing You Do_, so the movie is returned twice in the result stream:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'
+RETURN m.title, m.released
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Duplication.png[Duplication,width=800]
+
+We can eliminate the duplication by specifying the `DISTINCT` keyword as follows:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'
+RETURN DISTINCT m.title, m.released
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/NoDuplication.png[NoDuplication,width=800]
+
+Using `DISTINCT` in the `RETURN` clause here means that rows with identical values will not be returned.
+
+You can also specify `DISTINCT` when collecting elements for a list.
+Here is another query where we collect the names of people who acted in, directed, or wrote movies released in 2003.
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN | DIRECTED | WROTE]->(m:Movie)
+WHERE m.released = 2003
+RETURN m.title, collect(p.name) AS credits
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/DuplicationInCollection.png[DuplicationInCollection,width=800]
+
+We can eliminate the duplication by specifying the `DISTINCT` keyword when collecting the results:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN | DIRECTED | WROTE]->(m:Movie)
+WHERE m.released = 2003
+RETURN m.title, collect(DISTINCT p.name) AS credits
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/NoDuplicationInCollection.png[NoDuplicationInCollection,width=800]
+
+
+=== Using WITH and DISTINCT to eliminate duplication
+
+Another way that you can avoid duplication is to use `WITH` and `DISTINCT` together as follows:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'
+WITH DISTINCT m
+RETURN m.released, m.title
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/NoDuplication2.png[NoDuplication2,width=800]
+
+== Ordering results
+
+If you want the results to be sorted, you specify the expression to use for the sort using the `ORDER BY` keyword and whether you want the order to be descending using the `DESC` keyword. 
+Ascending order is the default.
+
+In this example, we specify that the release date of the movies for _Tom Hanks_ will be returned in descending order.
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'OR p.name = 'Keanu Reeves'
+RETURN DISTINCT m.title, m.released ORDER BY m.released DESC
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Ordering.png[Ordering,width=800]
+
+Note that you can provide multiple sort expressions and the result will be sorted in that order.
+Here we want the rows to be sorted by the release date, descending, and then by title:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:DIRECTED | ACTED_IN]->(m:Movie)
+WHERE p.name = 'Tom Hanks'OR p.name = 'Keanu Reeves'
+RETURN DISTINCT m.title, m.released ORDER BY m.released DESC , m.title
+----
+
+[.thumb]
+image::{imagedir}/Ordering2.png[Ordering2,width=800]
+
+There is no limit to the number of properties you can order by.
+
+== Limiting the number of results
+
+Although you can filter queries to reduce the number of results returned, you may also want to limit the number of results returned.
+This is useful if you have very large result sets and you only need to see the beginning or end of a set of ordered results. 
+You can use the `LIMIT` keyword to specify the number of results returned.
+
+Suppose you want to see the titles of the ten most recently released movies.
+You could do so as follows where you limit the number of results using the `LIMIT` keyword as follows:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+RETURN m.title as title, m.released as year ORDER BY m.released DESC LIMIT 10
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Limit.png[Limit,width=600]
+
+Furthermore, you can use the `LIMIT` keyword with the `WITH` clause to limit intermediate results.
+A best practice is to limit the number of rows processed before they are collected.
+Here is an example where we want to limit the number of actors collected in this query by the number 6:
+
+[source,cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
+WITH m, p LIMIT 6
+RETURN collect(p.name), m.title
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Limit2.png[Limit2,width=600]
+
+At most 6 nodes that are in the pattern of the `MATCH` clause are retrieved. Two rows are returned.
+Notice that the Keanu Reeves value is returned in the second row because that node represents the upper limit of the number of _Person_ nodes retrieved in this query pattern.
+
+Here is another example of limiting results.
+Suppose we want to retrieve five movies and for each movie, return the :ACTED_IN path to at most two actors.
+Here is one way to perform this query:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WITH m LIMIT 5
+MATCH path = (m)<-[:ACTED_IN]-(:Person)
+WITH m, collect (path) AS paths
+RETURN m, paths[0..2]
+----
+
+[.thumb]
+image::{imagedir}/Limit2.png[Limit3,width=600]
+
+Note that is display in Neo4j Browser is with *Connect result nodes* unchecked.
+
+==== Alternative to `LIMIT`
+
+Another way that you can limit results is to collect or count them during the query and use the count to end the query processing.
+In this example, we count the number of movies during the query and we return the results once we have reached 5 movies.
+That is, the question we are asking is, "What actors acted in exactly five movies?".
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH a, count(*) AS numMovies, collect(m.title) AS movies
+WHERE numMovies = 5
+RETURN a.name, numMovies, movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/Count5Movies.png[Count5Movies,width=900]
+
+An alternative to the above code is:
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH a, collect(m.title) AS movies
+WHERE size(movies) = 5
+RETURN a.name, movies
+----
+
+== *Exercise 8: Controlling results returned*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play 4.0-intro-neo4j-exercises]
+and follow the instructions for Exercise 8.
+
+
+[#module-5.quiz]
+== Check your understanding
+=== Question 1
+
+This code returns the titles of all movies that have been reviewed:
+
+[source,cypher]
+----
+MATCH ()-[:REVIEWED]->(m:Movie)
+RETURN  m.title
+----
+
+Multiple people can review a movie. How can you change this code so that a movie title will only be returned once?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#MATCH ()-[:REVIEWED]->(m:Movie)
+                         RETURN  DISTINCT m.title#
+- [ ] [.false-answer]#MATCH ()-[:REVIEWED]->(m:Movie)
+                      RETURN  UNIQUE m.title#
+- [ ] [.required-answer]#MATCH ()-[:REVIEWED]->(m:Movie)
+                         WITH DISTINCT m
+                         RETURN  m.title#
+- [ ] [.false-answer]#MATCH ()-[:REVIEWED]->(m:Movie)
+                      WITH UNIQUE m
+                      RETURN  m.title#
+
+
+=== Question 2
+
+How many property values can you order in the returned result?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.false-answer]#One#
+- [ ] [.required-answer]#As many as you need to#
+- [ ] [.false-answer]#Two#
+- [ ] [.false-answer]#Three#
+
+ifdef::backend-pdf[]
+// force page break
+<<<
+endif::backend-pdf[]
+
+=== Question 3
+
+We want to retrieve the names of the five oldest actors in our dataset. What code will do this?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#MATCH (p:Person)-[:ACTED_IN]->()
+                      WITH p LIMIT 5
+                      RETURN DISTINCT p.name, p.born ORDER BY p.born#
+- [ ] [.required-answer]#MATCH (p:Person)
+                         WITH p LIMIT 5
+                         RETURN DISTINCT p.name, p.born ORDER BY p.born#
+- [ ] [.required-answer]#MATCH (p:Person)-[:ACTED_IN]->()
+                         RETURN DISTINCT p.name, p.born ORDER BY p.born LIMIT 5#
+- [ ] [.required-answer]#MATCH (p:Person)
+                         RETURN DISTINCT p.name, p.born ORDER BY p.born LIMIT 5#
+
+== Summary
+
+You should now be able to write Cypher statements to:
+[square]
+* Eliminate duplication in results returned.
+* Order results returned.
+* Limit the number of results returned.
+
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part5');
+});
+</script>
+++++
+
+endif::backend-html5[]

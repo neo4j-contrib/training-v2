@@ -1,0 +1,345 @@
+= Defining Constraints for your Data
+
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Merging Data
+:prevsect: 12
+:currsect: 13
+:nextsecttitle: Creating Indexes
+:nextsect: 14
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+You have learned how to query the graph and create nodes and relationships in the graph.
+In most graphs, you will want to provide uniqueness for some properties of the nodes in the graph.
+In addition, you may want to enforce the creation of mandatory properties for selected nodes.
+These are called contraints in a Neo4j graph data model and are typically defined during the graph data modeling phase of your application developement.
+
+At the end of this module, you should be able to:
+[square]
+
+* Create a uniqueness constraint for a node property in the graph.
+* Create an existence constraint for a node property in the graph.
+* Create a uniqueness constraint for a set of node properties in the graph.
+* Manage constraints in the graph.
+
+== Uniqueness and existence in the graph
+
+You have seen that it is possible to create duplicate nodes in the graph.
+In most graphs, you will want to prevent duplication of data.  Unfortunately, you cannot  prevent duplication by checking the existence of the exact node (with properties) as this type of test is not cluster or multi-thread safe as no locks are used. This is one reason why `MERGE` is preferred over `CREATE`, because `MERGE` does use locks.
+
+In addition, you have learned that a node or relationship need not have a particular property. What if you want to ensure that all nodes or relationships of a specific type (label) [.underline]#must# set values for certain properties? 
+
+A third scenario with graph data is where you want to ensure that a set of property values for nodes of the same type, have a unique value. This is the same thing as a primary key in a relational database.
+
+All of these scenarios are common in many graphs. In Neo4j, you can use Cypher to:
+
+* Add a _uniqueness constraint_ that ensures that a value for a property is unique for all nodes of that type.
+* Add an _existence constraint_ that ensures that when a node or relationship is created or modified, it must have certain properties set.
+* Add a _node key_ that ensures that a set of values for properties of a node of a given type is unique.
+
+Constraints and node keys that enforce uniqueness are related to indexes which you will learn about later in this course.
+
+[NOTE]
+Existence constraints and node keys are only available in Enterprise Edition of Neo4j.
+
+== Ensuring that a property value for a node is unique
+
+You add a uniqueness constraint to the graph by creating a constraint that asserts that a particular node property is unique in the graph for a particular type of node.
+
+Here is an example for ensuring that the _title_ for a node of type _Movie_ is unique:
+
+[source,cypher]
+----
+CREATE CONSTRAINT UniqueMovieTitleConstraint ON (m:Movie) ASSERT m.title IS UNIQUE
+----
+
+Although the name of the constraint, _UniqueMovieTitleConstraint_ is optional, Neo4j recommends that you name it.
+Otherwise, it will be given an auto-generated name.
+This Cypher statement will fail if the graph already has multiple _Movie_ nodes with the same value for the _title_ property. Note that you can create a uniqueness constraint, even if some _Movie_ nodes do [.underline]#not# have a _title_ property.
+
+Here is the result of running this Cypher statement on the _Movie_ graph:
+
+[.thumb]
+image::{imagedir}/AddTitleConstraint.png[AddTitleConstraint,width=500]
+
+And if we attempt to create a _Movie_ with the _title_, _The Matrix_, the Cypher statement will fail because the graph already has a movie with that title:
+
+[source,cypher]
+----
+CREATE (:Movie {title: 'The Matrix'})
+----
+
+Here is the result of running this Cypher statement on the _Movie_ graph:
+
+[.thumb]
+image::{imagedir}/UniquenessFailed.png[UniquenessFailed,width=700]
+
+In addition, if you attempt to modify the value of a property where the uniqueness assertion fails, the property will not be updated.
+
+[source,cypher]
+----
+MATCH (m:Movie {title: 'The Matrix'})
+SET m.title = 'Top Gun'
+----
+
+Here is the result of running this Cypher statement on the _Movie_ graph:
+
+[.thumb]
+image::{imagedir}/UniquenessFailed2.png[UniquenessFailed2,width=700]
+
+== Ensuring that properties exist
+
+Having uniqueness for a property value is only useful in the graph if the property exists.
+In most cases, you will want your graph to also enforce the existence of properties, not only for those node properties that require uniqueness, but for other nodes and relationships where you require a property to be set. Uniqueness constraints can only be created for nodes, but existence constraints can be created for node or relationship properties.
+
+You add an existence constraint to the graph by creating a constraint that asserts that a particular type of node or relationship property must exist in the graph when a node or relationship of that type is created or updated.
+
+Recall that in the _Movie_ graph, the movie, _Something's Gotta Give_ has no _tagline_ property:
+
+[source,cypher]
+----
+MATCH (m:Movie)
+WHERE m.title CONTAINS 'Gotta'
+RETURN m
+----
+
+[.thumb]
+image::{imagedir}/NoTaglineSomething.png[NoTaglineSomething,width=600]
+
+Here is an example for adding the existence constraint to the _tagline_ property of all _Movie_ nodes in the graph:
+
+[source,cypher]
+----
+CREATE CONSTRAINT ExistsMovieTagline ON (m:Movie) ASSERT exists(m.tagline)
+----
+
+Here is the result of running this Cypher statement:
+
+[.thumb]
+image::{imagedir}/ConstraintExistTaglineFailure.png[ConstraintExistTaglineFailure,width=800]
+
+The constraint cannot be added to the graph because a node has been detected that violates the constraint.
+
+We know that in the _Movie_ graph, all _:REVIEWED_ relationships currently have a property, _rating_. We can create an existence constraint on that property as follows:
+
+[source,cypher]
+----
+CREATE CONSTRAINT ExistsREVIEWEDRating ON ()-[rel:REVIEWED]-() ASSERT exists(rel.rating)
+----
+
+Notice that when you create the constraint on a relationship, you need not specify the direction of the relationship.
+With the result:
+
+[.thumb]
+image::{imagedir}/CreateRatingExistenceConstraint.png[CreateRatingExistenceConstraint,width=600]
+
+So after creating this constraint, if we attempt to create a _:REVIEWED_ relationship without setting the _rating_ property: 
+[source,cypher]
+----
+MATCH (p:Person), (m:Movie)
+WHERE p.name = 'Jessica Thompson' AND
+	  m.title = 'The Matrix'
+MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]->(m)
+----
+
+We see this error: 
+[.thumb]
+image::{imagedir}/ExistenceConstraintFailed.png[ExistenceConstraintFailed,width=800]
+
+You will also see this error if you attempt to remove a property from a node or relationship where the existence constraint has been created in the graph.
+
+[source,cypher]
+----
+MATCH (p:Person)-[rel:REVIEWED]-(m:Movie)
+WHERE p.name = 'Jessica Thompson'
+REMOVE rel.rating
+----
+
+Here is the result:
+[.thumb]
+image::{imagedir}/ExistenceConstraintFailed2.png[ExistenceConstraintFailed2,width=800]
+
+== Retrieving  constraints defined for the graph
+
+You can query for the set of constraints defined in the graph as follows:
+
+[source,cypher]
+----
+CALL db.constraints()
+----
+
+And here is what is returned from the graph:
+[.thumb]
+image::{imagedir}/call_db_constraints.png[call_db_constraints,width=600]
+
+
+== Dropping constraints
+
+You remove constraints defined for the graph with the `DROP CONSTRAINT` clause.
+
+ifdef::backend-pdf[]
+
+Here we drop the existence constraint named _ExistsREVIEWEDRating_:
+[source,cypher]
+----
+DROP CONSTRAINT ExistsREVIEWEDRating
+----
+
+With the result:
+[.thumb]
+image::{imagedir}/DropConstraint.png[DropConstraint,width=600]
+
+
+== Creating multi-property uniqueness/existence constraint: node key
+
+A node key is used to define the uniqueness and existence constraint for [.underline]#multiple# properties of a node of a certain type.
+A node key is  also used as a composite index in the graph.
+
+Suppose that in our _Movie_ graph, we will not allow a _Person_ node to be created where both the _name_ and _born_ properties are the same. We can create a constraint that will be a node key to ensure that this uniqueness for the set of properties is asserted. 
+
+Here is an example to create this node key:
+[source,cypher]
+----
+CREATE CONSTRAINT UniqueNameBornConstraint ON (p:Person) ASSERT (p.name, p.born) IS NODE KEY
+----
+
+Here is the result of running this Cypher statement on our _Movie_ graph:
+
+[.thumb]
+image::{imagedir}/NodeKeyCreationFailed.png[NodeKeyCreationFailed,width=800]
+
+This attempt to create the constraint failed because there are _Person_ nodes in the graph that do not have the _born_ property defined. 
+
+If we set these properties for all nodes in the graph that do not have _born_ properties with:
+[source,cypher]
+----
+MATCH (p:Person) 
+WHERE NOT exists(p.born)
+SET p.born = 0
+----
+
+With this result:
+[.thumb]
+image::{imagedir}/SetBorn0.png[SetBorn0,width=800]
+
+Then the creation of the node key succeeds:
+[.thumb]
+image::{imagedir}/CreateNodeKey.png[CreateNodeKey,width=700]
+
+Any subsequent attempt to create or modify an existing _Person_ node with _name_ or _born_ values that violate the uniqueness constraint as a node key will fail.
+
+For example, executing this Cypher statement will fail:
+[source,cypher]
+----
+CREATE (:Person {name: 'Jessica Thompson', born: 0})
+----
+
+Here is the result:
+[.thumb]
+image::{imagedir}/CreateDuplicateJessicaFailure.png[CreateDuplicateJessicaFailure,width=800]
+
+If you have defined a node key in the graph that, for example, represents the data in two properties, every node must contain a unique value for the properties.
+Additionally, every node must contain the properties of the node key.
+
+If you attempt to remove a property that is used for a node key:
+
+[source,cypher]
+----
+MATCH (p:Person {name: 'Jessica Thompson', born: 0})
+REMOVE p.born
+----
+
+You will see this error:
+[.thumb]
+image::{imagedir}/CannotRemoveNodeKeyProperty.png[CannotRemoveNodeKeyProperty,width=800]
+
+== *Exercise 13: Defining constraints on your data*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play 4.0-intro-neo4j-exercises]
+and follow the instructions for Exercise 13.
+
+
+[#module-7.quiz]
+== Check your understanding
+=== Question 1
+
+What are some of the constraints you can create for the data in your graph?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.false-answer]#Property for a node with a given label is always a string value.#
+- [ ] [.required-answer]#Property value for a node with a given label is unique.#
+- [ ] [.required-answer]#Property for a node with a given label must exist.#
+- [ ] [.false-answer]#Property value for a relationship is unique.#
+
+
+=== Question 2
+
+What types of uniqueness constraints can you define for a graph?
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#unique values for a property of a node#
+- [ ] [.false-answer]#unique values for a property of a relationship#
+- [ ] [.required-answer]#unique values for a set of properties of a node#
+- [ ] [.false-answer]#unique values for a set of properties of a relationship#
+
+=== Question 3
+
+How many properties can be defined for a NODE KEY constraint?
+
+Select the correct answers.
+[%interactive]
+- [ ] [.false-answer]#0#
+- [ ] [.required-answer]#1#
+- [ ] [.required-answer]#2#
+- [ ] [.required-answer]#unlimited#
+
+== Summary
+
+You should now be able to:
+[square]
+
+* Create a uniqueness constraint for a node property in the graph.
+* Create an existence constraint for a node property in the graph.
+* Create a uniqueness constraint for a set of node properties in the graph.
+* Manage constraints in the graph.
+
+
+++++
+<a class="next-section medium button" href="../part-8/">Continue to Module 8</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part7');
+});
+</script>
+++++
+
+endif::backend-html5[]

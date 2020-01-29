@@ -1,0 +1,273 @@
+
+= Controlling the Query Chain
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 4.0
+:currentyear: 2020
+:doctype: book
+:toc: left
+:toclevels: 3
+:prevsecttitle: Working with Patterns in Queries
+:prevsect: 6
+:currsect: 7
+:nextsecttitle: Controlling Results Returned
+:nextsect: 8
+:experimental:
+:imagedir: ../img
+//:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+ifdef::backend-html5[]
+
+include::scripts.txt[]
+
+endif::backend-html5[]
+
+== About this module
+
+You have learned some of the more common ways to write Cypher code that queries the graph and aggregates results.
+You have learned how to work with different data types in Cypher.
+Next, you will learn how you can use intermediate results in a query to perform additional querying so that you can have a chain of queries  before a result is returned.
+
+At the end of this module, you should be able to write Cypher statements to:
+[square]
+* Perform intermediate processing with `WITH`.
+* Using `WITH` and `UNWIND` for query processing.
+* Perform subqueries with `WITH`.
+* Perform subqueries with `CALL`.
+
+=== Intermediate processing using `WITH`
+
+Here is an example where we return each actor, the number of movies they acted in, and the titles of the movies:
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+RETURN a.name, count(a) AS numMovies, collect(m.title) as movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/WithoutWITH.png[WithoutWITH,width=800]
+
+What if we wanted to further qualify the query so that we only return the actors who have made 2 or 3 movies?
+What we really want to do is test the count of each movie, but the count is an aggregating function so we cannot test it until all nodes have been retrieved.
+One way to to this is with the `WITH` clause in Cypher.
+
+During the execution of a `MATCH` clause, you can specify that you want some intermediate calculations or values that will be used for further processing of the query.
+You use the `WITH` clause to perform intermediate processing that is not possible in a RETURN clause.
+
+Here is an example where we start the query processing by retrieving all actors and their movies. 
+During the query processing, want to only return actors that have 2 or 3 movies.
+All other actors and the aggregated results are filtered out. This type of query is a replacement for SQL's "HAVING" clause.
+The `WITH` clause does the counting and collecting, and the intermediate result is used in the subsequent `WHERE` clause to test.
+
+[source,cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, count(a) AS numMovies, collect(m.title) as movies
+WHERE 1 < numMovies < 4
+RETURN a.name, numMovies, movies
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/ActorsWith2or3Movies.png[ActorsWith2or3Movies,width=800]
+
+When you use the `WITH` clause, you specify the variables from the previous part of the query you want to pass on to the next part of the query. 
+In this example, the variable _a_ is specified to be passed on in the query, but _m_ is not. Since _m_ is not specified to be passed on, _m_ will not be available later in the query. 
+Notice that for the `RETURN` clause, _a_, _numMovies_, and _movies_ are available for use.
+
+[NOTE]
+You have to name all expressions with an alias in a `WITH` that are existing variables.
+
+=== Using `WITH` and `UNWIND` for query processing
+
+You have learned to create lists of nodes during a query using the `collect()` function.
+If you have collected a subset of nodes in a query, you can use `UNWIND` to return the rows for a collection.
+
+Here is an example:
+
+[source,cypher]
+----
+MATCH (m:Movie)<-[:ACTED_IN]-(p:Person)
+WITH collect(p) AS actors,
+count(p) AS actorCount, m
+UNWIND actors AS actor
+RETURN m.title, actorCount, actor.name
+----
+
+The query retrieves all people who acted in movies. During the query, for each movie, the list of actors are collected, as well as the count of actors.
+The `WITH` clause makes the variables _actors_, _actorCount_, and _m_ available for the rest of the query processing.
+The UNWIND clause turns the list of actors into rows of actors.
+Then the query returns the title of the movie, the actor count, and the actor name for each row of the actors collection.
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/WITHAndUNWIND.png[WITHAndUNWIND,width=800]
+
+You find that you use `WITH` and `UNWIND` frequently when you are importing data into the graph.
+
+=== Performing subqueries with `WITH`
+
+Here is an example where we retrieve all movies reviewed by a person.
+For a particular movie found, we want the list of directors of the movie so we do a second query, a subquery as follows:
+
+[source,cypher]
+----
+MATCH (m:Movie)<-[rv:REVIEWED]-(r:Person)
+WITH m, rv, r
+MATCH (m)<-[:DIRECTED]-(d:Person)
+RETURN m.title, rv.rating, r.name, collect(d.name)
+----
+
+For the second `MATCH` clause, we use the found movie nodes, _m_.
+The `RETURN` clause has access to the movie, rating by that reviewer, the name of the reviewer, and the collection of director names for that movie.
+
+Here is the result returned:
+
+.thumb]
+image::{imagedir}/WITH2MATCHES.png[WITH2MATCHES,width=800]
+
+Here is another example where we want to find all actors who have acted in at least five movies, and find (optionally) the movies they directed and return the person and those movies.
+
+[source,cypher]
+----
+MATCH (p:Person)
+WITH p, size((p)-[:ACTED_IN]->(:Movie)) AS movies
+WHERE movies >= 5
+OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie)
+RETURN p.name, m.title
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/PopularActorsWithAtLeast5Movies.png[PopularActorsWithAtLeast5Movies,width=800]
+
+In this example, we first retrieve all people, but then specify a pattern in the `WITH` clause where we calculate the number of `:ACTED_IN` relationships retrieved using the `size()` function.
+If this value is greater than five, we then also retrieve the `:DIRECTED` paths to return the name of the person and the title of the movie they directed. In the result, we see that these actors acted in more than five movies, but _Tom Hanks_ is the only actor who directed a movie and thus the only person to have a value for the movie.
+Notice here that _m_ only refers to movies that were directed by _p_.
+
+=== Performing subqueries with `CALL`
+
+Another way that you can perform a subquery is to use the `CALL` clause.
+In a `CALL` clause, you specify a query that returns, typically a set of nodes.
+The set of nodes returned in the `CALL` clause can be used for a subsequent query.
+
+Here is an example:
+
+[source,cypher]
+----
+CALL
+{MATCH (p:Person)-[:REVIEWED]->(m:Movie)
+RETURN  m}
+MATCH (m) WHERE m.released=2000
+RETURN m.title, m.released
+----
+
+Here is the result returned:
+
+[.thumb]
+image::{imagedir}/CALLsubquery.png[CALLsubquery,width=800]
+
+The variable _m_ used in the subquery is used in the next query.
+
+=== *Exercise 7: Controlling query processing*
+
+In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play 4.0-intro-neo4j-exercises]
+and follow the instructions for Exercise 7.
+
+
+[#module-5.quiz]
+== Check your understanding
+=== Question 1
+
+Given this code snippet:
+
+[source,cypher]
+----
+MATCH (a:Person)-[r:ACTED_IN]->(m:Movie)
+WITH  a, count(a) AS numMovies
+WHERE 1 < numMovies < 4
+RETURN ??
+----
+
+What variables, can you use in the `RETURN` clause:
+
+Select the correct answers.
+[%interactive]
+
+- [ ] [.required-answer]#a#
+- [ ] [.false-answer]#r#
+- [ ] [.false-answer]#m#
+- [ ] [.required-answer]#numMovies#
+
+
+=== Question 2
+
+What clauses enable you to perform subqueries?
+
+Select the correct answer.
+[%interactive]
+
+- [ ] [.false-answer]#SUBMATCH#
+- [ ] [.required-answer]#WITH#
+- [ ] [.false-answer]#QUERY#
+- [ ] [.false-answer]#CALL#
+
+
+=== Question 3
+
+Given this Cypher query:
+
+[source,cypher]
+----
+MATCH (m:Movie)<-[:ACTED_IN]-(p:Person)
+WITH collect(m) AS movies,count(m) AS movieCount, p
+?? movies AS movie
+RETURN p.name, movieCount, movie.title
+----
+
+What Cypher clause do you use here to turn the list of movies into rows?
+
+Select the correct answer.
+[%interactive]
+- [ ] [.false-answer]#ELEMENTS#
+- [ ] [.required-answer]#UNWIND#
+- [ ] [.false-answer]#ROWS#
+- [ ] [.false-answer]#SELECT#
+
+== Summary
+
+You should now be able to write Cypher statements to:
+[square]
+* Perform intermediate processing with `WITH`.
+* Using `WITH` and `UNWIND` for query processing.
+* Perform subqueries with `WITH`.
+* Perform subqueries with `CALL`.
+
+== Grade Quiz and Continue 
+
+++++
+<a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
+++++
+
+ifdef::backend-html5[]
+
+include::scripts-end.txt[]
+
+++++
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part5');
+});
+</script>
+++++
+
+endif::backend-html5[]
