@@ -1,0 +1,185 @@
+= Exercise 6
+
+== Exercise 6: Working with Cypher data (Preparations)
+
+Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
+
+This is what you should see when you click the database icon:
+
+image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+
+If your database does not have this number of nodes and relationships, you can use the script below to reset it:
+
+[source, cypher]
+----
+include::scripts/initialDatabase.cypher[]
+----
+
+
+== Exercise 6: Working with Cypher data (Overview)
+
+In the previous exercise, you worked with various patterns in your queries as well as returning optional rows.
+
+In this exercise, you will collect results during a query to build a list.
+Then, you count rows retrieved during the query and use a combination of collecting data and counting data.
+Next, you will use map projection to return a custom map.
+Finally, you will perform a date calculation.
+
+* *Exercise 6.1*: Retrieve nodes and collect a list of movie titles.
+* *Exercise 6.2*: Retrieve nodes and collect a list of actors.
+* *Exercise 6.3*: Collect and count data.
+* *Exercise 6.4*: Collect and count more data.
+* *Exercise 6.5*: Return movies as a custom map using map projection.
+* *Exercise 6.6*: Perform a calculation with the date type.
+
+
+Go to the next page to start this exercise.
+
+
+== Exercise 6.1: Retrieve nodes and collect a list of movie titles (Instructions)
+
+Next, you will perform queries where you collect the results into a list.
+
+*Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.*
+
+
+== Exercise 6.1: Retrieve nodes and collect a list of movie titles (Solution)
+
+*Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie)
+RETURN p.name as actor, collect(m.title) AS `movie list`
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ActorMovies.png[ActorMovies,width=400]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 6.2: Retrieve nodes and collect a list of actors (Instructions)
+
+*Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that _Tom Cruise_ worked with.*
+
+== Exercise 6.2: Retrieve nodes and collect a list of actors (Solution)
+
+*Retrieve all movies that _Tom Cruise_ has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that _Tom Cruise_ worked with.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person)
+WHERE p.name ='Tom Cruise'
+RETURN m.title as movie, collect(p2.name) AS `co-actors`
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/TomCruiseCoActors.png[TomCruiseCoActors,width=400]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 6.3: Collect and count data (Instructions)
+
+Next, you will count results retrieved.
+
+*Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.*
+
+== Exercise 6.3: Collect and count data (Solution)
+
+*Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[:REVIEWED]->(m:Movie)
+RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/CountReviews.png[CountReviews,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 6.4: Collect and count more data (Instructions)
+
+*Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.*
+
+== Exercise 6.4: Collect and count more data (Solution)
+
+*Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.*
+
+[source, cypher]
+----
+MATCH (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
+RETURN d.name AS director, count(a) AS `number actors` , collect(a.name) AS `actors worked with`
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/CountActorsWhoWorkedWithDirectors.png[CountActorsWhoWorkedWithDirectors,width=400]
+
+== Exercise 6.5: Return movies as a custom map using map projection(Instructions)
+
+*Write a query that returns a map of all movies that Tom Hanks acted in. The map returned only contains the title of the movie and the year released for the movie.*
+
+
+== Exercise 6.5: Return movies as a custom map using map project(Solution)
+
+*Write a query that returns a map of all movies that Tom Hanks acted in. The map returned only contains the title of the movie and the year released for the movie.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WHERE a.name = 'Tom Hanks'
+RETURN  m {.title, .released}
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/CustomMap.png[CustomMap,width=400]
+
+== Exercise 6.6: Perform a calculation with the date type (Instructions)
+
+*Write a query that retrieves all movies that _Tom Hanks_ acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of _Tom_ when the movie was released.*
+
+== Exercise 6.6: Perform a calculation with the date type (Solution)
+
+*Write a query that retrieves all movies that _Tom Hanks_ acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of _Tom_ when the movie was released.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WHERE a.name = 'Tom Hanks'
+RETURN  m.title, m.released, date().year  - m.released as yearsAgoReleased, m.released  - a.born AS `age of Tom`
+ORDER BY yearsAgoReleased
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/AgeCalculations.png[AgeCalculations,width=400]
+
+
+== Exercise 6: Working with Cypher data (Summary)
+
+In this exercise, you collected results during a query to build a list.
+Then, you counted rows retrieved during the query and used a combination of collecting data and counting data.
+Next, you used map projection to return a custom map.
+Finally, you performed a date calculation.
+
+pass:a[<a play-topic='{guides}/07.html'>Continue to Exercise 7</a>]

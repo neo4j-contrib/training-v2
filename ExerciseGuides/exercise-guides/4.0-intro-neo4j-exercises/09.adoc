@@ -1,0 +1,564 @@
+= Exercise 9
+
+== Exercise 9: Creating Nodes (Preparations)
+
+Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
+
+This is what you should see when you click the database icon:
+
+image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+
+If your database does not have this number of nodes and relationships, you can use the script below to reset it:
+
+[source, cypher]
+----
+include::scripts/initialDatabase.cypher[]
+----
+
+
+== Exercise 9: Creating Nodes (Overview)
+
+In the previous exercises, you have gained experience with Cypher queries. Now you will write Cypher to update the graph.
+
+In this exercise, you will write Cypher statements to create nodes.
+Then you will write Cypher statements to add and remove labels for nodes.
+Next, you will use Cypher to add properties to nodes.
+Finally, you will write Cypher statements to remove properties from nodes.
+
+* *Exercise 9.1*: Create a _Movie_ node.
+* *Exercise 9.2*: Retrieve the newly-created node.
+* *Exercise 9.3*: Create a _Person_ node.
+* *Exercise 9.4*: Retrieve the newly-created node.
+* *Exercise 9.5*: Add a label to a node.
+* *Exercise 9.6*: Retrieve the node using the new label.
+* *Exercise 9.7*: Add the _Female_ label to selected nodes.
+* *Exercise 9.8*: Retrieve all _Female_ nodes.
+* *Exercise 9.9*: Remove the _Female_ label from the nodes that have this label.
+* *Exercise 9.10*: View the current schema of the graph.
+* *Exercise 9.11*: Add properties to a movie.
+* *Exercise 9.12*: Retrieve an _OlderMovie_ node to confirm the label and properties.
+* *Exercise 9.13*: Add properties to the person, _Robin Wright_.
+* *Exercise 9.14*: Retrieve an updated _Person_ node.
+* *Exercise 9.15*: Remove a property from a _Movie_ node.
+* *Exercise 9.16*: Retrieve the node to confirm that the property has been removed.
+* *Exercise 9.17*: Remove a property from a _Person_ node.
+* *Exercise 9.18*: Retrieve the node to confirm that the property has been removed.
+
+Go to the next page to start this exercise.
+
+== Exercise 9.1: Create a _Movie_ node (Instructions)
+
+*Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.*
+
+== Exercise 9.1: Create a _Movie_ node (Solution)
+
+*Create a _Movie_ node for the movie with the _title_, _Forrest Gump_.*
+
+[source, cypher]
+----
+CREATE (:Movie {title: 'Forrest Gump'})
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateForrestGump.png[CreateForrestGump,width=300]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.2: Retrieve the newly-created node (Instructions)
+
+*Retrieve the node you just created by its _title_.*
+
+
+== Exercise 9.2: Retrieve the newly-created node (Solution)
+
+*Retrieve the node you just created by its _title_.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN m
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveForrestGump.png[RetrieveForrestGump,width=400]
+
+
+
+*Note:* The value for the _id_ property for the newly created node may be different for your graph.
+It this screen shot, it is _741_.
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.3: Create a _Person_ node (Instructions)
+
+*Create a _Person_ node for the person with the _name_, _Robin Wright_.*
+
+
+== Exercise 9.3: Create a _Person_ node (Solution)
+
+*Create a _Person_ node for the person with the _name_, _Robin Wright_.*
+
+[source, cypher]
+----
+CREATE (:Person {name: 'Robin Wright'})
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/CreateRobinWright.png[CreateRobinWright,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.4: Retrieve the _Person_ node you just created by its _name_ (Instructions)
+
+*Retrieve the _Person_ node you just created by its _name_.*
+
+== Exercise 9.4: Retrieve the _Person_ node you just created by its _name_ (Solution)
+
+*Retrieve the _Person_ node you just created by its _name_.*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+RETURN p
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveRobinWright.png[RetrieveRobinWright,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.5: Add a label to a node (Instructions)
+
+*Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.*
+
+== Exercise 9.5: Add a label to a node (Solution)
+
+*Add the label _OlderMovie_ to any _Movie_ node that was released before 2010.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.released < 2010
+SET m:OlderMovie
+RETURN DISTINCT labels(m)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddOlderMovieLabel.png[AddOlderMovieLabel,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.6: Retrieve the node using the new label (Instructions)
+
+*Retrieve all older movie nodes to test that the label was indeed added to these nodes.*
+
+== Exercise 9.6: Retrieve the node using the new label (Solution)
+
+*Retrieve all older movie nodes to test that the label was indeed added to these nodes.*
+
+[source, cypher]
+----
+MATCH (m:OlderMovie)
+RETURN m.title, m.released
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveOlderMovies.png[RetrieveOlderMovies,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+
+== Exercise 9.7: Add the _Female_ label to selected nodes (Instructions)
+
+*Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.*
+
+== Exercise 9.7: Add the _Female_ label to selected nodes (Solution)
+
+*Add the label _Female_ to all _Person_ nodes that has a person whose name starts with _Robin_.*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WHERE p.name STARTS WITH 'Robin'
+SET p:Female
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddFemaleLabel.png[AddFemaleLabel,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.8: Retrieve all _Female_ nodes (Instructions)
+
+*Retrieve all _Female_ nodes*
+
+== Exercise 9.8: Retrieve all _Female_ nodes (Solution)
+
+*Retrieve all _Female_ nodes*
+
+Do you notice that not all of these nodes should be labeled _Female_?
+
+[source, cypher]
+----
+MATCH (p:Female)
+RETURN p.name
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveFemales.png[RetrieveFemales,width=400]
+
+
+
+Here we see that there are two _Person_ nodes.
+The _Robin Williams_ node should not have the label _Female_.
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.9: Remove the _Female_ label from the nodes that have this label (Instructions)
+
+*We've decided to not use the _Female_ label. Remove the _Female_ label from the nodes that have this label.*
+
+== Exercise 9.9: Remove the _Female_ label from the nodes that have this label (Solution)
+
+*We've decided to not use the _Female_ label. Remove the _Female_ label from the nodes that have this label.*
+
+[source, cypher]
+----
+MATCH (p:Female)
+REMOVE p:Female
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemoveFemales.png[RemoveFemales,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+
+== Exercise 9.10: View the current schema of the graph (Instructions)
+
+*View the current schema of the graph.*
+
+== Exercise 9.10: View the current schema of the graph (Solution)
+
+*View the current schema of the graph.*
+
+[source, cypher]
+----
+CALL db.schema.visualization()
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/SchemaAfterLabelAddition.png[SchemaAfterLabelAddition,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.11: Add properties to a movie (Instructions)
+
+*Add the following properties to the movie, _Forrest Gump_:*
+
+* *released:  1994*
+* *tagline: Life is like a box of chocolates...you never know what you're gonna get.*
+* *lengthInMinutes: 142*
+
+*Hint:* This movie should also have the label _OlderMovie_.
+
+== Exercise 9.11: Add properties to a movie (Solution)
+
+*Add the following properties to the movie, _Forrest Gump_:*
+
+* *released:  1994*
+* *tagline: Life is like a box of chocolates...you never know what you're gonna get.*
+* *lengthInMinutes: 142*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+SET m:OlderMovie, 
+    m.released = 1994,
+    m.tagline = "Life is like a box of chocolates...you never know what you're gonna get.",
+    m.lengthInMinutes = 142
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddingPropertiesForrestGump.png[AddingPropertiesForrestGump,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.12: Retrieve an _OlderMovie_ node to confirm the label and properties (Instructions)
+
+*Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.*
+
+== Exercise 9.12: Retrieve an _OlderMovie_ node to confirm the label and properties (Solution)
+
+*Retrieve this _OlderMovie_ node to confirm that the properties and label have been properly set.*
+
+[source, cypher]
+----
+MATCH (m:OlderMovie)
+WHERE m.title = 'Forrest Gump'
+RETURN m
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveForrestGump2.png[RetrieveForrestGump2,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.13: Add properties to the person, _Robin Wright_ (Instructions)
+
+*Add the following properties to the person, _Robin Wright_:*
+
+* *born: 1966*
+* *birthPlace: Dallas*
+
+== Exercise 9.13: Add properties to the person, _Robin Wright_ (Solution)
+
+*Add the following properties to the person, _Robin Wright_:*
+
+* *born: 1966*
+* *birthPlace: Dallas*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+SET p.born = 1966, p.birthPlace = 'Dallas'
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetRobinWrightProperties.png[SetRobinWrightProperties,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9.14: Retrieve an updated _Person_ node (Instructions)
+
+*Retrieve this _Person_ node to confirm that the properties have been properly set.*
+
+== Exercise 9.14: Retrieve an updated _Person_ node (Solution)
+
+*Retrieve this _Person_ node to confirm that the properties have been properly set.*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+RETURN p
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RetrieveRobinWrightWithProperties.png[RetrieveRobinWrightWithProperties,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+
+== Exercise 9.15: Remove a property from a _Movie_ node (Instructions)
+
+Next, you will remove properties from specific nodes in the graph.
+
+*Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.*
+
+
+== Exercise 9.15: Remove a property from a _Movie_ node (Solution)
+
+*Remove the _lengthInMinutes_ property from the movie, _Forrest Gump_.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+SET m.lengthInMinutes = null
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemoveLengthInMinutes.png[RemoveLengthInMinutes,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+
+== Exercise 9.16: Retrieve the node to confirm that the property has been removed (Instructions)
+
+*Retrieve the _Forrest Gump_ node to confirm that the property has been removed.*
+
+== Exercise 9.16: Retrieve the node to confirm that the property has been removed (Solution)
+
+*Retrieve the _Forrest Gump_ node to confirm that the property has been removed.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN m
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeletedLengthInMinutesQuery.png[DeletedLengthInMinutesQuery,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+
+== Exercise 9.17: Remove a property from a _Person_ node (Instructions)
+
+*Remove the _birthPlace_ property from the person, _Robin Wright_.*
+
+== Exercise 9.17: Remove a property from a _Person_ node_ (Solution)
+
+*Remove the _birthPlace_ property from the person, _Robin Wright_.*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+REMOVE p.birthPlace
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemovedBirthPlace.png[RemovedBirthPlace,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+
+== Exercise 9.18: Retrieve the node to confirm that the property has been removed (Instructions)
+
+*Retrieve the _Robin Wright_ node to confirm that the property has been removed.*
+
+== Exercise 9.18: Retrieve the node to confirm that the property has been removed (Solution)
+
+*Retrieve the _Robin Wright_ node to confirm that the property has been removed.*
+
+[source, cypher]
+----
+MATCH (p:Person)
+WHERE p.name = 'Robin Wright'
+RETURN p
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/UpdatedRobinWright.png[UpdatedRobinWright,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 9: Creating Nodes (Taking it further - optional)
+
+* Add more labels to the _Movie_ nodes to reflect the movie genre (action, drama, etc.).
+* Query the database using different labels for movies.
+* Try adding or updating properties using the JSON-style syntax using `=` and `+=`.
+* Add properties to nodes using the JSON-style format where you add all of the properties to the node.
+* Query the database to confirm your additions.
+* Call the Cypher built-in method to retrieve all of the property keys in the graph.
+
+
+== Exercise 9: Creating Nodes (Summary)
+
+In this exercise, you wrote Cypher statements to create nodes.
+Then you wrote Cypher statements to add and remove labels for nodes.
+Next, you used Cypher to add properties to nodes.
+Finally, you wrote Cypher statements to remove properties from nodes.
+
+pass:a[<a play-topic='{guides}/10.html'>Continue to Exercise 10</a>]

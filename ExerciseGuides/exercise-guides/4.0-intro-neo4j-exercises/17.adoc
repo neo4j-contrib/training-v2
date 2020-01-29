@@ -1,0 +1,200 @@
+= Exercise 17
+
+== Exercise 17: Using APOC for importing data (Preparations)
+
+
+Make sure you have the Movie database, which contains 175 nodes and 257 relationships.
+
+This is what you should see when you click the database icon:
+
+image::{guides}/img/AfterExercise14.png[After exercise 14,200,200, role=left]
+
+If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreated the database (assuming you are using the _neo4j_ database):
+
+[source, cypher]
+----
+:USE system
+CREATE OR REPLACE DATABASE neo4j
+:USE neo4j
+----
+
+Then,  use the script below to populate it, including the constraints added in the previous exercise:
+
+[source, cypher]
+----
+include::scripts/AfterExercise13.cypher[]
+----
+
+== Exercise 17: Using APOC for importing data (Overview)
+
+In this exercise you execute Cypher statements to import data into your graph using the APOC library.
+
+* *Exercise 17.1*: Install APOC into your project.
+* *Exercise 17.2*: Verify that you can access APOC procedures.
+* *Exercise 17.3*: Write and execute Cypher and APOC code to clear everything from the graph.
+* *Exercise 17.4*: Write Cypher code to examine the data.
+* *Exercise 17.5*: Create constraints.
+* *Exercise 17.6*: Load the data with APOC.
+
+Go to the next page to start this exercise.
+
+== Exercise 17.1: Install APOC into your project (Instructions)
+
+If you are using a sandbox or Neo4j Aura, you already have APOC installed and you can skip this step.
+
+== Exercise 17.1: Install APOC into your project (Solution)
+
+. Stop the database server.
+. For the project you are working with, select "+" in the Add Plugin panel.
+. Select APOC to install.
+. Close the install panel.
+. Start the database server.
+
+== Exercise 17.2: Verify that you can access APOC procecdures (Instructions)
+
+*Execute the Cypher code to list the APOC procedures.*
+
+== Exercise 17.2: Verify that you can access APOC procecdures (Solution)
+
+*Execute the Cypher code to list the APOC procedures.*
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name WHERE name STARTS WITH "apoc"
+RETURN name
+----
+
+The result should be:
+
+[.thumb]
+image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+
+== Exercise 17.3: Write and execute Cypher and APOC code to clear everything from the graph (Instructions)
+
+*Call the APOC procedures to clear everything from the graph, including constraints and indexes.*
+
+== Exercise 17.3: Write and execute Cypher and APOC code to clear everything from the graph (Solution)
+
+*Call the APOC procedures to clear everything from the graph, including constraints and indexes.*
+
+Here is the code you should execute:
+
+[source, cypher]
+----
+// Delete all constraints and indexes
+CALL apoc.schema.assert({},{},true);
+// Delete all nodes and relationships
+CALL apoc.periodic.iterate(
+  'MATCH (n) RETURN n',
+  'DETACH DELETE n',
+  { batchSize:500 }
+)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/LoadedActors.png[LoadedActors,width=600]
+
+Note: This is the same as doing the following in Neo4j Browser where, for example, the name of the database is _neo4j_:
+
+[source, cypher]
+----
+:USE system
+CREATE OR REPLACE DATABASE neo4j
+:USE neo4j
+----
+
+== Exercise 17.4: Write code to inspect the data (Instructions)
+
+*The data for the load comes from this file where we have denormalized data:*
+
+*https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv*
+
+*Write and execute Cypher code to view the first 100 rows of this file.*
+
+== Exercise 17.4: Write code to inspect the data (Solution)
+
+*The data for the load comes from this file where we have denormalized data:*
+
+*https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv*
+
+*Write and execute Cypher code to view the first 100 rows of this file.*
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv' AS row
+RETURN row LIMIT 100
+----
+
+The result should be:
+
+[.thumb]
+image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+
+
+== Exercise 17.5: Create constraints (Instructions)
+
+*Create uniqueness constraints for the _id_ property for a _Person_ node and the _id_ property for a _Movie_ node.*
+
+== Exercise 17.5: Create constraints (Solution)
+
+*Create uniqueness constraints for the _id_ property for a _Person_ node and the _id_ property for a _Movie_ node.*
+
+[source, cypher]
+----
+// create constraints
+CREATE CONSTRAINT UniqueMovieIdConstraint ON (m:Movie) ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE;
+----
+
+The result should be:
+
+[.thumb]
+image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+
+== Exercise 17.6: Load the data with APOC (Instructions)
+
+*Since APOC is new to you, simply execute this code to load the data:*
+
+[source, cypher]
+----
+CALL apoc.periodic.iterate(
+"CALL apoc.load.csv('https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv' ) YIELD map AS row RETURN row",
+"WITH row.movieId as movieId, row.title AS title, row.genres AS genres, toInteger(row.releaseYear) AS releaseYear, toFloat(row.avgVote) AS avgVote,
+ collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,''),':')}) AS people
+ MERGE (m:Movie {id:movieId})
+    ON CREATE SET m.title=title, m.avgVote=avgVote,
+       m.releaseYear=releaseYear, m.genres=split(genres,':')
+ WITH *
+ UNWIND people AS person
+ MERGE (p:Person {id: person.id})
+    ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+ WITH  m, person, p
+ CALL apoc.do.when(person.personType = 'ACTOR',
+      'MERGE (p)-[:ACTED_IN {roles: person.roles}]->(m)
+                 ON CREATE SET p:Actor',
+      'MERGE (p)-[:DIRECTED]->(m)
+          ON CREATE SET p:Director',
+      {m:m, p:p, person:person}) YIELD value AS value
+       RETURN count(*)  ",
+{batchSize: 500}
+)
+----
+
+== Exercise 17.6: Load the data with APOC (Solution)
+
+The result should be:
+
+[.thumb]
+image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+
+
+== Exercise 17: Using APOC for importing data (Summary)
+
+In this exercise you executed Cypher statements to import data into your graph using the APOC library.
+
+pass:a[<a play-topic='{guides}/18.html'>Continue to Exercise 18</a>]

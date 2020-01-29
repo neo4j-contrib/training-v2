@@ -1,0 +1,209 @@
+= Exercise 12
+== Exercise 12: Using Cypher parameters (Preparations)
+
+
+Make sure you have the Movie database, which contains 173 nodes and 257 relationships.
+
+This is what you should see when you click the database icon:
+
+image::{guides}/img/AfterExercise11.png[After exercise 11,200,200, role=left]
+
+If your database does not have this number of nodes and relationships, you can use the script below to reset it:
+
+[source, cypher]
+----
+include::scripts/AfterExercise11.cypher[]
+----
+
+
+== Exercise 12: Using Cypher parameters (Overview)
+
+You have gained experience with the basics of accessing a Neo4j graph by querying it, creating nodes and relationships, and updating the graph.
+
+In this exercise you enhance Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.
+
+* *Exercise 12.1*: Execute a Cypher query as described.
+* *Exercise 12.2*: Add a parameter to your session.
+* *Exercise 12.3*: Modify the Cypher query you just wrote to use a parameter.
+* *Exercise 12.4*: Modify parameter value and retest your query.
+* *Exercise 12.5*: Add a different parameter to your session.
+* *Exercise 12.6*: Modify the query you wrote previously to use the second parameter.
+* *Exercise 12.7*: Modify the second parameter value and retest your query.
+
+Go to the next page to start this exercise.
+
+== Exercise 12.1: Execute a Cypher query as described (Instructions)
+
+Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
+You will be exploring the graph for people who reviewed movies and the actors in these movies.
+You do not want to hard-code the value for _released_ for a _Movie_node in your query.
+
+*Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.*
+
+== Exercise 12.1: Execute a Cypher query as described (Solution)
+
+*Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.*
+
+[source, cypher]
+----
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/InitialQueryWithoutParms.png[InitialQueryWithoutParms,width=600]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 12.2: Add a parameter to your session (Instructions)
+
+*Add a parameter named _year_ to your session with a value of _2000_.*
+
+== Exercise 12.2: Add a parameter to your session (Solution)
+
+*Add a parameter named _year_ to your session with a value of _2000_.*
+
+[source, cypher]
+----
+:param year => 2000
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetYearParam.png[SetYearParam,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Instructions)
+
+*Modify the Cypher query you just wrote to filter by the _year_ parameter.*
+
+== Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Solution)
+
+*Modify the Cypher query you just wrote to filter by the _year_ parameter.*
+
+[source, cypher]
+----
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
+WHERE m.released = $year
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/UsingOneParameter.png[UsingOneParameter,width=600]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 12.4: Modify parameter value and retest your query (Instructions)
+
+*Modify the _year_ parameter to be a different value, _2006_, and retest your query.*
+
+== Exercise 12.4: Modify parameter value and retest your query (Solution)
+
+*Modify the _year_ parameter to be a different value, _2006_, and retest your query.*
+
+[source, cypher]
+----
+:param year => 2006
+----
+
+The result returned  with the same query should be:
+
+[.thumb]
+image::{guides}/img/UsingOneParameter2.png[UsingOneParameter2,width=600]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 12.5: Add a different parameter to your session (Instructions)
+
+Suppose that you want to parameterize both the values in your query for _released_ for a _Movie_node and the _rating_ value for the _REVIEWED_ relationship.
+
+*Add a parameter named _ratingValue_ to your session with a value of _65_.*
+
+== Exercise 12.5: Add a different parameter to your session (Solution)
+
+*Add a parameter named _ratingValue_ to your session with a value of _65_.*
+
+[source, cypher]
+----
+:params {year: 2006, ratingValue: 65}
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetTwoParameters.png[SetTwoParameters,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 12.6: Modify the query you wrote previously to use the second parameter (Instructions)
+
+*Modify the query you wrote previously to also filter the result returned by  the _rating_ for the movie.* 
+
+== Exercise 12.6: Modify the query you wrote previously to use the second parameter (Solution)
+
+*Modify the query you wrote previously to also filter the result returned by  the _rating_ for the movie.* 
+
+[source, cypher]
+----
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
+WHERE m.released = $year AND
+      rel.rating > $ratingValue
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+----
+
+For the above statement, the result returned should be:
+
+[.thumb]
+image::{guides}/img/UseTwoParameters.png[UseTwoParameters,width=600]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 12.7: Modify the second parameter value and retest your query (Instructions)
+
+*Modify the _ratingValue_ parameter to be a different value, _60_, and retest your query.*
+
+== Exercise 12.7: Modify the second parameter value and retest your query (Solution)
+
+*Modify the _ratingValue_ parameter to be a different value, _60_, and retest your query.*
+
+[source, cypher]
+----
+:params {year: 2006, ratingValue: 60}
+----
+
+The result returned with the new parameter value should be:
+
+[.thumb]
+image::{guides}/img/UseTwoParameters2.png[UseTwoParameters2,width=600]
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 12: Using Cypher parameters (Summary)
+
+In this exercise you gained experience using parameters in your Neo4j Browser session and your Cypher statements.
+
+pass:a[<a play-topic='{guides}/13.html'>Continue to Exercise 13</a>]

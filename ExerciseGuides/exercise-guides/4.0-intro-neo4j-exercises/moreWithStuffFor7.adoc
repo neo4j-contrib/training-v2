@@ -1,0 +1,99 @@
+=
+In the previous exercise, you worked with various patterns in your queries as well as returning optional rows.
+
+In this exercise, you will collect results during a query to build a list.
+Then, you count rows retrieved during the query.
+Finally, you will perform intermediate processing during the query using a `WITH` clause.
+
+
+* *Exercise 5.7*: Retrieve nodes by collecting a list.
+* *Exercise 5.9*: Retrieve nodes as lists and return data associated with the corresponding lists.
+* *Exercise 5.10*: Retrieve nodes and their relationships as lists.
+* *Exercise 5.11*: Retrieve the actors who have acted in exactly five movies.
+* *Exercise 5.12*: Retrieve the movies that have at least 2 directors with other optional data.
+
+Go to the next page to start this exercise.
+
+
+== Exercise 5.7: Retrieve nodes by collecting a list (Instructions)
+
+Next, you will perform queries where you collect the results into a list.
+
+*Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.*
+
+
+
+
+== Exercise 5.10: Retrieve nodes and their relationships as list (Instructions)
+
+*Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.*
+
+
+
+== Exercise 5.11: Retrieve the actors who have acted in exactly five movies (Instructions)
+
+Next, you will write queries that perform some intermediate processing using the `WITH` clause.
+
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
+
+== Exercise 5.11: Retrieve the actors who have acted in exactly five movies (Solution)
+
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, count(a) AS numMovies, collect(m.title) AS movies
+WHERE numMovies = 5
+RETURN a.name, movies
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/FiveMovies.png[FiveMovies,width=400]
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data (Instructions)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+
+== Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data (Solution)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WITH m, size((:Person)-[:DIRECTED]->(m)) AS directors
+WHERE directors >= 2
+OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m)
+RETURN  m.title, p.name
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/TopDirectorsAndReviewers.png[TopDirectorsAndReviewers,width=400]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 5: Controlling query processing (Summary)
+
+In this exercise, you wrote queries that filtered the results that are returned using a `WHERE` clause as well as performing some additional processing during the query.
+First, you wrote a query where multiple patterns are required.
+Then you wrote a query that uses a variable length pattern to retrieve data.
+Next, you wrote a query that retrieves data with optional results.
+Then you collected results during a query to build a list.
+Next, you counted retrievals during the query.
+Finally, you performed intermediate processing during the query using a `WITH` clause.
+
+pass:a[<a play-topic='{guides}/06.html'>Continue to Exercise 6</a>]

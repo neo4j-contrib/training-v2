@@ -1,0 +1,209 @@
+= Exercise 14
+
+== Exercise 14: Creating indexes (Preparations)
+
+Make sure you have the Movie database, which contains 175 nodes and 257 relationships.
+
+This is what you should see when you click the database icon:
+
+image::{guides}/img/AfterExercise14.png[After exercise 14,200,200, role=left]
+
+If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreated the database (assuming you are using the _neo4j_ database):
+
+[source, cypher]
+----
+:USE system
+CREATE OR REPLACE DATABASE neo4j
+:USE neo4j
+----
+
+Then,  use the script below to populate it, including the constraints added in the previous exercise:
+
+[source, cypher]
+----
+include::scripts/AfterExercise13.cypher[]
+----
+
+
+== Exercise 14: Creating indexes (Overview)
+
+In this exercise you write Cypher statements create, view, and drop indexes.
+
+* *Exercise 14.1*: Create an index.
+* *Exercise 14.2*: View index information.
+* *Exercise 14.3*: Drop an index.
+* *Exercise 14.4*: Create a full-text schema index.
+* *Exercise 14.5*: View the index information.
+* *Exercise 14.6*: Perform a query that uses the full-text schema index.
+* *Exercise 14.7*: Drop the full-text schema index.
+
+Go to the next page to start this exercise.
+
+== Exercise 14.1: Create an index (Instructions)
+
+*Create a single-property index on the _born_ property of a _Person_ node naming the index _PersonBornIndex_.*
+
+== Exercise 14.1: Create an index (Solution)
+
+*Create a single-property index on the _born_ property of a _Person_ node naming the index _PersonBornIndex_.*
+
+[source, cypher]
+----
+CREATE INDEX PersonBornIndex FOR (p:Person) ON (p.born)
+----
+
+The result should be:
+
+[.thumb]
+image::{guides}/img/CreateIndex.png[CreateIndex,width=300]
+
+
+
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 14.2: View index information (Instructions)
+
+*View the indexes defined for the graph.*
+
+Do you see indexes that you did not create with the `CREATE INDEX` statement? 
+
+== Exercise 14.2: View index information (Solution)
+
+*View the indexes defined for the graph.*
+
+Do you see indexes that you did not create with the `CREATE INDEX` statement? 
+
+The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.
+
+[source, cypher]
+----
+CALL db.indexes()
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ViewIndexes.png[ViewIndexes,width=600]
+
+== Exercise 14.3: Drop an index (Instructions)
+
+*Drop the single-property index you just created for the _born_ property of the _Person_ nodes.*
+
+== Exercise 14.3: Drop an index (Solution)
+
+*Drop the single-property index you just created for the _born_ property of the _Person_ nodes.*
+
+[source, cypher]
+----
+DROP INDEX PersonBornIndex
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DropIndex.png[DropIndex,width=300]
+
+== Exercise 14.4: Create a full-text schema index (Instructions)
+
+*Create a full-text schema index for the _tagline_ property of the _Movie_ nodes named _MovieTaglineFTIndex_.*
+
+== Exercise 14.4: Create a full-text schema index (Solution)
+
+*Create a full-text schema index for the _tagline_ property of the _Movie_ nodes named _MovieTaglineFTIndex_.*
+
+[source,cypher]
+----
+CALL db.index.fulltext.createNodeIndex('MovieTagline',['Movie'], ['tagline'])
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DropIndex.png[DropIndex,width=300]
+
+== Exercise 14.5: View index information (Instructions)
+
+*View the indexes defined for the graph.*
+
+Do you see indexes that you did not create with the `CREATE INDEX` statement?
+
+== Exercise 14.5: View index information (Solution)
+
+*View the indexes defined for the graph.*
+
+Do you see indexes that you did not create with the `CREATE INDEX` statement?
+
+The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.
+
+[source, cypher]
+----
+CALL db.indexes()
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ViewIndexes.png[ViewIndexes,width=600]
+
+== Exercise 14.6: Perform a query that uses the full-text schema index (Instructions)
+
+*Write and execute a query to find all movies with taglines that contain the strings "real" or "world".*
+
+*Write and execute a query to find all movies with taglines that contain the strings "real" and "world".*
+
+== Exercise 14.6: Perform a query that uses the full-text schema index (Solution)
+
+*Write and execute a query to find all movies with taglines that contain the strings "real" or "world".*
+
+[source,cypher]
+----
+CALL db.index.fulltext.queryNodes('MovieTaglineFTIndex', 'real OR world') YIELD node
+RETURN node.title, node.tagline
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DropIndex.png[DropIndex,width=300]
+
+*Write and execute a query to find all movies with taglines that contain the strings "real" and "world".*
+
+[source,cypher]
+----
+CALL db.index.fulltext.queryNodes('MovieTaglineFTIndex', 'real AND world') YIELD node
+RETURN node.title, node.tagline
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DropIndex.png[DropIndex,width=300]
+
+== Exercise 14.7: Drop the full-text schema index (Instructions)
+
+*Drop the full-text schema index you just created.*
+
+== Exercise 14.7: Drop the full-text schema index (Solution)
+
+*Drop the full-text schema index you just created.*
+
+[source, cypher]
+----
+CALL db.index.fulltext.drop('MovieTaglineFTIndex')
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DropIndex.png[DropIndex,width=300]
+++++
+<div style="clear: both;"></div>
+++++
+
+== Exercise 14: Creating indexes (Summary)
+
+In this exercise you wrote Cypher statements to create, view, and drop indexes for the graph.
+
+pass:a[<a play-topic='{guides}/15.html'>Continue to Exercise 15</a>]
