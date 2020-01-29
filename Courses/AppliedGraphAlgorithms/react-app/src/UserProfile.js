@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Paper, Select, MenuItem } from "@material-ui/core";
+import { Paper, Select, TextField, MenuItem } from "@material-ui/core";
 import classNames from "classnames";
 import { driver } from "./neo4j";
 import { FETCH_USER_INFO_QUERY } from "./exercises/exercise0";
@@ -75,9 +75,9 @@ class UserProfile extends Component {
       <div>
         <Paper>
           <form className="classes.container">
-            <Select
+            <TextField
               id="select-user"
-              
+              select
               value={this.props.selectedUser}
               onChange={this.handleChange("user")}
               helperText="Please select your user persona"
@@ -88,7 +88,7 @@ class UserProfile extends Component {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
           </form>
         </Paper>
 
