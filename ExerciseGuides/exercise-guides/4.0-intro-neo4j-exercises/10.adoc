@@ -6,7 +6,7 @@ Make sure you have the Movie database, which contains 173 nodes and 253 relation
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise8.png[After exercise 8,200,200, role=left]
+image::{guides}/img/AfterExercise9.png[AfterExercise9,150,200, role=left]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -25,7 +25,7 @@ Then you will add properties to relationships.
 Finally, you will remove properties from relationships.
 
 * *Exercise 10.1*: Create _ACTED_IN_ relationships.
-* *Exercise 10.2*: Create _DIRECTED_ relationships.
+* *Exercise 10.2*: Create a _DIRECTED_ relationship.
 * *Exercise 10.3*: Create a _HELPED_ relationship.
 * *Exercise 10.4*: Query nodes and new relationships.
 * *Exercise 10.5*: Add properties to relationships.
@@ -62,19 +62,13 @@ CREATE (p)-[:ACTED_IN]->(m)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CreateThreeRelationships.png[CreateThreeRelationships,width=400]
+image::{guides}/img/CreateThreeRelationships.png[CreateThreeRelationships,width=500]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 10.2: Create _DIRECTED_ relationships (Instructions)
+== Exercise 10.2: Create a _DIRECTED_ relationship (Instructions)
 
 *Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.*
 
-== Exercise 10.2: Create _DIRECTED_ relationships (Solution)
+== Exercise 10.2: Create a _DIRECTED_ relationship (Solution)
 
 *Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.*
 
@@ -90,13 +84,7 @@ CREATE (p)-[:DIRECTED]->(m)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddDirectedRelationship.png[AddDirectedRelationship,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddDirectedRelationship.png[AddDirectedRelationship,width=500]
 
 == Exercise 10.3: Create a _HELPED_ relationship (Instructions)
 
@@ -118,12 +106,7 @@ CREATE (p1)-[:HELPED]->(p2)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CreateHELPEDRelationship.png[CreateHELPEDRelationship,width=400]
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreateHELPEDRelationship.png[CreateHELPEDRelationship,width=500]
 
 == Exercise 10.4: Query nodes and new relationships (Instructions)
 
@@ -143,14 +126,10 @@ RETURN p, rel, m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ForrestGumpRelationships.png[ForrestGumpRelationships,width=400]
+image::{guides}/img/ForrestGumpRelationships.png[ForrestGumpRelationships,width=600]
 
 
 Notice here that the _HELPED_ relationship is also shown because _Tom Hanks_ and _Gary Sinise_ are connected and we have _Connect result nodes_ selected in our Neo4j Browser settings.
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 10.5: Add properties to relationships (Instructions)
 
@@ -187,13 +166,7 @@ END
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetPropertiesUsingCase.png[SetPropertiesUsingCase,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/SetPropertiesUsingCase.png[SetPropertiesUsingCase,width=500]
 
 == Exercise 10.6: Add a property to the _HELPED_ relationship (Instructions)
 
@@ -213,13 +186,7 @@ SET rel.research = 'war history'
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetResearchProperty.png[SetResearchProperty,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/SetResearchProperty.png[SetResearchProperty,width=500]
 
 == Exercise 10.7: View the current list of property keys in the graph (Instructions)
 
@@ -231,19 +198,13 @@ image::{guides}/img/SetResearchProperty.png[SetResearchProperty,width=400]
 
 [source, cypher]
 ----
-call db.propertyKeys()
+CALL db.propertyKeys()
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/PropertyKeys-research.png[PropertyKeys-research,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/PropertyKeys-research.png[PropertyKeys-research,width=600]
 
 == Exercise 10.8: View the current schema of the graph (Instructions)
 
@@ -255,19 +216,13 @@ image::{guides}/img/PropertyKeys-research.png[PropertyKeys-research,width=400]
 
 [source, cypher]
 ----
-call db.schema()
+CALL db.schema.visualization()
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SchemaAfterAddingRelatiobnships.png[SchemaAfterAddingRelatiobnships,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/SchemaAfterAddingRelatiobnships.png[SchemaAfterAddingRelatiobnships,width=600]
 
 == Exercise 10.9: Retrieve the names and roles for actors (Instructions)
 
@@ -287,13 +242,7 @@ RETURN p.name, rel.roles
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ForrestGumpRoles.png[ForrestGumpRoles,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ForrestGumpRoles.png[ForrestGumpRoles,width=600]
 
 == Exercise 10.10: Retrieve information about any specific relationships (Instructions)
 
@@ -312,13 +261,7 @@ RETURN p1.name, rel, p2.name
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/HELPEDProperties.png[HELPEDProperties,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/HELPEDProperties.png[HELPEDProperties,width=600]
 
 Notice here that 2 results are returned.
 That is because we did not specify a direction for the relationship in the query.
@@ -345,13 +288,7 @@ SET rel.roles =['Lt. Dan Taylor']
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/UpdateGarySiniseRole.png[UpdateGarySiniseRole,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/UpdateGarySiniseRole.png[UpdateGarySiniseRole,width=5400]
 
 == Exercise 10.12: Remove a property from a relationship (Instructions)
 
@@ -371,13 +308,7 @@ REMOVE rel.research
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RemoveResearchProperty.png[RemoveResearchProperty,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/RemoveResearchProperty.png[RemoveResearchProperty,width=500]
 
 == Exercise 10.13: Confirm that your modifications were made to the graph (Instructions)
 
@@ -397,13 +328,7 @@ return p, rel, m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/GarySiniseRoleUpdate.png[GarySiniseRoleUpdate,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/GarySiniseRoleUpdate.png[GarySiniseRoleUpdate,width=600]
 
 == Exercise 10: Creating Relationships (Taking it further - optional)
 

@@ -6,7 +6,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+image::{guides}/img/InitialDatabase.png[InitialDatabase,150,200, role=left]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -14,7 +14,6 @@ If your database does not have this number of nodes and relationships, you can u
 ----
 include::scripts/initialDatabase.cypher[]
 ----
-
 
 == Exercise 6: Working with Cypher data (Overview)
 
@@ -32,16 +31,13 @@ Finally, you will perform a date calculation.
 * *Exercise 6.5*: Return movies as a custom map using map projection.
 * *Exercise 6.6*: Perform a calculation with the date type.
 
-
 Go to the next page to start this exercise.
-
 
 == Exercise 6.1: Retrieve nodes and collect a list of movie titles (Instructions)
 
 Next, you will perform queries where you collect the results into a list.
 
 *Retrieve actors and the movies they have acted in, returning each actor's name and the list of movies they acted in.*
-
 
 == Exercise 6.1: Retrieve nodes and collect a list of movie titles (Solution)
 
@@ -56,11 +52,7 @@ RETURN p.name as actor, collect(m.title) AS `movie list`
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActorMovies.png[ActorMovies,width=400]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ActorMovies.png[ActorMovies,width=600]
 
 == Exercise 6.2: Retrieve nodes and collect a list of actors (Instructions)
 
@@ -80,11 +72,7 @@ RETURN m.title as movie, collect(p2.name) AS `co-actors`
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/TomCruiseCoActors.png[TomCruiseCoActors,width=400]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/TomCruiseCoActors.png[TomCruiseCoActors,width=600]
 
 == Exercise 6.3: Collect and count data (Instructions)
 
@@ -105,13 +93,7 @@ RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CountReviews.png[CountReviews,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CountReviews.png[CountReviews,width=600]
 
 == Exercise 6.4: Collect and count more data (Instructions)
 
@@ -130,14 +112,14 @@ RETURN d.name AS director, count(a) AS `number actors` , collect(a.name) AS `act
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CountActorsWhoWorkedWithDirectors.png[CountActorsWhoWorkedWithDirectors,width=400]
+image::{guides}/img/CountActorsWhoWorkedWithDirectors.png[CountActorsWhoWorkedWithDirectors,width=600]
 
-== Exercise 6.5: Return movies as a custom map using map projection(Instructions)
+== Exercise 6.5: Return movies as a custom map using map projection (Instructions)
 
 *Write a query that returns a map of all movies that Tom Hanks acted in. The map returned only contains the title of the movie and the year released for the movie.*
 
 
-== Exercise 6.5: Return movies as a custom map using map project(Solution)
+== Exercise 6.5: Return movies as a custom map using map projection (Solution)
 
 *Write a query that returns a map of all movies that Tom Hanks acted in. The map returned only contains the title of the movie and the year released for the movie.*
 
@@ -151,7 +133,7 @@ RETURN  m {.title, .released}
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CustomMap.png[CustomMap,width=400]
+image::{guides}/img/CustomMap.png[CustomMap,width=500]
 
 == Exercise 6.6: Perform a calculation with the date type (Instructions)
 
@@ -166,13 +148,12 @@ image::{guides}/img/CustomMap.png[CustomMap,width=400]
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
 WHERE a.name = 'Tom Hanks'
 RETURN  m.title, m.released, date().year  - m.released as yearsAgoReleased, m.released  - a.born AS `age of Tom`
-ORDER BY yearsAgoReleased
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AgeCalculations.png[AgeCalculations,width=400]
+image::{guides}/img/AgeCalculations.png[AgeCalculations,width=600]
 
 
 == Exercise 6: Working with Cypher data (Summary)

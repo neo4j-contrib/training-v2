@@ -1,0 +1,455 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 17</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 17</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17: Using APOC for importing data (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>If you are using Neo4j Desktop:</p>
+</div>
+<div class="paragraph">
+<p>You will start with a new database named importcsv. Execute these commands in Neo4j Browser to create the database.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:USE system
+CREATE DATABASE importcsv
+:USE importcsv<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you are using Neo4j Sandbox or Neo4j Aura, you will need to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drop all indexes and constraints in the graph.</p>
+</li>
+<li>
+<p>MATCH (n) DETACH DELETE n</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17: Using APOC for importing data (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you execute Cypher statements to import data into your graph using the APOC library.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 17.1</strong>: Install APOC into your project in Neo4j Desktop.</p>
+</li>
+<li>
+<p><strong>Exercise 17.2</strong>: Verify that you can access APOC procedures.</p>
+</li>
+<li>
+<p><strong>Exercise 17.3</strong>: Write Cypher code to examine the data.</p>
+</li>
+<li>
+<p><strong>Exercise 17.4</strong>: Create constraints.</p>
+</li>
+<li>
+<p><strong>Exercise 17.5</strong>: Load the data with APOC.</p>
+</li>
+<li>
+<p><strong>Exercise 17.6</strong>: Write and execute Cypher and APOC code to clear everything from the graph.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.1: Install APOC into your project in Neo4j Desktop (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Note:</strong> If you are using a Neo4j Sandbox or Neo4j Aura, you already have APOC installed and you can skip this step.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop the Neo4j instance.</p>
+</li>
+<li>
+<p>For the project you are working with, select "+" in the Add Plugin panel.</p>
+</li>
+<li>
+<p>Select APOC to install.</p>
+</li>
+<li>
+<p>Close the install panel.</p>
+</li>
+<li>
+<p>Start the Neo4j instance.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.2: Verify that you can access APOC procecdures (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher code to list the APOC procedures.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.2: Verify that you can access APOC procecdures (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Execute the Cypher code to list the APOC procedures.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL dbms.procedures()
+YIELD name WHERE name STARTS WITH "apoc"
+RETURN name<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/APOCinstalled.png" alt="APOCinstalled" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.3: Write code to inspect the data (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The data for the load comes from this file where we have denormalized data:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv" class="bare">https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv</a></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> If you have previously downloaded the files for this course and are using Neo4j Desktop, you can place movies2.csv into the <strong>import</strong> folder:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Neo4j Desktop Click Manage &gt; Open Folder for the Neo4j instance you are using.</p>
+</li>
+<li>
+<p>Copy the CSV files you previously downloaded to the import folder.</p>
+</li>
+<li>
+<p>Adapt the code above to read from the filesystem: <a href="file:///movies2.csv'" class="bare">file:///movies2.csv'</a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> If you are using Neo4j Sandbox or Neo4j Aura, you must use the URL for the file at <strong>data.neo4j.com</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write and execute Cypher code to view the first 100 rows of this file.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.3: Write code to inspect the data (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The data for the load comes from this file where we have denormalized data:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv" class="bare">https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv</a></p>
+</div>
+<div class="paragraph">
+<p><strong>Write and execute Cypher code to view the first 100 rows of this file.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS FROM
+     'https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv' AS row
+RETURN row LIMIT 100<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ViewAPOCdataToLoad.png" alt="ViewAPOCdataToLoad" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.4: Create constraints (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create uniqueness constraints for the <em>id</em> property for a <em>Person</em> node and the <em>id</em> property for a <em>Movie</em> node.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.4: Create constraints (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create uniqueness constraints for the <em>id</em> property for a <em>Person</em> node and the <em>id</em> property for a <em>Movie</em> node.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// create constraints
+CREATE CONSTRAINT UniqueMovieIdConstraint ON (m:Movie) ASSERT m.id IS UNIQUE;
+
+CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/APOCLoadConstraints.png" alt="APOCLoadConstraints" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.5: Load the data with APOC (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Since APOC is new to you, examine this code and simply execute this code to load the data:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL apoc.periodic.iterate(
+"CALL apoc.load.csv('https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv' ) YIELD map AS row RETURN row",
+"WITH row.movieId as movieId, row.title AS title, row.genres AS genres, toInteger(row.releaseYear) AS releaseYear, toFloat(row.avgVote) AS avgVote,
+ collect({id: row.personId, name:row.name, born: toInteger(row.birthYear), died: toInteger(row.deathYear),personType: row.personType, roles: split(coalesce(row.characters,''),':')}) AS people
+ MERGE (m:Movie {id:movieId})
+    ON CREATE SET m.title=title, m.avgVote=avgVote,
+       m.releaseYear=releaseYear, m.genres=split(genres,':')
+ WITH *
+ UNWIND people AS person
+ MERGE (p:Person {id: person.id})
+    ON CREATE SET p.name = person.name, p.born = person.born, p.died = person.died
+ WITH  m, person, p
+ CALL apoc.do.when(person.personType = 'ACTOR',
+      'MERGE (p)-[:ACTED_IN {roles: person.roles}]-&gt;(m)
+                 ON CREATE SET p:Actor',
+      'MERGE (p)-[:DIRECTED]-&gt;(m)
+          ON CREATE SET p:Director',
+      {m:m, p:p, person:person}) YIELD value AS value
+       RETURN count(*)  ",
+{batchSize: 500}
+)<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.5: Load the data with APOC (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The result should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/APOCExecute.png" alt="APOCExecute" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.6: Write and execute Cypher and APOC code to clear everything from the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Call the APOC procedures to clear everything from the graph, including constraints and indexes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17.6: Write and execute Cypher and APOC code to clear everything from the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Call the APOC procedures to clear everything from the graph, including constraints and indexes.</strong></p>
+</div>
+<div class="paragraph">
+<p>Here is the code you should execute:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->// Delete all constraints and indexes
+CALL apoc.schema.assert({},{},true);
+// Delete all nodes and relationships
+CALL apoc.periodic.iterate(
+  'MATCH (n) RETURN n',
+  'DETACH DELETE n',
+  { batchSize:500 }
+)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ClearedDB.png" alt="ClearedDB" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Note: This is the same as doing the following in Neo4j Browser in a Neo4j Desktop installation where, for example, the name of the database is <em>neo4j</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:USE system
+CREATE OR REPLACE DATABASE neo4j
+:USE neo4j<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 17: Using APOC for importing data (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you executed Cypher statements to import data into your graph using the APOC library.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/18.html'>Continue to Exercise 18</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

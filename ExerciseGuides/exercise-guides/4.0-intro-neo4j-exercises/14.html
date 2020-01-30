@@ -25,7 +25,7 @@
   <carousel class="deck container-fluid">
     <!--slide class="row-fluid">
       <div class="col-sm-3">
-        <h3>Exercise 1</h3>
+        <h3>Exercise 14</h3>
         <p class="lead">Information</p>
 			<!dl>
 				
@@ -44,28 +44,42 @@
     
 
 
-   <h4>Exercise 1</h4>
+   <h4>Exercise 14</h4>
    
 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Preparations)</h3>
+    <h3>Exercise 14: Creating indexes (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
+<p>Make sure you have the Movie database, which contains 176 nodes and 257 relationships.</p>
 </div>
 <div class="paragraph">
-<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+<p>This is what you should see when you click the database icon:</p>
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AfterExercise13.png" alt="AfterExercise13" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
-<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
+<p>If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreate the database (assuming you are using the <em>neo4j</em> database):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:USE system
+CREATE OR REPLACE DATABASE neo4j
+:USE neo4j<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: You can only use the above commands for a local database (using Neo4j Desktop, not Neo4j Sandbox or Neo4j Aura).
+Otherwise, you will need to execute Cypher code to drop all constraints before you run the script below.</p>
+</div>
+<div class="paragraph">
+<p>Then,  use the script below to populate it, including the constraints added in the previous exercise:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -574,7 +588,26 @@ CREATE
   (JessicaThompson)-[:REVIEWED {summary:"Slapstick redeemed only by the Robin Williams and Gene Hackman's stellar performances", rating:45}]-&gt;(TheBirdcage),
   (JessicaThompson)-[:REVIEWED {summary:'A solid romp', rating:68}]-&gt;(TheDaVinciCode),
   (JamesThompson)-[:REVIEWED {summary:'Fun, but a little far fetched', rating:65}]-&gt;(TheDaVinciCode),
-  (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire)<!--/code--></pre>
+  (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire),
+  (RobinW:Person {name: 'Robin Wright', born: 1966}),
+  (ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994}),
+  (ForrestGumpProduction:Production {title: 'Forrest Gump', year: 1994, company: 'Paramount Pictures'}),
+  (TomH)-[:ACTED_IN {roles: ['Forrest Gump']}]-&gt;(ForrestGump),
+  (GaryS)-[:ACTED_IN {roles: ['Lt. Dan Taylor']}]-&gt;(ForrestGump),
+  (RobinW)-[:ACTED_IN {roles: ['Jenny Curran']}]-&gt;(ForrestGump),
+  (RobertZ)-[:DIRECTED]-&gt;(ForrestGump)
+;
+MATCH (m:Movie)
+  WHERE m.released &lt; 2010
+SET m:OlderMovie;
+CREATE CONSTRAINT PersonNameUniqueConstraint ON (p:Person) ASSERT p.name IS UNIQUE;
+MATCH (p:Person)
+  WHERE NOT exists(p.born)
+SET p.born = 0;
+CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born);
+CREATE CONSTRAINT MovieTitleReleasedConstraint ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY;
+CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our future.'}),
+       (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -585,25 +618,34 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Overview)</h3>
+    <h3>Exercise 14: Creating indexes (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you will perform some basic retrievals from the Movie database.</p>
+<p>In this exercise you write Cypher statements create, view, use, and drop indexes.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 1.1</strong>: Retrieve all nodes from the database.</p>
+<p><strong>Exercise 14.1</strong>: Create an index.</p>
 </li>
 <li>
-<p><strong>Exercise 1.2</strong>: Examine the data model for the graph.</p>
+<p><strong>Exercise 14.2</strong>: View index information.</p>
 </li>
 <li>
-<p><strong>Exercise 1.3</strong>: Retrieve all <em>Person</em> nodes.</p>
+<p><strong>Exercise 14.3</strong>: Drop an index.</p>
 </li>
 <li>
-<p><strong>Exercise 1.4</strong>: Retrieve all <em>Movie</em> nodes.</p>
+<p><strong>Exercise 14.4</strong>: Create a full-text schema index.</p>
+</li>
+<li>
+<p><strong>Exercise 14.5</strong>: View the index information.</p>
+</li>
+<li>
+<p><strong>Exercise 14.6</strong>: Perform a query that uses the full-text schema index.</p>
+</li>
+<li>
+<p><strong>Exercise 14.7</strong>: Drop the full-text schema index.</p>
 </li>
 </ul>
 </div>
@@ -618,16 +660,11 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Instructions)</h3>
+    <h3>Exercise 14.1: Create an index (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hints:</strong>
-. Write the query in the query pane at the top of Neo4j Browser.
-. Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+<p><strong>Create a single-property index on the <em>born</em> property of a <em>Person</em> node naming the index <em>PersonBornIndex</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -637,49 +674,290 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Solution)</h3>
+    <h3>Exercise 14.1: Create an index (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click the code block below where it appears in query pane at the top of Neo4j Browser.</p>
-</li>
-<li>
-<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
-</li>
-</ol>
+<p><strong>Create a single-property index on the <em>born</em> property of a <em>Person</em> node naming the index <em>PersonBornIndex</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) RETURN n<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX PersonBornIndex FOR (p:Person) ON (p.born)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You should now see all nodes in the graph in the result pane.
-In this query, <em>n</em> is a variable, which is a container that holds the result.</p>
+<p>The result should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/CreateIndex.png" alt="CreateIndex" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.2: View index information (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the indexes defined for the graph.</strong></p>
+</div>
+<div class="paragraph">
+<p>Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.2: View index information (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the indexes defined for the graph.</strong></p>
+</div>
+<div class="paragraph">
+<p>Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
+</div>
+<div class="paragraph">
+<p>The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.indexes()<!--/code--></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ReturnAllNodes.png" alt="ReturnAllNodes" width="250">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ViewIndexes.png" alt="ViewIndexes" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.3: Drop an index (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.3: Drop an index (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->DROP INDEX PersonBornIndex<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Notes:</strong></p>
+<p>The result returned should be:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/DropIndex.png" alt="DropIndex" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.4: Create a full-text schema index (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create a full-text schema index for the <em>tagline</em> property of the <em>Movie</em> nodes named <em>MovieTaglineFTIndex</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.4: Create a full-text schema index (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Create a full-text schema index for the <em>tagline</em> property of the <em>Movie</em> nodes named <em>MovieTaglineFTIndex</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.createNodeIndex('MovieTaglineFTIndex',['Movie'], ['tagline'])<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/CreateFTIndex.png" alt="CreateFTIndex" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.5: View index information (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the indexes defined for the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.5: View index information (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the indexes defined for the graph.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.indexes()<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ViewIndexes2.png" alt="ViewIndexes2" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.6: Perform a query that uses the full-text schema index (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>If the nodes displayed are not connected, make sure that <em>Connect result nodes</em> is selected in your Neo4j Browser settings.</p>
+<p><strong>Write and execute a query to find all movies with taglines that contain the strings "real" or "world".</strong></p>
 </li>
 <li>
-<p>If no nodes are returned, then perhaps you did not load the <em>Movie</em> database (see <em>Preparations</em>).</p>
+<p><strong>Write and execute a query to find all movies with taglines that contain the strings "real" and "world".</strong></p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.6: Perform a query that uses the full-text schema index (Solution)</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Write and execute a query to find all movies with taglines that contain the strings "real" or "world".</strong></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.queryNodes('MovieTaglineFTIndex', 'real OR world') YIELD node
+RETURN node.title, node.tagline<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UseFTIndex.png" alt="UseFTIndex" width="600">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p><strong>Write and execute a query to find all movies with taglines that contain the strings "real" and "world".</strong></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.queryNodes('MovieTaglineFTIndex', 'real AND world') YIELD node
+RETURN node.title, node.tagline<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UseFTIndex2.png" alt="UseFTIndex2" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 14.6: Perform a query that uses the full-text schema index (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
+<ul>
+<li>
+<p>Perform more variations of full-text searches.</p>
+</li>
+<li>
+<p>Add <em>score</em> to the YIELD clause and return it to see what score the search produces.</p>
 </li>
 </ul>
 </div>
@@ -691,11 +969,11 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the data model of the graph (Instructions)</h3>
+    <h3>Exercise 14.7: Drop the full-text schema index (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<p><strong>Drop the full-text schema index you just created.</strong></p>
 </div>
 	</div>
   </div>
@@ -705,15 +983,15 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the <em>schema</em> of your database (Solution)</h3>
+    <h3>Exercise 14.7: Drop the full-text schema index (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<p><strong>Drop the full-text schema index you just created.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema()<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.index.fulltext.drop('MovieTaglineFTIndex')<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,9 +999,10 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="500">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/DropFTIndex.png" alt="DropFTIndex" width="500">
 </div>
 </div>
+<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -732,107 +1011,14 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Instructions)</h3>
+    <h3>Exercise 14: Creating indexes (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) RETURN p<!--/code--></pre>
-</div>
+<p>In this exercise you wrote Cypher statements to create, view, use, and drop indexes for the graph.</p>
 </div>
 <div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>p</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that very few relationships are displayed.
-That is because most <em>Person</em> nodes have no relationships with other <em>Person</em> nodes.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>m</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that no relationships are displayed.
-That is because a <em>Movie</em> node has no relationships with another <em>Movie</em> node.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Summary)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>In this exercise, you performed some basic retrievals from the Movie database.
-You also called the procedure to examine the schema of the graph.</p>
-</div>
-<div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/15.html'>Continue to Exercise 15</a></p>
 </div>
 	</div>
   </div>

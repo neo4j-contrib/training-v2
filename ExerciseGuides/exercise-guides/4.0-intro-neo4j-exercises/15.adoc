@@ -3,13 +3,13 @@
 == Exercise 15: Using query best practices (Preparations)
 
 
-Make sure you have the Movie database, which contains 175 nodes and 257 relationships.
+Make sure you have the Movie database, which contains 176 nodes and 257 relationships.
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise14.png[After exercise 14,200,200, role=left]
+image::{guides}/img/AfterExercise13.png[AfterExercise13,200,200, role=left]
 
-If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreated the database (assuming you are using the _neo4j_ database):
+If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreate the database (assuming you are using the _neo4j_ database):
 
 [source, cypher]
 ----
@@ -18,7 +18,10 @@ CREATE OR REPLACE DATABASE neo4j
 :USE neo4j
 ----
 
-Then,  use the script below to populate it, including the constraints added in the previous exercise:
+*Note*: You can only use the above commands for a local database (using Neo4j Desktop, not Neo4j Sandbox or Neo4j Aura).
+Otherwise, you will need to execute Cypher code to drop all constraints before you run the script below.
+
+Then,  use the script below to populate it, including the constraints added in a previous exercise:
 
 [source, cypher]
 ----
@@ -43,17 +46,17 @@ Then you gain experience with viewing query plans, monitoring queries, and killi
 * *Exercise 15.9*: View the metrics for the query when a statement executes.
 * *Exercise 15.10*: Remove the labels from the nodes and relationships in the query and again view the metrics.
 * *Exercise 15.11*: Open a second Neo4j Browser session. 
-* *Exercise 15.12*: Execute a long-running query and monitor.
-* *Exercise 15.13*: Execute another long-running query and monitor.
+* *Exercise 15.12*: Execute a query that returns a lot of results and monitor.
+* *Exercise 15.13*: Execute a long-running query and monitor.
 * *Exercise 15.14*: Kill a query.
 
 Go to the next page to start this exercise.
 
 == Exercise 15.1: Execute a Cypher query as described (Instructions)
 
-Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
+Suppose that you want to create Cypher statements that enable you to easily test against a number of values in the graph.
 You will be exploring the graph for people who reviewed movies and the actors in these movies.
-You do not want to hard-code the value for _released_ for a _Movie_node in your query.
+You do not want to hard-code the value for _released_ for a _Movie_ node in your query.
 
 *Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.*
 
@@ -70,11 +73,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/InitialQueryWithoutParms.png[InitialQueryWithoutParms,width=600]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/InitialQueryWithoutParms.png[InitialQueryWithoutParms,width=800]
 
 == Exercise 15.2: Add a parameter to your session (Instructions)
 
@@ -92,13 +91,7 @@ image::{guides}/img/InitialQueryWithoutParms.png[InitialQueryWithoutParms,width=
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetYearParam.png[SetYearParam,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/SetYearParam.png[SetYearParam,width=600]
 
 == Exercise 15.3: Modify the Cypher query you just wrote to use a parameter (Instructions)
 
@@ -118,37 +111,45 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/UsingOneParameter.png[UsingOneParameter,width=600]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/UsingOneParameter.png[UsingOneParameter,width=800]
 
 == Exercise 15.4: Modify parameter value and retest your query (Instructions)
 
-*Modify the _year_ parameter to be a different value, _2006_, and retest your query.*
+. *Modify the _year_ parameter to be a different value, _2006_.*
+. *Retest your query.*
 
 == Exercise 15.4: Modify parameter value and retest your query (Solution)
 
-*Modify the _year_ parameter to be a different value, _2006_, and retest your query.*
+
+. *Modify the _year_ parameter to be a different value, _2006_.*
+
 
 [source, cypher]
 ----
 :param year => 2006
 ----
 
+[.thumb]
+image::{guides}/img/UsingOneParameter2.png[UsingOneParameter2,width=800]
+
+[start=2]
+. *Retest your query.*
+
+[source, cypher]
+----
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
+WHERE m.released = $year
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+----
+
 The result returned  with the same query should be:
 
 [.thumb]
-image::{guides}/img/UsingOneParameter2.png[UsingOneParameter2,width=600]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/UsingOneParameter3.png[UsingOneParameter3,width=600]
 
 == Exercise 15.5: Add a different parameter to your session (Instructions)
 
-Suppose that you want to parameterize both the values in your query for _released_ for a _Movie_node and the _rating_ value for the _REVIEWED_ relationship.
+Suppose that you want to parameterize both the values in your query for _released_ for a _Movie_ node and the _rating_ value for the _REVIEWED_ relationship.
 
 *Add a parameter named _ratingValue_ to your session with a value of _65_.*
 
@@ -164,13 +165,7 @@ Suppose that you want to parameterize both the values in your query for _release
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetTwoParameters.png[SetTwoParameters,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/SetTwoParameters.png[SetTwoParameters,width=600]
 
 == Exercise 15.6: Modify the query you wrote previously to use the second parameter (Instructions)
 
@@ -192,10 +187,6 @@ For the above statement, the result returned should be:
 
 [.thumb]
 image::{guides}/img/UseTwoParameters.png[UseTwoParameters,width=600]
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 15.7: Modify the second parameter value and retest your query (Instructions)
 
@@ -245,12 +236,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
 When the result returned should be:
 
 [.thumb]
-image::{guides}/img/EXPLAIN.png[EXPLAIN,width=500]
-
-++++
-<div style="clear: both;"></div>
-++++
-
+image::{guides}/img/EXPLAIN.png[EXPLAIN,width=200]
 
 == Exercise 15.9: View the metrics for the query when a statement executes (Instructions)
 
@@ -271,11 +257,7 @@ RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
 The result returned should look something like this:
 
 [.thumb]
-image::{guides}/img/PROFILE.png[PROFILE,width=500]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/PROFILE.png[PROFILE,width=200]
 
 == Exercise 15.10: Remove the labels from the nodes and relationships in the query and again view the metrics (Instructions)
 
@@ -301,6 +283,11 @@ image::{guides}/img/PROFILE2.png[PROFILE2,width=500]
 You should see more db hits.
 This is because you removed the labels that help to filter nodes and relationships during the query.
 
+== Exercise 15.10: Remove the labels from the nodes and relationships in the query and again view the metrics (Taking it further - Optional)
+
+* Explore the contents of each step of the query by opening each step.
+* Perform other queries to view the steps of the queries.
+
 == Exercise 15.11: Open a second Neo4j Browser session (Instructions)
 
 Recall that a query may run for a long time because:
@@ -310,60 +297,67 @@ Recall that a query may run for a long time because:
 
 You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window.
 
-*Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.*
+*Open a second Neo4j Browser session in a Web browser. This session will be used for monitoring queries as they run.*
 
 == Exercise 15.11: Open a second Neo4j Browser session (Solution)
 
-*Open a second Neo4j Browser session. This session will be used for monitoring queries as they run.*
+*Open a second Neo4j Browser session in a Web browser. This session will be used for monitoring queries as they run.*
 
 If you are using Neo4j Desktop, open a Web browser window and enter http://localhost:7474 which opens a second Neo4j Browser window that has access to the same graph.
 
 [.thumb]
 image::{guides}/img/SecondBrowserWindowDesktop.png[SecondBrowserWindowDesktop,width=500]
 
-If you are using a Neo4j Sandbox, go the the Sandbox site and simply click on the Neo4j Browser to open a second window for that same graph.
+*Note:* If you are using a Neo4j Sandbox, go the the Sandbox site and simply click on the Neo4j Browser to open a second window for that same graph.
 
-[.thumb]
-image::{guides}/img/SecondBrowserSandbox.png[SecondBrowserSandbox,width=500]
+== Exercise 15.12: Execute a query that returns a lot of results and monitor (Instructions)
 
-== Exercise 15.12: Execute a long-running query and monitor (Instructions)
+*Execute this code in your original Neo4j Browser session that returns a lot of results.
+In the second Neo4j Browser window, monitor the running queries.*
 
-*Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.* 
+Here is a very *bad* Cypher statement to use that returns a lot of results:
 
-Here is a very bad Cypher statement to use that returns a lot of results:
 [source, cypher]
 ----
 PROFILE MATCH (a)--(b)--(c)--(d)--(e)--(f)--(g)
 RETURN a
 ----
 
-What do you see in the second Neo4j Browser window where you are monitoring queries?
+What do you see in the second Neo4j Browser window where you are monitoring queries with the *:queries* command?
 
-== Exercise 15.12: Execute a long-running query and monitor (Solution)
+== Exercise 15.12: Execute a query that returns a lot of results and monitor (Solution)
 
-*Execute this long-running query in your original Neo4j Browser session that returns a lot of results. In the second Neo4j Browser window, monitor the running queries.* 
+*Execute this code in your original Neo4j Browser session that returns a lot of results.
+In the second Neo4j Browser window, monitor the running queries.*
 
-Here is a very bad Cypher statement to use that returns a lot of results:
+Here is a very *bad* Cypher statement to use that returns a lot of results:
+
 [source, cypher]
 ----
 PROFILE MATCH (a)--(b)--(c)--(d)--(e)--(f)--(g)
 RETURN a
 ----
 
-What do you see in the second Neo4j Browser window where you are monitoring queries?
+What do you see in the second Neo4j Browser window where you are monitoring queries with the *:queries* command?
 
-While the query in the original Neo4j Browser window is executing, you should see this in the second Neo4j Browser window:
+When you first execute the query in the original Neo4j Browser window, you should see this in the second Neo4j Browser window:
 
 [.thumb]
-image::{guides}/img/LongRunningReturn.png[LongRunningReturn,width=600]
+image::{guides}/img/LongRunningReturn1.png[LongRunningReturn1,width=900]
 
-This is because the graph engine has completed the query and the results are being streamed.
+Initially, the query is running in the server.
+After a few moments, you will see that in the original Neo4j Browser window, the query appears to be running, but it has completed on the server:
 
-== Exercise 15.13: Execute another long-running query and monitor (Instructions)
+[.thumb]
+image::{guides}/img/LongRunningReturn2.png[LongRunningReturn2,width=900]
+
+This is because the graph engine has completed the query and the results are still being streamed to the client.
+
+== Exercise 15.13: Execute a long-running query and monitor (Instructions)
 
 *Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.*
 
-Here is a very bad Cypher statement that takes a lot of time to execute in the graph engine:
+Here is a very *bad* Cypher statement that takes a lot of time to execute in the graph engine:
 
 [source, cypher]
 ----
@@ -371,13 +365,13 @@ PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
 RETURN count(id(a))
 ----
 
-What do you see in the second Neo4j Browser window where you are monitoring queries?
+What do you see in the second Neo4j Browser window where you are monitoring queries with the *:queries* command?
 
-== Exercise 15.13: Execute another long-running query and monitor (Solution)
+== Exercise 15.13: Execute a long-running query and monitor (Solution)
 
 *Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.*
 
-Here is a very bad Cypher statement that takes a lot of time to execute in the graph engine:
+Here is a very *bad* Cypher statement that takes a lot of time to execute in the graph engine:
 
 [source, cypher]
 ----
@@ -385,12 +379,16 @@ PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
 RETURN count(id(a))
 ----
 
-What do you see in the second Neo4j Browser window where you are monitoring queries?
+What do you see in the second Neo4j Browser window where you are monitoring queries with the *:queries* command?
 
-You should see this in the second Neo4j Browser window:
+You should see this when you first start the query:
 
 [.thumb]
-image::{guides}/img/LongRunningQuery.png[LongRunningQuery,width=600]
+image::{guides}/img/LongQuery1.png[LongQuery1,width=900]
+
+It takes a VERY long time to complete on the server.
+
+After a while you will want to kill this long-running query.
 
 == Exercise 15.14: Kill a query (Instructions)
 
@@ -402,17 +400,16 @@ What do you see in the original Neo4j Browser window?
 
 *In the second Neo4j Browser window, kill the long-running query.*
 
-[.thumb]
-image::{guides}/img/KillLongRunningQuery.png[KillLongRunningQuery,width=600]
-
-
-What do you see in the original Neo4j Browser window?
+Here is where you select in the UI that you want to kill the running query:
 
 [.thumb]
-image::{guides}/img/LongRunningQueryKiilled.png[LongRunningQueryKiilled,width=600]
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/LongQuery2.png[LongQuery2,width=900]
+
+
+You should now see this in the original Neo4j Browser window:
+
+[.thumb]
+image::{guides}/img/LongQuery3.png[LongQuery3,width=600]
 
 == Exercise 15: Using Cypher parameters (Summary)
 

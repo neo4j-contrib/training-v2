@@ -1,0 +1,624 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 16</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 16</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16: Importing data (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>If you are using Neo4j Desktop:</p>
+</div>
+<div class="paragraph">
+<p>You will start with a new database named importcsv. Execute these commands in Neo4j Browser to create the database.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:USE system
+CREATE DATABASE importcsv
+:USE importcsv<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you are using Neo4j Sandbox or Neo4j Aura, you will need to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drop all indexes and constraints in the graph.</p>
+</li>
+<li>
+<p>MATCH (n) DETACH DELETE n</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16: Importing data (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you write Cypher statements to import data into your graph.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 16.1</strong>: Write the Cypher statement to read the actor data from a file.</p>
+</li>
+<li>
+<p><strong>Exercise 16.2</strong>: Read the data and return it, ensuring that the data returned is properly formatted.</p>
+</li>
+<li>
+<p><strong>Exercise 16.3</strong>: Load the data into your graph.</p>
+</li>
+<li>
+<p><strong>Exercise 16.4</strong>: Write the Cypher statement to read the movie data from a file.</p>
+</li>
+<li>
+<p><strong>Exercise 16.5</strong>: Read the data and return it, ensuring that the data returned is properly formatted.</p>
+</li>
+<li>
+<p><strong>Exercise 16.6</strong>: Load the data into your graph.</p>
+</li>
+<li>
+<p><strong>Exercise 16.7</strong>: Write the Cypher statement to read the relationship data from a file.</p>
+</li>
+<li>
+<p><strong>Exercise 16.8</strong>: Read the data and return it, ensuring that the data returned is properly formatted.</p>
+</li>
+<li>
+<p><strong>Exercise 16.9</strong>: Load the data into your graph.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.1: Write the Cypher statement to read the actor data from a file (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/v4.0-intro-neo4j/actors.csv" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/actors.csv</a> that you must load into your graph.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the actor data from this file.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.1: Write the Cypher statement to read the actor data from a file (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/v4.0-intro-neo4j/actors.csv" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/actors.csv</a> that you must load into your graph.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the actor data from this file.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actors.csv'
+AS line
+RETURN line.id, line.name, line.birthYear<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadActorsToView.png" alt="LoadActorsToView" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> If you have previously downloaded the files for this course and are using Neo4j Desktop, you can place them into the <strong>import</strong> folder:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Neo4j Desktop Click <strong>Manage &gt; Open Folder</strong> for the Neo4j instance you are using.</p>
+</li>
+<li>
+<p>Copy the CSV files you previously downloaded to the <strong>import</strong> folder.</p>
+</li>
+<li>
+<p>Adapt the code above to read from the filesystem:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'file:///actors.csv'
+AS line
+RETURN line.id, line.name, line.birthYear<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> If you are using Neo4j Sandbox or Neo4j Aura, you <span class="underline">must</span> use the URL for the file at <strong>data.neo4j.com</strong>.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.2: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> You want to use birthYear as a number, not a string.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.2: Read the data and return it, ensuring that the data returned is properly formatted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> You want to use birthYear as a number, not a string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actors.csv'
+AS line
+RETURN line.id, line.name, toInteger(trim(line.birthYear))<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadAndFormatActorData.png" alt="LoadAndFormatActorData" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.3: Load the data into your graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph where you will create  <em>Person</em> nodes with the properties: <em>name</em>, <em>born</em>, and <em>actorId</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.3: Load the data into your graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph where you will create  <em>Person</em> nodes with the properties: <em>name</em>, <em>born</em>, and <em>actorId</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actors.csv'
+AS line
+MERGE (actor:Person {name: line.name})
+  ON CREATE SET actor.born = toInteger(trim(line.birthYear)), actor.actorId = line.id
+  ON MATCH SET actor.actorId = line.id<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadedActors.png" alt="LoadedActors" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.4: Write the Cypher statement to read the movie data from a file (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/v4.0-intro-neo4j/movies.csv" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/movies.csv</a> that you must load into your graph.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the movie data from this file.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.4: Write the Cypher statement to read the movie data from a file (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/v4.0-intro-neo4j/movies.csv" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/movies.csv</a> that you must load into your graph.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the movie data from this file.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/movies.csv'
+AS line
+RETURN line.id, line.title, line.year, line.tagLine<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadMoviesToView.png" alt="LoadMoviesToView" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.5: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> The year should be interpreted as a number and the tagline data should have no leading or trailing spaces.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.5: Read the data and return it, ensuring that the data returned is properly formatted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> The year should be interpreted as a number and the tagline data should have no leading or trailing spaces.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/movies.csv'
+AS line
+RETURN line.id, line.title, toInteger(line.year), trim(line.tagLine)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadAndFormatMovies.png" alt="LoadAndFormatMovies" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.6: Load the data into your graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph where you will create  Movie nodes with the properties: <em>title</em>, <em>released</em>, <em>tagline</em>, and <em>movieId</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.6: Load the data into your graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the data into your graph where you will create  Movie nodes with the properties: <em>title</em>, <em>released</em>, <em>tagline</em>, and <em>movieId</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/movies.csv'
+AS line
+MERGE (m:Movie {title: line.title})
+ON CREATE
+  SET m.released = toInteger(trim(line.year)),
+      m.movieId = line.id,
+      m.tagline = line.tagLine<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadedMovies.png" alt="LoadedMovies" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.7: Write the Cypher statement to read the relationship data from a file (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv</a> that you must load into your graph.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the relationship data from this file.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.7: Write the Cypher statement to read the relationship data from a file (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You are given the name of a file, <a href="http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv</a> that you must load into your graph.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write the Cypher statement to read the relationship data from this file.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv'
+AS line FIELDTERMINATOR ';'
+RETURN line.personId, line.movieId, line.Role<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadRolesToView.png" alt="LoadRolesToView" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.8: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> Use <code>split()</code> to create the list of roles for a line.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.8: Read the data and return it, ensuring that the data returned is properly formatted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Read the data and return it, ensuring that the data returned is properly formatted.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> Use <code>split()</code> to create the list of roles for a line.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv'
+AS line FIELDTERMINATOR ';'
+RETURN line.personId, line.movieId, split(line.Role,',')<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadAndFormatRoles.png" alt="LoadAndFormatRoles" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.9: Load the data into your graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the relationship data into your graph.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> You will need to use the properties <em>actorId</em> and <em>movieId</em> to find the nodes in the graph.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16.9: Load the data into your graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Load the relationship data into your graph.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> You will need to use the properties <em>actorId</em> and <em>movieId</em> to find the nodes in the graph.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->LOAD CSV WITH HEADERS
+FROM 'http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv'
+AS line FIELDTERMINATOR ';'
+MATCH (movie:Movie { movieId: line.movieId })
+MATCH (person:Person { actorId: line.personId })
+MERGE (person)-[:ACTED_IN { roles: split(line.Role,',')}]-&gt;(movie)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LoadedRoles.png" alt="LoadedRoles" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 16: Importing data (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you wrote Cypher statements to load data that is properly formatted into the graph.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/17.html'>Continue to Exercise 17</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

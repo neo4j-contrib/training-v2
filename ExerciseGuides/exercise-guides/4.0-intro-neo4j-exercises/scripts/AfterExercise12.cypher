@@ -506,11 +506,12 @@ CREATE
   (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]->(JerryMaguire),
   (RobinW:Person {name: 'Robin Wright', born: 1966}),
   (ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994}),
+  (ForrestGumpProduction:Production {title: 'Forrest Gump', year: 1994, company: 'Paramount Pictures'}),
   (TomH)-[:ACTED_IN {roles: ['Forrest Gump']}]->(ForrestGump),
   (GaryS)-[:ACTED_IN {roles: ['Lt. Dan Taylor']}]->(ForrestGump),
   (RobinW)-[:ACTED_IN {roles: ['Jenny Curran']}]->(ForrestGump),
   (RobertZ)-[:DIRECTED]->(ForrestGump)
-  ;
+;
 MATCH (m:Movie)
-WHERE m.released < 2010
+  WHERE m.released < 2010
 SET m:OlderMovie

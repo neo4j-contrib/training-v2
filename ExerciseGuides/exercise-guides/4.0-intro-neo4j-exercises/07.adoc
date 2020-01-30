@@ -7,7 +7,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+image::{guides}/img/InitialDatabase.png[InitialDatabase,150,200, role=left]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -31,7 +31,7 @@ Finally, you will chain results together and unwind a collected list to produce 
 * *Exercise 7.2*: Using `WITH` to limit results returned.
 * *Exercise 7.3*: Using the size of a retrieval to process the query.
 * *Exercise 7.4*: Testing the size of a list.
-* *Exercise 7.5*: Testing the size of a list.
+* *Exercise 7.5*: Unwinding a list in the query chain.
 
 == Exercise 7.1: Using `WITH` (Instructions)
 
@@ -54,8 +54,7 @@ RETURN a.name, movies
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/FiveMovies.png[FiveMovies,width=400]
-
+image::{guides}/img/FiveMovies.png[FiveMovies,width=600]
 
 == Exercise 7.2: Using `WITH` to limit results returned (Instructions)
 
@@ -76,13 +75,7 @@ RETURN a.name, movies
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AtMost3MoviesPerActor.png[AtMost3MoviesPerActor,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AtMost3MoviesPerActor.png[AtMost3MoviesPerActor,width=600]
 
 == Exercise 7.3: Using the size of a retrieval to process the query (Instructions)
 
@@ -104,13 +97,7 @@ RETURN  m.title, p.name
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/TopDirectorsAndReviewers.png[TopDirectorsAndReviewers,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/TopDirectorsAndReviewers.png[TopDirectorsAndReviewers,width=600]
 
 == Exercise 7.4: Testing the size of a list (Instructions)
 
@@ -133,18 +120,12 @@ RETURN p.name, movies
 
 The result returned should be:
 [.thumb]
-image::{guides}/img/ActorsWithMoreThan5Movies1.png[ActorsWithMoreThan5Movies1,width=400]
-
-
+image::{guides}/img/ActorsWithMoreThan5Movies1.png[ActorsWithMoreThan5Movies1,width=600]
 
 In this view, we are examining the table view where we can see the actor name and the list of movies for each actor.
 The actors should be _Tom Hanks_ and _Keanu Reeves_.
 
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 7.5: Unwinding a list in the query chain Instructions)
+== Exercise 7.5: Unwinding a list in the query chain (Instructions)
 
 *Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie*
 
@@ -166,8 +147,7 @@ RETURN p.name, movie.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActorsWithMoreThan5Movies2.png[ActorsWithMoreThan5Movies2,width=400]
-
+image::{guides}/img/ActorsWithMoreThan5Movies2.png[ActorsWithMoreThan5Movies2,width=600]
 
 == Exercise 7: Controlling query processing (Summary)
 

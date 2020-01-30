@@ -6,7 +6,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+image::{guides}/img/InitialDatabase.png[InitialDatabase,150,200, role=left]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -14,7 +14,6 @@ If your database does not have this number of nodes and relationships, you can u
 ----
 include::scripts/initialDatabase.cypher[]
 ----
-
 
 == Exercise 9: Creating Nodes (Overview)
 
@@ -62,18 +61,11 @@ CREATE (:Movie {title: 'Forrest Gump'})
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CreateForrestGump.png[CreateForrestGump,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreateForrestGump.png[CreateForrestGump,width=500]
 
 == Exercise 9.2: Retrieve the newly-created node (Instructions)
 
 *Retrieve the node you just created by its _title_.*
-
 
 == Exercise 9.2: Retrieve the newly-created node (Solution)
 
@@ -90,15 +82,6 @@ The result returned should be:
 
 [.thumb]
 image::{guides}/img/RetrieveForrestGump.png[RetrieveForrestGump,width=400]
-
-
-
-*Note:* The value for the _id_ property for the newly created node may be different for your graph.
-It this screen shot, it is _741_.
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 9.3: Create a _Person_ node (Instructions)
 
@@ -117,13 +100,7 @@ CREATE (:Person {name: 'Robin Wright'})
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CreateRobinWright.png[CreateRobinWright,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreateRobinWright.png[CreateRobinWright,width=600]
 
 == Exercise 9.4: Retrieve the _Person_ node you just created by its _name_ (Instructions)
 
@@ -143,13 +120,7 @@ RETURN p
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RetrieveRobinWright.png[RetrieveRobinWright,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/RetrieveRobinWright.png[RetrieveRobinWright,width=600]
 
 == Exercise 9.5: Add a label to a node (Instructions)
 
@@ -170,13 +141,8 @@ RETURN DISTINCT labels(m)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddOlderMovieLabel.png[AddOlderMovieLabel,width=400]
+image::{guides}/img/AddOlderMovieLabel.png[AddOlderMovieLabel,width=600]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 9.6: Retrieve the node using the new label (Instructions)
 
@@ -195,14 +161,7 @@ RETURN m.title, m.released
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RetrieveOlderMovies.png[RetrieveOlderMovies,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
+image::{guides}/img/RetrieveOlderMovies.png[RetrieveOlderMovies,width=600]
 
 == Exercise 9.7: Add the _Female_ label to selected nodes (Instructions)
 
@@ -222,13 +181,7 @@ SET p:Female
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddFemaleLabel.png[AddFemaleLabel,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddFemaleLabel.png[AddFemaleLabel,width=500]
 
 == Exercise 9.8: Retrieve all _Female_ nodes (Instructions)
 
@@ -249,16 +202,10 @@ RETURN p.name
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RetrieveFemales.png[RetrieveFemales,width=400]
-
-
+image::{guides}/img/RetrieveFemales.png[RetrieveFemales,width=600]
 
 Here we see that there are two _Person_ nodes.
 The _Robin Williams_ node should not have the label _Female_.
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 9.9: Remove the _Female_ label from the nodes that have this label (Instructions)
 
@@ -277,14 +224,7 @@ REMOVE p:Female
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RemoveFemales.png[RemoveFemales,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
+image::{guides}/img/RemoveFemales.png[RemoveFemales,width=500]
 
 == Exercise 9.10: View the current schema of the graph (Instructions)
 
@@ -302,13 +242,7 @@ CALL db.schema.visualization()
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SchemaAfterLabelAddition.png[SchemaAfterLabelAddition,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/SchemaAfterLabelAddition.png[SchemaAfterLabelAddition,width=600]
 
 == Exercise 9.11: Add properties to a movie (Instructions)
 
@@ -341,13 +275,7 @@ SET m:OlderMovie,
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddingPropertiesForrestGump.png[AddingPropertiesForrestGump,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddingPropertiesForrestGump.png[AddingPropertiesForrestGump,width=500]
 
 == Exercise 9.12: Retrieve an _OlderMovie_ node to confirm the label and properties (Instructions)
 
@@ -367,13 +295,7 @@ RETURN m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RetrieveForrestGump2.png[RetrieveForrestGump2,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/RetrieveForrestGump2.png[RetrieveForrestGump2,width=600]
 
 == Exercise 9.13: Add properties to the person, _Robin Wright_ (Instructions)
 
@@ -399,13 +321,7 @@ SET p.born = 1966, p.birthPlace = 'Dallas'
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetRobinWrightProperties.png[SetRobinWrightProperties,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/SetRobinWrightProperties.png[SetRobinWrightProperties,width=500]
 
 == Exercise 9.14: Retrieve an updated _Person_ node (Instructions)
 
@@ -425,14 +341,7 @@ RETURN p
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RetrieveRobinWrightWithProperties.png[RetrieveRobinWrightWithProperties,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
+image::{guides}/img/RetrieveRobinWrightWithProperties.png[RetrieveRobinWrightWithProperties,width=600]
 
 == Exercise 9.15: Remove a property from a _Movie_ node (Instructions)
 
@@ -455,14 +364,7 @@ SET m.lengthInMinutes = null
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RemoveLengthInMinutes.png[RemoveLengthInMinutes,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
+image::{guides}/img/RemoveLengthInMinutes.png[RemoveLengthInMinutes,width=500]
 
 == Exercise 9.16: Retrieve the node to confirm that the property has been removed (Instructions)
 
@@ -482,14 +384,7 @@ RETURN m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DeletedLengthInMinutesQuery.png[DeletedLengthInMinutesQuery,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
+image::{guides}/img/DeletedLengthInMinutesQuery.png[DeletedLengthInMinutesQuery,width=600]
 
 == Exercise 9.17: Remove a property from a _Person_ node (Instructions)
 
@@ -509,14 +404,7 @@ REMOVE p.birthPlace
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RemovedBirthPlace.png[RemovedBirthPlace,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
+image::{guides}/img/RemovedBirthPlace.png[RemovedBirthPlace,width=500]
 
 == Exercise 9.18: Retrieve the node to confirm that the property has been removed (Instructions)
 
@@ -536,13 +424,7 @@ RETURN p
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/UpdatedRobinWright.png[UpdatedRobinWright,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/UpdatedRobinWright.png[UpdatedRobinWright,width=600]
 
 == Exercise 9: Creating Nodes (Taking it further - optional)
 

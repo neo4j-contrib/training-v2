@@ -2,13 +2,13 @@
 
 == Exercise 14: Creating indexes (Preparations)
 
-Make sure you have the Movie database, which contains 175 nodes and 257 relationships.
+Make sure you have the Movie database, which contains 176 nodes and 257 relationships.
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise14.png[After exercise 14,200,200, role=left]
+image::{guides}/img/AfterExercise13.png[AfterExercise13,200,200, role=left]
 
-If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreated the database (assuming you are using the _neo4j_ database):
+If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreate the database (assuming you are using the _neo4j_ database):
 
 [source, cypher]
 ----
@@ -17,6 +17,9 @@ CREATE OR REPLACE DATABASE neo4j
 :USE neo4j
 ----
 
+*Note*: You can only use the above commands for a local database (using Neo4j Desktop, not Neo4j Sandbox or Neo4j Aura).
+Otherwise, you will need to execute Cypher code to drop all constraints before you run the script below.
+
 Then,  use the script below to populate it, including the constraints added in the previous exercise:
 
 [source, cypher]
@@ -24,10 +27,9 @@ Then,  use the script below to populate it, including the constraints added in t
 include::scripts/AfterExercise13.cypher[]
 ----
 
-
 == Exercise 14: Creating indexes (Overview)
 
-In this exercise you write Cypher statements create, view, and drop indexes.
+In this exercise you write Cypher statements create, view, use, and drop indexes.
 
 * *Exercise 14.1*: Create an index.
 * *Exercise 14.2*: View index information.
@@ -55,13 +57,7 @@ CREATE INDEX PersonBornIndex FOR (p:Person) ON (p.born)
 The result should be:
 
 [.thumb]
-image::{guides}/img/CreateIndex.png[CreateIndex,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreateIndex.png[CreateIndex,width=500]
 
 == Exercise 14.2: View index information (Instructions)
 
@@ -103,7 +99,7 @@ DROP INDEX PersonBornIndex
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DropIndex.png[DropIndex,width=300]
+image::{guides}/img/DropIndex.png[DropIndex,width=500]
 
 == Exercise 14.4: Create a full-text schema index (Instructions)
 
@@ -115,27 +111,21 @@ image::{guides}/img/DropIndex.png[DropIndex,width=300]
 
 [source,cypher]
 ----
-CALL db.index.fulltext.createNodeIndex('MovieTagline',['Movie'], ['tagline'])
+CALL db.index.fulltext.createNodeIndex('MovieTaglineFTIndex',['Movie'], ['tagline'])
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DropIndex.png[DropIndex,width=300]
+image::{guides}/img/CreateFTIndex.png[CreateFTIndex,width=500]
 
 == Exercise 14.5: View index information (Instructions)
 
 *View the indexes defined for the graph.*
 
-Do you see indexes that you did not create with the `CREATE INDEX` statement?
-
 == Exercise 14.5: View index information (Solution)
 
 *View the indexes defined for the graph.*
-
-Do you see indexes that you did not create with the `CREATE INDEX` statement?
-
-The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.
 
 [source, cypher]
 ----
@@ -145,17 +135,16 @@ CALL db.indexes()
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ViewIndexes.png[ViewIndexes,width=600]
+image::{guides}/img/ViewIndexes2.png[ViewIndexes2,width=600]
 
 == Exercise 14.6: Perform a query that uses the full-text schema index (Instructions)
 
-*Write and execute a query to find all movies with taglines that contain the strings "real" or "world".*
-
-*Write and execute a query to find all movies with taglines that contain the strings "real" and "world".*
+. *Write and execute a query to find all movies with taglines that contain the strings "real" or "world".*
+. *Write and execute a query to find all movies with taglines that contain the strings "real" and "world".*
 
 == Exercise 14.6: Perform a query that uses the full-text schema index (Solution)
 
-*Write and execute a query to find all movies with taglines that contain the strings "real" or "world".*
+. *Write and execute a query to find all movies with taglines that contain the strings "real" or "world".*
 
 [source,cypher]
 ----
@@ -166,9 +155,10 @@ RETURN node.title, node.tagline
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DropIndex.png[DropIndex,width=300]
+image::{guides}/img/UseFTIndex.png[UseFTIndex,width=600]
 
-*Write and execute a query to find all movies with taglines that contain the strings "real" and "world".*
+[start=2]
+. *Write and execute a query to find all movies with taglines that contain the strings "real" and "world".*
 
 [source,cypher]
 ----
@@ -179,7 +169,12 @@ RETURN node.title, node.tagline
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DropIndex.png[DropIndex,width=300]
+image::{guides}/img/UseFTIndex2.png[UseFTIndex2,width=600]
+
+== Exercise 14.6: Perform a query that uses the full-text schema index (Taking it further - optional)
+
+* Perform more variations of full-text searches.
+* Add _score_ to the YIELD clause and return it to see what score the search produces.
 
 == Exercise 14.7: Drop the full-text schema index (Instructions)
 
@@ -197,13 +192,13 @@ CALL db.index.fulltext.drop('MovieTaglineFTIndex')
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DropIndex.png[DropIndex,width=300]
+image::{guides}/img/DropFTIndex.png[DropFTIndex,width=500]
 ++++
 <div style="clear: both;"></div>
 ++++
 
 == Exercise 14: Creating indexes (Summary)
 
-In this exercise you wrote Cypher statements to create, view, and drop indexes for the graph.
+In this exercise you wrote Cypher statements to create, view, use, and drop indexes for the graph.
 
 pass:a[<a play-topic='{guides}/15.html'>Continue to Exercise 15</a>]

@@ -25,7 +25,7 @@
   <carousel class="deck container-fluid">
     <!--slide class="row-fluid">
       <div class="col-sm-3">
-        <h3>Exercise 1</h3>
+        <h3>Exercise 5</h3>
         <p class="lead">Information</p>
 			<!dl>
 				
@@ -44,24 +44,24 @@
     
 
 
-   <h4>Exercise 1</h4>
+   <h4>Exercise 5</h4>
    
 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Preparations)</h3>
+    <h3>Exercise 5: Working with patterns in queries (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
 <div class="paragraph">
-<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+<p>This is what you should see when you click the database icon:</p>
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="151" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -585,25 +585,37 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Overview)</h3>
+    <h3>Exercise 5: Working with patterns in queries (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you will perform some basic retrievals from the Movie database.</p>
+<p>In the previous exercise, you have filtered your queries using the <code>WHERE</code> clause of a Cypher query.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will write queries that filter the results that are returned using a <code>WHERE</code> clause as well as performing some additional processing during the query.
+First, you will write a query where multiple patterns are required.
+Then you write a query that uses a variable length pattern to retrieve data.
+Finally, you will write a query that retrieves data with optional results.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 1.1</strong>: Retrieve all nodes from the database.</p>
+<p><strong>Exercise 5.1</strong>: Retrieve data using multiple <code>MATCH</code> patterns.</p>
 </li>
 <li>
-<p><strong>Exercise 1.2</strong>: Examine the data model for the graph.</p>
+<p><strong>Exercise 5.2</strong>: Retrieve particular nodes that have a relationship.</p>
 </li>
 <li>
-<p><strong>Exercise 1.3</strong>: Retrieve all <em>Person</em> nodes.</p>
+<p><strong>Exercise 5.3</strong>: Modify the query to retrieve nodes that are exactly three hops away.</p>
 </li>
 <li>
-<p><strong>Exercise 1.4</strong>: Retrieve all <em>Movie</em> nodes.</p>
+<p><strong>Exercise 5.4</strong>: Modify the query to retrieve nodes that are one and two hops away.</p>
+</li>
+<li>
+<p><strong>Exercise 5.5</strong>: Modify the query to retrieve particular nodes that are connected no matter how many hops are required.</p>
+</li>
+<li>
+<p><strong>Exercise 5.6</strong>: Specify optional data to be retrieved during the query.</p>
 </li>
 </ul>
 </div>
@@ -618,16 +630,11 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Instructions)</h3>
+    <h3>Exercise 5.1: Retrieve data using multiple <code>MATCH</code> patterns (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hints:</strong>
-. Write the query in the query pane at the top of Neo4j Browser.
-. Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+<p><strong>Write a Cypher query that retrieves all movies that <em>Gene Hackman</em> has acted it, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as <em>Gene Hackman</em>. Return the name of the movie, the name of the director, and the names of actors that worked with <em>Gene Hackman</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -637,83 +644,18 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Solution)</h3>
+    <h3>Exercise 5.1: Retrieve data using multiple <code>MATCH</code> patterns (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click the code block below where it appears in query pane at the top of Neo4j Browser.</p>
-</li>
-<li>
-<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
-</li>
-</ol>
+<p><strong>Write a Cypher query that retrieves all movies that <em>Gene Hackman</em> has acted it, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as <em>Gene Hackman</em>. Return the name of the movie, the name of the director, and the names of actors that worked with <em>Gene Hackman</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) RETURN n<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You should now see all nodes in the graph in the result pane.
-In this query, <em>n</em> is a variable, which is a container that holds the result.</p>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ReturnAllNodes.png" alt="ReturnAllNodes" width="250">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Notes:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>If the nodes displayed are not connected, make sure that <em>Connect result nodes</em> is selected in your Neo4j Browser settings.</p>
-</li>
-<li>
-<p>If no nodes are returned, then perhaps you did not load the <em>Movie</em> database (see <em>Preparations</em>).</p>
-</li>
-</ul>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the data model of the graph (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the <em>schema</em> of your database (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema()<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:DIRECTED]-(d:Person),
+      (a2:Person)-[:ACTED_IN]-&gt;(m)
+WHERE a.name = 'Gene Hackman'
+RETURN m.title as movie, d.name AS director , a2.name AS `co-actors`<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,7 +663,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="500">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/GeneHackmanMoviesWithDirectorAndCoActors.png" alt="GeneHackmanMoviesWithDirectorAndCoActors" width="600">
 </div>
 </div>
 	</div>
@@ -732,11 +674,17 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Instructions)</h3>
+    <h3>Exercise 5.2: Retrieve particular nodes that have a relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p>Next, you will perform queries for data that is a variable number of hops away.</p>
+</div>
+<div class="paragraph">
+<p>Write this Cypher query to explore the graph engine&#8217;s behavior with varying length paths for the <em>FOLLOWS</em> relationship in the <em>Movie</em> graph:</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve all nodes that the person named <em>James Thompson</em> directly has the <em>FOLLOWS</em> relationship in either direction.</strong></p>
 </div>
 	</div>
   </div>
@@ -746,15 +694,17 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Solution)</h3>
+    <h3>Exercise 5.2: Retrieve particular nodes that have a relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Retrieve all nodes that the person named <em>James Thompson</em> directly has the <em>FOLLOWS</em> relationship in either direction.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) RETURN p<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p1:Person)-[:FOLLOWS]-(p2:Person)
+WHERE p1.name = 'James Thompson'
+RETURN p1, p2<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -762,13 +712,8 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompsonFollows.png" alt="JamesThompsonFollows" width="500">
 </div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>p</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that very few relationships are displayed.
-That is because most <em>Person</em> nodes have no relationships with other <em>Person</em> nodes.</p>
 </div>
 	</div>
   </div>
@@ -778,11 +723,11 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Instructions)</h3>
+    <h3>Exercise 5.3: Modify the query to retrieve nodes that are exactly three hops away (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
+<p><strong>Modify the query to retrieve nodes that are exactly three hops away.</strong></p>
 </div>
 	</div>
   </div>
@@ -792,15 +737,17 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Solution)</h3>
+    <h3>Exercise 5.3: Modify the query to retrieve nodes that are exactly three hops away (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
+<p><strong>Modify the query to retrieve nodes that are exactly three hops away.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p1:Person)-[:FOLLOWS*3]-(p2:Person)
+WHERE p1.name = 'James Thompson'
+RETURN p1, p2<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -808,13 +755,11 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompson3Hop.png" alt="JamesThompson3Hop" width="400">
 </div>
 </div>
 <div class="paragraph">
-<p>Here we use <em>m</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that no relationships are displayed.
-That is because a <em>Movie</em> node has no relationships with another <em>Movie</em> node.</p>
+<p>Notice here that the relationships between the nodes are not displayed because <em>James Thompson</em> is not connected to <em>Paul Blythe</em>.</p>
 </div>
 	</div>
   </div>
@@ -824,15 +769,147 @@ That is because a <em>Movie</em> node has no relationships with another <em>Movi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Summary)</h3>
+    <h3>Exercise 5.4: Modify the query to retrieve nodes that are one and two hops away (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you performed some basic retrievals from the Movie database.
-You also called the procedure to examine the schema of the graph.</p>
+<p><strong>Modify the query to retrieve nodes that are one and two hops away.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.4: Modify the query to retrieve nodes that are one and two hops away (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query to retrieve nodes that are one and two hops away.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p1:Person)-[:FOLLOWS*1..2]-(p2:Person)
+WHERE p1.name = 'James Thompson'
+RETURN p1, p2<!--/code--></pre>
+</div>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompson1And2Hops.png" alt="JamesThompson1And2Hops" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5: Modify the query to retrieve particular nodes that are connected no matter how many hops are required (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query to retrieve all nodes that are connected to <em>James Thompson</em> by a <em>Follows</em> relationship no matter how many hops are required.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.5: Modify the query to retrieve particular nodes that are connected no matter how many hops are required (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query to retrieve all nodes that are connected to <em>James Thompson</em> by a <em>Follows</em> relationship no matter how many hops are required.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p1:Person)-[:FOLLOWS*]-(p2:Person)
+WHERE p1.name = 'James Thompson'
+RETURN p1, p2<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompsonAllHops.png" alt="JamesThompsonAllHops" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.6: Specify optional data to be retrieved during the query (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query to retrieve all people in the graph whose name begins with <em>Tom</em> and optionally retrieve all people named <em>Tom</em> who directed a movie.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5.6: Specify optional data to be retrieved during the query (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a Cypher query to retrieve all people in the graph whose name begins with <em>Tom</em> and optionally retrieve all people named <em>Tom</em> who directed a movie.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)
+WHERE p.name STARTS WITH 'Tom'
+OPTIONAL MATCH (p)-[:DIRECTED]-&gt;(m:Movie)
+RETURN p.name, m.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/OptionalMatch.png" alt="OptionalMatch" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 5: Working with patterns in queries (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you wrote queries that filtered the results that are returned using a <code>WHERE</code> clause as well as performing some additional processing during the query.
+First, you wrote a query where multiple patterns are required.
+Then you wrote a query that uses a variable length pattern to retrieve data.
+Finally, you wrote a query that retrieves data with optional results.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/06.html'>Continue to Exercise 6</a></p>
 </div>
 	</div>
   </div>

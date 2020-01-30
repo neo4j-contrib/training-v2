@@ -2,11 +2,11 @@
 
 == Exercise 13: Defining constraints on your data (Preparations)
 
-Make sure you have the Movie database, which contains 173 nodes and 257 relationships.
+Make sure you have the Movie database, which contains 174 nodes and 257 relationships.
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise11.png[After exercise 11,200,200, role=left]
+image::{guides}/img/AfterExercise12.png[AfterExercise12,150,200, role=left]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -14,7 +14,6 @@ If your database does not have this number of nodes and relationships, you can u
 ----
 include::scripts/AfterExercise12.cypher[]
 ----
-
 
 == Exercise 13: Defining constraints on your data (Overview)
 
@@ -41,27 +40,21 @@ Go to the next page to start this exercise.
 
 Suppose we want to ensure that every _Person_ in the graph must have a unique name.
 
-*Add a uniqueness constraint to the _Person_ nodes in the graph.*
+*Add a uniqueness constraint named _PersonNameUniqueConstraint_ to the _Person_ nodes in the graph.*
 
 == Exercise 13.1: Add a uniqueness constraint to the graph (Solution)
 
-*Add a uniqueness constraint to the _Person_ nodes in the graph.*
+*Add a uniqueness constraint named _PersonNameUniqueConstraint_ to the _Person_ nodes in the graph.*
 
 [source, cypher]
 ----
-CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE
+CREATE CONSTRAINT PersonNameUniqueConstraint ON (p:Person) ASSERT p.name IS UNIQUE
 ----
 
 Where the result returned should be:
 
 [.thumb]
-image::{guides}/img/CreatePersonNameUnique.png[CreatePersonNameUnique,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreatePersonNameUnique.png[CreatePersonNameUnique,width=400]
 
 == Exercise 13.2: Add an actor to the graph (Instructions)
 
@@ -83,25 +76,19 @@ The result returned should look something like this:
 [.thumb]
 image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=500]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
 == Exercise 13.3: Attempt to add an existence constraint to the _Person_ nodes in the graph (Instructions)
 
 Suppose we want to ensure that every _Person_ node in the graph has a _born_ property.
 
-*Attempt to add an existence constraint to the _Person_ nodes in the graph.*
+*Attempt to add an existence constraint named _PersonBornExistsConstraint_ to the _Person_ nodes in the graph.*
 
 == Exercise 13.3: Attempt to add an existence constraint to the _Person_ nodes in the graph (Solution)
 
-*Attempt to add an existence constraint to the _Person_ nodes in the graph.*
+*Attempt to add an existence constraint named _PersonBornExistsConstraint_ to the _Person_ nodes in the graph.*
 
 [source, cypher]
 ----
-CREATE CONSTRAINT ON (p:Person) ASSERT exists(p.born)
+CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born)
 ----
 
 What happens when you add the constraint? This is what you should see.
@@ -109,7 +96,6 @@ This is because there are _Person_ nodes in the graph that do not have _born_ pr
 
 [.thumb]
 image::{guides}/img/CreateBornExistsConstraintFailed.png[CreateBornExistsConstraintFailed,width=500]
-
 
 == Exercise 13.4: Update _Person_ nodes to have a _born_ property (Instructions)
 
@@ -129,37 +115,25 @@ SET p.born = 0
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreateTomHanksFailed.png[CreateTomHanksFailed,width=500]
 
 == Exercise 13.5: Add an existence constraint to the _Person_ nodes in the graph (Instructions)
 
-*Add the existence constraint to the graph for the _born_ property.*
+*Add an existence constraint named _PersonBornExistsConstraint_ to the _Person_ nodes in the graph.*
 
 == Exercise 13.5: Add an existence constraint to the _Person_ nodes in the graph (Solution)
 
-*Add the existence constraint to the graph for the _born_ property.*
+*Add an existence constraint named _PersonBornExistsConstraint_ to the _Person_ nodes in the graph.*
 
 [source, cypher]
 ----
-CREATE CONSTRAINT ON (p:Person) ASSERT exists(p.born)
+CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born)
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddBornExistsConstraint.png[AddBornExistsConstraint,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddBornExistsConstraint.png[AddBornExistsConstraint,width=500]
 
 == Exercise 13.6: Add _Sean Penn_ to the graph where you do not specify a value for _born_ (Instructions)
 
@@ -181,29 +155,23 @@ image::{guides}/img/CannotAddWithoutBorn.png[CannotAddWithoutBorn,width=500]
 
 == Exercise 13.7: Add an existence constraint to a relationship in the graph (Instructions)
 
-Suppose we want to ensure that every  _ACTED_IN_ relationship must have a value for the _roles_ property.
+Suppose we want to ensure that every _ACTED_IN_ relationship must have a value for the _roles_ property.
 
-*Add an existence constraint to the _ACTED_IN_ relationship in the graph.*
+*Add an existence constraint, _ActedInRolesExistConstraint_ to the _ACTED_IN_ relationship in the graph.*
 
 == Exercise 13.7: Add an existence constraint to a relationship in the graph (Solution)
 
-*Add an existence constraint to the _ACTED_IN_ relationship in the graph.*
+*Add an existence constraint, _ActedInRolesExistConstraint_ to the _ACTED_IN_ relationship in the graph.*
 
 [source, cypher]
 ----
-CREATE CONSTRAINT ON ()-[r:ACTED_IN]-() ASSERT exists(r.roles)
+CREATE CONSTRAINT ActedInRolesExistConstraint ON ()-[r:ACTED_IN]-() ASSERT exists(r.roles)
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CreateRolesConstraintExists.png[CreateRolesConstraintExists,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreateRolesConstraintExists.png[CreateRolesConstraintExists,width=500]
 
 == Exercise 13.8: Attempt to add a relationship that violates the constraint (Instructions)
 
@@ -224,7 +192,7 @@ MERGE (p)-[:ACTED_IN]->(m)
 What happens when you execute the statement? Here is what you should see:
 
 [.thumb]
-image::{guides}/img/CannotCreateActedInwithoutRoles.png[CannotCreateActedInwithoutRoles,width=300]
+image::{guides}/img/CannotCreateActedInwithoutRoles.png[CannotCreateActedInwithoutRoles,width=600]
  
 == Exercise 13.9: Add a node key to the graph (Instructions)
 
@@ -239,30 +207,24 @@ You must write and execute the statement to drop the constraint if it exists:
 
 [source, cypher]
 ----
-DROP CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
+DROP CONSTRAINT MovieTitleConstraint
 ----
 
-*Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
+*Add a node key, _MovieTitleReleasedConstraint_ to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
 
 == Exercise 13.9: Add a node key to the graph (Solution)
 
-*Add a node key to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
+*Add a node key, _MovieTitleReleasedConstraint_ to the graph that will ensure that the combined values of _title_ and _released_ are unique for all _Movie_ nodes.*
 
 [source, cypher]
 ----
-CREATE CONSTRAINT ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY
+CREATE CONSTRAINT MovieTitleReleasedConstraint ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddNodeKey.png[AddNodeKey,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddNodeKey.png[AddNodeKey,width=500]
 
 == Exercise 13.10: Add the movie node to the graph (Instructions)
 
@@ -280,13 +242,8 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddedBackToTheFuture1985.png[AddedBackToTheFuture1985,width=300]
+image::{guides}/img/AddedBackToTheFuture1985.png[AddedBackToTheFuture1985,width=500]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 13.11: Add a similar movie node with slightly different property values(Instructions)
 
@@ -304,13 +261,7 @@ CREATE (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The futur
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddedBackToTheFuture2018.png[AddedBackToTheFuture2018,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddedBackToTheFuture2018.png[AddedBackToTheFuture2018,width=500]
 
 == Exercise 13.12: Try adding the _2018_ movie again (Instructions)
 
@@ -346,37 +297,26 @@ CALL db.constraints()
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/listConstraints.png[listConstraints,width=500]
+image::{guides}/img/listConstraints.png[listConstraints,width=600]
 
 
-
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 13.14: Drop an existence constrain (Instructions)
+== Exercise 13.14: Drop an existence constraint (Instructions)
 
 *Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.*
 
-== Exercise 13.14: Drop an existence constrain (Solution)
+== Exercise 13.14: Drop an existence constraint (Solution)
 
 *Drop the constraint that requires the _ACTED_IN_ relationship to have a property, _roles_.*
 
 [source, cypher]
 ----
-DROP CONSTRAINT ON ()-[ acted_in:ACTED_IN ]-() ASSERT exists(acted_in.roles)
+DROP CONSTRAINT ActedInRolesExistConstraint
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/dropConstraintRoles.png[dropConstraintRoles,width=300]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/dropConstraintRoles.png[dropConstraintRoles,width=500]
 
 == Exercise 13: Defining constraints on your data (Summary)
 

@@ -25,7 +25,7 @@
   <carousel class="deck container-fluid">
     <!--slide class="row-fluid">
       <div class="col-sm-3">
-        <h3>Exercise 1</h3>
+        <h3>Exercise 11</h3>
         <p class="lead">Information</p>
 			<!dl>
 				
@@ -44,24 +44,24 @@
     
 
 
-   <h4>Exercise 1</h4>
+   <h4>Exercise 11</h4>
    
 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Preparations)</h3>
+    <h3>Exercise 11: Deleting Nodes and Relationships (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
+<p>Make sure you have the Movie database, which contains 173 nodes and 258 relationships.</p>
 </div>
 <div class="paragraph">
-<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+<p>This is what you should see when you click the database icon:</p>
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AfterExercise10.png" alt="AfterExercise10" width="150" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -574,7 +574,17 @@ CREATE
   (JessicaThompson)-[:REVIEWED {summary:"Slapstick redeemed only by the Robin Williams and Gene Hackman's stellar performances", rating:45}]-&gt;(TheBirdcage),
   (JessicaThompson)-[:REVIEWED {summary:'A solid romp', rating:68}]-&gt;(TheDaVinciCode),
   (JamesThompson)-[:REVIEWED {summary:'Fun, but a little far fetched', rating:65}]-&gt;(TheDaVinciCode),
-  (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire)<!--/code--></pre>
+  (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire),
+(ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994, tagline: "Life is like a box of chocolates...you never know what you're gonna get." }),
+(RobinW:Person {name: 'Robin Wright', born: 1966}),
+(TomH)-[:ACTED_IN {roles: ['Forrest Gump']}]-&gt;(ForrestGump),
+(GaryS)-[:ACTED_IN {roles: ['Lt. Dan Taylor']}]-&gt;(ForrestGump),
+(RobinW)-[:ACTED_IN {roles: ['Jenny Curran']}]-&gt;(ForrestGump),
+(RobertZ)-[:DIRECTED]-&gt;(ForrestGump),
+(TomH)-[:HELPED]-&gt;(GaryS);
+MATCH (m:Movie)
+WHERE m.released &lt; 2010
+SET m:OlderMovie<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -585,25 +595,34 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Overview)</h3>
+    <h3>Exercise 11: Deleting Nodes and Relationships (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you will perform some basic retrievals from the Movie database.</p>
+<p>In the previous exercise, you created relationships between <em>Person</em> and <em>Movie</em> nodes and you modified the properties for these relationships.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise you will delete nodes and relationships from the graph.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 1.1</strong>: Retrieve all nodes from the database.</p>
+<p><strong>Exercise 11.1</strong>: Delete a relationship.</p>
 </li>
 <li>
-<p><strong>Exercise 1.2</strong>: Examine the data model for the graph.</p>
+<p><strong>Exercise 11.2</strong>: Confirm that the relationship has been deleted.</p>
 </li>
 <li>
-<p><strong>Exercise 1.3</strong>: Retrieve all <em>Person</em> nodes.</p>
+<p><strong>Exercise 11.3</strong>: Retrieve a movie and all of its relationships.</p>
 </li>
 <li>
-<p><strong>Exercise 1.4</strong>: Retrieve all <em>Movie</em> nodes.</p>
+<p><strong>Exercise 11.4</strong>: Try deleting a node without detaching its relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 11.5</strong>: Delete a <em>Movie</em> node, along with its relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 11.6</strong>: Confirm that the <em>Movie</em> node has been deleted.</p>
 </li>
 </ul>
 </div>
@@ -618,16 +637,15 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Instructions)</h3>
+    <h3>Exercise 11.1: Delete a relationship (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
+<p>Recall that in the graph we have been working with, we have the <em>HELPED</em> relationship between <em>Tom Hanks</em> and <em>Gary Sinise</em>.
+We have decided that we no longer need this relationship in the graph.</p>
 </div>
 <div class="paragraph">
-<p><strong>Hints:</strong>
-. Write the query in the query pane at the top of Neo4j Browser.
-. Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+<p><strong>Delete the <em>HELPED</em> relationship from the graph.</strong></p>
 </div>
 	</div>
   </div>
@@ -637,83 +655,16 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Solution)</h3>
+    <h3>Exercise 11.1: Delete a relationship (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click the code block below where it appears in query pane at the top of Neo4j Browser.</p>
-</li>
-<li>
-<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
-</li>
-</ol>
+<p><strong>Delete the <em>HELPED</em> relationship from the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) RETURN n<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You should now see all nodes in the graph in the result pane.
-In this query, <em>n</em> is a variable, which is a container that holds the result.</p>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ReturnAllNodes.png" alt="ReturnAllNodes" width="250">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Notes:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>If the nodes displayed are not connected, make sure that <em>Connect result nodes</em> is selected in your Neo4j Browser settings.</p>
-</li>
-<li>
-<p>If no nodes are returned, then perhaps you did not load the <em>Movie</em> database (see <em>Preparations</em>).</p>
-</li>
-</ul>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the data model of the graph (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the <em>schema</em> of your database (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema()<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (:Person)-[rel:HELPED]-(:Person)
+DELETE rel<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,7 +672,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="500">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/DeleteHELPED.png" alt="DeleteHELPED" width="500">
 </div>
 </div>
 	</div>
@@ -732,11 +683,11 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Instructions)</h3>
+    <h3>Exercise 11.2: Confirm that the relationship has been deleted (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Query the graph to confirm that the relationship no longer exists.</strong></p>
 </div>
 	</div>
   </div>
@@ -746,15 +697,16 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Solution)</h3>
+    <h3>Exercise 11.2: Confirm that the relationship has been deleted (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Query the graph to confirm that the relationship no longer exists.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) RETURN p<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (:Person)-[rel:HELPED]-(:Person)
+RETURN rel<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -762,13 +714,8 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ConfirmDeleteHELPED.png" alt="ConfirmDeleteHELPED" width="500">
 </div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>p</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that very few relationships are displayed.
-That is because most <em>Person</em> nodes have no relationships with other <em>Person</em> nodes.</p>
 </div>
 	</div>
   </div>
@@ -778,11 +725,11 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Instructions)</h3>
+    <h3>Exercise 11.3: Retrieve a movie and all of its relationships (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
+<p><strong>Query the graph to display <em>Forrest Gump</em> and all of its relationships.</strong></p>
 </div>
 	</div>
   </div>
@@ -792,15 +739,17 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Solution)</h3>
+    <h3>Exercise 11.3: Retrieve a movie and all of its relationships (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
+<p><strong>Query the graph to display <em>Forrest Gump</em> and all of its relationships.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[rel]-(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN p, rel, m<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -808,13 +757,8 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/QueryForrestGump.png" alt="QueryForrestGump" width="600">
 </div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>m</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that no relationships are displayed.
-That is because a <em>Movie</em> node has no relationships with another <em>Movie</em> node.</p>
 </div>
 	</div>
   </div>
@@ -824,15 +768,152 @@ That is because a <em>Movie</em> node has no relationships with another <em>Movi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Summary)</h3>
+    <h3>Exercise 11.4: Try deleting a node without detaching its relationships (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you performed some basic retrievals from the Movie database.
-You also called the procedure to examine the schema of the graph.</p>
+<p>We want to remove the movie, <em>Forrest Gump</em> from the graph.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
+<p><strong>Try deleting the <em>Forrest Gump</em> node without detaching its relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p>Do you receive an error?</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.4: Try deleting a node without detaching its relationships (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Try deleting the <em>Forrest Gump</em> node without detaching its relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p>Do you receive an error?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+DELETE m<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/DeleteNodeFailed.png" alt="DeleteNodeFailed" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.5: Delete a <em>Movie</em> node, along with its relationships (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete <em>Forrest Gump</em>, along with its relationships in the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.5: Delete a <em>Movie</em> node, along with its relationships (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete <em>Forrest Gump</em>, along with its relationships in the graph.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+DETACH DELETE m<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/DetachDelete.png" alt="DetachDelete" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.6: Confirm that the <em>Movie</em> node has been deleted (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11.6: Confirm that the <em>Movie</em> node has been deleted (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to confirm that the <em>Forrest Gump</em> node has been deleted.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[rel]-(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN p, rel, m<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/NoForrestGump.png" alt="NoForrestGump" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 11: Deleting Nodes and Relationships (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you deleted relationships and a node from the graph.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/12.html'>Continue to Exercise 12</a></p>
 </div>
 	</div>
   </div>

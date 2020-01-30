@@ -6,7 +6,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:   
    
-image:{guides}/img/InitialDatabase.png[InitialDatabase,200,200]
+image:{guides}/img/InitialDatabase.png[InitialDatabase,150,200]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -52,11 +52,7 @@ CALL db.schema.visualization()
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/call_db.schema.png[call_db.schema,width=300]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/call_db.schema.png[call_db.schema,width=500]
 
 == Exercise 3.2: Retrieve all people who wrote the movie _Speed Racer_ (Instructions)
 
@@ -74,15 +70,10 @@ MATCH (p:Person)-[:WROTE]->(:Movie {title: 'Speed Racer'}) RETURN p.name
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SpeedRacerWriters.png[SpeedRacerWriters,width=400]
-
+image::{guides}/img/SpeedRacerWriters.png[SpeedRacerWriters,width=500]
 
 
 Notice here that the _:Movie_ node is an anonymous node because for the query, we do not need information about the _Movie_ node.
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 3.2: Retrieve all people who wrote the movie _Speed Racer_ (Taking it further - optional)
 
@@ -113,17 +104,12 @@ MATCH (m:Movie)<--(:Person {name: 'Tom Hanks'}) RETURN m.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/TomHanksMovies.png[TomHanksMovies,width=400]
-
-
+image::{guides}/img/TomHanksMovies.png[TomHanksMovies,width=600]
 
 Notice that _Tom Hanks_ has multiple relationships to the movie, "That Thing You Do".
 Also notice that we specify the named node (with a variable) first.
 It is a best practice to put named nodes first in a query.
 
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 3.3: Retrieve all movies that are connected to the person, _Tom Hanks_ (Taking it further - optional)
 
@@ -146,13 +132,7 @@ MATCH (m:Movie)-[rel]-(:Person {name: 'Tom Hanks'}) RETURN m.title, type(rel)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/TomHanksRelationshipTypes.png[TomHanksRelationshipTypes,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/TomHanksRelationshipTypes.png[TomHanksRelationshipTypes,width=600]
 
 
 == Exercise 3.4: Retrieve information about the relationships _Tom Hanks_ has with the set of movies retrieved earlier (Taking it further - optional)
@@ -180,13 +160,8 @@ MATCH (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) RETURN m.title, rel
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/TomHanksRoles.png[TomHanksRoles,width=400]
+image::{guides}/img/TomHanksRoles.png[TomHanksRoles,width=600]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 3.5: Retrieve information about the roles that _Tom Hanks_ acted in (Taking it further - optional)
 

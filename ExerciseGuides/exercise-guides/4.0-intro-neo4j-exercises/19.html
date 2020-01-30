@@ -1,0 +1,358 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 19</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 19</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19: Importing data from an RDBMS using an application (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>If you are using Neo4j Desktop:</p>
+</div>
+<div class="paragraph">
+<p>You will start with a new database named products. Execute these commands in Neo4j Browser to create the database.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:USE system
+CREATE DATABASE products
+:USE products<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you are using Neo4j Sandbox or Neo4j Aura, you will need to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drop all indexes and constraints in the graph.</p>
+</li>
+<li>
+<p>MATCH (n) DETACH DELETE n</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19: Importing data with an application (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you install the sdk and groovy frameworks for running the java-based application.
+Next, you run the application that connects to the northwind RDBMS and copies data into the Neo4j database.
+Finally, you confirm that the data has been created in the Neo4j database.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 19.1</strong>: Install <strong>sdk</strong>.</p>
+</li>
+<li>
+<p><strong>Exercise 19.2</strong>: Install <strong>groovy</strong>.</p>
+</li>
+<li>
+<p><strong>Exercise 19.3</strong>: Modify the groovy file to use the Neo4j RDBMS credentials.</p>
+</li>
+<li>
+<p><strong>Exercise 19.4</strong>: Run the application to import the data.</p>
+</li>
+<li>
+<p><strong>Exercise 19.5</strong>: View the database after import.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19.1: Install sdk (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>If you have already installed <strong>sdk</strong> on your system, skip this step.</p>
+</div>
+<div class="paragraph">
+<p>In a terminal window, follow these steps to install <strong>sdk</strong> on your system:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>curl -s "https://get.sdkman.io" | bash</p>
+</li>
+<li>
+<p>source "$HOME/.sdkman/bin/sdkman-init.sh"</p>
+</li>
+<li>
+<p>Verify the installation by typing <strong>sdk help</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/sdkInstalled.png" alt="sdkInstalled" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19.2: Install groovy (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>If you have already installed <strong>groovy</strong> on your system, skip this step.</p>
+</div>
+<div class="paragraph">
+<p>In the same terminal window, follow these steps to install groovy on your system:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>sdk install groovy</p>
+</li>
+<li>
+<p>Verify the installation by typing: groovy -h</p>
+</li>
+</ol>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/groovyInstalled.png" alt="groovyInstalled" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19.3: Modify the groovy file to use the Neo4j RDBMS credentials (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Here is the <strong>import.groovy</strong> file that you should place somewhere on your system:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding"><!--code-->@GrabConfig( systemClassLoader=true )
+@Grapes([
+  @Grab(group='org.postgresql', module='postgresql', version='42.0.0'),
+  @Grab(group='org.neo4j.driver', module='neo4j-java-driver', version='4.0.0')
+])
+
+import org.neo4j.driver.*;
+import java.sql.*;
+Class.forName("org.postgresql.Driver");
+
+table = "products";
+JDBC = [url:"jdbc:postgresql://db-examples.cmlvojdj5cci.us-east-1.rds.amazonaws.com/northwind", user:"n4examples", pass:"36gdOVABr3Ex"];
+NEO4J=[url:"bolt://localhost:7687", user:"neo4j",pass:"training-helps"];
+
+// see https://neo4j.com/docs/api/java-driver/current/
+GraphDatabase.driver(NEO4J.url, AuthTokens.basic(NEO4J.user, NEO4J.pass)).withCloseable{ neo4j -&gt;
+DriverManager.getConnection(JDBC.url, JDBC.user, JDBC.pass).withCloseable { rdbms -&gt;
+
+stmt = rdbms.prepareStatement("SELECT * FROM ${table}");
+
+neo4j.session(SessionConfig.builder().withDatabase("products").build()).withCloseable{ session -&gt;
+  session.writeTransaction { tx -&gt;
+   stmt.executeQuery().withCloseable{ rs -&gt;
+     meta = rs.getMetaData();
+     cols = meta.getColumnCount();
+     while (rs.next()) {
+        params = [:];
+        for (int i=0;i&lt;cols;i++) {
+           params[meta.getColumnName(i+1)]=rs.getObject(i+1);
+        }
+        println(params);
+        tx.run("CREATE (n:${table}) SET n += \$props", Values.value([props:params])).consume();
+     }
+   }
+}}}}<!--/code--></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Modify the NEO4J value to match the credentials you use to connect to the Neo4j database.</p>
+</li>
+</ol>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19.4: Run the application to load the data (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In the same terminal window:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to the folder where you placed the import.groovy file.</p>
+</li>
+<li>
+<p>Type: groovy import.groovy</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You should see something like this:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/RunGroovy.png" alt="RunGroovy" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19.5: View the database after import (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In Neo4j Browser, confirm that the database was populated.</p>
+</div>
+<div class="paragraph">
+<p>You should see this in Neo4j Browser:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AfterAppImport.png" alt="AfterAppImport" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.5: Verify that you can access APOC procecdures (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>The database files have been created, but you must use the system database to add the crimes data base to your environment.
+Using the system domain, create the <em>crimes</em> database and then view its nodes and relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p>Enter the following in the query edit pane:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:use system
+CREATE DATABASE crimes
+:use crimes</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The database informatiob should now look as follows:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/Afteradmin-toolImport.png" alt="Afteradmin-toolImport" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 19: Importing data from an RDBMS using an application (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you install the sdk and groovy frameworks for running the java-based application.
+Next, you run the application that connects to the northwind RDBMS and copies data into the Neo4j database.
+Finally, you confirm that the data has been created in the Neo4j database.</p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

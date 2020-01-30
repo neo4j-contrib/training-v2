@@ -2,11 +2,11 @@
 
 == Exercise 12: Merging Data in the Graph (Preparations)
 
-Make sure you have the Movie database, which contains 173 nodes and 258 relationships.
+Make sure you have the Movie database, which contains 172 nodes and 253 relationships.
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise10.png[After exercise 10,200,200, role=left]
+image::{guides}/img/AfterExercise11.png[AfterExercise11,150,200, role=left]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -14,7 +14,6 @@ If your database does not have this number of nodes and relationships, you can u
 ----
 include::scripts/AfterExercise11.cypher[]
 ----
-
 
 == Exercise 12: Merging Data in the Graph (Overview)
 
@@ -39,6 +38,7 @@ You will see how in your real application, you should take care not to create du
 * *Exercise 12.13*: Use `MERGE` to create the _DIRECTED_ relationship.
 * *Exercise 12.14*: Use `MERGE` to create the _ACTED_IN_ relationship.
 * *Exercise 12.15*: Modify the _role_ relationship property.
+* *Exercise 12.16*: Verify the update.
 
 Go to the next page to start this exercise.
 
@@ -62,13 +62,7 @@ RETURN m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/CreateForrestGump2.png[CreateForrestGump2,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/CreateForrestGump2.png[CreateForrestGump2,width=600]
 
 == Exercise 12.2: Use `MERGE` to update a node (Instructions)
 
@@ -89,13 +83,7 @@ RETURN m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MergeForrestGump.png[MergeForrestGump,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MergeForrestGump.png[MergeForrestGump,width=600]
 
 == Exercise 12.3: Use `MERGE` to create a _Production_ node (Instructions)
 
@@ -115,13 +103,7 @@ RETURN p
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MergeProduction.png[MergeProduction,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MergeProduction.png[MergeProduction,width=600]
 
 == Exercise 12.4: Find all labels for nodes with a property value (Instructions)
 
@@ -141,13 +123,7 @@ RETURN  labels(m)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AllForrestGumps.png[AllForrestGumps,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AllForrestGumps.png[AllForrestGumps,width=600]
 
 == Exercise 12.5: Use `MERGE` to update a _Production_ node (Instructions)
 
@@ -167,13 +143,7 @@ RETURN p
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddCompany.png[AddCompany,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddCompany.png[AddCompany,width=600]
 
 == Exercise 12.6: Use `MERGE` to add a label to a node (Instructions)
 
@@ -193,13 +163,7 @@ RETURN labels(m)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddOlderMovieLabelToForrestGump.png[AddOlderMovieLabelToForrestGump,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddOlderMovieLabelToForrestGump.png[AddOlderMovieLabelToForrestGump,width=600]
 
 == Exercise 12.7: Use `MERGE` to create two nodes and a single relationship (Instructions)
 
@@ -227,13 +191,7 @@ A best practice is to create nodes first, then relationships.
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MergeNodesAndRelationships.png[MergeNodesAndRelationships,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MergeNodesAndRelationships.png[MergeNodesAndRelationships,width=500]
 
 == Exercise 12.8: Use the same `MERGE` statement to attempt to create two nodes and a single relationship (Instructions)
 
@@ -254,13 +212,7 @@ MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MergeNodesAndRelationships2.png[MergeNodesAndRelationships2,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MergeNodesAndRelationships2.png[MergeNodesAndRelationships2,width=500]
 
 == Exercise 12.9: Find the correct _Person_ node to delete (Instructions)
 
@@ -284,13 +236,7 @@ RETURN p, rel, x
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/FindPersonNodeBeforeDelete.png[FindPersonNodeBeforeDelete,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/FindPersonNodeBeforeDelete.png[FindPersonNodeBeforeDelete,width=600]
 
 == Exercise 12.10: Delete this _Person_ node, along with its relationships (Instructions)
 
@@ -310,13 +256,7 @@ DETACH DELETE p
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DeletedExtraPerson.png[DeletedExtraPerson,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/DeletedExtraPerson.png[DeletedExtraPerson,width=500]
 
 == Exercise 12.11: Find the correct _Forrest Gump_ node to delete (Instructions)
 
@@ -334,13 +274,7 @@ RETURN m, labels(m)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ForrestGumpToDelete.png[ForrestGumpToDelete,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ForrestGumpToDelete.png[ForrestGumpToDelete,width=600]
 
 == Exercise 12.12: Delete the _Forrest Gump_ node (Instructions)
 
@@ -362,13 +296,7 @@ DETACH DELETE m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DeletedExtraForrestGump.png[DeletedExtraForrestGump,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/DeletedExtraForrestGump.png[DeletedExtraForrestGump,width=500]
 
 == Exercise 12.13: Use `MERGE` to create the _DIRECTED_ relationship (Instructions)
 
@@ -385,16 +313,12 @@ WHERE p.name = 'Robert Zemeckis' AND m.title = 'Forrest Gump'
 MERGE (p)-[:DIRECTED]->(m)
 ----
 
+In this code, you will see a warning that the query forms a Cartesian Product. This is common if you are retrieving nodes that are unrelated to create their relationship
+
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/AddDirectedToForrestGump.png[AddDirectedToForrestGump,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/AddDirectedToForrestGump.png[AddDirectedToForrestGump,width=500]
 
 == Exercise 12.14: Use `MERGE` to create the _ACTED_IN_ relationship (Instructions)
 
@@ -415,13 +339,7 @@ MERGE (p)-[:ACTED_IN]->(m)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActedInForrestGump.png[ActedInForrestGump,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ActedInForrestGump.png[ActedInForrestGump,width=500]
 
 == Exercise 12.15: Modify the _role_ relationship property (Instructions)
 
@@ -430,6 +348,8 @@ image::{guides}/img/ActedInForrestGump.png[ActedInForrestGump,width=400]
 * *Tom Hanks is Forrest Gump*
 * *Gary Sinise is Lt. Dan Taylor*
 * *Robin Wright is Jenny Curran*
+
+*Hint:* Use the `CASE` clause.
 
 == Exercise 12.15: Modify the _role_ relationship property (Solution)
 
@@ -454,13 +374,28 @@ END
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetActedRoles.png[SetActedRoles,width=400]
+image::{guides}/img/SetActedRoles.png[SetActedRoles,width=500]
 
+== Exercise 12.16: Verify the update (Instructions)
 
+*Write a query to verify what you just updated in the graph.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 12.16: Verify the update (Solution)
+
+*Write a query to verify what you just updated in the graph.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN p.name, rel.roles, m.title
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/VerifyRoleUpdates.png[VerifyRoleUpdates,width=600]
+
 
 == Exercise 12: Merging Data in the Graph (Summary)
 

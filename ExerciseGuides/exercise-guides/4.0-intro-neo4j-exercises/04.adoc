@@ -6,7 +6,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:   
    
-image:{guides}/img/InitialDatabase.png[InitialDatabase,200,200]
+image:{guides}/img/InitialDatabase.png[InitialDatabase,150,200]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -65,13 +65,8 @@ RETURN m.title as Movie
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/TomCruiseMovies.png[TomCruiseMovies,width=400]
+image::{guides}/img/TomCruiseMovies.png[TomCruiseMovies,width=500]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 4.2: Retrieve all people that were born in the 70's (Instructions)
 
@@ -91,13 +86,8 @@ RETURN a.name as Name, a.born as `Year Born`
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SeventiesActors.png[SeventiesActors,width=400]
+image::{guides}/img/SeventiesActors.png[SeventiesActors,width=600]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 4.3: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960 (Instructions)
 
@@ -117,7 +107,7 @@ RETURN a.name as Name, a.born as `Year Born`
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MatrixYoungerActors.png[MatrixYoungerActors,width=400]
+image::{guides}/img/MatrixYoungerActors.png[MatrixYoungerActors,width=500]
 
 ++++
 <div style="clear: both;"></div>
@@ -141,13 +131,7 @@ RETURN m.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=500]
 
 == Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Instructions)
 
@@ -167,13 +151,7 @@ RETURN a.name as Name, m.title as Movie
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MatchWritersWhere.png[MatchWritersWhere,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MatchWritersWhere.png[MatchWritersWhere,width=600]
 
 == Exercise 4.6: Retrieve all people in the graph that do not have a property (Instructions)
 
@@ -195,13 +173,7 @@ RETURN a.name as Name
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/NoYearBorn.png[NoYearBorn,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/NoYearBorn.png[NoYearBorn,width=600]
 
 == Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Instructions)
 
@@ -223,13 +195,7 @@ RETURN a.name as Name, m.title as Movie, rel.rating as Rating
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RelationshipsWithRatings.png[RelationshipsWithRatings,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/RelationshipsWithRatings.png[RelationshipsWithRatings,width=600]
 
 == Exercise 4.8: Retrieve all actors whose name begins with _James_ (Instructions)
 
@@ -251,13 +217,7 @@ RETURN a.name
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActorsNamedJames.png[ActorsNamedJames,width=400]
-
-The result returned should be:
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ActorsNamedJames.png[ActorsNamedJames,width=600]
 
 == Exercise 4.9: Retrieve all _REVIEWED_ relationships from the graph with filtered results (Instructions)
 
@@ -279,13 +239,7 @@ RETURN  m.title as Movie, r.summary as Review, r.rating as Rating
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ReviewsWithFun.png[ReviewsWithFun,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ReviewsWithFun.png[ReviewsWithFun,width=600]
 
 == Exercise 4.9: Retrieve all _REVIEWED_ relationships from the graph where the _summary_ of the review contains the string _fun_ (Taking it further - optional)
 
@@ -314,11 +268,7 @@ RETURN a.name, m.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirectors,width=400]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirectors,width=600]
 
 == Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Instructions)
 
@@ -338,13 +288,7 @@ RETURN  a1.name as Actor, a2.name as `Actor/Director`, m.title as Movie
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActorsAsDirectors.png[ActorsAsDirectors,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ActorsAsDirectors.png[ActorsAsDirectors,width=600]
 
 == Exercise 4.12: Retrieve all movies that were released in a set of years (Instructions)
 
@@ -359,20 +303,14 @@ Next you will perform queries using lists.
 [source, cypher]
 ----
 MATCH (m:Movie)
-WHERE m.released in [2000, 2004, 2008]
+WHERE m.released IN [2000, 2004, 2008]
 RETURN m.title, m.released
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MoviesInList.png[MoviesInList,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MoviesInList.png[MoviesInList,width=500]
 
 == Exercise 4.13: Retrieve the movies that have an actor's role that is the name of the movie (Instructions)
 
@@ -392,13 +330,8 @@ RETURN  m.title as Movie, a.name as Actor
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RoleNameIsMovieName.png[RoleNameIsMovieName,width=400]
+image::{guides}/img/RoleNameIsMovieName.png[RoleNameIsMovieName,width=600]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 4: Filtering queries using the `WHERE` clause (Summary)
 

@@ -25,7 +25,7 @@
   <carousel class="deck container-fluid">
     <!--slide class="row-fluid">
       <div class="col-sm-3">
-        <h3>Exercise 1</h3>
+        <h3>Exercise 2</h3>
         <p class="lead">Information</p>
 			<!dl>
 				
@@ -44,25 +44,23 @@
     
 
 
-   <h4>Exercise 1</h4>
+   <h4>Exercise 2</h4>
    
 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Preparations)</h3>
+    <h3>Exercise 2: Filtering queries using property values (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
 <div class="paragraph">
-<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+<p>This is what you should see when you click the database icon:</p>
 </div>
-<div class="imageblock left">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200"></span></p>
 </div>
 <div class="paragraph">
 <p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
@@ -585,25 +583,36 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Overview)</h3>
+    <h3>Exercise 2: Filtering queries using property values (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you will perform some basic retrievals from the Movie database.</p>
+<p>Thus far, you have filtered what nodes are returned from a query based upon the <code>Label</code> for the node where you returned <em>Person</em> or <em>Movie</em> nodes.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will retrieve nodes from the database by specifying a filter criteria that is a property value.
+Then, you will examine the property keys in the training <em>Movie</em> graph.
+Finally, you will query the graph to return property values for nodes retrieved.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 1.1</strong>: Retrieve all nodes from the database.</p>
+<p><strong>Exercise 2.1</strong>: Retrieve all movies that were released in a specific year.</p>
 </li>
 <li>
-<p><strong>Exercise 1.2</strong>: Examine the data model for the graph.</p>
+<p><strong>Exercise 2.2</strong>: View the retrieved results as a table.</p>
 </li>
 <li>
-<p><strong>Exercise 1.3</strong>: Retrieve all <em>Person</em> nodes.</p>
+<p><strong>Exercise 2.3</strong>: Query the database for all property keys.</p>
 </li>
 <li>
-<p><strong>Exercise 1.4</strong>: Retrieve all <em>Movie</em> nodes.</p>
+<p><strong>Exercise 2.4</strong>: Retrieve all Movies released in a specific year, returning their titles.</p>
+</li>
+<li>
+<p><strong>Exercise 2.5</strong>: Display <em>title</em>, <em>released</em>, and <em>tagline</em> values for every <em>Movie</em> node in the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 2.6</strong>: Display more user-friendly headers in the table.</p>
 </li>
 </ul>
 </div>
@@ -618,16 +627,11 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Instructions)</h3>
+    <h3>Exercise 2.1: Retrieve all movies that were released in a specific year (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>Hints:</strong>
-. Write the query in the query pane at the top of Neo4j Browser.
-. Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+<p><strong>Retrieve all <em>Movie</em> nodes that have a <em>released</em> property value of 2003.</strong></p>
 </div>
 	</div>
   </div>
@@ -637,49 +641,81 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Solution)</h3>
+    <h3>Exercise 2.1: Retrieve all movies that were released in a specific year (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click the code block below where it appears in query pane at the top of Neo4j Browser.</p>
-</li>
-<li>
-<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
-</li>
-</ol>
+<p><strong>Retrieve all <em>Movie</em> nodes that have a <em>released</em> property value of 2003.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) RETURN n<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie {released:2003}) RETURN m<!--/code--></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>You should now see all nodes in the graph in the result pane.
-In this query, <em>n</em> is a variable, which is a container that holds the result.</p>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ReturnAllNodes.png" alt="ReturnAllNodes" width="250">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MoviesReleased2003_Nodes.png" alt="MoviesReleased2003_Nodes" width="600">
 </div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 2.2: View the retrieved results as a table (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the results you just viewed in Neo4j Browser as a table.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 2.2: View the retrieved results as a table (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the results you just viewed in Neo4j Browser as a table.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Notes:</strong></p>
+<p>In the result pane, click the table icon in the left panel.
+You should see this table in the result pane:</p>
 </div>
-<div class="ulist">
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MoviesReleased2003_Table.png" alt="MoviesReleased2003_Table" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 2.2: View the retrieved results as a table (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
 <ul>
 <li>
-<p>If the nodes displayed are not connected, make sure that <em>Connect result nodes</em> is selected in your Neo4j Browser settings.</p>
+<p>Retrieve all movie nodes in the database and view the data as a table.
+Notice the values for the released property for each node.</p>
 </li>
 <li>
-<p>If no nodes are returned, then perhaps you did not load the <em>Movie</em> database (see <em>Preparations</em>).</p>
+<p>Try querying the graph using different years.</p>
 </li>
 </ul>
 </div>
@@ -691,11 +727,15 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the data model of the graph (Instructions)</h3>
+    <h3>Exercise 2.3: Query the database for all property keys (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<p>You want to know the existing property keys used in a graph.
+This will help you to write Cypher queries that utilizes property keys for filtering data or for returning data.</p>
+</div>
+<div class="paragraph">
+<p><strong>Query the database for all property keys.</strong></p>
 </div>
 	</div>
   </div>
@@ -705,15 +745,18 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the <em>schema</em> of your database (Solution)</h3>
+    <h3>Exercise 2.3: Query the database for all property keys (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<p><strong>Query the database for all property keys.</strong></p>
+</div>
+<div class="paragraph">
+<p>In the query editor pane, enter the Cypher query to retrieve the property keys from the database.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema()<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.propertyKeys()<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,7 +764,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="500">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/call_db.PropertyKeys.png" alt="call_db.PropertyKeys" width="400">
 </div>
 </div>
 	</div>
@@ -732,11 +775,14 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Instructions)</h3>
+    <h3>Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p>Rather than returning the nodes that satisfy a query, you want to return data from the nodes.</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve all Movies released in 2006, returning their titles.</strong></p>
 </div>
 	</div>
   </div>
@@ -746,15 +792,18 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Solution)</h3>
+    <h3>Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Retrieve all Movies released in 2006, returning their titles.</strong></p>
+</div>
+<div class="paragraph">
+<p>In the query editor pane, enter the Cypher query to retrieve all <em>Movie</em> nodes from the database with a <em>released</em> value of <em>2006</em>, but rather than returning the nodes, return the <em>title</em> values for all nodes retrieved.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) RETURN p<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie {released: 2006}) RETURN m.title<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -762,13 +811,47 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MoviesReleased2006_titles.png" alt="MoviesReleased2006_titles" width="500">
 </div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
+<ul>
+<li>
+<p>Retrieve all <em>Movie</em> nodes and view them as a table. Observe the properties that <em>Movie</em> nodes have.</p>
+</li>
+<li>
+<p>Query the database using a different year and also return more property values.</p>
+</li>
+</ul>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 2.5: Display <em>title</em>, <em>released</em>, and <em>tagline</em> values for every <em>Movie</em> node in the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>When you start working with a graph, it is sometimes helpful to simply view property values.
+This can sometimes help to inform you about future queries you may want to execute against the graph.</p>
 </div>
 <div class="paragraph">
-<p>Here we use <em>p</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that very few relationships are displayed.
-That is because most <em>Person</em> nodes have no relationships with other <em>Person</em> nodes.</p>
+<p><strong>Retrieve all <em>Movie</em> nodes from the database and return the <em>title</em>, <em>released</em>, and <em>tagline</em> values.</strong></p>
 </div>
 	</div>
   </div>
@@ -778,29 +861,18 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Instructions)</h3>
+    <h3>Exercise 2.5: Display <em>title</em>, <em>released</em>, and <em>tagline</em> values for every <em>Movie</em> node in the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
+<p><strong>Retrieve all <em>Movie</em> nodes from the database and return the <em>title</em>, <em>released</em>, and <em>tagline</em> values.</strong></p>
 </div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
+<div class="paragraph">
+<p>In the query editor pane, enter the Cypher query to retrieve all <em>Movie</em> nodes from the database and write <em>title</em>, <em>released</em>, and <em>tagline</em> values.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m.title, m.released, m.tagline<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -808,13 +880,8 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/RetrieveTitleReleasedTagline.png" alt="RetrieveTitleReleasedTagline" width="500">
 </div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>m</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that no relationships are displayed.
-That is because a <em>Movie</em> node has no relationships with another <em>Movie</em> node.</p>
 </div>
 	</div>
   </div>
@@ -824,15 +891,57 @@ That is because a <em>Movie</em> node has no relationships with another <em>Movi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Summary)</h3>
+    <h3>Exercise 2.6: Display more user-friendly headers in the table (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you performed some basic retrievals from the Movie database.
-You also called the procedure to examine the schema of the graph.</p>
+<p><strong>Modify the query you just ran so that the headings for the columns of the table returned are more descriptive.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 2.6: Display more user-friendly headers in the table (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query you just ran so that the headings for the columns of the table returned are more descriptive.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m.title AS `movie title`, m.released AS released, m.tagline AS tagLine<!--/code--></pre>
+</div>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UsingAliases.png" alt="UsingAliases" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 2: Filtering queries using property values (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you retrieved nodes from the database by specifying a filter criteria that is a property value.
+Then, you examined the property keys in the training <em>Movie</em> graph.
+Finally, you queried the graph to return property values for nodes retrieved.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/03.html'>Continue to Exercise 3</a></p>
 </div>
 	</div>
   </div>

@@ -25,7 +25,7 @@
   <carousel class="deck container-fluid">
     <!--slide class="row-fluid">
       <div class="col-sm-3">
-        <h3>Exercise 1</h3>
+        <h3>Exercise 4</h3>
         <p class="lead">Information</p>
 			<!dl>
 				
@@ -44,25 +44,23 @@
     
 
 
-   <h4>Exercise 1</h4>
+   <h4>Exercise 4</h4>
    
 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Preparations)</h3>
+    <h3>Exercise 4: Filtering queries using the <code>WHERE</code> clause (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
 <div class="paragraph">
-<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+<p>This is what you should see when you click the database icon:</p>
 </div>
-<div class="imageblock left">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200"></span></p>
 </div>
 <div class="paragraph">
 <p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
@@ -585,25 +583,61 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Overview)</h3>
+    <h3>Exercise 4: Filtering queries using the <code>WHERE</code> clause (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you will perform some basic retrievals from the Movie database.</p>
+<p>In the previous exercise, you have filtered your queries based upon node labels, property values, and relationships in a <code>MATCH</code> pattern.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise, you will write queries that filter the results that are returned using a <code>WHERE</code> clause.
+First, you will write some queries that filter based upon property values.
+Then you will specify node labels in the filter.
+Next, you will test whether a property exists.
+Then you will filter queries based upon string comparisons.
+Next, you will write queries that filter based upon patterns in the graph.
+Finally, you will test if property values are in a list.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 1.1</strong>: Retrieve all nodes from the database.</p>
+<p><strong>Exercise 4.1</strong>: Retrieve all movies that <em>Tom Cruise</em> acted in.</p>
 </li>
 <li>
-<p><strong>Exercise 1.2</strong>: Examine the data model for the graph.</p>
+<p><strong>Exercise 4.2</strong>: Retrieve all people that were born in the 70&#8217;s.</p>
 </li>
 <li>
-<p><strong>Exercise 1.3</strong>: Retrieve all <em>Person</em> nodes.</p>
+<p><strong>Exercise 4.3</strong>: Retrieve the actors who acted in the movie <em>The Matrix</em> who were born after 1960.</p>
 </li>
 <li>
-<p><strong>Exercise 1.4</strong>: Retrieve all <em>Movie</em> nodes.</p>
+<p><strong>Exercise 4.4</strong>: Retrieve all movies  by testing the node label and a property.</p>
+</li>
+<li>
+<p><strong>Exercise 4.5</strong>: Retrieve all people that wrote movies by testing the relationship between two nodes.</p>
+</li>
+<li>
+<p><strong>Exercise 4.6</strong>: Retrieve all people in the graph that do not have a property.</p>
+</li>
+<li>
+<p><strong>Exercise 4.7</strong>: Retrieve all people related to movies where the relationship has a property.</p>
+</li>
+<li>
+<p><strong>Exercise 4.8</strong>: Retrieve all actors whose name begins with <em>James</em>.</p>
+</li>
+<li>
+<p><strong>Exercise 4.9</strong>: Retrieve all all <em>REVIEW</em> relationships from the graph with filtered results.</p>
+</li>
+<li>
+<p><strong>Exercise 4.10</strong>: Retrieve all people who have produced a movie, but have not directed a movie.</p>
+</li>
+<li>
+<p><strong>Exercise 4.11</strong>: Retrieve the movies and their actors where one of the actors also directed the movie.</p>
+</li>
+<li>
+<p><strong>Exercise 4.12</strong>: Retrieve all movies that were released in a set of years.</p>
+</li>
+<li>
+<p><strong>Exercise 4.13</strong>: Retrieve the movies that have an actor&#8217;s role that is the name of the movie.</p>
 </li>
 </ul>
 </div>
@@ -618,16 +652,17 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Instructions)</h3>
+    <h3>Exercise 4.1: Retrieve all movies that <em>Tom Cruise</em> acted in (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
+<p><strong>Retrieve all movies that <em>Tom Cruise</em> acted in and return their titles.</strong></p>
 </div>
 <div class="paragraph">
-<p><strong>Hints:</strong>
-. Write the query in the query pane at the top of Neo4j Browser.
-. Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+<p><strong>Hint</strong>: Use a <code>WHERE</code> clause.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> You must specify a variable for the <em>Person</em> and <em>Movie</em> nodes as they are used in the <code>WHERE</code> and <code>RETURN</code> clauses.</p>
 </div>
 	</div>
   </div>
@@ -637,65 +672,407 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Solution)</h3>
+    <h3>Exercise 4.1: Retrieve all movies that <em>Tom Cruise</em> acted in (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click the code block below where it appears in query pane at the top of Neo4j Browser.</p>
-</li>
-<li>
-<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
-</li>
-</ol>
+<p><strong>Retrieve all movies that <em>Tom Cruise</em> acted in and return their titles.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) RETURN n<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
+WHERE a.name = 'Tom Cruise'
+RETURN m.title as Movie<!--/code--></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>You should now see all nodes in the graph in the result pane.
-In this query, <em>n</em> is a variable, which is a container that holds the result.</p>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ReturnAllNodes.png" alt="ReturnAllNodes" width="250">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/TomCruiseMovies.png" alt="TomCruiseMovies" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.2: Retrieve all people that were born in the 70&#8217;s (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people that were born in the 70&#8217;s and return their names and year born.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.2: Retrieve all people that were born in the 70&#8217;s (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people that were born in the 70&#8217;s and return their names and year born.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)
+WHERE a.born &gt;= 1970 AND a.born &lt; 1980
+RETURN a.name as Name, a.born as `Year Born`<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Notes:</strong></p>
+<p>The result returned should be:</p>
 </div>
-<div class="ulist">
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/SeventiesActors.png" alt="SeventiesActors" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.3: Retrieve the actors who acted in the movie <em>The Matrix</em> who were born after 1960 (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the actors who acted in the movie <em>The Matrix</em> who were born after 1960, and return their names and year born.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.3: Retrieve the actors who acted in the movie <em>The Matrix</em> who were born after 1960 (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the actors who acted in the movie <em>The Matrix</em> who were born after 1960, and return their names and year born.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
+WHERE a.born &gt; 1960 AND m.title = 'The Matrix'
+RETURN a.name as Name, a.born as `Year Born`<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MatrixYoungerActors.png" alt="MatrixYoungerActors" width="500">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.4: Retrieve all movies  by testing the node label and a property (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.4: Retrieve all movies  by testing the node label and a property (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all movies  released in 2000 by testing the node label and the released property, returning the movie titles.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m)
+WHERE m:Movie AND m.released = 2000
+RETURN m.title<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MatchMovies2000.png" alt="MatchMovies2000" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people that wrote movies by testing the relationship between two nodes, returning the names of the people and the titles of the movies.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a)-[rel]-&gt;(m)
+WHERE a:Person AND type(rel) = 'WROTE' AND m:Movie
+RETURN a.name as Name, m.title as Movie<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MatchWritersWhere.png" alt="MatchWritersWhere" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.6: Retrieve all people in the graph that do not have a property (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will write Cypher queries using a <code>WHERE</code> clause to test existence.</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve all people in the graph that do not have a <em>born</em> property, returning their names.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.6: Retrieve all people in the graph that do not have a property (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people in the graph that do not have a <em>born</em> property, returning their names.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)
+WHERE NOT exists(a.born)
+RETURN a.name as Name<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/NoYearBorn.png" alt="NoYearBorn" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will write Cypher queries using a <code>WHERE</code> clause to test existence.</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve all people related to movies where the relationship has the <em>rating</em> property, then return their name, movie title, and the rating.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people related to movies where the relationship has the <em>rating</em> property, then return their name, movie title, and the rating.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[rel]-&gt;(m:Movie)
+WHERE exists(rel.rating)
+RETURN a.name as Name, m.title as Movie, rel.rating as Rating<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/RelationshipsWithRatings.png" alt="RelationshipsWithRatings" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.8: Retrieve all actors whose name begins with <em>James</em> (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Next you will practice queries that test string properties.</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve all actors whose name begins with <em>James</em>, returning their names.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.8: Retrieve all actors whose name begins with <em>James</em> (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all actors whose name begins with <em>James</em>, returning their names.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(:Movie)
+WHERE a.name STARTS WITH 'James'
+RETURN a.name<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ActorsNamedJames.png" alt="ActorsNamedJames" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.9: Retrieve all <em>REVIEWED</em> relationships from the graph with filtered results (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all <em>REVIEWED</em> relationships from the graph where the <em>summary</em> of the review contains the string <em>fun</em>, returning the movie title reviewed and the rating and summary of the relationship.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint:</strong> You do not know what case the <em>fun</em> string will be in the summary text.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.9: Retrieve all <em>REVIEWED</em> relationships from the graph with filtered results (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all <em>REVIEWED</em> relationships from the graph where the <em>summary</em> of the review contains the string <em>fun</em>, returning the movie title reviewed and the rating and summary of the relationship.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (:Person)-[r:REVIEWED]-&gt;(m:Movie)
+WHERE toLower(r.summary) CONTAINS 'fun'
+RETURN  m.title as Movie, r.summary as Review, r.rating as Rating<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ReviewsWithFun.png" alt="ReviewsWithFun" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.9: Retrieve all <em>REVIEWED</em> relationships from the graph where the <em>summary</em> of the review contains the string <em>fun</em> (Taking it further - optional)</h3>
+    <br/>
+    <div>
+      <div class="ulist">
 <ul>
 <li>
-<p>If the nodes displayed are not connected, make sure that <em>Connect result nodes</em> is selected in your Neo4j Browser settings.</p>
+<p>Retrieve all movies in the database that have <em>love</em> in their <em>tagline</em> and return the movie titles</p>
 </li>
 <li>
-<p>If no nodes are returned, then perhaps you did not load the <em>Movie</em> database (see <em>Preparations</em>).</p>
+<p>Retrieve movies in the database, specifying a regular expression for the content of the <em>tagline</em>.</p>
 </li>
 </ul>
 </div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the data model of the graph (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<div class="paragraph">
+<p><strong>Hint:</strong> retrieve all of the taglines of the movies to see what you can search for.</p>
 </div>
 	</div>
   </div>
@@ -705,15 +1082,34 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the <em>schema</em> of your database (Solution)</h3>
+    <h3>Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<p>Next, you will write queries that test patterns.</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people who have produced a movie, but have not directed a movie, returning their names and the movie titles.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema()<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:PRODUCED]-&gt;(m:Movie)
+WHERE NOT ((a)-[:DIRECTED]-&gt;(:Movie))
+RETURN a.name, m.title<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,7 +1117,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="500">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ProducersThatAreNotDirectors.png" alt="ProducersThatAreNotDirectors" width="600">
 </div>
 </div>
 	</div>
@@ -732,11 +1128,11 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Instructions)</h3>
+    <h3>Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director&#8217;s name, and the movie title.</strong></p>
 </div>
 	</div>
   </div>
@@ -746,15 +1142,17 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Solution)</h3>
+    <h3>Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Retrieve the movies and their actors where one of the actors also directed the movie, returning the actors names, the director&#8217;s name, and the movie title.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) RETURN p<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a1:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a2:Person)
+WHERE exists( (a2)-[:DIRECTED]-&gt;(m) )
+RETURN  a1.name as Actor, a2.name as `Actor/Director`, m.title as Movie<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -762,13 +1160,25 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ActorsAsDirectors.png" alt="ActorsAsDirectors" width="600">
 </div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.12: Retrieve all movies that were released in a set of years (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Next you will perform queries using lists.</p>
 </div>
 <div class="paragraph">
-<p>Here we use <em>p</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that very few relationships are displayed.
-That is because most <em>Person</em> nodes have no relationships with other <em>Person</em> nodes.</p>
+<p><strong>Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.</strong></p>
 </div>
 	</div>
   </div>
@@ -778,29 +1188,17 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Instructions)</h3>
+    <h3>Exercise 4.12: Retrieve all movies that were released in a set of years (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
+<p><strong>Retrieve all movies that were released in the years 2000, 2004, and 2008, returning their titles and release years.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
+WHERE m.released IN [2000, 2004, 2008]
+RETURN m.title, m.released<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -808,13 +1206,8 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MoviesInList.png" alt="MoviesInList" width="500">
 </div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>m</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that no relationships are displayed.
-That is because a <em>Movie</em> node has no relationships with another <em>Movie</em> node.</p>
 </div>
 	</div>
   </div>
@@ -824,15 +1217,63 @@ That is because a <em>Movie</em> node has no relationships with another <em>Movi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Summary)</h3>
+    <h3>Exercise 4.13: Retrieve the movies that have an actor&#8217;s role that is the name of the movie (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you performed some basic retrievals from the Movie database.
-You also called the procedure to examine the schema of the graph.</p>
+<p><strong>Retrieve the movies that have an actor&#8217;s role that is the name of the movie, return the movie title and the role.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4.13: Retrieve the movies that have an actor&#8217;s role that is the name of the movie (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve the movies that have an actor&#8217;s role that is the name of the movie, return the movie title and the role.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[r:ACTED_IN]-&gt;(m:Movie)
+WHERE m.title in r.roles
+RETURN  m.title as Movie, a.name as Actor<!--/code--></pre>
+</div>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/RoleNameIsMovieName.png" alt="RoleNameIsMovieName" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 4: Filtering queries using the <code>WHERE</code> clause (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you wrote queries that filter the results that are returned using a <code>WHERE</code> clause.
+First, you wrote some queries that filter based upon property values.
+Then you specified node labels in the filter.
+Next, you tested whether a property exists.
+Then you filtered queries based upon string comparisons.
+Next, you wrote queries that filter based upon patterns in the graph.
+Finally, you tested if property values are in a list.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/05.html'>Continue to Exercise 5</a></p>
 </div>
 	</div>
   </div>

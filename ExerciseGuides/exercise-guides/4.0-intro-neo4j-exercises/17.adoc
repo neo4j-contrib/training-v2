@@ -2,53 +2,43 @@
 
 == Exercise 17: Using APOC for importing data (Preparations)
 
+If you are using Neo4j Desktop:
 
-Make sure you have the Movie database, which contains 175 nodes and 257 relationships.
-
-This is what you should see when you click the database icon:
-
-image::{guides}/img/AfterExercise14.png[After exercise 14,200,200, role=left]
-
-If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreated the database (assuming you are using the _neo4j_ database):
-
+You will start with a new database named importcsv. Execute these commands in Neo4j Browser to create the database.
 [source, cypher]
 ----
 :USE system
-CREATE OR REPLACE DATABASE neo4j
-:USE neo4j
+CREATE DATABASE importcsv
+:USE importcsv
 ----
 
-Then,  use the script below to populate it, including the constraints added in the previous exercise:
+If you are using Neo4j Sandbox or Neo4j Aura, you will need to:
 
-[source, cypher]
-----
-include::scripts/AfterExercise13.cypher[]
-----
+. Drop all indexes and constraints in the graph.
+. MATCH (n) DETACH DELETE n
 
 == Exercise 17: Using APOC for importing data (Overview)
 
 In this exercise you execute Cypher statements to import data into your graph using the APOC library.
 
-* *Exercise 17.1*: Install APOC into your project.
+* *Exercise 17.1*: Install APOC into your project in Neo4j Desktop.
 * *Exercise 17.2*: Verify that you can access APOC procedures.
-* *Exercise 17.3*: Write and execute Cypher and APOC code to clear everything from the graph.
-* *Exercise 17.4*: Write Cypher code to examine the data.
-* *Exercise 17.5*: Create constraints.
-* *Exercise 17.6*: Load the data with APOC.
+* *Exercise 17.3*: Write Cypher code to examine the data.
+* *Exercise 17.4*: Create constraints.
+* *Exercise 17.5*: Load the data with APOC.
+* *Exercise 17.6*: Write and execute Cypher and APOC code to clear everything from the graph.
 
 Go to the next page to start this exercise.
 
-== Exercise 17.1: Install APOC into your project (Instructions)
+== Exercise 17.1: Install APOC into your project in Neo4j Desktop (Instructions/Solution)
 
-If you are using a sandbox or Neo4j Aura, you already have APOC installed and you can skip this step.
+*Note:* If you are using a Neo4j Sandbox or Neo4j Aura, you already have APOC installed and you can skip this step.
 
-== Exercise 17.1: Install APOC into your project (Solution)
-
-. Stop the database server.
+. Stop the Neo4j instance.
 . For the project you are working with, select "+" in the Add Plugin panel.
 . Select APOC to install.
 . Close the install panel.
-. Start the database server.
+. Start the Neo4j instance.
 
 == Exercise 17.2: Verify that you can access APOC procecdures (Instructions)
 
@@ -68,57 +58,30 @@ RETURN name
 The result should be:
 
 [.thumb]
-image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+image::{guides}/img/APOCinstalled.png[APOCinstalled,width=500]
 
-== Exercise 17.3: Write and execute Cypher and APOC code to clear everything from the graph (Instructions)
 
-*Call the APOC procedures to clear everything from the graph, including constraints and indexes.*
+== Exercise 17.3: Write code to inspect the data (Instructions)
 
-== Exercise 17.3: Write and execute Cypher and APOC code to clear everything from the graph (Solution)
+The data for the load comes from this file where we have denormalized data:
 
-*Call the APOC procedures to clear everything from the graph, including constraints and indexes.*
+https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv
 
-Here is the code you should execute:
+*Note:* If you have previously downloaded the files for this course and are using Neo4j Desktop, you can place movies2.csv into the *import* folder:
 
-[source, cypher]
-----
-// Delete all constraints and indexes
-CALL apoc.schema.assert({},{},true);
-// Delete all nodes and relationships
-CALL apoc.periodic.iterate(
-  'MATCH (n) RETURN n',
-  'DETACH DELETE n',
-  { batchSize:500 }
-)
-----
+. In Neo4j Desktop Click Manage > Open Folder for the Neo4j instance you are using.
+. Copy the CSV files you previously downloaded to the import folder.
+. Adapt the code above to read from the filesystem: file:///movies2.csv'
 
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/LoadedActors.png[LoadedActors,width=600]
-
-Note: This is the same as doing the following in Neo4j Browser where, for example, the name of the database is _neo4j_:
-
-[source, cypher]
-----
-:USE system
-CREATE OR REPLACE DATABASE neo4j
-:USE neo4j
-----
-
-== Exercise 17.4: Write code to inspect the data (Instructions)
-
-*The data for the load comes from this file where we have denormalized data:*
-
-*https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv*
+*Note:* If you are using Neo4j Sandbox or Neo4j Aura, you must use the URL for the file at *data.neo4j.com*.
 
 *Write and execute Cypher code to view the first 100 rows of this file.*
 
-== Exercise 17.4: Write code to inspect the data (Solution)
+== Exercise 17.3: Write code to inspect the data (Solution)
 
-*The data for the load comes from this file where we have denormalized data:*
+The data for the load comes from this file where we have denormalized data:
 
-*https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv*
+https://data.neo4j.com/v4.0-intro-neo4j/movies2.csv
 
 *Write and execute Cypher code to view the first 100 rows of this file.*
 
@@ -132,14 +95,14 @@ RETURN row LIMIT 100
 The result should be:
 
 [.thumb]
-image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+image::{guides}/img/ViewAPOCdataToLoad.png[ViewAPOCdataToLoad,width=500]
 
 
-== Exercise 17.5: Create constraints (Instructions)
+== Exercise 17.4: Create constraints (Instructions)
 
 *Create uniqueness constraints for the _id_ property for a _Person_ node and the _id_ property for a _Movie_ node.*
 
-== Exercise 17.5: Create constraints (Solution)
+== Exercise 17.4: Create constraints (Solution)
 
 *Create uniqueness constraints for the _id_ property for a _Person_ node and the _id_ property for a _Movie_ node.*
 
@@ -148,17 +111,17 @@ image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
 // create constraints
 CREATE CONSTRAINT UniqueMovieIdConstraint ON (m:Movie) ASSERT m.id IS UNIQUE;
 
-CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE;
+CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE
 ----
 
 The result should be:
 
 [.thumb]
-image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+image::{guides}/img/APOCLoadConstraints.png[APOCLoadConstraints,width=500]
 
-== Exercise 17.6: Load the data with APOC (Instructions)
+== Exercise 17.5: Load the data with APOC (Instructions)
 
-*Since APOC is new to you, simply execute this code to load the data:*
+*Since APOC is new to you, examine this code and simply execute this code to load the data:*
 
 [source, cypher]
 ----
@@ -185,13 +148,48 @@ CALL apoc.periodic.iterate(
 )
 ----
 
-== Exercise 17.6: Load the data with APOC (Solution)
+== Exercise 17.5: Load the data with APOC (Solution)
 
 The result should be:
 
 [.thumb]
-image::{guides}/img/APOCinstalled.png[APOCinstalled,width=600]
+image::{guides}/img/APOCExecute.png[APOCExecute,width=600]
 
+== Exercise 17.6: Write and execute Cypher and APOC code to clear everything from the graph (Instructions)
+
+*Call the APOC procedures to clear everything from the graph, including constraints and indexes.*
+
+== Exercise 17.6: Write and execute Cypher and APOC code to clear everything from the graph (Solution)
+
+*Call the APOC procedures to clear everything from the graph, including constraints and indexes.*
+
+Here is the code you should execute:
+
+[source, cypher]
+----
+// Delete all constraints and indexes
+CALL apoc.schema.assert({},{},true);
+// Delete all nodes and relationships
+CALL apoc.periodic.iterate(
+  'MATCH (n) RETURN n',
+  'DETACH DELETE n',
+  { batchSize:500 }
+)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ClearedDB.png[ClearedDB,width=600]
+
+Note: This is the same as doing the following in Neo4j Browser in a Neo4j Desktop installation where, for example, the name of the database is _neo4j_:
+
+[source, cypher]
+----
+:USE system
+CREATE OR REPLACE DATABASE neo4j
+:USE neo4j
+----
 
 == Exercise 17: Using APOC for importing data (Summary)
 

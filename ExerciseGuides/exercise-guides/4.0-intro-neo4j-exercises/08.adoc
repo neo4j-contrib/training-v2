@@ -7,7 +7,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+image::{guides}/img/InitialDatabase.png[InitialDatabase,150,200, role=left]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -30,7 +30,6 @@ Finally, you will write a query to limit the number of results returned.
 * *Exercise 8.3*: Modify the query to eliminate more duplication.
 * *Exercise 8.4*: Sort results returned.
 * *Exercise 8.5*: Retrieve the top 5 ratings and their associated movies.
-* *Exercise 8.6*: Retrieve all actors that have not appeared in more than 3 movies.
 
 Go to the next page to start this exercise.
 
@@ -52,13 +51,7 @@ RETURN DISTINCT m.released, m.title, collect(a.name)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/NinetiesMovies1.png[NinetiesMovies1,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/NinetiesMovies1.png[NinetiesMovies1,width=600]
 
 == Exercise 8.2: Modify the query to eliminate duplication (Instructions)
 
@@ -78,12 +71,7 @@ RETURN  m.released, collect(m.title), collect(a.name)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/NinetiesMovies2.png[NinetiesMovies2,width=400]
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/NinetiesMovies2.png[NinetiesMovies2,width=600]
 
 == Exercise 8.3: Modify the query to eliminate more duplication. (Instructions)
 
@@ -103,13 +91,7 @@ RETURN  m.released, collect(DISTINCT m.title), collect(a.name)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/NinetiesMovies3.png[NinetiesMovies3,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/NinetiesMovies3.png[NinetiesMovies3,width=600]
 
 == Exercise 8.4: Sort results returned (Instructions)
 
@@ -130,13 +112,7 @@ ORDER BY m.released DESC
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/OrderBy.png[OrderBy,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/OrderBy.png[OrderBy,width=600]
 
 == Exercise 8.5: Retrieve the top 5 ratings and their associated movies (Instructions)
 
@@ -158,40 +134,7 @@ ORDER BY r.rating DESC LIMIT 5
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/Limit1.png[Limit1,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 8.6: Retrieve all actors that have not appeared in more than 3 movies (Instructions)
-
-*Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.*
-
-== Exercise 8.6: Retrieve all actors that have not appeared in more than 3 movies (Solution)
-
-*Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.*
-
-[source, cypher]
-----
-MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
-WITH  a,  count(a) AS numMovies, collect(m.title) AS movies
-WHERE numMovies <= 3
-RETURN a.name, movies
-----
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/AtMost3MoviesPerActor.png[AtMost3MoviesPerActor,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/Limit1.png[Limit1,width=500]
 
 == Exercise 8: Controlling results returned (Summary)
 

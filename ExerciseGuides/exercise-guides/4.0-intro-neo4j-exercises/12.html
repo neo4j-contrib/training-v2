@@ -25,7 +25,7 @@
   <carousel class="deck container-fluid">
     <!--slide class="row-fluid">
       <div class="col-sm-3">
-        <h3>Exercise 1</h3>
+        <h3>Exercise 12</h3>
         <p class="lead">Information</p>
 			<!dl>
 				
@@ -44,24 +44,24 @@
     
 
 
-   <h4>Exercise 1</h4>
+   <h4>Exercise 12</h4>
    
 
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Preparations)</h3>
+    <h3>Exercise 12: Merging Data in the Graph (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
+<p>Make sure you have the Movie database, which contains 172 nodes and 253 relationships.</p>
 </div>
 <div class="paragraph">
-<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+<p>This is what you should see when you click the database icon:</p>
 </div>
 <div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AfterExercise11.png" alt="AfterExercise11" width="150" height="200">
 </div>
 </div>
 <div class="paragraph">
@@ -574,7 +574,11 @@ CREATE
   (JessicaThompson)-[:REVIEWED {summary:"Slapstick redeemed only by the Robin Williams and Gene Hackman's stellar performances", rating:45}]-&gt;(TheBirdcage),
   (JessicaThompson)-[:REVIEWED {summary:'A solid romp', rating:68}]-&gt;(TheDaVinciCode),
   (JamesThompson)-[:REVIEWED {summary:'Fun, but a little far fetched', rating:65}]-&gt;(TheDaVinciCode),
-  (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire)<!--/code--></pre>
+  (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire),
+  (RobinW:Person {name: 'Robin Wright', born: 1966});
+MATCH (m:Movie)
+WHERE m.released &lt; 2010
+SET m:OlderMovie<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -585,25 +589,66 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Overview)</h3>
+    <h3>Exercise 12: Merging Data in the Graph (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In this exercise, you will perform some basic retrievals from the Movie database.</p>
+<p>You have gained experience creating, modifying, and deleting nodes and relationships.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise you will add and modify nodes and relationships in the graph by merging data.
+In some parts of the exercise, you will be creating duplicate nodes and relationships.
+You will see how in your real application, you should take care not to create duplicate nodes and relationships in your graphs.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 1.1</strong>: Retrieve all nodes from the database.</p>
+<p><strong>Exercise 12.1</strong>: Use <code>MERGE</code> to create a <em>Movie</em> node.</p>
 </li>
 <li>
-<p><strong>Exercise 1.2</strong>: Examine the data model for the graph.</p>
+<p><strong>Exercise 12.2</strong>: Use <code>MERGE</code> to update a node.</p>
 </li>
 <li>
-<p><strong>Exercise 1.3</strong>: Retrieve all <em>Person</em> nodes.</p>
+<p><strong>Exercise 12.3</strong>: Use <code>MERGE</code> to create a <em>Production</em> node.</p>
 </li>
 <li>
-<p><strong>Exercise 1.4</strong>: Retrieve all <em>Movie</em> nodes.</p>
+<p><strong>Exercise 12.4</strong>: Find all labels for nodes with a property value.</p>
+</li>
+<li>
+<p><strong>Exercise 12.5</strong>: Use <code>MERGE</code> to update a <em>Production</em> node.</p>
+</li>
+<li>
+<p><strong>Exercise 12.6</strong>: Use <code>MERGE</code> to add a label to a node.</p>
+</li>
+<li>
+<p><strong>Exercise 12.7</strong>: Use <code>MERGE</code> to create two nodes and a single relationship.</p>
+</li>
+<li>
+<p><strong>Exercise 12.8</strong>: Use the same <code>MERGE</code> statement to attempt to create two nodes and a single relationship.</p>
+</li>
+<li>
+<p><strong>Exercise 12.9</strong>: Find the correct <em>Person</em> node to delete.</p>
+</li>
+<li>
+<p><strong>Exercise 12.10</strong>: Delete this <em>Person</em> node, along with its relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 12.11</strong>: Find the correct <em>Forrest Gump</em> node to delete.</p>
+</li>
+<li>
+<p><strong>Exercise 12.12</strong>: Delete the <em>Forrest Gump</em> node.</p>
+</li>
+<li>
+<p><strong>Exercise 12.13</strong>: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship.</p>
+</li>
+<li>
+<p><strong>Exercise 12.14</strong>: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship.</p>
+</li>
+<li>
+<p><strong>Exercise 12.15</strong>: Modify the <em>role</em> relationship property.</p>
+</li>
+<li>
+<p><strong>Exercise 12.16</strong>: Verify the update.</p>
 </li>
 </ul>
 </div>
@@ -618,16 +663,14 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Instructions)</h3>
+    <h3>Exercise 12.1: Use <code>MERGE</code> to create a <em>Movie</em> node (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
+<p>In this Part of the exercise, you will again create the movie, <em>Forrest Gump</em>, update the node, and then merge the data in the graph to create another node with a different label.</p>
 </div>
 <div class="paragraph">
-<p><strong>Hints:</strong>
-. Write the query in the query pane at the top of Neo4j Browser.
-. Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+<p><strong>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created,  set the <em>released</em> property to  <em>1994</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -637,65 +680,638 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.1: Retrieve all nodes from the database (Solution)</h3>
+    <h3>Exercise 12.1: Use <code>MERGE</code> to create a <em>Movie</em> node (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click the code block below where it appears in query pane at the top of Neo4j Browser.</p>
-</li>
-<li>
-<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
-</li>
-</ol>
+<p><strong>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created,  set the <em>released</em> property to  <em>1994</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) RETURN n<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (m:Movie {title: 'Forrest Gump'})
+ON CREATE SET m.released = 1994
+RETURN m<!--/code--></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>You should now see all nodes in the graph in the result pane.
-In this query, <em>n</em> is a variable, which is a container that holds the result.</p>
 </div>
 <div class="paragraph">
 <p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ReturnAllNodes.png" alt="ReturnAllNodes" width="250">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/CreateForrestGump2.png" alt="CreateForrestGump2" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Use <code>MERGE</code> to update a node (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If found, set the tagline property to "Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get.".</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Use <code>MERGE</code> to update a node (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to update (<code>ON MATCH</code>) a node of type <em>Movie</em> with the <em>title</em> property, <em>Forrest Gump</em>. If found, set the tagline property to "Life is like a box of chocolates&#8230;&#8203;you never know what you&#8217;re gonna get.".</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (m:Movie {title: 'Forrest Gump'})
+ON CREATE SET m.released = 1994
+ON MATCH SET m.tagline = "Life is like a box of chocolates...you never know what you're gonna get."
+RETURN m<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Notes:</strong></p>
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MergeForrestGump.png" alt="MergeForrestGump" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Use <code>MERGE</code> to create a <em>Production</em> node (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created, set the property <em>year</em> to the value <em>1994</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Use <code>MERGE</code> to create a <em>Production</em> node (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to create (<code>ON CREATE</code>) a node of type <em>Production</em> with the <em>title</em> property, <em>Forrest Gump</em>. If created, set the property <em>year</em> to the value <em>1994</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (p:Production {title: 'Forrest Gump'})
+ON CREATE SET p.year = 1994
+RETURN p<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MergeProduction.png" alt="MergeProduction" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Find all labels for nodes with a property value (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to find labels for nodes with the title property, <em>Forrest Gump</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Find all labels for nodes with a property value (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Query the graph to find labels for nodes with the title property, <em>Forrest Gump</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m)
+WHERE m.title = 'Forrest Gump'
+RETURN  labels(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AllForrestGumps.png" alt="AllForrestGumps" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.5: Use <code>MERGE</code> to update a <em>Production</em> node (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to update (<code>ON MATCH</code>) the existing <em>Production</em> node for <em>Forrest Gump</em> to add the <em>company</em> property with a value of <em>Paramount Pictures</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.5: Use <code>MERGE</code> to update a <em>Production</em> node (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to update (<code>ON MATCH</code>) the existing <em>Production</em> node for <em>Forrest Gump</em> to add the <em>company</em> property with a value of <em>Paramount Pictures</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (p:Production {title: 'Forrest Gump'})
+ON MATCH SET p.company = 'Paramount Pictures'
+RETURN p<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AddCompany.png" alt="AddCompany" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Use <code>MERGE</code> to add a label to a node (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to add the <em>OlderMovie</em> label to the movie, <em>Forrest Gump</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Use <code>MERGE</code> to add a label to a node (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to add the <em>OlderMovie</em> label to the movie, <em>Forrest Gump</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (m:Movie {title: 'Forrest Gump'})
+ON MATCH SET m:OlderMovie
+RETURN labels(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AddOlderMovieLabelToForrestGump.png" alt="AddOlderMovieLabelToForrestGump" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.7: Use <code>MERGE</code> to create two nodes and a single relationship (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this Part of the exercise, you merge data to create relationships.</p>
+</div>
+<div class="paragraph">
+<p><strong>Execute the following Cypher statement that uses <code>MERGE</code> to create two nodes and a single relationship</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]-&gt;(m {title: 'Forrest Gump'})<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This statement first finds all <em>Person</em> nodes that have only the <em>name</em> property value of <em>Robert Zemeckis</em>.
+It then finds all nodes with only the <em>title</em> property set to <em>Forrest Gump</em>.
+There are no <em>Person</em> or other nodes that have only these properties so the graph engine creates them.
+Then the graph engine creates the relationship between these two nodes.
+That is, this <code>MERGE</code> operation creates two nodes and a single relationship.
+If we had provided all of the property values for the nodes, we would not have created the extra nodes.</p>
+</div>
+<div class="paragraph">
+<p>In fact, you should <strong>never</strong> create nodes and relationships together like this! This example is here to show you how powerful Cypher can be.
+A best practice is to create nodes first, then relationships.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.7: Use <code>MERGE</code> to create two nodes and a single relationship (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MergeNodesAndRelationships.png" alt="MergeNodesAndRelationships" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.8: Use the same <code>MERGE</code> statement to attempt to create two nodes and a single relationship (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Repeat the execution of the previous statement.</strong></p>
+</div>
+<div class="paragraph">
+<p>It should do nothing.
+A best practice is to always use <code>MERGE</code> to create relationships to ensure that there will be no duplication in the graph.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]-&gt;(m {title: 'Forrest Gump'})<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.8: Use the same <code>MERGE</code> statement to attempt to create two nodes and a single relationship (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Repeat the execution of the previous statement.</strong></p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MergeNodesAndRelationships2.png" alt="MergeNodesAndRelationships2" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.9: Find the correct <em>Person</em> node to delete (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Find the correct <em>Person</em> node to delete</strong></p>
+</div>
+<div class="paragraph">
+<p>You query the nodes before you delete them to ensure you have the correct <code>MATCH</code> clauses.</p>
+</div>
+<div class="paragraph">
+<p>Execute this query:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person {name: 'Robert Zemeckis'})-[rel]-(x)
+WHERE NOT EXISTS (p.born)
+RETURN p, rel, x<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.9: Find the correct <em>Person</em> node to delete (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Find the correct <em>Person</em> node to delete</strong></p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/FindPersonNodeBeforeDelete.png" alt="FindPersonNodeBeforeDelete" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.10: Delete this <em>Person</em> node, along with its relationships (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete this <em>Person</em> node, along with its relationships.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.10: Delete this <em>Person</em> node, along with its relationships (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete this <em>Person</em> node, along with its relationships.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person {name: 'Robert Zemeckis'})--()
+WHERE NOT EXISTS (p.born)
+DETACH DELETE p<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/DeletedExtraPerson.png" alt="DeletedExtraPerson" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.11: Find the correct <em>Forrest Gump</em> node to delete (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Find the correct <em>Forrest Gump</em> node to delete by executing this statement:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m)
+WHERE m.title = 'Forrest Gump' AND labels(m) = []
+RETURN m, labels(m)<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.11: Find the correct <em>Forrest Gump</em> node to delete (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ForrestGumpToDelete.png" alt="ForrestGumpToDelete" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.12: Delete the <em>Forrest Gump</em> node (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete this <em>Forrest Gump</em> node.</strong></p>
+</div>
+<div class="paragraph">
+<p>It should have no relationships, but you can specify DETACH just to be certain.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.12: Delete the <em>Forrest Gump</em> node (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Delete this <em>Forrest Gump</em> node.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m)
+WHERE m.title = 'Forrest Gump' AND labels(m) = []
+DETACH DELETE m<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/DeletedExtraForrestGump.png" alt="DeletedExtraForrestGump" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.13: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and  the <em>Movie</em>, <em>Forrest Gump</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.13: Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to create the <em>DIRECTED</em> relationship between <em>Robert Zemeckis</em> and  the <em>Movie</em>, <em>Forrest Gump</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person), (m:Movie)
+WHERE p.name = 'Robert Zemeckis' AND m.title = 'Forrest Gump'
+MERGE (p)-[:DIRECTED]-&gt;(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this code, you will see a warning that the query forms a Cartesian Product. This is common if you are retrieving nodes that are unrelated to create their relationship</p>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AddDirectedToForrestGump.png" alt="AddDirectedToForrestGump" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.14: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship between the actors, <em>Tom Hanks</em>, <em>Gary Sinise</em>, and <em>Robin Wright</em> and the <em>Movie</em>, <em>Forrest Gump</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.14: Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Use <code>MERGE</code> to create the <em>ACTED_IN</em> relationship between the actors, <em>Tom Hanks</em>, <em>Gary Sinise</em>, and <em>Robin Wright</em> and the <em>Movie</em>, <em>Forrest Gump</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person), (m:Movie)
+WHERE p.name IN ['Tom Hanks','Gary Sinise', 'Robin Wright']
+      AND m.title = 'Forrest Gump'
+MERGE (p)-[:ACTED_IN]-&gt;(m)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ActedInForrestGump.png" alt="ActedInForrestGump" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.15: Modify the <em>role</em> relationship property (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the relationship property, <em>role</em> for their roles in <em>Forrest Gump</em>:</strong></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>If the nodes displayed are not connected, make sure that <em>Connect result nodes</em> is selected in your Neo4j Browser settings.</p>
+<p><strong>Tom Hanks is Forrest Gump</strong></p>
 </li>
 <li>
-<p>If no nodes are returned, then perhaps you did not load the <em>Movie</em> database (see <em>Preparations</em>).</p>
+<p><strong>Gary Sinise is Lt. Dan Taylor</strong></p>
+</li>
+<li>
+<p><strong>Robin Wright is Jenny Curran</strong></p>
 </li>
 </ul>
 </div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the data model of the graph (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<div class="paragraph">
+<p><strong>Hint:</strong> Use the <code>CASE</code> clause.</p>
 </div>
 	</div>
   </div>
@@ -705,15 +1321,35 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the <em>schema</em> of your database (Solution)</h3>
+    <h3>Exercise 12.15: Modify the <em>role</em> relationship property (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to display the <em>schema</em> of your database.</strong></p>
+<p><strong>Modify the relationship property, <em>role</em> for their roles in <em>Forrest Gump</em>:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Tom Hanks is Forrest Gump</strong></p>
+</li>
+<li>
+<p><strong>Gary Sinise is Lt. Dan Taylor</strong></p>
+</li>
+<li>
+<p><strong>Robin Wright is Jenny Curran</strong></p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema()<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[rel:ACTED_IN]-&gt;(m:Movie)
+WHERE m.title = 'Forrest Gump'
+SET rel.roles =
+CASE p.name
+  WHEN 'Tom Hanks' THEN ['Forrest Gump']
+  WHEN 'Robin Wright' THEN ['Jenny Curran']
+  WHEN 'Gary Sinise' THEN ['Lt. Dan Taylor']
+END<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,7 +1357,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="500">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/SetActedRoles.png" alt="SetActedRoles" width="500">
 </div>
 </div>
 	</div>
@@ -732,11 +1368,11 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Instructions)</h3>
+    <h3>Exercise 12.16: Verify the update (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Write a query to verify what you just updated in the graph.</strong></p>
 </div>
 	</div>
   </div>
@@ -746,15 +1382,17 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.3: Retrieve all <em>Person</em> nodes (Solution)</h3>
+    <h3>Exercise 12.16: Verify the update (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Person</em> nodes.</strong></p>
+<p><strong>Write a query to verify what you just updated in the graph.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) RETURN p<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[rel:ACTED_IN]-&gt;(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN p.name, rel.roles, m.title<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -762,13 +1400,8 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/VerifyRoleUpdates.png" alt="VerifyRoleUpdates" width="600">
 </div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>p</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that very few relationships are displayed.
-That is because most <em>Person</em> nodes have no relationships with other <em>Person</em> nodes.</p>
 </div>
 	</div>
   </div>
@@ -778,61 +1411,16 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Instructions)</h3>
+    <h3>Exercise 12: Merging Data in the Graph (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1.4: Retrieve all <em>Movie</em> nodes (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Write a query to retrieve all <em>Movie</em> nodes.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie) RETURN m<!--/code--></pre>
-</div>
+<p>In this exercise you added and modified nodes and relationships in the graph by merging data.
+In some parts of the exercise, you created duplicate nodes and relationships.
+You should take care not to create duplicate nodes and relationships in your real application graphs.</p>
 </div>
 <div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p>Here we use <em>m</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that no relationships are displayed.
-That is because a <em>Movie</em> node has no relationships with another <em>Movie</em> node.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 1: Retrieving Nodes (Summary)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>In this exercise, you performed some basic retrievals from the Movie database.
-You also called the procedure to examine the schema of the graph.</p>
-</div>
-<div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/13.html'>Continue to Exercise 13</a></p>
 </div>
 	</div>
   </div>

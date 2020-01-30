@@ -3,27 +3,20 @@
 == Exercise 16: Importing data (Preparations)
 
 
-Make sure you have the Movie database, which contains 175 nodes and 257 relationships.
+If you are using Neo4j Desktop:
 
-This is what you should see when you click the database icon:
-
-image::{guides}/img/AfterExercise14.png[After exercise 14,200,200, role=left]
-
-If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreated the database (assuming you are using the _neo4j_ database):
-
+You will start with a new database named importcsv. Execute these commands in Neo4j Browser to create the database.
 [source, cypher]
 ----
 :USE system
-CREATE OR REPLACE DATABASE neo4j
-:USE neo4j
+CREATE DATABASE importcsv
+:USE importcsv
 ----
 
-Then,  use the script below to populate it, including the constraints added in the previous exercise:
+If you are using Neo4j Sandbox or Neo4j Aura, you will need to:
 
-[source, cypher]
-----
-include::scripts/AfterExercise13.cypher[]
-----
+. Drop all indexes and constraints in the graph.
+. MATCH (n) DETACH DELETE n
 
 == Exercise 16: Importing data (Overview)
 
@@ -46,13 +39,13 @@ Go to the next page to start this exercise.
 
 You are given the name of a file, http://data.neo4j.com/v4.0-intro-neo4j/actors.csv that you must load into your graph.
 
-*Write the Cypher statement to read the actor data from a file.*
+*Write the Cypher statement to read the actor data from this file.*
 
 == Exercise 16.1: Write the Cypher statement to read the actor data from a file (Solution)
 
 You are given the name of a file, http://data.neo4j.com/v4.0-intro-neo4j/actors.csv that you must load into your graph.
 
-*Write the Cypher statement to read the actor data from a file.*
+*Write the Cypher statement to read the actor data from this file.*
 
 [source, cypher]
 ----
@@ -67,13 +60,33 @@ The result should be:
 [.thumb]
 image::{guides}/img/LoadActorsToView.png[LoadActorsToView,width=600]
 
+*Note:* If you have previously downloaded the files for this course and are using Neo4j Desktop, you can place them into the *import* folder:
+
+. In Neo4j Desktop Click *Manage > Open Folder* for the Neo4j instance you are using.
+. Copy the CSV files you previously downloaded to the *import* folder.
+. Adapt the code above to read from the filesystem:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'file:///actors.csv'
+AS line
+RETURN line.id, line.name, line.birthYear
+----
+
+*Note:* If you are using Neo4j Sandbox or Neo4j Aura, you [underline]#must# use the URL for the file at *data.neo4j.com*.
+
 == Exercise 16.2: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)
 
 *Read the data and return it, ensuring that the data returned is properly formatted.*
 
+*Hint:* You want to use birthYear as a number, not a string.
+
 == Exercise 16.2: Read the data and return it, ensuring that the data returned is properly formatted (Solution)
 
 *Read the data and return it, ensuring that the data returned is properly formatted.*
+
+*Hint:* You want to use birthYear as a number, not a string.
 
 [source, cypher]
 ----
@@ -90,15 +103,11 @@ image::{guides}/img/LoadAndFormatActorData.png[LoadAndFormatActorData,width=600]
 
 == Exercise 16.3: Load the data into your graph (Instructions)
 
-*Load the data into your graph.*
-
-*Hint:* Use `MERGE` because the graph already contains some of these actors.
+*Load the data into your graph where you will create  _Person_ nodes with the properties: _name_, _born_, and _actorId_.*
 
 == Exercise 16.3: Load the data into your graph (Solution)
 
-*Load the data into your graph.*
-
-*Hint:* Use `MERGE` because the graph already contains some of these actors.
+*Load the data into your graph where you will create  _Person_ nodes with the properties: _name_, _born_, and _actorId_.*
 
 [source, cypher]
 ----
@@ -119,13 +128,13 @@ image::{guides}/img/LoadedActors.png[LoadedActors,width=600]
 
 You are given the name of a file, http://data.neo4j.com/v4.0-intro-neo4j/movies.csv that you must load into your graph.
 
-*Write the Cypher statement to read the movie data from a file.*
+*Write the Cypher statement to read the movie data from this file.*
 
 == Exercise 16.4: Write the Cypher statement to read the movie data from a file (Solution)
 
 You are given the name of a file, http://data.neo4j.com/v4.0-intro-neo4j/movies.csv that you must load into your graph.
 
-*Write the Cypher statement to read the movie data from a file.*
+*Write the Cypher statement to read the movie data from this file.*
 
 [source, cypher]
 ----
@@ -144,9 +153,13 @@ image::{guides}/img/LoadMoviesToView.png[LoadMoviesToView,width=600]
 
 *Read the data and return it, ensuring that the data returned is properly formatted.*
 
+*Hint:* The year should be interpreted as a number and the tagline data should have no leading or trailing spaces.
+
 == Exercise 16.5: Read the data and return it, ensuring that the data returned is properly formatted (Solution)
 
 *Read the data and return it, ensuring that the data returned is properly formatted.*
+
+*Hint:* The year should be interpreted as a number and the tagline data should have no leading or trailing spaces.
 
 [source, cypher]
 ----
@@ -163,15 +176,11 @@ image::{guides}/img/LoadAndFormatMovies.png[LoadAndFormatMovies,width=600]
 
 == Exercise 16.6: Load the data into your graph (Instructions)
 
-*Load the data into your graph.*
-
-*Hint:* Use `MERGE` because the graph already contains some of these movies.
+*Load the data into your graph where you will create  Movie nodes with the properties: _title_, _released_, _tagline_, and _movieId_.*
 
 == Exercise 16.6: Load the data into your graph (Solution)
 
-*Load the data into your graph.*
-
-*Hint:* Use `MERGE` because the graph already contains some of these movies.
+*Load the data into your graph where you will create  Movie nodes with the properties: _title_, _released_, _tagline_, and _movieId_.*
 
 [source, cypher]
 ----
@@ -179,11 +188,10 @@ LOAD CSV WITH HEADERS
 FROM 'http://data.neo4j.com/v4.0-intro-neo4j/movies.csv'
 AS line
 MERGE (m:Movie {title: line.title})
-ON CREATE 
-  SET m.released = toInteger(trim(line.year)), 
+ON CREATE
+  SET m.released = toInteger(trim(line.year)),
       m.movieId = line.id,
       m.tagline = line.tagLine
-  ON MATCH SET m.movieId = line.id
 ----
 
 The result returned should be:
@@ -195,13 +203,13 @@ image::{guides}/img/LoadedMovies.png[LoadedMovies,width=600]
 
 You are given the name of a file, http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv that you must load into your graph.
 
-*Write the Cypher statement to read the relationship data from a file.*
+*Write the Cypher statement to read the relationship data from this file.*
 
 == Exercise 16.7: Write the Cypher statement to read the relationship data from a file (Solution)
 
 You are given the name of a file, http://data.neo4j.com/v4.0-intro-neo4j/actor-roles.csv that you must load into your graph.
 
-*Write the Cypher statement to read the relationship data from a file.*
+*Write the Cypher statement to read the relationship data from this file.*
 
 [source, cypher]
 ----
@@ -214,15 +222,19 @@ RETURN line.personId, line.movieId, line.Role
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/LoadRolesToView.png[LoadRolesToView,width=600]
+image::{guides}/img/LoadRolesToView.png[LoadRolesToView,width=500]
 
 == Exercise 16.8: Read the data and return it, ensuring that the data returned is properly formatted (Instructions)
 
 *Read the data and return it, ensuring that the data returned is properly formatted.*
 
+*Hint:* Use `split()` to create the list of roles for a line.
+
 == Exercise 16.8: Read the data and return it, ensuring that the data returned is properly formatted (Solution)
 
 *Read the data and return it, ensuring that the data returned is properly formatted.*
+
+*Hint:* Use `split()` to create the list of roles for a line.
 
 [source, cypher]
 ----
@@ -239,11 +251,15 @@ image::{guides}/img/LoadAndFormatRoles.png[LoadAndFormatRoles,width=600]
 
 == Exercise 16.9: Load the data into your graph (Instructions)
 
-*Load the data into your graph.*
+*Load the relationship data into your graph.*
+
+*Hint:* You will need to use the properties _actorId_ and _movieId_ to find the nodes in the graph.
 
 == Exercise 16.9: Load the data into your graph (Solution)
 
-*Load the data into your graph.*
+*Load the relationship data into your graph.*
+
+*Hint:* You will need to use the properties _actorId_ and _movieId_ to find the nodes in the graph.
 
 [source, cypher]
 ----
@@ -258,7 +274,7 @@ MERGE (person)-[:ACTED_IN { roles: split(line.Role,',')}]->(movie)
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/LoadedRoles.png[LoadedRoles,width=600]
+image::{guides}/img/LoadedRoles.png[LoadedRoles,width=500]
 
 == Exercise 16: Importing data (Summary)
 

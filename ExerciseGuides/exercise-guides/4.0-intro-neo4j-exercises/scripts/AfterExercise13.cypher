@@ -1,3 +1,4 @@
+MATCH (n) DETACH DELETE n;
 CREATE (TheMatrix:Movie {title:'The Matrix', released:1999, tagline:'Welcome to the Real World'})
 CREATE (Keanu:Person {name:'Keanu Reeves', born:1964})
 CREATE (Carrie:Person {name:'Carrie-Anne Moss', born:1967})
@@ -505,19 +506,20 @@ CREATE
   (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]->(JerryMaguire),
   (RobinW:Person {name: 'Robin Wright', born: 1966}),
   (ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994}),
+  (ForrestGumpProduction:Production {title: 'Forrest Gump', year: 1994, company: 'Paramount Pictures'}),
   (TomH)-[:ACTED_IN {roles: ['Forrest Gump']}]->(ForrestGump),
   (GaryS)-[:ACTED_IN {roles: ['Lt. Dan Taylor']}]->(ForrestGump),
   (RobinW)-[:ACTED_IN {roles: ['Jenny Curran']}]->(ForrestGump),
   (RobertZ)-[:DIRECTED]->(ForrestGump)
-  ;
+;
 MATCH (m:Movie)
-WHERE m.released < 2010
+  WHERE m.released < 2010
 SET m:OlderMovie;
-CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
-MATCH (p:Person) 
-WHERE NOT exists(p.born)
+CREATE CONSTRAINT PersonNameUniqueConstraint ON (p:Person) ASSERT p.name IS UNIQUE;
+MATCH (p:Person)
+  WHERE NOT exists(p.born)
 SET p.born = 0;
-CREATE CONSTRAINT ON (p:Person) ASSERT exists(p.born);
-CREATE CONSTRAINT ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY;
+CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born);
+CREATE CONSTRAINT MovieTitleReleasedConstraint ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY;
 CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our future.'}),
        (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})
