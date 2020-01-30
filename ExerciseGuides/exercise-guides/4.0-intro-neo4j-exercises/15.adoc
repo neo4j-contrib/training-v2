@@ -7,7 +7,7 @@ Make sure you have the Movie database, which contains 176 nodes and 257 relation
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise13.png[AfterExercise13,200,200, role=left]
+image::{guides}/img/AfterExercise13.png[AfterExercise13,width=150]
 
 If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreate the database (assuming you are using the _neo4j_ database):
 
@@ -283,7 +283,7 @@ image::{guides}/img/PROFILE2.png[PROFILE2,width=500]
 You should see more db hits.
 This is because you removed the labels that help to filter nodes and relationships during the query.
 
-== Exercise 15.10: Remove the labels from the nodes and relationships in the query and again view the metrics (Taking it further - Optional)
+== Exercise 15.10: Remove the labels from the nodes and relationships in the query and again view the metrics (Taking it further - optional)
 
 * Explore the contents of each step of the query by opening each step.
 * Perform other queries to view the steps of the queries.
@@ -308,7 +308,7 @@ If you are using Neo4j Desktop, open a Web browser window and enter http://local
 [.thumb]
 image::{guides}/img/SecondBrowserWindowDesktop.png[SecondBrowserWindowDesktop,width=500]
 
-*Note:* If you are using a Neo4j Sandbox, go the the Sandbox site and simply click on the Neo4j Browser to open a second window for that same graph.
+*Note:* If you are using a Neo4j Sandbox or Neo4j Aura, go the the Sandbox or Aura site and simply click on the Neo4j Browser to open a second window for that same graph.
 
 == Exercise 15.12: Execute a query that returns a lot of results and monitor (Instructions)
 
@@ -345,11 +345,21 @@ When you first execute the query in the original Neo4j Browser window, you shoul
 [.thumb]
 image::{guides}/img/LongRunningReturn1.png[LongRunningReturn1,width=900]
 
+++++
+<div style="clear: both;"></div>
+
+++++
+
 Initially, the query is running in the server.
 After a few moments, you will see that in the original Neo4j Browser window, the query appears to be running, but it has completed on the server:
 
 [.thumb]
 image::{guides}/img/LongRunningReturn2.png[LongRunningReturn2,width=900]
+
+++++
+<div style="clear: both;"></div>
+
+++++
 
 This is because the graph engine has completed the query and the results are still being streamed to the client.
 
@@ -386,6 +396,11 @@ You should see this when you first start the query:
 [.thumb]
 image::{guides}/img/LongQuery1.png[LongQuery1,width=900]
 
+++++
+<div style="clear: both;"></div>
+
+++++
+
 It takes a VERY long time to complete on the server.
 
 After a while you will want to kill this long-running query.
@@ -405,13 +420,17 @@ Here is where you select in the UI that you want to kill the running query:
 [.thumb]
 image::{guides}/img/LongQuery2.png[LongQuery2,width=900]
 
+++++
+<div style="clear: both;"></div>
+
+++++
 
 You should now see this in the original Neo4j Browser window:
 
 [.thumb]
 image::{guides}/img/LongQuery3.png[LongQuery3,width=600]
 
-== Exercise 15: Using Cypher parameters (Summary)
+== Exercise 15: Using query best practices (Summary)
 
 In this exercise you enhanced Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.
 Then you gained experience with viewing query plans, monitoring queries, and killing queries.

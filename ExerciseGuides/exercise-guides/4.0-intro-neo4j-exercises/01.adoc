@@ -5,16 +5,19 @@
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
-This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
-image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+This is what you should see when you click the database icon:
+
+image:{guides}/img/InitialDatabase.png[InitialDatabase,width=150]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
-[source, cypher]
+[source,cypher]
 ----
 include::scripts/initialDatabase.cypher[]
 ----
+
 
 == Exercise 1: Retrieving Nodes (Overview)
 
@@ -31,8 +34,8 @@ Go to the next page to start this exercise.
 
 *Write a query to retrieve _all_ nodes from the database.*
 
-//. Write the query in the query pane at the top of Neo4j Browser.
-//. Click the _Run_ button image:{guides}/img/run-button.png[] in order to execute the code.
+. Write the query in the query pane at the top of Neo4j Browser.
+. Click the _Run_ button image:{guides}/img/run-button.png[] in order to execute the code.
 
 == Exercise 1.1: Retrieve all nodes from the database (Solution)
 
@@ -49,13 +52,17 @@ In this query, _n_ is a variable, which is a container that holds the result.
 
 The result returned should be:
 
+[.thumb]
 image::{guides}/img/ReturnAllNodes.png[ReturnAllNodes,width=250]
 
+++++
+<div style="clear: both;"></div>
+
+++++
 *Notes:* 
 
 * If the nodes displayed are not connected, make sure that _Connect result nodes_ is selected in your Neo4j Browser settings.
 * If no nodes are returned, then perhaps you did not load the _Movie_ database (see _Preparations_).
-
 
 == Exercise 1.2: Examine the data model for the graph (Instructions)
 
@@ -71,12 +78,10 @@ image::{guides}/img/ReturnAllNodes.png[ReturnAllNodes,width=250]
 CALL db.schema.visualization()
 ----
 
-
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/call_db.schema.png[call_db.schema,width=300]
-
+image::{guides}/img/call_db.schema.png[call_db.schema,width=600]
 
 == Exercise 1.3: Retrieve all _Person_ nodes (Instructions)
 
@@ -94,12 +99,16 @@ MATCH (p:Person) RETURN p
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/PersonNodes.png[PersonNodes,width=300]
+image::{guides}/img/PersonNodes.png[PersonNodes,width=600]
+
+++++
+<div style="clear: both;"></div>
+
+++++
 
 Here we use _p_ as the variable representing all nodes retrieved and what is returned for the query.
 Notice also, that no relationships are displayed.
 That is because most _Person_ nodes have no relationships with other _Person_ nodes.
-
 
 == Exercise 1.4: Retrieve all _Movie_ nodes (Instructions)
 
@@ -117,13 +126,15 @@ MATCH (m:Movie) RETURN m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MovieNodes.png[MovieNodes,width=300]
+image::{guides}/img/MovieNodes.png[MovieNodes,width=600]
 
+++++
+<div style="clear: both;"></div>
+++++
 
 Here we use _m_ as the variable representing all nodes retrieved and what is returned for the query.
 Notice also, that no relationships are displayed.
 That is because a _Movie_ node has no relationships with another _Movie_ node.
-
 
 == Exercise 1: Retrieving Nodes (Summary)
 

@@ -15,7 +15,7 @@ CREATE DATABASE products
 If you are using Neo4j Sandbox or Neo4j Aura, you will need to:
 
 . Drop all indexes and constraints in the graph.
-. MATCH (n) DETACH DELETE n
+. Execute `MATCH (n) DETACH DELETE n`
 
 == Exercise 19: Importing data with an application (Overview)
 
@@ -37,9 +37,9 @@ If you have already installed *sdk* on your system, skip this step.
 
 In a terminal window, follow these steps to install *sdk* on your system:
 
-. curl -s "https://get.sdkman.io" | bash
-. source "$HOME/.sdkman/bin/sdkman-init.sh"
-. Verify the installation by typing *sdk help*.
+. Type: curl -s "https://get.sdkman.io" | bash
+. Type: source "$HOME/.sdkman/bin/sdkman-init.sh"
+. Verify the installation by typing: *sdk help*.
 
 [.thumb]
 image::{guides}/img/sdkInstalled.png[sdkInstalled,width=500]
@@ -50,7 +50,7 @@ If you have already installed *groovy* on your system, skip this step.
 
 In the same terminal window, follow these steps to install groovy on your system:
 
-. sdk install groovy
+. Type: sdk install groovy
 . Verify the installation by typing: groovy -h
 
 [.thumb]
@@ -99,6 +99,11 @@ neo4j.session(SessionConfig.builder().withDatabase("products").build()).withClos
 }}}}
 ----
 
+++++
+<div style="clear: both;"></div>
+
+++++
+
 [start=2]
 . Modify the NEO4J value to match the credentials you use to connect to the Neo4j database.
 
@@ -106,7 +111,7 @@ neo4j.session(SessionConfig.builder().withDatabase("products").build()).withClos
 
 In the same terminal window:
 
-. Navigate to the folder where you placed the import.groovy file.
+. Navigate to the folder where you placed the *import.groovy* file.
 
 . Type: groovy import.groovy
 
@@ -122,27 +127,7 @@ In Neo4j Browser, confirm that the database was populated.
 You should see this in Neo4j Browser:
 
 [.thumb]
-image::{guides}/img/AfterAppImport.png[AfterAppImport,width=300]
-
-
-== Exercise 18.5: Verify that you can access APOC procecdures (Solution)
-
-*The database files have been created, but you must use the system database to add the crimes data base to your environment.
-Using the system domain, create the _crimes_ database and then view its nodes and relationships.*
-
-Enter the following in the query edit pane:
-
-----
-:use system
-CREATE DATABASE crimes
-:use crimes
-----
-
-The database informatiob should now look as follows:
-
-[.thumb]
-image::{guides}/img/Afteradmin-toolImport.png[Afteradmin-toolImport,width=600]
-
+image::{guides}/img/AfterAppImport.png[AfterAppImport,width=150]
 
 == Exercise 19: Importing data from an RDBMS using an application (Summary)
 
