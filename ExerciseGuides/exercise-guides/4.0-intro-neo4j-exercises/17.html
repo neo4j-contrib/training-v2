@@ -57,13 +57,13 @@
 <p>If you are using Neo4j Desktop:</p>
 </div>
 <div class="paragraph">
-<p>You will start with a new database named importcsv. Execute these commands in Neo4j Browser to create the database.</p>
+<p>You will start with a new database named importwithapoc. Execute these commands in Neo4j Browser to create the database.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:USE system
-CREATE DATABASE importcsv
-:USE importcsv<!--/code--></pre>
+CREATE DATABASE importwithapoc
+:USE importwithapoc<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -149,6 +149,9 @@ CREATE DATABASE importcsv
 <li>
 <p>Start the Neo4j instance.</p>
 </li>
+<li>
+<p>In Neo4j Browser ensure that you have selected the importwithapoc database</p>
+</li>
 </ol>
 </div>
 	</div>
@@ -191,7 +194,7 @@ RETURN name<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/APOCinstalled.png" alt="APOCinstalled" width="500">
+<img src="https://localhost:8001/4.0-intro-neo4j-exercises/img/APOCinstalled.png" alt="APOCinstalled" width="500">
 </div>
 </div>
 	</div>
@@ -265,7 +268,7 @@ RETURN row LIMIT 100<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ViewAPOCdataToLoad.png" alt="ViewAPOCdataToLoad" width="500">
+<img src="https://localhost:8001/4.0-intro-neo4j-exercises/img/ViewAPOCdataToLoad.png" alt="ViewAPOCdataToLoad" width="500">
 </div>
 </div>
 	</div>
@@ -309,7 +312,7 @@ CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE<!
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/APOCLoadConstraints.png" alt="APOCLoadConstraints" width="500">
+<img src="https://localhost:8001/4.0-intro-neo4j-exercises/img/APOCLoadConstraints.png" alt="APOCLoadConstraints" width="500">
 </div>
 </div>
 	</div>
@@ -325,6 +328,9 @@ CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE<!
     <div>
       <div class="paragraph">
 <p><strong>Since APOC is new to you, examine this code and simply execute this code to load the data:</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: Depending on your network speed, this code will take up to 10 minutes to execute.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -367,7 +373,7 @@ CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE<!
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/APOCExecute.png" alt="APOCExecute" width="600">
+<img src="https://localhost:8001/4.0-intro-neo4j-exercises/img/APOCExecute.png" alt="APOCExecute" width="600">
 </div>
 </div>
 	</div>
@@ -418,7 +424,7 @@ CALL apoc.periodic.iterate(
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ClearedDB.png" alt="ClearedDB" width="600">
+<img src="https://localhost:8001/4.0-intro-neo4j-exercises/img/ClearedDB.png" alt="ClearedDB" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -446,7 +452,7 @@ CREATE OR REPLACE DATABASE neo4j
 <p>In this exercise you executed Cypher statements to import data into your graph using the APOC library.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/18.html'>Continue to Exercise 18</a></p>
+<p><a play-topic='https://localhost:8001/4.0-intro-neo4j-exercises/18.html'>Continue to Exercise 18</a></p>
 </div>
 	</div>
   </div>

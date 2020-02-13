@@ -25,7 +25,7 @@ Go to the next page to start this exercise.
 
 http://data.neo4j.com/v4.0-intro-neo4j/crimes-dataset.zip
 
-*Hint*: use `curl -O` or `wget`.
+*Hint*: use `curl -O` or `wget`, or simply use the Web browser to download.
 
 [start=2]
 . In Neo4j Desktop for the project's database you are using, select *Manage > Open Folder*.
@@ -44,7 +44,7 @@ Make sure you understand the headers and how they will be used for the import.*
 
 In Neo4j Desktop for the project you are using, do the following:
 
-. For the project's database that should be running, select *Mange > Open Terminal*.
+. For the project's database that should be running, select *Manage > Open Terminal*.
 . Navigate to the *import* folder.
 
 [.thumb]
@@ -85,6 +85,8 @@ This is what you should enter (ensure there are no newline characters):
 ../bin/neo4j-admin import --database crimes --nodes crimes_header.csv,crimes.csv --nodes beats.csv --nodes=PrimaryType=primaryTypes.csv -
 -relationships crimesBeats.csv --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv --trim-strings=true > import.out
 ----
+
+*Note*: Depending on your system, it could take up to 10 minutes to load this data.
 
 This is what you should see in the terminal window if all goes well:
 
