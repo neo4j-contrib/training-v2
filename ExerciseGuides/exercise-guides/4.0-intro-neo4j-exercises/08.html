@@ -649,7 +649,7 @@ Finally, you will write a query to limit the number of results returned.</p>
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
 WHERE m.released &gt;= 1990 AND m.released &lt; 2000
-RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
+RETURN m.released, m.title, collect(a.name)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">

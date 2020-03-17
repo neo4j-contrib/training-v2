@@ -4,12 +4,12 @@
 
 If you are using Neo4j Desktop:
 
-You will start with a new database named importcsv. Execute these commands in Neo4j Browser to create the database.
+You will start with a new database named importwithapoc. Execute these commands in Neo4j Browser to create the database.
 [source, cypher]
 ----
 :USE system
-CREATE DATABASE importcsv
-:USE importcsv
+CREATE DATABASE importwithapoc
+:USE importwithapoc
 ----
 
 If you are using Neo4j Sandbox or Neo4j Aura, you will need to:
@@ -39,6 +39,7 @@ Go to the next page to start this exercise.
 . Select APOC to install.
 . Close the install panel.
 . Start the Neo4j instance.
+. In Neo4j Browser ensure that you have selected the importwithapoc database
 
 == Exercise 17.2: Verify that you can access APOC procecdures (Instructions)
 
@@ -123,6 +124,7 @@ image::{guides}/img/APOCLoadConstraints.png[APOCLoadConstraints,width=500]
 
 *Since APOC is new to you, examine this code and simply execute this code to load the data:*
 
+*Note*: Depending on your network speed, this code will take up to 10 minutes to execute.
 [source, cypher]
 ----
 CALL apoc.periodic.iterate(

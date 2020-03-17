@@ -118,7 +118,7 @@ Make sure that the database instance is running.</p>
 <p><a href="http://data.neo4j.com/v4.0-intro-neo4j/crimes-dataset.zip" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/crimes-dataset.zip</a></p>
 </div>
 <div class="paragraph">
-<p><strong>Hint</strong>: use <code>curl -O</code> or <code>wget</code>.</p>
+<p><strong>Hint</strong>: use <code>curl -O</code> or <code>wget</code>, or simply use the Web browser to download.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="2">
@@ -167,7 +167,7 @@ Make sure you understand the headers and how they will be used for the import.</
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>For the project&#8217;s database that should be running, select <strong>Mange &gt; Open Terminal</strong>.</p>
+<p>For the project&#8217;s database that should be running, select <strong>Manage &gt; Open Terminal</strong>.</p>
 </li>
 <li>
 <p>Navigate to the <strong>import</strong> folder.</p>
@@ -237,6 +237,9 @@ Make sure you understand the headers and how they will be used for the import.</
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding"><!--code-->../bin/neo4j-admin import --database crimes --nodes crimes_header.csv,crimes.csv --nodes beats.csv --nodes=PrimaryType=primaryTypes.csv -
 -relationships crimesBeats.csv --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv --trim-strings=true &gt; import.out<!--/code--></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: Depending on your system, it could take up to 10 minutes to load this data.</p>
 </div>
 <div class="paragraph">
 <p>This is what you should see in the terminal window if all goes well:</p>
