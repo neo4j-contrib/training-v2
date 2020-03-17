@@ -4,9 +4,9 @@ $(".quiz-progress").find("li i").addClass("fa");
 $(".quiz-progress").find("li i").addClass("fa-li");
 $(".quiz-progress").find("li i").addClass("fa-circle-thin");
 
-quizesCookie = Cookies.getJSON('com.neo4j.graphacademy.intro-v2.quizes');
+quizesCookie = window.localStorage.getItem('com.neo4j.graphacademy.intro-v2.quizes');
 if (quizesCookie) {
-  quizesStatus = quizesCookie;
+  quizesStatus = JSON.parse(quizesCookie);
   updateQuizStatus();
 }
 
@@ -59,7 +59,7 @@ function gradeQuiz(theQuiz) {
 };
 
 function postQuizStatus(passed, failed) {
-  var id_token = Cookies.get("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
   return $.ajax
   ({
     type: "POST",
@@ -79,7 +79,7 @@ function postQuizStatus(passed, failed) {
 }
 
 function getQuizStatusRemote() {
-  var id_token = Cookies.get("com.neo4j.accounts.idToken");
+  var id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
   return $.ajax
   ({
     type: "GET",
@@ -136,7 +136,7 @@ function getQuizStatus() {
     for (i in untried) {
       quizesStatusL[ untried[i] ] = null;
     }
-    Cookies.set('com.neo4j.graphacademy.intro-v2.quizes', JSON.stringify(quizesStatusL) );
+    window.localStorage.setItem('com.neo4j.graphacademy.intro-v2.quizes', JSON.stringify(quizesStatusL) );
     quizesStatus = quizesStatusL;
     updateQuizStatus();
     currentQuizStatus = quizesStatus[ $(".quiz").attr("id") ];
