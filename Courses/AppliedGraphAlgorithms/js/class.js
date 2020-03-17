@@ -74,7 +74,7 @@ function logTrainingView() {
 }
 
 jQuery(document).ready(function () {
-  if (window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '')) {  
+  if (window.localStorage.getItem("com.neo4j.accounts.idToken")) {  
     // we're authenticated
     // could check expiration of token, but not critical for this app
     // still need to check quiz status
