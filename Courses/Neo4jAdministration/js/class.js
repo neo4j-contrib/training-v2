@@ -2,7 +2,7 @@ var STAGE = "{{STAGE}}";
 var API_BASE_URL = "{{API_BASE_URL}}";
 
 function getClassCertificate() {
-  var id_token = Cookies.get("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
   return $.ajax
   ({
     type: "POST",
@@ -20,7 +20,7 @@ function getClassCertificate() {
 }
 
 function getEnrollmentForClass() {
-  var id_token = Cookies.get("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
   return $.ajax
   ({
     type: "GET",
@@ -33,7 +33,7 @@ function getEnrollmentForClass() {
 }
 
 function enrollStudentInClass(firstName, lastName) {
-  var id_token = Cookies.get("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
   return $.ajax
   ({
     type: "POST",
@@ -53,7 +53,7 @@ function enrollStudentInClass(firstName, lastName) {
 }
 
 function logTrainingView() {
-  var id_token = Cookies.get("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
   return $.ajax
   ({
     type: "POST",
@@ -72,7 +72,7 @@ function logTrainingView() {
 }
 
 jQuery(document).ready(function () {
-  if (Cookies.get("com.neo4j.accounts.idToken")) { 
+  if (window.localStorage.getItem("com.neo4j.accounts.idToken")) {
     // we're authenticated
     // could check expiration of token, but not critical for this app
     // still need to check quiz status
