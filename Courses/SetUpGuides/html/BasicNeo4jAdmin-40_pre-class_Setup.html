@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.7.1">
-<title>Setting up your Neo4j training environment for the course, Introduction to Neo4j</title>
+<title>Setting up your Neo4j training environment for the course, Basic Neo4j 4.0 Administration</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -432,27 +432,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Setting up your Neo4j training environment for the course, Introduction to Neo4j</h1>
+<h1>Setting up your Neo4j training environment for the course, Basic Neo4j 4.0 Administration</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_overview">Overview</a></li>
-<li><a href="#_step_1_option_1_using_neo4j_desktop">Step 1: Option 1: Using Neo4j Desktop</a>
+<li><a href="#_overview">Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_neo4j_desktop">Neo4j Desktop</a></li>
-<li><a href="#_steps_for_setting_up_your_development_environment_for_this_course_using_neo4j_desktop">Steps for setting up your development environment for this course using Neo4j Desktop</a></li>
-<li><a href="#_getting_started_with_neo4j_desktop">Getting Started with Neo4j Desktop</a></li>
-<li><a href="#_download_the_exercise_file">Download the exercise file</a></li>
+<li><a href="#_step_1_install_docker">Step 1: Install Docker</a></li>
+<li><a href="#_step_2_download_course_files">Step 2: Download course files</a></li>
 </ul>
 </li>
-<li><a href="#_step_1_option_2_using_neo4j_aura">Step 1: Option 2: Using Neo4j Aura</a></li>
-<li><a href="#_step_1_option_3_using_a_neo4j_sandbox">Step 1: Option 3: Using a Neo4j Sandbox</a></li>
-<li><a href="#_step_2_use_neo4j_browser_to_load_the_database_for_this_course">Step 2: Use Neo4j Browser to load the database for this course</a>
-<ul class="sectlevel2">
-<li><a href="#_getting_started_with_neo4j_browser">Getting Started with Neo4j Browser</a></li>
-</ul>
-</li>
-<li><a href="#_step_3_confirm_that_your_database_is_ready_for_this_course">Step 3: Confirm that your database is ready for this course.</a></li>
 <li><a href="#_getting_help">Getting help</a></li>
 </ul>
 </div>
@@ -473,309 +462,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Your work laptop blocks or restricts Internet access.</p>
 </li>
 <li>
-<p>You want to install Neo4j Desktop and you do not have admin privileges for your work laptop.</p>
+<p>You do not have admin privileges for your work laptop.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>To prepare your laptop for this course, you must perform these three Steps:</p>
+<p>This course uses Docker instances.
+The recommended approach for the exercises for this course is to install Docker on your laptop.
+If you cannot install Docker on your laptop, you can use an EC2 instance to access Docker. However to do so on Windows requires that you install PuTTY on your laptop.</p>
 </div>
 <div class="paragraph">
-<p><strong>Step 1:</strong> Select an Option (1,2,3) for your development environment and prepare your laptop for the selected option.</p>
-</div>
-<div class="paragraph">
-<p><strong>Step 2:</strong> Use Neo4j Browser to load the database for this course.</p>
-</div>
-<div class="paragraph">
-<p><strong>Step 3:</strong> Confirm that your database is ready for this course.</p>
-</div>
-<div class="paragraph">
-<p>When performing the hands-on exercises for this course, you have three options:</p>
-</div>
-<div class="paragraph">
-<p><strong>Option 1: Install and use Neo4j Desktop on your laptop (preferred approach)</strong></p>
-</div>
-<div class="ulist square">
-<ul class="square">
-<li>
-<p>You must download and install Neo4j Desktop before coming to the class.</p>
-</li>
-<li>
-<p>You must prepare your Neo4j Desktop environment for this course.</p>
-</li>
-<li>
-<p>Neo4j Desktop is available on Windows, OS X, and Linux (must be a 64-bit system).</p>
-</li>
-<li>
-<p>Neo4j Desktop is free to use for development.</p>
-</li>
-<li>
-<p>All databases are created and used on your local system.</p>
-</li>
-<li>
-<p>You access the database with the Neo4j Browser application running locally on your system.</p>
-</li>
-<li>
-<p>WiFi capability during the class is optional, but recommended. It is possible to use Neo4j Desktop offline since the Neo4j Database is running locally.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Option 2: Use Neo4j Aura (Neo4j in the Cloud)</strong></p>
-</div>
-<div class="ulist square">
-<ul class="square">
-<li>
-<p>You must set up a Neo4j Aura subscription before coming to the class.</p>
-</li>
-<li>
-<p>There is a monthly subscription cost for using Neo4j Aura.</p>
-</li>
-<li>
-<p>All operations such as backing up your database, are handled by Neo4j.</p>
-</li>
-<li>
-<p>Your databases are available 24x7 as long as your subscription is active.</p>
-</li>
-<li>
-<p>You access your database for this course using a Web browser.</p>
-</li>
-<li>
-<p>Your laptop must have WiFi capability that does not block Internet sites.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Option 3: Use a Neo4j Sandbox (a temporary Neo4j instance)</strong></p>
-</div>
-<div class="ulist square">
-<ul class="square">
-<li>
-<p>You must set up a Neo4j Sandbox account before coming to the class.</p>
-</li>
-<li>
-<p>A Neo4j Sandbox instance is free to use.</p>
-</li>
-<li>
-<p>Sandbox instance is available for 3 days, but can be extended to 10 days.</p>
-</li>
-<li>
-<p>You access your database for this course using a Web browser.</p>
-</li>
-<li>
-<p>Your laptop must have WiFi capability that does not block Internet sites.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Which option you use for this course will depend on your needs, but you must prepare one of them before coming to the class.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_step_1_option_1_using_neo4j_desktop">Step 1: Option 1: Using Neo4j Desktop</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_neo4j_desktop">Neo4j Desktop</h3>
-<table class="tableblock frame-none grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Neo4jDesktop.1.1.8.png" alt="Neo4jDesktop" width="500">
-</div>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
-<p>The Neo4j Desktop includes the Neo4j Database server which includes the graph engine and kernel so that Cypher statements can be executed to access a database on your system.
-It includes an application called  Neo4j Browser.
-Neo4j Browser enables you to access a Neo4j database using Cypher.
-You can also call built-in procedures that communicate with the database server.
-There are a number of additional libraries and drivers for accessing the Neo4j database from Cypher or from another programming language that you can install in your development environment.</p>
-</div>
-<div class="paragraph">
-<p>Neo4j Desktop runs on OS X, Linux, and Windows.</p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
+<p>To prepare your laptop for this course, you must perform these two Steps:</p>
 </div>
 <div class="sect2">
-<h3 id="_steps_for_setting_up_your_development_environment_for_this_course_using_neo4j_desktop">Steps for setting up your development environment for this course using Neo4j Desktop</h3>
+<h3 id="_step_1_install_docker">Step 1: Install Docker</h3>
 <div class="paragraph">
-<p>Here is an overview of the steps you will perform to set up your development environment using Neo4j Desktop:</p>
+<p>Install Docker on your system from <a href="https://hub.docker.com/">dockerhub</a>.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><strong>Getting Started with Neo4j Desktop (follow along in video)</strong>:</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Download Neo4j Desktop.</p>
-<div class="olist lowerroman">
-<ol class="lowerroman" type="i">
-<li>
-<p>View/save the installation instructions.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Install Neo4j Desktop.</p>
-</li>
-<li>
-<p>In a project, create a local graph (database) you will use for this course.</p>
-</li>
-<li>
-<p>Start the graph.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Download the exercise file.</strong></p>
-</li>
-</ol>
+<div class="paragraph">
+<p>If you cannot install Docker and you are using Windows, install <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">PuTTY</a>.
+This will enable you to access an EC2 instance during the class.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_getting_started_with_neo4j_desktop">Getting Started with Neo4j Desktop</h3>
+<h3 id="_step_2_download_course_files">Step 2: Download course files</h3>
 <div class="paragraph">
-<p>Follow along with one of these videos and perform the same tasks to download, install and get started using Neo4j Desktop. You will create a graph (database) that you will start. This is the graph that  you will later load with the movie data.</p>
-</div>
-<div class="paragraph">
-<p>If using OS X:</p>
-</div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pPhJi9twN9Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<div class="paragraph">
-<p>&#160;<br></p>
+<p>You may not need all of these files for your course work, but it is a good idea to have them on your system. Download these files:</p>
 </div>
 <div class="paragraph">
-<p>If using Linux:</p>
-</div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qyu1IHiJh-c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<div class="paragraph">
-<p>&#160;<br>
-If using Windows:</p>
-</div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/V8rxwhoxfDw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<div class="paragraph">
-<p>&#160;<br></p>
+<p><a href="https://data.neo4j.com/admin-neo4j/movies.cypher" class="bare">https://data.neo4j.com/admin-neo4j/movies.cypher</a></p>
 </div>
 <div class="paragraph">
-<p><strong>Note</strong>: Before you install on Windows, make sure you have the latest version of PowerShell installed.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_download_the_exercise_file">Download the exercise file</h3>
-<div class="paragraph">
-<p>Download the PDF containing the exercise instructions:</p>
+<p><a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/4.0.0.5/apoc-4.0.0.5-all.jar" class="bare">https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/4.0.0.5/apoc-4.0.0.5-all.jar</a></p>
 </div>
 <div class="paragraph">
-<p><a href="https://r.neo4j.com/intro-exercises">intro-exercises.pdf</a></p>
+<p><a href="http://data.neo4j.com/admin-neo4j/crimes-dataset.zip" class="bare">http://data.neo4j.com/admin-neo4j/crimes-dataset.zip</a></p>
 </div>
 <div class="paragraph">
-<p><strong>Note:</strong> This is only necessary if you must work without WiFi and need the instructions for the exercises which are accessed on the Internet.</p>
+<p>s3://data.neo4j.com/admin-neo4j/BasicNeo4jAdministration-40-ExerciseGuide.pdf</p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_step_1_option_2_using_neo4j_aura">Step 1: Option 2: Using Neo4j Aura</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You must create a Neo4j Aura account at <a href="https://console.neo4j.io">https://console.neo4j.io</a> before coming to class.</p>
-</div>
-<div class="paragraph">
-<p>Follow along with this video that shows how to create a database for use with this course in Neo4j Aura:</p>
-</div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lnoxoAsWguM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_step_1_option_3_using_a_neo4j_sandbox">Step 1: Option 3: Using a Neo4j Sandbox</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You must create a Neo4j Sandbox account at <a href="https://sandbox.neo4j.com">https://sandbox.neo4j.com</a> before coming to class.
-In addition, you must create a Blank Neo4j Sandbox instance before coming to class. Keep in mind that a sandbox exists for at most 10 days.</p>
-</div>
-<div class="paragraph">
-<p>Follow along with this video that shows how to create a Neo4j Sandbox account and a Neo4j Sandbox instance for this course:</p>
-</div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OSk1ePl2PUM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<br>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_step_2_use_neo4j_browser_to_load_the_database_for_this_course">Step 2: Use Neo4j Browser to load the database for this course</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data.
-The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables.
-In addition to executing Cypher statements, you can execute a number of system calls that are related to the database being accessed by the Browser.
-For example, you can retrieve the list of queries that are currently running in the server.</p>
-</div>
-<div class="paragraph">
-<p>There are two ways that you can use Neo4j Browser functionality:</p>
-</div>
-<div class="ulist square">
-<ul class="square">
-<li>
-<p>Use the Neo4j Browser Web interface from Neo4j Aura or Neo4j Sandbox.</p>
-</li>
-<li>
-<p>Open the Neo4j Browser application from Neo4j Desktop (database is local).</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Neo4jBrowser.png" alt="Neo4jBrowser" width="800"></span></p>
-</div>
-<div class="sect2">
-<h3 id="_getting_started_with_neo4j_browser">Getting Started with Neo4j Browser</h3>
-<div class="paragraph">
-<p><strong>Note</strong>: Before you perform the tasks shown in this video, you must have done <strong>one</strong> of the following:</p>
-</div>
-<div class="ulist square">
-<ul class="square">
-<li>
-<p>Created and started a database in Neo4j Desktop (Option 1).</p>
-</li>
-<li>
-<p>Created a database in Neo4j Aura (Option 2).</p>
-</li>
-<li>
-<p>Created a Blank Neo4j Sandbox (Option 3).</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Follow along with this video and perform the same tasks to become familiar with common tasks in Neo4j Browser and populate the graph that is used for training with the movie data.</p>
-</div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rQTximyaETA?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_step_3_confirm_that_your_database_is_ready_for_this_course">Step 3: Confirm that your database is ready for this course.</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In Neo4j Browser where you are connected to the database and have loaded the movie data.</p>
-</div>
-<div class="paragraph">
-<p>Execute this Cypher statement:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-cypher-syntax" data-lang="cypher-syntax">MATCH (n) RETURN count(n)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If this query returns <strong>171</strong>, then your database has been set up properly and you are ready to start the training.</p>
 </div>
 </div>
 </div>
@@ -790,7 +515,7 @@ For example, you can retrieve the list of queries that are currently running in 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-01-29 10:59:16 CST
+Last updated 2020-04-03 13:09:18 CDT
 </div>
 </div>
 </body>
