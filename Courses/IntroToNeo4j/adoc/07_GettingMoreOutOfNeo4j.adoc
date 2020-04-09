@@ -128,7 +128,7 @@ ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-If you want to remove an existing parameter from your session, you do by by using the JSON-style syntax and excluding the parameter for your session.
+If you want to remove an existing parameter from your session, you do so by using the JSON-style syntax and excluding the parameter for your session.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -141,6 +141,13 @@ image::{imagedir}/ViewParams.png[ViewParams,width=500]
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
+
+If you want to clear all parameters, you can simply type:
+
+[source,cypher]
+----
+:params {}
+----
 
 === *Exercise 12: Using Cypher parameters*
 
@@ -601,10 +608,10 @@ Suppose we added the property, _videoFormat_ to every _Movie_ node and set its v
 ----
 MATCH (m:Movie)
 WHERE m.released >= 2000
-SET m.videoFormat = 'DVD';
+SET m.videoFormat = ['DVD','BlueRay'];
 MATCH (m:Movie)
 WHERE m.released < 2000
-SET m.videoFormat = 'VHS'
+SET m.videoFormat = ['VHS','DVD']
 ----
 
 With the result:
@@ -727,7 +734,7 @@ CSV import is commonly used to import data into a graph. If you want to import d
 
 Cypher provides an elegant built-in way to import tabular CSV data into graph structures.
 
-The `LOAD CSV` clause parses a local in the *import* directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
+The `LOAD CSV` clause parses a local file in the *import* directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
 Then you can use whichever Cypher operations you want to either create nodes or relationships or to merge with the existing graph.
 
 Here is the simplified syntax for using `LOAD CSV`:

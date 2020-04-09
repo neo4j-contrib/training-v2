@@ -66,7 +66,9 @@ Add a node to the graph of type _Movie_ with the _title_ _Batman Begins_. This n
 CREATE (:Movie {title: 'Batman Begins'})
 ----
 
-Add a node with two labels to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node:
+Add a node with two labels to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_.
+This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node:
+
 [source,cypher]
 ----
 CREATE (:Movie:Action {title: 'Batman Begins'})
@@ -78,7 +80,7 @@ Add a node to the graph of types _Movie_ and _Action_ with the _title_ _Batman B
 CREATE (m:Movie:Action {title: 'Batman Begins'})
 ----
 
-Add a node to the graph of types_Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. Here we return the title of the node:
+Add a node to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. Here we return the title of the node:
 [source,cypher]
 ----
 CREATE` (m:Movie:Action {title: ' Batman Begins'}) 
@@ -252,7 +254,7 @@ If the property does not exist, it is added to the node. If the property exists,
 Note that the type of data for a property is not enforced.  
 That is, you can assign a string value to a property that was once a numeric value and visa versa.
 
-When specify the JSON-style object for assignment (using `=`) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify `+=` when assigning to a property, the value at _valueX_ is updated if the _propertyNnameX_ exists for the node. If the _propertyNameX_ does not exist for the node, then the property is added to the node.
+When you specify the JSON-style object for assignment (using `=`) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify `+=` when assigning to a property, the value at _valueX_ is updated if the _propertyNnameX_ exists for the node. If the _propertyNameX_ does not exist for the node, then the property is added to the node.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -497,7 +499,7 @@ SET r += {propertyName1: value1, propertyName2: value2}
 
 
 If the property does not exist, it is added to the relationship. If the property exists, its value is updated for the relationship. 
-When specify the JSON-style object for assignment to the relationship using `=`, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use `+=`, you can add or update properties, just as you do for nodes.
+When you specify the JSON-style object for assignment to the relationship using `=`, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use `+=`, you can add or update properties, just as you do for nodes.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -520,7 +522,7 @@ Here is the result of running this Cypher statement:
 [.thumb]
 image::{imagedir}/AddRelationshipWithRoles.png[AddRelationshipWithRoles,width=600]
 
-The _roles_ property is a list so we add it as such. If the relationship had multiple properties, we could have added them as a comma separated list or as an object, like can do for node properties.
+The _roles_ property is a list so we add it as such. If the relationship had multiple properties, we could have added them as a comma separated list or as an object, like you can do for node properties.
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -788,7 +790,7 @@ h|The result is:
 |If the node or relationship property already exists, it is updated with the new value.  
 // force line break
 {nbsp} + 
-*Note:* If you specify a set of properties to be created using `=` rather than `+=`, it could remove existing properties if they are not included in the set.
+*Note:* If you specify a set of properties to be created using `=` rather than `+=`, existing properties are removed if they are not included in the set.
 |Relationship
 |If the relationship exists, a duplicate relationship is created.
 |===
@@ -797,7 +799,7 @@ h|The result is:
 [WARNING]
 You should never create duplicate nodes or relationships in a graph.
 
-The `MERGE` clause is used to find elements in the graph. But if the element is not found, it is created. 
+The `MERGE` clause is used to find elements in the graph. If the element is not found, it is created.
 
 [cols=1, frame="none"]
 |===
@@ -903,7 +905,7 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Here is an example where create a new node, specifying property values for the new node:
+Here is an example of creating a new node while specifying property values for the new node:
 
 [source,cypher]
 ----
@@ -913,9 +915,9 @@ ON CREATE SET a.birthPlace = 'London',
 RETURN a
 ----
 
-We know that there are no existing _Sir Michael Caine_ _Person_ nodes. When the `MERGE` executes, it will not find any matching nodes so it will create one and will execute the `ON CREATE` clause where we set the _birthplace_ and _born_ property values. 
+We know that there are no existing _Sir Michael Caine_ Person nodes. When the `MERGE` executes, it will not find any matching nodes so it will create one and will execute the `ON CREATE` clause where we set the _birthplace_ and _born_ property values.
 
-Here is the resulting nodes that have anything to do with _Michael Caine_. The most recently created node has the _name_ value of _Sir Michael Caine_.
+Here are the resulting nodes that have anything to do with _Michael Caine_. The most recently created node has the _name_ value of _Sir Michael Caine_.
 
 [.thumb]
 image::{imagedir}/AllMichaelCaines.png[AllMichaelCaines,width=800]

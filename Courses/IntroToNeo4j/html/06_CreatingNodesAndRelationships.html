@@ -352,7 +352,8 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>Add a node with two labels to the graph of types <em>Movie</em> and <em>Action</em> with the <em>title</em> <em>Batman Begins</em>. This node can be retrieved using the title. A set of nodes with the labels <em>Movie</em> or <em>Action</em> can also be retrieved which will contain this node:</p>
+<p>Add a node with two labels to the graph of types <em>Movie</em> and <em>Action</em> with the <em>title</em> <em>Batman Begins</em>.
+This node can be retrieved using the title. A set of nodes with the labels <em>Movie</em> or <em>Action</em> can also be retrieved which will contain this node:</p>
 </div>
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
@@ -378,7 +379,7 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>Add a node to the graph of types_Movie_ and <em>Action</em> with the <em>title</em> <em>Batman Begins</em>. This node can be retrieved using the title. A set of nodes with the labels <em>Movie</em> or <em>Action</em> can also be retrieved which will contain this node. Here we return the title of the node:</p>
+<p>Add a node to the graph of types <em>Movie</em> and <em>Action</em> with the <em>title</em> <em>Batman Begins</em>. This node can be retrieved using the title. A set of nodes with the labels <em>Movie</em> or <em>Action</em> can also be retrieved which will contain this node. Here we return the title of the node:</p>
 </div>
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
@@ -641,7 +642,7 @@ That is, you can assign a string value to a property that was once a numeric val
 
 
 <div class="paragraph">
-<p>When specify the JSON-style object for assignment (using <code>=</code>) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify <code>+=</code> when assigning to a property, the value at <em>valueX</em> is updated if the <em>propertyNnameX</em> exists for the node. If the <em>propertyNameX</em> does not exist for the node, then the property is added to the node.</p>
+<p>When you specify the JSON-style object for assignment (using <code>=</code>) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify <code>+=</code> when assigning to a property, the value at <em>valueX</em> is updated if the <em>propertyNnameX</em> exists for the node. If the <em>propertyNameX</em> does not exist for the node, then the property is added to the node.</p>
 </div>
 
 
@@ -972,7 +973,7 @@ data-lang=”{language}” class=””
 
 <div class="paragraph">
 <p>If the property does not exist, it is added to the relationship. If the property exists, its value is updated for the relationship.
-When specify the JSON-style object for assignment to the relationship using <code>=</code>, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use <code>+=</code>, you can add or update properties, just as you do for nodes.</p>
+When you specify the JSON-style object for assignment to the relationship using <code>=</code>, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use <code>+=</code>, you can add or update properties, just as you do for nodes.</p>
 </div>
 
 
@@ -1004,7 +1005,7 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>The <em>roles</em> property is a list so we add it as such. If the relationship had multiple properties, we could have added them as a comma separated list or as an object, like can do for node properties.</p>
+<p>The <em>roles</em> property is a list so we add it as such. If the relationship had multiple properties, we could have added them as a comma separated list or as an object, like you can do for node properties.</p>
 </div>
 
 
@@ -1340,7 +1341,7 @@ and follow the instructions for Exercise 10.</p>
 <td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Property</p></td>
 <td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">If the node or relationship property already exists, it is updated with the new value.
 &#160;<br>
-<strong>Note:</strong> If you specify a set of properties to be created using <code>=</code> rather than <code>+=</code>, it could remove existing properties if they are not included in the set.</p></td>
+<strong>Note:</strong> If you specify a set of properties to be created using <code>=</code> rather than <code>+=</code>, existing properties are removed if they are not included in the set.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" style="background-color: white;"><p class="tableblock">Relationship</p></td>
@@ -1368,7 +1369,7 @@ You should never create duplicate nodes or relationships in a graph.
 
 
 <div class="paragraph">
-<p>The <code>MERGE</code> clause is used to find elements in the graph. But if the element is not found, it is created.</p>
+<p>The <code>MERGE</code> clause is used to find elements in the graph. If the element is not found, it is created.</p>
 </div>
 <table class="tableblock frame-none grid-all stretch">
 <colgroup>
@@ -1536,7 +1537,7 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>Here is an example where create a new node, specifying property values for the new node:</p>
+<p>Here is an example of creating a new node while specifying property values for the new node:</p>
 </div>
 <div class="listingblock">
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
@@ -1552,12 +1553,12 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>We know that there are no existing <em>Sir Michael Caine</em> <em>Person</em> nodes. When the <code>MERGE</code> executes, it will not find any matching nodes so it will create one and will execute the <code>ON CREATE</code> clause where we set the <em>birthplace</em> and <em>born</em> property values.</p>
+<p>We know that there are no existing <em>Sir Michael Caine</em> Person nodes. When the <code>MERGE</code> executes, it will not find any matching nodes so it will create one and will execute the <code>ON CREATE</code> clause where we set the <em>birthplace</em> and <em>born</em> property values.</p>
 </div>
 
 
 <div class="paragraph">
-<p>Here is the resulting nodes that have anything to do with <em>Michael Caine</em>. The most recently created node has the <em>name</em> value of <em>Sir Michael Caine</em>.</p>
+<p>Here are the resulting nodes that have anything to do with <em>Michael Caine</em>. The most recently created node has the <em>name</em> value of <em>Sir Michael Caine</em>.</p>
 </div>
 <div class="imageblock thumb">
 <p class="content">

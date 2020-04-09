@@ -407,7 +407,7 @@ data-lang=”{language}” class=””
 
 
 <div class="paragraph">
-<p>If you want to remove an existing parameter from your session, you do by by using the JSON-style syntax and excluding the parameter for your session.</p>
+<p>If you want to remove an existing parameter from your session, you do so by using the JSON-style syntax and excluding the parameter for your session.</p>
 </div>
 
 
@@ -419,6 +419,19 @@ data-lang=”{language}” class=””
 <img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ViewParams.png" alt="ViewParams" width="500">
 </p>
 </div>
+
+
+<div class="paragraph">
+<p>If you want to clear all parameters, you can simply type:</p>
+</div>
+<div class="listingblock">
+<div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
+<pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">:params {}</pre>
+</div>
+</div>
+<!--
+data-lang=”{language}” class=””
+-->
 </div>
 <div  id="_exercise_12_using_cypher_parameters" class="sect2 columns medium-12" style='padding-left: 0;' >
 <h3><strong>Exercise 12: Using Cypher parameters</strong></h3>
@@ -1153,10 +1166,10 @@ data-lang=”{language}” class=””
 <div class="content code-panel" style="width: 800px; height: auto; border: medium 1px;">
 <pre style="font-size: 16px; font-weight: 100;"  class="code cm-s-neo" data-lang="cypher">MATCH (m:Movie)
 WHERE m.released &gt;= 2000
-SET m.videoFormat = 'DVD';
+SET m.videoFormat = ['DVD','BlueRay'];
 MATCH (m:Movie)
 WHERE m.released &lt; 2000
-SET m.videoFormat = 'VHS'</pre>
+SET m.videoFormat = ['VHS','DVD']</pre>
 </div>
 </div>
 <!--
@@ -1338,7 +1351,7 @@ Load up to 10M nodes and relationships.
 
 
 <div class="paragraph">
-<p>The <code>LOAD CSV</code> clause parses a local in the <strong>import</strong> directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
+<p>The <code>LOAD CSV</code> clause parses a local file in the <strong>import</strong> directory of your Neo4j installation or a remote file into a stream of rows which represent maps (with headers) or lists.
 Then you can use whichever Cypher operations you want to either create nodes or relationships or to merge with the existing graph.</p>
 </div>
 
