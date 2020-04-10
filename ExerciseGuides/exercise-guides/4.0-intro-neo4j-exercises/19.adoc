@@ -1,4 +1,5 @@
 = Exercise 19
+:imagedir: ../images
 
 == Exercise 19: Importing data from an RDBMS using an application (Preparations)
 
@@ -45,7 +46,7 @@ In a terminal window on OS X or Linux, follow these steps to install *sdk* on yo
         https://www.youtube.com/watch?v=hFiFQcfT9U0&feature=youtu.be
 
 [.thumb]
-image::{guides}/img/sdkInstalled.png[sdkInstalled,width=500]
+image::{imagedir}/sdkInstalled.png[sdkInstalled,width=500]
 
 == Exercise 19.2: Install groovy (Instructions/Solution)
 
@@ -57,12 +58,12 @@ In the same terminal window, follow these steps to install groovy on your system
 . Verify the installation by typing: groovy -h
 
 [.thumb]
-image::{guides}/img/groovyInstalled.png[groovyInstalled,width=500]
+image::{imagedir}/groovyInstalled.png[groovyInstalled,width=500]
 
 == Exercise 19.3: Modify the groovy file to use the Neo4j RDBMS credentials (Instructions/Solution)
 
 . Here is the *import.groovy* file that you should place somewhere on your system:
-
++
 [source]
 ----
 @GrabConfig( systemClassLoader=true )
@@ -107,7 +108,6 @@ neo4j.session(SessionConfig.builder().withDatabase("products").build()).withClos
 
 ++++
 
-[start=2]
 . Modify the NEO4J value to match the credentials you use to connect to the Neo4j database.
 
 == Exercise 19.4: Run the application to load the data (Instructions/Solution)
@@ -121,7 +121,7 @@ In the same terminal window:
 You should see something like this:
 
 [.thumb]
-image::{guides}/img/RunGroovy.png[RunGroovy,width=500]
+image::{imagedir}/RunGroovy.png[RunGroovy,width=500]
 
 == Exercise 19.5: View the database after import (Instructions/Solution)
 
@@ -130,7 +130,7 @@ In Neo4j Browser, confirm that the database was populated.
 You should see this in Neo4j Browser:
 
 [.thumb]
-image::{guides}/img/AfterAppImport.png[AfterAppImport,width=150]
+image::{imagedir}/AfterAppImport.png[AfterAppImport,width=150]
 
 == Exercise 19: Importing data from an RDBMS using an application (Summary)
 
