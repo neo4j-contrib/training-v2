@@ -8,6 +8,113 @@ window.trainingClassName = 'neo4j-administration';
 <script src="//neo4jsandbox.com/js/jwt-decode.min.js"></script>
 <script src="http://graphacademy.neo4j.com/training-classes/js/classes-v2.js"></script>
 
+<!-- Elaine added -->
+
+<script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
+
+<!-- End addition -->
+
+<!-- Elaine added contents of login.js from Shreyans -->
+
+<script>
+    var auth0Options = {
+        configurationBaseUrl: 'https://cdn.auth0.com',
+        allowedConnections: ['google-oauth2', 'linkedin', 'twitter', 'Username-Password-Authentication'],
+        additionalSignUpFields: [
+            {
+                name: 'first_name',
+                placeholder: 'First Name'
+            },
+            {
+                name: 'last_name',
+                placeholder: 'Last Name'
+            }
+        ],
+        closable: false,
+        languageDictionary: {
+            signUpTerms: "I agree to the <a href='https://neo4j.com/terms/online-trial-agreement/' style='text-decoration: underline' target='_blank'>terms of service</a> of Neo4j."
+        },
+        mustAcceptTerms: true,
+        auth: {
+            redirect: true,
+            redirectUrl: 'https://neo4j.com/accounts/login',
+            responseType: 'token id_token',
+            audience: 'neo4j://accountinfo/',
+            params: {
+                scope: 'read:account-info write:account-info openid email profile user_metadata'
+            }
+        }
+    }
+
+    const classStates = {
+        loggedIn: 'graph-academy-for-logged-in',
+        notLoggedIn: 'graph-academy-for-not-logged-in'
+    }
+
+    class GraphAcademyLogin {
+        constructor(options = {}) {
+            console.log('constructor called');
+            if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
+            console.log(options);
+            this.lock = new Auth0Lock('DxhmiF8TCeznI7Xoi08UyYScLGZnk4ke', 'login.neo4j.com', auth0Options);
+            this.options = options;
+            this.checkSession(options.callback);
+        }
+
+        checkSession(cb) {
+            this.lock.checkSession({}, async (err, result) => {
+                console.log(result);
+            if (result) {
+                this.isLoggedIn = true;
+                this.authResult = result;
+                if (this.callback && typeof this.callback === 'function') this.callback()
+            } else {
+                this.isLoggedIn = false;
+            }
+            if (err && this.options.loginRedirectUrl) {
+                this.redirectToLogin();
+            }
+            this.handleHtmlOnState(result ? 'loggedIn' : 'notLoggedIn');
+            if (cb && typeof cb === 'function') cb(err, result);
+        })
+        }
+
+        handleHtmlOnState(state = null) {
+            const loggedInElements = document.getElementsByClassName(classStates['loggedIn']) || [];
+            const notLoggedInElements = document.getElementsByClassName(classStates['notLoggedIn']) || [];
+            if (state === 'loggedIn') {
+                for (let item of loggedInElements) {
+                    item.style.display = 'inherit';
+                }
+                for (let item of notLoggedInElements) {
+                    item.style.display = 'none';
+                }
+            } else if (state === 'notLoggedIn') {
+                for (let item of loggedInElements) {
+                    item.style.display = 'none';
+                }
+                for (let item of notLoggedInElements) {
+                    item.style.display = 'inherit';
+                }
+            }
+        }
+
+        logout() {
+            const logoutOptions = {};
+            if (this.options.redirectOnLogout) logoutOptions.redirectTo = this.options.redirectOnLogout;
+            this.lock.logout(logoutOptions);
+            this.handleHtmlOnState('notLoggedIn');
+        }
+
+        redirectToLogin() {
+            return window.location.href = this.options.loginRedirectUrl;
+        }
+    }
+
+</script>
+
+<!-- End addition -->
+
 
 
 <script type="text/javascript">
@@ -32,74 +139,57 @@ window.trainingClassName = 'neo4j-administration';
 </script>
 
 
-  <script type="text/javascript">
-var getTimeDiff = function(time1, time2) {
-  var hourDiff = time2 - time1;
-  var diffDays = Math.floor(hourDiff / 86400000);
-  var diffHrs = Math.floor((hourDiff % 86400000) / 3600000);
-  var diffMins = Math.floor(((hourDiff % 86400000) % 3600000) / 60000);
-  return {"days": diffDays, "hours": diffHrs, "mins": diffMins};
-}
+<!--  copy this for other courses, but adapt for course  -->
+<script type="text/javascript">
 
-  $(document).ready(function() {  
-    var userInfo = Cookies.getJSON("com.neo4j.accounts.userInfo");
-    var id_token = Cookies.get("com.neo4j.accounts.idToken");
-    var id_token_expired = true;
+    $(document).ready(function () {
+        var form_filled = Cookies.get("com.neo4j.graphacademy.training.neo4jadministration.form_submit");
+        const login = new GraphAcademyLogin({});
 
-    var expiresIn = null;
- 
-    if (id_token) {
-      expiresIn = getTimeDiff(Date.now(), (jwt_decode(id_token).exp) * 1000); 
-      if ( (expiresIn.days > 0) || (expiresIn.hours > 0) || (expiresIn.mins > 0)) {
-        id_token_expired = false;
-      }  else {
-        id_token_expired = true;
-      } 
-    }
+        login.checkSession((err, result) => {
+            if (result) {
+                const givenName = result.idTokenPayload.given_name || null
+                getEnrollmentForClass().done(function (data, textStatus, jqXHR) {
+                    if (data['enrolled']) {
+                        if (givenName) {
+                            $(".custom-form-header").html("<p>Welcome " + result.idTokenPayload.given_name + "</p>");
+                        } else {
+                            $(".custom-form-header").html("<p>Welcome</p>");
+                        }
+                        $('.btn-login').replaceWith($('.btn-continue'));
+                        $('.reg-logout').show();
+                    } else {
+                        $('#online_training').remove();
+                        $(".small-2").addClass("medium-offset-4");
+                        $('#reg-form').show();
+                        $('#reg-start').hide();
+                        $('#logout').show();
+                        $('.reg-logout').show();
 
-    var form_filled = Cookies.get("com.neo4j.graphacademy.training.neo4jadministration.form_submit");
+                        MktoForms2.whenReady(function (form) {
+                            var prefillFields = {
+                                "FirstName": userInfo.given_name,
+                                "LastName": userInfo.family_name,
+                                "Email": userInfo.email,
+                                "Country": country
+                            };
+                            if (country == "United States" || country == "Canada") {
+                                prefillFields["State"] = state;
+                            }
+                            //pass our prefillFields objects into the form.vals method to fill our fields
+                            form.vals(prefillFields);
+                        });
+                    }
 
-        if (userInfo && id_token && !id_token_expired) {
-          getEnrollmentForClass().done( function(data, textStatus, jqXHR) {
+                });
+            } else {
+                // Do whatever if not logged in
+            }
+        })
+    });
+</script>
 
-          if (data['enrolled']) {
-             if ('given_name' in userInfo) {
-               $(".custom-form-header").html("<p>Welcome " + userInfo.given_name + "</p>");
-             } else {
-               $(".custom-form-header").html("<p>Welcome</p>");
-             }
-             $('.btn-login').replaceWith( $('.btn-continue') );
-             $('.reg-logout').show();
-          } else {
-            $('#online_training').remove();
-            $(".small-2").addClass("medium-offset-4");
-            $('#reg-form').show();
-            $('#reg-start').hide();
-            $('#logout').show();
-            $('.reg-logout').show();
-
-            MktoForms2.whenReady( function(form) {
-              var prefillFields = { 
-	  		"FirstName" : userInfo.given_name,
-	  		"LastName" : userInfo.family_name,
-                        "Email": userInfo.email,
-                          "Country": country };
-              if (country == "United States" || country == "Canada"){
-                prefillFields["State"] = state;
-              }
-		  
-
-  	      //pass our prefillFields objects into the form.vals method to fill our fields
-	      form.vals(prefillFields);
-            });
-          }
-
-        });
-      } else {
-        // no id token
-      }
-  });
-  </script>
+<!-- end of copy -->
 
 
 <script type="text/javascript">
