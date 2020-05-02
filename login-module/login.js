@@ -34,17 +34,15 @@ const classStates = {
 
 class GraphAcademyLogin {
 	constructor(options = {}) {
-		console.log('constructor called');
 		if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
-		console.log(options);
-		this.lock = new Auth0Lock('DxhmiF8TCeznI7Xoi08UyYScLGZnk4ke', 'login.neo4j.com', auth0Options);
+		this.lock = new Auth0Lock('hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu', 'login.neo4j.com', auth0Options);
 		this.options = options;
 		this.checkSession(options.callback);
 	}
 
 	checkSession(cb) {
+		this.handleHtmlOnState('notLoggedIn');
 		this.lock.checkSession({}, async (err, result) => {
-			console.log(result);
 			if (result) {
 				this.isLoggedIn = true;
 				this.authResult = result;
@@ -61,20 +59,20 @@ class GraphAcademyLogin {
 	}
 
 	handleHtmlOnState(state = null) {
-		const loggedInElements = document.getElementsByClassName(classStates['loggedIn']) || [];
-		const notLoggedInElements = document.getElementsByClassName(classStates['notLoggedIn']) || [];
+		const showIfLoggedIn = document.getElementsByClassName(classStates['loggedIn']) || [];
+		const notShowIfLoggedIn = document.getElementsByClassName(classStates['notLoggedIn']) || [];
 		if (state === 'loggedIn') {
-			for (let item of loggedInElements) {
+			for (let item of showIfLoggedIn) {
 				item.style.display = 'inherit';
 			}
-			for (let item of notLoggedInElements) {
+			for (let item of notShowIfLoggedIn) {
 				item.style.display = 'none';
 			}
 		} else if (state === 'notLoggedIn') {
-			for (let item of loggedInElements) {
+			for (let item of showIfLoggedIn) {
 				item.style.display = 'none';
 			}
-			for (let item of notLoggedInElements) {
+			for (let item of notShowIfLoggedIn) {
 				item.style.display = 'inherit';
 			}
 		}
