@@ -7,7 +7,7 @@ Make sure you have the Movie database, which contains 176 nodes and 257 relation
 
 This is what you should see when you click the database icon:
 
-image::{imagedir}/AfterExercise13.png[AfterExercise13,width=150]
+image::{guides}/img/AfterExercise13.png[AfterExercise13,width=150]
 
 If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreate the database (assuming you are using the _neo4j_ database):
 
@@ -58,7 +58,7 @@ CREATE INDEX PersonBornIndex FOR (p:Person) ON (p.born)
 The result should be:
 
 [.thumb]
-image::{imagedir}/CreateIndex.png[CreateIndex,width=500]
+image::{guides}/img/CreateIndex.png[CreateIndex,width=500]
 
 == Exercise 14.2: View index information (Instructions)
 
@@ -82,7 +82,7 @@ CALL db.indexes()
 The result returned should be:
 
 [.thumb]
-image::{imagedir}/ViewIndexes.png[ViewIndexes,width=600]
+image::{guides}/img/ViewIndexes.png[ViewIndexes,width=600]
 
 == Exercise 14.3: Drop an index (Instructions)
 
@@ -100,7 +100,7 @@ DROP INDEX PersonBornIndex
 The result returned should be:
 
 [.thumb]
-image::{imagedir}/DropIndex.png[DropIndex,width=500]
+image::{guides}/img/DropIndex.png[DropIndex,width=500]
 
 == Exercise 14.4: Create a full-text schema index (Instructions)
 
@@ -118,7 +118,7 @@ CALL db.index.fulltext.createNodeIndex('MovieTaglineFTIndex',['Movie'], ['taglin
 The result returned should be:
 
 [.thumb]
-image::{imagedir}/CreateFTIndex.png[CreateFTIndex,width=500]
+image::{guides}/img/CreateFTIndex.png[CreateFTIndex,width=500]
 
 == Exercise 14.5: View index information (Instructions)
 
@@ -136,7 +136,7 @@ CALL db.indexes()
 The result returned should be:
 
 [.thumb]
-image::{imagedir}/ViewIndexes2.png[ViewIndexes2,width=600]
+image::{guides}/img/ViewIndexes2.png[ViewIndexes2,width=600]
 
 == Exercise 14.6: Perform a query that uses the full-text schema index (Instructions)
 
@@ -157,7 +157,7 @@ RETURN node.title, node.tagline
 The result returned should be:
 
 [.thumb]
-image::{imagedir}/UseFTIndex.png[UseFTIndex,width=600]
+image::{guides}/img/UseFTIndex.png[UseFTIndex,width=600]
 
 . *Write and execute a query to find all movies with taglines that contain the strings "real" and "world".*
 
@@ -170,7 +170,7 @@ RETURN node.title, node.tagline
 The result returned should be:
 
 [.thumb]
-image::{imagedir}/UseFTIndex2.png[UseFTIndex2,width=600]
+image::{guides}/img/UseFTIndex2.png[UseFTIndex2,width=600]
 
 == Exercise 14.6: Perform a query that uses the full-text schema index (Taking it further - optional)
 
@@ -193,7 +193,7 @@ CALL db.index.fulltext.drop('MovieTaglineFTIndex')
 The result returned should be:
 
 [.thumb]
-image::{imagedir}/DropFTIndex.png[DropFTIndex,width=500]
+image::{guides}/img/DropFTIndex.png[DropFTIndex,width=500]
 ++++
 <div style="clear: both;"></div>
 ++++
