@@ -346,22 +346,31 @@ $(document).ready(function() {
 <section>&nbsp;</section>
 
 <script>
-$( document ).ready(function() {
-    var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
-    if (userInfoIntercom) {
-      try {
-        window.Intercom("update", {
-          app_id: "dt0ig5ab",
-          name: userInfoIntercom.name, 
-          email: userInfoIntercom.email,
-          user_id: userInfoIntercom.sub,
-          hide_default_launcher: true
-        });;  
-      } catch (err) {
-        console.error(err);
-      }
-    }
-});
+    $( document ).ready(function() {
+        const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/neo4j-administration/"});
+
+        login.checkSession((err, result) => {
+            if (result) {
+                getQuizStatus();
+                var userInfoIntercom = result.idTokenPayload;
+                if (userInfoIntercom) {
+                    try {
+                        window.Intercom("update", {
+                            app_id: "dt0ig5ab",
+                            name: userInfoIntercom.name,
+                            email: userInfoIntercom.email,
+                            user_id: userInfoIntercom.sub,
+                            hide_default_launcher: true
+                        });;
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+                Intercom('trackEvent','training-neo4j-admin-view');
+            }
+        })
+
+    });
 </script>
 
 <script>
