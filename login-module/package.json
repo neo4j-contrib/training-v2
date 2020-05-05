@@ -5,8 +5,20 @@
   "main": "login.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "aws s3 sync ./ s3://graph-academy-login-test --acl public-read --delete --profile devrel"
+    "deploy": "npm run build && aws s3 sync ./ s3://cdn.graphacademy.neo4j.com --acl public-read --delete --profile devrel --exclude 'node_modules/*'",
+    "build": "npx webpack --config webpack.config.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "auth0-lock": "^11.23.1",
+    "await-to-js": "^2.1.1",
+    "axios": "^0.19.2"
+  }
 }
