@@ -15,20 +15,20 @@ The production built file is accessible via a public url - https://s3.amazonaws.
 | `logoutOptions` | object<br/> `{shouldRedirect: bool, redirectTo: 'URL'}` | whether or not to automatically redirect when `logout()` function is called
 
 #### Code Example
-```
+```js
 const login = new GraphAcademyLogin({
-        trainingClassName: "_testing_4.0-intro-neo4j",
-        classStates: {
-			loggedIn: 'only-logged-in',
-          	notLoggedIn: 'only-not-logged-in',
-	        checkingSession: 'only-checking-session',
-        },
-        loginRedirectUrl: 'https://neo4j.com/graphacademy/intro-4.0',
-        logoutOptions: {
-			shouldRedirect: true,
-			redirectTo: 'https://neo4j.com/graphacademy/intro-4.0'
-		}
-      });
+    trainingClassName: "_testing_4.0-intro-neo4j",
+    classStates: {
+        loggedIn: 'only-logged-in',
+        notLoggedIn: 'only-not-logged-in',
+        checkingSession: 'only-checking-session',
+    },
+    loginRedirectUrl: 'https://neo4j.com/graphacademy/intro-4.0',
+    logoutOptions: {
+        shouldRedirect: true,
+        redirectTo: 'https://neo4j.com/graphacademy/intro-4.0'
+    }
+})
 ```
 
 ## Class Methods
@@ -44,24 +44,22 @@ The following methods are avaiable on `GraphAcademyLogin` class.
 
 ## Code Examples
 
-```
+```js
 const user = new GraphAcademyLogin(options);
 
-user.checkSession((err, result){
-	if(result){
-		//do stuff if when the user is logged in
-		
-		user.getEnrollment()
-			.then([err, respone]){
-				//do things after you get enrollment
-			}
-			
-	} else {
-		// do stuff if the user is not logged in
-	}
+user.checkSession((err, result) => {
+    if (result) {
+        // do stuff if when the user is logged in
+        user.getEnrollment()
+	  .then([err, respone]) {
+              //do things after you get enrollment
+          }	
+    } else {
+        // do stuff if the user is not logged in
+    }
 })
 
-user.logout();
+user.logout()
 ```
 
 ## Deployment
