@@ -47,8 +47,8 @@ The following methods are avaiable on `GraphAcademyLogin` class.
 ```js
 const user = new GraphAcademyLogin(options);
 
-user.checkSession((err, result){
-    if(result) {
+user.checkSession((err, result) => {
+    if (result) {
         // do stuff if when the user is logged in
         user.getEnrollment()
 	  .then([err, respone]) {
