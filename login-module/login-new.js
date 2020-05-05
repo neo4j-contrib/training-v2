@@ -103,7 +103,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		}
 		const [err, response] = await to(Axios.post(API_BASE_URL + `/genClassCertificate`, JSON.stringify(body), {
 			headers: {
-				"Authorization": this.authResult.idToken,
+				"Authorization": this.authResult.accessToken,
 				"Accept": 'application/json, text/javascript, */*; q=0.01',
 				'Content-Type': 'application/json',
 			}
@@ -114,7 +114,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	async getEnrollmentForClass() {
 		const [err, response] = await to(Axios.get(API_BASE_URL + `/getClassEnrollment?className=${this.options.trainingClassName}`, {
 			headers: {
-				"Authorization": this.authResult.idToken,
+				"Authorization": this.authResult.accessToken,
 				"Accept": 'application/json, text/javascript, */*; q=0.01',
 				'Content-Type': 'application/json',
 			}
@@ -130,7 +130,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		}
 		const [err, response] = await to(Axios.post(API_BASE_URL + `/setClassEnrollment`, JSON.stringify(body), {
 			headers: {
-				"Authorization": this.authResult.idToken,
+				"Authorization": this.authResult.accessToken,
 				"Accept": 'application/json, text/javascript, */*; q=0.01',
 				'Content-Type': 'application/json',
 			}
@@ -152,7 +152,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	// 					"partName": window.trainingPartName || 'uknown'
 	// 				}),
 	// 			headers: {
-	// 				"Authorization": this.authResult.idToken
+	// 				"Authorization": this.authResult.accessToken
 	// 			}
 	// 		});
 	// }
