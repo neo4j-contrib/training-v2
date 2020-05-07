@@ -1,4 +1,8 @@
+var STAGE = "prod";
+var API_BASE_URL = `https://nmae7t4ami.execute-api.us-east-1.amazonaws.com/${STAGE}`;
+
 export default {
+	API_BASE_URL,
 	auth0Options: {
 		configurationBaseUrl: 'https://cdn.auth0.com',
 		allowedConnections: ['google-oauth2', 'linkedin', 'twitter', 'Username-Password-Authentication'],
@@ -31,11 +35,12 @@ export default {
 		loggedIn: 'graph-academy-for-logged-in',
 		notLoggedIn: 'graph-academy-for-not-logged-in'
 	},
-	API_BASE_URL: `https://nmae7t4ami.execute-api.us-east-1.amazonaws.com/`,
 
 	DEFAULT_OPTIONS: {
 		env: 'prod',
 		trainingClassName: '',
+		classStates: {},
+		isCourseLandingPage: false,
 
 	}
 }
