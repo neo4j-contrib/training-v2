@@ -44,5 +44,5 @@ if 'PUBLISH_DOCS_USERNAME' in os.environ and 'PUBLISH_DOCS_PASSWORD' in os.envir
   pageContent = update_wordpress_page(88171, get_page_content('07_GettingMoreOutOfNeo4j.html'))
   pageContent = update_wordpress_page(88694, get_page_content('08_Summary.html'))
 else:
-  print "Environment varisbles for PUBLISH_DOCS_USERNAME and PUBLISH_DOCS_PASSWORD must be set"
+  print "Environment variables for PUBLISH_DOCS_USERNAME and PUBLISH_DOCS_PASSWORD must be set"
   sys.exit()
