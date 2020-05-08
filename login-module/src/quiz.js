@@ -4,37 +4,30 @@ import to from 'await-to-js';
 
 export default {
 	async getQuizStatus(trainingClassName, accessToken, stage) {
-		return $.ajax
-			({
-				type: "GET",
-				url: constants.getApiBaseUrl(stage) + "/getQuizStatus?className=" + trainingClassName,
-				contentType: "application/json",
-				dataType: 'json',
-				async: true,
-				headers: {
-					"Authorization": accessToken
-				}
-			});
+		const [err, response] = await to(Axios.get(constants.getApiBaseUrl(stage) + `/getQuizStatus?className=${trainingClassName}`, {
+			headers: {
+				'Authorization': accessToken,
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			}
+		}))
+		return [err, response];
 	},
 
 	async postQuizStatus(passed, failed, trainingClassName, accessToken, stage) {
-		return $.ajax
-			({
-				type: "POST",
-				url: constants.getApiBaseUrl(stage) + "/setQuizStatus",
-				contentType: "application/json",
-				dataType: 'json',
-				async: true,
-				data: JSON.stringify(
-					{
-						"className": trainingClassName,
-						"passed": passed,
-						"failed": failed
-					}),
-				headers: {
-					"Authorization": accessToken
-				}
-			});
+		const body = {
+			"className": trainingClassName,
+			"passed": passed,
+			"failed": failed
+		}
+		const [err, response] = await to(Axios.post(constants.getApiBaseUrl(stage) + `/setQuizStatus`, JSON.stringify(body), {
+			headers: {
+				'Authorization': accessToken,
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			}
+		}))
+		return [err, response];
 	},
 
 	gradeQuiz(theQuiz, quizesStatus) {
