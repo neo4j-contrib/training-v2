@@ -1,8 +1,8 @@
 import constants from './constants';
-import Auth0Lock from 'auth0-lock';
-import quiz from './quiz';
-import enrollment from './enrollment';
-import certificate from './certificate';
+import { WebAuth } from 'auth0-js';
+import Quiz from './quiz';
+import Enrollment from './enrollment';
+import Certificate from './certificate';
 import misc from './misc';
 
 window.GraphAcademyLogin = class GraphAcademyLogin {
@@ -13,16 +13,23 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 			console.log(`required params missing - one of ${constants.REQUIRED_OPTIONS.join(', ')}`);
 			return;
 		}
-
-		if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
-		this.lock = new Auth0Lock('hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu', 'login.neo4j.com', constants.auth0Options);
-
+		this.webAuth = new WebAuth({
+			clientID: 'hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu',
+			domain: 'login.neo4j.com',
+			redirectUri: `${window.location.origin}/accounts/login`,
+			audience: 'neo4j://accountinfo/',
+			scope: 'read:account-info openid email profile user_metadata',
+			responseType: 'token id_token'
+		});
 		// User data
 		this.quizesStatus = [];
-		this.enrollment = [];
+		this.enrollmentStatus = [];
 		this.currentModule = '';
 		this.quizModuleCount = null;
 		this.currentModuleQuizStatus = null;
+		this.certificate = new Certificate(this.options.trainingClassName, this.options.stage)
+		this.enrollment = new Enrollment(this.options.trainingClassName, this.options.stage)
+		this.quiz = new Quiz(this.options.trainingClassName, this.options.stage)
 	}
 
 	hasRequiredOptions(options) {
@@ -30,10 +37,10 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	checkSession(cb) {
-		const { options, lock } = this;
+		const { options, webAuth } = this;
 		const { trainingClassName, stage } = options;
 		misc.handleHtmlOnState('checkingSession', options);
-		lock.checkSession({}, async (err, result) => {
+		webAuth.checkSession({}, async (err, result) => {
 
 			if (err) {
 				this.isLoggedIn = false;
@@ -48,17 +55,17 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 				const accessToken = result.accessToken;
 				console.log(accessToken)
 				// Handle enrollment
-				const [err, enrollmentResponse] = await enrollment.getEnrollmentForClass(trainingClassName, accessToken, stage);
+				const [err, enrollmentResponse] = await this.enrollment.getEnrollmentForClass(accessToken);
 				if (enrollmentResponse.status === 200) {
-					this.enrollment = enrollmentResponse.data;
+					this.enrollmentStatus = enrollmentResponse.data;
 				}
 
-				if (!this.enrollment.enrolled && options.enrollmentUrl) {
+				if (!this.enrollmentStatus.enrolled && options.enrollmentUrl) {
 					window.location.href = options.enrollmentUrl;
 				}
 
-				if (!options.isCourseLandingPage && this.enrollment.enrolled) {
-					if (this.enrollment.enrolled) await this.handleQuizSetup();
+				if (!options.isCourseLandingPage && this.enrollmentStatus.enrolled) {
+					if (this.enrollmentStatus.enrolled) await this.handleQuizSetup();
 				}
 
 				// Hanlde callback
@@ -71,13 +78,13 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	async enrollStudentInClass(firstName, lastName) {
-		const { options: { trainingClassName, stage }, authResult: { accessToken } } = this;
-		return await enrollment.enrollStudentInClass(firstName, lastName, trainingClassName, accessToken, stage);
+		const { authResult: { accessToken }, enrollment } = this;
+		return await enrollment.enrollStudentInClass(firstName, lastName, accessToken);
 	}
 
 	async handleQuizSetup() {
-		const { options: { trainingClassName, stage }, authResult: { accessToken } } = this;
-		const value = await quiz.getQuizStatus(trainingClassName, accessToken, stage);
+		const { authResult: { accessToken }, quiz } = this;
+		const value = await quiz.getQuizStatus(accessToken);
 		this.quizesStatus = value['quizStatus'];
 		this.currentModule = $(".quiz").attr("id");
 		this.currentModuleQuizStatus = this.quizesStatus.passed.indexOf(this.currentModule) > -1 ? 'passed' : 'failed';
@@ -90,12 +97,19 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	attachQuizSubmit() {
-		$('.next-section').click((event) => {
+		$('.next-section').click(async (event) => {
 			event.preventDefault();
+			const quizElement = $(".quiz").first();
+			const hrefSuccess = event.target.href;
 
-			const { options: { trainingClassName, stage }, result: { accessToken }, quizesStatus } = this;
-			var hrefSuccess = event.target.href;
-			var quizSuccess = quiz.gradeQuiz($(".quiz").first(), quizesStatus); // gradeQuiz($( this ).closest(".quiz"));
+			// If the module does not have quiz, then quizElement does not exist
+			if (!quizElement.length === 0) {
+				document.location = hrefSuccess;
+				return;
+			}
+
+			const { authResult: { accessToken }, quizesStatus, quiz } = this;
+			const quizSuccess = quiz.gradeQuiz(quizElement, quizesStatus);
 
 			if (quizSuccess) {
 				$("#submit-message").remove();
@@ -109,7 +123,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 			}
 
 			const { passed, failed } = quizesStatus;
-			quiz.postQuizStatus(passed, failed, trainingClassName, accessToken, stage).then(
+			quiz.postQuizStatus(passed, failed, accessToken).then(
 				function () {
 					if (quizSuccess) {
 						document.location = hrefSuccess;
@@ -169,7 +183,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		const certificateElement = $('#cert-result');
 		if (certificateElement.length) {
 			certificateElement.html("<i>... Checking for certificate ...</i>");
-			const [err, result] = await certificate.getClassCertificate(trainingClassName, accessToken, stage);
+			const [err, result] = await certificate.getClassCertificate(accessToken);
 			if (result && result.data && result.data.url) {
 				$('#cert-result').html("<a href=\"" + result.data['url'] + "\">Download Certificate</a>");
 			} else {
@@ -182,7 +196,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		const { options } = this;
 		const logoutOptions = {};
 		if (options.logoutOptions && options.logoutOptions.shouldRedirect) logoutOptions.redirectTo = options.redirectOnLogout;
-		this.lock.logout(logoutOptions);
+		this.webAuth.logout(logoutOptions);
 		misc.handleHtmlOnState('notLoggedIn', options);
 	}
 
