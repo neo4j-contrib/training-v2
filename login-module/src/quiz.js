@@ -2,12 +2,18 @@ import constants from './constants';
 import Axios from 'axios';
 import to from 'await-to-js';
 
-export default {
-	async getQuizStatus(trainingClassName, accessToken, stage) {
+export default class GraphAcademyQuiz {
+
+	constructor(trainingClassName, stage) {
+		this.trainingClassName = trainingClassName
+		this.apiBaseUrl = constants.getApiBaseUrl(stage)
+	}
+
+	async getQuizStatus(accessToken) {
 		return $.ajax
 			({
 				type: "GET",
-				url: constants.getApiBaseUrl(stage) + "/getQuizStatus?className=" + trainingClassName,
+				url: this.apiBaseUrl + "/getQuizStatus?className=" + this.trainingClassName,
 				contentType: "application/json",
 				dataType: 'json',
 				async: true,
@@ -15,19 +21,19 @@ export default {
 					"Authorization": accessToken
 				}
 			});
-	},
+	}
 
-	async postQuizStatus(passed, failed, trainingClassName, accessToken, stage) {
+	async postQuizStatus(passed, failed, accessToken) {
 		return $.ajax
 			({
 				type: "POST",
-				url: constants.getApiBaseUrl(stage) + "/setQuizStatus",
+				url: this.apiBaseUrl + "/setQuizStatus",
 				contentType: "application/json",
 				dataType: 'json',
 				async: true,
 				data: JSON.stringify(
 					{
-						"className": trainingClassName,
+						"className": this.trainingClassName,
 						"passed": passed,
 						"failed": failed
 					}),
@@ -35,7 +41,7 @@ export default {
 					"Authorization": accessToken
 				}
 			});
-	},
+	}
 
 	gradeQuiz(theQuiz, quizesStatus) {
 		const moduleName = theQuiz.attr("id");
