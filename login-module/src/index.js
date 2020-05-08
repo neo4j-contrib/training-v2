@@ -96,10 +96,18 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	attachQuizSubmit() {
 		$('.next-section').click((event) => {
 			event.preventDefault();
+			const quizElement = $(".quiz").first();
+			const hrefSuccess = event.target.href;
 
-			const { options: { trainingClassName, stage }, result: { accessToken }, quizesStatus } = this;
-			var hrefSuccess = event.target.href;
-			var quizSuccess = quiz.gradeQuiz($(".quiz").first(), quizesStatus); // gradeQuiz($( this ).closest(".quiz"));
+			// If the module does not have quiz, then quizElement does not exist
+			if (!quizElement.length === 0) {
+				document.location = hrefSuccess;
+				return;
+			}
+
+			const { options: { trainingClassName, stage }, authResult: { accessToken }, quizesStatus } = this;
+
+			const quizSuccess = quiz.gradeQuiz(quizElement, quizesStatus);
 
 			if (quizSuccess) {
 				$("#submit-message").remove();
