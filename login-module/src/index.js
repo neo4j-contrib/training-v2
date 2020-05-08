@@ -7,21 +7,31 @@ import misc from './misc';
 
 window.GraphAcademyLogin = class GraphAcademyLogin {
 	constructor(options = {}) {
+		this.options = { ...constants.DEFAULT_OPTIONS, ...options };
+		const hasRequiredOptions = this.hasRequiredOptions(options);
+		if (!hasRequiredOptions) {
+			console.log(`required params missing - one of ${constants.REQUIRED_OPTIONS.join(', ')}`);
+			return;
+		}
+
 		if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
 		this.lock = new Auth0Lock('hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu', 'login.neo4j.com', constants.auth0Options);
-		this.options = { ...constants.DEFAULT_OPTIONS, ...options };
 
 		// User data
 		this.quizesStatus = [];
 		this.enrollment = [];
 		this.currentModule = '';
-		this.moduleCount = null;
+		this.quizModuleCount = null;
 		this.currentModuleQuizStatus = null;
+	}
+
+	hasRequiredOptions(options) {
+		return constants.REQUIRED_OPTIONS.every(item => options[item]);
 	}
 
 	checkSession(cb) {
 		const { options, lock } = this;
-		const { trainingClassName } = options;
+		const { trainingClassName, stage } = options;
 		misc.handleHtmlOnState('checkingSession', options);
 		lock.checkSession({}, async (err, result) => {
 
@@ -38,7 +48,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 				const accessToken = result.accessToken;
 				console.log(accessToken)
 				// Handle enrollment
-				const [err, enrollmentResponse] = await enrollment.getEnrollmentForClass(trainingClassName, accessToken);
+				const [err, enrollmentResponse] = await enrollment.getEnrollmentForClass(trainingClassName, accessToken, stage);
 				if (enrollmentResponse.status === 200) {
 					this.enrollment = enrollmentResponse.data;
 				}
@@ -61,18 +71,18 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	async enrollStudentInClass(firstName, lastName) {
-		const { options: { trainingClassName }, authResult: { accessToken } } = this;
-		return await enrollment.enrollStudentInClass(firstName, lastName, trainingClassName, accessToken);
+		const { options: { trainingClassName, stage }, authResult: { accessToken } } = this;
+		return await enrollment.enrollStudentInClass(firstName, lastName, trainingClassName, accessToken, stage);
 	}
 
 	async handleQuizSetup() {
-		const { options: { trainingClassName }, authResult: { accessToken } } = this;
-		const value = await quiz.getQuizStatus(trainingClassName, accessToken);
+		const { options: { trainingClassName, stage }, authResult: { accessToken } } = this;
+		const value = await quiz.getQuizStatus(trainingClassName, accessToken, stage);
 		this.quizesStatus = value['quizStatus'];
 		this.currentModule = $(".quiz").attr("id");
 		this.currentModuleQuizStatus = this.quizesStatus.passed.indexOf(this.currentModule) > -1 ? 'passed' : 'failed';
 		if (this.quizesStatus.untried.indexOf(this.currentModule) > -1) this.currentModuleQuizStatus = 'untried';
-		this.moduleCount = this.quizesStatus.passed.length + this.quizesStatus.failed.length + this.quizesStatus.untried.length;
+		this.quizModuleCount = this.quizesStatus.passed.length + this.quizesStatus.failed.length + this.quizesStatus.untried.length;
 
 		await this.handleSummaryPageHtml();
 		this.attachQuizSubmit();
@@ -83,7 +93,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		$('.next-section').click((event) => {
 			event.preventDefault();
 
-			const { options: { trainingClassName }, result: { accessToken }, quizesStatus } = this;
+			const { options: { trainingClassName, stage }, result: { accessToken }, quizesStatus } = this;
 			var hrefSuccess = event.target.href;
 			var quizSuccess = quiz.gradeQuiz($(".quiz").first(), quizesStatus); // gradeQuiz($( this ).closest(".quiz"));
 
@@ -99,7 +109,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 			}
 
 			const { passed, failed } = quizesStatus;
-			quiz.postQuizStatus(passed, failed, trainingClassName, accessToken).then(
+			quiz.postQuizStatus(passed, failed, trainingClassName, accessToken, stage).then(
 				function () {
 					if (quizSuccess) {
 						document.location = hrefSuccess;
@@ -148,9 +158,9 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	async handleSummaryPageHtml() {
-		const { quizesStatus, moduleCount, options: { trainingClassName }, authResult: { accessToken } } = this;
+		const { quizesStatus, quizModuleCount, options: { trainingClassName, stage }, authResult: { accessToken } } = this;
 		// Only into effect on the last page of the course
-		if (quizesStatus.passed.length === moduleCount) {
+		if (quizesStatus.passed.length === quizModuleCount) {
 			$('#quizes-result').html("<p>All quizes taken successfully.</p>");
 		} else {
 			$('#quizes-result').html("<p>Some quizes not answered successfully.  Return to course modules by clicking on the numbers  in the navigation at the top of the page.</p>");
@@ -159,7 +169,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		const certificateElement = $('#cert-result');
 		if (certificateElement.length) {
 			certificateElement.html("<i>... Checking for certificate ...</i>");
-			const [err, result] = await certificate.getClassCertificate(trainingClassName, accessToken);
+			const [err, result] = await certificate.getClassCertificate(trainingClassName, accessToken, stage);
 			if (result && result.data && result.data.url) {
 				$('#cert-result').html("<a href=\"" + result.data['url'] + "\">Download Certificate</a>");
 			} else {

@@ -3,11 +3,11 @@ import Axios from 'axios';
 import to from 'await-to-js';
 
 export default {
-	async getQuizStatus(trainingClassName, accessToken) {
+	async getQuizStatus(trainingClassName, accessToken, stage) {
 		return $.ajax
 			({
 				type: "GET",
-				url: constants.API_BASE_URL + "/getQuizStatus?className=" + trainingClassName,
+				url: constants.getApiBaseUrl(stage) + "/getQuizStatus?className=" + trainingClassName,
 				contentType: "application/json",
 				dataType: 'json',
 				async: true,
@@ -17,11 +17,11 @@ export default {
 			});
 	},
 
-	async postQuizStatus(passed, failed, trainingClassName, accessToken) {
+	async postQuizStatus(passed, failed, trainingClassName, accessToken, stage) {
 		return $.ajax
 			({
 				type: "POST",
-				url: constants.API_BASE_URL + "/setQuizStatus",
+				url: constants.getApiBaseUrl(stage) + "/setQuizStatus",
 				contentType: "application/json",
 				dataType: 'json',
 				async: true,
