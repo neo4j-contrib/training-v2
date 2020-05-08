@@ -1,64 +1,39 @@
-import constants from './constants';
-import Axios from 'axios';
-import to from 'await-to-js';
+import 'whatwg-fetch'
+import backend from './backend'
 
-export default {
-	async getQuizStatus(trainingClassName, accessToken, stage) {
-		return $.ajax
-			({
-				type: "GET",
-				url: constants.getApiBaseUrl(stage) + "/getQuizStatus?className=" + trainingClassName,
-				contentType: "application/json",
-				dataType: 'json',
-				async: true,
-				headers: {
-					"Authorization": accessToken
-				}
-			});
-	},
+export default class GraphAcademyQuiz {
+  constructor (trainingClassName, stage) {
+    this.trainingClassName = trainingClassName
+    this.apiBaseUrl = backend.getApiBaseUrl(stage)
+  }
 
-	async postQuizStatus(passed, failed, trainingClassName, accessToken, stage) {
-		return $.ajax
-			({
-				type: "POST",
-				url: constants.getApiBaseUrl(stage) + "/setQuizStatus",
-				contentType: "application/json",
-				dataType: 'json',
-				async: true,
-				data: JSON.stringify(
-					{
-						"className": trainingClassName,
-						"passed": passed,
-						"failed": failed
-					}),
-				headers: {
-					"Authorization": accessToken
-				}
-			});
-	},
+  async getQuizStatus (accessToken) {
+    return fetch(`${this.apiBaseUrl}/getQuizStatus?className=${this.trainingClassName}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken
+        }
+      })
+      .then((response) => backend.checkHttpStatus(response))
+      .then((response) => response.json())
+  }
 
-	gradeQuiz(theQuiz, quizesStatus) {
-		const moduleName = theQuiz.attr("id");
-		let quizSuccess = true;
-
-		if (quizesStatus.passed.indexOf(moduleName) > -1) {
-			return true;
-		}
-
-		theQuiz.find("h3").css("color", "#525865");
-
-		theQuiz.find(".required-answer").each(function () {
-			if (!$(this).prev(":checkbox").prop("checked")) {
-				$(this).closest(".ulist").siblings("h3").css("color", "red");
-				quizSuccess = false;
-			}
-		});
-		theQuiz.find(".false-answer").each(function () {
-			if ($(this).prev(":checkbox").prop("checked")) {
-				$(this).closest(".ulist").siblings("h3").css("color", "red");
-				quizSuccess = false;
-			}
-		});
-		return quizSuccess;
-	}
+  async postQuizStatus (passed, failed, accessToken) {
+    return fetch(`${this.apiBaseUrl}/setQuizStatus`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken
+        },
+        body: JSON.stringify({
+          className: trainingClassName,
+          passed,
+          failed
+        })
+      })
+      .then((response) => backend.checkHttpStatus(response))
+      .then((response) => response.json())
+  }
 }

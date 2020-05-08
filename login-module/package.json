@@ -2,24 +2,26 @@
   "name": "graph-academy-login-module",
   "version": "1.0.0",
   "description": "",
-  "main": "login.js",
+  "main": "src/index.js",
+  "browser": "dist/login-prod.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "npm run build && aws s3 sync ./ s3://cdn.graphacademy.neo4j.com --acl public-read --delete --profile devrel --exclude 'node_modules/*'",
-    "build": "npx webpack --config webpack.config.js"
+    "build": "npx webpack --config webpack.config.js",
+    "lint": "standard src"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "standard": "^14.3.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "auth0-js": "^9.13.2",
-    "auth0-lock": "^11.23.1",
     "await-to-js": "^2.1.1",
-    "axios": "^0.19.2"
+    "whatwg-fetch": "^3.0.0"
   }
 }
