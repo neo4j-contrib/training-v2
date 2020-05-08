@@ -84,7 +84,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 
 	async handleQuizSetup() {
 		const { authResult: { accessToken }, quiz } = this;
-		const value = await quiz.getQuizStatus(accessToken);
+		const [err, value] = await quiz.getQuizStatus(accessToken);
 		this.quizesStatus = value['quizStatus'];
 		this.currentModule = $(".quiz").attr("id");
 		this.currentModuleQuizStatus = this.quizesStatus.passed.indexOf(this.currentModule) > -1 ? 'passed' : 'failed';
@@ -123,13 +123,10 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 			}
 
 			const { passed, failed } = quizesStatus;
-			quiz.postQuizStatus(passed, failed, accessToken).then(
-				function () {
-					if (quizSuccess) {
-						document.location = hrefSuccess;
-					}
-				}
-			);
+			const [err, _] = await quiz.postQuizStatus(passed, failed, accessToken)
+			if (quizSuccess && !err) {
+				document.location = hrefSuccess;
+			}
 		});
 	}
 
