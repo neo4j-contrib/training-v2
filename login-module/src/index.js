@@ -1,5 +1,5 @@
 import constants from './constants';
-import Auth0Lock from 'auth0-lock';
+import { WebAuth } from 'auth0-js';
 import quiz from './quiz';
 import enrollment from './enrollment';
 import certificate from './certificate';
@@ -13,10 +13,14 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 			console.log(`required params missing - one of ${constants.REQUIRED_OPTIONS.join(', ')}`);
 			return;
 		}
-
-		if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
-		this.lock = new Auth0Lock('hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu', 'login.neo4j.com', constants.auth0Options);
-
+		this.webAuth = new WebAuth({
+			clientID: 'hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu',
+			domain: 'login.neo4j.com',
+			redirectUri: `${window.location.origin}/accounts/login`,
+			audience: 'neo4j://accountinfo/',
+			scope: 'read:account-info openid email profile user_metadata',
+			responseType: 'token id_token'
+		});
 		// User data
 		this.quizesStatus = [];
 		this.enrollment = [];
@@ -30,10 +34,10 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	checkSession(cb) {
-		const { options, lock } = this;
+		const { options, webAuth } = this;
 		const { trainingClassName, stage } = options;
 		misc.handleHtmlOnState('checkingSession', options);
-		lock.checkSession({}, async (err, result) => {
+		webAuth.checkSession({}, async (err, result) => {
 
 			if (err) {
 				this.isLoggedIn = false;
@@ -182,7 +186,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		const { options } = this;
 		const logoutOptions = {};
 		if (options.logoutOptions && options.logoutOptions.shouldRedirect) logoutOptions.redirectTo = options.redirectOnLogout;
-		this.lock.logout(logoutOptions);
+		this.webAuth.logout(logoutOptions);
 		misc.handleHtmlOnState('notLoggedIn', options);
 	}
 
