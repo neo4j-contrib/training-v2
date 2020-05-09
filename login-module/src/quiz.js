@@ -1,45 +1,39 @@
-import constants from './constants';
-import Axios from 'axios';
-import to from 'await-to-js';
+import 'whatwg-fetch'
+import backend from './backend'
 
 export default class GraphAcademyQuiz {
-
 	constructor(trainingClassName, stage) {
 		this.trainingClassName = trainingClassName
-		this.apiBaseUrl = constants.getApiBaseUrl(stage)
+		this.apiBaseUrl = backend.getApiBaseUrl(stage)
 	}
 
 	async getQuizStatus(accessToken) {
-		return $.ajax
-			({
-				type: "GET",
-				url: this.apiBaseUrl + "/getQuizStatus?className=" + this.trainingClassName,
-				contentType: "application/json",
-				dataType: 'json',
-				async: true,
+		return fetch(`${this.apiBaseUrl}/getQuizStatus?className=${this.trainingClassName}`,
+			{
 				headers: {
-					"Authorization": accessToken
+					'Content-Type': 'application/json',
+					Authorization: accessToken
 				}
-			});
+			})
+			.then((response) => backend.checkHttpStatus(response))
+			.then((response) => response.json())
 	}
 
 	async postQuizStatus(passed, failed, accessToken) {
-		return $.ajax
-			({
-				type: "POST",
-				url: this.apiBaseUrl + "/setQuizStatus",
-				contentType: "application/json",
-				dataType: 'json',
-				async: true,
-				data: JSON.stringify(
-					{
-						"className": this.trainingClassName,
-						"passed": passed,
-						"failed": failed
-					}),
+		return fetch(`${this.apiBaseUrl}/setQuizStatus`,
+			{
+				method: 'POST',
 				headers: {
-					"Authorization": accessToken
-				}
-			});
+					'Content-Type': 'application/json',
+					Authorization: accessToken
+				},
+				body: JSON.stringify({
+					className: trainingClassName,
+					passed,
+					failed
+				})
+			})
+			.then((response) => backend.checkHttpStatus(response))
+			.then((response) => response.json())
 	}
 }
