@@ -1,5 +1,5 @@
 import constants from './constants';
-import { WebAuth } from 'auth0-js';
+import GraphAcademyCore from './core';
 import Quiz from './quiz';
 import Enrollment from './enrollment';
 import Certificate from './certificate';
@@ -8,52 +8,34 @@ import misc from './misc';
 window.GraphAcademyLogin = class GraphAcademyLogin {
 	constructor(options = {}) {
 		this.options = { ...constants.DEFAULT_OPTIONS, ...options };
-		const hasRequiredOptions = this.hasRequiredOptions(options);
+		const hasRequiredOptions = this.hasRequiredOptions(this.options);
 		if (!hasRequiredOptions) {
 			console.log(`required params missing - one of ${constants.REQUIRED_OPTIONS.join(', ')}`);
 			return;
 		}
-		this.webAuth = new WebAuth({
-			clientID: 'hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu',
-			domain: 'login.neo4j.com',
-			redirectUri: `${window.location.origin}/accounts/login`,
-			audience: 'neo4j://accountinfo/',
-			scope: 'read:account-info openid email profile user_metadata',
-			responseType: 'token id_token'
-		});
+		this.core = new GraphAcademyCore(this.options);
+		this.certificate = new Certificate(this.options.trainingClassName, this.options.stage)
+		this.enrollment = new Enrollment(this.options.trainingClassName, this.options.stage)
+		this.quiz = new Quiz(this.options.trainingClassName, this.options.stage)
 		// User data
 		this.quizesStatus = [];
 		this.enrollmentStatus = [];
 		this.currentModule = '';
 		this.quizModuleCount = null;
 		this.currentModuleQuizStatus = null;
-		this.certificate = new Certificate(this.options.trainingClassName, this.options.stage)
-		this.enrollment = new Enrollment(this.options.trainingClassName, this.options.stage)
-		this.quiz = new Quiz(this.options.trainingClassName, this.options.stage)
 	}
 
 	hasRequiredOptions(options) {
 		return constants.REQUIRED_OPTIONS.every(item => options[item]);
 	}
 
-	checkSession(cb) {
-		const { options, webAuth } = this;
-		const { trainingClassName, stage } = options;
+	async checkSession(cb) {
+		const { options, core } = this;
 		misc.handleHtmlOnState('checkingSession', options);
-		webAuth.checkSession({}, async (err, result) => {
-
-			if (err) {
-				this.isLoggedIn = false;
-				if (options.loginRedirectUrl) {
-					this.redirectToLogin();
-				}
-			}
-
+		try {
+			const result = await core.checkSession();
 			if (result) {
-				this.isLoggedIn = true;
-				this.authResult = result;
 				const accessToken = result.accessToken;
-				console.log(accessToken)
 				// Handle enrollment
 				const [err, enrollmentResponse] = await this.enrollment.getEnrollmentForClass(accessToken);
 				if (enrollmentResponse.status === 200) {
@@ -74,17 +56,19 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 
 			misc.handleHtmlOnState(result ? 'loggedIn' : 'notLoggedIn', options);
 			if (cb && typeof cb === 'function') cb(err, result);
-		})
+		} catch (e) {
+			console.error('Unable to check session', e);
+		}
 	}
 
 	async enrollStudentInClass(firstName, lastName) {
-		const { authResult: { accessToken }, enrollment } = this;
-		return await enrollment.enrollStudentInClass(firstName, lastName, accessToken);
+		const { core, enrollment } = this;
+		return await enrollment.enrollStudentInClass(firstName, lastName, await core.getAccessToken());
 	}
 
 	async handleQuizSetup() {
-		const { authResult: { accessToken }, quiz } = this;
-		const value = await quiz.getQuizStatus(accessToken);
+		const { core, quiz } = this;
+		const value = await quiz.getQuizStatus(await core.getAccessToken());
 		this.quizesStatus = value['quizStatus'];
 		this.currentModule = $(".quiz").attr("id");
 		this.currentModuleQuizStatus = this.quizesStatus.passed.indexOf(this.currentModule) > -1 ? 'passed' : 'failed';
@@ -108,7 +92,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 				return;
 			}
 
-			const { authResult: { accessToken }, quizesStatus, quiz } = this;
+			const { core, quizesStatus, quiz } = this;
 			const quizSuccess = quiz.gradeQuiz(quizElement, quizesStatus);
 
 			if (quizSuccess) {
@@ -123,7 +107,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 			}
 
 			const { passed, failed } = quizesStatus;
-			quiz.postQuizStatus(passed, failed, accessToken).then(
+			quiz.postQuizStatus(passed, failed, await core.getAccessToken()).then(
 				function () {
 					if (quizSuccess) {
 						document.location = hrefSuccess;
@@ -172,7 +156,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	async handleSummaryPageHtml() {
-		const { quizesStatus, quizModuleCount, options: { trainingClassName, stage }, authResult: { accessToken } } = this;
+		const { quizesStatus, quizModuleCount, core } = this;
 		// Only into effect on the last page of the course
 		if (quizesStatus.passed.length === quizModuleCount) {
 			$('#quizes-result').html("<p>All quizes taken successfully.</p>");
@@ -183,7 +167,7 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		const certificateElement = $('#cert-result');
 		if (certificateElement.length) {
 			certificateElement.html("<i>... Checking for certificate ...</i>");
-			const [err, result] = await certificate.getClassCertificate(accessToken);
+			const [err, result] = await this.certificate.getClassCertificate(await core.getAccessToken());
 			if (result && result.data && result.data.url) {
 				$('#cert-result').html("<a href=\"" + result.data['url'] + "\">Download Certificate</a>");
 			} else {
@@ -193,15 +177,11 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 	}
 
 	logout() {
-		const { options } = this;
-		const logoutOptions = {};
-		if (options.logoutOptions && options.logoutOptions.shouldRedirect) logoutOptions.redirectTo = options.redirectOnLogout;
-		this.webAuth.logout(logoutOptions);
-		misc.handleHtmlOnState('notLoggedIn', options);
+		this.core.logout();
+		misc.handleHtmlOnState('notLoggedIn', this.options);
 	}
 
 	redirectToLogin() {
-		const { options } = this;
-		return window.location.href = options.loginRedirectUrl;
+		this.core.redirectToLogin();
 	}
 }
