@@ -4,22 +4,32 @@
   "description": "",
   "main": "src/index.js",
   "browser": "dist/login-prod.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run test:node && npm run test:browser",
+    "test:node": "mocha test/*.js",
+    "test:browser": "node test/browser/run.js",
     "deploy": "npm run build && aws s3 sync ./ s3://cdn.graphacademy.neo4j.com --acl public-read --delete --profile devrel --exclude 'node_modules/*'",
-    "build": "npx webpack --config webpack.config.js"
+    "build": "npx webpack --config webpack.config.cjs"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "dirty-chai": "^2.0.1",
+    "mocha": "^7.1.2",
+    "puppeteer": "^3.0.4",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "auth0-js": "^9.13.2",
     "await-to-js": "^2.1.1",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^2.0.4"
+  },
+  "engines": {
+    "node": ">= 14"
   }
 }

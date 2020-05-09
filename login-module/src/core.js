@@ -1,7 +1,7 @@
-import { WebAuth } from 'auth0-js'
-import Quiz from './quiz'
-import Enrollment from './enrollment'
-import Certificate from './certificate'
+import WebAuth from 'auth0-js';
+import Quiz from './quiz.js';
+import Enrollment from './enrollment.js';
+import Certificate from './certificate.js';
 
 function validateOptions(options, requiredOptions) {
 	const opts = { ...options }
