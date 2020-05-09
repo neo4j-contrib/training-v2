@@ -1,4 +1,3 @@
-import constants from './constants';
 import { WebAuth } from 'auth0-js';
 import Quiz from './quiz';
 import Enrollment from './enrollment';
@@ -7,10 +6,18 @@ import misc from './misc';
 
 window.GraphAcademyLogin = class GraphAcademyLogin {
 	constructor(options = {}) {
-		this.options = { ...constants.DEFAULT_OPTIONS, ...options };
-		const hasRequiredOptions = this.hasRequiredOptions(options);
+		const defaultOptions = {
+			stage: 'prod',
+			trainingClassName: null,
+			classStates: {},
+			isCourseLandingPage: false,
+			enrollmentUrl: null,
+		};
+		const requiredOptions = ['trainingClassName', 'enrollmentUrl'];
+		this.options = { ...defaultOptions, ...options };
+		const hasRequiredOptions = requiredOptions.every(item => this.options[item]);
 		if (!hasRequiredOptions) {
-			console.log(`required params missing - one of ${constants.REQUIRED_OPTIONS.join(', ')}`);
+			console.log(`required params missing - one of ${requiredOptions.join(', ')}`);
 			return;
 		}
 		this.webAuth = new WebAuth({
@@ -30,10 +37,6 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		this.certificate = new Certificate(this.options.trainingClassName, this.options.stage)
 		this.enrollment = new Enrollment(this.options.trainingClassName, this.options.stage)
 		this.quiz = new Quiz(this.options.trainingClassName, this.options.stage)
-	}
-
-	hasRequiredOptions(options) {
-		return constants.REQUIRED_OPTIONS.every(item => options[item]);
 	}
 
 	checkSession(cb) {

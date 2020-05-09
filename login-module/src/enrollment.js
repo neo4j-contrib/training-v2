@@ -1,4 +1,4 @@
-import constants from './constants';
+import backend from './backend';
 import Axios from 'axios';
 import to from 'await-to-js';
 
@@ -6,7 +6,7 @@ export default class GraphAcademyEnrollment {
 
 	constructor(trainingClassName, stage) {
 		this.trainingClassName = trainingClassName
-		this.apiBaseUrl = constants.getApiBaseUrl(stage)
+		this.apiBaseUrl = backend.getApiBaseUrl(stage)
 	}
 
 	async getEnrollmentForClass(accessToken) {
