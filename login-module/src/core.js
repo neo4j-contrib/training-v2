@@ -48,7 +48,8 @@ export default class GraphAcademyCore {
 	}
 
 	async enrollStudentInClass (firstName, lastName) {
-		return await this.enrollment.enrollStudentInClass(firstName, lastName, await this.getAccessToken())
+		const accessToken = await this.getAccessToken();
+		return this.enrollment.enrollStudentInClass(firstName, lastName, accessToken)
 	}
 
 	logout() {

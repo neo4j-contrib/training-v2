@@ -63,12 +63,14 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 
 	async enrollStudentInClass(firstName, lastName) {
 		const { core, enrollment } = this;
-		return await enrollment.enrollStudentInClass(firstName, lastName, await core.getAccessToken());
+		const accessToken = await core.getAccessToken();
+		return await enrollment.enrollStudentInClass(firstName, lastName, accessToken);
 	}
 
 	async handleQuizSetup() {
 		const { core, quiz } = this;
-		const value = await quiz.getQuizStatus(await core.getAccessToken());
+		const accessToken = await core.getAccessToken();
+		const value = await quiz.getQuizStatus(accessToken);
 		this.quizesStatus = value['quizStatus'];
 		this.currentModule = $(".quiz").attr("id");
 		this.currentModuleQuizStatus = this.quizesStatus.passed.indexOf(this.currentModule) > -1 ? 'passed' : 'failed';
@@ -107,7 +109,8 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 			}
 
 			const { passed, failed } = quizesStatus;
-			quiz.postQuizStatus(passed, failed, await core.getAccessToken()).then(
+			const accessToken = await core.getAccessToken();
+			quiz.postQuizStatus(passed, failed, accessToken).then(
 				function () {
 					if (quizSuccess) {
 						document.location = hrefSuccess;
@@ -167,7 +170,8 @@ window.GraphAcademyLogin = class GraphAcademyLogin {
 		const certificateElement = $('#cert-result');
 		if (certificateElement.length) {
 			certificateElement.html("<i>... Checking for certificate ...</i>");
-			const [err, result] = await this.certificate.getClassCertificate(await core.getAccessToken());
+			const accessToken = await core.getAccessToken();
+			const [err, result] = await this.certificate.getClassCertificate(accessToken);
 			if (result && result.data && result.data.url) {
 				$('#cert-result').html("<a href=\"" + result.data['url'] + "\">Download Certificate</a>");
 			} else {
