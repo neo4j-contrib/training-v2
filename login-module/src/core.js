@@ -20,9 +20,10 @@ export default class GraphAcademyCore {
 			scope: 'read:account-info openid email profile user_metadata',
 			responseType: 'token id_token'
 		})
-		this.certificate = new Certificate(this.options.trainingClassName, this.options.stage)
-		this.enrollment = new Enrollment(this.options.trainingClassName, this.options.stage)
-		this.quiz = new Quiz(this.options.trainingClassName, this.options.stage)
+		const { stage, trainingClassName } = this.options;
+		this.certificate = new Certificate(trainingClassName, stage)
+		this.enrollment = new Enrollment(trainingClassName, stage)
+		this.quiz = new Quiz(trainingClassName, stage)
 	}
 
 	hasRequiredOptions(options) {
