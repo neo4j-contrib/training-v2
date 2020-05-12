@@ -42,29 +42,4 @@ export default class GraphAcademyQuiz {
 				}
 			});
 	}
-
-	gradeQuiz(theQuiz, quizesStatus) {
-		const moduleName = theQuiz.attr("id");
-		let quizSuccess = true;
-
-		if (quizesStatus.passed.indexOf(moduleName) > -1) {
-			return true;
-		}
-
-		theQuiz.find("h3").css("color", "#525865");
-
-		theQuiz.find(".required-answer").each(function () {
-			if (!$(this).prev(":checkbox").prop("checked")) {
-				$(this).closest(".ulist").siblings("h3").css("color", "red");
-				quizSuccess = false;
-			}
-		});
-		theQuiz.find(".false-answer").each(function () {
-			if ($(this).prev(":checkbox").prop("checked")) {
-				$(this).closest(".ulist").siblings("h3").css("color", "red");
-				quizSuccess = false;
-			}
-		});
-		return quizSuccess;
-	}
 }

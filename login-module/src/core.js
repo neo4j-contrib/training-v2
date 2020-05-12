@@ -1,17 +1,62 @@
-import constants from './constants'
 import { WebAuth } from 'auth0-js'
 import Quiz from './quiz'
 import Enrollment from './enrollment'
 import Certificate from './certificate'
 
+function validateOptions(options, requiredOptions, defaultOptions) {
+	const opts = { ...defaultOptions, ...options }
+	const hasRequiredOptions = requiredOptions.every(item => opts[item])
+	if (!hasRequiredOptions) {
+		throw new Error(`required option missing - one of ${requiredOptions.join(', ')}`)
+	}
+	return opts
+}
+
+class GraphAcademyServices {
+	constructor(options = {}) {
+		const requiredOptions = ['trainingClassName', 'enrollmentUrl', 'authResult']
+		this.options = validateOptions(options, requiredOptions, {})
+		const { stage, trainingClassName, authResult } = this.options
+		this.authResult = authResult
+		this.certificate = new Certificate(trainingClassName, stage)
+		this.enrollment = new Enrollment(trainingClassName, stage)
+		this.quiz = new Quiz(trainingClassName, stage)
+	}
+
+	async enrollStudentInClass (firstName, lastName) {
+		return this.enrollment.enrollStudentInClass(firstName, lastName, this.getAccessToken())
+	}
+
+	async getEnrollmentForClass() {
+		return this.enrollment.getEnrollmentForClass(this.getAccessToken())
+	}
+
+	async getQuizStatus() {
+		return this.quiz.getQuizStatus(this.getAccessToken())
+	}
+
+	async getClassCertificate() {
+		return this.certificate.getClassCertificate(this.getAccessToken())
+	}
+
+	async postQuizStatus(passed, failed) {
+		return this.quiz.postQuizStatus(passed, failed, this.getAccessToken())
+	}
+
+	getAccessToken () {
+		return this.authResult.accessToken
+	}
+}
+
 export default class GraphAcademyCore {
 	constructor(options = {}) {
-		this.options = { ...constants.DEFAULT_OPTIONS, ...options }
-		const hasRequiredOptions = this.hasRequiredOptions(options)
-		if (!hasRequiredOptions) {
-			console.log(`required params missing - one of ${constants.REQUIRED_OPTIONS.join(', ')}`)
-			return
+		const requiredOptions = ['trainingClassName', 'enrollmentUrl']
+		const defaultOptions = {
+			stage: 'prod',
+			trainingClassName: null,
+			enrollmentUrl: null,
 		}
+		this.options = validateOptions(options, requiredOptions, defaultOptions)
 		this.webAuth = new WebAuth({
 			clientID: 'hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu',
 			domain: 'login.neo4j.com',
@@ -20,36 +65,22 @@ export default class GraphAcademyCore {
 			scope: 'read:account-info openid email profile user_metadata',
 			responseType: 'token id_token'
 		})
-		const { stage, trainingClassName } = this.options;
-		this.certificate = new Certificate(trainingClassName, stage)
-		this.enrollment = new Enrollment(trainingClassName, stage)
-		this.quiz = new Quiz(trainingClassName, stage)
 	}
 
-	hasRequiredOptions(options) {
-		return constants.REQUIRED_OPTIONS.every(item => options[item])
-	}
-
-	async checkSession() {
+	async login() {
 		const { options, webAuth } = this
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve, _) => {
 			webAuth.checkSession({}, async (err, result) => {
 				if (err) {
-					delete this.authResult
-					if (options.loginRedirectUrl) {
-						this.redirectToLogin()
-					}
-					return reject(err)
+					return resolve([err, null])
 				}
-				this.authResult = result
-				resolve(result)
+				if (result && result.accessToken) {
+					options.authResult = result
+					return resolve([null, new GraphAcademyServices(options)])
+				}
+				return resolve([new Error('Invalid authentication result'), result])
 			})
 		})
-	}
-
-	async enrollStudentInClass (firstName, lastName) {
-		const accessToken = await this.getAccessToken();
-		return this.enrollment.enrollStudentInClass(firstName, lastName, accessToken)
 	}
 
 	logout() {
@@ -64,16 +95,5 @@ export default class GraphAcademyCore {
 	redirectToLogin() {
 		const { options } = this
 		return window.location.href = options.loginRedirectUrl
-	}
-
-	async getAccessToken () {
-		let accessToken
-		if (this.authResult && this.authResult.accessToken) {
-			accessToken = this.authResult.accessToken
-		} else {
-			const authResult = await this.checkSession()
-			accessToken = authResult.accessToken
-		}
-		return accessToken
 	}
 }
