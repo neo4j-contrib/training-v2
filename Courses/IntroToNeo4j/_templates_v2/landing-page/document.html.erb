@@ -2,7 +2,7 @@
 "ecosystem"=>:inactive,"in-production"=>:inactive}
 active[(@document.attr "section-link", "get-started")]=:active;
 %>
-<%=  File.new("_templates/landing-page/style_partial.erb").read %>
+<%=  File.new("_templates_v2/landing-page/style_partial.erb").read %>
 <%= content %>
 
 <!--
@@ -11,7 +11,7 @@ active[(@document.attr "section-link", "get-started")]=:active;
    %= content %>
    </div>
    <div class="large-3 large-pull-9 columns" id="dev-menu-nav">
-       %= File.new("_templates/menu_partial.erb").read.gsub(/[\w-]+-activate/) { |m| active[m.gsub(/-activate/,"")].to_s } % >
+       %= File.new("_templates_v2/menu_partial.erb").read.gsub(/[\w-]+-activate/) { |m| active[m.gsub(/-activate/,"")].to_s } % >
    </div>
 </div>
 -->
