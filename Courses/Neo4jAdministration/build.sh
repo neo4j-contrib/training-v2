@@ -1,8 +1,22 @@
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/00_AboutThisCourse.adoc -o html/00_AboutThisCourse.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/01_IntroductionToNeo4j.adoc -o html/01_IntroductionToNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/02_OverviewOfNeo4jAdministration.adoc -o html/02_OverviewOfNeo4jAdministration.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/03_ManagingANeo4jDatabase.adoc -o html/03_ManagingANeo4jDatabase.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/04_CausalClusteringInNeo4j.adoc -o html/04_CausalClusteringInNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/05_SecurityInNeo4j.adoc -o html/05_SecurityInNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/06_MonitoringNeo4j.adoc -o html/06_MonitoringNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/07_Summary.adoc -o html/07_Summary.html
+#!/usr/bin/env bash
+
+convert () {
+  adoc_file="$1"
+  echo "converting $adoc_file"
+  asciidoctor -a "section-titles=Intro to Neo4j,Overview Of Admin,Managing a DB,Causal Clustering,Security,Monitoring,The End" \
+              -a "module-title=Neo4j GraphAcademy: Neo4j Administration" \
+              -a "CLASS_JS_URL=${CLASS_JS_URL}" \
+              -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
+              -a "imagedir=${IMG}" \
+              -T "../_templates_v2" \
+              "adoc/${adoc_file}" -D html
+}
+
+convert "00_AboutThisCourse.adoc"
+convert "01_IntroductionToNeo4j.adoc"
+convert "02_OverviewOfNeo4jAdministration.adoc"
+convert "03_ManagingANeo4jDatabase.adoc"
+convert "04_CausalClusteringInNeo4j.adoc"
+convert "05_SecurityInNeo4j.adoc"
+convert "06_MonitoringNeo4j.adoc"
+convert "07_Summary.adoc"
