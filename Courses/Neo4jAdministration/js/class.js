@@ -2,7 +2,7 @@ var STAGE = "{{STAGE}}";
 var API_BASE_URL = "{{API_BASE_URL}}";
 
 function getClassCertificate() {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "POST",
@@ -20,7 +20,7 @@ function getClassCertificate() {
 }
 
 function getEnrollmentForClass() {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
+  var id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "GET",
@@ -33,7 +33,7 @@ function getEnrollmentForClass() {
 }
 
 function enrollStudentInClass(firstName, lastName) {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "POST",
@@ -53,7 +53,7 @@ function enrollStudentInClass(firstName, lastName) {
 }
 
 function logTrainingView() {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "POST",

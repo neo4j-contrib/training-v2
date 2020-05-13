@@ -34,7 +34,6 @@ function getEnrollmentForClass() {
 
 function enrollStudentInClass(firstName, lastName) {
   const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
-
   return $.ajax
   ({
     type: "POST",
@@ -55,7 +54,6 @@ function enrollStudentInClass(firstName, lastName) {
 
 function logTrainingView() {
   const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
-
   return $.ajax
   ({
     type: "POST",
@@ -74,7 +72,7 @@ function logTrainingView() {
 }
 
 jQuery(document).ready(function () {
-  if (window.localStorage.getItem("com.neo4j.accounts.idToken")) {  
+  if (window.localStorage.getItem("com.neo4j.accounts.idToken")) {
     // we're authenticated
     // could check expiration of token, but not critical for this app
     // still need to check quiz status

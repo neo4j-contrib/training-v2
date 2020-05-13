@@ -20,7 +20,7 @@ function getClassCertificate() {
 }
 
 function getEnrollmentForClass() {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
+  var id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "GET",
