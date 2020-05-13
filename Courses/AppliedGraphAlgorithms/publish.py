@@ -28,25 +28,6 @@ def get_page_content(filename):
   return file.read()
 
 '''
-Publish file to S3 and get version
-'''
-def publish_app_js(stage, filename):
-  global API_BASE_URL
-
-  # Create an S3 client
-  session = boto3.Session(profile_name=os.getenv('S3_PROFILE', 'default'))
-  s3 = session.client('s3')
-
-  with fapp.app_context():
-    tmpl_vars = {'API_BASE_URL': API_BASE_URL[stage], 'STAGE': stage}
-    rendered_content = render_template('js/' + filename, **tmpl_vars)
-
-  f = s3.put_object(Body=bytes(rendered_content), Bucket='cdn.neo4jlabs.com', Key='graphacademy/applied-algos/' + stage + '/' + filename, ACL='public-read')
-  print "\t\thttps://cdn.neo4jlabs.com/graphacademy/applied-algos/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])
-  return f['VersionId']
-
-
-'''
 Update wordpress page
 '''
 def update_wordpress_page(pageId, content):

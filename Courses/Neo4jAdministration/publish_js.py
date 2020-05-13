@@ -30,8 +30,8 @@ def publish_app_js(stage, filename):
   s3 = boto3.client('s3')
 
   with fapp.app_context():
-    tmpl_vars = {'API_BASE_URL': API_BASE_URL[stage], 'STAGE': stage}
-    rendered_content = render_template('js/' + filename, **tmpl_vars)
+    tmpl_vars = {'API_BASE_URL': API_BASE_URL[stage], 'STAGE': stage, 'LOCALSTORAGE_PREFIX_KEY': os.getenv('LOCALSTORAGE_PREFIX_KEY'), 'QUIZ_MODULE_COUNT': os.getenv('QUIZ_MODULE_COUNT')}
+    rendered_content = render_template('../_lib/' + filename, **tmpl_vars)
 
   f = s3.put_object(Body=bytes(rendered_content), Bucket='cdn.neo4jlabs.com', Key='graphacademy/neo4j-administration/' + stage + '/' + filename, ACL='public-read')
   print "https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/%s/%s?versionId=%s" % (stage, filename, f['VersionId'])

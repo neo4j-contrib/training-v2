@@ -28,7 +28,7 @@ $('.next-section').click(function(event) {
   }
   updateResponse = updateQuizStatus();
   postQuizStatus(updateResponse['passed'], updateResponse['failed']).then(
-    function() { 
+    function() {
       if (quizSuccess) {
         document.location = hrefSuccess;
       }
@@ -42,10 +42,10 @@ function gradeQuiz(theQuiz) {
 
   if ( quizName in quizesStatus && quizesStatus[quizName] ) {
     return true;
-  } 
+  }
 
   theQuiz.find("h3").css("color", "#525865");
-  
+
   theQuiz.find(".required-answer").each(function() {
     if (! $( this ).prev(":checkbox").prop("checked")  ) {
       $( this ).closest(".ulist").siblings("h3").css("color", "red");
@@ -126,7 +126,7 @@ function updateQuizStatus() {
 }
 
 function getQuizStatus() {
-  return getQuizStatusRemote().then( function( value ) { 
+  return getQuizStatusRemote().then( function( value ) {
     quizesStatusL = {};
     failed = value['quizStatus']['failed'];
     passed = value['quizStatus']['passed'];

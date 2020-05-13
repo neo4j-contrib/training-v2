@@ -1,5 +1,7 @@
 #!/bin/bash
 export IMG='https://graphacademy.neo4j.com/img/neo4j-administration'
+LOCALSTORAGE_PREFIX_KEY='com.neo4j.graphacademy.neo4jadministration.'
+QUIZ_MODULE_COUNT=6 # was 7?!
 STAGE='dev'
 
 while [ "$1" != "" ]; do
