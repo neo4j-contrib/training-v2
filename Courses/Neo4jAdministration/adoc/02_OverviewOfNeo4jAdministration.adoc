@@ -18,14 +18,6 @@
 :manual: http://neo4j.com/docs/operations-manual/3.5
 //:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 
-
-ifdef::backend-html5[]
-
-include::scripts.txt[]
-
-endif::backend-html5[]
-
-
 == About this module
 
 As a Neo4j database administrator, you will be responsible for ensuring that the deployed Neo4j application runs to meet the needs of its users. This includes ensuring that the Neo4j software is up-to-date and configured properly, monitoring the use of Neo4j, performing life cycle activities such as backups, and managing multiple Neo4j instances.
@@ -33,7 +25,7 @@ As a Neo4j database administrator, you will be responsible for ensuring that the
 At the end of this module, you should be able to:
 [square]
 * Describe common application architectures that use Neo4j.
-* Determine which edition of Neo4j to use. 
+* Determine which edition of Neo4j to use.
 * Download a specific Neo4j version.
 * Determine which deployment option to use.
 * Describe the administrative tasks for Neo4j.
@@ -59,9 +51,9 @@ Some applications use Neo4j out-of-the-box, and others extend it with additional
 
 Regardless of which library your application requires, you must ensure that Neo4j is configured to know how to access these libraries.
 
-Your application will include at least one Neo4j database, but it could include multiple databases, each with their own Neo4j instance. A Neo4j instance can only support one active database. 
+Your application will include at least one Neo4j database, but it could include multiple databases, each with their own Neo4j instance. A Neo4j instance can only support one active database.
 
-Many deployed applications use Causal Clustering which you will learn about later in this training. Causal Clustering is an architecture which provides data safety and performance for critical systems that could be distributed all over the world. 
+Many deployed applications use Causal Clustering which you will learn about later in this training. Causal Clustering is an architecture which provides data safety and performance for critical systems that could be distributed all over the world.
 
 === Example architecture #1: Using Neo4j as the primary database
 
@@ -91,7 +83,7 @@ endif::backend-pdf[]
 
 === Microservices
 
-With cloud-hosted microservices, the implementation chosen for the microservice is one that performs best for the type of transaction. In a cloud-based microservice architecture, there may be a number of services that Neo4j can provide to the end-users. 
+With cloud-hosted microservices, the implementation chosen for the microservice is one that performs best for the type of transaction. In a cloud-based microservice architecture, there may be a number of services that Neo4j can provide to the end-users.
 
 image::{imagedir}/Microservices.png[Microservices,width=600,align=center]
 
@@ -102,11 +94,11 @@ ifdef::backend-pdf[]
 <<<
 endif::backend-pdf[]
 
-=== Example architecture #3: Using Neo4j Causal Clustering 
+=== Example architecture #3: Using Neo4j Causal Clustering
 
-Causal Clustering is used in production environments where high throughput, continuous availability, and reliability are important factors. This feature is available with Neo4j Enterprise Edition. 
+Causal Clustering is used in production environments where high throughput, continuous availability, and reliability are important factors. This feature is available with Neo4j Enterprise Edition.
 
-With Causal Clusters, you configure multiple Neo4j instances that communicate with each other about updates to the database. Causal Clusters are used when data needs to reside in multiple physical locations, or if you want to implement a high availability architecture where access to data will not be affected if a Neo4j instance goes down. 
+With Causal Clusters, you configure multiple Neo4j instances that communicate with each other about updates to the database. Causal Clusters are used when data needs to reside in multiple physical locations, or if you want to implement a high availability architecture where access to data will not be affected if a Neo4j instance goes down.
 
 image::{imagedir}/ClustersHighLevel.png[ClustersHighLevel,width=700,align=center]
 
@@ -121,7 +113,7 @@ A common use for Neo4j is when different data is required in a set of geographic
 
 image::{imagedir}/ClustersHighLevelDistributed.png[ClustersHighLevelDistributed,width=800,align=center]
 
-As a Neo4j database administrator, you will be responsible for configuring and monitoring Causal Clusters. You will work with architects to determine the appropriate configuration of the Causal Cluster, taking into account aspects such as: uptime requirements, performance requirements, and redundancy required in order to handle events of Neo4j instance failure or data center failure. 
+As a Neo4j database administrator, you will be responsible for configuring and monitoring Causal Clusters. You will work with architects to determine the appropriate configuration of the Causal Cluster, taking into account aspects such as: uptime requirements, performance requirements, and redundancy required in order to handle events of Neo4j instance failure or data center failure.
 
 ifdef::backend-pdf[]
 // force page break
@@ -146,7 +138,7 @@ ifdef::backend-pdf[]
 endif::backend-pdf[]
 
 
-=== Example architecture #4: Using Neo4j standalone for graph analytics 
+=== Example architecture #4: Using Neo4j standalone for graph analytics
 
 A common use case for Neo4j is for data scientists analyze complex patterns in connected data. Neo4j Bloom, or some other data visualization tool, may be used as the front-end. The following are two common patterns this use case:
 
@@ -162,7 +154,7 @@ endif::backend-pdf[]
 
 === Example architecture #5: Neo4j integrated with compute-heavy solutions
 
-Some enterprises need to consolidate large amounts of data for analysis. The data can come from data lakes, NoSQL databases, document stores, relational, all of which is analyzed and placed into a Neo4j database for analytics. A common  architecture for streaming and analyzing data for consolidations is Apache Spark. 
+Some enterprises need to consolidate large amounts of data for analysis. The data can come from data lakes, NoSQL databases, document stores, relational, all of which is analyzed and placed into a Neo4j database for analytics. A common  architecture for streaming and analyzing data for consolidations is Apache Spark.
 
 image::{imagedir}/GraphCompute.png[GraphCompute,width=800,align=center]
 
@@ -187,7 +179,7 @@ Data migration between non _General Availability_ versions is unsupported.
 
 == Neo4j Editions
 
-There are two versions of Neo4j to choose from: Community Edition and Enterprise Edition. The version you use will depend on the features you require, the nature of your application that uses Neo4j, and the level of professional support you would like to receive from Neo4j. 
+There are two versions of Neo4j to choose from: Community Edition and Enterprise Edition. The version you use will depend on the features you require, the nature of your application that uses Neo4j, and the level of professional support you would like to receive from Neo4j.
 
 A full comparison between the Community and Enterprise Editions for the current release of Neo4j can be found at https://neo4j.com/subscriptions[Compare Community and Enterprise Editions].
 
@@ -234,11 +226,11 @@ You should consult the https://neo4j.com/docs/operations-manual/3.5/installation
 
 == Neo4j deployment options
 
-Early in the development of an application, a decision will be made whether to deploy Neo4j instance(s), embedded within the application, or to deploy Neo4j in the Cloud. 
+Early in the development of an application, a decision will be made whether to deploy Neo4j instance(s), embedded within the application, or to deploy Neo4j in the Cloud.
 
 === Server mode deployments
 
-This is the most common deployment, and it is recommended for all onsite deployments that do not require embedded mode. In this architecture, Neo4j runs as a database server and can be accessed through binary and http APIs for data querying and updating. 
+This is the most common deployment, and it is recommended for all onsite deployments that do not require embedded mode. In this architecture, Neo4j runs as a database server and can be accessed through binary and http APIs for data querying and updating.
 
 image::{imagedir}/ClientServerDeployment.png[ClientServerDeployment,width=600,align=center]
 
@@ -296,7 +288,7 @@ In this training, you will learn how to perform these common administrative task
 
 [square]
 * Downloading and installing Neo4j
-* Managing a Neo4j database 
+* Managing a Neo4j database
 * Managing plugins used with the Neo4j database
 * Managing logging
 * Monitoring queries
@@ -324,13 +316,13 @@ a. Select the latest release of Neo4j Enterprise Edition  for your platform.
 b. You must provide some identifying information to start your 30 day evaluation.
 c. You will receive an email with a link for downloading the software, as well as instructions for installing it on your system.
 
-*2.* Install Neo4j Enterprise Edition following the instructions for your platform. Ensure that the system requirements are met (specifically, the version of Java required).         
+*2.* Install Neo4j Enterprise Edition following the instructions for your platform. Ensure that the system requirements are met (specifically, the version of Java required).
 
 *3.* Confirm that files have been installed as described https://neo4j.com/docs/operations-manual/3.5/configuration/file-locations/[here].
 
 == References
 
-You should consult the https://neo4j.com/docs/operations-manual/3.5/installation/[Neo4J Operations Manual] for more information about the installation requirements and procedures for your target platform, as well as details for Neo4j administration tasks. 
+You should consult the https://neo4j.com/docs/operations-manual/3.5/installation/[Neo4J Operations Manual] for more information about the installation requirements and procedures for your target platform, as well as details for Neo4j administration tasks.
 
 The https://neo4j.com/docs/java-reference/3.5/tutorials-java-embedded/[Java Developer Manual ] covers using embedded mode for Neo4j and is intended for developers.
 
@@ -374,13 +366,13 @@ Select the correct answer.
 You should now be able to:
 [square]
 * Describe common application architectures that use Neo4j.
-* Determine which edition of Neo4j to use. 
+* Determine which edition of Neo4j to use.
 * Download a specific Neo4j version.
 * Determine which deployment option to use.
 * Describe the administrative tasks for Neo4j.
 * Install Neo4j Enterprise Edition.
 
-== Grade Quiz and Continue 
+== Grade Quiz and Continue
 
 ++++
 <a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
