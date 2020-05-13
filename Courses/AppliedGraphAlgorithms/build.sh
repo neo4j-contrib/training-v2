@@ -9,6 +9,7 @@ convert () {
   echo "converting $adoc_file"
   asciidoctor -a "section-titles=Setup,Category Hierarchy,Ordering Search Results,Relevant Reviews,Photo Based Recommendations,Summary" \
               -a "module-title=Neo4j GraphAcademy: Applied Graph Algorithms" \
+              -a "module-id=applied-algos" \
               -a "CLASS_JS_URL=${CLASS_JS_URL}" \
               -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
               -a "imagedir=${IMG}" \

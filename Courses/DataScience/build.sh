@@ -4,6 +4,7 @@ convert () {
   echo "converting $adoc_file"
   asciidoctor -a "section-titles=Dev Env,EDA,Recommendations,Predictions,The End" \
               -a "module-title=Neo4j GraphAcademy: Data Science with Neo4j" \
+              -a "module-id=datascience" \
               -a "CLASS_JS_URL=${CLASS_JS_URL}" \
               -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
               -a "imagedir=${IMG}" \
