@@ -34,7 +34,8 @@ def publish_app_js(stage, filename):
   global API_BASE_URL
 
   # Create an S3 client
-  s3 = boto3.client('s3')
+  session = boto3.Session(profile_name=os.getenv('S3_PROFILE', 'default'))
+  s3 = session.client('s3')
 
   with fapp.app_context():
     tmpl_vars = {'API_BASE_URL': API_BASE_URL[stage], 'STAGE': stage}
@@ -64,7 +65,7 @@ def update_wordpress_page(pageId, content):
     headers['Content-Type'] = 'application/json'
     print "\t%s" % (url)
     pr = requests.post(url, headers=headers, data=json.dumps(response))
-     
+
     return pr.content
 
 
