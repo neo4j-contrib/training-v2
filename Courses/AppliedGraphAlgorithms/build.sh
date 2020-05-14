@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# load config
+. ./module.config
+
+# default value
+if [[ -z "${CLASS_JS_URL}" ]]; then
+  CLASS_JS_URL="https://cdn.neo4jlabs.com/graphacademy/${STAGE}/class.js"
+fi
+if [[ -z "${QUIZES_JS_URL}" ]]; then
+  QUIZES_JS_URL="https://cdn.neo4jlabs.com/graphacademy/${STAGE}/quizes.js"
+fi
+if [[ -z "${STAGE}" ]]; then
+  STAGE="dev"
+fi
+
 convert () {
   adoc_file="$1"
   # redirect url depends on the stage
