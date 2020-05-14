@@ -4,6 +4,11 @@ convert () {
   echo "converting $adoc_file"
   asciidoctor -a "section-titles=Intro to Graph DBs,Intro to Neo4j,Dev Env,Cypher,Advanced Queries,Creating Data,More,The End" \
               -a "module-title=Neo4j GraphAcademy: Introduction to Neo4j" \
+              -a "module-id=online-training-v2" \
+              -a "module-quiz-count=${QUIZ_MODULE_COUNT}" \
+              -a "module-localstorage-prefix-key=${LOCALSTORAGE_PREFIX_KEY}" \
+              -a "module-redirect-url=https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/" \
+              -a "module-intercom-event=training-introv2-view" \
               -T "../_templates_v2" \
               "adoc/${adoc_file}" -D html
 }

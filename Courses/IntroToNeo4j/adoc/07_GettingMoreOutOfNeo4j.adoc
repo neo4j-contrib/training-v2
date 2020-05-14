@@ -18,15 +18,9 @@
 :manual-cypher: {manual}/cypher
 :pagenums:
 
-ifdef::backend-html5[]
-
-include::scripts.txt[]
-
-endif::backend-html5[]
-
 == About this module
 
-You have learned how to set up your development environment for accessing a Neo4j graph and how to write basic Cypher statements for querying the graph modifying the graph. 
+You have learned how to set up your development environment for accessing a Neo4j graph and how to write basic Cypher statements for querying the graph modifying the graph.
 
 At the end of this module, you should be able to:
 [square]
@@ -45,7 +39,7 @@ In a deployed application, you should not *hard code*  values in your Cypher sta
 
 === Using Cypher parameters
 
-In your Cypher statements, a parameter name begins with the `$` symbol. 
+In your Cypher statements, a parameter name begins with the `$` symbol.
 
 Here is an example where we have parameterized the query:
 [source,cypher]
@@ -227,7 +221,7 @@ If you are testing an application and have run several queries against the graph
 * The query takes a long time to execute in the graph engine.
 ** Example: `MATCH (a), (b), (c), (d), (e) RETURN count(id(a))`
 
-If the query executes and then *returns a lot of data*, there is no way to monitor it or kill the query. All that you can do is close your Neo4j Browser session and start a new one. If the server has many of these *rogue* queries running, it will slow down considerably so you should aim to limit these types of queries. If you are running Neo4j Desktop, you can simply restart the database to clear things up, but if you are using a Neo4j Sandbox, you cannot do so. The database server is always running and you cannot restart it. Your only option is to shut down the Neo4j Sandbox and create a new Neo4j Sandbox, but then you lose any data you have worked with. 
+If the query executes and then *returns a lot of data*, there is no way to monitor it or kill the query. All that you can do is close your Neo4j Browser session and start a new one. If the server has many of these *rogue* queries running, it will slow down considerably so you should aim to limit these types of queries. If you are running Neo4j Desktop, you can simply restart the database to clear things up, but if you are using a Neo4j Sandbox, you cannot do so. The database server is always running and you cannot restart it. Your only option is to shut down the Neo4j Sandbox and create a new Neo4j Sandbox, but then you lose any data you have worked with.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -269,7 +263,7 @@ and follow the instructions for Exercise 13.
 
 You have seen that you can accidentally create duplicate nodes in the graph if you're not protected. In most graphs, you will want to prevent duplication of data.  Unfortunately, you cannot  prevent duplication by checking the existence of the exact node (with properties) as this type of test is not cluster or multi-thread safe as no locks are used. This is one reason why `MERGE` is preferred over `CREATE`, because `MERGE` does use locks.
 
-In addition, you have learned that a node or relationship need not have a particular property. What if you want to ensure that all nodes or relationships of a specific type (label) [.underline]#must# set values for certain properties? 
+In addition, you have learned that a node or relationship need not have a particular property. What if you want to ensure that all nodes or relationships of a specific type (label) [.underline]#must# set values for certain properties?
 
 A third scenario with graph data is where you want to ensure that a set of property values for nodes of the same type, have a unique value. This is the same thing as a primary key in a relational database.
 
@@ -279,7 +273,7 @@ All of these scenarios are common in many graphs. In Neo4j, you can use Cypher t
 * Add an _existence constraint_ that ensures that when a node or relationship is created or modified, it must have certain properties set.
 * Add a _node key_ that ensures that a set of values for properties of a node of a given type is unique.
 
-Constraints and node keys that enforce uniqueness are related to indexes which you will learn about later in this module. 
+Constraints and node keys that enforce uniqueness are related to indexes which you will learn about later in this module.
 
 [NOTE]
 Existence constraints and node keys are only available in Enterprise Edition of Neo4j.
@@ -299,7 +293,7 @@ Here is an example for ensuring that the _title_ for a node of type _Movie_ is u
 CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE
 ----
 
-This Cypher statement will fail if the graph already has multiple _Movie_ nodes with the same value for the _title_ property. Note that you can create a uniqueness constraint, even if some _Movie_ nodes do [.underline]#not# have a _title_ property. 
+This Cypher statement will fail if the graph already has multiple _Movie_ nodes with the same value for the _title_ property. Note that you can create a uniqueness constraint, even if some _Movie_ nodes do [.underline]#not# have a _title_ property.
 
 Here is the result of running this Cypher statement on the _Movie_ graph:
 
@@ -388,7 +382,7 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-So after creating this constraint, if we attempt to create a _:REVIEWED_ relationship without setting the _rating_ property: 
+So after creating this constraint, if we attempt to create a _:REVIEWED_ relationship without setting the _rating_ property:
 [source,cypher]
 ----
 MATCH (p:Person), (m:Movie)
@@ -397,7 +391,7 @@ WHERE p.name = 'Jessica Thompson' AND
 MERGE (p)-[:REVIEWED {summary: 'Great movie!'}]->(m)
 ----
 
-We see this error: 
+We see this error:
 [.thumb]
 image::{imagedir}/ExistenceConstraintFailed.png[ExistenceConstraintFailed,width=800]
 
@@ -408,7 +402,7 @@ endif::backend-pdf[]
 
 === Retrieving  constraints defined for the graph
 
-You can run the browser command `:schema` to view existing indexes and constraints defined for the graph. 
+You can run the browser command `:schema` to view existing indexes and constraints defined for the graph.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -464,7 +458,7 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Suppose that in our _Movie_ graph, we will not allow a _Person_ node to be created where both the _name_ and _born_ properties are the same. We can create a constraint that will be a node key to ensure that this uniqueness for the set of properties is asserted. 
+Suppose that in our _Movie_ graph, we will not allow a _Person_ node to be created where both the _name_ and _born_ properties are the same. We can create a constraint that will be a node key to ensure that this uniqueness for the set of properties is asserted.
 
 Here is an example to create this node key:
 [source,cypher]
@@ -477,7 +471,7 @@ Here is the result of running this Cypher statement on our _Movie_ graph:
 [.thumb]
 image::{imagedir}/NodeKeyCreationFailed.png[NodeKeyCreationFailed,width=800]
 
-This attempt to create the constraint failed because there are _Person_ nodes in the graph that do not have the _born_ property defined. 
+This attempt to create the constraint failed because there are _Person_ nodes in the graph that do not have the _born_ property defined.
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -490,7 +484,7 @@ endif::backend-pdf[]
 If we set these properties for all nodes in the graph that do not have _born_ properties with:
 [source,cypher]
 ----
-MATCH (p:Person) 
+MATCH (p:Person)
 WHERE NOT exists(p.born)
 SET p.born = 0
 ----
@@ -594,7 +588,7 @@ ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-If a set of properties for a node must be unique for every node, then you should create a constraint as a node key, rather than an index. 
+If a set of properties for a node must be unique for every node, then you should create a constraint as a node key, rather than an index.
 
 If, however, there can be duplication for a set of property values, but you want faster access to them, then you can create a composite index. A composite index is based upon multiple properties for a node.
 
@@ -740,8 +734,8 @@ Then you can use whichever Cypher operations you want to either create nodes or 
 Here is the simplified syntax for using `LOAD CSV`:
 [source,cypher-syntax]
 ----
-LOAD CSV WITH HEADERS FROM url-value 
-AS row        // row is a variable that is used to extract data 
+LOAD CSV WITH HEADERS FROM url-value
+AS row        // row is a variable that is used to extract data
 ----
 
 The first line of the file must contain a comma-separated list of column names. The _url-value_ can be a resource or a file on your system. Each line contains data that is interpreted as values for each column name. When each line is read from the file, you can perform the necessary processing to create or merge data into the graph.
@@ -764,7 +758,7 @@ ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-Before you load data from CSV files into your graph, you should first confirm that the data retrieved looks OK. Rather than creating nodes or relationships, you can simply return information about the data to be loaded. 
+Before you load data from CSV files into your graph, you should first confirm that the data retrieved looks OK. Rather than creating nodes or relationships, you can simply return information about the data to be loaded.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -805,7 +799,7 @@ Here is the result of running the Cypher statement to visually inspect the data:
 [.thumb]
 image::{imagedir}/examineMoviesBeforeLoad.png[examineMoviesBeforeLoad,width=900]
 
-Notice here that the _summary_ column's data has an extra space before the data in the file. In order to ensure that all _tagline_ values in our graph do not have an extra space, we will trim the value before assigning it to the tagline property. Once we are sure you want to load the data into your graph, we do so by assigning values from each row read in to a new node. 
+Notice here that the _summary_ column's data has an extra space before the data in the file. In order to ensure that all _tagline_ values in our graph do not have an extra space, we will trim the value before assigning it to the tagline property. Once we are sure you want to load the data into your graph, we do so by assigning values from each row read in to a new node.
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -1069,9 +1063,6 @@ You should now be able to:
 ++++
 
 ifdef::backend-html5[]
-
-include::scripts-end.txt[]
-
 ++++
 <script>
 $( document ).ready(function() {
@@ -1079,5 +1070,4 @@ $( document ).ready(function() {
 });
 </script>
 ++++
-
 endif::backend-html5[]

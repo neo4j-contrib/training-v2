@@ -3,10 +3,21 @@
 convert () {
   adoc_file="$1"
   echo "converting $adoc_file"
+  # redirect url depends on the stage
+  if [[ "${STAGE}" == "prod" ]]; then
+    redirect_url="https://neo4j.com/graphacademy/online-training/neo4j-administration/"
+  else
+    redirect_url="https://neo4j.com/graphacademy/online-training/neo4j-administration-dev/"
+  fi
   asciidoctor -a "section-titles=Intro to Neo4j,Overview Of Admin,Managing a DB,Causal Clustering,Security,Monitoring,The End" \
               -a "module-title=Neo4j GraphAcademy: Neo4j Administration" \
-              -a "CLASS_JS_URL=${CLASS_JS_URL}" \
-              -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
+              -a "module-id=neo4j-administration" \
+              -a "module-quiz-count=${QUIZ_MODULE_COUNT}" \
+              -a "module-localstorage-prefix-key=${LOCALSTORAGE_PREFIX_KEY}" \
+              -a "module-redirect-url=${redirect_url}" \
+              -a "module-intercom-event=training-neo4j-admin-view" \
+              -a "module-class-js-url=${CLASS_JS_URL}" \
+              -a "module-quizes-js-url=${QUIZES_JS_URL}" \
               -a "imagedir=${IMG}" \
               -T "../_templates_v2" \
               "adoc/${adoc_file}" -D html

@@ -1,9 +1,12 @@
+var STAGE = "{{STAGE}}";
+var API_BASE_URL = "{{API_BASE_URL}}";
+
 function getClassCertificate() {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken")
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "POST",
-    url: "https://nmae7t4ami.execute-api.us-east-1.amazonaws.com/prod/genClassCertificate",
+    url: API_BASE_URL + "/genClassCertificate",
     contentType: "application/json",
     dataType: 'json',
     async: true,
@@ -17,11 +20,11 @@ function getClassCertificate() {
 }
 
 function getEnrollmentForClass() {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
+  var id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "GET",
-    url: "https://nmae7t4ami.execute-api.us-east-1.amazonaws.com/prod/getClassEnrollment?className=" + window.trainingClassName,
+    url: API_BASE_URL + "/getClassEnrollment?className=" + window.trainingClassName,
     async: true,
     headers: {
       "Authorization": id_token
@@ -30,11 +33,11 @@ function getEnrollmentForClass() {
 }
 
 function enrollStudentInClass(firstName, lastName) {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "POST",
-    url: "https://nmae7t4ami.execute-api.us-east-1.amazonaws.com/prod/setClassEnrollment",
+    url: API_BASE_URL + "/setClassEnrollment",
     contentType: "application/json",
     dataType: 'json',
     async: true,
@@ -50,11 +53,11 @@ function enrollStudentInClass(firstName, lastName) {
 }
 
 function logTrainingView() {
-  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken");
+  const id_token = window.localStorage.getItem("com.neo4j.accounts.idToken").replace(/"/g, '');
   return $.ajax
   ({
     type: "POST",
-    url: "https://nmae7t4ami.execute-api.us-east-1.amazonaws.com/prod/logTrainingView",
+    url: API_BASE_URL + "/logTrainingView",
     contentType: "application/json",
     dataType: 'json',
     async: true,
@@ -69,7 +72,7 @@ function logTrainingView() {
 }
 
 jQuery(document).ready(function () {
-  if (window.localStorage.getItem("com.neo4j.accounts.idToken")) { 
+  if (window.localStorage.getItem("com.neo4j.accounts.idToken")) {
     // we're authenticated
     // could check expiration of token, but not critical for this app
     // still need to check quiz status

@@ -2,13 +2,20 @@ var quizesStatus = {};
 
 var STAGE = "{{STAGE}}";
 var API_BASE_URL = "{{API_BASE_URL}}";
+var LOCALSTORAGE_PREFIX_KEY = window.trainingLocalStoragePrefixKey;
+var QUIZ_MODULE_COUNT = window.trainingQuizCount;
+if (STAGE) {
+  var LOCALSTORAGE_QUIZES_KEY = LOCALSTORAGE_PREFIX_KEY + STAGE + '.quizes'
+} else {
+  var LOCALSTORAGE_QUIZES_KEY = LOCALSTORAGE_PREFIX_KEY + '.quizes'
+}
 
 $(".quiz-progress").find("li").css("cssText", "list-style-image: none !important");
 $(".quiz-progress").find("li i").addClass("fa");
 $(".quiz-progress").find("li i").addClass("fa-li");
 $(".quiz-progress").find("li i").addClass("fa-circle-thin");
 
-quizesCookie = window.localStorage.getItem('com.neo4j.graphacademy.appliedalgos.' + STAGE + '.quizes');
+quizesCookie = window.localStorage.getItem(LOCALSTORAGE_QUIZES_KEY);
 if (quizesCookie) {
   quizesStatus = JSON.parse(quizesCookie);
   updateQuizStatus();
@@ -28,7 +35,7 @@ $('.next-section').click(function(event) {
   }
   updateResponse = updateQuizStatus();
   postQuizStatus(updateResponse['passed'], updateResponse['failed']).then(
-    function() { 
+    function() {
       if (quizSuccess) {
         document.location = hrefSuccess;
       }
@@ -42,10 +49,10 @@ function gradeQuiz(theQuiz) {
 
   if ( quizName in quizesStatus && quizesStatus[quizName] ) {
     return true;
-  } 
+  }
 
   theQuiz.find("h3").css("color", "#525865");
-  
+
   theQuiz.find(".required-answer").each(function() {
     if (! $( this ).prev(":checkbox").prop("checked")  ) {
       $( this ).closest(".ulist").siblings("h3").css("color", "red");
@@ -117,16 +124,17 @@ function updateQuizStatus() {
       $("#" + quizName + "-progress").addClass("fa-close");
     }
   }
-  if (passedArray.length == 7) {
-    $('#module-8').find('#quizes-result').html("<p>All quizes taken successfully.</p>");
+  const $quizesResult = $('#quizes-result');
+  if (passedArray.length == QUIZ_MODULE_COUNT) {
+    $quizesResult.html("<p>All quizes taken successfully.</p>");
   } else {
-    $('#module-8').find('#quizes-result').html("<p>Some quizes not answered successfully.  Return to course modules by clicking on the numbers  in the navigation at the top of the page.</p>");
+    $quizesResult.html("<p>Some quizes not answered successfully.  Return to course modules by clicking on the numbers  in the navigation at the top of the page.</p>");
   }
   return { "passed": passedArray, "failed": failedArray };
 }
 
 function getQuizStatus() {
-  return getQuizStatusRemote().then( function( value ) { 
+  return getQuizStatusRemote().then( function( value ) {
     quizesStatusL = {};
     failed = value['quizStatus']['failed'];
     passed = value['quizStatus']['passed'];
@@ -140,7 +148,7 @@ function getQuizStatus() {
     for (i in untried) {
       quizesStatusL[ untried[i] ] = null;
     }
-    window.localStorage.setItem('com.neo4j.graphacademy.appliedalgos.' + STAGE + '.quizes', JSON.stringify(quizesStatusL) );
+    window.localStorage.setItem(LOCALSTORAGE_QUIZES_KEY, JSON.stringify(quizesStatusL) );
     quizesStatus = quizesStatusL;
     updateQuizStatus();
     currentQuizStatus = quizesStatus[ $(".quiz").attr("id") ];
