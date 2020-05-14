@@ -75,7 +75,7 @@ def main(argv):
       print "Publishing %s:" % (key)
       pageContent = update_wordpress_page(value[stage], get_page_content(key))
   else:
-    print "Environment varisbles for PUBLISH_DOCS_USERNAME and PUBLISH_DOCS_PASSWORD must be set"
+    print "Environment variables for PUBLISH_DOCS_USERNAME and PUBLISH_DOCS_PASSWORD must be set"
     sys.exit()
 
 if __name__ == "__main__":

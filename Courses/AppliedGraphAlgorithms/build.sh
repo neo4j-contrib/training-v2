@@ -11,8 +11,8 @@ convert () {
   echo "converting $adoc_file"
   asciidoctor -a "section-titles=Setup,Category Hierarchy,Ordering Search Results,Relevant Reviews,Photo Based Recommendations,Summary" \
               -a "module-title=Neo4j GraphAcademy: Applied Graph Algorithms" \
-              -a "quiz-module-count=${QUIZ_MODULE_COUNT}" \
-              -a "localstorage-prefix-key=${LOCALSTORAGE_PREFIX_KEY}" \
+              -a "module-quiz-count=${QUIZ_MODULE_COUNT}" \
+              -a "module-localstorage-prefix-key=${LOCALSTORAGE_PREFIX_KEY}" \
               -a "module-id=applied-algos" \
               -a "module-redirect-url=${redirect_url}" \
               -a "module-intercom-event=training-applied-algos-view" \

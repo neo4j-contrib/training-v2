@@ -28,9 +28,9 @@ def update_wordpress_page(pageId, content):
     # build response for update
     response['content'] = content
     headers['Content-Type'] = 'application/json'
-    print url
+    print "\t%s" % (url)
     pr = requests.post(url, headers=headers, data=json.dumps(response))
-     
+
     return pr.content
 
 if 'PUBLISH_DOCS_USERNAME' in os.environ and 'PUBLISH_DOCS_PASSWORD' in os.environ:

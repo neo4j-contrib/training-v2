@@ -11,6 +11,8 @@ convert () {
   asciidoctor -a "section-titles=Dev Env,EDA,Recommendations,Predictions,The End" \
               -a "module-title=Neo4j GraphAcademy: Data Science with Neo4j" \
               -a "module-id=datascience" \
+              -a "module-quiz-count=${QUIZ_MODULE_COUNT}" \
+              -a "module-localstorage-prefix-key=${LOCALSTORAGE_PREFIX_KEY}" \
               -a "module-redirect-url=${redirect_url}" \
               -a "module-intercom-event=training-data-science-view" \
               -a "module-class-js-url=${CLASS_JS_URL}" \

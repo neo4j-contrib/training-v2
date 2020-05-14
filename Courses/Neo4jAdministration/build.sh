@@ -12,6 +12,8 @@ convert () {
   asciidoctor -a "section-titles=Intro to Neo4j,Overview Of Admin,Managing a DB,Causal Clustering,Security,Monitoring,The End" \
               -a "module-title=Neo4j GraphAcademy: Neo4j Administration" \
               -a "module-id=neo4j-administration" \
+              -a "module-quiz-count=${QUIZ_MODULE_COUNT}" \
+              -a "module-localstorage-prefix-key=${LOCALSTORAGE_PREFIX_KEY}" \
               -a "module-redirect-url=${redirect_url}" \
               -a "module-intercom-event=training-neo4j-admin-view" \
               -a "module-class-js-url=${CLASS_JS_URL}" \

@@ -3,14 +3,19 @@ var quizesStatus = {};
 var STAGE = "{{STAGE}}";
 var API_BASE_URL = "{{API_BASE_URL}}";
 var LOCALSTORAGE_PREFIX_KEY = window.trainingLocalStoragePrefixKey;
-var QUIZ_MODULE_COUNT = window.trainingQuizModuleCount;
+var QUIZ_MODULE_COUNT = window.trainingQuizCount;
+if (STAGE) {
+  var LOCALSTORAGE_QUIZES_KEY = LOCALSTORAGE_PREFIX_KEY + STAGE + '.quizes'
+} else {
+  var LOCALSTORAGE_QUIZES_KEY = LOCALSTORAGE_PREFIX_KEY + '.quizes'
+}
 
 $(".quiz-progress").find("li").css("cssText", "list-style-image: none !important");
 $(".quiz-progress").find("li i").addClass("fa");
 $(".quiz-progress").find("li i").addClass("fa-li");
 $(".quiz-progress").find("li i").addClass("fa-circle-thin");
 
-quizesCookie = window.localStorage.getItem(LOCALSTORAGE_PREFIX_KEY + STAGE + '.quizes');
+quizesCookie = window.localStorage.getItem(LOCALSTORAGE_QUIZES_KEY);
 if (quizesCookie) {
   quizesStatus = JSON.parse(quizesCookie);
   updateQuizStatus();
@@ -143,7 +148,7 @@ function getQuizStatus() {
     for (i in untried) {
       quizesStatusL[ untried[i] ] = null;
     }
-    window.localStorage.setItem(LOCALSTORAGE_PREFIX_KEY + STAGE + '.quizes', JSON.stringify(quizesStatusL) );
+    window.localStorage.setItem(LOCALSTORAGE_QUIZES_KEY, JSON.stringify(quizesStatusL) );
     quizesStatus = quizesStatusL;
     updateQuizStatus();
     currentQuizStatus = quizesStatus[ $(".quiz").attr("id") ];
