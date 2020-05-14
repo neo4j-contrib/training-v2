@@ -3,13 +3,22 @@
 CLASS_JS_URL="https://cdn.neo4jlabs.com/graphacademy/applied-algos/dev/class.js?versionId=glirJfbTycBxPeL8b7ThzWTlxCMJqNcn"
 QUIZES_JS_URL="https://cdn.neo4jlabs.com/graphacademy/applied-algos/dev/quizes.js?versionId=39.9.3V_TSiax1LoZcVsRG.7mwvgmXB8"
 IMG="https://graphacademy.neo4j.com/img/applied-graph-algos"
+STAGE="dev"
 
 convert () {
   adoc_file="$1"
+  # redirect url depends on the stage
+  if [[ "${STAGE}" == "prod" ]]; then
+    redirect_url="https://neo4j.com/graphacademy/online-training/applied-graph-algorithms/"
+  else
+    redirect_url="https://neo4j.com/graphacademy/online-training/applied-algos-dev/"
+  fi
   echo "converting $adoc_file"
   asciidoctor -a "section-titles=Setup,Category Hierarchy,Ordering Search Results,Relevant Reviews,Photo Based Recommendations,Summary" \
               -a "module-title=Neo4j GraphAcademy: Applied Graph Algorithms" \
               -a "module-id=applied-algos" \
+              -a "module-redirect-url=${redirect_url}" \
+              -a "module-intercom-event=training-applied-algos-view" \
               -a "CLASS_JS_URL=${CLASS_JS_URL}" \
               -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
               -a "imagedir=${IMG}" \
