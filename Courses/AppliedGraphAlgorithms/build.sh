@@ -19,8 +19,8 @@ convert () {
               -a "module-id=applied-algos" \
               -a "module-redirect-url=${redirect_url}" \
               -a "module-intercom-event=training-applied-algos-view" \
-              -a "CLASS_JS_URL=${CLASS_JS_URL}" \
-              -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
+              -a "module-class-js-url=${CLASS_JS_URL}" \
+              -a "module-quizes-js-url=${QUIZES_JS_URL}" \
               -a "imagedir=${IMG}" \
               -T "../_templates_v2" \
               "adoc/${adoc_file}" -D html
