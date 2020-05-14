@@ -18,12 +18,6 @@
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
-ifdef::backend-html5[]
-
-include::scripts.txt[]
-
-endif::backend-html5[]
-
 == About this module
 
 You have learned how to query a graph using a number of Cypher clauses and keywords that start with the `MATCH` clause. You learned how to retrieve data based upon label values, property key values, and relationship types, and how to perform some useful intermediate processing during a query to control what data is returned.
@@ -45,9 +39,9 @@ At the end of this module, you should be able to write Cypher statements to:
 
 == Creating nodes
 
-Recall that a node is an element of a graph representing a domain entity that has zero or more labels, properties, and relationships to or from other nodes in the graph. 
+Recall that a node is an element of a graph representing a domain entity that has zero or more labels, properties, and relationships to or from other nodes in the graph.
 
-When you create a node, you can add it to the graph without connecting it to another node. 
+When you create a node, you can add it to the graph without connecting it to another node.
 
 Here is the simplified syntax for creating a node:
 [source,cypher-syntax]
@@ -83,7 +77,7 @@ CREATE (m:Movie:Action {title: 'Batman Begins'})
 Add a node to the graph of types _Movie_ and _Action_ with the _title_ _Batman Begins_. This node can be retrieved using the title. A set of nodes with the labels _Movie_ or _Action_ can also be retrieved which will contain this node. Here we return the title of the node:
 [source,cypher]
 ----
-CREATE` (m:Movie:Action {title: ' Batman Begins'}) 
+CREATE` (m:Movie:Action {title: ' Batman Begins'})
 RETURN m.title
 ----
 
@@ -98,7 +92,7 @@ Here is what you see in Neo4j Browser when you create a node for the movie, _Bat
 [.thumb]
 image::{imagedir}/CreateBatmanBegins.png[CreateBatmanBegins,width=600]
 
-When the graph engine creates a node, it automatically assigns a read-only, unique ID to the node.  
+When the graph engine creates a node, it automatically assigns a read-only, unique ID to the node.
 Here we see that the _id_ of the node is _568_. This is not a property of a node, but rather an internal value.
 ifdef::backend-pdf[]
 |===
@@ -115,11 +109,11 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Here is an example, where we create some _Person_ nodes that will represent some of the people associated with the movie _Batman Begins_: 
+Here is an example, where we create some _Person_ nodes that will represent some of the people associated with the movie _Batman Begins_:
 
 [source,cypher]
 ----
-CREATE 
+CREATE
 (:Person {name: 'Michael Caine', born: 1933}),
 (:Person {name: 'Liam Neeson', born: 1952}),
 (:Person {name: 'Katie Holmes', born: 1978}),
@@ -137,17 +131,17 @@ endif::backend-pdf[]
 [NOTE]
 The graph engine will create a node with the same properties of a node that already exists. You can prevent this from happening in one of two ways:
 // force line break
-{nbsp} + 
+{nbsp} +
 1. You can use `MERGE` rather than `CREATE` when creating the node.
 // force line break
-{nbsp} + 
-2. You can add constraints to your graph. 
+{nbsp} +
+2. You can add constraints to your graph.
 
 You will learn about merging data later in this module. Constraints are configured globally for a graph and are covered later in this training.
 
 === Adding labels to a node
 
-You may not know ahead of time what label or labels you want for a node when it is created. You can add labels to a node using the `SET` clause. 
+You may not know ahead of time what label or labels you want for a node when it is created. You can add labels to a node using the `SET` clause.
 
 Here is the simplified syntax for adding labels to a node:
 
@@ -190,7 +184,7 @@ endif::backend-pdf[]
 
 === Removing labels from a node
 
-Perhaps your data model has changed or the underlying data for a node has changed so that the label for a node is no longer useful or valid. 
+Perhaps your data model has changed or the underlying data for a node has changed so that the label for a node is no longer useful or valid.
 
 Here is the simplified syntax for removing labels from a node:
 [source,cypher-syntax]
@@ -225,7 +219,7 @@ endif::backend-pdf[]
 
 === Adding properties to a node
 
-After you have created a node and have a reference to the node, you can add properties to the node, again using the `SET` keyword. 
+After you have created a node and have a reference to the node, you can add properties to the node, again using the `SET` keyword.
 
 Here are simplified syntax examples for adding properties to a node referenced by the variable x:
 [source,cypher-syntax]
@@ -235,7 +229,7 @@ SET x.propertyName = value
 
 [source,cypher-syntax]
 ----
-SET x.propertyName1 = value1	, x.propertyName2 = value2 
+SET x.propertyName1 = value1	, x.propertyName2 = value2
 ----
 
 [source,cypher-syntax]
@@ -249,9 +243,9 @@ SET x += {propertyName1: value1, propertyName2: value2}
 ----
 
 
-If the property does not exist, it is added to the node. If the property exists, its value is updated. If the value specified is `null`, the property is removed. 
+If the property does not exist, it is added to the node. If the property exists, its value is updated. If the value specified is `null`, the property is removed.
 
-Note that the type of data for a property is not enforced.  
+Note that the type of data for a property is not enforced.
 That is, you can assign a string value to a property that was once a numeric value and visa versa.
 
 When you specify the JSON-style object for assignment (using `=`) of the property values for the node, the object must include all of the properties and their values for the node as the existing properties for the node are overwritten. However, if you specify `+=` when assigning to a property, the value at _valueX_ is updated if the _propertyNnameX_ exists for the node. If the _propertyNameX_ does not exist for the node, then the property is added to the node.
@@ -291,10 +285,10 @@ Here is another example where we set the property values to the movie node using
 ----
 MATCH (m:Movie)
 WHERE m.title = 'Batman Begins'
-SET  m = {title: 'Batman Begins', 
-          released: 2005, 
-          lengthInMinutes: 140, 
-          videoFormat: 'DVD', 
+SET  m = {title: 'Batman Begins',
+          released: 2005,
+          lengthInMinutes: 140,
+          videoFormat: 'DVD',
           grossMillions: 206.5}
 RETURN m
 ----
@@ -399,7 +393,7 @@ As you have learned in the previous exercises where you query the graph, you oft
 Here is the simplified syntax for creating a relationship between two nodes referenced by the variables x and y:
 [source,cypher-syntax]
 ----
-CREATE (x)-[:REL_TYPE]->(y) 
+CREATE (x)-[:REL_TYPE]->(y)
 ----
 
 [source,cypher-syntax]
@@ -449,8 +443,8 @@ Here is an example where we have already created _Person_ nodes for an actor, _L
 [source,cypher]
 ----
 MATCH (a:Person), (m:Movie), (p:Person)
-WHERE a.name = 'Liam Neeson' AND 
-      m.title = 'Batman Begins' AND 
+WHERE a.name = 'Liam Neeson' AND
+      m.title = 'Batman Begins' AND
       p.name = 'Benjamin Melniker'
 CREATE (a)-[:ACTED_IN]->(m)<-[:PRODUCED]-(p)
 RETURN a, m, p
@@ -498,7 +492,7 @@ SET r += {propertyName1: value1, propertyName2: value2}
 ----
 
 
-If the property does not exist, it is added to the relationship. If the property exists, its value is updated for the relationship. 
+If the property does not exist, it is added to the relationship. If the property exists, its value is updated for the relationship.
 When you specify the JSON-style object for assignment to the relationship using `=`, the object must include all of the properties for the relationship, just as you need to do for nodes. If you use `+=`, you can add or update properties, just as you do for nodes.
 
 ifdef::backend-pdf[]
@@ -595,7 +589,7 @@ and follow the instructions for Exercise 9.
 
 == Deleting nodes and relationships
 
-If a node has no relationships to any other nodes, you can simply delete it from the graph using the `DELETE` clause. 
+If a node has no relationships to any other nodes, you can simply delete it from the graph using the `DELETE` clause.
 Relationships are also deleted using the `DELETE` clause.
 
 [NOTE]
@@ -706,7 +700,7 @@ endif::backend-pdf[]
 
 === Deleting nodes and relationships
 
-The most efficient way to delete a node and its corresponding relationships is to specify `DETACH DELETE`.  
+The most efficient way to delete a node and its corresponding relationships is to specify `DETACH DELETE`.
 When you specify `DETACH DELETE` for a node, the relationships to and from the node are deleted, then the node is deleted.
 
 ifdef::backend-pdf[]
@@ -773,7 +767,7 @@ and follow the instructions for Exercise 10.
 
 == Merging data in the graph
 
-Thus far, you have learned how to create nodes, labels, properties, and relationships in the graph. You can use `MERGE` to either create new nodes and relationships or to make structural changes to existing nodes and relationships. 
+Thus far, you have learned how to create nodes, labels, properties, and relationships in the graph. You can use `MERGE` to either create new nodes and relationships or to make structural changes to existing nodes and relationships.
 
 For exmaple, how the graph engine behaves when a duplicate element is created depends on the type of element:
 
@@ -787,9 +781,9 @@ h|The result is:
 |Label
 |If the label already exists for the node, the node is not updated.
 |Property
-|If the node or relationship property already exists, it is updated with the new value.  
+|If the node or relationship property already exists, it is updated with the new value.
 // force line break
-{nbsp} + 
+{nbsp} +
 *Note:* If you specify a set of properties to be created using `=` rather than `+=`, existing properties are removed if they are not included in the set.
 |Relationship
 |If the relationship exists, a duplicate relationship is created.
@@ -823,14 +817,14 @@ RETURN variable
 
 If there is an existing node with  _Label_ and _nodeProperties_  found in the graph, no node is created. If, however the node is not found in the graph, then the node is created.
 
-When you specify _nodeProperties_ for `MERGE`, you should only use properties that satisfy some sort of uniqueness constraint. You will learn about uniqueness constraints in the next module. 
+When you specify _nodeProperties_ for `MERGE`, you should only use properties that satisfy some sort of uniqueness constraint. You will learn about uniqueness constraints in the next module.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
 endif::backend-pdf[]
-Here is what we currently have in the graph for the _Person_, _Michael Caine_. 
+Here is what we currently have in the graph for the _Person_, _Michael Caine_.
 This node has values for _name_ and _born_. Notice also that the label for the node is _Person_.
 
 [.thumb]
@@ -854,7 +848,7 @@ SET a.born = 1933
 RETURN a
 ----
 
-Here is the result of running this Cypher example. We do not find a node with the label _Actor_ so the graph engine creates one. 
+Here is the result of running this Cypher example. We do not find a node with the label _Actor_ so the graph engine creates one.
 
 [.thumb]
 image::{imagedir}/MergeActorMichaelCaine.png[MergeActorMichaelCaine,width=600]
@@ -892,7 +886,7 @@ MERGE (variable:Label {nodeProperties})-[:REL_TYPE]->(otherNode)
 RETURN variable
 ----
 
-If there is an existing node with  _Label_ and _nodeProperties_  with the _:REL_TYPE_ to _otherNode_ found in the graph, no relationship is created. If the relationship does not exist, it is created. 
+If there is an existing node with  _Label_ and _nodeProperties_  with the _:REL_TYPE_ to _otherNode_ found in the graph, no relationship is created. If the relationship does not exist, it is created.
 
 Although, you can leave out the direction of the relationship being created with the `MERGE`, in which case a left-to-right arrow will be assumed, a best practice is to always specify the direction of the relationship. However, if you have  bidirectional relationships and you want to avoid creating duplicate relationships, you [.underline]#must# leave off the arrow.
 
@@ -935,7 +929,7 @@ You can also specify an `ON MATCH` clause during merge processing. If the exact 
 [source,cypher]
 ----
 MERGE (a:Person {name: 'Sir Michael Caine'})
-ON CREATE SET a.born = 1934, 
+ON CREATE SET a.born = 1934,
               a.birthPlace = 'UK'
 ON MATCH SET a.birthPlace = 'UK'
 RETURN a
@@ -1003,7 +997,7 @@ and follow the instructions for Exercise 11.
 == Check your understanding
 === Question 1
 
-What Cypher clauses can you use to create a node? 
+What Cypher clauses can you use to create a node?
 
 Select the correct answers.
 [%interactive]
@@ -1063,15 +1057,13 @@ You should now be able to write Cypher statements to:
 ** Creating nodes
 ** Creating relationships
 
-== Grade Quiz and Continue 
+== Grade Quiz and Continue
 
 ++++
 <a class="next-section medium button" href="../part-7/">Continue to Module 7</a>
 ++++
 
 ifdef::backend-html5[]
-
-include::scripts-end.txt[]
 ++++
 <script>
 $( document ).ready(function() {
@@ -1079,5 +1071,4 @@ $( document ).ready(function() {
 });
 </script>
 ++++
-
 endif::backend-html5[]

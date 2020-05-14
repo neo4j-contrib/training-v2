@@ -6,7 +6,7 @@
 :neo4j-version: 3.4.4
 :currentyear: 2018
 :doctype: book
-:nextsecttitle: Introduction to Neo4j 
+:nextsecttitle: Introduction to Neo4j
 :nextsect: 2
 :currsect: 1
 :prevsecttitle: About this Course
@@ -18,15 +18,9 @@
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
-ifdef::backend-html5[]
-
-include::scripts.txt[]
-
-endif::backend-html5[]
-
 == About this module
 
-The Neo4j Graph Platform enables developers to create applications that are best architected as graph-powered systems that are built upon the rich connectedness of data. 
+The Neo4j Graph Platform enables developers to create applications that are best architected as graph-powered systems that are built upon the rich connectedness of data.
 
 At the end of this module, you should be able to:
 [square]
@@ -57,11 +51,11 @@ endif::backend-html5[]
 
 === What Is a graph database?
 
-A graph database is an online database management system with Create, Read, Update and Delete (CRUD) operations working on a graph data model. 
-Graph databases are generally built for use with online transaction processing (OLTP) systems. 
+A graph database is an online database management system with Create, Read, Update and Delete (CRUD) operations working on a graph data model.
+Graph databases are generally built for use with online transaction processing (OLTP) systems.
 Accordingly, they are normally optimized for transactional performance, and engineered with transactional integrity and operational availability in mind.
 
-Unlike other databases, relationships take first priority in graph databases.  
+Unlike other databases, relationships take first priority in graph databases.
 This means your application doesn't have to infer data connections using foreign keys or out-of-band processing, such as MapReduce.
 
 By assembling the simple abstractions of nodes and relationships into connected structures, graph databases enable us to build sophisticated models that map closely to our problem domain.
@@ -70,10 +64,10 @@ By assembling the simple abstractions of nodes and relationships into connected 
 
 The biggest value that graphs bring to the development stack is their ability to store relationships and connections as first-class entities.
 
-For instance, the early adopters of graph technology reimagined their businesses around the value of data relationships. 
+For instance, the early adopters of graph technology reimagined their businesses around the value of data relationships.
 These companies have now become industry leaders: LinkedIn, Google, Facebook and PayPal.
 
-As pioneers in graph technology, each of these enterprises had to build their own graph database from scratch. 
+As pioneers in graph technology, each of these enterprises had to build their own graph database from scratch.
 Fortunately for today's developers, that's no longer the case, as graph database technology is now available off the shelf.
 
 ifdef::backend-pdf[]
@@ -98,31 +92,31 @@ endif::backend-html5[]
 
 A graph is composed of two elements: *nodes* and *relationships*.
 
-Each node represents an entity (a person, place, thing, category or other piece of data). With Neo4j, nodes can have **labels** that are used to define types for nodes. 
-For example, a _Location_ node is a node with the label _Location_. 
-That same node can also have a label, _Residence_. Another _Location_ node can also have a label, _Business_. 
+Each node represents an entity (a person, place, thing, category or other piece of data). With Neo4j, nodes can have **labels** that are used to define types for nodes.
+For example, a _Location_ node is a node with the label _Location_.
+That same node can also have a label, _Residence_. Another _Location_ node can also have a label, _Business_.
 A label can be used to group nodes of the same type. For example, you may want to retrieve all of the _Business_ nodes.
 
 image::{imagedir}/Nodes.png[Nodes,width=400,align=center]
 
 // force line break
 
-{nbsp} + 
+{nbsp} +
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
 endif::backend-pdf[]
-Each relationship represents how two nodes are connected. 
+Each relationship represents how two nodes are connected.
 For example, the two nodes _Person_ and _Location_, might have the relationship _LIVES_AT_ pointing from a _Person_ node to _Location_ node.
 A relationship represents the verb or action between two entities. The _MARRIED_ relationship is defined from one _Person_ node to another _Person_ node. Although the relationship is defined as directional, it can be queried in a non-directional manner. That is, you can query if two _Person_ nodes have a _MARRIED_ relationship, regardless of the direction of the relationship. For some data models, the direction of the relationship is significant. For example, in Facebook, using the _KNOWS_ relationship is used to indicate which _Person_ invited the other _Person_ to be a friend.
 
 image::{imagedir}/Relationships.png[Relationships,width=400,align=center]
 // force line break
 
-{nbsp} +  
-This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population's medical history, or anything else defined by relationships. 
+{nbsp} +
+This general-purpose structure allows you to model all kinds of scenarios: from a system of roads, to a network of devices, to a population's medical history, or anything else defined by relationships.
 ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
@@ -133,14 +127,14 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-The Neo4j database is a property graph. 
-You can add **properties** to nodes and relationships to further enrich the graph model. 
+The Neo4j database is a property graph.
+You can add **properties** to nodes and relationships to further enrich the graph model.
 
 image::{imagedir}/Properties.png[Properties,width=500,align=center]
 // force line break
 
-{nbsp} +  
-This enables you to closely align data and connections in the graph to your real-world application. 
+{nbsp} +
+This enables you to closely align data and connections in the graph to your real-world application.
 For example, a _Person_ node might have a property, _name_ and a _Location_ node might have a property, _address_. In addition, a relationship, _MARRIED_ , might have a property, _since_.
 ifdef::backend-pdf[]
 |===
@@ -195,7 +189,7 @@ But, there are some ways in which the relational model differs from the graph mo
 |====
 | *Relational*
 | *Graph*
-| 
+|
 {set:cellbgcolor:white}
 Each column must have a field value.
 | Nodes with the same label aren't required to have the same set of properties.
@@ -229,7 +223,7 @@ How you model data from relational vs graph differs:
 |====
 | *Relational*
 | *Graph*
-| 
+|
 {set:cellbgcolor:white}
 Try and get the schema defined and then make minimal changes to it after that.
 | It's common for the schema to evolve with the application.
@@ -333,15 +327,13 @@ You should now be able to:
 * Describe some common use cases for using a graph database.
 * Describe how real-world scenarios are modeled as a graph.
 
-== Grade Quiz and Continue 
+== Grade Quiz and Continue
 
 ++++
 <a class="next-section medium button" href="../part-2/">Continue to Module 2</a>
 ++++
 
 ifdef::backend-html5[]
-include::scripts-end.txt[]
-
 ++++
 <script>
 $( document ).ready(function() {
@@ -349,5 +341,4 @@ $( document ).ready(function() {
 });
 </script>
 ++++
-
 endif::backend-html5[]

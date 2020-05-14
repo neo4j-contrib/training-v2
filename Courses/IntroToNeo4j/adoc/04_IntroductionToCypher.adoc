@@ -18,15 +18,9 @@
 :manual: http://neo4j.com/docs/developer-manual/current
 :manual-cypher: {manual}/cypher
 
-ifdef::backend-html5[]
-
-include::scripts.txt[]
-
-endif::backend-html5[]
-
 == About this module
 
-Cypher is the query language you use to retrieve data from the Neo4j Database, as well as create and update the data. 
+Cypher is the query language you use to retrieve data from the Neo4j Database, as well as create and update the data.
 
 At the end of this module, you should be able to write Cypher statements to:
 [square]
@@ -41,12 +35,12 @@ Throughout this training, you should refer to:
 * http://neo4j.com/docs/cypher-refcard/current/[Cypher Reference card^]
 
 === What is Cypher?
-Cypher is a declarative query language that allows for expressive and efficient querying and updating of graph data. 
-Cypher is a relatively simple and very powerful language. 
+Cypher is a declarative query language that allows for expressive and efficient querying and updating of graph data.
+Cypher is a relatively simple and very powerful language.
 Complex database queries can easily be expressed through Cypher, allowing you to focus on your domain instead of getting lost in the syntax of database access.
 
-Cypher is designed to be a human-friendly query language, suitable for both developers and other professionals. 
-The guiding goal is to make the simple things easy, and the complex things possible. 
+Cypher is designed to be a human-friendly query language, suitable for both developers and other professionals.
+The guiding goal is to make the simple things easy, and the complex things possible.
 
 ==== Cypher is ASCII art
 
@@ -56,7 +50,7 @@ Optimized for being read by humans, Cypher's construct uses English prose and ic
 image::{imagedir}/AsciiArt.png[AsciiArt,width=600,align=center]
 // force line break
 
-{nbsp} +  
+{nbsp} +
 Being a declarative language, Cypher focuses on the clarity of expressing *what* to retrieve from a graph, not on *how* to retrieve it.
 You can think of Cypher as mapping English language sentence structure to patterns in a graph. For example, the nouns are nodes of the graph, the verbs are the relationships in the graph, and the adjectives and adverbs are the properties.
 
@@ -64,43 +58,43 @@ You can think of Cypher as mapping English language sentence structure to patter
 image::{imagedir}/Nouns.png[Nouns,width=700,align=center]
 // force line break
 
-{nbsp} + 
-This is in contrast to imperative, programmatic APIs for database access. 
+{nbsp} +
+This is in contrast to imperative, programmatic APIs for database access.
 This approach makes query optimization an implementation detail instead of a burden on the developer, removing the requirement to update all traversals just because the physical database structure has changed.
 
 Cypher is inspired by a number of different approaches and builds upon established practices for expressive querying.
-Many of the Cypher keywords like `WHERE` and `ORDER BY` are inspired by SQL. 
-The pattern matching functionality of Cypher borrows concepts from SPARQL. 
+Many of the Cypher keywords like `WHERE` and `ORDER BY` are inspired by SQL.
+The pattern matching functionality of Cypher borrows concepts from SPARQL.
 And some of the collection semantics have been borrowed from languages such as Haskell and Python.
 
 The Cypher language has been made available to anyone to implement and use via openCypher (opencypher.org), allowing any database vendor, researcher or other interested party to reap the benefits of our years of effort and experience in developing a first class graph query language.
 
 ==== Nodes
 Cypher uses a pair of parentheses like `()`, `(n)` to represent a node, much like a circle on a whiteboard.
-Recall that a node typically represents an entity in your domain. 
-An anonymous node, `()`, represents one or more nodes during a query processing where there are no restrictions of the type of node or the properties of the node. 
+Recall that a node typically represents an entity in your domain.
+An anonymous node, `()`, represents one or more nodes during a query processing where there are no restrictions of the type of node or the properties of the node.
 When you specify `(n)` for a node, you are telling the query processor that for this query, use the variable _n_ to represent nodes that will be processed later in the query for further query processing or for returning values from the query.
 
 ==== Labels
-Nodes in a graph are typically labeled. Labels are used to group nodes and filter queries against the graph. 
-That is, labels can be used to optimize queries. 
+Nodes in a graph are typically labeled. Labels are used to group nodes and filter queries against the graph.
+That is, labels can be used to optimize queries.
 In the _Movie_ database you will be working with, the nodes in this graph are labeled _Movie_ or _Person_ to represent two types of nodes.
 
 For example, you can see the labels in the database by simply clicking the Database icon in Neo4j Browser:
 
 image::{imagedir}/NodeLabels.png[width=300,align=center]
 
-You can filter the types of nodes that you are querying, by specifying a **label** for a node. 
-A node can have zero or more labels. 
+You can filter the types of nodes that you are querying, by specifying a **label** for a node.
+A node can have zero or more labels.
 
 Here are simplified syntax examples for specifying a node:
 [source,cypher-syntax]
 ----
 ()
-(variable) 
+(variable)
 (:Label)
-(variable:Label) 
-(:Label1:Label2) 
+(variable:Label)
+(:Label1:Label2)
 (variable:Label1:Label2)
 ----
 
@@ -109,14 +103,14 @@ Notice that a node must have the parentheses. The labels and the variable for a 
 Here are examples of specifying nodes in Cypher:
 [source,cypher]
 ----
-()					// anonymous node not be referenced later in the query 
-(p)					// variable p, a reference to a node used later 
+()					// anonymous node not be referenced later in the query
+(p)					// variable p, a reference to a node used later
 (:Person)			// anonymous node of type Person
 (p:Person)			// p, a reference to a node of type Person
 (p:Actor:Director)	// p, a reference to a node of types Actor and Director
 ----
 
-A node can have multiple labels. For example a node can be created with a label of _Person_ and that same node can be modified to also have the label of _Actor_ and/or _Director_. 
+A node can have multiple labels. For example a node can be created with a label of _Person_ and that same node can be modified to also have the label of _Actor_ and/or _Director_.
 
 ==== Comments in Cypher
 
@@ -124,7 +118,7 @@ In Cypher, you can place a comment (starts with `//`) anywhere in your Cypher to
 
 === Examining the data model
 
-When you are first learning about the data (nodes, labels, etc.) in a graph, it is helpful to examine the data model of the graph. 
+When you are first learning about the data (nodes, labels, etc.) in a graph, it is helpful to examine the data model of the graph.
 You do so by executing `CALL db.schema`, which calls the Neo4j procedure that returns information about the nodes, labels, and relationships in the graph.
 
 ifdef::backend-pdf[]
@@ -132,9 +126,9 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-For example, when we run this procedure in our training environment, we see the following in the result pane. 
-Here we see that the graph has 2 labels defined for nodes, _Person_ and _Movie_. 
-Each type of nodes is displayed in a different color.  
+For example, when we run this procedure in our training environment, we see the following in the result pane.
+Here we see that the graph has 2 labels defined for nodes, _Person_ and _Movie_.
+Each type of nodes is displayed in a different color.
 The relationships between nodes are also displayed, which you will learn about later in this module.
 
 [.thumb]
@@ -155,31 +149,31 @@ In this video, you will be introduced to using the `MATCH` statement to retrieve
 
 endif::backend-html5[]
 {nbsp} +
-The most widely used Cypher clause is  `MATCH`. 
-The `MATCH` clause performs a pattern match against the data in the graph. 
-During the query processing, the graph engine traverses the graph to find all nodes that match the graph pattern. 
-As part of query, you can return nodes or data from the nodes using the `RETURN` clause. 
+The most widely used Cypher clause is  `MATCH`.
+The `MATCH` clause performs a pattern match against the data in the graph.
+During the query processing, the graph engine traverses the graph to find all nodes that match the graph pattern.
+As part of query, you can return nodes or data from the nodes using the `RETURN` clause.
 The `RETURN` clause must be the last clause of a query to the graph.
-Later in this training, you will learn how to use `MATCH` to select nodes and data for updating the graph. 
+Later in this training, you will learn how to use `MATCH` to select nodes and data for updating the graph.
 First, you will learn how to simply return nodes.
 
 
 Here are simplified syntax examples for a query:
 [source,cypher-syntax]
 ----
-MATCH (variable) 
-RETURN variable 
+MATCH (variable)
+RETURN variable
 ----
 
 [source,cypher-syntax]
 ----
-MATCH (variable:Label) 
+MATCH (variable:Label)
 RETURN variable
 ----
 
-Notice that the Cypher keywords `MATCH` and `RETURN` are upper-case. 
-This coding convention is described in the _Cypher Style Guide_ and will be used in this training. 
-This `MATCH` clause returns all nodes in the graph, where the optional _Label_ is used to return a subgraph if the graph contains nodes of different types. 
+Notice that the Cypher keywords `MATCH` and `RETURN` are upper-case.
+This coding convention is described in the _Cypher Style Guide_ and will be used in this training.
+This `MATCH` clause returns all nodes in the graph, where the optional _Label_ is used to return a subgraph if the graph contains nodes of different types.
 The _variable_ must be specified here, otherwise the query will have nothing to return.
 
 Here are example queries to the _Movie_ database:
@@ -195,8 +189,8 @@ MATCH (p:Person) 	// returns all Person nodes in the graph
 RETURN p
 ----
 
-When we execute the Cypher statement, `MATCH (p:Person) RETURN p`, the graph engine returns all nodes with the label _Person_. 
-The default view of the returned nodes are the nodes that were referenced by the variable _p_. 
+When we execute the Cypher statement, `MATCH (p:Person) RETURN p`, the graph engine returns all nodes with the label _Person_.
+The default view of the returned nodes are the nodes that were referenced by the variable _p_.
 
 The result returned is:
 
@@ -229,25 +223,25 @@ endif::backend-pdf[]
 
 When nodes are displayed as table values, the node labels and ids are not shown, only the property values for the nodes. Node ids are unique identifiers and are set by the graph engine when a node is created.
 
-=== *Exercise 1: Retrieving nodes* 
+=== *Exercise 1: Retrieving nodes*
 
 In the query edit pane of Neo4j Browser, execute the browser command: kbd:[:play intro-neo4j-exercises]
 and follow the instructions for Exercise 1.
 
 === Properties
 In Neo4j, a node (and a relationship, which you will learn about later) can have properties that are used to further define a node.
-A property is identified by its property key. 
-Recall that nodes are used to represent the entities of your business model.  
-A property is defined for a node and not for a type of node. 
-All nodes of the same type need not have the same properties. 
+A property is identified by its property key.
+Recall that nodes are used to represent the entities of your business model.
+A property is defined for a node and not for a type of node.
+All nodes of the same type need not have the same properties.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
 endif::backend-pdf[]
-For example, in the _Movie_ graph, all _Movie_ nodes have both _title_  and _released_ properties.  
-However, it is not a requirement that every _Movie_ node has a property, _tagline_. 
+For example, in the _Movie_ graph, all _Movie_ nodes have both _title_  and _released_ properties.
+However, it is not a requirement that every _Movie_ node has a property, _tagline_.
 
 
 image::{imagedir}/MovieProperties.png[MovieProperties,width=600,align=center]
@@ -255,12 +249,12 @@ ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-Properties can be used to filter queries  so that a subset of the graph is retrieved. 
-In addition, with the `RETURN` clause, you can return property values from the retrieved nodes, rather than the nodes. 
+Properties can be used to filter queries  so that a subset of the graph is retrieved.
+In addition, with the `RETURN` clause, you can return property values from the retrieved nodes, rather than the nodes.
 
 ==== Examining property keys
 
-As you prepare to create Cypher queries that use property values to filter a query, you can view the values for property keys of a graph by simply clicking the Database icon in Neo4j Browser. 
+As you prepare to create Cypher queries that use property values to filter a query, you can view the values for property keys of a graph by simply clicking the Database icon in Neo4j Browser.
 Alternatively, you can execute  `CALL db.propertyKeys`,  which calls the Neo4j library method that returns the property keys for the graph.
 
 ifdef::backend-pdf[]
@@ -268,7 +262,7 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Here is what you will see in the result pane when you call the method to return the property keys in the _Movie_ graph. 
+Here is what you will see in the result pane when you call the method to return the property keys in the _Movie_ graph.
 This result stream contains all property keys in the graph. It does not display which nodes utilize these property keys.
 
 [.thumb]
@@ -279,32 +273,32 @@ endif::backend-pdf[]
 
 ==== Retrieving nodes filtered by a property value
 
-You have learned previously that you can filter node retrieval by specifying a label. 
-Another way you can filter a retrieval is to specify a value for a property. 
+You have learned previously that you can filter node retrieval by specifying a label.
+Another way you can filter a retrieval is to specify a value for a property.
 Any node that matches the value will be retrieved.
 
 Here are  simplified syntax examples for a query where we specify one or more values for  properties that will be used to filter the query results and return a subset of the graph:
 [source,cypher-syntax]
 ----
-MATCH (variable {propertyKey: propertyValue}) 
+MATCH (variable {propertyKey: propertyValue})
 RETURN variable
 ----
 
 [source,cypher-syntax]
 ----
-MATCH (variable:Label {propertyKey: propertyValue}) 
-RETURN variable 
+MATCH (variable:Label {propertyKey: propertyValue})
+RETURN variable
 ----
 
 [source,cypher-syntax]
 ----
-MATCH (variable {propertyKey1: propertyValue1, propertyKey2: propertyValue2}) 
-RETURN variable  
+MATCH (variable {propertyKey1: propertyValue1, propertyKey2: propertyValue2})
+RETURN variable
 ----
 
 [source,cypher-syntax]
 ----
-MATCH (variable:Label {propertyKey: propertyValue, propertyKey2: propertyValue2}) 
+MATCH (variable:Label {propertyKey: propertyValue, propertyKey2: propertyValue2})
 RETURN variable
 ----
 
@@ -313,8 +307,8 @@ Here is an example where we filter the query results using a property value.
 We only retrieve _Person_ nodes that have a _born_ property value of _1970_.
 [source,cypher]
 ----
-MATCH (p:Person {born: 1970}) 
-RETURN p	
+MATCH (p:Person {born: 1970})
+RETURN p
 ----
 
 The result returned is:
@@ -323,10 +317,10 @@ The result returned is:
 image::{imagedir}/MatchPersonBorn1970.png[MatchPersonBorn1970,width=600]
 
 
-Here is an example where we specify two property values for the query. 
+Here is an example where we specify two property values for the query.
 [source,cypher]
 ----
-MATCH (m:Movie {released: 2003, tagline: 'Free your mind'}) 
+MATCH (m:Movie {released: 2003, tagline: 'Free your mind'})
 RETURN m
 ----
 
@@ -349,34 +343,34 @@ In this video, you will see how to return property values to the output stream w
 ++++
 
 endif::backend-html5[]
-{nbsp} +  
-Thus far, you have seen how to retrieve nodes and return nodes (entire graph or a subset of the graph). 
-You can use the `RETURN` clause to return property values of nodes retrieved. 
+{nbsp} +
+Thus far, you have seen how to retrieve nodes and return nodes (entire graph or a subset of the graph).
+You can use the `RETURN` clause to return property values of nodes retrieved.
 
 
 Here are simplified syntax examples for returning property values, rather than nodes:
 [source,cypher-syntax]
 ----
-MATCH (variable {prop1: value}) 
-RETURN variable.prop2 
-----
-
-[source,cypher-syntax]
-----
-MATCH (variable:Label {prop1: value}) 
+MATCH (variable {prop1: value})
 RETURN variable.prop2
 ----
 
 [source,cypher-syntax]
 ----
-MATCH (variable:Label {prop1: value, prop2: value}) 
+MATCH (variable:Label {prop1: value})
+RETURN variable.prop2
+----
+
+[source,cypher-syntax]
+----
+MATCH (variable:Label {prop1: value, prop2: value})
 RETURN variable.prop3
 ----
 
 [source,cypher-syntax]
 ----
-MATCH (variable {prop1:value}) 
-RETURN variable.prop2, variable.prop3 
+MATCH (variable {prop1:value})
+RETURN variable.prop2, variable.prop3
 ----
 
 
@@ -389,7 +383,7 @@ In this example, we use the _born_ property to refine the query, but rather than
 
 [source,cypher]
 ----
-MATCH (p:Person {born: 1965}) 
+MATCH (p:Person {born: 1965})
 RETURN p.name, p.born
 ----
 
@@ -408,8 +402,8 @@ If you want to customize the headings for a table containing property values, yo
 Here is the simplified syntax for specifying an alias for a property value:
 [source,cypher-syntax]
 ----
-MATCH (variable:Label {propertyKey1: propertyValue1}) 
-RETURN variable.propertyKey2 AS alias2 
+MATCH (variable:Label {propertyKey1: propertyValue1})
+RETURN variable.propertyKey2 AS alias2
 ----
 
 [NOTE]
@@ -423,7 +417,7 @@ endif::backend-pdf[]
 Here we specify aliases for the returned property values:
 [source,cypher]
 ----
-MATCH (p:Person {born: 1965}) 
+MATCH (p:Person {born: 1965})
 RETURN p.name AS name, p.born AS `birth year`
 ----
 
@@ -442,15 +436,15 @@ and follow the instructions for Exercise 2.
 
 === Relationships
 
-Relationships are what make Neo4j graphs such a powerful tool for connecting complex and deep data.  
-A relationship is a *directed* connection between two nodes that has a *relationship type* (name). 
-In addition, a relationship can have properties, just like nodes. 
-In a graph where you want to retrieve nodes, you can use relationships between nodes to filter a query. 
+Relationships are what make Neo4j graphs such a powerful tool for connecting complex and deep data.
+A relationship is a *directed* connection between two nodes that has a *relationship type* (name).
+In addition, a relationship can have properties, just like nodes.
+In a graph where you want to retrieve nodes, you can use relationships between nodes to filter a query.
 
 ==== ASCII art
 
-Thus far, you have learned how to specify a node in a `MATCH` clause. 
-You can specify nodes and their relationships to traverse the graph and quickly find the data of interest. 
+Thus far, you have learned how to specify a node in a `MATCH` clause.
+You can specify nodes and their relationships to traverse the graph and quickly find the data of interest.
 
 Here is how Cypher uses ASCII art to specify path used for a query:
 [source,cypher-syntax]
@@ -468,7 +462,7 @@ In your `MATCH` clause, you specify how you want a relationship to be used to pe
 Here are simplified syntax examples for retrieving a set of nodes that satisfy one or more directed and typed relationships:
 [source,cypher-syntax]
 ----
-MATCH (node1)-[:REL_TYPE]->(node2) 
+MATCH (node1)-[:REL_TYPE]->(node2)
 RETURN node1, node2
 ----
 
@@ -494,7 +488,7 @@ _where:_
 
 ==== Examining relationships
 
-You can run `CALL db.schema` to view the relationship types in the graph. 
+You can run `CALL db.schema` to view the relationship types in the graph.
 In the _Movie_ graph, we see these relationships between the nodes:
 
 ifdef::backend-pdf[]
@@ -502,7 +496,7 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Here we see that this graph has a total of 6 relationship types between the nodes. Some _Person_ nodes are connected to other _Person_ nodes using the _FOLLOWS_ relationship type. 
+Here we see that this graph has a total of 6 relationship types between the nodes. Some _Person_ nodes are connected to other _Person_ nodes using the _FOLLOWS_ relationship type.
 All of the other relationships in this graph are from _Person_ nodes to _Movie_ nodes.
 
 [.thumb]
@@ -524,12 +518,12 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Here is an example where we retrieve the _Person_ nodes that have the _ACTED_IN_ relationship to the _Movie_, _The Matrix_. 
+Here is an example where we retrieve the _Person_ nodes that have the _ACTED_IN_ relationship to the _Movie_, _The Matrix_.
 In other words, show me the actors that acted in _The Matrix_.
 
 [source,cypher]
 ----
-MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie {title: 'The Matrix'}) 
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie {title: 'The Matrix'})
 RETURN p, rel, m
 ----
 
@@ -551,12 +545,12 @@ ifdef::backend-pdf[]
 a|
 endif::backend-pdf[]
 
-*Important:* You specify node labels whenever possible in your queries as it optimizes the retrieval in the graph engine. 
+*Important:* You specify node labels whenever possible in your queries as it optimizes the retrieval in the graph engine.
 That is, you should *not* specify this same query as:
 
 [source,cypher]
 ----
-MATCH (p)-[rel:ACTED_IN]->(m {title:'The Matrix'}) 
+MATCH (p)-[rel:ACTED_IN]->(m {title:'The Matrix'})
 RETURN p,m
 ----
 ifdef::backend-pdf[]
@@ -600,13 +594,13 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Suppose you wanted to retrieve the actors that acted in _The Matrix_, but you do not need any information returned about the _Movie_ node. 
-You need not specify a variable for a node in a query if that node is not returned or used for later processing in the query. 
+Suppose you wanted to retrieve the actors that acted in _The Matrix_, but you do not need any information returned about the _Movie_ node.
+You need not specify a variable for a node in a query if that node is not returned or used for later processing in the query.
 You can simply use the anonymous node in the query as follows:
 
 [source,cypher]
 ----
-MATCH (p:Person)-[:ACTED_IN]->(:Movie {title: 'The Matrix'}) 
+MATCH (p:Person)-[:ACTED_IN]->(:Movie {title: 'The Matrix'})
 RETURN p.name
 ----
 
@@ -633,14 +627,14 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Suppose you want to find all people who are in any way connected to the movie, _The Matrix_. 
-You can specify an empty relationship type in the query so that all relationships are traversed and the appropriate results are returned.  
+Suppose you want to find all people who are in any way connected to the movie, _The Matrix_.
+You can specify an empty relationship type in the query so that all relationships are traversed and the appropriate results are returned.
 In this example, we want to retrieve all _Person_ nodes that have any type of connection to the _Movie_ node, with the _title_, _The Matrix_.
 This query returns more nodes with the relationships types, _DIRECTED_, _ACTED_IN_, and _PRODUCED_.
 
 [source,cypher]
 ----
-MATCH (p:Person)-->(m:Movie {title: 'The Matrix'}) 
+MATCH (p:Person)-->(m:Movie {title: 'The Matrix'})
 RETURN p, m
 ----
 
@@ -661,13 +655,13 @@ endif::backend-pdf[]
 Here are other examples of using the anonymous relationship:
 [source,cypher]
 ----
-MATCH (p:Person)--(m:Movie {title: 'The Matrix'}) 
+MATCH (p:Person)--(m:Movie {title: 'The Matrix'})
 RETURN p, m
 ----
 
 [source,cypher]
 ----
-MATCH (m:Movie)<--(p:Person {name: 'Keanu Reeves'}) 
+MATCH (m:Movie)<--(p:Person {name: 'Keanu Reeves'})
 RETURN p, m
 ----
 
@@ -678,7 +672,7 @@ endif::backend-pdf[]
 
 ==== Retrieving the relationship types
 
-There is a built-in function, `type()` that returns the relationship type of a relationship. 
+There is a built-in function, `type()` that returns the relationship type of a relationship.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -689,7 +683,7 @@ Here is an example where we use the _rel_ variable to hold the relationships ret
 
 [source,cypher]
 ----
-MATCH (p:Person)-[rel]->(:Movie {title:'The Matrix'}) 
+MATCH (p:Person)-[rel]->(:Movie {title:'The Matrix'})
 RETURN p.name, type(rel)
 ----
 
@@ -703,8 +697,8 @@ endif::backend-pdf[]
 
 ==== Retrieving properties for relationships
 
-Recall that a node can have as set of properties, each identified by its property key. 
-Relationships can also have properties. 
+Recall that a node can have as set of properties, each identified by its property key.
+Relationships can also have properties.
 This enables your graph model to provide more data about the relationships between the nodes.
 
 ifdef::backend-pdf[]
@@ -712,8 +706,8 @@ ifdef::backend-pdf[]
 |===
 a|
 endif::backend-pdf[]
-Here is an example from the _Movie_ graph. 
-The movie, _The Da Vinci Code_ has two people that reviewed it, _Jessica Thompson_ and _James Thompson_. Each of these _Person_ nodes has the _REVIEWED_ relationship to the _Movie_ node for _The Da Vinci Code_. 
+Here is an example from the _Movie_ graph.
+The movie, _The Da Vinci Code_ has two people that reviewed it, _Jessica Thompson_ and _James Thompson_. Each of these _Person_ nodes has the _REVIEWED_ relationship to the _Movie_ node for _The Da Vinci Code_.
 Each relationship has properties that further describe the relationship using the _summary_ and _rating_ properties.
 
 image::{imagedir}/REVIEWEDProperties.png[ReviewedProperties,width=700,align=center]
@@ -730,7 +724,7 @@ Just as you can specify property values for filtering nodes for a query, you can
 
 [source,cypher]
 ----
-MATCH (p:Person)-[:REVIEWED {rating: 65}]->(:Movie {title: 'The Da Vinci Code'}) 
+MATCH (p:Person)-[:REVIEWED {rating: 65}]->(:Movie {title: 'The Da Vinci Code'})
 RETURN p.name
 ----
 
@@ -742,17 +736,17 @@ ifdef::backend-pdf[]
 |===
 endif::backend-pdf[]
 
-=== Using patterns for queries 
+=== Using patterns for queries
 
-Thus far, you have learned how to specify nodes, properties, and relationships in your Cypher queries. 
-Since relationships are directional, it is important to understand how patterns are used in graph traversal during query execution. How a graph is traversed for a query depends on what directions are defined for relationships and how the pattern is specified in the `MATCH` clause. 
+Thus far, you have learned how to specify nodes, properties, and relationships in your Cypher queries.
+Since relationships are directional, it is important to understand how patterns are used in graph traversal during query execution. How a graph is traversed for a query depends on what directions are defined for relationships and how the pattern is specified in the `MATCH` clause.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
 |===
 a|
 endif::backend-pdf[]
-Here is an example of where the _FOLLOWS_ relationship is used in the _Movie_ graph. 
+Here is an example of where the _FOLLOWS_ relationship is used in the _Movie_ graph.
 Notice that this relationship is directional.
 
 [.thumb]
@@ -771,7 +765,7 @@ We can perform a query that returns all _Person_ nodes who follow _Angela Scope_
 
 [source,cypher]
 ----
-MATCH  (p:Person)-[:FOLLOWS]->(:Person {name:'Angela Scope'}) 
+MATCH  (p:Person)-[:FOLLOWS]->(:Person {name:'Angela Scope'})
 RETURN p
 ----
 
@@ -792,7 +786,7 @@ If we reverse the direction in the pattern, the query returns different results:
 
 [source,cypher]
 ----
-MATCH  (p:Person)<-[:FOLLOWS]-(:Person {name:'Angela Scope'}) 
+MATCH  (p:Person)<-[:FOLLOWS]-(:Person {name:'Angela Scope'})
 RETURN p
 ----
 
@@ -815,7 +809,7 @@ We can also find out what _Person_ nodes are connected by the _FOLLOWED_ relatio
 
 [source,cypher]
 ----
-MATCH  (p1:Person)-[:FOLLOWS]-(p2:Person {name:'Angela Scope'}) 
+MATCH  (p1:Person)-[:FOLLOWS]-(p2:Person {name:'Angela Scope'})
 RETURN p1, p2
 ----
 
@@ -829,7 +823,7 @@ endif::backend-pdf[]
 
 ==== Traversing relationships
 
-Since we have a graph, we can traverse through nodes to obtain relationships further into the traversal. 
+Since we have a graph, we can traverse through nodes to obtain relationships further into the traversal.
 
 ifdef::backend-pdf[]
 [cols=1, frame="none"]
@@ -840,7 +834,7 @@ For example, we can write a Cypher query to return all followers of the follower
 
 [source,cypher]
 ----
-MATCH  (p:Person)-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(:Person {name:'Jessica Thompson'}) 
+MATCH  (p:Person)-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(:Person {name:'Jessica Thompson'})
 RETURN p
 ----
 
@@ -861,7 +855,7 @@ This query could also be modified to return each person along the path by specif
 
 [source,cypher]
 ----
-MATCH  path = (:Person)-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(:Person {name:'Jessica Thompson'}) 
+MATCH  path = (:Person)-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(:Person {name:'Jessica Thompson'})
 RETURN  path
 ----
 
@@ -927,7 +921,7 @@ Here is an example showing some best coding practices:
 [source,cypher]
 ----
 MATCH (:Person {name: 'Diane Keaton'})-[movRel:ACTED_IN]->
-(:Movie {title:"Something's Gotta Give"}) 
+(:Movie {title:"Something's Gotta Give"})
 RETURN movRel.roles
 ----
 ifdef::backend-pdf[]
@@ -945,9 +939,9 @@ and follow the instructions for Exercise 3.
 == Check your understanding
 === Question 1
 
-Suppose you have a graph that contains nodes representing customers and other business entities for your application. 
-The node label in the database for a customer is _Customer_. Each _Customer_ node has a property named _email_ that contains the customer's email address. 
-What Cypher query do you execute to return the email addresses for all customers in the graph? 
+Suppose you have a graph that contains nodes representing customers and other business entities for your application.
+The node label in the database for a customer is _Customer_. Each _Customer_ node has a property named _email_ that contains the customer's email address.
+What Cypher query do you execute to return the email addresses for all customers in the graph?
 
 Select the correct answer.
 [%interactive]
@@ -960,11 +954,11 @@ Select the correct answer.
 
 === Question 2
 
-Suppose you have a graph that contains _Customer_ and _Product_ nodes. A _Customer_ node can have a _BOUGHT_ relationship with a _Product_ node. 
-_Customer_ nodes can have other relationships with _Product_ nodes. 
-A _Customer_ node has a property named _customerName_. 
-A _Product_ node has a property named _productName_. 
-What Cypher query do you execute to return all of the products (by name) bought by customer 'ABCCO'. 
+Suppose you have a graph that contains _Customer_ and _Product_ nodes. A _Customer_ node can have a _BOUGHT_ relationship with a _Product_ node.
+_Customer_ nodes can have other relationships with _Product_ nodes.
+A _Customer_ node has a property named _customerName_.
+A _Product_ node has a property named _productName_.
+What Cypher query do you execute to return all of the products (by name) bought by customer 'ABCCO'.
 
 Select the correct answer.
 [%interactive]
@@ -984,7 +978,7 @@ endif::backend-pdf[]
 
 === Question 3
 
-When [.underline]#must# you use a variable in a MATCH clause? 
+When [.underline]#must# you use a variable in a MATCH clause?
 
 Select the correct answer.
 [%interactive]
@@ -992,7 +986,6 @@ Select the correct answer.
 - [ ] [.false-answer]#When you specify a property value to match the query.#
 - [ ] [.required-answer]#When you want to use the node or relationship to return a result.#
 - [ ] [.false-answer]#When the query involves 2 types of nodes.#
-
 
 == Summary
 
@@ -1003,16 +996,13 @@ You should now be able to write Cypher statements to:
 * Retrieve property values from nodes in the graph.
 * Filter nodes retrieved using relationships.
 
-== Grade Quiz and Continue 
+== Grade Quiz and Continue
 
 ++++
 <a class="next-section medium button" href="../part-5/">Continue to Module 5</a>
 ++++
 
 ifdef::backend-html5[]
-
-include::scripts-end.txt[]
-
 ++++
 <script>
 $( document ).ready(function() {
@@ -1020,5 +1010,4 @@ $( document ).ready(function() {
 });
 </script>
 ++++
-
 endif::backend-html5[]

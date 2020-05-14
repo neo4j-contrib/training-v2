@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 convert () {
   adoc_file="$1"
+  # redirect url depends on the stage
+  if [[ "${STAGE}" == "prod" ]]; then
+    redirect_url="https://neo4j.com/graphacademy/online-training/data-science/"
+  else
+    redirect_url="https://neo4j.com/graphacademy/online-training/data-science-dev/"
+  fi
   echo "converting $adoc_file"
   asciidoctor -a "section-titles=Dev Env,EDA,Recommendations,Predictions,The End" \
               -a "module-title=Neo4j GraphAcademy: Data Science with Neo4j" \
               -a "module-id=datascience" \
+              -a "module-redirect-url=${redirect_url}" \
+              -a "module-intercom-event=training-data-science-view" \
               -a "CLASS_JS_URL=${CLASS_JS_URL}" \
               -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
               -a "imagedir=${IMG}" \
