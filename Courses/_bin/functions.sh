@@ -13,7 +13,7 @@ convert_enrollment () {
               -a "module-login-event=${MODULE_LOGIN_EVENT}" \
               -a "module-register-event=${MODULE_REGISTER_EVENT}" \
               -a "module-register-event-detail=${MODULE_REGISTER_EVENT_DETAIL}" \
-              -a "module-class-js-url=${CLASS_JS_URL}" \
+              -a "module-enrollment-js-url=${ENROLLMENT_JS_URL}" \
               -a "imagedir=${IMG}" \
               -T "../_templates/enrollment" \
               "adoc/${adoc_file}" -D html
@@ -35,8 +35,7 @@ convert_course () {
               -a "module-id=${MODULE_ID}" \
               -a "module-redirect-url=${redirect_url}" \
               -a "module-intercom-event=${MODULE_INTERCOM_EVENT}" \
-              -a "module-class-js-url=${CLASS_JS_URL}" \
-              -a "module-quizes-js-url=${QUIZES_JS_URL}" \
+              -a "module-course-js-url=${COURSE_JS_URL}" \
               -a "imagedir=${IMG}" \
               -T "../_templates/course" \
               "adoc/${adoc_file}" -D html
@@ -46,23 +45,23 @@ publish_js () {
   echo "Publishing JS---"
   local current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
   local bin_dir="${current_dir}/../_bin"
-  QUIZES_JS_URL=`python2 "${bin_dir}/publish_js.py" --stage "${STAGE}" --file quizes.js`
+  COURSE_JS_URL=`python2 "${bin_dir}/publish_js.py" --stage "${STAGE}" --file course.js`
   if [[ $? != 0 ]]; then
     echo $?
-    echo "ABORTING - Unable to publish quizes.js"
+    echo "ABORTING - Unable to publish course.js"
     exit 1
   else
-    export QUIZES_JS_URL
+    export COURSE_JS_URL
   fi
-  echo -e "\t$QUIZES_JS_URL"
-  CLASS_JS_URL=`python2 "${bin_dir}/publish_js.py" --stage "${STAGE}" --file class.js`
+  echo -e "\t$COURSE_JS_URL"
+  ENROLLMENT_JS_URL=`python2 "${bin_dir}/publish_js.py" --stage "${STAGE}" --file enrollment.js`
   if [[ $? != 0 ]]; then
-    echo "ABORTING - Unable to publish class.js"
+    echo "ABORTING - Unable to publish enrollment.js"
     exit 1
   else
-    export CLASS_JS_URL
+    export ENROLLMENT_JS_URL
   fi
-  echo -e "\t$CLASS_JS_URL"
+  echo -e "\t$ENROLLMENT_JS_URL"
 }
 
 publish_wordpress () {

@@ -36,6 +36,7 @@ def publish_app_js(stage, filename):
 
 def main(argv):
   stage = 'dev'
+  filename = None
   try:
      opts, args = getopt.getopt(argv,"h",['stage=','file='])
   except getopt.GetoptError:
@@ -43,16 +44,21 @@ def main(argv):
      sys.exit(2)
   for opt, arg in opts:
      if opt == '-h':
-        print 'publish_js.py --stage <stage>'
+        print 'publish_js.py --stage <stage> --file <filename>'
         sys.exit()
      elif opt in ("--file"):
         filename = arg
      elif opt in ("--stage"):
         stage = arg
 
+  if filename is None:
+    print "Filename is mandatory."
+    print 'publish_js.py --stage <stage> --file <filename>'
+    sys.exit(2)
+
   if stage <> 'dev' and stage <> 'prod':
     print "Stages 'prod' + 'dev' are only supported stages currently"
-    sys.exit()
+    sys.exit(2)
 
   publish_app_js(stage, filename)
 

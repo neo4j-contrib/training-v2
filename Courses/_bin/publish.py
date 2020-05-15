@@ -41,6 +41,7 @@ def update_wordpress_page(pageId, content):
 
 def main(argv):
   stage = 'dev'
+  base_dir = None
   try:
     opts, args = getopt.getopt(argv,"h",['stage=', 'base-dir='])
   except getopt.GetoptError:
@@ -58,11 +59,12 @@ def main(argv):
 
   if base_dir is None:
     print "Base directory is mandatory."
-    sys.exit()
+    print 'publish.py --stage <stage> --base-dir /path/to/course'
+    sys.exit(2)
 
   if stage <> 'dev' and stage <> 'prod':
     print "Stage '%s' is invalid. Currently, only 'prod' and 'dev' are supported." % stage
-    sys.exit()
+    sys.exit(2)
 
   if True:
     with open('%s/wordpress_config.json' % base_dir) as json_file:
