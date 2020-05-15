@@ -373,28 +373,45 @@ const SITE_URL = window.location;
 
 
 $( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: "<%= attr 'module-redirect-url' %>"});
-
-        login.checkSession((err, result) => {
-            if (result) {
-               getQuizStatus();
-                var userInfoIntercom = result.idTokenPayload;
-                if (userInfoIntercom) {
-                  try {
-                    window.Intercom("update", {
-                      app_id: "dt0ig5ab",
-                      name: userInfoIntercom.name,
-                      email: userInfoIntercom.email,
-                      user_id: userInfoIntercom.sub,
-                      hide_default_launcher: true
-                    });;
-                  } catch (err) {
-                    console.error(err);
-                  }
-                }
-                Intercom('trackEvent',"<%= attr 'module-intercom-event' %>");
+    const login = new GraphAcademyLogin({loginRedirectUrl: "<%= attr 'module-redirect-url' %>"});
+    login.checkSession((err, result) => {
+        if (result) {
+           getQuizStatus();
+            var userInfoIntercom = result.idTokenPayload;
+            if (userInfoIntercom) {
+              try {
+                window.Intercom("update", {
+                  app_id: "dt0ig5ab",
+                  name: userInfoIntercom.name,
+                  email: userInfoIntercom.email,
+                  user_id: userInfoIntercom.sub,
+                  hide_default_launcher: true
+                });;
+              } catch (err) {
+                console.error(err);
+              }
             }
-        })
-
+            Intercom('trackEvent',"<%= attr 'module-intercom-event' %>");
+        }
+    })
+    var certResultEl = $('#cert-result')
+    if (certResultEl) {
+      certResultEl.html("<i>... Checking for certificate ...</i>");
+      getClassCertificate().then( function( value ) {
+        if ('url' in value) {
+          certResultEl.html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
+        } else {
+          certResultEl.html( "Certificate not available yet.  Did you complete the quizzes at the end of each section?" );
+        }
+      });
+    }
 });
+
+
+
+
+
+
+
+
 </script>
