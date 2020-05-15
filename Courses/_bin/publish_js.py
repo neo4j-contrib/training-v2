@@ -12,7 +12,8 @@ API_BASE_URL = {"dev": "https://9niagofhzb.execute-api.us-east-1.amazonaws.com/d
                 "prod": "https://nmae7t4ami.execute-api.us-east-1.amazonaws.com/prod"}
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-fapp = flask.Flask('pub', template_folder=script_dir)
+sources_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '_lib')
+fapp = flask.Flask('pub', template_folder=sources_dir)
 
 '''
 Publish file to S3 and get version
