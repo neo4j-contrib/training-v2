@@ -7,10 +7,11 @@ set -e
 # load functions
 . ../_bin/functions.sh
 
-convert_adoc "00_AboutThisCourse.adoc"
-convert_adoc "01_Setup.adoc"
-convert_adoc "02_CategoryHierarchy.adoc"
-convert_adoc "03_OrderingSearchResults.adoc"
-convert_adoc "04_MostRelevantReviews.adoc"
-convert_adoc "05_PhotoRecommendations.adoc"
-convert_adoc "06_Summary.adoc"
+convert_enrollment "index.part.adoc"
+convert_course "00_AboutThisCourse.adoc"
+convert_course "01_Setup.adoc"
+convert_course "02_CategoryHierarchy.adoc"
+convert_course "03_OrderingSearchResults.adoc"
+convert_course "04_MostRelevantReviews.adoc"
+convert_course "05_PhotoRecommendations.adoc"
+convert_course "06_Summary.adoc"

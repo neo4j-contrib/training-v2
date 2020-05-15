@@ -11,7 +11,7 @@
       </script>
       <meta charset="utf-8"></meta>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-      <title>Neo4j GraphAcademy: Introduction to Neo4j</title>
+      <title>Neo4j GraphAcademy: Data Science with Neo4j</title>
       <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
@@ -35,9 +35,9 @@
       <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
       <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
-        window.trainingPartName = "module-8";
-        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.intro-v2.";
-        window.trainingQuizCount = 7;
+        window.trainingPartName = "module-2";
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.datascience.";
+        window.trainingQuizCount = 3;
       </script>
    </head>
    <body>
@@ -51,15 +51,15 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
               </span>
-              Intro to Graph DBs</a>
+              Dev Env</a>
             </li>
             <li id="menu-module-2">
-              <a href="../part-2/">
+              <a href="../part-2/" style="color: #000">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">2</strong>
               </span>
-              Intro to Neo4j</a>
+              EDA</a>
             </li>
             <li id="menu-module-3">
               <a href="../part-3/">
@@ -67,7 +67,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">3</strong>
               </span>
-              Dev Env</a>
+              Recommendations</a>
             </li>
             <li id="menu-module-4">
               <a href="../part-4/">
@@ -75,37 +75,13 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">4</strong>
               </span>
-              Cypher</a>
+              Predictions</a>
             </li>
             <li id="menu-module-5">
               <a href="../part-5/">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">5</strong>
-              </span>
-              Advanced Queries</a>
-            </li>
-            <li id="menu-module-6">
-              <a href="../part-6/">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">6</strong>
-              </span>
-              Creating Data</a>
-            </li>
-            <li id="menu-module-7">
-              <a href="../part-7/">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">7</strong>
-              </span>
-              More</a>
-            </li>
-            <li id="menu-module-8">
-              <a href="../part-8/" style="color: #000">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">8</strong>
               </span>
               The End</a>
             </li>
@@ -116,15 +92,19 @@
          <nav id="header-nav">
          <span class="nav-previous">
            
-              <a accesskey="p" href="../part-7/">
+              <a accesskey="p" href="../part-1/">
                 <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
-              More</a>
+              Development Environment</a>
            
          </span>
          <span class="nav-current">
            <p class="nav-title" style="display: none;"></p>
          </span>
          <span class="nav-next">
+           
+              <a accesskey="n" href="../part-3/">Recommendations
+                <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
+              </a>
            
          </span>
          </nav>
@@ -136,7 +116,7 @@
 	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-  window.trainingClassName = "online-training-v2";
+  window.trainingClassName = "datascience";
 </script>
 <script>Munchkin.init('773-GON-065');</script>
 <style>
@@ -247,261 +227,227 @@ function setGadgetUrl(sel) {
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Summary: Introduction to Neo4j</h1>
+<h1>Exploratory Data Analysis</h1>
 
-      <div  id="module-8" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
-<h3>Quiz Results</h3>
-<span id="quizes-result"></span>
-</div>
-<div  id="_course_completion_certificate" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course Completion Certificate</h3>
-<span id="cert-result"></span>
-</div>
-<div  id="_course_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course Summary</h3>
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>About this module</h3>
 
 
 <div class="paragraph">
-<p>In this course, you have learned how to:</p>
+<p>In the previous section, we setup our Neo4j Sandbox environment containing the citation dataset.
+In this module we&#8217;re going to explore that data.
+We&#8217;ll be querying Neo4j and processing the results using tools in the Python ecosystem.</p>
+</div>
+
+
+<div class="paragraph">
+<p>At the end of this module, you should be able to:</p>
 </div>
 <div class="ulist square">
 <ul class="square">
 <li>
-Describe what a graph database is.
+Query a database for its schema.
 </li>
 <li>
-Describe how to model relational data in a property graph model.
+Return and chart the number of node labels and relationship types using matplotlib.
 </li>
 <li>
-Describe the Neo4j Graph Platform and its components.
-</li>
-<li>
-Describe the features and benefits of Neo4j.
-</li>
-<li>
-Set up your development environment for performing the hands-on exercises of this course which is one of:
-<div class="ulist">
-<ul>
-<li>
-Neo4j Sandbox
-</li>
-<li>
-Neo4j Desktop
-</li>
-</ul>
-</div>
-</li>
-<li>
-Use <code>MATCH</code> to retrieve nodes from the graph.
-</li>
-<li>
-Use <code>MATCH</code> to retrieve relationships from the graph.
-</li>
-<li>
-Use <code>MATCH</code> to retrieve properties from the graph.
-</li>
-<li>
-Use the <code>WHERE</code> clause for queries.
-</li>
-<li>
-Control query processing.
-</li>
-<li>
-Control how results are returned.
-</li>
-<li>
-Work with Cypher dates and lists.
-</li>
-<li>
-Create, update, and delete nodes and properties of nodes.
-</li>
-<li>
-Create, update, and delete relationships and properties of relationships.
-</li>
-<li>
-Merge data in the graph.
-</li>
-<li>
-Use parameters.
-</li>
-<li>
-Define constraints in the graph.
-</li>
-<li>
-Profile and monitor query execution.
-</li>
-<li>
-Define indexes in the graph.
-</li>
-<li>
-Import relational data into the graph.
+Build and plot a histogram of papers and their citations using pandas and matplotlib.
 </li>
 </ul>
 </div>
 </div>
-<div  id="_next_steps" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Next steps</h3>
+<div  id="_tools" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Tools</h3>
 
 
 <div class="paragraph">
-<p>There are many resources available to you for learning more about Neo4j and Cypher.</p>
+<p>We&#8217;ll be using the following Python libraries in this course:</p>
 </div>
+<div  id="_py2neo" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>py2neo</h3>
 
 
 <div class="paragraph">
-<p>Resources for developers:</p>
+<p>The <a href="https://py2neo.org/v4/" target="_blank" rel="noopener">py2neo</a> driver enables data scientists to easily integrate Neo4j with tools in the Python Data Science ecosystem.
+It does this by providing functions that translate the results of queries into data structures used by these tools.
+We&#8217;ll be using this library to execute Cypher queries against Neo4j.</p>
 </div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/developer/resources/" class="bare">https://neo4j.com/developer/resources/</a></p>
 </div>
+<div  id="_pandas" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>pandas</h3>
 
 
 <div class="paragraph">
-<p>Neo4j Community Site where you can ask or answer questions about Neo4j and discuss with other users:</p>
+<p><a href="https://pandas.pydata.org/" target="_blank" rel="noopener">pandas</a> is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language.
+We&#8217;ll be using this library to do post processing of the data that we query from Neo4j.</p>
 </div>
-
-
-<div class="paragraph">
-<p><a href="https://community.neo4j.com" class="bare">https://community.neo4j.com</a></p>
 </div>
+<div  id="_matplotlib" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Matplotlib</h3>
 
 
 <div class="paragraph">
-<p>Neo4j documentation:</p>
+<p><a href="https://matplotlib.org/" target="_blank" rel="noopener">Matplotlib</a> is a Python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.
+We&#8217;ll be using this library to create charts based on our data.</p>
 </div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/docs/" class="bare">https://neo4j.com/docs/</a></p>
 </div>
-
-
-<div class="paragraph">
-<p>Neo4j Sandboxes for experimenting with graphs:</p>
 </div>
+<div  id="_citation_dataset" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Citation Dataset</h3>
 
 
 <div class="paragraph">
-<p><a href="https://neo4j.com/sandbox-v2/" class="bare">https://neo4j.com/sandbox-v2/</a></p>
+<p>Now you are ready to start exploring the data.
+The graph model for the dataset is shown below:</p>
 </div>
-
-
-<div class="paragraph">
-<p>Videos on YouTube:</p>
+<div class="imageblock">
+<p class="content">
+<img src="https://graphacademy.neo4j.com/img/datascience/graph.png" alt="Graph Model" width="600">
+</p>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://www.youtube.com/channel/UCvze3hU6OZBkB1vkhH2lH9Q" class="bare">https://www.youtube.com/channel/UCvze3hU6OZBkB1vkhH2lH9Q</a></p>
+<p>You want to better understand the data you will be working with, including the distribution of authors, papers, and citations.
+You will then be able to use this knowledge to help build a recommendation engine and make predictions on the data.</p>
+</div>
+</div>
+<div  id="_exercise_1_exploring_the_data" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise 1: Exploring the data</h3>
+
+
+<div class="paragraph">
+<p>In this course you use the Jupyter notebook you set up previously.</p>
 </div>
 
 
 <div class="paragraph">
-<p>GitHub repository:</p>
+<p>Click the button below to launch the notebook and perform the steps for exploring the data. When you launch this notebook, you will enter the same credentials you entered when you tested your connection to the Neo4j Sandbox.</p>
+</div>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/neo4j-contrib/training-v2/blob/master/Courses/DataScience/notebooks/02_EDA.ipynb">Exercise 1</a>
+<br />
+
+
+<div class="paragraph">
+<p>Once you have attempted the exercises, you can see the answers by launching the following notebook:</p>
+</div>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/neo4j-contrib/training-v2/blob/master/Courses/DataScience/notebooks/02_EDA_Exercises.ipynb">See answers</a>
+</div>
+<div  id="module-2" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<h3>Check your understanding</h3>
+<div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 1</h3>
+
+
+<div class="paragraph">
+<p>What is the name of the procedure that returns the node labels in the database?</p>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://github.com/neo4j-contrib" class="bare">https://github.com/neo4j-contrib</a></p>
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">db.labels</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">db.nodeLabels</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">db.nodes</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">dbms.labels</span>
+</li>
+</ul>
+</div>
+</div>
+<div  id="_question_2" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 2</h3>
+
+
+<div class="paragraph">
+<p>Which node label is the most popular one in this dataset?</p>
 </div>
 
 
 <div class="paragraph">
-<p>Neo4j events all over the world:</p>
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Article</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Author</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Venue</span>
+</li>
+</ul>
+</div>
+</div>
+<div  id="_question_3" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 3</h3>
+
+
+<div class="paragraph">
+<p>What is the mean number of articles published by an author?</p>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://neo4j.com/events/world/all/" class="bare">https://neo4j.com/events/world/all/</a></p>
+<p>Select the correct answer.</p>
 </div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">2.064</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">89.000</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">1.751</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">3.000</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Summary</h3>
 
 
 <div class="paragraph">
-<p>Neo4j online and classroom training:</p>
+<p>You should now be able to:</p>
 </div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphacademy/" class="bare">https://neo4j.com/graphacademy/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Graph Gists for learning more use cases for Neo4j:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphgists/" class="bare">https://neo4j.com/graphgists/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Become a Neo4j certified developer:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphacademy/neo4j-certification/" class="bare">https://neo4j.com/graphacademy/neo4j-certification/</a></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title label"></div>
-</td>
-<td class="content">
-The certification exam tests you on content from this course. You can take the certification multiple times until you pass!
-</td>
-</tr>
-</table>
-</div>
-
-
-<div class="paragraph">
-<p>Attend a Neo4j meetup:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://www.meetup.com/topics/neo4j/" class="bare">https://www.meetup.com/topics/neo4j/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>View questions/answers raised about Neo4j:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://stackoverflow.com/tags/neo4j/hot" class="bare">https://stackoverflow.com/tags/neo4j/hot</a></p>
+<div class="ulist square">
+<ul class="square">
+<li>
+Query a database for its schema.
+</li>
+<li>
+Return and chart the number of node labels and relationship types using matplotlib.
+</li>
+<li>
+Build and plot a histogram of papers and their citations using pandas and matplotlib.
+</li>
+</ul>
 </div>
 </div>
-<div  id="_course_feedback" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course feedback</h3>
-
-
-<div class="paragraph">
-<p>We want your feedback on this course. Please provide your <a href="https://goo.gl/forms/BEpb5Dsj6CFTvWiI2">feedback</a> so we can improve this course.</p>
-</div>
+<div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Grade Quiz and Continue</h3>
+<a class="next-section medium button" href="../part-3/">Continue to Module 3</a>
 <script>
 $( document ).ready(function() {
-  Intercom('trackEvent','training-introv2-view-part8');
-});
-</script>
-<script>
-$( document ).ready(function() {
-  $('#cert-result').html("<i>... Checking for certificate ...</i>");
-  getClassCertificate().then( function( value ) {
-    if ('url' in value) {
-      $('#cert-result').html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
-    } else {
-      $('#cert-result').html( "Certificate not available yet.  Did you complete the quizzes at the end of each section?" );
-    }
-  });
-
+  Intercom('trackEvent','training-datascience-view-part2');
 });
 </script>
 </div>
@@ -509,13 +455,27 @@ $( document ).ready(function() {
 <div id="sidebar-wrapper">
         
         <div id="toc" class="toc2">
-        <div id="toctitle">Module: Summary: Introduction to Neo4j</div>
+        <div id="toctitle">Module: Exploratory Data Analysis</div>
         <ul class="sectlevel1">
-<li><a href="#module-8">Quiz Results</a></li>
-<li><a href="#_course_completion_certificate">Course Completion Certificate</a></li>
-<li><a href="#_course_summary">Course Summary</a></li>
-<li><a href="#_next_steps">Next steps</a></li>
-<li><a href="#_course_feedback">Course feedback</a></li>
+<li><a href="#_about_this_module">About this module</a></li>
+<li><a href="#_tools">Tools</a>
+<ul class="sectlevel2">
+<li><a href="#_py2neo">py2neo</a></li>
+<li><a href="#_pandas">pandas</a></li>
+<li><a href="#_matplotlib">Matplotlib</a></li>
+</ul>
+</li>
+<li><a href="#_citation_dataset">Citation Dataset</a></li>
+<li><a href="#_exercise_1_exploring_the_data">Exercise 1: Exploring the data</a></li>
+<li><a href="#module-2">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
 </ul>
         </div>
 <div id="progress" style="position:absolute; bottom:100;"></div>
@@ -684,7 +644,7 @@ const SITE_URL = window.location;
 
 
 $( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: ""});
+       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/data-science-dev/"});
 
         login.checkSession((err, result) => {
             if (result) {
@@ -703,7 +663,7 @@ $( document ).ready(function() {
                     console.error(err);
                   }
                 }
-                Intercom('trackEvent',"training-introv2-view");
+                Intercom('trackEvent',"training-data-science-view");
             }
         })
 

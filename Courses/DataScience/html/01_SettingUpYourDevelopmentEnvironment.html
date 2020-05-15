@@ -11,7 +11,7 @@
       </script>
       <meta charset="utf-8"></meta>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-      <title>Neo4j GraphAcademy: Introduction to Neo4j</title>
+      <title>Neo4j GraphAcademy: Data Science with Neo4j</title>
       <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
@@ -35,9 +35,9 @@
       <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
       <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
-        window.trainingPartName = "module-8";
-        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.intro-v2.";
-        window.trainingQuizCount = 7;
+        window.trainingPartName = "module-1";
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.datascience.";
+        window.trainingQuizCount = 3;
       </script>
    </head>
    <body>
@@ -46,12 +46,12 @@
          <ul class="documentation-library">
             
             <li id="menu-module-1">
-              <a href="../part-1/">
+              <a href="../part-1/" style="color: #000">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
               </span>
-              Intro to Graph DBs</a>
+              Dev Env</a>
             </li>
             <li id="menu-module-2">
               <a href="../part-2/">
@@ -59,7 +59,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">2</strong>
               </span>
-              Intro to Neo4j</a>
+              EDA</a>
             </li>
             <li id="menu-module-3">
               <a href="../part-3/">
@@ -67,7 +67,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">3</strong>
               </span>
-              Dev Env</a>
+              Recommendations</a>
             </li>
             <li id="menu-module-4">
               <a href="../part-4/">
@@ -75,37 +75,13 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">4</strong>
               </span>
-              Cypher</a>
+              Predictions</a>
             </li>
             <li id="menu-module-5">
               <a href="../part-5/">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">5</strong>
-              </span>
-              Advanced Queries</a>
-            </li>
-            <li id="menu-module-6">
-              <a href="../part-6/">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">6</strong>
-              </span>
-              Creating Data</a>
-            </li>
-            <li id="menu-module-7">
-              <a href="../part-7/">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">7</strong>
-              </span>
-              More</a>
-            </li>
-            <li id="menu-module-8">
-              <a href="../part-8/" style="color: #000">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">8</strong>
               </span>
               The End</a>
             </li>
@@ -116,15 +92,19 @@
          <nav id="header-nav">
          <span class="nav-previous">
            
-              <a accesskey="p" href="../part-7/">
+              <a accesskey="p" href="../part-0/">
                 <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
-              More</a>
+              Data Science with Neo4j</a>
            
          </span>
          <span class="nav-current">
            <p class="nav-title" style="display: none;"></p>
          </span>
          <span class="nav-next">
+           
+              <a accesskey="n" href="../part-2/">Exploratory Data Analysis
+                <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
+              </a>
            
          </span>
          </nav>
@@ -136,7 +116,7 @@
 	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-  window.trainingClassName = "online-training-v2";
+  window.trainingClassName = "datascience";
 </script>
 <script>Munchkin.init('773-GON-065');</script>
 <style>
@@ -247,261 +227,183 @@ function setGadgetUrl(sel) {
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Summary: Introduction to Neo4j</h1>
+<h1>Setting Up your Development Environment</h1>
 
-      <div  id="module-8" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
-<h3>Quiz Results</h3>
-<span id="quizes-result"></span>
-</div>
-<div  id="_course_completion_certificate" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course Completion Certificate</h3>
-<span id="cert-result"></span>
-</div>
-<div  id="_course_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course Summary</h3>
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>About this module</h3>
 
 
 <div class="paragraph">
-<p>In this course, you have learned how to:</p>
+<p>As a data scientist, you will create Neo4j Databases, add and update data in them, and query the data.
+When you learn to use Neo4j as a data scientist, you have two options ⎼ the Neo4j Desktop or the Neo4j Sandbox.
+In this module you will learn how to setup the Neo4j Sandbox for use in the rest of the course, and connect to it from Jupyter notebooks hosted in Google Colabatory.</p>
+</div>
+
+
+<div class="paragraph">
+<p>In this module, you will:</p>
 </div>
 <div class="ulist square">
 <ul class="square">
 <li>
-Describe what a graph database is.
+Create a Neo4j Sandbox for learning Neo4j.
 </li>
 <li>
-Describe how to model relational data in a property graph model.
+Connect to the Citations database with  Neo4j Browser.
 </li>
 <li>
-Describe the Neo4j Graph Platform and its components.
-</li>
-<li>
-Describe the features and benefits of Neo4j.
-</li>
-<li>
-Set up your development environment for performing the hands-on exercises of this course which is one of:
-<div class="ulist">
-<ul>
-<li>
-Neo4j Sandbox
-</li>
-<li>
-Neo4j Desktop
-</li>
-</ul>
-</div>
-</li>
-<li>
-Use <code>MATCH</code> to retrieve nodes from the graph.
-</li>
-<li>
-Use <code>MATCH</code> to retrieve relationships from the graph.
-</li>
-<li>
-Use <code>MATCH</code> to retrieve properties from the graph.
-</li>
-<li>
-Use the <code>WHERE</code> clause for queries.
-</li>
-<li>
-Control query processing.
-</li>
-<li>
-Control how results are returned.
-</li>
-<li>
-Work with Cypher dates and lists.
-</li>
-<li>
-Create, update, and delete nodes and properties of nodes.
-</li>
-<li>
-Create, update, and delete relationships and properties of relationships.
-</li>
-<li>
-Merge data in the graph.
-</li>
-<li>
-Use parameters.
-</li>
-<li>
-Define constraints in the graph.
-</li>
-<li>
-Profile and monitor query execution.
-</li>
-<li>
-Define indexes in the graph.
-</li>
-<li>
-Import relational data into the graph.
+Launch a Jupyter Notebook in Google Colaboratory and connect to the Citations database.
 </li>
 </ul>
 </div>
 </div>
-<div  id="_next_steps" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Next steps</h3>
-
-
-<div class="paragraph">
-<p>There are many resources available to you for learning more about Neo4j and Cypher.</p>
-</div>
-
-
-<div class="paragraph">
-<p>Resources for developers:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/developer/resources/" class="bare">https://neo4j.com/developer/resources/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j Community Site where you can ask or answer questions about Neo4j and discuss with other users:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://community.neo4j.com" class="bare">https://community.neo4j.com</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j documentation:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/docs/" class="bare">https://neo4j.com/docs/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j Sandboxes for experimenting with graphs:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/sandbox-v2/" class="bare">https://neo4j.com/sandbox-v2/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Videos on YouTube:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://www.youtube.com/channel/UCvze3hU6OZBkB1vkhH2lH9Q" class="bare">https://www.youtube.com/channel/UCvze3hU6OZBkB1vkhH2lH9Q</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>GitHub repository:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://github.com/neo4j-contrib" class="bare">https://github.com/neo4j-contrib</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j events all over the world:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/events/world/all/" class="bare">https://neo4j.com/events/world/all/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j online and classroom training:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphacademy/" class="bare">https://neo4j.com/graphacademy/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Graph Gists for learning more use cases for Neo4j:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphgists/" class="bare">https://neo4j.com/graphgists/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Become a Neo4j certified developer:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphacademy/neo4j-certification/" class="bare">https://neo4j.com/graphacademy/neo4j-certification/</a></p>
-</div>
-<div class="admonitionblock note">
-<table>
+<div  id="_neo4j_sandbox" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Neo4j Sandbox</h3>
+<table class="tableblock frame-none grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
 <tr>
-<td class="icon">
-<div class="title label"></div>
-</td>
-<td class="content">
-The certification exam tests you on content from this course. You can take the certification multiple times until you pass!
-</td>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock" style="text-align: center;">
+<p class="content">
+<img src="https://graphacademy.neo4j.com/img/datascience/Neo4jSandbox.png" alt="Neo4jSandbox" width="300">
+</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content">
+
+<div class="paragraph">
+<p>The Neo4j sandbox is another way that you can begin development with Neo4j.
+It is a temporary, cloud-based instance of a Neo4j Server with its associated graph that you can access from any Web browser.
+The database in a Sandbox may be blank or it may be pre-populated.
+It is started automatically for you when you create the Sandbox.</p>
+</div>
+
+
+<div class="paragraph">
+<p>By default, the Neo4j sandbox is available for three days, but you can extend it for up to 10 days.
+You must make sure that you extend your lease of the sandbox, otherwise you will lose your graph and any saved Cypher scripts you have created in the sandbox.
+However, you can use Neo4j Browser Sync to save Cypher scripts from your sandbox.
+The Sandbox is intended as a temporary environment or for learning about the features of Neo4j as well as specific graph use-cases.</p>
+</div></div></td>
 </tr>
+</tbody>
 </table>
+<div  id="_how_to_set_up_a_neo4j_sandbox" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3><strong>How to set up a Neo4j Sandbox</strong></h3>
+
+
+<div class="paragraph">
+<p>This video shows you how to create a Neo4j Sandbox. If you have never used or created a Neo4j Sandbox before, you might find it helpful to watch this video before you create your Citations Sandbox for this course.</p>
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rmfgRKPjhl8?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+<div  id="_step_1_create_the_citations_sandbox" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Step 1: Create the Citations Sandbox</h3>
+<div class="olist arabic">
+<ol style="margin-left: 2.4rem;" class="arabic">
+<li>
+Create a <a href="https://sandbox.neo4j.com/?usecase=citations" target="_blank" rel="noopener">Citations Sandbox</a>.
+</li>
+<li>
+Select <strong>Launch Sandbox</strong> button and then wait for it to start.
+</li>
+</ol>
 </div>
 
 
 <div class="paragraph">
-<p>Attend a Neo4j meetup:</p>
+<p>The Sandbox has a Neo4j database with a pre-loaded Citations dataset.</p>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://www.meetup.com/topics/neo4j/" class="bare">https://www.meetup.com/topics/neo4j/</a></p>
+<p><strong>Note:</strong> You must create the Citations Sandbox with the above link and you must be signed in to the sandbox site. You <strong>cannot</strong> create it from the public Neo4j Sandbox site.</p>
+</div>
+</div>
+<div  id="_using_neo4j_browser" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Using Neo4j Browser</h3>
+
+
+<div class="paragraph">
+<p>Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data.
+The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables.
+In addition to executing Cypher statements, you can execute a number of system calls that are related to the database being accessed by the Browser.
+For example, you can retrieve the list of queries that are currently running in the server.</p>
 </div>
 
 
 <div class="paragraph">
-<p>View questions/answers raised about Neo4j:</p>
+<p>You can use Neo4j Browser functionality via the web interface.</p>
+</div>
+</div>
+<div  id="_step_2_connect_to_the_citations_database_with_neo4j_browser" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Step 2: Connect to the Citations database with Neo4j Browser</h3>
+
+
+<div class="paragraph">
+<p>Open a Neo4j Browser connection to the Citations Sandbox by clicking the <strong>Open Neo4j Browser</strong> for the Sandbox.</p>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://stackoverflow.com/tags/neo4j/hot" class="bare">https://stackoverflow.com/tags/neo4j/hot</a></p>
+<p>A new Web browser tab should open with a connection to the Citations Sandbox:</p>
 </div>
-</div>
-<div  id="_course_feedback" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course feedback</h3>
 
 
 <div class="paragraph">
-<p>We want your feedback on this course. Please provide your <a href="https://goo.gl/forms/BEpb5Dsj6CFTvWiI2">feedback</a> so we can improve this course.</p>
+<p><span class="image"><img src="https://graphacademy.neo4j.com/img/datascience/Neo4jBrowser-DataScience.png" alt="Neo4jBrowser-DataScience" width="800"></span></p>
 </div>
+
+
+<div class="paragraph">
+<p>If  you have never used Neo4j Browser before for a Sandbox, you might find the Guided Tour of the Sandbox helpful, otherwise, simply close it.</p>
+</div>
+</div>
+<div  id="_step_3_open_a_jupyter_notebook_in_google_colaboratory_and_connect_to_the_citations_database" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Step 3: Open a Jupyter Notebook in Google Colaboratory and connect to the Citations database</h3>
+
+
+<div class="paragraph">
+<p>In this course you will use Jupyter Notebook hosted on the Google Colaboratory environment.
+All the notebooks in this course require a connection to your Neo4j Sandbox instance, so you will test that now.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Launch the notebook by clicking below. This will open a tab for the Jupyter Notebook where you will set it up to connect to the Neo4j Sandbox.</p>
+</div>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/neo4j-contrib/training-v2/blob/master/Courses/DataScience/notebooks/00_Environment.ipynb">Launch Notebook!</a>
+</div>
+</div>
+<div  id="_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Summary</h3>
+
+
+<div class="paragraph">
+<p>You should now have set up your development environment by:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+Creating a Neo4j Sandbox for learning Neo4j.
+</li>
+<li>
+Connecting to the Citations database with  Neo4j Browser.
+</li>
+<li>
+Launching a Jupyter Notebook in Google Colaboratory and connecting to the Citations database.
+</li>
+</ul>
+</div>
+</div>
+<div  id="_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Continue</h3>
+<a class="next-section medium button" href="../part-2/">Continue to Module 2</a>
 <script>
 $( document ).ready(function() {
-  Intercom('trackEvent','training-introv2-view-part8');
-});
-</script>
-<script>
-$( document ).ready(function() {
-  $('#cert-result').html("<i>... Checking for certificate ...</i>");
-  getClassCertificate().then( function( value ) {
-    if ('url' in value) {
-      $('#cert-result').html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
-    } else {
-      $('#cert-result').html( "Certificate not available yet.  Did you complete the quizzes at the end of each section?" );
-    }
-  });
-
+  Intercom('trackEvent','training-datascience-view-part1');
 });
 </script>
 </div>
@@ -509,13 +411,20 @@ $( document ).ready(function() {
 <div id="sidebar-wrapper">
         
         <div id="toc" class="toc2">
-        <div id="toctitle">Module: Summary: Introduction to Neo4j</div>
+        <div id="toctitle">Module: Setting Up your Development Environment</div>
         <ul class="sectlevel1">
-<li><a href="#module-8">Quiz Results</a></li>
-<li><a href="#_course_completion_certificate">Course Completion Certificate</a></li>
-<li><a href="#_course_summary">Course Summary</a></li>
-<li><a href="#_next_steps">Next steps</a></li>
-<li><a href="#_course_feedback">Course feedback</a></li>
+<li><a href="#_about_this_module">About this module</a></li>
+<li><a href="#_neo4j_sandbox">Neo4j Sandbox</a>
+<ul class="sectlevel2">
+<li><a href="#_how_to_set_up_a_neo4j_sandbox"><strong>How to set up a Neo4j Sandbox</strong></a></li>
+<li><a href="#_step_1_create_the_citations_sandbox">Step 1: Create the Citations Sandbox</a></li>
+<li><a href="#_using_neo4j_browser">Using Neo4j Browser</a></li>
+<li><a href="#_step_2_connect_to_the_citations_database_with_neo4j_browser">Step 2: Connect to the Citations database with Neo4j Browser</a></li>
+<li><a href="#_step_3_open_a_jupyter_notebook_in_google_colaboratory_and_connect_to_the_citations_database">Step 3: Open a Jupyter Notebook in Google Colaboratory and connect to the Citations database</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_continue">Continue</a></li>
 </ul>
         </div>
 <div id="progress" style="position:absolute; bottom:100;"></div>
@@ -684,7 +593,7 @@ const SITE_URL = window.location;
 
 
 $( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: ""});
+       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/data-science-dev/"});
 
         login.checkSession((err, result) => {
             if (result) {
@@ -703,7 +612,7 @@ $( document ).ready(function() {
                     console.error(err);
                   }
                 }
-                Intercom('trackEvent',"training-introv2-view");
+                Intercom('trackEvent',"training-data-science-view");
             }
         })
 

@@ -36,6 +36,8 @@
       <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
         window.trainingPartName = "module-7";
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.intro-v2.";
+        window.trainingQuizCount = 7;
       </script>
    </head>
    <body>
@@ -132,24 +134,15 @@
          </nav>
       </header>
 
-
-<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Getting More Out of Neo4j</h1>
-
-      <div id="preamble columns medium-12">
-<div class="sectionbody">
 <script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
 	var loc = window.location;
 	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-window.trainingClassName = 'online-training-v2';
+  window.trainingClassName = "online-training-v2";
 </script>
-
 <script>Munchkin.init('773-GON-065');</script>
-
-
 <style>
     @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
     .modal {
@@ -184,6 +177,28 @@ window.trainingClassName = 'online-training-v2';
       background-color: #4ac084;
   }
 
+    a.button-notebook {
+      display: block;
+      text-align: center;
+      width: 250px;
+      font-size: 18px;
+      margin-top: 20px;
+      font-family: 'Open Sans';
+      height: 55px;
+      border-style: solid;
+      border-width: 0;
+      cursor: pointer;
+      color: white;
+      padding: 15px;
+      font-weight: 300;
+      background-color: #6dcc9c;
+      border-color: #4ac084;
+    }
+
+    .button-notebook a hover {
+        background-color: #4ac084;
+    }
+
   pre.cypher-syntax {
     background-color: #eaf1f8;
   }
@@ -193,7 +208,6 @@ window.trainingClassName = 'online-training-v2';
 <script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
 <script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/js.cookie-2.1.3.min.js"></script>
-<!--script src="/online_training/gadgetUtils.js"></script-->
 <script type="text/javascript">
   Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
 </script>
@@ -214,21 +228,12 @@ function modalWindow(frameId, options) {
               webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
            <div>`;
 }
-/*
-    .modal {
-        width: 775px;
-        height: 675px;
-        padding: 10px;
-        margin: 0;
-    }
-*/
 
 function formatTask(options) {
   if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
   if (options.taskName) return "cypherTask="+options.taskName;
   return "";
 }
-
 
 function setGadgetUrl(sel) {
   $(sel).modal();
@@ -237,116 +242,18 @@ function setGadgetUrl(sel) {
   $iframe.attr("src", $iframe.data("src"));
 }
 </script>
-
-<!-- Elaine added -->
-
-<script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
-
-<!-- End addition -->
-
-<!-- Elaine added contents of login.js from Shreyans -->
-
 <script>
-    var auth0Options = {
-        configurationBaseUrl: 'https://cdn.auth0.com',
-        allowedConnections: ['google-oauth2', 'linkedin', 'twitter', 'Username-Password-Authentication'],
-        additionalSignUpFields: [
-            {
-                name: 'first_name',
-                placeholder: 'First Name'
-            },
-            {
-                name: 'last_name',
-                placeholder: 'Last Name'
-            }
-        ],
-        closable: false,
-        languageDictionary: {
-            signUpTerms: "I agree to the <a href='https://neo4j.com/terms/online-trial-agreement/' style='text-decoration: underline' target='_blank'>terms of service</a> of Neo4j."
-        },
-        mustAcceptTerms: true,
-        auth: {
-            redirect: true,
-            redirectUrl: 'https://neo4j.com/accounts/login',
-            responseType: 'token id_token',
-            audience: 'neo4j://accountinfo/',
-            params: {
-                scope: 'read:account-info write:account-info openid email profile user_metadata'
-            }
-        }
-    }
-
-    const classStates = {
-        loggedIn: 'graph-academy-for-logged-in',
-        notLoggedIn: 'graph-academy-for-not-logged-in'
-    }
-
-    class GraphAcademyLogin {
-        constructor(options = {}) {
-            console.log('constructor called');
-            if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
-            console.log(options);
-            this.lock = new Auth0Lock('DxhmiF8TCeznI7Xoi08UyYScLGZnk4ke', 'login.neo4j.com', auth0Options);
-            this.options = options;
-            this.checkSession(options.callback);
-        }
-
-        checkSession(cb) {
-            this.lock.checkSession({}, async (err, result) => {
-                console.log(result);
-            if (result) {
-                this.isLoggedIn = true;
-                this.authResult = result;
-                if (this.callback && typeof this.callback === 'function') this.callback()
-            } else {
-                this.isLoggedIn = false;
-            }
-            if (err && this.options.loginRedirectUrl) {
-                this.redirectToLogin();
-            }
-            this.handleHtmlOnState(result ? 'loggedIn' : 'notLoggedIn');
-            if (cb && typeof cb === 'function') cb(err, result);
-        })
-        }
-
-        handleHtmlOnState(state = null) {
-            const loggedInElements = document.getElementsByClassName(classStates['loggedIn']) || [];
-            const notLoggedInElements = document.getElementsByClassName(classStates['notLoggedIn']) || [];
-            if (state === 'loggedIn') {
-                for (let item of loggedInElements) {
-                    item.style.display = 'inherit';
-                }
-                for (let item of notLoggedInElements) {
-                    item.style.display = 'none';
-                }
-            } else if (state === 'notLoggedIn') {
-                for (let item of loggedInElements) {
-                    item.style.display = 'none';
-                }
-                for (let item of notLoggedInElements) {
-                    item.style.display = 'inherit';
-                }
-            }
-        }
-
-        logout() {
-            const logoutOptions = {};
-            if (this.options.redirectOnLogout) logoutOptions.redirectTo = this.options.redirectOnLogout;
-            this.lock.logout(logoutOptions);
-            this.handleHtmlOnState('notLoggedIn');
-        }
-
-        redirectToLogin() {
-            return window.location.href = this.options.loginRedirectUrl;
-        }
-    }
-
+  window.intercomSettings = {
+    app_id: "dt0ig5ab",
+    hide_default_launcher: true
+  };
 </script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 
-<!-- End addition -->
-</div>
-</div>
-<div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Getting More Out of Neo4j</h1>
+
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>About this module</h3>
 
 
@@ -455,7 +362,7 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActorNameParameter.png" alt="SetActorNameParameter" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/SetActorNameParameter.png" alt="SetActorNameParameter" width="600">
 </p>
 </div>
 
@@ -470,7 +377,7 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UseParameter.png" alt="UseParameter" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/UseParameter.png" alt="UseParameter" width="800">
 </p>
 </div>
 
@@ -485,7 +392,7 @@ You can even specify a Cypher expression to the right of <code>=&gt;</code> to s
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TomCruiseParameter.png" alt="TomCruiseParameter" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/TomCruiseParameter.png" alt="TomCruiseParameter" width="800">
 </p>
 </div>
 
@@ -508,7 +415,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetAllParameters.png" alt="SetAllParameters" width="500">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/SetAllParameters.png" alt="SetAllParameters" width="500">
 </p>
 </div>
 
@@ -523,7 +430,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ViewParams.png" alt="ViewParams" width="500">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ViewParams.png" alt="ViewParams" width="500">
 </p>
 </div>
 
@@ -600,7 +507,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/EXPLAIN.png" alt="EXPLAIN" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/EXPLAIN.png" alt="EXPLAIN" width="900">
 </p>
 </div>
 
@@ -620,7 +527,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE1.png" alt="PROFILE1" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/PROFILE1.png" alt="PROFILE1" width="900">
 </p>
 </div>
 
@@ -635,7 +542,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PROFILE2.png" alt="PROFILE2" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/PROFILE2.png" alt="PROFILE2" width="900">
 </p>
 </div>
 
@@ -687,7 +594,7 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ListQueries.png" alt="ListQueries" width="1000">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ListQueries.png" alt="ListQueries" width="1000">
 </p>
 </div>
 
@@ -697,7 +604,7 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KillQuery.png" alt="KillQuery" width="1000">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/KillQuery.png" alt="KillQuery" width="1000">
 </p>
 </div>
 
@@ -707,7 +614,7 @@ Example: <code>MATCH (a), (b), (c), (d), (e) RETURN count(id(a))</code>
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/QueryKilled.png" alt="QueryKilled" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/QueryKilled.png" alt="QueryKilled" width="800">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -816,7 +723,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddTitleConstraint.png" alt="AddTitleConstraint" width="500">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/AddTitleConstraint.png" alt="AddTitleConstraint" width="500">
 </p>
 </div>
 
@@ -839,7 +746,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UniquenessFailed.png" alt="UniquenessFailed" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/UniquenessFailed.png" alt="UniquenessFailed" width="700">
 </p>
 </div>
 
@@ -867,7 +774,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoTaglineSomething.png" alt="NoTaglineSomething" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/NoTaglineSomething.png" alt="NoTaglineSomething" width="600">
 </p>
 </div>
 
@@ -890,7 +797,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ConstraintExistTaglineFailure.png" alt="ConstraintExistTaglineFailure" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ConstraintExistTaglineFailure.png" alt="ConstraintExistTaglineFailure" width="800">
 </p>
 </div>
 
@@ -919,7 +826,7 @@ With the result:</p>
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateRatingExistenceConstraint.png" alt="CreateRatingExistenceConstraint" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateRatingExistenceConstraint.png" alt="CreateRatingExistenceConstraint" width="600">
 </p>
 </div>
 
@@ -945,7 +852,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistenceConstraintFailed.png" alt="ExistenceConstraintFailed" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ExistenceConstraintFailed.png" alt="ExistenceConstraintFailed" width="800">
 </p>
 </div>
 
@@ -981,7 +888,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/call_db_constraints.png" alt="call_db_constraints" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/call_db_constraints.png" alt="call_db_constraints" width="600">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -1024,7 +931,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropConstraint.png" alt="DropConstraint" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/DropConstraint.png" alt="DropConstraint" width="600">
 </p>
 </div>
 </div>
@@ -1060,7 +967,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NodeKeyCreationFailed.png" alt="NodeKeyCreationFailed" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/NodeKeyCreationFailed.png" alt="NodeKeyCreationFailed" width="800">
 </p>
 </div>
 
@@ -1090,7 +997,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateNodeKey.png" alt="CreateNodeKey" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateNodeKey.png" alt="CreateNodeKey" width="700">
 </p>
 </div>
 
@@ -1118,7 +1025,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateDuplicateJessicaFailure.png" alt="CreateDuplicateJessicaFailure" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateDuplicateJessicaFailure.png" alt="CreateDuplicateJessicaFailure" width="800">
 </p>
 </div>
 </div>
@@ -1220,7 +1127,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock" style="text-align: center;">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/IndexForRanges.png" alt="IndexForRanges" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/IndexForRanges.png" alt="IndexForRanges" width="600">
 </p>
 </div>
 </div>
@@ -1251,7 +1158,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateSingle-propertyIndex.png" alt="CreateSingle-propertyIndex" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateSingle-propertyIndex.png" alt="CreateSingle-propertyIndex" width="600">
 </p>
 </div>
 
@@ -1289,7 +1196,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoStatements.png" alt="TwoStatements" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/TwoStatements.png" alt="TwoStatements" width="900">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -1324,7 +1231,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateCompositeIndex.png" alt="CreateCompositeIndex" width="500">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateCompositeIndex.png" alt="CreateCompositeIndex" width="500">
 </p>
 </div>
 </div>
@@ -1350,7 +1257,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Call_db-indexes.png" alt="Call_db-indexes" width="1000">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Call_db-indexes.png" alt="Call_db-indexes" width="1000">
 </p>
 </div>
 
@@ -1386,7 +1293,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DropCompositeIndex.png" alt="DropCompositeIndex" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/DropCompositeIndex.png" alt="DropCompositeIndex" width="600">
 </p>
 </div>
 </div>
@@ -1529,7 +1436,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/countOfMoviesToLoad.png" alt="countOfMoviesToLoad" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/countOfMoviesToLoad.png" alt="countOfMoviesToLoad" width="900">
 </p>
 </div>
 
@@ -1555,7 +1462,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/examineMoviesBeforeLoad.png" alt="examineMoviesBeforeLoad" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/examineMoviesBeforeLoad.png" alt="examineMoviesBeforeLoad" width="900">
 </p>
 </div>
 
@@ -1586,7 +1493,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FormatMovieDataBeforeLoad.png" alt="FormatMovieDataBeforeLoad" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/FormatMovieDataBeforeLoad.png" alt="FormatMovieDataBeforeLoad" width="900">
 </p>
 </div>
 
@@ -1617,7 +1524,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadMovies.png" alt="loadMovies" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/loadMovies.png" alt="loadMovies" width="900">
 </p>
 </div>
 
@@ -1670,7 +1577,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadPersons.png" alt="loadPersons" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/loadPersons.png" alt="loadPersons" width="700">
 </p>
 </div>
 
@@ -1718,7 +1625,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadRoles.png" alt="loadRoles" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/loadRoles.png" alt="loadRoles" width="900">
 </p>
 </div>
 </div>
@@ -1783,7 +1690,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/loadAll.png" alt="loadAll" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/loadAll.png" alt="loadAll" width="900">
 </p>
 </div>
 
@@ -1943,11 +1850,77 @@ Access Neo4j resources.
 </ul>
 </div>
 <a class="next-section medium button" href="../part-8/">Continue to Module 8</a>
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part7');
+});
+</script>
+</div>
+</div>
+<div id="sidebar-wrapper">
+        
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Getting More Out of Neo4j</div>
+        <ul class="sectlevel1">
+<li><a href="#_about_this_module">About this module</a></li>
+<li><a href="#_cypher_parameters">Cypher parameters</a>
+<ul class="sectlevel2">
+<li><a href="#_using_cypher_parameters">Using Cypher parameters</a></li>
+<li><a href="#_exercise_12_using_cypher_parameters"><strong>Exercise 12: Using Cypher parameters</strong></a></li>
+</ul>
+</li>
+<li><a href="#_analyzing_cypher_execution">Analyzing Cypher execution</a></li>
+<li><a href="#_monitoring_queries">Monitoring queries</a>
+<ul class="sectlevel2">
+<li><a href="#_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></a></li>
+</ul>
+</li>
+<li><a href="#_managing_constraints_and_node_keys">Managing constraints and node keys</a>
+<ul class="sectlevel2">
+<li><a href="#_ensuring_that_a_property_value_for_a_node_is_unique">Ensuring that a property value for a node is unique</a></li>
+<li><a href="#_ensuring_that_properties_exist">Ensuring that properties exist</a></li>
+<li><a href="#_retrieving_constraints_defined_for_the_graph">Retrieving  constraints defined for the graph</a></li>
+<li><a href="#_dropping_constraints">Dropping constraints</a></li>
+<li><a href="#_creating_node_keys">Creating node keys</a></li>
+<li><a href="#_exercise_14_managing_constraints_and_node_keys"><strong>Exercise 14: Managing constraints and node keys</strong></a></li>
+</ul>
+</li>
+<li><a href="#_managing_indexes">Managing indexes</a>
+<ul class="sectlevel2">
+<li><a href="#_indexes_for_range_searches">Indexes for range searches</a></li>
+<li><a href="#_creating_indexes">Creating indexes</a></li>
+<li><a href="#_retrieving_indexes">Retrieving indexes</a></li>
+<li><a href="#_dropping_indexes">Dropping indexes</a></li>
+<li><a href="#_exercise_15_managing_indexes"><strong>Exercise 15: Managing indexes</strong></a></li>
+</ul>
+</li>
+<li><a href="#_going_from_relational_to_graph_with_neo4j">Going from relational to graph with Neo4j</a></li>
+<li><a href="#_importing_data">Importing data</a>
+<ul class="sectlevel2">
+<li><a href="#_importing_normalized_data_using_load_csv">Importing normalized data using <code>LOAD CSV</code></a></li>
+<li><a href="#_importing_denormalized_data">Importing denormalized data</a></li>
+<li><a href="#_importing_a_large_dataset">Importing a large dataset</a></li>
+<li><a href="#_exercise_16_importing_data"><strong>Exercise 16: Importing data</strong></a></li>
+</ul>
+</li>
+<li><a href="#_accessing_neo4j_resources">Accessing Neo4j resources</a></li>
+<li><a href="#module-7">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+</ul>
+        </div>
+<div id="progress" style="position:absolute; bottom:100;"></div>
+</div>
 <script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
-
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/class.js" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/quizes.js" type="text/javascript"></script>
 <script>
 var auth0Options = {
 	configurationBaseUrl: 'https://cdn.auth0.com',
@@ -2098,16 +2071,6 @@ class GraphAcademyLogin {
     }
   });
  </script>
-
-
-<script>
-  window.intercomSettings = {
-    app_id: "dt0ig5ab",
-    hide_default_launcher: true
-  };
-</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-
 <!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/jwt-decode.min.js"></script>
 
@@ -2117,14 +2080,12 @@ const SITE_URL = window.location;
 
 
 $( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/"});
+       const login = new GraphAcademyLogin({loginRedirectUrl: ""});
 
         login.checkSession((err, result) => {
             if (result) {
                getQuizStatus();
-
-              /*
-                var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
+                var userInfoIntercom = result.idTokenPayload;
                 if (userInfoIntercom) {
                   try {
                     window.Intercom("update", {
@@ -2138,76 +2099,9 @@ $( document ).ready(function() {
                     console.error(err);
                   }
                 }
-                Intercom('trackEvent','training-introv2-view');
-                */
+                Intercom('trackEvent',"training-introv2-view");
             }
         })
 
 });
 </script>
-<script>
-$( document ).ready(function() {
-  Intercom('trackEvent','training-introv2-view-part7');
-});
-</script>
-</div>
-</div>
-<div id="sidebar-wrapper">
-        
-        <div id="toc" class="toc2">
-        <div id="toctitle">Module: Getting More Out of Neo4j</div>
-        <ul class="sectlevel1">
-<li><a href="#_about_this_module">About this module</a></li>
-<li><a href="#_cypher_parameters">Cypher parameters</a>
-<ul class="sectlevel2">
-<li><a href="#_using_cypher_parameters">Using Cypher parameters</a></li>
-<li><a href="#_exercise_12_using_cypher_parameters"><strong>Exercise 12: Using Cypher parameters</strong></a></li>
-</ul>
-</li>
-<li><a href="#_analyzing_cypher_execution">Analyzing Cypher execution</a></li>
-<li><a href="#_monitoring_queries">Monitoring queries</a>
-<ul class="sectlevel2">
-<li><a href="#_exercise_13_analyzing_and_monitoring_queries"><strong>Exercise 13: Analyzing and monitoring queries</strong></a></li>
-</ul>
-</li>
-<li><a href="#_managing_constraints_and_node_keys">Managing constraints and node keys</a>
-<ul class="sectlevel2">
-<li><a href="#_ensuring_that_a_property_value_for_a_node_is_unique">Ensuring that a property value for a node is unique</a></li>
-<li><a href="#_ensuring_that_properties_exist">Ensuring that properties exist</a></li>
-<li><a href="#_retrieving_constraints_defined_for_the_graph">Retrieving  constraints defined for the graph</a></li>
-<li><a href="#_dropping_constraints">Dropping constraints</a></li>
-<li><a href="#_creating_node_keys">Creating node keys</a></li>
-<li><a href="#_exercise_14_managing_constraints_and_node_keys"><strong>Exercise 14: Managing constraints and node keys</strong></a></li>
-</ul>
-</li>
-<li><a href="#_managing_indexes">Managing indexes</a>
-<ul class="sectlevel2">
-<li><a href="#_indexes_for_range_searches">Indexes for range searches</a></li>
-<li><a href="#_creating_indexes">Creating indexes</a></li>
-<li><a href="#_retrieving_indexes">Retrieving indexes</a></li>
-<li><a href="#_dropping_indexes">Dropping indexes</a></li>
-<li><a href="#_exercise_15_managing_indexes"><strong>Exercise 15: Managing indexes</strong></a></li>
-</ul>
-</li>
-<li><a href="#_going_from_relational_to_graph_with_neo4j">Going from relational to graph with Neo4j</a></li>
-<li><a href="#_importing_data">Importing data</a>
-<ul class="sectlevel2">
-<li><a href="#_importing_normalized_data_using_load_csv">Importing normalized data using <code>LOAD CSV</code></a></li>
-<li><a href="#_importing_denormalized_data">Importing denormalized data</a></li>
-<li><a href="#_importing_a_large_dataset">Importing a large dataset</a></li>
-<li><a href="#_exercise_16_importing_data"><strong>Exercise 16: Importing data</strong></a></li>
-</ul>
-</li>
-<li><a href="#_accessing_neo4j_resources">Accessing Neo4j resources</a></li>
-<li><a href="#module-7">Check your understanding</a>
-<ul class="sectlevel2">
-<li><a href="#_question_1">Question 1</a></li>
-<li><a href="#_question_2">Question 2</a></li>
-<li><a href="#_question_3">Question 3</a></li>
-</ul>
-</li>
-<li><a href="#_summary">Summary</a></li>
-</ul>
-        </div>
-<div id="progress" style="position:absolute; bottom:100;"></div>
-</div>

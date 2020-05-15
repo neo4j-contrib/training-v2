@@ -36,6 +36,8 @@
       <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
         window.trainingPartName = "module-6";
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.intro-v2.";
+        window.trainingQuizCount = 7;
       </script>
    </head>
    <body>
@@ -132,24 +134,15 @@
          </nav>
       </header>
 
-
-<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Creating Nodes and Relationships</h1>
-
-      <div id="preamble columns medium-12">
-<div class="sectionbody">
 <script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
 	var loc = window.location;
 	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-window.trainingClassName = 'online-training-v2';
+  window.trainingClassName = "online-training-v2";
 </script>
-
 <script>Munchkin.init('773-GON-065');</script>
-
-
 <style>
     @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
     .modal {
@@ -184,6 +177,28 @@ window.trainingClassName = 'online-training-v2';
       background-color: #4ac084;
   }
 
+    a.button-notebook {
+      display: block;
+      text-align: center;
+      width: 250px;
+      font-size: 18px;
+      margin-top: 20px;
+      font-family: 'Open Sans';
+      height: 55px;
+      border-style: solid;
+      border-width: 0;
+      cursor: pointer;
+      color: white;
+      padding: 15px;
+      font-weight: 300;
+      background-color: #6dcc9c;
+      border-color: #4ac084;
+    }
+
+    .button-notebook a hover {
+        background-color: #4ac084;
+    }
+
   pre.cypher-syntax {
     background-color: #eaf1f8;
   }
@@ -193,7 +208,6 @@ window.trainingClassName = 'online-training-v2';
 <script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
 <script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/js.cookie-2.1.3.min.js"></script>
-<!--script src="/online_training/gadgetUtils.js"></script-->
 <script type="text/javascript">
   Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
 </script>
@@ -214,21 +228,12 @@ function modalWindow(frameId, options) {
               webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
            <div>`;
 }
-/*
-    .modal {
-        width: 775px;
-        height: 675px;
-        padding: 10px;
-        margin: 0;
-    }
-*/
 
 function formatTask(options) {
   if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
   if (options.taskName) return "cypherTask="+options.taskName;
   return "";
 }
-
 
 function setGadgetUrl(sel) {
   $(sel).modal();
@@ -237,116 +242,18 @@ function setGadgetUrl(sel) {
   $iframe.attr("src", $iframe.data("src"));
 }
 </script>
-
-<!-- Elaine added -->
-
-<script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
-
-<!-- End addition -->
-
-<!-- Elaine added contents of login.js from Shreyans -->
-
 <script>
-    var auth0Options = {
-        configurationBaseUrl: 'https://cdn.auth0.com',
-        allowedConnections: ['google-oauth2', 'linkedin', 'twitter', 'Username-Password-Authentication'],
-        additionalSignUpFields: [
-            {
-                name: 'first_name',
-                placeholder: 'First Name'
-            },
-            {
-                name: 'last_name',
-                placeholder: 'Last Name'
-            }
-        ],
-        closable: false,
-        languageDictionary: {
-            signUpTerms: "I agree to the <a href='https://neo4j.com/terms/online-trial-agreement/' style='text-decoration: underline' target='_blank'>terms of service</a> of Neo4j."
-        },
-        mustAcceptTerms: true,
-        auth: {
-            redirect: true,
-            redirectUrl: 'https://neo4j.com/accounts/login',
-            responseType: 'token id_token',
-            audience: 'neo4j://accountinfo/',
-            params: {
-                scope: 'read:account-info write:account-info openid email profile user_metadata'
-            }
-        }
-    }
-
-    const classStates = {
-        loggedIn: 'graph-academy-for-logged-in',
-        notLoggedIn: 'graph-academy-for-not-logged-in'
-    }
-
-    class GraphAcademyLogin {
-        constructor(options = {}) {
-            console.log('constructor called');
-            if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
-            console.log(options);
-            this.lock = new Auth0Lock('DxhmiF8TCeznI7Xoi08UyYScLGZnk4ke', 'login.neo4j.com', auth0Options);
-            this.options = options;
-            this.checkSession(options.callback);
-        }
-
-        checkSession(cb) {
-            this.lock.checkSession({}, async (err, result) => {
-                console.log(result);
-            if (result) {
-                this.isLoggedIn = true;
-                this.authResult = result;
-                if (this.callback && typeof this.callback === 'function') this.callback()
-            } else {
-                this.isLoggedIn = false;
-            }
-            if (err && this.options.loginRedirectUrl) {
-                this.redirectToLogin();
-            }
-            this.handleHtmlOnState(result ? 'loggedIn' : 'notLoggedIn');
-            if (cb && typeof cb === 'function') cb(err, result);
-        })
-        }
-
-        handleHtmlOnState(state = null) {
-            const loggedInElements = document.getElementsByClassName(classStates['loggedIn']) || [];
-            const notLoggedInElements = document.getElementsByClassName(classStates['notLoggedIn']) || [];
-            if (state === 'loggedIn') {
-                for (let item of loggedInElements) {
-                    item.style.display = 'inherit';
-                }
-                for (let item of notLoggedInElements) {
-                    item.style.display = 'none';
-                }
-            } else if (state === 'notLoggedIn') {
-                for (let item of loggedInElements) {
-                    item.style.display = 'none';
-                }
-                for (let item of notLoggedInElements) {
-                    item.style.display = 'inherit';
-                }
-            }
-        }
-
-        logout() {
-            const logoutOptions = {};
-            if (this.options.redirectOnLogout) logoutOptions.redirectTo = this.options.redirectOnLogout;
-            this.lock.logout(logoutOptions);
-            this.handleHtmlOnState('notLoggedIn');
-        }
-
-        redirectToLogin() {
-            return window.location.href = this.options.loginRedirectUrl;
-        }
-    }
-
+  window.intercomSettings = {
+    app_id: "dt0ig5ab",
+    hide_default_launcher: true
+  };
 </script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 
-<!-- End addition -->
-</div>
-</div>
-<div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Creating Nodes and Relationships</h1>
+
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>About this module</h3>
 
 
@@ -504,7 +411,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateBatmanBegins.png" alt="CreateBatmanBegins" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateBatmanBegins.png" alt="CreateBatmanBegins" width="600">
 </p>
 </div>
 
@@ -549,7 +456,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateMultiplePersonNodes.png" alt="CreateMultiplePersonNodes" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateMultiplePersonNodes.png" alt="CreateMultiplePersonNodes" width="600">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -630,7 +537,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetActionLabel.png" alt="SetActionLabel" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/SetActionLabel.png" alt="SetActionLabel" width="700">
 </p>
 </div>
 
@@ -687,7 +594,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveActionLabel.png" alt="RemoveActionLabel" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/RemoveActionLabel.png" alt="RemoveActionLabel" width="700">
 </p>
 </div>
 </div>
@@ -774,7 +681,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddReleasedMinutesProperties.png" alt="AddReleasedMinutesProperties" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/AddReleasedMinutesProperties.png" alt="AddReleasedMinutesProperties" width="800">
 </p>
 </div>
 
@@ -804,7 +711,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/SetPropertiesObject.png" alt="SetPropertiesObject" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/SetPropertiesObject.png" alt="SetPropertiesObject" width="800">
 </p>
 </div>
 
@@ -814,7 +721,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllPropertyKeys.png" alt="AllPropertyKeys" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/AllPropertyKeys.png" alt="AllPropertyKeys" width="700">
 </p>
 </div>
 
@@ -841,7 +748,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddAndUpdateProperties.png" alt="AddAndUpdateProperties" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/AddAndUpdateProperties.png" alt="AddAndUpdateProperties" width="800">
 </p>
 </div>
 </div>
@@ -897,7 +804,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveProperties.png" alt="RemoveProperties" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/RemoveProperties.png" alt="RemoveProperties" width="800">
 </p>
 </div>
 </div>
@@ -972,7 +879,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateActedInRelationship.png" alt="CreateActedInRelationship" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateActedInRelationship.png" alt="CreateActedInRelationship" width="700">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -1017,7 +924,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CreateTwoRelationships.png" alt="CreateTwoRelationships" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CreateTwoRelationships.png" alt="CreateTwoRelationships" width="700">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -1106,7 +1013,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AddRelationshipWithRoles.png" alt="AddRelationshipWithRoles" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/AddRelationshipWithRoles.png" alt="AddRelationshipWithRoles" width="600">
 </p>
 </div>
 
@@ -1192,7 +1099,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/RemoveRoles.png" alt="RemoveRoles" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/RemoveRoles.png" alt="RemoveRoles" width="700">
 </p>
 </div>
 </div>
@@ -1235,7 +1142,7 @@ If you attempt to delete a node in the graph that has relationships in or out of
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships.png" alt="BatmanBeginsRelationships" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/BatmanBeginsRelationships.png" alt="BatmanBeginsRelationships" width="700">
 </p>
 </div>
 
@@ -1266,7 +1173,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteRelationship.png" alt="DeleteRelationship" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/DeleteRelationship.png" alt="DeleteRelationship" width="700">
 </p>
 </div>
 
@@ -1281,7 +1188,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships2.png" alt="BatmanBeginsRelationships2" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/BatmanBeginsRelationships2.png" alt="BatmanBeginsRelationships2" width="700">
 </p>
 </div>
 
@@ -1291,7 +1198,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ChristianBaleConnections.png" alt="ChristianBaleConnections" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ChristianBaleConnections.png" alt="ChristianBaleConnections" width="700">
 </p>
 </div>
 
@@ -1316,7 +1223,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteMelniker.png" alt="DeleteMelniker" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/DeleteMelniker.png" alt="DeleteMelniker" width="800">
 </p>
 </div>
 
@@ -1326,7 +1233,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships3.png" alt="BatmanBeginsRelationships3" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/BatmanBeginsRelationships3.png" alt="BatmanBeginsRelationships3" width="800">
 </p>
 </div>
 </div>
@@ -1360,7 +1267,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/LiamNeesonDeleteError.png" alt="LiamNeesonDeleteError" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/LiamNeesonDeleteError.png" alt="LiamNeesonDeleteError" width="800">
 </p>
 </div>
 
@@ -1385,7 +1292,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/DeleteLiamNeeson.png" alt="DeleteLiamNeeson" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/DeleteLiamNeeson.png" alt="DeleteLiamNeeson" width="600">
 </p>
 </div>
 
@@ -1395,7 +1302,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/BatmanBeginsRelationships4.png" alt="BatmanBeginsRelationships4" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/BatmanBeginsRelationships4.png" alt="BatmanBeginsRelationships4" width="700">
 </p>
 </div>
 </div>
@@ -1539,7 +1446,7 @@ This node has values for <em>name</em> and <em>born</em>. Notice also that the l
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MichaelCaine.png" alt="MichaelCaine" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/MichaelCaine.png" alt="MichaelCaine" width="600">
 </p>
 </div>
 
@@ -1564,7 +1471,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeActorMichaelCaine.png" alt="MergeActorMichaelCaine" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/MergeActorMichaelCaine.png" alt="MergeActorMichaelCaine" width="600">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -1591,7 +1498,7 @@ When you specify the node to merge, you should only use properties that have a u
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoMichaelCaines.png" alt="TwoMichaelCaines" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/TwoMichaelCaines.png" alt="TwoMichaelCaines" width="800">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -1669,7 +1576,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/AllMichaelCaines.png" alt="AllMichaelCaines" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/AllMichaelCaines.png" alt="AllMichaelCaines" width="800">
 </p>
 </div>
 
@@ -1696,7 +1603,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UpdateToUK.png" alt="UpdateToUK" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/UpdateToUK.png" alt="UpdateToUK" width="700">
 </p>
 </div>
 </div>
@@ -1730,7 +1637,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MergeRelationships.png" alt="MergeRelationships" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/MergeRelationships.png" alt="MergeRelationships" width="800">
 </p>
 </div>
 
@@ -1932,11 +1839,70 @@ Creating relationships
 <div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Grade Quiz and Continue</h3>
 <a class="next-section medium button" href="../part-7/">Continue to Module 7</a>
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part6');
+});
+</script>
+</div>
+</div>
+<div id="sidebar-wrapper">
+        
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Creating Nodes and Relationships</div>
+        <ul class="sectlevel1">
+<li><a href="#_about_this_module">About this module</a></li>
+<li><a href="#_creating_nodes">Creating nodes</a>
+<ul class="sectlevel2">
+<li><a href="#_creating_multiple_nodes">Creating multiple nodes</a></li>
+<li><a href="#_adding_labels_to_a_node">Adding labels to a node</a></li>
+<li><a href="#_removing_labels_from_a_node">Removing labels from a node</a></li>
+<li><a href="#_adding_properties_to_a_node">Adding properties to a node</a></li>
+<li><a href="#_removing_properties_from_a_node">Removing properties from a node</a></li>
+<li><a href="#_exercise_8_creating_nodes"><strong>Exercise 8: Creating Nodes</strong></a></li>
+</ul>
+</li>
+<li><a href="#_creating_relationships">Creating relationships</a>
+<ul class="sectlevel2">
+<li><a href="#_adding_properties_to_relationships">Adding properties to relationships</a></li>
+<li><a href="#_removing_properties_from_a_relationship">Removing properties from a relationship</a></li>
+<li><a href="#_exercise_9_creating_relationships"><strong>Exercise 9: Creating Relationships</strong></a></li>
+</ul>
+</li>
+<li><a href="#_deleting_nodes_and_relationships">Deleting nodes and relationships</a>
+<ul class="sectlevel2">
+<li><a href="#_deleting_relationships">Deleting relationships</a></li>
+<li><a href="#_deleting_nodes_and_relationships_2">Deleting nodes and relationships</a></li>
+<li><a href="#_exercise_10_deleting_nodes_and_relationships"><strong>Exercise 10: Deleting Nodes and Relationships</strong></a></li>
+</ul>
+</li>
+<li><a href="#_merging_data_in_the_graph">Merging data in the graph</a>
+<ul class="sectlevel2">
+<li><a href="#_using_merge_to_create_nodes">Using <code>MERGE</code> to create nodes</a></li>
+<li><a href="#_using_merge_to_create_relationships">Using <code>MERGE</code> to create relationships</a></li>
+<li><a href="#_specifying_creation_behavior_when_merging">Specifying creation behavior when merging</a></li>
+<li><a href="#_using_merge_to_create_relationships_2">Using <code>MERGE</code> to create relationships</a></li>
+<li><a href="#_exercise_11_merging_data_in_the_graph"><strong>Exercise 11: Merging Data in the graph</strong></a></li>
+</ul>
+</li>
+<li><a href="#module-6">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
+</ul>
+        </div>
+<div id="progress" style="position:absolute; bottom:100;"></div>
+</div>
 <script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
-
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/class.js" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/quizes.js" type="text/javascript"></script>
 <script>
 var auth0Options = {
 	configurationBaseUrl: 'https://cdn.auth0.com',
@@ -2087,16 +2053,6 @@ class GraphAcademyLogin {
     }
   });
  </script>
-
-
-<script>
-  window.intercomSettings = {
-    app_id: "dt0ig5ab",
-    hide_default_launcher: true
-  };
-</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-
 <!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/jwt-decode.min.js"></script>
 
@@ -2106,14 +2062,12 @@ const SITE_URL = window.location;
 
 
 $( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/"});
+       const login = new GraphAcademyLogin({loginRedirectUrl: ""});
 
         login.checkSession((err, result) => {
             if (result) {
                getQuizStatus();
-
-              /*
-                var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
+                var userInfoIntercom = result.idTokenPayload;
                 if (userInfoIntercom) {
                   try {
                     window.Intercom("update", {
@@ -2127,69 +2081,9 @@ $( document ).ready(function() {
                     console.error(err);
                   }
                 }
-                Intercom('trackEvent','training-introv2-view');
-                */
+                Intercom('trackEvent',"training-introv2-view");
             }
         })
 
 });
 </script>
-<script>
-$( document ).ready(function() {
-  Intercom('trackEvent','training-introv2-view-part6');
-});
-</script>
-</div>
-</div>
-<div id="sidebar-wrapper">
-        
-        <div id="toc" class="toc2">
-        <div id="toctitle">Module: Creating Nodes and Relationships</div>
-        <ul class="sectlevel1">
-<li><a href="#_about_this_module">About this module</a></li>
-<li><a href="#_creating_nodes">Creating nodes</a>
-<ul class="sectlevel2">
-<li><a href="#_creating_multiple_nodes">Creating multiple nodes</a></li>
-<li><a href="#_adding_labels_to_a_node">Adding labels to a node</a></li>
-<li><a href="#_removing_labels_from_a_node">Removing labels from a node</a></li>
-<li><a href="#_adding_properties_to_a_node">Adding properties to a node</a></li>
-<li><a href="#_removing_properties_from_a_node">Removing properties from a node</a></li>
-<li><a href="#_exercise_8_creating_nodes"><strong>Exercise 8: Creating Nodes</strong></a></li>
-</ul>
-</li>
-<li><a href="#_creating_relationships">Creating relationships</a>
-<ul class="sectlevel2">
-<li><a href="#_adding_properties_to_relationships">Adding properties to relationships</a></li>
-<li><a href="#_removing_properties_from_a_relationship">Removing properties from a relationship</a></li>
-<li><a href="#_exercise_9_creating_relationships"><strong>Exercise 9: Creating Relationships</strong></a></li>
-</ul>
-</li>
-<li><a href="#_deleting_nodes_and_relationships">Deleting nodes and relationships</a>
-<ul class="sectlevel2">
-<li><a href="#_deleting_relationships">Deleting relationships</a></li>
-<li><a href="#_deleting_nodes_and_relationships_2">Deleting nodes and relationships</a></li>
-<li><a href="#_exercise_10_deleting_nodes_and_relationships"><strong>Exercise 10: Deleting Nodes and Relationships</strong></a></li>
-</ul>
-</li>
-<li><a href="#_merging_data_in_the_graph">Merging data in the graph</a>
-<ul class="sectlevel2">
-<li><a href="#_using_merge_to_create_nodes">Using <code>MERGE</code> to create nodes</a></li>
-<li><a href="#_using_merge_to_create_relationships">Using <code>MERGE</code> to create relationships</a></li>
-<li><a href="#_specifying_creation_behavior_when_merging">Specifying creation behavior when merging</a></li>
-<li><a href="#_using_merge_to_create_relationships_2">Using <code>MERGE</code> to create relationships</a></li>
-<li><a href="#_exercise_11_merging_data_in_the_graph"><strong>Exercise 11: Merging Data in the graph</strong></a></li>
-</ul>
-</li>
-<li><a href="#module-6">Check your understanding</a>
-<ul class="sectlevel2">
-<li><a href="#_question_1">Question 1</a></li>
-<li><a href="#_question_2">Question 2</a></li>
-<li><a href="#_question_3">Question 3</a></li>
-</ul>
-</li>
-<li><a href="#_summary">Summary</a></li>
-<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
-</ul>
-        </div>
-<div id="progress" style="position:absolute; bottom:100;"></div>
-</div>

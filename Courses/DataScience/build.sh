@@ -7,9 +7,10 @@ set -e
 # load functions
 . ../_bin/functions.sh
 
-convert_adoc "00_AboutThisCourse.adoc"
-convert_adoc "01_SettingUpYourDevelopmentEnvironment.adoc"
-convert_adoc "02_ExploratoryDataAnalysis.adoc"
-convert_adoc "03_Recommendations.adoc"
-convert_adoc "04_Predictions.adoc"
-convert_adoc "05_Summary.adoc"
+convert_enrollment "index.part.adoc"
+convert_course "00_AboutThisCourse.adoc"
+convert_course "01_SettingUpYourDevelopmentEnvironment.adoc"
+convert_course "02_ExploratoryDataAnalysis.adoc"
+convert_course "03_Recommendations.adoc"
+convert_course "04_Predictions.adoc"
+convert_course "05_Summary.adoc"

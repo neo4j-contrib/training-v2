@@ -11,7 +11,7 @@
       </script>
       <meta charset="utf-8"></meta>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-      <title>Neo4j GraphAcademy: Introduction to Neo4j</title>
+      <title>Neo4j GraphAcademy: Data Science with Neo4j</title>
       <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
@@ -35,9 +35,9 @@
       <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
       <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
-        window.trainingPartName = "module-8";
-        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.intro-v2.";
-        window.trainingQuizCount = 7;
+        window.trainingPartName = "module-4";
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.datascience.";
+        window.trainingQuizCount = 3;
       </script>
    </head>
    <body>
@@ -51,7 +51,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">1</strong>
               </span>
-              Intro to Graph DBs</a>
+              Dev Env</a>
             </li>
             <li id="menu-module-2">
               <a href="../part-2/">
@@ -59,7 +59,7 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">2</strong>
               </span>
-              Intro to Neo4j</a>
+              EDA</a>
             </li>
             <li id="menu-module-3">
               <a href="../part-3/">
@@ -67,45 +67,21 @@
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">3</strong>
               </span>
-              Dev Env</a>
+              Recommendations</a>
             </li>
             <li id="menu-module-4">
-              <a href="../part-4/">
+              <a href="../part-4/" style="color: #000">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">4</strong>
               </span>
-              Cypher</a>
+              Predictions</a>
             </li>
             <li id="menu-module-5">
               <a href="../part-5/">
               <span class="fa-stack" style="margin-top: -2px">
                 <span class="fa fa-circle-o fa-stack-2x"></span>
                 <strong class="fa-stack-1x">5</strong>
-              </span>
-              Advanced Queries</a>
-            </li>
-            <li id="menu-module-6">
-              <a href="../part-6/">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">6</strong>
-              </span>
-              Creating Data</a>
-            </li>
-            <li id="menu-module-7">
-              <a href="../part-7/">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">7</strong>
-              </span>
-              More</a>
-            </li>
-            <li id="menu-module-8">
-              <a href="../part-8/" style="color: #000">
-              <span class="fa-stack" style="margin-top: -2px">
-                <span class="fa fa-circle-o fa-stack-2x"></span>
-                <strong class="fa-stack-1x">8</strong>
               </span>
               The End</a>
             </li>
@@ -116,15 +92,19 @@
          <nav id="header-nav">
          <span class="nav-previous">
            
-              <a accesskey="p" href="../part-7/">
+              <a accesskey="p" href="../part-3/">
                 <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
-              More</a>
+              Recommendations</a>
            
          </span>
          <span class="nav-current">
            <p class="nav-title" style="display: none;"></p>
          </span>
          <span class="nav-next">
+           
+              <a accesskey="n" href="../part-5/">Summary
+                <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
+              </a>
            
          </span>
          </nav>
@@ -136,7 +116,7 @@
 	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-  window.trainingClassName = "online-training-v2";
+  window.trainingClassName = "datascience";
 </script>
 <script>Munchkin.init('773-GON-065');</script>
 <style>
@@ -247,261 +227,277 @@ function setGadgetUrl(sel) {
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Summary: Introduction to Neo4j</h1>
+<h1>Predictions</h1>
 
-      <div  id="module-8" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
-<h3>Quiz Results</h3>
-<span id="quizes-result"></span>
-</div>
-<div  id="_course_completion_certificate" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course Completion Certificate</h3>
-<span id="cert-result"></span>
-</div>
-<div  id="_course_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course Summary</h3>
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>About this module</h3>
 
 
 <div class="paragraph">
-<p>In this course, you have learned how to:</p>
+<p>In this module you will learn how to build a machine learning classifier to predict co-authorships in the citation graph.</p>
+</div>
+
+
+<div class="paragraph">
+<p>At the end of this module, you should be able to:</p>
 </div>
 <div class="ulist square">
 <ul class="square">
 <li>
-Describe what a graph database is.
+Describe what link prediction is
 </li>
 <li>
-Describe how to model relational data in a property graph model.
+Use the link prediction functions in Neo4j
 </li>
 <li>
-Describe the Neo4j Graph Platform and its components.
+Understand the challenges when building machine learning models on graph data
 </li>
 <li>
-Describe the features and benefits of Neo4j.
+Build a link prediction classifier using scikit-learn with features derived from the Neo4j Graph Algorithms library
 </li>
-<li>
-Set up your development environment for performing the hands-on exercises of this course which is one of:
+</ul>
+</div>
+</div>
+<div  id="_the_link_prediction_problem" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>The Link Prediction problem</h3>
+
+
+<div class="paragraph">
+<p>Link Prediction has been around for a long time, but was popularised by a paper written by Jon Kleinberg and David Liben-Nowell in 2004, titled <a href="https://www.cs.cornell.edu/home/kleinber/link-pred.pdf" target="_blank" rel="noopener">The Link Prediction Problem for Social Networks</a>.</p>
+</div>
+<div class="imageblock">
+<p class="content">
+<img src="https://graphacademy.neo4j.com/img/datascience/LinkPrediction.png" alt="Link Prediction" width="600">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>Kleinberg and Liben-Nowell approach this problem from the perspective of social networks, asking this question:</p>
+</div>
+
+
+<div class="paragraph">
+<p>Given a snapshot of a social network, can we infer which new interactions among its members are likely to occur in the near future?</p>
+</div>
+
+
+<div class="paragraph">
+<p>We formalize this question as the Link Prediction problem, and develop approaches to Link Prediction based on measures for analyzing the “proximity” of nodes in a network.</p>
+</div>
+
+
+<div class="paragraph">
+<p>For example, we could predict future associations between:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-Neo4j Sandbox
+People in a terrorist network
 </li>
 <li>
-Neo4j Desktop
+Associations between molecules in a biology network
+</li>
+<li>
+Potential co-authorships in a citation network
+</li>
+<li>
+Interest in an artist or artwork
 </li>
 </ul>
 </div>
+
+
+<div class="paragraph">
+<p>In each these examples, predicting a link means that we are <strong>predicting some future behaviour</strong>.
+For example in a citation network, we’re actually predicting the action of two people collaborating on a paper.</p>
+</div>
+</div>
+<div  id="_link_prediction_algorithms" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Link Prediction Algorithms</h3>
+
+
+<div class="paragraph">
+<p>Kleinberg and Liben-Nowell describe a set of methods that can be used for Link Prediction.
+These methods compute a score for a pair of nodes, where the score could be considered a <strong>measure of proximity</strong> or “similarity” between those nodes based on the graph topology.
+The closer two nodes are, the more likely there will be a relationship between them.</p>
+</div>
+</div>
+<div  id="_exercise_1_running_link_prediction_algorithms" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise 1: Running Link Prediction algorithms</h3>
+
+
+<div class="paragraph">
+<p>You will gain some experience running the Link Prediction algorithms.
+In the query edit pane of Neo4j Browser, execute the browser command: <kbd>:play data-science-exercises</kbd> and follow the instructions for the Link Prediction exercise.</p>
+</div>
+</div>
+<div  id="_applying_link_prediction_algorithms" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Applying Link Prediction Algorithms</h3>
+
+
+<div class="paragraph">
+<p>Now that you have learned how to execute the link prediction algorithms, you will learn what to do with the results.
+There are two approaches:</p>
+</div>
+<div  id="_using_the_measures_directly" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Using the measures directly</h3>
+
+
+<div class="paragraph">
+<p>You can use the scores from the link prediction algorithms directly.
+With this approach you set a threshold value above which the algorithm would predict that a pair of nodes will have a link.</p>
+</div>
+
+
+<div class="paragraph">
+<p>For example, you might say that every pair of nodes that has a preferential attachment score above 3 would have a link, and any with 3 or less would not.</p>
+</div>
+</div>
+<div  id="_supervised_learning" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Supervised learning</h3>
+
+
+<div class="paragraph">
+<p>You can take a supervised learning approach where you use the scores as features to train a binary classifier.
+The binary classifier then predicts whether a pair of nodes will have a link.</p>
+</div>
+
+
+<div class="paragraph">
+<p>In the next part of this module you will use the supervised learning approach.</p>
+</div>
+</div>
+</div>
+<div  id="_exercise_2_building_a_binary_classifier" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise 2: Building a binary classifier</h3>
+
+
+<div class="paragraph">
+<p>In this exercise, you will build a binary classifier to predict co-authorships using a notebook.</p>
+</div>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/neo4j-contrib/training-v2/blob/master/Courses/DataScience/notebooks/04_Predictions.ipynb">Exercise 2</a>
+</div>
+<div  id="module-4" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<h3>Check your understanding</h3>
+<div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 1</h3>
+
+
+<div class="paragraph">
+<p>Which link prediction algorithm "captures the notion that two strangers who have a common friend may be introduced by that friend."?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Adamic Adar</span>
 </li>
 <li>
-Use <code>MATCH</code> to retrieve nodes from the graph.
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Common Neighbors</span>
 </li>
 <li>
-Use <code>MATCH</code> to retrieve relationships from the graph.
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">PageRank</span>
 </li>
 <li>
-Use <code>MATCH</code> to retrieve properties from the graph.
-</li>
-<li>
-Use the <code>WHERE</code> clause for queries.
-</li>
-<li>
-Control query processing.
-</li>
-<li>
-Control how results are returned.
-</li>
-<li>
-Work with Cypher dates and lists.
-</li>
-<li>
-Create, update, and delete nodes and properties of nodes.
-</li>
-<li>
-Create, update, and delete relationships and properties of relationships.
-</li>
-<li>
-Merge data in the graph.
-</li>
-<li>
-Use parameters.
-</li>
-<li>
-Define constraints in the graph.
-</li>
-<li>
-Profile and monitor query execution.
-</li>
-<li>
-Define indexes in the graph.
-</li>
-<li>
-Import relational data into the graph.
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Preferential Attachment</span>
 </li>
 </ul>
 </div>
 </div>
-<div  id="_next_steps" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Next steps</h3>
+<div  id="_question_2" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 2</h3>
 
 
 <div class="paragraph">
-<p>There are many resources available to you for learning more about Neo4j and Cypher.</p>
-</div>
-
-
-<div class="paragraph">
-<p>Resources for developers:</p>
+<p>Which of these challenges do we need to address when building a binary classifier for link prediction?</p>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://neo4j.com/developer/resources/" class="bare">https://neo4j.com/developer/resources/</a></p>
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Class Imbalance</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Clustering cut-off</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Data Leakage</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Damping factor</span>
+</li>
+</ul>
+</div>
+</div>
+<div  id="_question_3" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 3</h3>
+
+
+<div class="paragraph">
+<p>Which feature is the most important in our final model?</p>
 </div>
 
 
 <div class="paragraph">
-<p>Neo4j Community Site where you can ask or answer questions about Neo4j and discuss with other users:</p>
+<p>Select the correct answer.</p>
 </div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Preferential Attachment</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Triangles (min)</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Common neighbors</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Louvain</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Summary</h3>
 
 
 <div class="paragraph">
-<p><a href="https://community.neo4j.com" class="bare">https://community.neo4j.com</a></p>
+<p>You should now be able to:</p>
 </div>
-
-
-<div class="paragraph">
-<p>Neo4j documentation:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/docs/" class="bare">https://neo4j.com/docs/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j Sandboxes for experimenting with graphs:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/sandbox-v2/" class="bare">https://neo4j.com/sandbox-v2/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Videos on YouTube:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://www.youtube.com/channel/UCvze3hU6OZBkB1vkhH2lH9Q" class="bare">https://www.youtube.com/channel/UCvze3hU6OZBkB1vkhH2lH9Q</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>GitHub repository:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://github.com/neo4j-contrib" class="bare">https://github.com/neo4j-contrib</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j events all over the world:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/events/world/all/" class="bare">https://neo4j.com/events/world/all/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Neo4j online and classroom training:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphacademy/" class="bare">https://neo4j.com/graphacademy/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Graph Gists for learning more use cases for Neo4j:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphgists/" class="bare">https://neo4j.com/graphgists/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>Become a Neo4j certified developer:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://neo4j.com/graphacademy/neo4j-certification/" class="bare">https://neo4j.com/graphacademy/neo4j-certification/</a></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title label"></div>
-</td>
-<td class="content">
-The certification exam tests you on content from this course. You can take the certification multiple times until you pass!
-</td>
-</tr>
-</table>
-</div>
-
-
-<div class="paragraph">
-<p>Attend a Neo4j meetup:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://www.meetup.com/topics/neo4j/" class="bare">https://www.meetup.com/topics/neo4j/</a></p>
-</div>
-
-
-<div class="paragraph">
-<p>View questions/answers raised about Neo4j:</p>
-</div>
-
-
-<div class="paragraph">
-<p><a href="https://stackoverflow.com/tags/neo4j/hot" class="bare">https://stackoverflow.com/tags/neo4j/hot</a></p>
+<div class="ulist square">
+<ul class="square">
+<li>
+Describe what link prediction is
+</li>
+<li>
+Use the link prediction functions in Neo4j
+</li>
+<li>
+Understand the challenges when building machine learning models on graph data
+</li>
+<li>
+Build a link prediction classifier using scikit-learn with features derived from the Neo4j Graph Algorithms library
+</li>
+</ul>
 </div>
 </div>
-<div  id="_course_feedback" class="sect1 columns medium-12" style='padding-left: 0;' >
-<h3>Course feedback</h3>
-
-
-<div class="paragraph">
-<p>We want your feedback on this course. Please provide your <a href="https://goo.gl/forms/BEpb5Dsj6CFTvWiI2">feedback</a> so we can improve this course.</p>
-</div>
+<div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Grade Quiz and Continue</h3>
+<a class="next-section medium button" href="../part-5/">Continue to Module 5</a>
 <script>
 $( document ).ready(function() {
-  Intercom('trackEvent','training-introv2-view-part8');
-});
-</script>
-<script>
-$( document ).ready(function() {
-  $('#cert-result').html("<i>... Checking for certificate ...</i>");
-  getClassCertificate().then( function( value ) {
-    if ('url' in value) {
-      $('#cert-result').html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
-    } else {
-      $('#cert-result').html( "Certificate not available yet.  Did you complete the quizzes at the end of each section?" );
-    }
-  });
-
+  Intercom('trackEvent','training-datascience-view-part4');
 });
 </script>
 </div>
@@ -509,13 +505,28 @@ $( document ).ready(function() {
 <div id="sidebar-wrapper">
         
         <div id="toc" class="toc2">
-        <div id="toctitle">Module: Summary: Introduction to Neo4j</div>
+        <div id="toctitle">Module: Predictions</div>
         <ul class="sectlevel1">
-<li><a href="#module-8">Quiz Results</a></li>
-<li><a href="#_course_completion_certificate">Course Completion Certificate</a></li>
-<li><a href="#_course_summary">Course Summary</a></li>
-<li><a href="#_next_steps">Next steps</a></li>
-<li><a href="#_course_feedback">Course feedback</a></li>
+<li><a href="#_about_this_module">About this module</a></li>
+<li><a href="#_the_link_prediction_problem">The Link Prediction problem</a></li>
+<li><a href="#_link_prediction_algorithms">Link Prediction Algorithms</a></li>
+<li><a href="#_exercise_1_running_link_prediction_algorithms">Exercise 1: Running Link Prediction algorithms</a></li>
+<li><a href="#_applying_link_prediction_algorithms">Applying Link Prediction Algorithms</a>
+<ul class="sectlevel2">
+<li><a href="#_using_the_measures_directly">Using the measures directly</a></li>
+<li><a href="#_supervised_learning">Supervised learning</a></li>
+</ul>
+</li>
+<li><a href="#_exercise_2_building_a_binary_classifier">Exercise 2: Building a binary classifier</a></li>
+<li><a href="#module-4">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
 </ul>
         </div>
 <div id="progress" style="position:absolute; bottom:100;"></div>
@@ -684,7 +695,7 @@ const SITE_URL = window.location;
 
 
 $( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: ""});
+       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/data-science-dev/"});
 
         login.checkSession((err, result) => {
             if (result) {
@@ -703,7 +714,7 @@ $( document ).ready(function() {
                     console.error(err);
                   }
                 }
-                Intercom('trackEvent',"training-introv2-view");
+                Intercom('trackEvent',"training-data-science-view");
             }
         })
 
