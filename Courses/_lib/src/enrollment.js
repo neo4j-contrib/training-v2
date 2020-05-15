@@ -24,6 +24,25 @@ window.intercomSettings = {
     })
   }
 
+  function enrollStudentInClass(firstName, lastName, accessToken) {
+    var data = {
+      className: trainingName,
+      firstName: firstName,
+      lastName: lastName
+    }
+    return $.ajax({
+      type: 'POST',
+      url: backendBaseUrl + '/setClassEnrollment',
+      contentType: 'application/json',
+      dataType: 'json',
+      async: true,
+      data: JSON.stringify(data),
+      headers: {
+        'Authorization': accessToken
+      }
+    })
+  }
+
   var country = null
   var state = null
   if (geoip2) {

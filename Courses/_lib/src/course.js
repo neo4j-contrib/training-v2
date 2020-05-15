@@ -225,8 +225,8 @@ document.addEventListener('DOMContentLoaded', function () {
               window.localStorage.setItem(quizStatusLocalStorageKey, JSON.stringify(quizesStatusL))
               var quizesStatus = quizesStatusL
               updateProgressIndicators(quizesStatus)
-              currentQuizStatus = quizesStatus[$(".quiz").attr("id")]
-              if (currentQuizStatus) {
+              var currentPageQuizStatus = quizesStatus[$(".quiz").attr("id")]
+              if (currentPageQuizStatus) {
                 $("#_grade_quiz_and_continue h3").text("Quiz successfully submitted.")
                 $(".quiz").hide()
                 $(".next-section").unbind("click")
