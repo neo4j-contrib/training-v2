@@ -1,12 +1,12 @@
 <script>
-  window.trainingClassName = 'applied-algos';
-  window.siteUrl = window.location;
+  window.trainingClassName = "applied-algos"
+  window.siteUrl = window.location
 </script>
 <script src="//js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="//neo4jsandbox.com/js/jwt-decode.min.js"></script>
-<script src="//graphacademy.neo4j.com/training-classes/js/classes-v2.js"></script>
 <script src="//cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/class.js" type="text/javascript"></script>
 <script>
   var auth0Options = {
     configurationBaseUrl: 'https://cdn.auth0.com',
@@ -166,11 +166,11 @@
 </script>
 <script type="text/javascript">
   var logout = function () {
-    record_event('training', 'logout-applied-algos');
+    record_event('training', "logout-applied-algos");
     window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + window.siteUrl;
   }
   var loginButtonAction = function (e) {
-    record_event('training', 'login-applied-algos');
+    record_event('training', "login-applied-algos");
     window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + window.siteUrl;
   }
   var gcSendEvent = function (component, eventText, eventDetail) {
@@ -237,30 +237,91 @@
   .mktoForm input[type=url], .mktoForm input[type=text], .mktoForm input[type=date], .mktoForm input[type=tel], .mktoForm input[type=email], .mktoForm input[type=number], .mktoForm textarea.mktoField, .mktoForm select.mktoField {
     background-color: #fdfdfd;
   }
+  .asciidoc .sect1 > h2 {
+      letter-spacing: -.03em;
+      font-size: 1.25rem;
+      line-height: 1.4;
+      margin-top: 0;
+      margin-bottom: .25rem;
+      font-weight: 700;
+  }
+  @media print, screen and (min-width: 40em) {
+    .asciidoc .sect1 > h2 {
+      font-size: 1.25rem;
+    }
+  }
+  #preamble {
+    margin-bottom: 2rem;
+  }
+  .asciidoc .ulist > ul > li > p {
+    margin-bottom: 0;
+  }
 </style>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Neo4j GraphAcademy: Applied Graph Algorithms",
+    "description": "Learn how to use graph algorithms in Neo4j to enhance the functionality of a web application",
+    "provider": {
+      "@type": "Organization",
+      "name": "Neo4j, Inc.",
+      "sameAs": "https://neo4j.com"
+    }
+  }
+</script>
 
 <div id="logout" style="display: none; position: absolute; right: 50px; top: 50px;"><a href="#" onclick="logout();" class="medium button feature-box_button">Logout</a></div>
 
 <div class="row">
   <div class="medium-12 columns text-center">
-    <h2 class="subhead-training">Learn how to use graph algorithms in Neo4j to enhance the functionality of a web application.</h2>
+    <h2 class="subhead-training">Learn how to use graph algorithms in Neo4j to enhance the functionality of a web application</h2>
   </div>
 </div>
 <div class="row">
-  <div class="small-10 medium-6 columns mainpage course_box" id="online_training">
-    <img src="https://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/uploads/20190611154252/applied-graph-algorithms1.png"/>
-
-    <h3 style="margin-top:15px;">About the Course</h3>
-    <p>In this course you will learn how to use graph algorithms in Neo4j. This course takes an applied approach - covering not just how to use the graph algorithms in Neo4j, but
-      also how to leverage graph algorithms to enhance the functionality of a web application.</p>
-    <h3>Topics Covered</h3>
-    <ul>
-      <li>The Neo4j Graph Algorithms Plugin</li>
-      <li>Personalized PageRank</li>
-      <li>Similarity metrics</li>
-      <li>Community detection</li>
-      <li>Using all of the above to add functionality in an application such as personalization, recommendations, and enhancing search results.</li>
-    </ul>
+  <div class="small-10 medium-6 columns mainpage course_box asciidoc" id="online_training">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="https://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/uploads/20190611154252/applied-graph-algorithms1.png" alt="applied graph algorithms1">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_about_the_course">About the Course</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this course you will learn how to use graph algorithms in Neo4j.
+This course takes an applied approach - covering not just how to use the graph algorithms in Neo4j, but also how to leverage graph algorithms to enhance the functionality of a web application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_topics_covered">Topics Covered</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>The Neo4j Graph Algorithms Plugin</p>
+</li>
+<li>
+<p>Personalized PageRank</p>
+</li>
+<li>
+<p>Similarity metrics</p>
+</li>
+<li>
+<p>Community detection</p>
+</li>
+<li>
+<p>Using all of the above to add functionality in an application such as personalization, recommendations, and enhancing search results.&lt;/li&gt;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
   </div>
   <div class="small-2 medium-4 columns" style="padding-top: 30px; min-width: 350px;">
     <div class="custom-form-header">
@@ -289,9 +350,8 @@
           //Add an onSuccess handler
           form.onSuccess(function (values, followUpUrl) {
             enrollStudentInClass(values['FirstName'], values['LastName']).done(function () {
-              record_event('training', 'register-applied-algos');
-              gcSendEvent('online_training', 'register', 'Applied Graph Algorithms');
-              Cookies.set('com.neo4j.graphacademy.training.appliedalgos.form_submit', true);
+              record_event('training', "register-applied-algos");
+              gcSendEvent('online_training', 'register', "Applied Graph Algorithms");
               window.location = window.siteUrl + 'part-0/';
             });
             return false;
@@ -321,7 +381,7 @@
             console.error(err);
           }
         }
-        Intercom('trackEvent', 'training-applied-algos-view');
+        Intercom('trackEvent', "training-applied-algos-view");
       }
     })
 

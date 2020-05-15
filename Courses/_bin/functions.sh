@@ -3,7 +3,23 @@
 current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 . "${current_dir}/default_values.sh"
 
-convert_adoc () {
+convert_enrollment () {
+  local adoc_file="$1"
+  echo "converting $adoc_file"
+  asciidoctor -a "module-title=${MODULE_TITLE}" \
+              -a "module-id=${MODULE_ID}" \
+              -a "module-intercom-event=${MODULE_INTERCOM_EVENT}" \
+              -a "module-logout-event=${MODULE_LOGOUT_EVENT}" \
+              -a "module-login-event=${MODULE_LOGIN_EVENT}" \
+              -a "module-register-event=${MODULE_REGISTER_EVENT}" \
+              -a "module-register-event-detail=${MODULE_REGISTER_EVENT_DETAIL}" \
+              -a "module-class-js-url=${CLASS_JS_URL}" \
+              -a "imagedir=${IMG}" \
+              -T "../_templates/enrollment" \
+              "adoc/${adoc_file}" -D html
+}
+
+convert_course () {
   local adoc_file="$1"
   # redirect url depends on the stage
   if [[ "${STAGE}" == "prod" ]]; then
@@ -22,7 +38,7 @@ convert_adoc () {
               -a "module-class-js-url=${CLASS_JS_URL}" \
               -a "module-quizes-js-url=${QUIZES_JS_URL}" \
               -a "imagedir=${IMG}" \
-              -T "../_templates_v2" \
+              -T "../_templates/course" \
               "adoc/${adoc_file}" -D html
 }
 
