@@ -3,7 +3,7 @@
 # load config
 . ./module.config
 
-# default value
+# default values
 if [[ -z "${STAGE}" ]]; then
   STAGE="dev"
 fi
