@@ -1,51 +1,27 @@
-/* global WebAuth, geoip2, Intercom */
-(function () {
+/* global auth0, geoip2, Intercom */
+window.intercomSettings = {
+  app_id: 'dt0ig5ab',
+  hide_default_launcher: true
+}
+
+;(function ($) {
   var siteUrl = window.location
   var trainingLogoutEvent = window.trainingLogoutEvent
   var trainingLoginEvent = window.trainingLoginEvent
   var trainingRegisterEvent = window.trainingRegisterEvent
   var trainingRegisterEventDetail = window.trainingRegisterEventDetail
+  var backendBaseUrl = "{{API_BASE_URL}}"
+  var trainingName = window.trainingClassName
 
-  class GraphAcademy {
-    constructor(options = {}) {
-      if (!WebAuth) {
-        throw new Error('WebAuth is not available, cannot proceed.')
+  function getEnrollmentForClass(accessToken) {
+    return $.ajax({
+      type: 'GET',
+      url: backendBaseUrl + '/getClassEnrollment?className=' + trainingName,
+      async: true,
+      headers: {
+        'Authorization': accessToken
       }
-      this.webAuth = new WebAuth({
-        clientID: 'hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu',
-        domain: 'login.neo4j.com',
-        redirectUri: `${window.location.origin}/accounts/login`,
-        audience: 'neo4j://accountinfo/',
-        scope: 'read:account-info openid email profile user_metadata',
-        responseType: 'token id_token'
-      })
-      this.options = options
-    }
-
-    checkSession(cb) {
-      this.webAuth.checkSession({}, async (err, result) => {
-        if (result) {
-          this.authResult = result
-        } else {
-          delete this.authResult
-        }
-        if (err && this.options.loginRedirectUrl) {
-          window.location.href = this.options.loginRedirectUrl
-        }
-        if (cb && typeof cb === 'function') {
-          cb(err, result)
-        }
-      })
-    }
-
-    logout() {
-      const { options } = this
-      const logoutOptions = {}
-      if (options.logoutRedirectUrl) {
-        logoutOptions.redirectTo = options.logoutRedirectUrl
-      }
-      this.webAuth.logout(logoutOptions)
-    }
+    })
   }
 
   var country = null
@@ -61,32 +37,39 @@
       console.log("Unable to locate user with geoip2", error)
     })
   }
-
-  const graphAcademy = new GraphAcademy({
-    loginRedirectUrl: "https://neo4j.com/accounts/login/?targetUrl=" + siteUrl,
-    logoutRedirectUrl: "https://neo4j.com/accounts/logout/?targetUrl=" + siteUrl
+  var webAuth = new auth0.WebAuth({
+    clientID: 'hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu',
+    domain: 'login.neo4j.com',
+    redirectUri: window.location.origin + '/accounts/login-b',
+    audience: 'neo4j://accountinfo/',
+    scope: 'read:account-info openid email profile user_metadata',
+    responseType: 'token id_token'
   })
-
-  $(document).ready(function () {
-    graphAcademy.checkSession((err, result) => {
-      if (result) {
-        var userInfo = result.idTokenPayload
-        var givenName = userInfo.given_name || null
-        if (userInfo) {
-          try {
-            window.Intercom('update', {
-              app_id: 'dt0ig5ab',
-              name: userInfo.name,
-              email: userInfo.email,
-              user_id: userInfo.sub,
-              hide_default_launcher: true
-            })
-          } catch (err) {
-            console.error('Unable to update Intercom', err)
-          }
+  var accessToken
+  webAuth.checkSession({}, function (err, authResult) {
+    if (err) {
+      console.info('User is not authenticated', err)
+    } else if (authResult && authResult.accessToken) {
+      // we're authenticated!
+      accessToken = authResult.accessToken
+      var userInfo = authResult.idTokenPayload
+      var givenName = userInfo.given_name || null
+      if (userInfo) {
+        try {
+          window.Intercom('update', {
+            app_id: window.intercomSettings.app_id,
+            name: userInfo.name,
+            email: userInfo.email,
+            user_id: userInfo.sub,
+            hide_default_launcher: true
+          })
+        } catch (err) {
+          console.error('Unable to update Intercom', err)
         }
-        getEnrollmentForClass(result.accessToken).done(function (data, textStatus, jqXHR) {
-          if (data['enrolled']) {
+      }
+      getEnrollmentForClass(accessToken)
+        .then(function (response) {
+          if (response['enrolled']) {
             if (givenName) {
               $(".custom-form-header").html("<p>Welcome " + givenName + "</p>")
             } else {
@@ -116,20 +99,19 @@
               form.vals(prefillFields)
             })
           }
+        }, function (jqXHR, textStatus, error) {
+          console.error('Unable to get enrollment', error)
         })
-      } else {
-        // Do whatever if not logged in
-      }
-    })
+    }
   })
 
   $('[data-action="logout"]').click(function (_) {
     record_event('training', trainingLogoutEvent)
-    graphAcademy.logout()
+    window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + siteUrl
   })
   $('.btn-login').click(function (e) {
     record_event('training', trainingLoginEvent)
-    window.location = "https://neo4j.com/accounts/login/?targetUrl=" + siteUrl
+    window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + siteUrl
   })
   $('.btn-continue').click(function (e) {
     window.location = siteUrl + 'part-0/'
@@ -178,8 +160,8 @@
 
       //Add an onSuccess handler
       form.onSuccess(function (values, _) {
-        // FIXME: unsafe, authResult can be undefined!
-        enrollStudentInClass(values['FirstName'], values['LastName'], graphAcademy.authResult.accessToken).done(function () {
+        // FIXME: unsafe, accessToken can be undefined!
+        enrollStudentInClass(values['FirstName'], values['LastName'], accessToken).done(function () {
           record_event('training', trainingRegisterEvent)
           gcSendEvent('online_training', 'register', trainingRegisterEventDetail)
           window.location = siteUrl + 'part-0/'
@@ -190,12 +172,7 @@
   } else {
     $("#reg-form").html("<p style='font-size:17px; text-align:center; color:red;'>Sorry, something has gone wrong. Some browser features like Firefox's Enhanced Tracking Protection prevent the training from working properly. Please try a different browser or turn of ETP.</p>")
   }
-}())
-
-window.intercomSettings = {
-  app_id: "dt0ig5ab",
-  hide_default_launcher: true
-}
+})($)
 
 ;(function () {
   var w = window;
@@ -218,7 +195,7 @@ window.intercomSettings = {
       var s = d.createElement('script');
       s.type = 'text/javascript';
       s.async = true;
-      s.src = 'https://widget.intercom.io/widget/dt0ig5ab';
+      s.src = 'https://widget.intercom.io/widget/' + window.intercomSettings.app_id;
       var x = d.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
     }
