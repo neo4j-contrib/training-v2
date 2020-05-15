@@ -1,0 +1,662 @@
+<html>
+   <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1192232-34"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-1192232-34');
+      </script>
+      <meta charset="utf-8"></meta>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+      <title>Neo4j GraphAcademy: Data Science with Neo4j</title>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/docbook.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,300italic"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/extra.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/chunked-base.css"></link>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/console.css"></link>
+      <style type="text/css">
+        ul.documentation-library>li>a {
+          margin-left: 10px !important;
+          margin-right: 10px !important;
+        }
+        @media only screen and (max-width: 1350px) {
+          #helplink {
+            display: none;
+          }
+        }
+      </style>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+      <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
+      <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
+      <script type='text/javascript'>
+        window.trainingPartName = "module-3";
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.datascience.";
+        window.trainingQuizCount = 3;
+      </script>
+   </head>
+   <body>
+      <header style="top: 0px;">
+         <a href="../part-0/" id="logo"><img src="https://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png" alt="Neo4j Logo"></a>
+         <ul class="documentation-library">
+            
+            <li id="menu-module-1">
+              <a href="../part-1/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">1</strong>
+              </span>
+              Dev Env</a>
+            </li>
+            <li id="menu-module-2">
+              <a href="../part-2/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">2</strong>
+              </span>
+              EDA</a>
+            </li>
+            <li id="menu-module-3">
+              <a href="../part-3/" style="color: #000">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">3</strong>
+              </span>
+              Recommendations</a>
+            </li>
+            <li id="menu-module-4">
+              <a href="../part-4/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">4</strong>
+              </span>
+              Predictions</a>
+            </li>
+            <li id="menu-module-5">
+              <a href="../part-5/">
+              <span class="fa-stack" style="margin-top: -2px">
+                <span class="fa fa-circle-o fa-stack-2x"></span>
+                <strong class="fa-stack-1x">5</strong>
+              </span>
+              The End</a>
+            </li>
+         </ul>
+         <div id="helplink" style="position: absolute; top: 10px; right: 30px; font-size: 20px;">
+           <a href="https://community.neo4j.com/c/general/online-training" target="_blank">Need Help?</a>
+         </div>
+         <nav id="header-nav">
+         <span class="nav-previous">
+           
+              <a accesskey="p" href="../part-2/">
+                <span class="fa fa-long-arrow-left" aria-hidden="true"></span>
+              Exploratory Data Analysis</a>
+           
+         </span>
+         <span class="nav-current">
+           <p class="nav-title" style="display: none;"></p>
+         </span>
+         <span class="nav-next">
+           
+              <a accesskey="n" href="../part-4/">Predictions
+                <span class="fa fa-long-arrow-right" aria-hidden="true"></span>
+              </a>
+           
+         </span>
+         </nav>
+      </header>
+
+<script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
+<script type='text/javascript'>
+	var loc = window.location;
+	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>
+  window.trainingClassName = "datascience";
+</script>
+<script>Munchkin.init('773-GON-065');</script>
+<style>
+    @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
+    .modal {
+        width: 775px;
+        height: 775px;
+        padding: 10px;
+        margin: 0;
+    }
+    .blocker {
+        height: initial;
+        background-color: transparent;
+    }
+  a.button {
+    display: block;
+    text-align: center;
+    width: 250px;
+    font-size: 18px;
+    margin-top: 50px;
+    font-family: 'Open Sans';
+    height: 55px;
+    border-style: solid;
+    border-width: 0;
+    cursor: pointer;
+    color: white;
+    padding: 15px;
+    font-weight: 300;
+    background-color: #6dcc9c;
+    border-color: #4ac084;
+  }
+
+  .button a hover {
+      background-color: #4ac084;
+  }
+
+    a.button-notebook {
+      display: block;
+      text-align: center;
+      width: 250px;
+      font-size: 18px;
+      margin-top: 20px;
+      font-family: 'Open Sans';
+      height: 55px;
+      border-style: solid;
+      border-width: 0;
+      cursor: pointer;
+      color: white;
+      padding: 15px;
+      font-weight: 300;
+      background-color: #6dcc9c;
+      border-color: #4ac084;
+    }
+
+    .button-notebook a hover {
+        background-color: #4ac084;
+    }
+
+  pre.cypher-syntax {
+    background-color: #eaf1f8;
+  }
+</style>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/underscore.js"></script>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.js"></script>
+<script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
+<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
+<script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/js.cookie-2.1.3.min.js"></script>
+<script type="text/javascript">
+  Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
+</script>
+<script src="https://neo4j.com/online_training/tasks.js"></script>
+<script type="text/javascript">
+function renderGadget(containerSelector, options) {
+  if (!options.cypherSetup) return;
+  var frameId = _.uniqueId("exmodal");
+  $(containerSelector).append('<button onclick="setGadgetUrl(\'#' + frameId +
+    '\')" rel="modal:open" class="btn">' + (options.label || 'Gadget') + '</button>');
+
+    $(containerSelector).append(modalWindow(frameId,options));
+  }
+
+function modalWindow(frameId, options) {
+   return `<div id="${frameId}" class="modal-dialog modal fade draggable" style="display:none;text-align:center;vertical-align:middle;" >
+            <iframe data-src="/online_training/cypher-gadget/test.html?cypherSetup=${options.cypherSetup}&${formatTask(options)}" width="725" height="725" frameborder="0" style="margin:5px;"
+              webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+           <div>`;
+}
+
+function formatTask(options) {
+  if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
+  if (options.taskName) return "cypherTask="+options.taskName;
+  return "";
+}
+
+function setGadgetUrl(sel) {
+  $(sel).modal();
+  $(sel).draggable();
+  var $iframe = $(sel).find("iframe");
+  $iframe.attr("src", $iframe.data("src"));
+}
+</script>
+<script>
+  window.intercomSettings = {
+    app_id: "dt0ig5ab",
+    hide_default_launcher: true
+  };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Recommendations</h1>
+
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>About this module</h3>
+
+
+<div class="paragraph">
+<p>Now that you have a basic understanding of the data, you will build a recommendation engine for authors.</p>
+</div>
+
+
+<div class="paragraph">
+<p>At the end of this module, you should be able to write Cypher queries to:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+Find potential collaborators for an author.
+</li>
+<li>
+Find relevant papers about a topic for an author.
+</li>
+</ul>
+</div>
+</div>
+<div  id="_collaborative_filtering" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Collaborative Filtering</h3>
+
+
+<div class="paragraph">
+<p>Collaborative filtering is based on the idea that people like things similar to other things they like, and things that are liked by other people with similar taste.</p>
+</div>
+<div class="imageblock">
+<p class="content">
+<img src="https://graphacademy.neo4j.com/img/datascience/Collaborative-Filtering.png" alt="Collaborative Filtering" width="600">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>In the Citations dataset there are a couple of different recommendations that we can generate.</p>
+</div>
+<div class="imageblock">
+<p class="content">
+<img src="https://graphacademy.neo4j.com/img/datascience/suggested-articles.png" alt="Suggested Articles" width="600">
+</p>
+</div>
+
+
+<div class="paragraph">
+<p>Authors may be interested in reading other papers written by their coauthors.
+We can also recommend future collaborators by finding the people that their coauthors have collaborated with.</p>
+</div>
+</div>
+<div  id="_exercise_1_coauthor_collaborative_filtering_with_cypher" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise 1: Coauthor Collaborative Filtering with Cypher</h3>
+
+
+<div class="paragraph">
+<p>You will write recommendation queries to <strong>suggest potential collaborators</strong>.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Click the button below to launch the notebook and perform the steps of the exercise.</p>
+</div>
+
+
+<div class="paragraph">
+<p>e can launch the notebook by clicking on the button below.</p>
+</div>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/neo4j-contrib/training-v2/blob/master/Courses/DataScience/notebooks/03_Recommendations_Part1.ipynb">Exercise 1</a>
+
+
+<div class="paragraph">
+<p>Once you have attempted the exercises, you can see the answers by launching the following notebook:</p>
+</div>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/neo4j-contrib/training-v2/blob/master/Courses/DataScience/notebooks/03_Recommendations_Part1_Exercises.ipynb">See answers</a>
+</div>
+<div  id="_pagerank_and_personalized_pagerank" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>PageRank and Personalized PageRank</h3>
+
+
+<div class="paragraph">
+<p>PageRank is an algorithm that measures the <strong>transitive</strong> influence or connectivity of nodes.
+It can be computed by either iteratively distributing one node&#8217;s rank (originally based on degree) over its neighbors or by randomly traversing the graph and counting the frequency of hitting each node during these walks.</p>
+</div>
+
+
+<div class="paragraph">
+<p>Personalized PageRank (PPR) is a variant of this algorithm that is biased towards a set of source nodes.
+It is often used as part of building recommender systems.</p>
+</div>
+</div>
+<div  id="_exercise_2_article_recommendations_with_personalized_pagerank" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Exercise 2: Article recommendations with Personalized PageRank</h3>
+
+
+<div class="paragraph">
+<p>In this exercise, you will gain experience using the PageRank algorithm, understand the difference between PageRank and PPR, and use PPR to <strong>suggest relevant articles</strong> to an author.</p>
+</div>
+<a class="medium button-notebook" target="_blank" href="https://colab.research.google.com/github/neo4j-contrib/training-v2/blob/master/Courses/DataScience/notebooks/03_Recommendations_Part2.ipynb">Exercise 2</a>
+</div>
+<div  id="module-3" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<h3>Check your understanding</h3>
+<div  id="_question_1" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 1</h3>
+
+
+<div class="paragraph">
+<p>How many of Brian Fitzgerald&#8217;s potential collaborators have collaborated with Brian&#8217;s collaborators more than 3 times?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">12</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">8</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">0</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">7</span>
+</li>
+</ul>
+</div>
+</div>
+<div  id="_question_2" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 2</h3>
+
+
+<div class="paragraph">
+<p>If we wanted to create a full text search on the 'name' property of nodes with the label 'Author', what are the correct procedures to do this?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answers.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer"><code>CALL db.index.fulltext.createNodeIndex('authors', ['Author'], ['name'])</code></span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>CALL db.index.fulltext.createNodeIndex('authors', ['name'], ['Author'])</code></span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer"><code>CALL db.index.fulltext.createNodeIndex('authorName', ['Author'], ['name'])</code></span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer"><code>CALL db.index.createFullTextSearch('authors', ['Author'], ['name'])</code></span>
+</li>
+</ul>
+</div>
+</div>
+<div  id="_question_3" class="sect2 columns medium-12" style='padding-left: 0;' >
+<h3>Question 3</h3>
+
+
+<div class="paragraph">
+<p>Which statement describes the Personalized PageRank algorithm?</p>
+</div>
+
+
+<div class="paragraph">
+<p>Select the correct answer.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Personalized PageRank measures the number of incoming and outgoing relationships from a node.</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="required-answer">Personalized PageRank is a variant of PageRank that allows us to find influential nodes based on a set of source nodes.</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Personalized PageRank counts the number of neighbors within 2 hops of a node</span>
+</li>
+<li>
+<input type="checkbox" data-item-complete="0"> <span class="false-answer">Personalized PageRank can only be used in combination with Full Text Search</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div  id="_summary" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Summary</h3>
+
+
+<div class="paragraph">
+<p>You should now be able to:</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+Find potential collaborators for an author.
+</li>
+<li>
+Find relevant papers about a topic for an author.
+</li>
+</ul>
+</div>
+</div>
+<div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
+<h3>Grade Quiz and Continue</h3>
+<a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-datascience-view-part3');
+});
+</script>
+</div>
+</div>
+<div id="sidebar-wrapper">
+        
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Recommendations</div>
+        <ul class="sectlevel1">
+<li><a href="#_about_this_module">About this module</a></li>
+<li><a href="#_collaborative_filtering">Collaborative Filtering</a></li>
+<li><a href="#_exercise_1_coauthor_collaborative_filtering_with_cypher">Exercise 1: Coauthor Collaborative Filtering with Cypher</a></li>
+<li><a href="#_pagerank_and_personalized_pagerank">PageRank and Personalized PageRank</a></li>
+<li><a href="#_exercise_2_article_recommendations_with_personalized_pagerank">Exercise 2: Article recommendations with Personalized PageRank</a></li>
+<li><a href="#module-3">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
+</ul>
+        </div>
+<div id="progress" style="position:absolute; bottom:100;"></div>
+</div>
+<script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/class.js" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/quizes.js" type="text/javascript"></script>
+<script>
+var auth0Options = {
+	configurationBaseUrl: 'https://cdn.auth0.com',
+	allowedConnections: ['google-oauth2', 'linkedin', 'twitter', 'Username-Password-Authentication'],
+	additionalSignUpFields: [
+		{
+			name: 'first_name',
+			placeholder: 'First Name'
+		},
+		{
+			name: 'last_name',
+			placeholder: 'Last Name'
+		}
+	],
+	closable: false,
+	languageDictionary: {
+		signUpTerms: "I agree to the <a href='https://neo4j.com/terms/online-trial-agreement/' style='text-decoration: underline' target='_blank'>terms of service</a> of Neo4j."
+	},
+	mustAcceptTerms: true,
+	auth: {
+		redirect: true,
+		redirectUrl: 'https://neo4j.com/accounts/login',
+		responseType: 'token id_token',
+		audience: 'neo4j://accountinfo/',
+		params: {
+			scope: 'read:account-info write:account-info openid email profile user_metadata'
+		}
+	}
+}
+
+const classStates = {
+	loggedIn: 'graph-academy-for-logged-in',
+	notLoggedIn: 'graph-academy-for-not-logged-in'
+}
+
+class GraphAcademyLogin {
+	constructor(options = {}) {
+		console.log('constructor called');
+		if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
+		console.log(options);
+		this.lock = new Auth0Lock('DxhmiF8TCeznI7Xoi08UyYScLGZnk4ke', 'login.neo4j.com', auth0Options);
+		this.options = options;
+		this.checkSession(options.callback);
+	}
+
+	checkSession(cb) {
+		this.lock.checkSession({}, async (err, result) => {
+			console.log(result);
+			if (result) {
+				this.isLoggedIn = true;
+				this.authResult = result;
+				if (this.callback && typeof this.callback === 'function') this.callback()
+			} else {
+				this.isLoggedIn = false;
+			}
+			if (err && this.options.loginRedirectUrl) {
+				this.redirectToLogin();
+			}
+			this.handleHtmlOnState(result ? 'loggedIn' : 'notLoggedIn');
+			if (cb && typeof cb === 'function') cb(err, result);
+		})
+	}
+
+	handleHtmlOnState(state = null) {
+		const loggedInElements = document.getElementsByClassName(classStates['loggedIn']) || [];
+		const notLoggedInElements = document.getElementsByClassName(classStates['notLoggedIn']) || [];
+		if (state === 'loggedIn') {
+			for (let item of loggedInElements) {
+				item.style.display = 'inherit';
+			}
+			for (let item of notLoggedInElements) {
+				item.style.display = 'none';
+			}
+		} else if (state === 'notLoggedIn') {
+			for (let item of loggedInElements) {
+				item.style.display = 'none';
+			}
+			for (let item of notLoggedInElements) {
+				item.style.display = 'inherit';
+			}
+		}
+	}
+
+	logout() {
+		const logoutOptions = {};
+		if (this.options.redirectOnLogout) logoutOptions.redirectTo = this.options.redirectOnLogout;
+		this.lock.logout(logoutOptions);
+		this.handleHtmlOnState('notLoggedIn');
+	}
+
+	redirectToLogin() {
+		return window.location.href = this.options.loginRedirectUrl;
+	}
+}
+ </script>
+
+<script>
+  const login = new GraphAcademyLogin();
+</script>
+
+ <link rel='stylesheet' id='neo-codemirror-css'
+    href="https://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css'
+    media='screen'/>
+
+ <script type='text/javascript'>
+  $('.admonitionblock.note').find('.icon').html('NOTE');
+  $('.admonitionblock.warning').find('.icon').html('WARNING');
+  $('.admonitionblock.information').find('.icon').html('INFO');
+
+  var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
+
+  function textContent(node, out) {
+    if (node.nodeType == 3) return out.push(node.nodeValue);
+    for (var ch = node.firstChild; ch; ch = ch.nextSibling) {
+      textContent(ch, out);
+      if (isBlock.test(node.nodeType)) out.push("\n");
+    }
+  }
+
+  CodeMirror.colorize = function(collection, defaultMode) {
+    if (!collection) collection = document.body.getElementsByTagName("pre");
+
+    for (var i = 0; i < collection.length; ++i) {
+      var syntax = false;
+      var node = collection[i];
+      var mode = node.getAttribute("data-lang") || defaultMode;
+      if (mode == "cypher-syntax") {
+        syntax = true;
+        mode = "cypher";
+      }
+      if (!mode) continue;
+
+      var text = [];
+      textContent(node, text);
+      node.innerHTML = "";
+      CodeMirror.runMode(text.join(""), mode, node);
+
+      node.className += " cm-s-default";
+      if (syntax) {
+        node.className += " cypher-syntax";
+      }
+    }
+  };
+
+  $( document ).ready(function() {
+    if (CodeMirror.colorize) {
+      CodeMirror.colorize(document.body.getElementsByTagName("pre"), 'cypher');
+    }
+  });
+ </script>
+<!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
+<script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/jwt-decode.min.js"></script>
+
+
+<script>
+const SITE_URL = window.location;
+
+
+$( document ).ready(function() {
+       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/data-science-dev/"});
+
+        login.checkSession((err, result) => {
+            if (result) {
+               getQuizStatus();
+                var userInfoIntercom = result.idTokenPayload;
+                if (userInfoIntercom) {
+                  try {
+                    window.Intercom("update", {
+                      app_id: "dt0ig5ab",
+                      name: userInfoIntercom.name,
+                      email: userInfoIntercom.email,
+                      user_id: userInfoIntercom.sub,
+                      hide_default_launcher: true
+                    });;
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }
+                Intercom('trackEvent',"training-data-science-view");
+            }
+        })
+
+});
+</script>

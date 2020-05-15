@@ -1,0 +1,100 @@
+<style>
+  .custom-form-header {
+    background: #0f5788;
+    padding: 15px 50px;
+    text-align: center;
+  }
+
+  .custom-form-header p {
+    color: white;
+    margin-bottom: 0;
+  }
+
+  .custom-form {
+    background: #ddddde;
+    padding: 30px 20px 25px 25px;
+  }
+
+  .subhead-training {
+    font-size: 26px;
+  }
+
+  .mktoForm input[type=url], .mktoForm input[type=text], .mktoForm input[type=date], .mktoForm input[type=tel], .mktoForm input[type=email], .mktoForm input[type=number], .mktoForm textarea.mktoField, .mktoForm select.mktoField {
+    background-color: #fdfdfd;
+  }
+  .asciidoc .sect1 > h2 {
+      letter-spacing: -.03em;
+      font-size: 1.25rem;
+      line-height: 1.4;
+      margin-top: 0;
+      margin-bottom: .25rem;
+      font-weight: 700;
+  }
+  @media print, screen and (min-width: 40em) {
+    .asciidoc .sect1 > h2 {
+      font-size: 1.25rem;
+    }
+  }
+  #preamble {
+    margin-bottom: 2rem;
+  }
+  .asciidoc .ulist > ul > li > p {
+    margin-bottom: 0;
+  }
+</style>
+<script>
+  window.trainingClassName = "<%= attr 'module-id' %>"
+  window.siteUrl = window.location
+  window.trainingLogoutEvent = "<%= attr 'module-logout-event' %>"
+  window.trainingLoginEvent = "<%= attr 'module-login-event' %>"
+  window.trainingRegisterEvent = "<%= attr 'module-register-event' %>"
+  window.trainingRegisterEventDetail = "<%= attr 'module-register-event-detail' %>"
+</script>
+<script src="//js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
+<script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="//neo4jsandbox.com/js/jwt-decode.min.js"></script>
+<script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "<%= attr 'module-title' %>",
+    "description": "<%= attr 'doctitle' %>",
+    "provider": {
+      "@type": "Organization",
+      "name": "Neo4j, Inc.",
+      "sameAs": "https://neo4j.com"
+    }
+  }
+</script>
+<div id="logout" style="display: none; position: absolute; right: 50px; top: 50px;">
+  <a data-action="logout" href="#" class="medium button feature-box_button">Logout</a>
+</div>
+<div class="row">
+  <div class="medium-12 columns text-center">
+    <h2 class="subhead-training"><%= attr 'doctitle' %></h2>
+  </div>
+</div>
+<div class="row">
+  <div class="small-10 medium-6 columns mainpage course_box asciidoc" id="online_training">
+    <%= content %>
+  </div>
+  <div class="small-2 medium-4 columns" style="padding-top: 30px; min-width: 350px;">
+    <div class="custom-form-header">
+      <p>Enroll in Course</p>
+    </div>
+    <div class="custom-form" style="text-align: center" id="reg-start">
+      <button type="button" class="btn btn-success btn-login" style="vertical-align: middle;">Sign In</button>
+      <a href="#" data-action="logout" style="display: none" class="reg-logout">Logout</a>
+    </div>
+    <div class="custom-form" style="text-align: center; display: none" id="reg-continue">
+      <button type="button" class="btn btn-success btn-continue" style="vertical-align: middle;">Continue to the Course</button>
+    </div>
+    <div class="custom-form" style="display: none" id="reg-form">
+      <script src="//go.neo4j.com/js/forms2/js/forms2.min.js"></script>
+      <form id="mktoForm_1422"></form>
+    </div>
+  </div>
+</div>
+<section>&nbsp;</section>
+<script src="<%= attr('module-enrollment-js-url') %>" type="text/javascript"></script>

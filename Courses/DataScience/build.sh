@@ -1,19 +1,16 @@
 #!/usr/bin/env bash
-convert () {
-  adoc_file="$1"
-  echo "converting $adoc_file"
-  asciidoctor -a "section-titles=Dev Env,EDA,Recommendations,Predictions,The End" \
-              -a "module-title=Neo4j GraphAcademy: Data Science with Neo4j" \
-              -a "CLASS_JS_URL=${CLASS_JS_URL}" \
-              -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
-              -a "imagedir=${IMG}" \
-              -T "../_templates_v2" \
-              "adoc/${adoc_file}" -D html
-}
+set -e
 
-convert "00_AboutThisCourse.adoc"
-convert "01_SettingUpYourDevelopmentEnvironment.adoc"
-convert "02_ExploratoryDataAnalysis.adoc"
-convert "03_Recommendations.adoc"
-convert "04_Predictions.adoc"
-convert "05_Summary.adoc"
+# load config
+. ./module.config
+
+# load functions
+. ../_bin/functions.sh
+
+convert_enrollment "index.part.adoc"
+convert_course "00_AboutThisCourse.adoc"
+convert_course "01_SettingUpYourDevelopmentEnvironment.adoc"
+convert_course "02_ExploratoryDataAnalysis.adoc"
+convert_course "03_Recommendations.adoc"
+convert_course "04_Predictions.adoc"
+convert_course "05_Summary.adoc"

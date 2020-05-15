@@ -1,22 +1,18 @@
 #!/usr/bin/env bash
+set -e
 
-convert () {
-  adoc_file="$1"
-  echo "converting $adoc_file"
-  asciidoctor -a "section-titles=Intro to Neo4j,Overview Of Admin,Managing a DB,Causal Clustering,Security,Monitoring,The End" \
-              -a "module-title=Neo4j GraphAcademy: Neo4j Administration" \
-              -a "CLASS_JS_URL=${CLASS_JS_URL}" \
-              -a "QUIZES_JS_URL=${QUIZES_JS_URL}" \
-              -a "imagedir=${IMG}" \
-              -T "../_templates_v2" \
-              "adoc/${adoc_file}" -D html
-}
+# load config
+. ./module.config
 
-convert "00_AboutThisCourse.adoc"
-convert "01_IntroductionToNeo4j.adoc"
-convert "02_OverviewOfNeo4jAdministration.adoc"
-convert "03_ManagingANeo4jDatabase.adoc"
-convert "04_CausalClusteringInNeo4j.adoc"
-convert "05_SecurityInNeo4j.adoc"
-convert "06_MonitoringNeo4j.adoc"
-convert "07_Summary.adoc"
+# load functions
+. ../_bin/functions.sh
+
+convert_enrollment "index.part.adoc"
+convert_course "00_AboutThisCourse.adoc"
+convert_course "01_IntroductionToNeo4j.adoc"
+convert_course "02_OverviewOfNeo4jAdministration.adoc"
+convert_course "03_ManagingANeo4jDatabase.adoc"
+convert_course "04_CausalClusteringInNeo4j.adoc"
+convert_course "05_SecurityInNeo4j.adoc"
+convert_course "06_MonitoringNeo4j.adoc"
+convert_course "07_Summary.adoc"

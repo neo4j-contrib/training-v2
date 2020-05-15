@@ -36,6 +36,8 @@
       <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
         window.trainingPartName = "module-5";
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.intro-v2.";
+        window.trainingQuizCount = 7;
       </script>
    </head>
    <body>
@@ -132,24 +134,15 @@
          </nav>
       </header>
 
-
-<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Getting More Out of Queries</h1>
-
-      <div id="preamble columns medium-12">
-<div class="sectionbody">
 <script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
 	var loc = window.location;
 	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-window.trainingClassName = 'online-training-v2';
+  window.trainingClassName = "online-training-v2";
 </script>
-
 <script>Munchkin.init('773-GON-065');</script>
-
-
 <style>
     @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
     .modal {
@@ -184,6 +177,28 @@ window.trainingClassName = 'online-training-v2';
       background-color: #4ac084;
   }
 
+    a.button-notebook {
+      display: block;
+      text-align: center;
+      width: 250px;
+      font-size: 18px;
+      margin-top: 20px;
+      font-family: 'Open Sans';
+      height: 55px;
+      border-style: solid;
+      border-width: 0;
+      cursor: pointer;
+      color: white;
+      padding: 15px;
+      font-weight: 300;
+      background-color: #6dcc9c;
+      border-color: #4ac084;
+    }
+
+    .button-notebook a hover {
+        background-color: #4ac084;
+    }
+
   pre.cypher-syntax {
     background-color: #eaf1f8;
   }
@@ -193,7 +208,6 @@ window.trainingClassName = 'online-training-v2';
 <script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
 <script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/js.cookie-2.1.3.min.js"></script>
-<!--script src="/online_training/gadgetUtils.js"></script-->
 <script type="text/javascript">
   Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
 </script>
@@ -214,21 +228,12 @@ function modalWindow(frameId, options) {
               webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
            <div>`;
 }
-/*
-    .modal {
-        width: 775px;
-        height: 675px;
-        padding: 10px;
-        margin: 0;
-    }
-*/
 
 function formatTask(options) {
   if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
   if (options.taskName) return "cypherTask="+options.taskName;
   return "";
 }
-
 
 function setGadgetUrl(sel) {
   $(sel).modal();
@@ -237,116 +242,18 @@ function setGadgetUrl(sel) {
   $iframe.attr("src", $iframe.data("src"));
 }
 </script>
-
-<!-- Elaine added -->
-
-<script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
-
-<!-- End addition -->
-
-<!-- Elaine added contents of login.js from Shreyans -->
-
 <script>
-    var auth0Options = {
-        configurationBaseUrl: 'https://cdn.auth0.com',
-        allowedConnections: ['google-oauth2', 'linkedin', 'twitter', 'Username-Password-Authentication'],
-        additionalSignUpFields: [
-            {
-                name: 'first_name',
-                placeholder: 'First Name'
-            },
-            {
-                name: 'last_name',
-                placeholder: 'Last Name'
-            }
-        ],
-        closable: false,
-        languageDictionary: {
-            signUpTerms: "I agree to the <a href='https://neo4j.com/terms/online-trial-agreement/' style='text-decoration: underline' target='_blank'>terms of service</a> of Neo4j."
-        },
-        mustAcceptTerms: true,
-        auth: {
-            redirect: true,
-            redirectUrl: 'https://neo4j.com/accounts/login',
-            responseType: 'token id_token',
-            audience: 'neo4j://accountinfo/',
-            params: {
-                scope: 'read:account-info write:account-info openid email profile user_metadata'
-            }
-        }
-    }
-
-    const classStates = {
-        loggedIn: 'graph-academy-for-logged-in',
-        notLoggedIn: 'graph-academy-for-not-logged-in'
-    }
-
-    class GraphAcademyLogin {
-        constructor(options = {}) {
-            console.log('constructor called');
-            if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
-            console.log(options);
-            this.lock = new Auth0Lock('DxhmiF8TCeznI7Xoi08UyYScLGZnk4ke', 'login.neo4j.com', auth0Options);
-            this.options = options;
-            this.checkSession(options.callback);
-        }
-
-        checkSession(cb) {
-            this.lock.checkSession({}, async (err, result) => {
-                console.log(result);
-            if (result) {
-                this.isLoggedIn = true;
-                this.authResult = result;
-                if (this.callback && typeof this.callback === 'function') this.callback()
-            } else {
-                this.isLoggedIn = false;
-            }
-            if (err && this.options.loginRedirectUrl) {
-                this.redirectToLogin();
-            }
-            this.handleHtmlOnState(result ? 'loggedIn' : 'notLoggedIn');
-            if (cb && typeof cb === 'function') cb(err, result);
-        })
-        }
-
-        handleHtmlOnState(state = null) {
-            const loggedInElements = document.getElementsByClassName(classStates['loggedIn']) || [];
-            const notLoggedInElements = document.getElementsByClassName(classStates['notLoggedIn']) || [];
-            if (state === 'loggedIn') {
-                for (let item of loggedInElements) {
-                    item.style.display = 'inherit';
-                }
-                for (let item of notLoggedInElements) {
-                    item.style.display = 'none';
-                }
-            } else if (state === 'notLoggedIn') {
-                for (let item of loggedInElements) {
-                    item.style.display = 'none';
-                }
-                for (let item of notLoggedInElements) {
-                    item.style.display = 'inherit';
-                }
-            }
-        }
-
-        logout() {
-            const logoutOptions = {};
-            if (this.options.redirectOnLogout) logoutOptions.redirectTo = this.options.redirectOnLogout;
-            this.lock.logout(logoutOptions);
-            this.handleHtmlOnState('notLoggedIn');
-        }
-
-        redirectToLogin() {
-            return window.location.href = this.options.loginRedirectUrl;
-        }
-    }
-
+  window.intercomSettings = {
+    app_id: "dt0ig5ab",
+    hide_default_launcher: true
+  };
 </script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 
-<!-- End addition -->
-</div>
-</div>
-<div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Getting More Out of Queries</h1>
+
+      <div  id="_about_this_module" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>About this module</h3>
 
 
@@ -472,7 +379,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MoviesBetween2003And2004.png" alt="MoviesBetween2003And2004" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/MoviesBetween2003And2004.png" alt="MoviesBetween2003And2004" width="800">
 </p>
 </div>
 
@@ -599,7 +506,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/JackNicholsonMoviesWithTaglines.png" alt="JackNicholsonMoviesWithTaglines" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/JackNicholsonMoviesWithTaglines.png" alt="JackNicholsonMoviesWithTaglines" width="900">
 </p>
 </div>
 </div>
@@ -633,7 +540,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ActorsNamedMichael.png" alt="ActorsNamedMichael" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ActorsNamedMichael.png" alt="ActorsNamedMichael" width="800">
 </p>
 </div>
 
@@ -698,7 +605,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MatchTomsRegex.png" alt="MatchTomsRegex" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/MatchTomsRegex.png" alt="MatchTomsRegex" width="800">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -743,7 +650,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/WroteMovies.png" alt="WroteMovies" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/WroteMovies.png" alt="WroteMovies" width="800">
 </p>
 </div>
 
@@ -768,7 +675,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/WroteMoviesNotDirected.png" alt="WroteMoviesNotDirected" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/WroteMoviesNotDirected.png" alt="WroteMoviesNotDirected" width="800">
 </p>
 </div>
 
@@ -794,7 +701,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ExistsPattern.png" alt="ExistsPattern" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ExistsPattern.png" alt="ExistsPattern" width="700">
 </p>
 </div>
 </div>
@@ -835,7 +742,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UsingIN.png" alt="UsingIN" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/UsingIN.png" alt="UsingIN" width="800">
 </p>
 </div>
 
@@ -866,7 +773,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/UsingINRoles.png" alt="UsingINRoles" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/UsingINRoles.png" alt="UsingINRoles" width="800">
 </p>
 </div>
 <div class="admonitionblock note">
@@ -972,7 +879,7 @@ You should only perform these types of queries if you know the data well and the
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CartesionProductWarning.png" alt="CartesionProductWarning" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CartesionProductWarning.png" alt="CartesionProductWarning" width="800">
 </p>
 </div>
 
@@ -982,7 +889,7 @@ You should only perform these types of queries if you know the data well and the
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/KeanuFriendsForHugo.png" alt="KeanuFriendsForHugo" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/KeanuFriendsForHugo.png" alt="KeanuFriendsForHugo" width="700">
 </p>
 </div>
 </div>
@@ -1013,7 +920,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MegsCoActors.png" alt="MegsCoActors" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/MegsCoActors.png" alt="MegsCoActors" width="800">
 </p>
 </div>
 </div>
@@ -1042,7 +949,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/MegPath.png" alt="MegPath" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/MegPath.png" alt="MegPath" width="800">
 </p>
 </div>
 </div>
@@ -1057,7 +964,7 @@ The <em>Movie</em> database for this training does not have much depth of relati
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/FollowsRelationships.png" alt="FollowsRelationships" width="400">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/FollowsRelationships.png" alt="FollowsRelationships" width="400">
 </p>
 </div>
 
@@ -1083,7 +990,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TwoHopRelationship.png" alt="TwoHopRelationship" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/TwoHopRelationship.png" alt="TwoHopRelationship" width="700">
 </p>
 </div>
 
@@ -1184,7 +1091,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ShortestPath1.png" alt="ShortestPath1" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ShortestPath1.png" alt="ShortestPath1" width="800">
 </p>
 </div>
 
@@ -1236,7 +1143,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/OptionalMatch.png" alt="OptionalMatch" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/OptionalMatch.png" alt="OptionalMatch" width="800">
 </p>
 </div>
 
@@ -1274,7 +1181,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Aggregation.png" alt="Aggregation" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Aggregation.png" alt="Aggregation" width="800">
 </p>
 </div>
 </div>
@@ -1303,7 +1210,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/TomCruiseMovieCollection.png" alt="TomCruiseMovieCollection" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/TomCruiseMovieCollection.png" alt="TomCruiseMovieCollection" width="800">
 </p>
 </div>
 
@@ -1343,7 +1250,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ActorDirectorCollaborations.png" alt="ActorDirectorCollaborations" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ActorDirectorCollaborations.png" alt="ActorDirectorCollaborations" width="900">
 </p>
 </div>
 
@@ -1387,7 +1294,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/ActorsWith2or3Movies.png" alt="ActorsWith2or3Movies" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/ActorsWith2or3Movies.png" alt="ActorsWith2or3Movies" width="800">
 </p>
 </div>
 
@@ -1433,7 +1340,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/PopularActorsWithAtLeast5Movies.png" alt="PopularActorsWithAtLeast5Movies" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/PopularActorsWithAtLeast5Movies.png" alt="PopularActorsWithAtLeast5Movies" width="800">
 </p>
 </div>
 
@@ -1491,7 +1398,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Duplication.png" alt="Duplication" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Duplication.png" alt="Duplication" width="800">
 </p>
 </div>
 
@@ -1516,7 +1423,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoDuplication.png" alt="NoDuplication" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/NoDuplication.png" alt="NoDuplication" width="800">
 </p>
 </div>
 </div>
@@ -1545,7 +1452,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/NoDuplication2.png" alt="NoDuplication2" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/NoDuplication2.png" alt="NoDuplication2" width="800">
 </p>
 </div>
 </div>
@@ -1581,7 +1488,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Ordering.png" alt="Ordering" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Ordering.png" alt="Ordering" width="800">
 </p>
 </div>
 </div>
@@ -1616,7 +1523,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Limit.png" alt="Limit" width="600">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Limit.png" alt="Limit" width="600">
 </p>
 </div>
 </div>
@@ -1650,7 +1557,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Count5Movies.png" alt="Count5Movies" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Count5Movies.png" alt="Count5Movies" width="900">
 </p>
 </div>
 </div>
@@ -1709,7 +1616,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/CastList.png" alt="CastList" width="900">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/CastList.png" alt="CastList" width="900">
 </p>
 </div>
 
@@ -1747,7 +1654,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Unwind3.png" alt="Unwind3" width="700">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Unwind3.png" alt="Unwind3" width="700">
 </p>
 </div>
 
@@ -1801,7 +1708,7 @@ data-lang=”{language}” class=””
 </div>
 <div class="imageblock thumb">
 <p class="content">
-<img src="https://s3-us-west-1.amazonaws.com/data.neo4j.com/intro-neo4j/img/Age.png" alt="Age" width="800">
+<img src="https://graphacademy.neo4j.com/img/neo4j-administration/Age.png" alt="Age" width="800">
 </p>
 </div>
 
@@ -2007,11 +1914,86 @@ Work with Cypher lists and dates
 <div  id="_grade_quiz_and_continue" class="sect1 columns medium-12" style='padding-left: 0;' >
 <h3>Grade Quiz and Continue</h3>
 <a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
+<script>
+$( document ).ready(function() {
+  Intercom('trackEvent','training-introv2-view-part5');
+});
+</script>
+</div>
+</div>
+<div id="sidebar-wrapper">
+        
+        <div id="toc" class="toc2">
+        <div id="toctitle">Module: Getting More Out of Queries</div>
+        <ul class="sectlevel1">
+<li><a href="#_about_this_module">About this module</a>
+<ul class="sectlevel2">
+<li><a href="#_filtering_queries_using_where">Filtering queries using <code>WHERE</code></a>
+<ul class="sectlevel3">
+<li><a href="#_specifying_ranges_in_where_clauses">Specifying ranges in WHERE clauses</a></li>
+<li><a href="#_testing_labels">Testing labels</a></li>
+<li><a href="#_testing_the_existence_of_a_property">Testing the existence of a property</a></li>
+<li><a href="#_testing_strings">Testing strings</a></li>
+<li><a href="#_testing_with_regular_expressions">Testing with regular expressions</a></li>
+<li><a href="#_testing_with_patterns">Testing with patterns</a></li>
+<li><a href="#_testing_with_list_values">Testing with list values</a></li>
+</ul>
+</li>
+<li><a href="#_exercise_4_filtering_queries_using_the_where_clause"><strong>Exercise 4: Filtering queries using the <code>WHERE</code> clause</strong></a></li>
+<li><a href="#_controlling_query_processing">Controlling query processing</a>
+<ul class="sectlevel3">
+<li><a href="#_specifying_multiple_match_patterns">Specifying multiple <code>MATCH</code> patterns</a></li>
+<li><a href="#_example_1_using_two_match_patterns">Example 1: Using two MATCH patterns</a></li>
+<li><a href="#_example_2_using_two_match_patterns">Example 2: Using two MATCH patterns</a></li>
+<li><a href="#_setting_path_variables">Setting path variables</a></li>
+<li><a href="#_specifying_varying_length_paths">Specifying varying length paths</a></li>
+<li><a href="#_finding_the_shortest_path">Finding the shortest path</a></li>
+<li><a href="#_specifying_optional_pattern_matching">Specifying optional pattern matching</a></li>
+<li><a href="#_aggregation_in_cypher">Aggregation in Cypher</a></li>
+<li><a href="#_collecting_results">Collecting results</a></li>
+<li><a href="#_counting_results">Counting results</a></li>
+<li><a href="#_additional_processing_using_with">Additional processing using <code>WITH</code></a></li>
+</ul>
+</li>
+<li><a href="#_exercise_5_controlling_query_processing"><strong>Exercise 5: Controlling query processing</strong></a></li>
+<li><a href="#_controlling_how_results_are_returned">Controlling how results are returned</a>
+<ul class="sectlevel3">
+<li><a href="#_eliminating_duplication">Eliminating duplication</a></li>
+<li><a href="#_using_with_and_distinct_to_eliminate_duplication">Using WITH and DISTINCT to eliminate duplication</a></li>
+<li><a href="#_ordering_results">Ordering results</a></li>
+<li><a href="#_limiting_the_number_of_results">Limiting the number of results</a></li>
+<li><a href="#_controlling_the_number_of_results_using_with">Controlling the number of results using WITH</a></li>
+</ul>
+</li>
+<li><a href="#_exercise_6_controlling_results_returned"><strong>Exercise 6: Controlling results returned</strong></a></li>
+<li><a href="#_working_with_cypher_data">Working with Cypher data</a>
+<ul class="sectlevel3">
+<li><a href="#_lists">Lists</a></li>
+<li><a href="#_unwinding_lists">Unwinding lists</a></li>
+<li><a href="#_dates">Dates</a></li>
+</ul>
+</li>
+<li><a href="#_exercise_7_working_with_cypher_data"><strong>Exercise 7: Working with Cypher data</strong></a></li>
+</ul>
+</li>
+<li><a href="#module-5">Check your understanding</a>
+<ul class="sectlevel2">
+<li><a href="#_question_1">Question 1</a></li>
+<li><a href="#_question_2">Question 2</a></li>
+<li><a href="#_question_3">Question 3</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
+</ul>
+        </div>
+<div id="progress" style="position:absolute; bottom:100;"></div>
+</div>
 <script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
-
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/class.js" type="text/javascript"></script>
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/quizes.js" type="text/javascript"></script>
 <script>
 var auth0Options = {
 	configurationBaseUrl: 'https://cdn.auth0.com',
@@ -2162,16 +2144,6 @@ class GraphAcademyLogin {
     }
   });
  </script>
-
-
-<script>
-  window.intercomSettings = {
-    app_id: "dt0ig5ab",
-    hide_default_launcher: true
-  };
-</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-
 <!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/jwt-decode.min.js"></script>
 
@@ -2181,14 +2153,12 @@ const SITE_URL = window.location;
 
 
 $( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/"});
+       const login = new GraphAcademyLogin({loginRedirectUrl: ""});
 
         login.checkSession((err, result) => {
             if (result) {
                getQuizStatus();
-
-              /*
-                var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
+                var userInfoIntercom = result.idTokenPayload;
                 if (userInfoIntercom) {
                   try {
                     window.Intercom("update", {
@@ -2202,85 +2172,9 @@ $( document ).ready(function() {
                     console.error(err);
                   }
                 }
-                Intercom('trackEvent','training-introv2-view');
-                */
+                Intercom('trackEvent',"training-introv2-view");
             }
         })
 
 });
 </script>
-<script>
-$( document ).ready(function() {
-  Intercom('trackEvent','training-introv2-view-part5');
-});
-</script>
-</div>
-</div>
-<div id="sidebar-wrapper">
-        
-        <div id="toc" class="toc2">
-        <div id="toctitle">Module: Getting More Out of Queries</div>
-        <ul class="sectlevel1">
-<li><a href="#_about_this_module">About this module</a>
-<ul class="sectlevel2">
-<li><a href="#_filtering_queries_using_where">Filtering queries using <code>WHERE</code></a>
-<ul class="sectlevel3">
-<li><a href="#_specifying_ranges_in_where_clauses">Specifying ranges in WHERE clauses</a></li>
-<li><a href="#_testing_labels">Testing labels</a></li>
-<li><a href="#_testing_the_existence_of_a_property">Testing the existence of a property</a></li>
-<li><a href="#_testing_strings">Testing strings</a></li>
-<li><a href="#_testing_with_regular_expressions">Testing with regular expressions</a></li>
-<li><a href="#_testing_with_patterns">Testing with patterns</a></li>
-<li><a href="#_testing_with_list_values">Testing with list values</a></li>
-</ul>
-</li>
-<li><a href="#_exercise_4_filtering_queries_using_the_where_clause"><strong>Exercise 4: Filtering queries using the <code>WHERE</code> clause</strong></a></li>
-<li><a href="#_controlling_query_processing">Controlling query processing</a>
-<ul class="sectlevel3">
-<li><a href="#_specifying_multiple_match_patterns">Specifying multiple <code>MATCH</code> patterns</a></li>
-<li><a href="#_example_1_using_two_match_patterns">Example 1: Using two MATCH patterns</a></li>
-<li><a href="#_example_2_using_two_match_patterns">Example 2: Using two MATCH patterns</a></li>
-<li><a href="#_setting_path_variables">Setting path variables</a></li>
-<li><a href="#_specifying_varying_length_paths">Specifying varying length paths</a></li>
-<li><a href="#_finding_the_shortest_path">Finding the shortest path</a></li>
-<li><a href="#_specifying_optional_pattern_matching">Specifying optional pattern matching</a></li>
-<li><a href="#_aggregation_in_cypher">Aggregation in Cypher</a></li>
-<li><a href="#_collecting_results">Collecting results</a></li>
-<li><a href="#_counting_results">Counting results</a></li>
-<li><a href="#_additional_processing_using_with">Additional processing using <code>WITH</code></a></li>
-</ul>
-</li>
-<li><a href="#_exercise_5_controlling_query_processing"><strong>Exercise 5: Controlling query processing</strong></a></li>
-<li><a href="#_controlling_how_results_are_returned">Controlling how results are returned</a>
-<ul class="sectlevel3">
-<li><a href="#_eliminating_duplication">Eliminating duplication</a></li>
-<li><a href="#_using_with_and_distinct_to_eliminate_duplication">Using WITH and DISTINCT to eliminate duplication</a></li>
-<li><a href="#_ordering_results">Ordering results</a></li>
-<li><a href="#_limiting_the_number_of_results">Limiting the number of results</a></li>
-<li><a href="#_controlling_the_number_of_results_using_with">Controlling the number of results using WITH</a></li>
-</ul>
-</li>
-<li><a href="#_exercise_6_controlling_results_returned"><strong>Exercise 6: Controlling results returned</strong></a></li>
-<li><a href="#_working_with_cypher_data">Working with Cypher data</a>
-<ul class="sectlevel3">
-<li><a href="#_lists">Lists</a></li>
-<li><a href="#_unwinding_lists">Unwinding lists</a></li>
-<li><a href="#_dates">Dates</a></li>
-</ul>
-</li>
-<li><a href="#_exercise_7_working_with_cypher_data"><strong>Exercise 7: Working with Cypher data</strong></a></li>
-</ul>
-</li>
-<li><a href="#module-5">Check your understanding</a>
-<ul class="sectlevel2">
-<li><a href="#_question_1">Question 1</a></li>
-<li><a href="#_question_2">Question 2</a></li>
-<li><a href="#_question_3">Question 3</a></li>
-</ul>
-</li>
-<li><a href="#_summary">Summary</a></li>
-<li><a href="#_grade_quiz_and_continue">Grade Quiz and Continue</a></li>
-</ul>
-        </div>
-<div id="progress" style="position:absolute; bottom:100;"></div>
-</div>

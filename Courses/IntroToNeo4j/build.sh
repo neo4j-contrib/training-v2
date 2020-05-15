@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
-convert () {
-  adoc_file="$1"
-  echo "converting $adoc_file"
-  asciidoctor -a "section-titles=Intro to Graph DBs,Intro to Neo4j,Dev Env,Cypher,Advanced Queries,Creating Data,More,The End" \
-              -a "module-title=Neo4j GraphAcademy: Introduction to Neo4j" \
-              -T "../_templates_v2" \
-              "adoc/${adoc_file}" -D html
-}
+set -e
 
-convert "00_AboutThisCourse.adoc"
-convert "01_IntroductionToGraphDatabases.adoc"
-convert "02_IntroductionToNeo4j.adoc"
-convert "03_SettingUpYourDevelopmentEnvironment.adoc"
-convert "04_IntroductionToCypher.adoc"
-convert "05_GettingMoreOutOfQueries.adoc"
-convert "06_CreatingNodesAndRelationships.adoc"
-convert "07_GettingMoreOutOfNeo4j.adoc"
-convert "08_Summary.adoc"
+# load config
+. ./module.config
+
+# load functions
+. ../_bin/functions.sh
+
+convert_enrollment "index.part.adoc"
+convert_course "00_AboutThisCourse.adoc"
+convert_course "01_IntroductionToGraphDatabases.adoc"
+convert_course "02_IntroductionToNeo4j.adoc"
+convert_course "03_SettingUpYourDevelopmentEnvironment.adoc"
+convert_course "04_IntroductionToCypher.adoc"
+convert_course "05_GettingMoreOutOfQueries.adoc"
+convert_course "06_CreatingNodesAndRelationships.adoc"
+convert_course "07_GettingMoreOutOfNeo4j.adoc"
+convert_course "08_Summary.adoc"
