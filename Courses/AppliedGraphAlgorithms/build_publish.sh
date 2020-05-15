@@ -18,13 +18,4 @@ while [[ "$1" != "" ]]; do
 done
 
 current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
-# publish quizes.js and class.js
-publish_js
-
-echo "Building webpages---"
-./build.sh
-
-echo "Publishing---"
-copy_images_s3 "${current_dir}/img/" "s3://graphacademy.neo4j.com/img/applied-graph-algos/"
-publish_wordpress "${current_dir}"
+build_publish "${current_dir}"

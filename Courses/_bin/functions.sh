@@ -64,3 +64,21 @@ copy_images_s3 () {
   echo -e "\t${src_dir} -> ${destination_bucket}"
   aws s3 sync --acl public-read "${src_dir}" "${destination_bucket}" --profile "${S3_PROFILE}"
 }
+
+build_publish () {
+  local course_dir="$1"
+
+  # publish quizes.js and class.js
+  publish_js
+
+  echo "Building webpages---"
+  ${course_dir}/build.sh
+
+  echo "Publishing---"
+  if [[ -z "${S3_IMG_BUCKET}" ]]; then
+    echo "INFO: Environment variable S3_IMG_BUCKET is undefined, skipping the copy images to S3..."
+  else
+    copy_images_s3 "${course_dir}/img/" "${S3_IMG_BUCKET}"
+  fi
+  publish_wordpress "${course_dir}"
+}
