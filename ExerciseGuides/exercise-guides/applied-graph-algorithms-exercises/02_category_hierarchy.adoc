@@ -29,7 +29,8 @@ WITH [
   {item: 8, categories: [10,11]},
   {item: 9, categories: [11,12,13,14,15]}
 ] AS data
-CALL algo.similarity.overlap.stream(data)
+CALL gds.alpha.similarity.overlap.stream({
+  data:data, nodeProjection:'*', relationshipProjection:'*'})
 YIELD item1, item2, similarity
 RETURN item1, item2, similarity
 ORDER BY similarity DESC
@@ -43,12 +44,12 @@ Item `7` itself is a subset of item `9`, but it's not a complete subset as item 
 Now we want to run the algorithm on the Yelp dataset.
 We need to build a collection of items like we did in our previous example, but this time the collection will consist of data from our graph rather than being hard coded.
 
-The query below provides a template for computing the https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-overlap/#algorithms-similarity-overlap-sample[Overlap Similarity^] of categories based on the businesses tagged with those categories.
+The query below provides a template for computing the https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/overlap/#algorithms-similarity-overlap-procedure-sample[Overlap Similarity^] of categories based on the businesses tagged with those categories.
 Update the query (copied from the documentation) to:
 
 * Compute similarity between categories based on the business tagged with that category (Hint: you'll need to use the `IN_CATEGORY` relationship)
 * Choose a similarity cut off value (Hint: look at the `similarityCutOff` parameter)
-* Store the results in Neo4j (Hint: look at the `write` parameter)
+* Define the node and relationship projection (Hint: look at the `nodeProjection` and `relationshipProjection` parameters)
 
 [source,cypher]
 ----
@@ -58,9 +59,9 @@ WITH {item:id(genre), categories: collect(id(book))} as userData
 
 WITH collect(userData) as data
 
-// Fill in the config in this part of the query
-CALL algo.similarity.overlap(data, {
-
+// Fill in the configuration in this part of the query
+CALL gds.alpha.similarity.overlap.write({
+  data:data, 
 })
 
 YIELD nodes, similarityPairs, p50, p75, p90, p99
@@ -78,8 +79,9 @@ WITH {item:id(category), categories: collect(id(business))} AS userData
 
 WITH collect(userData) as data
 
-CALL algo.similarity.overlap(data, {
-  write: true, similarityCutoff: 0.75
+CALL gds.alpha.similarity.overlap.write({
+  data: data, similarityCutoff: 0.75,
+  nodeProjection:'*', relationshipProjection:'*'
 })
 
 YIELD nodes, similarityPairs, p50, p75, p90, p99

@@ -15,16 +15,16 @@ Update the query to:
 * Compute similarity between users based on the common businesses they've reviewed (Hint: you'll need to use the `WROTE` and `REVIEWS` relationships)
 * Choose a similarity cut off value (Hint: look at the `similarityCutOff` parameter)
 * Choose a topK value (Hint: look at the `topK` parameter)
-* Store the results in Neo4j (Hint: look at the `write` parameter)
+* Define the node and relationship projection (Hint: look at the `nodeProjection` and `relationshipProjection` parameters)
 
 [source,cypher]
 ----
-CALL algo.similarity.pearson(
-  "MATCH (u:User)
+CALL gds.alpha.similarity.pearson(
+  {data: "MATCH (u:User)
    WHERE size((u)-[:WROTE]->()) > 15
    // Fill in this part of the query
    RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
-  {graph: "cypher", skipValue: algo.NaN()})
+   graph: "cypher", skipValue: gds.util.NaN()})
 ----
 
 == Answer: User Similarity
@@ -33,12 +33,13 @@ This is what the query should look like:
 
 [source, cypher]
 ----
-CALL algo.similarity.pearson(
- "MATCH (u:User)
+CALL gds.alpha.similarity.pearson.write({
+  data: "MATCH (u:User)
   WHERE size((u)-[:WROTE]->()) > 15
   MATCH (u)-[:WROTE]->(review)-[:REVIEWS]->(b)
   RETURN id(u) AS item, id(b) AS category, review.stars as weight",
-  {graph: "cypher", topK: 5, skipValue: algo.NaN(), similarityCutoff: 0.1, write: true})
+  graph: "cypher", topK: 5, skipValue: gds.util.NaN(), similarityCutoff: 0.1,
+  nodeProjection:'*', relationshipProjection:'*'})
 ----
 
 We want to use this similarity graph to improve the reviews that we show on our application.

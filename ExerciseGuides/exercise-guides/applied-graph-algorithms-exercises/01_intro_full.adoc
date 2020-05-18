@@ -6,7 +6,7 @@ Welcome to the Neo4j Graph Algorithms Online Training Course!
 
 Graph algorithms are used to compute metrics for graphs, nodes, or relationships.
 They can provide insights on relevant entities (centralities, ranking) in the graph or inherent structures such as communities (community-detection, graph-partitioning, clustering).
-In this course you will learn how to use Neo4j's Graph Algorithms library to enhance your graph based applications.
+In this course you will learn how to use Neo4j's Graph Data Science library to enhance your graph based applications.
 
 == Pre Requisites
 
@@ -26,7 +26,7 @@ As of Round 12 of the challenge, the open dataset contained:
 * Over 188,000 businesses with 1.4 million attributes
 * 10 metropolitan areas
 
-The https://www.yelp.com/dataset/challenge[Yelp dataset^] represents real data that is very well structured and highly interconnected.
+The https://www.yelp.com/dataset[Yelp dataset^] represents real data that is very well structured and highly interconnected.
 It’s a great showcase for graph algorithms that you can also download and explore.
 
 *Put something here for them to click through so we can approve the use of the dataset*
@@ -168,13 +168,15 @@ Let's see how the algorithm works with some dummy data.
 [source, cypher]
 ----
 WITH [
-  {item: 1, categories: [10,11,12]},
-  {item: 2, categories: [10,11]},
-  {item: 3, categories: [11,12,13,14,15]}
+  {item: 7, categories: [10,11,12]},
+  {item: 8, categories: [10,11]},
+  {item: 9, categories: [11,12,13,14,15]}
 ] AS data
-CALL algo.similarity.overlap.stream(data)
+CALL gds.alpha.similarity.overlap.stream({
+  data:data, nodeProjection:'*', relationshipProjection:'*'})
 YIELD item1, item2, similarity
 RETURN item1, item2, similarity
+ORDER BY similarity DESC
 ----
 
 
@@ -186,9 +188,11 @@ Now let's run the algorithm:
 WITH {item:id(category),
       categories: collect(id(business))} as userData
 WITH collect(userData) as data
-CALL algo.similarity.overlap(data, {
-  write: true, similarityCutoff: 0.75
+// Fill in the configuration in this part of the query
+CALL gds.alpha.similarity.overlap.write({
+  data:data, similarityCutoff: 0.75 
 })
+
 YIELD nodes, similarityPairs, p50, p75, p90, p99
 RETURN nodes, similarityPairs, p50, p75, p90, p99;
 ----
@@ -197,14 +201,16 @@ And this is the answer:
 
 [source,cypher]
 ----
-MATCH (category:Category)
-MATCH (category)<-[:IN_CATEGORY]-(business)
-WITH {item:id(category),
-      categories: collect(id(business))} as userData
+MATCH (category:Category)<-[:IN_CATEGORY]-(business)
+WITH {item:id(category), categories: collect(id(business))} AS userData
+
 WITH collect(userData) as data
-CALL algo.similarity.overlap(data, {
-  write: true, similarityCutoff: 0.75
+
+CALL gds.alpha.similarity.overlap.write({
+  data: data, similarityCutoff: 0.75,
+  nodeProjection:'*', relationshipProjection:'*'
 })
+
 YIELD nodes, similarityPairs, p50, p75, p90, p99
 RETURN nodes, similarityPairs, p50, p75, p90, p99;
 ----
@@ -233,29 +239,26 @@ In this section we'll learn how to use the Pearson Similarity algorithm to recom
 
 [source,cypher]
 ----
-CALL algo.similarity.cosine(
-    "// Fill in this part of the query
-     RETURN id(u) AS item, id(business) AS id, review.stars AS weight",
-    {graph: "cypher", similarityCutoff:0.5, degreeCutoff:3, write:true, topK:10,
-     skipValue: algo.NaN(), params: {city: "Phoenix"}})
-YIELD nodes, similarityPairs, min, max, mean, stdDev, p90, p95, p99
-RETURN *
+CALL gds.alpha.similarity.pearson(
+  {data: "MATCH (u:User)
+   WHERE size((u)-[:WROTE]->()) > 15
+   // Fill in this part of the query
+   RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
+   graph: "cypher", skipValue: gds.util.NaN(), nodeProjection:'*'
+   relationshipProjection:'*'})
 ----
 
 And here's the answer:
 
 [source,cypher]
 ----
-CALL algo.similarity.cosine(
-    "MATCH (u:User:Phoenix)
-     WITH u LIMIT 50000
-     MATCH (u)-[:WROTE]->(review:Review)-[:REVIEWS]->(business:Business)-[:IN_CITY]->(c:City)
-     WHERE c.name = $city
-     RETURN id(u) AS item, id(business) AS id, review.stars AS weight",
-    {graph: "cypher", similarityCutoff:0.5, degreeCutoff:3, write:true, topK:10,
-     skipValue: algo.NaN(), params: {city: "Phoenix"}})
-YIELD nodes, similarityPairs, min, max, mean, stdDev, p90, p95, p99
-RETURN *
+CALL gds.alpha.similarity.pearson.write({
+  data: "MATCH (u:User)
+  WHERE size((u)-[:WROTE]->()) > 15
+  MATCH (u)-[:WROTE]->(review)-[:REVIEWS]->(b)
+  RETURN id(u) AS item, id(b) AS category, review.stars as weight",
+  graph: "cypher", topK: 5, skipValue: gds.util.NaN(), similarityCutoff: 0.1,
+  nodeProjection:'*', relationshipProjection:'*'})
 ----
 
 We want to use this similarity graph to improve the reviews that we show on our application.

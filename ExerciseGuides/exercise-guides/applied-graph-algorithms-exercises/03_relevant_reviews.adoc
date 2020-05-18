@@ -24,14 +24,13 @@ Then, we'll pre-load the in memory graph using the following query as we want to
 
 [source, cypher]
 ----
-CALL algo.graph.load('review-graph',
+CALL gds.graph.create.cypher('review-graph',
   'MATCH (u:Reviewer) RETURN id(u) AS id',
   'MATCH (u:Reviewer)-[:WROTE]->()-[:REVIEWS]->()<-[:REVIEWS]-()<-[:WROTE]-(u2:Reviewer)
-   RETURN id(u) AS source, id(u2) AS target, count(*) AS weight',
-  {graph:'cypher', direction: "BOTH"});
+   RETURN id(u) AS source, id(u2) AS target, count(*) AS weight');
 ----
 
-When we run our algorithms procedures we'll need to pass in the parameter `graph: "review-graph"` to have the procedure run against this graph.
+When we run our algorithms procedures we'll need to pass in the first parameter `"review-graph"` to have the procedure run against this graph.
 
 == Trusted users
 
@@ -58,13 +57,13 @@ WHERE count > 1
 WITH u, collect(other) AS sourceNodes
 
 // Execute the PageRank algorithm
-CALL algo.pageRank.stream(null, null, {
-  iterations:5, direction: "BOTH"
+CALL gds.pageRank.stream('review-graph', {
+  maxIterations:5,
 })
 
 // Only keep users that have a PageRank score bigger than the default
 YIELD nodeId, score
-WITH u, algo.getNodeById(nodeId) AS node, score
+WITH u, gds.util.asNode(nodeId) AS node, score
 WHERE score > 0.15 AND node <> u
 
 // Keep up to 50 users
@@ -88,14 +87,13 @@ WHERE count > 1
 WITH u, collect(other) AS sourceNodes
 
 // Execute the PageRank algorithm
-CALL algo.pageRank.stream(null, null, {
-  iterations:5, direction: "BOTH",
-  graph: "review-graph", sourceNodes: sourceNodes
+CALL gds.pageRank.stream('review-graph', {
+  maxIterations:5, sourceNodes: sourceNodes
 })
 
 // Only keep users that have a PageRank score bigger than the default
 YIELD nodeId, score
-WITH u, algo.getNodeById(nodeId) AS node, score
+WITH u, gds.util.asNode(nodeId) AS node, score
 WHERE score > 0.15 AND node <> u
 
 // Keep up to 50 users
