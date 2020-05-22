@@ -1,9 +1,18 @@
 import GraphAcademyCore from './core';
 import misc from './misc';
 
-class GraphAcademyPage {
+window.GraphAcademyPage = class GraphAcademyPage {
 	constructor(options = {}) {
-		this.services = options.services
+		const defaultOptions = {
+			stage: 'prod',
+			classStates: {},
+			isCourseLandingPage: false,
+		}
+
+		this.options = { ...defaultOptions, ...options }
+		this.core = new GraphAcademyCore(this.options);
+		this.core = null;
+
 		// User data
 		this.quizesStatus = [];
 		this.enrollmentStatus = [];
@@ -12,36 +21,50 @@ class GraphAcademyPage {
 		this.currentModuleQuizStatus = null;
 	}
 
-	async enrollStudentInClass(firstName, lastName) {
-		return this.services.enrollStudentInClass(firstName, lastName);
+	async init() {
+		const { options, core } = this;
+		misc.handleHtmlOnState('checkingSession', options);
+		const [err, result] = await core.login();
+		if (err) {
+			console.error('Unable to authenticate the user');
+		} else {
+			this.core = result;
+			await this.handlePageSetup();
+		}
+		misc.handleHtmlOnState(err ? 'notLoggedIn' : 'loggedIn', options);
+		return [err, this];
 	}
 
-	async handleEnrollment() {
-		const { services } = this;
-		const [err, enrollmentResponse] = await services.getEnrollmentForClass();
+	async enrollStudentInClass(firstName, lastName) {
+		return this.core.enrollStudentInClass(firstName, lastName);
+	}
+
+	async handlePageSetup() {
+		const { core, enrollmentStatus } = this;
+		const [err, enrollmentResponse] = await core.getEnrollmentForClass();
 		if (enrollmentResponse.status === 200) {
-			this.enrollmentStatus = enrollmentResponse.data;
+			enrollmentStatus = enrollmentResponse.data;
 		}
 
-		if (!this.enrollmentStatus.enrolled && options.enrollmentUrl) {
+		if (!enrollmentStatus.enrolled && options.enrollmentUrl) {
 			window.location.href = options.enrollmentUrl;
 		}
 
-		if (!options.isCourseLandingPage && this.enrollmentStatus.enrolled) {
-			if (this.enrollmentStatus.enrolled) await this.handleQuizSetup();
+		if (!options.isCourseLandingPage && enrollmentStatus.enrolled) {
+			await this.handleQuizSetup();
+			await this.handleSummaryPageHtml();
 		}
 	}
 
 	async handleQuizSetup() {
-		const { services } = this;
-		const value = await services.getQuizStatus();
+		const { core } = this;
+		const value = await core.getQuizStatus();
 		this.quizesStatus = value['quizStatus'];
 		this.currentModule = $(".quiz").attr("id");
 		this.currentModuleQuizStatus = this.quizesStatus.passed.indexOf(this.currentModule) > -1 ? 'passed' : 'failed';
 		if (this.quizesStatus.untried.indexOf(this.currentModule) > -1) this.currentModuleQuizStatus = 'untried';
 		this.quizModuleCount = this.quizesStatus.passed.length + this.quizesStatus.failed.length + this.quizesStatus.untried.length;
 
-		await this.handleSummaryPageHtml();
 		this.attachQuizSubmit();
 		await this.updateQuizRelateHtml();
 	}
@@ -58,7 +81,7 @@ class GraphAcademyPage {
 				return;
 			}
 
-			const { services, quizesStatus } = this;
+			const { core, quizesStatus } = this;
 			const quizSuccess = this.gradeQuiz(quizElement, quizesStatus);
 
 			if (quizSuccess) {
@@ -73,7 +96,7 @@ class GraphAcademyPage {
 			}
 
 			const { passed, failed } = quizesStatus;
-			services.postQuizStatus(passed, failed).then(
+			core.postQuizStatus(passed, failed).then(
 				function () {
 					if (quizSuccess) {
 						document.location = hrefSuccess;
@@ -147,7 +170,7 @@ class GraphAcademyPage {
 	}
 
 	async handleSummaryPageHtml() {
-		const { services, quizesStatus, quizModuleCount } = this;
+		const { core, quizesStatus, quizModuleCount } = this;
 		// Only into effect on the last page of the course
 		if (quizesStatus.passed.length === quizModuleCount) {
 			$('#quizes-result').html("<p>All quizes taken successfully.</p>");
@@ -158,42 +181,13 @@ class GraphAcademyPage {
 		const certificateElement = $('#cert-result');
 		if (certificateElement.length) {
 			certificateElement.html("<i>... Checking for certificate ...</i>");
-			const [err, result] = await services.getClassCertificate();
+			const [err, result] = await core.getClassCertificate();
 			if (result && result.data && result.data.url) {
 				$('#cert-result').html("<a href=\"" + result.data['url'] + "\">Download Certificate</a>");
 			} else {
 				$('#cert-result').html("Certificate not available yet.  Did you complete the quizzes at the end of each section?");
 			}
 		}
-	}
-}
-
-window.GraphAcademyLogin = class GraphAcademyLogin {
-	constructor(options = {}) {
-		const defaultOptions = {
-			stage: 'prod',
-			trainingClassName: null,
-			classStates: {},
-			isCourseLandingPage: false,
-			enrollmentUrl: null,
-		}
-		this.options =  { ...defaultOptions, ...options }
-		this.core = new GraphAcademyCore(this.options);
-	}
-
-	async init() {
-		const { options, core } = this;
-		misc.handleHtmlOnState('checkingSession', options);
-		const [err, result] = await core.login();
-		let graphAcademyPage;
-		if (err) {
-			console.error('Unable to authenticate the user');
-		} else {
-			graphAcademyPage = new GraphAcademyPage({ ...options, services: result });
-			await graphAcademyPage.handleEnrollment();
-		}
-		misc.handleHtmlOnState(err ? 'notLoggedIn' : 'loggedIn', options);
-		return [err, graphAcademyPage];
 	}
 
 	logout() {
