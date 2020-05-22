@@ -1,8 +1,18 @@
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/00_AboutThisCourse.adoc -o html/00_AboutThisCourse.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/01_IntroductionToNeo4j.adoc -o html/01_IntroductionToNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/02_OverviewOfNeo4jAdministration.adoc -o html/02_OverviewOfNeo4jAdministration.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/03_ManagingANeo4jDatabase.adoc -o html/03_ManagingANeo4jDatabase.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/04_CausalClusteringInNeo4j.adoc -o html/04_CausalClusteringInNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/05_SecurityInNeo4j.adoc -o html/05_SecurityInNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/06_MonitoringNeo4j.adoc -o html/06_MonitoringNeo4j.html
-asciidoctor -a CLASS_JS_URL=$CLASS_JS_URL -a QUIZES_JS_URL=$QUIZES_JS_URL -a imagedir=$IMG -T _templates_v2 adoc/07_Summary.adoc -o html/07_Summary.html
+#!/usr/bin/env bash
+set -e
+
+# load config
+. ./module.config
+
+# load functions
+. ../_bin/functions.sh
+
+convert_enrollment "index.part.adoc"
+convert_course "00_AboutThisCourse.adoc"
+convert_course "01_IntroductionToNeo4j.adoc"
+convert_course "02_OverviewOfNeo4jAdministration.adoc"
+convert_course "03_ManagingANeo4jDatabase.adoc"
+convert_course "04_CausalClusteringInNeo4j.adoc"
+convert_course "05_SecurityInNeo4j.adoc"
+convert_course "06_MonitoringNeo4j.adoc"
+convert_course "07_Summary.adoc"

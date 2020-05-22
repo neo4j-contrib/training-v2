@@ -18,18 +18,34 @@
       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,300italic"></link>
       <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/extra.css"></link>
       <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/chunked-base.css"></link>
-      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/console.css"></link><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+      <link rel="stylesheet" type="text/css" href="https://neo4j.com/docs/developer-manual/current/css/console.css"></link>
+      <style type="text/css">
+        ul.documentation-library>li>a {
+          margin-left: 10px !important;
+          margin-right: 10px !important;
+        }
+        @media only screen and (max-width: 1350px) {
+          #helplink {
+            display: none;
+          }
+        }
+      </style>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
       <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
-      <script type='text/javascript'
-   src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
+      <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
-        window.trainingPartName = "module-7";
+        window.trainingPartName = "module-7"
+        window.trainingLocalStoragePrefixKey = "com.neo4j.graphacademy.neo4jadministration."
+        window.trainingQuizCount = 6
+        window.trainingEnrollmentUrl = "https://neo4j.com/graphacademy/online-training/neo4j-administration-dev/"
       </script>
    </head>
    <body>
       <header style="top: 0px;">
          <a href="../part-0/" id="logo"><img src="https://neo4j.com/wp-content/themes/neo4jweb/assets/images/neo4j-logo-2015.png" alt="Neo4j Logo"></a>
          <ul class="documentation-library">
+            
             <li id="menu-module-1">
               <a href="../part-1/">
               <span class="fa-stack" style="margin-top: -2px">
@@ -87,6 +103,9 @@
               The End</a>
             </li>
          </ul>
+         <div id="helplink" style="position: absolute; top: 10px; right: 30px; font-size: 20px;">
+           <a href="https://community.neo4j.com/c/general/online-training" target="_blank">Need Help?</a>
+         </div>
          <nav id="header-nav">
          <span class="nav-previous">
            
@@ -104,24 +123,15 @@
          </nav>
       </header>
 
-
-<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
-<h1>Summary: Neo4j Administration</h1>
-
-      <div id="preamble columns medium-12">
-<div class="sectionbody">
 <script src="https://browser.sentry-cdn.com/4.4.1/bundle.min.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
-	var loc = window.location;
-	document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+  var loc = window.location;
+  document.write(unescape("%3Cscript src='https://munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script>
-window.trainingClassName = 'neo4j-administration';
+  window.trainingClassName = "neo4j-administration";
 </script>
-
 <script>Munchkin.init('773-GON-065');</script>
-
-
 <style>
     @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
     .modal {
@@ -156,6 +166,28 @@ window.trainingClassName = 'neo4j-administration';
       background-color: #4ac084;
   }
 
+    a.button-notebook {
+      display: block;
+      text-align: center;
+      width: 250px;
+      font-size: 18px;
+      margin-top: 20px;
+      font-family: 'Open Sans';
+      height: 55px;
+      border-style: solid;
+      border-width: 0;
+      cursor: pointer;
+      color: white;
+      padding: 15px;
+      font-weight: 300;
+      background-color: #6dcc9c;
+      border-color: #4ac084;
+    }
+
+    .button-notebook a hover {
+        background-color: #4ac084;
+    }
+
   pre.cypher-syntax {
     background-color: #eaf1f8;
   }
@@ -165,7 +197,6 @@ window.trainingClassName = 'neo4j-administration';
 <script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
 <script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/js.cookie-2.1.3.min.js"></script>
-<!--script src="/online_training/gadgetUtils.js"></script-->
 <script type="text/javascript">
   Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
 </script>
@@ -186,21 +217,12 @@ function modalWindow(frameId, options) {
               webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
            <div>`;
 }
-/*
-    .modal {
-        width: 775px;
-        height: 675px;
-        padding: 10px;
-        margin: 0;
-    }
-*/
 
 function formatTask(options) {
   if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
   if (options.taskName) return "cypherTask="+options.taskName;
   return "";
 }
-
 
 function setGadgetUrl(sel) {
   $(sel).modal();
@@ -209,9 +231,10 @@ function setGadgetUrl(sel) {
   $iframe.attr("src", $iframe.data("src"));
 }
 </script>
-</div>
-</div>
-<div  id="module-7" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
+<div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
+<h1>Summary: Neo4j Administration</h1>
+
+      <div  id="module-7" class="sect1 quiz columns medium-12" style='padding-left: 0;' >
 <h3>Quiz Results</h3>
 <span id="quizes-result"></span>
 </div>
@@ -475,223 +498,9 @@ Use JMX queries.
 <div class="paragraph">
 <p>We want your feedback on this course. Please provide your <a href="https://goo.gl/forms/kK8BMkF3Mn65crcm2">feedback</a> so we can improve this course.</p>
 </div>
-<script src="https://cdn.auth0.com/js/lock/11.23.0/lock.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
-<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/dev/class.js?versionId=W6knq5hVmZskAmqWp8d1iz0_pmelIO3N" type="text/javascript"></script>
-<script src="https://cdn.neo4jlabs.com/graphacademy/neo4j-administration/dev/quizes.js?versionId=6peGt.z22o2VN0Gkufy8fPnag9TtL3cy" type="text/javascript"></script>
-
-<script>
-var auth0Options = {
-	configurationBaseUrl: 'https://cdn.auth0.com',
-	allowedConnections: ['google-oauth2', 'linkedin', 'twitter', 'Username-Password-Authentication'],
-	additionalSignUpFields: [
-		{
-			name: 'first_name',
-			placeholder: 'First Name'
-		},
-		{
-			name: 'last_name',
-			placeholder: 'Last Name'
-		}
-	],
-	closable: false,
-	languageDictionary: {
-		signUpTerms: "I agree to the <a href='https://neo4j.com/terms/online-trial-agreement/' style='text-decoration: underline' target='_blank'>terms of service</a> of Neo4j."
-	},
-	mustAcceptTerms: true,
-	auth: {
-		redirect: true,
-		redirectUrl: 'https://neo4j.com/accounts/login',
-		responseType: 'token id_token',
-		audience: 'neo4j://accountinfo/',
-		params: {
-			scope: 'read:account-info write:account-info openid email profile user_metadata'
-		}
-	}
-}
-
-const classStates = {
-	loggedIn: 'graph-academy-for-logged-in',
-	notLoggedIn: 'graph-academy-for-not-logged-in'
-}
-
-class GraphAcademyLogin {
-	constructor(options = {}) {
-		console.log('constructor called');
-		if (!Auth0Lock || typeof Auth0Lock !== 'function') return;
-		console.log(options);
-		this.lock = new Auth0Lock('DxhmiF8TCeznI7Xoi08UyYScLGZnk4ke', 'login.neo4j.com', auth0Options);
-		this.options = options;
-		this.checkSession(options.callback);
-	}
-
-	checkSession(cb) {
-		this.lock.checkSession({}, async (err, result) => {
-			console.log(result);
-			if (result) {
-				this.isLoggedIn = true;
-				this.authResult = result;
-				if (this.callback && typeof this.callback === 'function') this.callback()
-			} else {
-				this.isLoggedIn = false;
-			}
-			if (err && this.options.loginRedirectUrl) {
-				this.redirectToLogin();
-			}
-			this.handleHtmlOnState(result ? 'loggedIn' : 'notLoggedIn');
-			if (cb && typeof cb === 'function') cb(err, result);
-		})
-	}
-
-	handleHtmlOnState(state = null) {
-		const loggedInElements = document.getElementsByClassName(classStates['loggedIn']) || [];
-		const notLoggedInElements = document.getElementsByClassName(classStates['notLoggedIn']) || [];
-		if (state === 'loggedIn') {
-			for (let item of loggedInElements) {
-				item.style.display = 'inherit';
-			}
-			for (let item of notLoggedInElements) {
-				item.style.display = 'none';
-			}
-		} else if (state === 'notLoggedIn') {
-			for (let item of loggedInElements) {
-				item.style.display = 'none';
-			}
-			for (let item of notLoggedInElements) {
-				item.style.display = 'inherit';
-			}
-		}
-	}
-
-	logout() {
-		const logoutOptions = {};
-		if (this.options.redirectOnLogout) logoutOptions.redirectTo = this.options.redirectOnLogout;
-		this.lock.logout(logoutOptions);
-		this.handleHtmlOnState('notLoggedIn');
-	}
-
-	redirectToLogin() {
-		return window.location.href = this.options.loginRedirectUrl;
-	}
-}
- </script>
-
-<script>
-  const login = new GraphAcademyLogin();
-</script>
-
- <link rel='stylesheet' id='neo-codemirror-css'
-    href="https://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css'
-    media='screen'/>
-
- <script type='text/javascript'>
-  $('.admonitionblock.note').find('.icon').html('NOTE');
-  $('.admonitionblock.warning').find('.icon').html('WARNING');
-  $('.admonitionblock.information').find('.icon').html('INFO');
-
-  var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
-
-  function textContent(node, out) {
-    if (node.nodeType == 3) return out.push(node.nodeValue);
-    for (var ch = node.firstChild; ch; ch = ch.nextSibling) {
-      textContent(ch, out);
-      if (isBlock.test(node.nodeType)) out.push("\n");
-    }
-  }
-
-  CodeMirror.colorize = function(collection, defaultMode) {
-    if (!collection) collection = document.body.getElementsByTagName("pre");
-
-    for (var i = 0; i < collection.length; ++i) {
-      var syntax = false;
-      var node = collection[i];
-      var mode = node.getAttribute("data-lang") || defaultMode;
-      if (mode == "cypher-syntax") {
-        syntax = true;
-        mode = "cypher";
-      }
-      if (!mode) continue;
-
-      var text = [];
-      textContent(node, text);
-      node.innerHTML = "";
-      CodeMirror.runMode(text.join(""), mode, node);
-
-      node.className += " cm-s-default";
-      if (syntax) {
-        node.className += " cypher-syntax";
-      }
-    }
-  };
-
-  $( document ).ready(function() {
-    if (CodeMirror.colorize) {
-      CodeMirror.colorize(document.body.getElementsByTagName("pre"), 'cypher');
-    }
-  });
- </script>
-
-
-<script>
-  window.intercomSettings = {
-    app_id: "dt0ig5ab",
-    hide_default_launcher: true
-  };
-</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/dt0ig5ab';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-
-<!-- JWT decoder: ONLY USE TO SEE UN-VERIFIED VALUES -->
-<script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/jwt-decode.min.js"></script>
-
-
-<script>
-const SITE_URL = window.location;
-
-
-$( document ).ready(function() {
-       const login = new GraphAcademyLogin({loginRedirectUrl: "https://neo4j.com/graphacademy/online-training/neo4j-administration/"});
-
-        login.checkSession((err, result) => {
-            if (result) {
-               getQuizStatus();
-                var userInfoIntercom = Cookies.getJSON("com.neo4j.accounts.userInfo");
-                if (userInfoIntercom) {
-                  try {
-                    window.Intercom("update", {
-                      app_id: "dt0ig5ab",
-                      name: userInfoIntercom.name,
-                      email: userInfoIntercom.email,
-                      user_id: userInfoIntercom.sub,
-                      hide_default_launcher: true
-                    });;
-                  } catch (err) {
-                    console.error(err);
-                  }
-                }
-                Intercom('trackEvent','training-neo4j-admin-view');
-            }
-        })
-
-});
-</script>
 <script>
 $( document ).ready(function() {
   Intercom('trackEvent','training-admin-view-part7');
-});
-</script>
-<script>
-$( document ).ready(function() {
-  $('#cert-result').html("<i>... Checking for certificate ...</i>");
-  getClassCertificate().then( function( value ) {
-    if ('url' in value) {
-      $('#cert-result').html( "<a href=\"" + value['url'] + "\">Download Certificate</a>" );
-    } else {
-      $('#cert-result').html( "Certificate not available yet.  Did you complete the quizzes at the end of each section?" );
-    }
-  });
-
 });
 </script>
 </div>
@@ -710,3 +519,9 @@ $( document ).ready(function() {
         </div>
 <div id="progress" style="position:absolute; bottom:100;"></div>
 </div>
+<script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script>
+<script src="https://js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
+<script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/jwt-decode.min.js"></script>
+<script src="" type="text/javascript"></script>
+<link rel='stylesheet' id='neo-codemirror-css' href="https://neo4j.com/wp-content/themes/neo4jweb/assets/css/codemirror-neo.css?ver=4.5" type='text/css' media='screen'/>
+<script src="https://cdn.neo4jlabs.com/graphacademy/dev/course.js?versionId=rHoCZPWh2Okbs31h2ll3DIiQ17Ehs_8N" type="text/javascript"></script>

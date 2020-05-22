@@ -18,13 +18,6 @@
 :manual: http://neo4j.com/docs/operations-manual/3.5
 //:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 
-
-ifdef::backend-html5[]
-
-include::scripts.txt[]
-
-endif::backend-html5[]
-
 == About this module
 
 Now that you have installed the Neo4j Enterprise Edition, you will learn how to perform some administrative tasks with the Neo4j instance.
@@ -49,14 +42,14 @@ Depending on your platform, a Neo4j instance's files are, by default, placed as 
 
 [cols="20,80", options="header",stripes="none"]
 |====
- *Purpose of folder*
+| *Purpose of folder*
 |*Description*
-| 
+|
 {set:cellbgcolor:white}
 Tools
-|The  */usr/bin* folder contains the tooling scripts you will typically run to manage the Neo4j instance. 
+|The  */usr/bin* folder contains the tooling scripts you will typically run to manage the Neo4j instance.
 |Configuration
-|*Neo4j.conf* is the primary configuration file for the Neo4j instance and resides in the */etc/neo4j* folder. 
+|*Neo4j.conf* is the primary configuration file for the Neo4j instance and resides in the */etc/neo4j* folder.
 |Logging
 |The */var/log/neo4j* folder contains log files that you can monitor.
 |Database(s)
@@ -64,7 +57,7 @@ Tools
 |====
 {set:cellbgcolor!}
 
-== Post-installation preparation 
+== Post-installation preparation
 
 In this training, all screenshots and examples are shown using Neo4j Enterprise Edition installed as a Debian package. If your system is different, you will need to adjust file locations as described later in this module.
 
@@ -141,7 +134,7 @@ endif::backend-pdf[]
 
 === Viewing the neo4j log
 
-The status command gives you a short glimpse of the status of the Neo4j instance. In some cases, although the instance is _active_, it may not have started successfully. You may want to examine more information about the instance, such as the folders it is using at runtime and information about activity against the instance, and especially if any errors occurred during startup. As an administrator, you should become familiar with the types of records that are written to the log files for the Neo4j instance. 
+The status command gives you a short glimpse of the status of the Neo4j instance. In some cases, although the instance is _active_, it may not have started successfully. You may want to examine more information about the instance, such as the folders it is using at runtime and information about activity against the instance, and especially if any errors occurred during startup. As an administrator, you should become familiar with the types of records that are written to the log files for the Neo4j instance.
 
 You can view the log file for the instance on Debian as follows:
 
@@ -205,7 +198,7 @@ endif::backend-pdf[]
 
 === Changing the default password (Debian only)
 
-If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials _neo4j/neo4j_ [underline]#must# be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the _neo4j_ user. Later in this training, you will learn more about securing Neo4j by managing users and their access. 
+If we were to attempt to access the database for the first time, we would receive an error. This is because the default credentials _neo4j/neo4j_ [underline]#must# be changed. As an administrator, you want to control who can manage this Neo4j instance and its database. To do so, you change the default password for the _neo4j_ user. Later in this training, you will learn more about securing Neo4j by managing users and their access.
 
 While logged into the database in `cypher-shell`, you execute the procedure to change the password:
 
@@ -215,7 +208,7 @@ In this example, we log into `cypher-shell` with our credentials. Then we execut
 
 image::{imagedir}/ChangePassword-Debian.png[ChangePassword-Debian,width=700,align=center]
 
-After changing the default password for the Neo4j instance (database), we are now able to access the database after logging in with the new credentials. 
+After changing the default password for the Neo4j instance (database), we are now able to access the database after logging in with the new credentials.
 
 ifdef::backend-pdf[]
 // force page break
@@ -294,7 +287,7 @@ To delete a Neo4j database used by a Neo4j instance you must:
 . Stop the Neo4j instance.
 . Remove the folder for the active database.
 
-For example, delete the *graph.db* database: 
+For example, delete the *graph.db* database:
 
 `[sudo] rm -rf /var/lib/neo4j/data/databases/graph.db`
 
@@ -360,7 +353,7 @@ endif::backend-pdf[]
 
 === Creating a database from an offline backup
 
-Assuming that you have a dump file to use, you must first determine what the name of the target database will be. If you use an existing database name, the `load` command, can overwrite the database. If you want to create a new database, then you specify a database name that does not already exist. To perform the `load` command, the Neo4j instance must be stopped. In addition, the user:group permissions of the files created must be _neo4j:neo4j_. 
+Assuming that you have a dump file to use, you must first determine what the name of the target database will be. If you use an existing database name, the `load` command, can overwrite the database. If you want to create a new database, then you specify a database name that does not already exist. To perform the `load` command, the Neo4j instance must be stopped. In addition, the user:group permissions of the files created must be _neo4j:neo4j_.
 
 [NOTE]
 You must either perform the `load` operation as the _neo4j_ user, or after the load, you must change the owner of all files and folders created to _neo4j:neo4j_.
@@ -383,7 +376,7 @@ _where:_
 |===
 {set:cellbgcolor!}
 
-Here is an example where we load the contents of *movie-dump* into a database named *movie2.db*. 
+Here is an example where we load the contents of *movie-dump* into a database named *movie2.db*.
 
 image::{imagedir}/LoadDatabase.png[LoadDatabase,width=1000,align=center]
 
@@ -441,7 +434,7 @@ endif::backend-pdf[]
 image::{imagedir}/L03-Ex3-movie-cfg.png[Ex3-movie-cfg,width=800,align=center]
 
 [start=8]
-. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie.db* to be _neo4j:neo4j_. For example, change directory to the *movie.db* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j movie.db`  
+. If you did not perform the load as the user _neo4j_, you must change the owner:group of all files and folders under *movie.db* to be _neo4j:neo4j_. For example, change directory to the *movie.db* folder and  then enter the command: `[sudo] chown -R neo4j:neo4j movie.db`
 This will recursively change the owner and group to all files and folders including and under the *movie.db* folder.
 
 [start=9]
@@ -493,7 +486,7 @@ If you are starting the Neo4j instance with a new location and do not want to us
 . Examine the log file to ensure that it started without errors.
 . Stop the Neo4j instance.
 . Specify the name of the active database in the configuration file.
-. Load the data into the database name that will be the active database. 
+. Load the data into the database name that will be the active database.
 . Ensure that the database folder and its subfolders are owned by  _neo4j:neo4j_.
 . Start the Neo4j instance.
 . Examine the log file to ensure it started without errors.
@@ -516,8 +509,8 @@ In this Exercise, you will set up a different location for the database in your 
 *Exercise steps*:
 
 . Open a terminal on your system.
-. Create a folder named */usr/local/data*. This is the folder where the database will reside which is different from the default location used by Neo4j. 
-. Make sure that this *data* folder is owned by _neo4j:neo4j_. For example, navigate to the */usr/local* folder and enter `[sudo ]chown neo4j:neo4j data`. 
+. Create a folder named */usr/local/data*. This is the folder where the database will reside which is different from the default location used by Neo4j.
+. Make sure that this *data* folder is owned by _neo4j:neo4j_. For example, navigate to the */usr/local* folder and enter `[sudo ]chown neo4j:neo4j data`.
 . Modify the *neo4j.conf* file to use */usr/local/data* as the data directory. Also ensure that there is no active database specified. Your *neo4j.conf* file should look something like this:
 
 image::{imagedir}/L03-Ex4-LocationConfig.png[Ex4-LocationConfig,width=900,align=center]
@@ -586,7 +579,7 @@ Here is how you use the `neo4j-admin` tool to check the consistency of the datab
 
 `[sudo] neo4j-admin check-consistency --database=db-name --report-dir=report-location [--verbose=true]`
 
-The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the https://neo4j.com/docs/operations-manual/3.5/tools/consistency-checker/[Neo4j Operations Manual] for more options. For example, you can check the consistency of a backup which is a best practice. 
+The database named _db-name_ is found in the data location specified in *neo4j.conf* file. If the tool comes back with no error, then the database is consistent. Otherwise, an error is returned and a report is written to _report-location_. You can specify verbose reporting. See the https://neo4j.com/docs/operations-manual/3.5/tools/consistency-checker/[Neo4j Operations Manual] for more options. For example, you can check the consistency of a backup which is a best practice.
 
 Suppose we had loaded the *movie4.db* database with `neo4j-admin`. Here is what a successful run of the consistency checker should produce:
 
@@ -607,7 +600,7 @@ image::{imagedir}/Inconsistencies.png[Inconsistencies,width=1000,align=center]
 
 If inconsistencies are found, a report is generated and placed in the folder specified for the report location.
 
-Inconsistencies in a database are a serious matter that should be looked into with the help of Neo4j Technical Support. 
+Inconsistencies in a database are a serious matter that should be looked into with the help of Neo4j Technical Support.
 
 ifdef::backend-pdf[]
 // force page break
@@ -657,15 +650,15 @@ Suppose that we use _bash_. We create 3 files:
 
 *1. AddConstraints.cypher* that contains the Cypher statements to execute in `cypher-shell`:
 ----
-CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
+CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE;
 CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
 CALL db.constraints();
 ----
-Each Cypher statement must end with a `;`. 
+Each Cypher statement must end with a `;`.
 
 *2. AddConstraints.sh* that invokes `cypher-shell` using a set of Cypher statements and specifies verbose output:
 ----
-cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 
+cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose
 ----
 
 *3. PrepareDB.sh* that initializes the log file, *PrepareDB.log*, and calls the script to add the constraints:
@@ -711,7 +704,7 @@ image::{imagedir}/L03-Ex6-StartCypher-shell.png[Ex6-StartCypher-shell,width=1000
 . Exit Cypher-shell by typing `:exit`.
 . Create a Cypher script in the */usr/local/work* folder named *AddConstraints.cypher* with the following statements:
 ----
-CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE; 
+CREATE CONSTRAINT ON (m:Movie) ASSERT m.title IS UNIQUE;
 CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
 ----
 
@@ -719,7 +712,7 @@ CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
 . Create a shell script in the */usr/local/work* folder named *AddConstraints.sh* that will forward *AddConstraints.cypher* to `cypher-shell`. This file should have the following contents:
 
 ----
-cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose 
+cat /usr/local/work/AddConstraints.cypher | /usr/bin/cypher-shell -u neo4j -p training-helps --format verbose
 ----
 
 [start=7]
@@ -748,7 +741,7 @@ Some applications can use Neo4j out-of-the-box, but many applications require ad
 [square]
 * A library supported by Neo4j such as GraphQL or GRAPH ALGORITHMS.
 * A community-supported library, such as APOC.
-* Custom functionality that has been written by the developers of your application. 
+* Custom functionality that has been written by the developers of your application.
 
 We refer to this additional functionality as a _plugin_ that contains specific procedures. A _plugin_ is typically specific to a particular release of Neo4j. In many cases, if you upgrade to a later version of Neo4j, you may also need to install a new _plugin_. First, you should understand how to view the procedures available for use with the Neo4j instance. You do so by executing the Cypher statement `CALL db.procedures();`.
 
@@ -760,7 +753,7 @@ Here is an example of a script you can run to produce a file, *Procedures.txt* t
 echo "CALL dbms.procedures() YIELD name;" | /usr/bin/cypher-shell -u neo4j -p training-helps --format plain > /usr/local/work/Procedures.txt
 ----
 
-This script calls `dbms.procedures()` to return the name of each procedure in the list returned. 
+This script calls `dbms.procedures()` to return the name of each procedure in the list returned.
 
 Here is a view of *Procedures.txt*:
 
@@ -775,11 +768,11 @@ To add a plugin to your Neo4j instance, you must first obtain the *.jar* file. I
 Some plugins require a configuration change. You should understand the configuration changes required for any plugin you are installing.
 
 [NOTE]
-When you install Neo4j, the *plugins* folder contains a *README.txt* folder that contains instructions related to sandboxing and whitelisting. These instructions will change in future releases of Neo4j. 
+When you install Neo4j, the *plugins* folder contains a *README.txt* folder that contains instructions related to sandboxing and whitelisting. These instructions will change in future releases of Neo4j.
 
 ==== Sandboxing and whitelisting
 
-Neo4j provides _sandboxing_ to ensure that procedures do not inadvertently use insecure APIs. For example, when writing custom code it is possible to access Neo4j APIs that are not publicly supported, and these internal APIs are subject to change, without notice. 
+Neo4j provides _sandboxing_ to ensure that procedures do not inadvertently use insecure APIs. For example, when writing custom code it is possible to access Neo4j APIs that are not publicly supported, and these internal APIs are subject to change, without notice.
 Additionally, their use comes with the risk of performing insecure actions. The sandboxing
 functionality limits the use of extensions to publicly supported APIs, which exclusively contain safe operations,
 or contain security checks.
@@ -869,7 +862,7 @@ endif::backend-pdf[]
 
 ==== Example: Sandboxing
 
-After you have placed the *.jar* file into the *plugins* folder, you must modify the configuration for the instance as described in the main page for APOC. As described on this page, you have an option of either _sandboxing_ or _whitelisting_ the procedures of the plugin. How much of the APOC library is used by your application is determined by the developers so you should use them as a resource for this type of configuration change. 
+After you have placed the *.jar* file into the *plugins* folder, you must modify the configuration for the instance as described in the main page for APOC. As described on this page, you have an option of either _sandboxing_ or _whitelisting_ the procedures of the plugin. How much of the APOC library is used by your application is determined by the developers so you should use them as a resource for this type of configuration change.
 
 Suppose we want to allow [.underline]#all# APOC procedures to be available to this Neo4j instance. We would sandbox the plugin in the *neo4j.conf* file as follows, similar to how we sandboxed the graph algorithms where we specify `dbms.security.procedures.unrestricted=algo.*,apoc.*`.
 
@@ -954,15 +947,15 @@ The Neo4j instance uses https://neo4j.com/docs/operations-manual/3.5/configurati
 
 [cols="10,10,80", options="header",stripes="none"]
 |====
- *Name*
+| *Name*
 | *Port Number*
 | *Description*
-| 
+|
 {set:cellbgcolor:white}
  HTTP
 | 7474
 | Used by Neo4j Browser and REST API. It is *not* encrypted so it should never be exposed externally.
-| HTTPS 
+| HTTPS
 | 7473
 | Used by REST API. Requires additional SSL configuration.
 | Bolt
@@ -1048,7 +1041,7 @@ dbms.backup.address=<host-address>:<6362-6372>
 
 Where _host-address_ is the address of a server from which you will run the backup tool from. You must specify a port number that will not conflict with existing ports used on the backup server.
 
-A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server. 
+A best practice for online backup of a stand-alone production database is to perform the backup on a different server. This is because the backup process and consistency checking is expensive and you want to offload this to another server.
 
 A common practice for many enterprises is to back up their databases to Amazon S3 sites. In addition, if any backups are to be stored in S3, they should  be encrypted as well as the channel used to create send the backup to S3.
 
@@ -1080,7 +1073,7 @@ Here is how you restore the database from a backup:
 
 [listing]
 ----
-neo4j-admin restore       
+neo4j-admin restore
           --from=<absolute-path-to-backup-instance-folder-name>
           --database=<database-name>
           --force=true
@@ -1103,7 +1096,7 @@ endif::backend-pdf[]
 In this Exercise, you will perform an online backup of your database where you use the same host for the backup process. Then you will modify the database. Finally, you will restore the database from the backup.
 
 [NOTE]
-In your real application, if you were to back up a production stand-alone Neo4j instance, you would use a different host from the host that is running the Neo4j instance. 
+In your real application, if you were to back up a production stand-alone Neo4j instance, you would use a different host from the host that is running the Neo4j instance.
 
 *Exercise steps*:
 
@@ -1133,7 +1126,7 @@ image::{imagedir}/L03-Ex9-Backup2.png[Ex9-Backup2,width=1000,align=center]
 [start=6]
 . Stop the Neo4j instance.
 . Corrupt the database like you did earlier in this module. Modify the file *movie3.db/neostore.nodestore.db* by adding some text to the file.
-. Run the consistency check tool on *movie3.db* using `neo4j-admin` specifying */usr/local/work/reports* as the folder where the report will be written. 
+. Run the consistency check tool on *movie3.db* using `neo4j-admin` specifying */usr/local/work/reports* as the folder where the report will be written.
 
 ----
  neo4j-admin check-consistency --database=movie3.db --report-dir=/usr/local/reports --verbose=true
@@ -1168,7 +1161,7 @@ You can read details about using the import tool in the https://neo4j.com/docs/o
 
 === Creating CSV files for the import
 
-The format of the *.csv* files is important. For both nodes and relationships, header information must be associated with the data. Header information contains an ID to uniquely identify the record, optional node labels or relationship types, and names for the properties representing the imported data. A *.csv* can have a header row, or you can place the header information in a separate file. 
+The format of the *.csv* files is important. For both nodes and relationships, header information must be associated with the data. Header information contains an ID to uniquely identify the record, optional node labels or relationship types, and names for the properties representing the imported data. A *.csv* can have a header row, or you can place the header information in a separate file.
 
 In this training, you will use data that has been created for you that represents crimes.
 
@@ -1191,7 +1184,7 @@ Here is an example of the *crimes_header.csv* header file for loading nodes of t
 :ID(Crime),id,:LABEL,date,description
 ----
 
-The nodes loaded with *Crimes_header.csv* will have the label, _:LABEL_. In addition, the data in the associated *crimes.csv* file will have values for the ID of the record, and property values for _id_, _date_, and _description_. 
+The nodes loaded with *Crimes_header.csv* will have the label, _:LABEL_. In addition, the data in the associated *crimes.csv* file will have values for the ID of the record, and property values for _id_, _date_, and _description_.
 
 ifdef::backend-pdf[]
 // force page break
@@ -1274,7 +1267,7 @@ ifdef::backend-pdf[]
 <<<
 endif::backend-pdf[]
 
-Here is the result of using the `import` command of `neo4j-admin` to create a database and import *.csv* files. 
+Here is the result of using the `import` command of `neo4j-admin` to create a database and import *.csv* files.
 
 image::{imagedir}/Import2.png[Import2,width=1000,align=center]
 
@@ -1293,14 +1286,14 @@ In this Exercise, you create a new database by importing data using *.csv* files
 . Stop the Neo4j instance.
 . In a terminal window, create the */usr/local/import* folder.
 . Navigate to the *import* folder and download this file: https://s3-us-west-1.amazonaws.com/data.neo4j.com/admin-neo4j/crime-data.zip. *Hint*: use `curl -O` or `wget`.
-. Unzip the file. You should have six *.csv* files. 
+. Unzip the file. You should have six *.csv* files.
 . Examine the contents of the files to become familiar with their format and data.
 . Use the `import` command to import the data into a new database named *crimes.db*, using these guidelines:
 ----
---nodes crimes_header.csv,crimes.csv 
---nodes beats.csv 
---nodes primaryTypes.csv 
---relationships crimesBeats.csv 
+--nodes crimes_header.csv,crimes.csv
+--nodes beats.csv
+--nodes primaryTypes.csv
+--relationships crimesBeats.csv
 --relationships:PRIMARY_TYPE crimesPrimaryTypes.csv
 ----
 
@@ -1369,15 +1362,13 @@ You should now be able to:
 * Perform an online backup of a Neo4j database.
 * Create a database with the import tool.
 
-== Grade Quiz and Continue 
+== Grade Quiz and Continue
 
 ++++
 <a class="next-section medium button" href="../part-4/">Continue to Module 4</a>
 ++++
 
 ifdef::backend-html5[]
-
-include::scripts-end.txt[]
 ++++
 <script>
 $( document ).ready(function() {
@@ -1385,5 +1376,4 @@ $( document ).ready(function() {
 });
 </script>
 ++++
-
 endif::backend-html5[]

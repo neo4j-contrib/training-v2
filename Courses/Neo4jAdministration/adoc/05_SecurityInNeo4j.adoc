@@ -17,12 +17,6 @@
 :manual: http://neo4j.com/docs/operations-manual/3.5
 //:imagedir: https://s3-us-west-1.amazonaws.com/data.neo4j.com/neo4j-admin/img
 
-ifdef::backend-html5[]
-
-include::scripts.txt[]
-
-endif::backend-html5[]
-
 == About this module
 
 Now that you have gained experience managing a Neo4j instance and database , as well as managing Neo4j Causal Clusters, you will be introduced to how to secure a Neo4j application.
@@ -37,12 +31,12 @@ At the end of this module, you should be able to:
 
 == What is application security?
 
-Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this interconnected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door. 
+Many applications today are distributed and provide services and data over the Internet. Users include customers, partners, and off-site employees. In this interconnected world, security is a major concern. There are malicious actors who will attempt to access your application’s data, causing disruption and financial loss to your business. There are numerous ways that can be used to attack the data via the Internet, intranet, and even the 'human' back door.
 Fixing a security breach may require significant updates to your application, especially if the application was not written or implemented to be secure. Deploying a newer version of your application means additional testing and possible down time, both costly to the enterprise.
 
 In addition, your business may need to meet regulatory security requirements or security requirements promised in a customer contract. If it is discovered that your application does not meet these requirements, you could face fines or other serious consequences.
 
-To secure your application, you need to be concerned about 3 things: 
+To secure your application, you need to be concerned about 3 things:
 [square]
 * Data security
 * Access control
@@ -73,12 +67,12 @@ Another concern in applications that extend to the Internet is user privacy. Whe
 
 === Securing a Neo4j application
 
-Neo4j applications consist of many parts, including databases, static files like images and document scans, application code, application servers and Web servers. These all need to be secured and you use different techniques and technologies to secure them. 
+Neo4j applications consist of many parts, including databases, static files like images and document scans, application code, application servers and Web servers. These all need to be secured and you use different techniques and technologies to secure them.
 
 There are many things you can do to make your Neo4j application secure. At the highest level, there are 2 areas you must address:
 
-. Building security into your Neo4j application. 
-. Securing the deployed application and infrastructure. 
+. Building security into your Neo4j application.
+. Securing the deployed application and infrastructure.
 
 === Building security into your Neo4j application
 
@@ -122,13 +116,13 @@ There are three types of authentication frameworks supported by Neo4j:
 * Custom-built authentication
 * Single Point of Authentication (SPA)
 
-Native user authentication means that users are created in the Neo4j database and authentication is performed based upon those values. Most enterprise applications do not use native user authentication in their deployed application.  
+Native user authentication means that users are created in the Neo4j database and authentication is performed based upon those values. Most enterprise applications do not use native user authentication in their deployed application.
 
-Your application developers could write a custom authentication plugin. Although this is possible, the underlying internal procedures called by the custom authentication plugin could change in future releases of Neo4j so it is best to avoid this type of authentication for a deployed, secure application that will survive upgrades of Neo4j. 
+Your application developers could write a custom authentication plugin. Although this is possible, the underlying internal procedures called by the custom authentication plugin could change in future releases of Neo4j so it is best to avoid this type of authentication for a deployed, secure application that will survive upgrades of Neo4j.
 
-A SPA is highly recommended by Neo4j because it is easier to maintain and is more secure than an enterprise that uses multiple sources of user accounts. 
-Examples of a SPA are Lightweight Directory Access Protocol (LDAP), Active Directory (AD), and Kerberos which can be used for single sign-on. 
-The SPA is the only service in your enterprise that stores user names and passwords. 
+A SPA is highly recommended by Neo4j because it is easier to maintain and is more secure than an enterprise that uses multiple sources of user accounts.
+Examples of a SPA are Lightweight Directory Access Protocol (LDAP), Active Directory (AD), and Kerberos which can be used for single sign-on.
+The SPA is the only service in your enterprise that stores user names and passwords.
 For training purposes, we will use an LDAP provider for authentication, but in your real application, you will need to configure Neo4j for whatever provider your application uses for user authentication.
 
 You will use OpenLDAP for the hands-on Exercises of this module.
@@ -163,7 +157,7 @@ The tasks for using LDAP for authentication with Neo4j include:
 
 In your enterprise, you will need to work with the system administrator responsible for maintaining the user directory (LDAP). Part of the configuration that [underline]#must# be modified for LDAP is the addition of groups for users. The groups added to LDAP and associated with specific users correspond to roles in Neo4j. An easy way to identify a group in LDAP is with a group ID.
 
-For example, the LDAP would have these entries that correspond to the Neo4j native _reader_ and _publisher_ roles for the training *neo4jtraining.com* domain. The attribute that is used to identify the groups is _gidnumber_. 
+For example, the LDAP would have these entries that correspond to the Neo4j native _reader_ and _publisher_ roles for the training *neo4jtraining.com* domain. The attribute that is used to identify the groups is _gidnumber_.
 ----
 # reader group
 dn: cn=reader,ou=groups,dc=neo4jtraining,dc=com
@@ -241,14 +235,14 @@ Note that if a user does not specify a group ID, it must specify an attribute _m
 
 ==== Querying the LDAP Server
 
-The Neo4j instance never writes to the LDAP Server. Before you begin configuring the Neo4j instance to use LDAP, you should confirm that the LDAP Server is properly configured for use with Neo4j. You query the LDAP Server by using the `ldapsearch` utility from the ldap-utils library that is available on OS X and Linux, and by `ldp.exe` on Windows. 
+The Neo4j instance never writes to the LDAP Server. Before you begin configuring the Neo4j instance to use LDAP, you should confirm that the LDAP Server is properly configured for use with Neo4j. You query the LDAP Server by using the `ldapsearch` utility from the ldap-utils library that is available on OS X and Linux, and by `ldp.exe` on Windows.
 
 To understand the groups that users are associated with in the LDAP, you should perform this type of query:
 
 ----
-ldapsearch -x -v  -W -D '<designated-name-for-user>' 
-                     -H <ldap-server>:<port>  
-                     -b '<search-base>' 
+ldapsearch -x -v  -W -D '<designated-name-for-user>'
+                     -H <ldap-server>:<port>
+                     -b '<search-base>'
                      "<filter-for-user>"
 ----
 
@@ -256,9 +250,9 @@ ldapsearch -x -v  -W -D '<designated-name-for-user>'
 
 Here is an example for retrieving the user _architect_ in the training LDAP Server:
 ----
-ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com' 
-           -H ldap://openldap-training.neo4jlabs.com:389  
-           -b 'dc=neo4jtraining,dc=com' 
+ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com'
+           -H ldap://openldap-training.neo4jlabs.com:389
+           -b 'dc=neo4jtraining,dc=com'
            "(&(objectClass=*)(sn=architect))"
 ----
 
@@ -271,16 +265,16 @@ Here is the result of executing this `ldapsearch` command. When you execute this
 
 image::{imagedir}/ldapsearch-architect1.png[ldapsearch-architect1,width=800,align=center]
 
-In this example, you see that this particular user is part of many object classes. In a large user directory, you should provide a more specific filter to improve the search. 
+In this example, you see that this particular user is part of many object classes. In a large user directory, you should provide a more specific filter to improve the search.
 
 ==== Example: Optimized retrieval of the user, architect
 
 For example, a user directory will contain entries for non-users such as printers. If you want to focus the search only on people, you would specify something like the following to filter by _person_:
 
 ----
-ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com' 
-           -H ldap://openldap-training.neo4jlabs.com:389  
-           -b 'dc=neo4jtraining,dc=com' 
+ldapsearch -x -v  -W -D 'uid=architect,ou=users,dc=neo4jtraining,dc=com'
+           -H ldap://openldap-training.neo4jlabs.com:389
+           -b 'dc=neo4jtraining,dc=com'
            "(&(objectClass=person)(sn=architect))"
 ----
 
@@ -294,12 +288,12 @@ endif::backend-pdf[]
 For integration with Neo4j, you must examine the LDAP entries to understand what groups are defined as they will need to be mapped to Neo4j native roles and possibly custom roles. In the previous image, you saw that the _gidNumber_ attribute is assigned a value of 503. In LDAP, a user can be a member of more than one group.
 
 For example, once you determine the attribute that is used to define group membership in the LDAP, you can perform a query to retrieve all entries that use that same _gidNumber_ of _503_:
- 
+
 ----
 ldapsearch -x -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtraining,dc=com' '(gidNumber=503)'
 ----
 
-And here we see an entry for a user and an entry for a group. 
+And here we see an entry for a user and an entry for a group.
 
 image::{imagedir}/ldapsearch-architect2.png[ldapsearch-architect2,width=800,align=center]
 
@@ -348,7 +342,7 @@ endif::backend-pdf[]
 . Execute this `ldapsearch` command to retrieve all entries from the LDAP Server:
 
 ----
-ldapsearch -x -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtraining,dc=com' '(objectclass=*)' 
+ldapsearch -x -H ldap://openldap-training.neo4jlabs.com:389  -b 'dc=neo4jtraining,dc=com' '(objectclass=*)'
 ----
 
 image::{imagedir}/L05-Ex1-ldapsearch1.png[L05-Ex1-ldapsearch1,width=800,align=center]
@@ -392,7 +386,7 @@ endif::backend-pdf[]
 
 ==== Configuring Neo4j for LDAP authentication and authorization
 
-There are many configuration settings related to authentication and authorization in the *neo4j.conf* file. The https://neo4j.com/docs/operations-manual/3.5/authentication-authorization/ldap-integration/[Neo4j Operations Manual] describes how you can configure Neo4j to connect to and use an LDAP provider. 
+There are many configuration settings related to authentication and authorization in the *neo4j.conf* file. The https://neo4j.com/docs/operations-manual/3.5/authentication-authorization/ldap-integration/[Neo4j Operations Manual] describes how you can configure Neo4j to connect to and use an LDAP provider.
 
 You can configure Neo4j to work with:
 
@@ -412,13 +406,13 @@ In summary, there are three options for authorization with LDAP to establish the
 
 [cols="20,80", options="header",stripes="none"]
 |====
- *Settings*
+| *Settings*
 | *Description*
-| 
+|
 {set:cellbgcolor:white}
 _use_system_account = false_
 | The user will search their own group membership during authentication.
-| _use_system_account = true_ 
+| _use_system_account = true_
 
 _use_samaccountname=false_
 | The system account will log in and search for the users group membership.
@@ -525,7 +519,7 @@ dbms.security.ldap.authorization.group_to_role_mapping="user" = reader
 ----
 
 
-In the next Exercise, you will configure a Neo4j instance to use authentication with the LDAP Server you accessed in the previous exercise. 
+In the next Exercise, you will configure a Neo4j instance to use authentication with the LDAP Server you accessed in the previous exercise.
 
 ifdef::backend-pdf[]
 // force page break
@@ -538,11 +532,11 @@ In this Exercise, you will modify the configuration for the stand-alone Neo4j in
 
 *Before you begin*
 
-. Make sure you have completed Exercise 1 that confirms that you can access the LDAP Server. 
+. Make sure you have completed Exercise 1 that confirms that you can access the LDAP Server.
 . Modify *neo4j.conf* to use *movie3.db* as the active database.
 . Start or restart the Neo4j instance and confirm that it starts without error.
 . Open a terminal window on your system where you have worked with a stand-alone Neo4j instance using the *movie3.db* database.
-. Stop the Neo4j instance. 
+. Stop the Neo4j instance.
 
 *Exercise steps*:
 
@@ -621,7 +615,7 @@ All production environments should use an SSL certificate issued by a Certificat
 
 //=== Restricting access to specific procedures
 
-//The developers of your application may want to restrict access to some or all of their //code. They do so by annotating a procedure and specifying which roles can access the //procedure. The roles specified by the annotation can be a native role or can be a 
+//The developers of your application may want to restrict access to some or all of their //code. They do so by annotating a procedure and specifying which roles can access the //procedure. The roles specified by the annotation can be a native role or can be a
 // role.
 
 //????
@@ -631,7 +625,7 @@ All production environments should use an SSL certificate issued by a Certificat
 
 == Securing data-in-transit
 
-Users “in the building”, such as employees can access the application from an internal network. These networks are secure.  In addition, “off site” employees typically access the application using a Virtual Private Network (VPN) which is also secure. Customers or other users who access the application over the Internet, by default, do not use a secure connection. If these customers send private data like pass-phrases and credit card numbers, it can be examined, stolen, or altered by a malicious actor somewhere on the Internet. To secure their connection, you must provide SSL/TLS access your application. SSL/TLS is a software layer that encrypts data sent and received over the Internet. 
+Users “in the building”, such as employees can access the application from an internal network. These networks are secure.  In addition, “off site” employees typically access the application using a Virtual Private Network (VPN) which is also secure. Customers or other users who access the application over the Internet, by default, do not use a secure connection. If these customers send private data like pass-phrases and credit card numbers, it can be examined, stolen, or altered by a malicious actor somewhere on the Internet. To secure their connection, you must provide SSL/TLS access your application. SSL/TLS is a software layer that encrypts data sent and received over the Internet.
 
 === How to secure data-in-transit
 
@@ -647,9 +641,9 @@ A digital certificate is used by client applications when they communicate with 
 [NOTE]
 You must ensure that the version of SSL/TLS software your application uses is up-to-date and that it supports all the types of clients that will be accessing your application. For example, not all browsers are compatible with the latest SSL/TLS versions.
 
-==== Recommendations for external users 
+==== Recommendations for external users
 
-You should recommend that external users store the following artifacts securely: 
+You should recommend that external users store the following artifacts securely:
 
 * Digital certificates
 * User credentials (encrypt if they are included in code or a configuration file; never use clear-text credentials)
@@ -795,7 +789,7 @@ browser.retain_connection_credentials=false
 
 #prevent browser staying open
 browser.credential_timeout=15m
- 
+
 # Using a specific CORS response header
 dbms.connectors.access_control_allow_origin=neo4j.com
 
@@ -811,8 +805,8 @@ You should work with your security administrator to come up with a set of guidel
 
 Securing data-at-rest means securing private data in a Neo4j installation including databases and backups.
 
-An enterprise database typically contains private customer, personal, and financial data. If you do not secure the private data in the database, a malicious actor could access or steal the database and the private data would be exposed. 
- 
+An enterprise database typically contains private customer, personal, and financial data. If you do not secure the private data in the database, a malicious actor could access or steal the database and the private data would be exposed.
+
 === Securing files at the OS level
 
 OS-level security restricts access to application files such as:
@@ -836,7 +830,7 @@ on the operating system.
 
 You can determine which processes are owned by _neo4j_ using: `ps -ef |grep -E “neo4j”`
 
-By default the user, _neo4j_ owns the processes running that are related to the Neo4j instance. 
+By default the user, _neo4j_ owns the processes running that are related to the Neo4j instance.
 
 ==== Neo4j file permissions
 
@@ -865,7 +859,7 @@ You should also set the log files to only be writable by _neo4j_ and readable by
 
 You must have a plan for analyzing a suspected security breach so you can respond quickly and effectively. As part of that plan, you should implement a security audit trail that captures which users logged in successfully and those that failed.
 
-Implementing an audit trail does not secure your application against malicious actors, but the information that is captured can be used to alert you of a potential security breach or to aid in the investigation of a suspected security breach. 
+Implementing an audit trail does not secure your application against malicious actors, but the information that is captured can be used to alert you of a potential security breach or to aid in the investigation of a suspected security breach.
 
 Here are some recommended settings for security auditing in Neo4j:
 
@@ -891,13 +885,13 @@ endif::backend-pdf[]
 
 === *Exercise #3: Security auditing*
 
-In this Exercise, you will modify the security auditing configuration for the stand-alone Neo4j instance that you have worked earlier in this module. 
+In this Exercise, you will modify the security auditing configuration for the stand-alone Neo4j instance that you have worked earlier in this module.
 
 *Before you begin*
 
-. Make sure you have completed Exercise 2 where you have configured and tested the Neo4j instance to use the training LDAP Server. 
+. Make sure you have completed Exercise 2 where you have configured and tested the Neo4j instance to use the training LDAP Server.
 . Open a terminal window on your system.
-. Stop the Neo4j instance. 
+. Stop the Neo4j instance.
 
 *Exercise steps*:
 
@@ -909,7 +903,7 @@ image::{imagedir}/L05-Ex3-configure1.png[L05-Ex3-configure1,width=800,align=cent
 [start=3]
 . Start the Neo4j instance.
 . Examine the log file to ensure that the instance started without errors. If it does not start, review/adjust the properties you set in *neo4j.conf*.
-. Start cypher-shell specifying the user _reader/reader_. 
+. Start cypher-shell specifying the user _reader/reader_.
 . Exit out of cypher-shell and log in again specifying _accounting/accounting_.
 . Exit out of cypher-shell and log in again specifying _accounting/foo_.
 
@@ -926,12 +920,12 @@ image::{imagedir}/L05-Ex3-log1.png[L05-Ex3-log1,width=1100,align=center]
 [start=9]
 . Modify the configuration for the security level to be DEBUG.
 . Restart the Neo4j instance.
-. Start cypher-shell specifying the user _accounting/accounting_. 
+. Start cypher-shell specifying the user _accounting/accounting_.
 . Enter a statement that reads from the database, for example: `MATCH (n) RETURN count(n);`. You should receive an error because this user does not have the _reader_ role.
 . View the log file. There is information written stating that the read access was checked against the LDAP. Even though access was denied, this information is not written to the log file.
 . Exit out of cypher-shell.
-. Start cypher-shell specifying the user _reader/reader_. 
-. Enter a statement that reads from the database, for example: `MATCH (n) RETURN count(n);`. 
+. Start cypher-shell specifying the user _reader/reader_.
+. Enter a statement that reads from the database, for example: `MATCH (n) RETURN count(n);`.
 . View the log file. Again, you should see that the instance contacted the  LDAP Server for role information.
 
 image::{imagedir}/L05-Ex3-log2.png[L05-Ex3-log2,width=1100,align=center]
@@ -999,15 +993,13 @@ You should now be able to:
 * Describe how to secure data-at-rest.
 * Configure and use security auditing.
 
-== Grade Quiz and Continue 
+== Grade Quiz and Continue
 
 ++++
 <a class="next-section medium button" href="../part-6/">Continue to Module 6</a>
 ++++
 
 ifdef::backend-html5[]
-
-include::scripts-end.txt[]
 ++++
 <script>
 $( document ).ready(function() {
@@ -1015,5 +1007,4 @@ $( document ).ready(function() {
 });
 </script>
 ++++
-
 endif::backend-html5[]
