@@ -36,9 +36,13 @@ export default class GraphAcademyCore {
 
 	async login() {
 		const { webAuth } = this
-		webAuth.checkSession({}, (err, result) => {
-			if (result) this.authResult = result;
-			return [err, result];
+		// we are using an explicit Promise because the value is returned in a callback.
+		// the async function will be resolved when the callback is called.
+		return new Promise((resolve, _) => {
+			webAuth.checkSession({}, (err, result) => {
+				if (result) this.authResult = result;
+				return resolve([err, result]);
+			})
 		})
 	}
 
