@@ -68,7 +68,7 @@ export default class GraphAcademyCore {
 	}
 
 	validateRequest() {
-		if (!this.authResult.accessToken) {
+		if (!this.authResult || !this.authResult.accessToken) {
 			throw new Error(`accessToken not available. Cannot make a request to API`);
 		}
 	}
