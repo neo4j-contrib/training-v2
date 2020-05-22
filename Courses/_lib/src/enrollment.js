@@ -12,6 +12,8 @@ window.intercomSettings = {
   var trainingRegisterEventDetail = window.trainingRegisterEventDetail
   var backendBaseUrl = "{{API_BASE_URL}}"
   var trainingName = window.trainingClassName
+  // 2020-05-22 - temporary default value to ease the migration
+  var trainingCourseUrl = window.trainingCourseUrl || (siteUrl + 'part-0/')
 
   function getEnrollmentForClass(accessToken) {
     return $.ajax({
@@ -133,7 +135,7 @@ window.intercomSettings = {
     window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + siteUrl
   })
   $('.btn-continue').click(function (e) {
-    window.location = siteUrl + 'part-0/'
+    window.location = trainingCourseUrl
   })
 
   var gcSendEvent = function (component, eventText, eventDetail) {
@@ -183,7 +185,7 @@ window.intercomSettings = {
         enrollStudentInClass(values['FirstName'], values['LastName'], accessToken).done(function () {
           record_event('training', trainingRegisterEvent)
           gcSendEvent('online_training', 'register', trainingRegisterEventDetail)
-          window.location = siteUrl + 'part-0/'
+          window.location = trainingCourseUrl
         })
         return false
       })
