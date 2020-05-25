@@ -5,7 +5,8 @@ window.intercomSettings = {
 }
 
 ;(function ($) {
-  var siteUrl = window.location
+  var location = window.location
+  var siteUrl = location.href
   var trainingLogoutEvent = window.trainingLogoutEvent
   var trainingLoginEvent = window.trainingLoginEvent
   var trainingRegisterEvent = window.trainingRegisterEvent
@@ -13,7 +14,7 @@ window.intercomSettings = {
   var backendBaseUrl = "{{API_BASE_URL}}"
   var trainingName = window.trainingClassName
   // 2020-05-22 - temporary default value to ease the migration
-  var trainingCourseUrl = window.trainingCourseUrl || (siteUrl + 'part-0/')
+  var trainingCourseUrl = window.trainingCourseUrl || (location.origin + location.pathname + 'part-0/' + location.search + location.hash)
 
   function getEnrollmentForClass(accessToken) {
     return $.ajax({
