@@ -125,8 +125,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var logout = function () {
     // todo: use a temporary URL during the Auth0 migration (notice the "login-b" instead of "login")
-    //window.location = 'http://neo4j.com/accounts/login/?targetUrl=' + encodeURI(siteUrl)
-    window.location = 'http://neo4j.com/accounts/login-b/?targetUrl=' + encodeURI(siteUrl)
+    //window.location = 'http://neo4j.com/accounts/login/?targetUrl=' + encodeURIComponent(siteUrl)
+    window.location = 'http://neo4j.com/accounts/login-b/?targetUrl=' + encodeURIComponent(siteUrl)
   }
 
   // events

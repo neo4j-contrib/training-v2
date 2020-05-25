@@ -128,11 +128,11 @@ window.intercomSettings = {
 
   $('[data-action="logout"]').click(function (_) {
     record_event('training', trainingLogoutEvent)
-    window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + siteUrl
+    window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + encodeURIComponent(siteUrl)
   })
   $('.btn-login').click(function (e) {
     record_event('training', trainingLoginEvent)
-    window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + siteUrl
+    window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + encodeURIComponent(siteUrl)
   })
   $('.btn-continue').click(function (e) {
     window.location = trainingCourseUrl
