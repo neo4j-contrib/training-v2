@@ -89,17 +89,10 @@
 </script>
 <script>Munchkin.init('773-GON-065');</script>
 <style>
-    @import "https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.css" screen;
-    .modal {
-        width: 775px;
-        height: 775px;
-        padding: 10px;
-        margin: 0;
-    }
-    .blocker {
-        height: initial;
-        background-color: transparent;
-    }
+  .blocker {
+    height: initial;
+    background-color: transparent;
+  }
   a.button {
     display: block;
     text-align: center;
@@ -122,70 +115,35 @@
       background-color: #4ac084;
   }
 
-    a.button-notebook {
-      display: block;
-      text-align: center;
-      width: 250px;
-      font-size: 18px;
-      margin-top: 20px;
-      font-family: 'Open Sans';
-      height: 55px;
-      border-style: solid;
-      border-width: 0;
-      cursor: pointer;
-      color: white;
-      padding: 15px;
-      font-weight: 300;
-      background-color: #6dcc9c;
-      border-color: #4ac084;
-    }
+  a.button-notebook {
+    display: block;
+    text-align: center;
+    width: 250px;
+    font-size: 18px;
+    margin-top: 20px;
+    font-family: 'Open Sans';
+    height: 55px;
+    border-style: solid;
+    border-width: 0;
+    cursor: pointer;
+    color: white;
+    padding: 15px;
+    font-weight: 300;
+    background-color: #6dcc9c;
+    border-color: #4ac084;
+  }
 
-    .button-notebook a hover {
-        background-color: #4ac084;
-    }
+  .button-notebook a hover {
+    background-color: #4ac084;
+  }
 
   pre.cypher-syntax {
     background-color: #eaf1f8;
   }
 </style>
-<script src="https://neo4j.com/online_training/cypher-gadget/libs/underscore.js"></script>
-<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.js"></script>
-<script src="https://neo4j.com//online_training/cypher-gadget/libs/jquery-ui.min.js"></script>
-<script src="https://neo4j.com/online_training/cypher-gadget/libs/jquery.modal.min.js"></script>
 <script src="http://s3.amazonaws.com/dev.assets.neo4j.com/wp-content/js/js.cookie-2.1.3.min.js"></script>
 <script type="text/javascript">
   Sentry.init({ dsn: 'https://652808557bb1478883636c96edb51739@sentry.io/1342352' });
-</script>
-<script src="https://neo4j.com/online_training/tasks.js"></script>
-<script type="text/javascript">
-function renderGadget(containerSelector, options) {
-  if (!options.cypherSetup) return;
-  var frameId = _.uniqueId("exmodal");
-  $(containerSelector).append('<button onclick="setGadgetUrl(\'#' + frameId +
-    '\')" rel="modal:open" class="btn">' + (options.label || 'Gadget') + '</button>');
-
-    $(containerSelector).append(modalWindow(frameId,options));
-  }
-
-function modalWindow(frameId, options) {
-   return `<div id="${frameId}" class="modal-dialog modal fade draggable" style="display:none;text-align:center;vertical-align:middle;" >
-            <iframe data-src="/online_training/cypher-gadget/test.html?cypherSetup=${options.cypherSetup}&${formatTask(options)}" width="725" height="725" frameborder="0" style="margin:5px;"
-              webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-           <div>`;
-}
-
-function formatTask(options) {
-  if (options.task) return "cypherTaskJSON="+encodeURIComponent(JSON.stringify(options.task));
-  if (options.taskName) return "cypherTask="+options.taskName;
-  return "";
-}
-
-function setGadgetUrl(sel) {
-  $(sel).modal();
-  $(sel).draggable();
-  var $iframe = $(sel).find("iframe");
-  $iframe.attr("src", $iframe.data("src"));
-}
 </script>
 <div id="developer-manual" style="padding-top: 150px; padding-left: 20px; padding-bottom: 100px;">
 <h1><%= attr 'doctitle' %></h1>
