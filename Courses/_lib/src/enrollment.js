@@ -100,8 +100,6 @@ window.intercomSettings = {
             $('.btn-login').replaceWith($('.btn-continue'))
             $('.reg-logout').show()
           } else {
-            $('#online_training').remove()
-            $(".small-2").addClass("medium-offset-4")
             $('#reg-form').show()
             $('#reg-start').hide()
             $('#logout').show()
