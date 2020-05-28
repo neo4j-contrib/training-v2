@@ -327,6 +327,7 @@ $(document).ready(function () {
   if (CodeMirror.colorize) {
     CodeMirror.colorize(document.body.getElementsByTagName("pre"), 'cypher');
   }
+  Intercom('trackEvent', window.intercomEvent + '-part' + trainingPartIndex)
 })
 
 // Intercom
