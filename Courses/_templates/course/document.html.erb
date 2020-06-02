@@ -34,10 +34,12 @@
       <link rel="shortcut icon" href="https://neo4j.com/wp-content/themes/neo4jweb/favicon.ico"></link>
       <script type='text/javascript' src='https://neo4j.com/wp-content/themes/neo4jweb/assets/js/vendor/codemirror.min.js?ver=4.5.2'></script>
       <script type='text/javascript'>
+        window.trainingPartIndex = "<%= attr 'currsect' %>"
         window.trainingPartName = "module-<%= attr 'currsect' %>"
         window.trainingLocalStoragePrefixKey = "<%= attr 'module-localstorage-prefix-key' %>"
         window.trainingQuizCount = <%= attr 'module-quiz-count' %>
         window.trainingEnrollmentUrl = "<%= attr 'module-redirect-url' %>"
+        window.intercomEvent = "<%= attr 'module-intercom-event' %>"
       </script>
    </head>
    <body>
