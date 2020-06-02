@@ -7,9 +7,6 @@ window.intercomSettings = {
 ;(function ($) {
   var location = window.location
   var siteUrl = location.href
-  var trainingLogoutEvent = window.trainingLogoutEvent
-  var trainingLoginEvent = window.trainingLoginEvent
-  var trainingRegisterEvent = window.trainingRegisterEvent
   var trainingRegisterEventDetail = window.trainingRegisterEventDetail
   var backendBaseUrl = "{{API_BASE_URL}}"
   var trainingName = window.trainingClassName
@@ -126,11 +123,11 @@ window.intercomSettings = {
   })
 
   $('[data-action="logout"]').click(function (_) {
-    record_event('training', trainingLogoutEvent)
+    record_event('training', 'GRAPH_ACADEMY_LOGOUT')
     window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + encodeURIComponent(siteUrl)
   })
   $('.btn-login').click(function (e) {
-    record_event('training', trainingLoginEvent)
+    record_event('training', 'GRAPH_ACADEMY_LOGIN')
     window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + encodeURIComponent(siteUrl)
   })
   $('.btn-continue').click(function (e) {
@@ -165,7 +162,7 @@ window.intercomSettings = {
       eventDetail = ""
     }
     gcSendEvent('send', component, eventText, eventDetail)
-    Intercom('trackEvent', component + '-' + eventText, { "detail": eventDetail })
+    Intercom('trackEvent', eventText, { component: component, detail: eventDetail })
   }
 
   if (typeof MktoForms2 !== 'undefined') {
@@ -182,8 +179,7 @@ window.intercomSettings = {
       form.onSuccess(function (values, _) {
         // FIXME: unsafe, accessToken can be undefined!
         enrollStudentInClass(values['FirstName'], values['LastName'], accessToken).done(function () {
-          record_event('training', trainingRegisterEvent)
-          gcSendEvent('online_training', 'register', trainingRegisterEventDetail)
+          record_event('training', 'GRAPH_ACADEMY_REGISTER')
           window.location = trainingCourseUrl
         })
         return false

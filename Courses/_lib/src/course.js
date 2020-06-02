@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Unable to call Intercom with user info', err)
           }
         }
-        Intercom('trackEvent', 'course-' + trainingName + '-' + trainingPartName)
+        Intercom('trackEvent', 'PAGE_VIEW', {course: trainingName, module: trainingPartIndex })
       } else {
         console.warn('Unable to get the access token from the authentication result', authResult)
       }
@@ -327,7 +327,7 @@ $(document).ready(function () {
   if (CodeMirror.colorize) {
     CodeMirror.colorize(document.body.getElementsByTagName("pre"), 'cypher');
   }
-  Intercom('trackEvent', window.intercomEvent + '-part' + trainingPartIndex)
+  Intercom('trackEvent', 'PAGE_VIEW', {course: window.trainingClassName, module: trainingPartIndex })
 })
 
 // Intercom
