@@ -45,7 +45,7 @@ publish_js () {
   echo "Publishing JS---"
   local current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
   local bin_dir="${current_dir}/../_bin"
-  COURSE_JS_URL=`python2 "${bin_dir}/publish_js.py" --stage "${STAGE}" --file course.js`
+  COURSE_JS_URL=`python "${bin_dir}/publish_js.py" --stage "${STAGE}" --file course.js`
   if [[ $? != 0 ]]; then
     echo $?
     echo "ABORTING - Unable to publish course.js"
@@ -54,7 +54,7 @@ publish_js () {
     export COURSE_JS_URL
   fi
   echo -e "\t$COURSE_JS_URL"
-  ENROLLMENT_JS_URL=`python2 "${bin_dir}/publish_js.py" --stage "${STAGE}" --file enrollment.js`
+  ENROLLMENT_JS_URL=`python "${bin_dir}/publish_js.py" --stage "${STAGE}" --file enrollment.js`
   if [[ $? != 0 ]]; then
     echo "ABORTING - Unable to publish enrollment.js"
     exit 1
@@ -69,7 +69,7 @@ publish_wordpress () {
   local current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
   local bin_dir="${current_dir}/../_bin"
   local base_dir="$1"
-  python2 "${bin_dir}/publish.py" --stage "${STAGE}" --base-dir "${base_dir}"
+  python "${bin_dir}/publish.py" --stage "${STAGE}" --base-dir "${base_dir}"
 }
 
 copy_images_s3 () {
