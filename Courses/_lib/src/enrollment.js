@@ -7,7 +7,6 @@ window.intercomSettings = {
 ;(function ($) {
   var location = window.location
   var siteUrl = location.href
-  var trainingRegisterEventDetail = window.trainingRegisterEventDetail
   var backendBaseUrl = "{{API_BASE_URL}}"
   var trainingName = window.trainingClassName
   // 2020-05-22 - temporary default value to ease the migration

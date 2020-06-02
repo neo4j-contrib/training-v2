@@ -8,7 +8,6 @@ convert_enrollment () {
   echo "converting $adoc_file"
   asciidoctor -a "module-title=${MODULE_TITLE}" \
               -a "module-id=${MODULE_ID}" \
-              -a "module-register-event-detail=${MODULE_REGISTER_EVENT_DETAIL}" \
               -a "module-enrollment-js-url=${ENROLLMENT_JS_URL}" \
               -a "imagedir=${IMG}" \
               -T "../_templates/enrollment" \
