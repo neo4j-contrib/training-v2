@@ -1,0 +1,110 @@
+= Exercise 1
+:icons: font
+
+== Exercise 1: Getting started with the airport graph data model (Preparations)
+
+You will now work with the airport graph data model.
+
+You should start with an empty database.
+
+Throughout these exercises, you will be comparing query profiling results before and after refactoring.
+Since you may want to view query results that you performed throughout these exercises, you should set your Neo4j Browser to cache up to at least 100 result frames with a history of at least 100.
+
+== Exercise 1: Getting started with the airport graph data model (Overview)
+
+For the remaining exercises in this course, you will be working with data related to flights and airports.
+In this exercise, you will create nodes and relationships that reflect our very simple  model that has an airport entity.
+
+Here are the tasks for this exercise:
+
+* *Exercise 1.1*: Implement the starting model containing `Airport` nodes.
+* *Exercise 1.2*: Display the nodes and relationships in the graph.
+* *Exercise 1.3*: Query the graph.
+
+Go to the next page to start this exercise.
+
+== Exercise 1.1: Implement the starting model containing `Airport` nodes (Instructions)
+
+Here is the starting airport model:
+
+[.thumb]
+image::{guides}/img/AirportModel-Ex1.png[AirportModel-Ex1,width=300]
+
+{nbsp} +
+
+*Write and execute the Cypher code to create the nodes and relationships for this simple airport model.*
+
+*Hint*: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.
+
+== Exercise 1.1: Implement the starting model containing `Airport` nodes  (Solution)
+
+Here is the starting airport model:
+
+[.thumb]
+image::{guides}/img/AirportModel-Ex1.png[AirportModel-Ex1,width=300]
+
+*Write and execute the Cypher code to create the nodes and relationships for this simple airport model.*
+
+*Hint*: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.
+
+[source, cypher]
+----
+CREATE
+  (`0` :Airport {code:'LAS'}) ,
+  (`1` :Airport {code:'LAX'}) ,
+  (`2` :Airport {code:'ABQ'}) ,
+  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]->(`1`),
+  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]->(`2`)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex1_CreateFirstNodes.png[Ex1_CreateFirstNodes,width=300]
+
+
+== Exercise 1.2: Display the newly-created nodes (Instructions)
+
+*Write and execute a Cypher query to return all nodes in the graph.*
+
+== Exercise 1.2: Display the newly-created nodes (Solution)
+
+*Write and execute a Cypher query to return all nodes in the graph.*
+
+[source, cypher]
+----
+MATCH (n)
+RETURN n
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex1_DisplayFirstNodes.png[Ex1_DisplayFirstNodes,width=300]
+
+== Exercise 1.3: Query the graph (Instructions)
+
+*Write and execute a Cypher query to return all connections leaving LAS.*
+
+== Exercise 1.3: Query the graph (Solution)
+
+*Write and execute a Cypher query to return all connections leaving LAS.*
+
+[source, cypher]
+----
+MATCH connection = (:Airport {code: 'LAS'})-[:CONNECTED_TO]->(:Airport)
+RETURN connection
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/Ex1_LASConnections.png[Ex1_LASConnections,width=300]
+
+== Exercise 1: Getting started with the airport graph data model (Summary)
+
+In this exercise, you created the initial graph for the airport graph data model that you will be working with.
+This graph is just a start. In the next exercise you will load more data into the graph.
+
+
+pass:a[<a play-topic='{guides}/02.html'>Continue to Exercise 2</a>]
