@@ -2,9 +2,9 @@
 window.intercomSettings = {
   app_id: 'dt0ig5ab',
   hide_default_launcher: true
-}
+};
 
-;(function ($) {
+(function ($) {
   var location = window.location
   var siteUrl = location.href
   var backendBaseUrl = "{{API_BASE_URL}}"
@@ -122,46 +122,31 @@ window.intercomSettings = {
   })
 
   $('[data-action="logout"]').click(function (_) {
-    record_event('training', 'GRAPH_ACADEMY_LOGOUT')
+    record_event('GRAPH_ACADEMY_LOGOUT')
     window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + encodeURIComponent(siteUrl)
   })
   $('.btn-login').click(function (e) {
-    record_event('training', 'GRAPH_ACADEMY_LOGIN')
+    record_event('GRAPH_ACADEMY_LOGIN')
     window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + encodeURIComponent(siteUrl)
   })
   $('.btn-continue').click(function (e) {
     window.location = trainingCourseUrl
   })
 
-  var gcSendEvent = function (component, eventText, eventDetail) {
-    try {
-      if (typeof ga === 'function' && typeof ga.getAll === 'function' && typeof (ga.getAll()) === 'object' && ga.getAll().hasOwnProperty('length') && ga.getAll().length > 0) {
-        var tracker = ga.getAll()[0].get('name')
-        if (tracker) {
-          ga(tracker + '.send', 'event', { 'eventCategory': component, 'eventAction': eventText, 'eventLabel': eventDetail })
-          console.log("GA sent event.")
-        } else {
-          setTimeout(function () {
-            gcSendEvent(component, eventText, eventDetail)
-          }, 1000)
-        }
-      } else {
-        console.log("No GA. Setting timeout.")
-        setTimeout(function () {
-          gcSendEvent(component, eventText, eventDetail)
-        }, 750)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  var record_event = function (event, meta) {
+    if (event == null) return;
 
-  var record_event = function (component, eventText, eventDetail) {
-    if (eventDetail == null) {
-      eventDetail = ""
+    // Sending event to Google Analytics via GTM Datalayer
+    if (window.dataLayer) {
+      dataLayer.push({
+        'event': 'virtualEvent',
+        'eventCategory': 'training',
+        'eventAction': event,
+        'eventLabel': meta.course
+      });
     }
-    gcSendEvent('send', component, eventText, eventDetail)
-    Intercom('trackEvent', eventText, { component: component, detail: eventDetail })
+
+    Intercom('trackEvent', event, { component: 'training', ...meta })
   }
 
   if (typeof MktoForms2 !== 'undefined') {
@@ -178,7 +163,7 @@ window.intercomSettings = {
       form.onSuccess(function (values, _) {
         // FIXME: unsafe, accessToken can be undefined!
         enrollStudentInClass(values['FirstName'], values['LastName'], accessToken).done(function () {
-          record_event('training', 'GRAPH_ACADEMY_REGISTER')
+          record_event('GRAPH_ACADEMY_REGISTER', { course: trainingName })
           window.location = trainingCourseUrl
         })
         return false
@@ -187,9 +172,9 @@ window.intercomSettings = {
   } else {
     $("#reg-form").html("<p style='font-size:17px; text-align:center; color:red;'>Sorry, something has gone wrong. Some browser features like Firefox's Enhanced Tracking Protection prevent the training from working properly. Please try a different browser or turn of ETP.</p>")
   }
-})($)
+})($);
 
-;(function () {
+(function () {
   var w = window;
   var ic = w.Intercom;
   if (typeof ic === "function") {
