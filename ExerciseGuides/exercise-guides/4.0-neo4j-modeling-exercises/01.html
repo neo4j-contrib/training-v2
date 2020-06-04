@@ -1,0 +1,282 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 1</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 1</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1: Getting started with the airport graph data model (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will now work with the airport graph data model.</p>
+</div>
+<div class="paragraph">
+<p>You should start with an empty database.</p>
+</div>
+<div class="paragraph">
+<p>Throughout these exercises, you will be comparing query profiling results before and after refactoring.
+Since you may want to view query results that you performed throughout these exercises, you should set your Neo4j Browser to cache up to at least 100 result frames with a history of at least 100.</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/History.png" alt="History" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1: Getting started with the airport graph data model (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You will be working with data related to flights and airports.
+In this exercise, you will create nodes and relationships that reflect our very simple  model that has an airport entity.</p>
+</div>
+<div class="paragraph">
+<p>Here are the tasks for this exercise:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 1.1</strong>: Implement the starting model containing <code>Airport</code> nodes.</p>
+</li>
+<li>
+<p><strong>Exercise 1.2</strong>: Display the nodes and relationships in the graph.</p>
+</li>
+<li>
+<p><strong>Exercise 1.3</strong>: Query the graph.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.1: Implement the starting model containing <code>Airport</code> nodes (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is the starting airport model with sample data:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/AirportModel-Ex1.png" alt="AirportModel-Ex1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Write and execute the Cypher code to create the nodes and relationships for this simple airport model with sample data.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.1: Implement the starting model containing <code>Airport</code> nodes  (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Here is the starting airport model:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/AirportModel-Ex1.png" alt="AirportModel-Ex1" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Write and execute the Cypher code to create the nodes and relationships for this simple airport model.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE
+  (`0` :Airport {code:'LAS'}) ,
+  (`1` :Airport {code:'LAX'}) ,
+  (`2` :Airport {code:'ABQ'}) ,
+  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]-&gt;(`1`),
+  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]-&gt;(`2`)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/Ex1_CreateFirstNodes.png" alt="Ex1_CreateFirstNodes" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.2: Display the newly-created nodes (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a Cypher query to return all nodes in the graph.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.2: Display the newly-created nodes (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a Cypher query to return all nodes in the graph.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n)
+RETURN n<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/Ex1_DisplayFirstNodes.png" alt="Ex1_DisplayFirstNodes" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.3: Query the graph (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a Cypher query to return all connections leaving LAS.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1.3: Query the graph (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a Cypher query to return all connections leaving LAS.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH connection = (:Airport {code: 'LAS'})-[:CONNECTED_TO]-&gt;(:Airport)
+RETURN connection<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/Ex1_LASConnections.png" alt="Ex1_LASConnections" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 1: Getting started with the airport graph data model (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you created the initial graph for the airport graph data model that you will be working with.
+This graph is just a start. In the next exercise you will load more data into the graph.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-neo4j-modeling-exercises/02.html'>Continue to Exercise 2</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

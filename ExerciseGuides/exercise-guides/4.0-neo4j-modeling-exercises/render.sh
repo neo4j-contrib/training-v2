@@ -10,7 +10,6 @@ $GUIDES/run.sh 04.adoc 04.html +1 "$@"
 $GUIDES/run.sh 05.adoc 05.html +1 "$@"
 $GUIDES/run.sh 06.adoc 06.html +1 "$@"
 $GUIDES/run.sh 07.adoc 07.html +1 "$@"
-$GUIDES/run.sh 08.adoc 08.html +1 "$@"
 }
 
 if [ "$1" == "publish" ]; then

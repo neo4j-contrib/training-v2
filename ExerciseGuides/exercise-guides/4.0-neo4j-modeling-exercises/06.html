@@ -1,0 +1,370 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 6</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 6</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6: Creating specific relationships  (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Before you begin this exercise, make sure that you have performed the refactoring from Exercise 5.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/AfterExercise5.png" alt="AfterExercise5" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>If your database does not have the same nodes and relationships, you can execute these Cypher statements to reset your graph to what it should be before you start this exercise.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: To execute this Cypher code, you <span class="underline">must</span> have the APOC library installed for your database.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
+CALL apoc.schema.assert({},{},true);
+CREATE
+  (`0` :Airport {code:'LAS'}) ,
+  (`1` :Airport {code:'LAX'}) ,
+  (`2` :Airport {code:'ABQ'}) ,
+  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]-&gt;(`1`),
+  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]-&gt;(`2`);
+LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_1k' AS row
+MERGE (origin:Airport {code: row.Origin})
+MERGE (destination:Airport {code: row.Dest})
+MERGE (origin)-[connection:CONNECTED_TO {
+  airline: row.UniqueCarrier,
+  flightNumber: row.FlightNum,
+  date: toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth)}]-&gt;(destination)
+ON CREATE SET connection.departure = toInteger(row.CRSDepTime), connection.arrival = toInteger(row.CRSArrTime);
+CREATE CONSTRAINT Flight_flightId_constraint ON (f:Flight)
+ASSERT f.flightId IS UNIQUE;
+CREATE INDEX Flight_number_index FOR (f:Flight) ON (f.number);
+MATCH (origin:Airport)-[connection:CONNECTED_TO]-&gt;(destination:Airport)
+MERGE (newFlight:Flight { flightId: connection.airline +  connection.flightNumber +
+       '_' + connection.date +  '_' + origin.code + '_' + destination.code })
+ON CREATE SET newFlight.date = connection.date,
+              newFlight.airline = connection.airline,
+              newFlight.number = connection.flightNumber,
+              newFlight.departure = connection.departure,
+              newFlight.arrival = connection.arrival
+MERGE (origin)&lt;-[:ORIGINATES_FROM]-(newFlight)
+MERGE (newFlight)-[:LANDS_IN]-&gt;(destination);
+MATCH ()-[connection:CONNECTED_TO]-&gt;()
+DELETE connection;
+CREATE INDEX Airport_code_index FOR (a:Airport) ON (a.code);
+LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_10k' AS row
+MERGE (origin:Airport {code: row.Origin})
+MERGE (destination:Airport {code: row.Dest})
+MERGE (newFlight:Flight { flightId: row.UniqueCarrier + row.FlightNum + '_' + row.Year + '-' + row.Month + '-' + row.DayofMonth + '_' + row.Origin + '_' + row.Dest }   )
+ON CREATE SET newFlight.date = toInteger(row.Year) + '-' + toInteger(row.Month) + '-' + toInteger(row.DayofMonth),
+              newFlight.airline = row.UniqueCarrier,
+              newFlight.number = row.FlightNum,
+              newFlight.departure = toInteger(row.CRSDepTime),
+              newFlight.arrival = toInteger(row.CRSArrTime)
+MERGE (newFlight)-[:ORIGINATES_FROM]-&gt;(origin)
+MERGE (newFlight)-[:LANDS_IN]-&gt;(destination);
+CREATE CONSTRAINT AirportDay_airportDayId_constraint ON (a:AirportDay)
+ASSERT a.airportDayId IS UNIQUE;
+MATCH (origin:Airport)&lt;-[:ORIGINATES_FROM]-(flight:Flight)-
+       [:LANDS_IN]-&gt;(destination:Airport)
+MERGE (originAirportDay:AirportDay
+      {airportDayId: origin.code + '_' + flight.date})
+SET originAirportDay.date = flight.date
+MERGE (destinationAirportDay:AirportDay
+       {airportDayId: destination.code + '_' + flight.date})
+SET destinationAirportDay.date = flight.date
+MERGE (origin)-[:HAS_DAY]-&gt;(originAirportDay)
+MERGE (flight)-[:ORIGINATES_FROM]-&gt;(originAirportDay)
+MERGE (flight)-[:LANDS_IN]-&gt;(destinationAirportDay)
+MERGE (destination)-[:HAS_DAY]-&gt;(destinationAirportDay)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: You must use the "file:///" syntax for loading the data from the import folder.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6: Creating specific relationships (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Neo4j is optimized for searching by unique relationship types and in this case the date of a flight provides that uniqueness.</p>
+</div>
+<div class="paragraph">
+<p>You will refactor the model to change the <code>HAS_DAY</code> relationship to be the date of the flight instead, for example <code>ON_2019-1-3</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here are the tasks you will perform:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 6.1</strong>: Refactor the graph to change all <code>HAS_DAY</code> relationships to specific day relationships.</p>
+</li>
+<li>
+<p><strong>Exercise 6.2</strong>: Rewrite and profile the previous query that finds all flights from an airport to another on a given day.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.1:  Refactor the graph to change all <code>HAS_DAY</code> relationships to specific day relationships. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Rather than having the <code>HAS_DAY</code> relationship from <code>Airport</code> nodes to <code>AirportDay</code> nodes, we want a specific relationship that will be <code>ON_yyyy-dd-mm</code>.
+The revised model is:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/Ex6_Model.png" alt="Ex6_Model" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Write and execute the Cypher statement to refactor the model.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Use apoc.create.relationship().</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.1:  Refactor the graph to change all <code>HAS_DAY</code> relationships to specific day relationships. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute the Cypher statement to refactor the model.</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: Use apoc.create.relationship().</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (origin:Airport)-[hasDay:HAS_DAY]-&gt;(ad:AirportDay)
+CALL apoc.create.relationship(startNode(hasDay),
+                              'ON_' + ad.date,
+                              {},
+                              endNode(hasDay) ) YIELD rel
+RETURN COUNT(*)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/Ex6_AddSpecificRelationships.png" alt="Ex6_AddSpecificRelationships" width="300">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.2:  Rewrite and profile the previous query that finds all flights from an airport to another on a given day. (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Previously, we used this query to look for all flights that go from Las Vegas (LAS) to Chicago (MDW) on January 3, 2019 (2019-1-3).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (origin:Airport {code: 'LAS'})-[:HAS_DAY]-&gt;(:AirportDay
+      {date: '2019-1-3'})&lt;-[:ORIGINATES_FROM]-(flight:Flight),
+      (flight)-[:LANDS_IN]-&gt;(:AirportDay
+      {date: '2019-1-3'})&lt;-[:HAS_DAY]-(destination:Airport {code: 'MDW'})
+RETURN origin, destination, flight<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Modify this query to use the refactored graph and execute the query.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.2:  Rewrite and profile the previous query that finds all flights from airport to another on a given day. (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify this query to use the refactored graph and execute the query.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (origin:Airport {code: 'LAS'})-
+[:`ON_2019-1-3`]-&gt;(originDay:AirportDay),
+(originDay)&lt;-[:ORIGINATES_FROM]-(flight:Flight),
+(flight)-[:LANDS_IN]-&gt;(destinationDay),
+(destinationDay:AirportDay)&lt;-[:`ON_2019-1-3`]-
+(destination:Airport {code: 'MDW'})
+RETURN flight.date, flight.number, flight.airline,
+flight.departure, flight.arrival
+ORDER BY flight.date, flight.departure<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-neo4j-modeling-exercises/img/Ex6_FindFlightsJan3.png" alt="Ex6_FindFlightsJan3" width="150">
+</div>
+</div>
+<div class="paragraph">
+<p>&#160;<br></p>
+</div>
+<div class="paragraph">
+<p>The previous query before this refactoring yielded 4271 db hits.
+After this refactoring and rewriting the query, we see 5829 db hits which is worse.
+If the graph had more data for more days' worth of data, we would see a difference in the performance after the last refactoring.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6: Creating specific relationships  (Taking it further)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Execute these previous two queries to see if the refactoring to specific relationships changed their performance:</p>
+</div>
+<div class="paragraph">
+<p>Previously, this query showed 199 db hits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (origin)&lt;-[:ORIGINATES_FROM]-(flight:Flight)-
+      [:LANDS_IN]-&gt;(destination)
+WHERE flight.airline = 'WN' AND
+      flight.number = '1016' RETURN origin, destination, flight<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Previously, this query showed 704 db hits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE
+MATCH (f:Flight)
+WHERE f.flightId ENDS WITH 'LAS'
+RETURN f.flightId<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6: Creating specific relationships  (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise, you refactored the <code>HAS_DAY</code> relationship between the <code>Airport</code> and the <code>AirportDay</code> to be a specific date relationship.
+For the existing graph with 10K flight nodes, this change did not make a significant difference.
+If the graph had more data (more data for more days), we would probably see an improvement.</p>
+</div>
+<div class="paragraph">
+<p>In the next exercise, you will load even more data in to the graph.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-neo4j-modeling-exercises/07.html'>Continue to Exercise 7</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>
