@@ -37,8 +37,6 @@ image::{guides}/img/AirportModel-Ex1.png[AirportModel-Ex1,width=300]
 
 *Write and execute the Cypher code to create the nodes and relationships for this simple airport model with sample data.*
 
-*Hint*: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.
-
 == Exercise 1.1: Implement the starting model containing `Airport` nodes  (Solution)
 
 Here is the starting airport model:
@@ -48,16 +46,13 @@ image::{guides}/img/AirportModel-Ex1.png[AirportModel-Ex1,width=300]
 
 *Write and execute the Cypher code to create the nodes and relationships for this simple airport model.*
 
-*Hint*: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.
-
 [source, cypher]
 ----
-CREATE
-  (`0` :Airport {code:'LAS'}) ,
-  (`1` :Airport {code:'LAX'}) ,
-  (`2` :Airport {code:'ABQ'}) ,
-  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]->(`1`),
-  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]->(`2`)
+MERGE (a1:Airport {code: 'LAS'})
+MERGE (a2:Airport {code:'LAX'})
+MERGE (a3:Airport {code:'ABQ'})
+MERGE (a1)-[:CONNECTED_TO {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]->(a2)
+MERGE (a1)-[:CONNECTED_TO {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]->(a3)
 ----
 
 The result returned should be:

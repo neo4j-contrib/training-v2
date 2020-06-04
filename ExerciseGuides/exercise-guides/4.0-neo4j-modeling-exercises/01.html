@@ -127,9 +127,6 @@ In this exercise, you will create nodes and relationships that reflect our very 
 <div class="paragraph">
 <p><strong>Write and execute the Cypher code to create the nodes and relationships for this simple airport model with sample data.</strong></p>
 </div>
-<div class="paragraph">
-<p><strong>Hint</strong>: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -152,17 +149,13 @@ In this exercise, you will create nodes and relationships that reflect our very 
 <div class="paragraph">
 <p><strong>Write and execute the Cypher code to create the nodes and relationships for this simple airport model.</strong></p>
 </div>
-<div class="paragraph">
-<p><strong>Hint</strong>: Since you have a small amount of data here, you can use CREATE if you ensure the nodes and relationships you create are unique.</p>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE
-  (`0` :Airport {code:'LAS'}) ,
-  (`1` :Airport {code:'LAX'}) ,
-  (`2` :Airport {code:'ABQ'}) ,
-  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]-&gt;(`1`),
-  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]-&gt;(`2`)<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MERGE (a1:Airport {code: 'LAS'})
+MERGE (a2:Airport {code:'LAX'})
+MERGE (a3:Airport {code:'ABQ'})
+MERGE (a1)-[:CONNECTED_TO {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]-&gt;(a2)
+MERGE (a1)-[:CONNECTED_TO {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]-&gt;(a3)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">

@@ -73,12 +73,11 @@
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
-CREATE
-  (`0` :Airport {code:'LAS'}) ,
-  (`1` :Airport {code:'LAX'}) ,
-  (`2` :Airport {code:'ABQ'}) ,
-  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]-&gt;(`1`),
-  (`0`)-[:`CONNECTED_TO` {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]-&gt;(`2`);
+MERGE (a1:Airport {code: 'LAS'})
+MERGE (a2:Airport {code:'LAX'})
+MERGE (a3:Airport {code:'ABQ'})
+MERGE (a1)-[:CONNECTED_TO {airline:'WN',flightNumber:'82',date:'2019-1-3',departure:'1715',arrival:'1820'}]-&gt;(a2)
+MERGE (a1)-[:CONNECTED_TO {airline:'WN',flightNumber:'500',date:'2019-1-3',departure:'1445',arrival:'1710'}]-&gt;(a3);
 LOAD CSV WITH HEADERS FROM 'https://r.neo4j.com/flights_2019_1k' AS row
 MERGE (origin:Airport {code: row.Origin})
 MERGE (destination:Airport {code: row.Dest})
