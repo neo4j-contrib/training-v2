@@ -1,0 +1,155 @@
+
+= Graph Algorithms for Data Science: Setting Up Your Development Environment
+:presenter: Neo Technology
+:twitter: neo4j
+:email: info@neotechnology.com
+:neo4j-version: 3.5
+:currentyear: 2019
+:doctype: book
+:toc: left
+:toclevels: 3
+:experimental:
+:imagedir: https://s3.amazonaws.com/dev.assets.neo4j.com/course/4.0-intro-neo4j/images
+:imagedir2: https://graphacademy.neo4j.com/setup/img
+:manual: http://neo4j.com/docs/developer-manual/current
+:manual-cypher: {manual}/cypher
+
+
+== Preparing for the course
+
+You must prepare your development environment before you take this training session, Graph Algorithms for Data Science.
+
+To prepare for this course, you must do the following before this session (scroll down for detailed instructions):
+
+. Ensure that you have Neo4j Desktop installed on your laptop.
+. Download the Yelp public dataset.
+. Create a project in Neo4j Desktop for this course.
+. Create a Neo4j 4.x database for this project
+. Install the APOC and Graph Data Science plugins for this database.
+. Install the Graph Algorithms Playground.
+. Copy the Yelp dataset for use in your project.
+
+
+=== Neo4j Desktop
+
+[frame="none", cols="^.^,<.^"]
+|===
+a|image::{imagedir}/Neo4jDesktop.png[Neo4jDesktop,width=500,align=center]
+a|
+The Neo4j Desktop includes the Neo4j Database server which includes the graph engine and kernel so that Cypher statements can be executed to access a database on your system. 
+It includes an application called  Neo4j Browser.  
+Neo4j Browser enables you to access a Neo4j database using Cypher. 
+You can also call built-in procedures that communicate with the database server. 
+There are a number of additional libraries and drivers for accessing the Neo4j database from Cypher or from another programming language that you can install in your development environment.
+
+Neo4j Desktop runs on OS X, Linux, and Windows.
+|===
+
+
+== Step 1: Getting Started with Neo4j Desktop
+
+include::DesktopInstall-1.2.6.adoc[]
+
+=== Using Neo4j Browser
+
+Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data. 
+The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables. 
+In addition to executing Cypher statements, you can execute a number of system calls that are related to the database being accessed by the Browser. 
+For example, you can retrieve the list of queries that are currently running in the server.
+
+There are two ways that you can use Neo4j Browser functionality:
+[square]
+* Open the Neo4j Browser application from Neo4j Desktop (database is local)
+* Use the Neo4j Browser Web interface by specifying a URL in a Web browser using port 7474 (database is local)
+
+image:{imagedir}/Neo4jBrowser.png[Neo4jBrowser,width=800]
+
+{nbsp} +
+
+The user interface and behavior for the Neo4j Browser application and Neo4j Browser Web interface is identical, except that in the Web interface, you have the option of syncing your settings and scripts to the cloud.
+
+=== Getting Started with Neo4j Browser
+
+
+*Note*: Before you perform the tasks shown in this video, you must have created and started the database in Neo4j Desktop.
+
+include::Neo4jBrowser.adoc[]
+
+== Step 2: Download the Yelp public dataset
+
+. In a Web browser, enter this address to copy the data to your browser's download area.
+*Note*: This is a _large_ file that will take several minutes to download, depending on your ISP.
+
+   https://s3.amazonaws.com/neo4j-sandbox-usecase-datastores/v3_5/yelp.db.zip
+
+[start=2]
+. Unzip this file. It should unzip to a folder named *yelp.db*.
+
+== Step 3: Create a project in Neo4j Desktop for this course
+
+. In Neo4j Desktop, create a new project. You can name it whatever you like.
+. In this newly-created project, create a local graph 4.x graph, giving it a password you will remember.
+
+*Note*: Do *not* start the database.
+
+== Step 4: Install the APOC and Graph Data Science plugins
+
+. For the database you just created go the the Manage area and click the Plugins tab.
+
+. Install the APOC and Graph Data Science plugins.
+
+. In Neo4j Desktop, start the database.
+
+. Open Neo4j Browser and confirm access to the apoc and data science libraries by executing the Cypher below:
+
+[source, cypher]
+----
+CALL dbms.procedures()
+YIELD name
+WHERE name STARTS WITH 'apoc.' OR name STARTS WITH 'gds'
+RETURN name ORDER BY name ASC
+----
+
+{nbsp} +
+
+If this code does not return the list of apoc and gds procedures, then you must ensure that the these libraries are available by installing the plugin (Neo4j Desktop) and restarting the database.
+
+== Step 5: Install the Graph Algorithms Playground
+
+. Open the Graph Applications pane on the left side of Neo4j Desktop.
+. If Graph Algorithms Playground is not shown as an available application, click the *Discover more Graph Apps* link to find and instgall Graph Algorithms Playground.
+. Close the Graph Applications pane on the left to return to your project.
+. Click the *Add Application* area to install Graph Algorithms Playground for your project.
+
+After installing the Graph Algorithms Playground, your project should appear as follows:
+
+image:{imagedir2}/PluginsAppInstalled.png[PluginsAppInstalled,width=400]
+
+
+*Jose: Do you have a more recent screen shot?*
+
+{nbsp} +
+
+== Step 6: Copy the Yelp dataset for use in your project
+
+*Jose: Not sure what to do here since you are using 4.0?*
+
+. Click the *Manage* area for the local graph you just created.
+. Click *Open Folder*.
+. Navigate to data/databases.
+. Copy the *yelp.db*  folder that you unzipped to databases.
+. Rename the *yelp.db* folder to *graph.db*.
+. Start the database.
+. Open Neo4j Browser and click the Database icon. Is should appear as follows:
+
+image:{imagedir2}/YelpLoaded.png[YelpLoaded,width=150]
+
+{nbsp} +
+
+*Congratulations!* You are now ready to perform the exercises for this training session.
+
+
+== Getting help
+
+If you have problems installing Neo4j Desktop, you can join http://community.neo4j.com/[Neo4j Community] and ask a question https://community.neo4j.com/c/general/online-training[here].
+
