@@ -1,0 +1,121 @@
+= Finding relevant reviews
+
+== Finding relevant reviews
+
+We want to return relevant reviews for a business based on the user's context.
+In this section we'll learn how to use the Personalized PageRank algorithm to do this.
+
+The Personalized PageRank allows us to find influential nodes in a certain part of our graph.
+We'll be using it to find influential users so that we can boost the reviews written by those users.
+
+== Pre-load reviews graph
+
+We're going to run the algorithm on a projected graph of users that have written reviews about the same businesses.
+
+First, we'll select only users who have written more than 10 reviews and add a `Reviewer` label to those nodes:
+
+[source, cypher]
+----
+MATCH (u:User) WHERE SIZE( (u)-[:WROTE]->() ) > 10
+SET u:Reviewer
+----
+
+Then, we'll pre-load the in memory graph using the following query as we want to run the algorithm multiple times for different users:
+
+[source, cypher]
+----
+CALL gds.graph.create.cypher('review-graph',
+  'MATCH (u:Reviewer) RETURN id(u) AS id',
+  'MATCH (u:Reviewer)-[:WROTE]->()-[:REVIEWS]->()<-[:REVIEWS]-()<-[:WROTE]-(u2:Reviewer)
+   RETURN id(u) AS source, id(u2) AS target, count(*) AS weight');
+----
+
+When we run our algorithms procedures we'll need to pass in the first parameter `"review-graph"` to have the procedure run against this graph.
+
+== Trusted users
+
+We're going to run the algorithm in the context of a specific user, so let's first define the `userId` parameter:
+
+[source, cypher]
+----
+:params userId => "Lk70TsLeGBYSXsnr5q-cXg"
+----
+
+The query below provides a template for computing Personalized PageRank for our user, where the `sourceNodes` are the users who have reviewed more than one same business as our user.
+Update the query to:
+
+* Run the algorithm against our `review-graph`
+* Use the source nodes computed in the first part of the query
+* Create a relationship between our user and the users returned from the procedure
+
+[source,cypher]
+----
+// Compute source nodes
+MATCH (u:User {id: $userId})-[:WROTE]->()-[:REVIEWS]->()<-[:REVIEWS]-()<-[:WROTE]-(other)
+WITH u, other, count(*) AS count
+WHERE count > 1
+WITH u, collect(other) AS sourceNodes
+
+// Execute the PageRank algorithm
+CALL gds.pageRank.stream('review-graph', {
+  maxIterations:5,
+})
+
+// Only keep users that have a PageRank score bigger than the default
+YIELD nodeId, score
+WITH u, gds.util.asNode(nodeId) AS node, score
+WHERE score > 0.15 AND node <> u
+
+// Keep up to 50 users
+WITH u, node, score
+ORDER BY score DESC
+LIMIT 50
+
+// Create a relationship between our user (u) and the influential users (node)
+----
+
+== Answer: Trusted users
+
+This is what the answer should look like:
+
+[source,cypher]
+----
+// Compute source nodes
+MATCH (u:User {id: $userId})-[:WROTE]->()-[:REVIEWS]->()<-[:REVIEWS]-()<-[:WROTE]-(other)
+WITH u, other, count(*) AS count
+WHERE count > 1
+WITH u, collect(other) AS sourceNodes
+
+// Execute the PageRank algorithm
+CALL gds.pageRank.stream('review-graph', {
+  maxIterations:5, sourceNodes: sourceNodes
+})
+
+// Only keep users that have a PageRank score bigger than the default
+YIELD nodeId, score
+WITH u, gds.util.asNode(nodeId) AS node, score
+WHERE score > 0.15 AND node <> u
+
+// Keep up to 50 users
+WITH u, node, score
+ORDER BY score DESC
+LIMIT 50
+
+// Create a relationship between our user (u) and the influential users (node)
+MERGE (u)-[trust:TRUSTS]->(node)
+SET trust.score = score
+----
+
+== Find trusted users
+
+Now we can find the other users that our user trusts by executing the following query:
+
+[source,cypher]
+----
+MATCH (u:User {id: $userId})-[trusts:TRUSTS]->(other)
+RETURN other.name, other.id, trusts.score AS score
+ORDER BY score DESC
+----
+
+Now let's update the application to use this new information.
+Instead of showing reviews based on the date they were written, we want to boost the reviews written by our trusted users.

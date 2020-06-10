@@ -1,0 +1,117 @@
+= Category Hierarchy
+
+== Category Hierarchy
+
+This structure between categories is already hiding in the data, we just need to extract it.
+The Overlap Similarity algorithm is the perfect choice for this type of problem.
+
+[quote]
+____
+The overlap coefficient, or Szymkiewicz–Simpson coefficient, is a similarity measure that measures the overlap between two sets.
+It is defined as the size of the intersection divided by the smaller of the size of the two sets:
+____
+
+It is computed using the following formula:
+
+image::{img}/overlap.svg[]
+
+If set X is a subset of Y or vice versa then the overlap coefficient is equal to one.
+
+== Running the algorithm on dummy data
+
+We want to compute the similarity of categories based on the same businesses being tagged with that category.
+Let's see how the algorithm works with some dummy data.
+
+[source, cypher]
+----
+WITH [
+  {item: 7, categories: [10,11,12]},
+  {item: 8, categories: [10,11]},
+  {item: 9, categories: [11,12,13,14,15]}
+] AS data
+CALL gds.alpha.similarity.overlap.stream({
+  data:data, nodeProjection:'*', relationshipProjection:'*'})
+YIELD item1, item2, similarity
+RETURN item1, item2, similarity
+ORDER BY similarity DESC
+----
+
+In this dummy dataset, item `8` has a similarity score of `1.0` with item `7`, which means that item `8` is a complete subset of item `7`.
+Item `7` itself is a subset of item `9`, but it's not a complete subset as item `7` has one category that item `9` does not.
+
+== Running the algorithm on real data
+
+Now we want to run the algorithm on the Yelp dataset.
+We need to build a collection of items like we did in our previous example, but this time the collection will consist of data from our graph rather than being hard coded.
+
+The query below provides a template for computing the https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/overlap/#algorithms-similarity-overlap-procedure-sample[Overlap Similarity^] of categories based on the businesses tagged with those categories.
+Update the query (copied from the documentation) to:
+
+* Compute similarity between categories based on the business tagged with that category (Hint: you'll need to use the `IN_CATEGORY` relationship)
+* Choose a similarity cut off value (Hint: look at the `similarityCutOff` parameter)
+* Define the node and relationship projection (Hint: look at the `nodeProjection` and `relationshipProjection` parameters)
+
+[source,cypher]
+----
+// Change this part of the query
+MATCH (book:Book)-[:HAS_GENRE]->(genre)
+WITH {item:id(genre), categories: collect(id(book))} as userData
+
+WITH collect(userData) as data
+
+// Fill in the configuration in this part of the query
+CALL gds.alpha.similarity.overlap.write({
+  data:data, 
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99;
+----
+
+== Answer: Running the algorithm on real data
+
+This is what the query should look like:
+
+[source,cypher]
+----
+MATCH (category:Category)<-[:IN_CATEGORY]-(business)
+WITH {item:id(category), categories: collect(id(business))} AS userData
+
+WITH collect(userData) as data
+
+CALL gds.alpha.similarity.overlap.write({
+  data: data, similarityCutoff: 0.75,
+  nodeProjection:'*', relationshipProjection:'*'
+})
+
+YIELD nodes, similarityPairs, p50, p75, p90, p99
+RETURN nodes, similarityPairs, p50, p75, p90, p99;
+----
+
+== Remove transitive relationships
+
+The algorithm will create relationships between nodes that aren't strictly adjacent in the hierarchy.
+Let's remove those transitive relationships by running the following query:
+
+[source,cypher]
+----
+MATCH (g1:Category)-[:NARROWER_THAN*2..]->(g3:Category),
+      (g1)-[d:NARROWER_THAN]->(g3)
+DELETE d;
+----
+
+== Viewing the hierarchy
+
+Let's have a look at the hierarchy that we've created.
+The following query will find 10 of these paths:
+
+[source,cypher]
+----
+MATCH path = (category:Category)-[:NARROWER_THAN*]->(superCategory:Category)
+RETURN path
+LIMIT 10
+----
+
+Now that we've computed relationships between categories, let's go back to the CodeSandbox and update the application to only return top level categories.
+
+NOTE: Top level categories don't have an outgoing `NARROWER_THAN` relationship.
