@@ -8,11 +8,6 @@ convert_enrollment () {
   echo "converting $adoc_file"
   asciidoctor -a "module-title=${MODULE_TITLE}" \
               -a "module-id=${MODULE_ID}" \
-              -a "module-intercom-event=${MODULE_INTERCOM_EVENT}" \
-              -a "module-logout-event=${MODULE_LOGOUT_EVENT}" \
-              -a "module-login-event=${MODULE_LOGIN_EVENT}" \
-              -a "module-register-event=${MODULE_REGISTER_EVENT}" \
-              -a "module-register-event-detail=${MODULE_REGISTER_EVENT_DETAIL}" \
               -a "module-enrollment-js-url=${ENROLLMENT_JS_URL}" \
               -a "imagedir=${IMG}" \
               -T "../_templates/enrollment" \
@@ -34,7 +29,6 @@ convert_course () {
               -a "module-localstorage-prefix-key=${LOCALSTORAGE_PREFIX_KEY}" \
               -a "module-id=${MODULE_ID}" \
               -a "module-redirect-url=${redirect_url}" \
-              -a "module-intercom-event=${MODULE_INTERCOM_EVENT}" \
               -a "module-course-js-url=${COURSE_JS_URL}" \
               -a "imagedir=${IMG}" \
               -T "../_templates/course" \
