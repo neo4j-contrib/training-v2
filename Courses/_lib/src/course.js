@@ -268,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Unable to call Intercom with user info', err)
           }
         }
-        Intercom('trackEvent', 'PAGE_VIEW', {course: trainingName, module: trainingPartIndex })
       } else {
         console.warn('Unable to get the access token from the authentication result', authResult)
       }
