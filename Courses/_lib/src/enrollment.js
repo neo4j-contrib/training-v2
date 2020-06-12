@@ -44,7 +44,7 @@ window.intercomSettings = {
 
   var country = null
   var state = null
-  if (geoip2) {
+  if (typeof geoip2 !== 'undefined' && typeof geoip2.city === 'function') {
     geoip2.city(function (geoipResponse) {
       country = geoipResponse.country.names.en
       if (geoipResponse.subdivisions.length > 0) {
@@ -52,8 +52,10 @@ window.intercomSettings = {
         state = geoipResponse.subdivisions[0].names.en
       }
     }, function (error) {
-      console.log("Unable to locate user with geoip2", error)
+      console.log('Unable to locate user with geoip2', error)
     })
+  } else {
+    console.log('geoip2 is not available, unable to get the country and state of the user')
   }
   var webAuth = new auth0.WebAuth({
     clientID: 'hoNo6B00ckfAoFVzPTqzgBIJHFHDnHYu',
