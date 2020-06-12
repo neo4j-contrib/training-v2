@@ -21,130 +21,100 @@ You must prepare your development environment before you take this training sess
 
 To prepare for this course, you must do the following before this session (scroll down for detailed instructions):
 
-. Ensure that you have Neo4j Desktop installed on your laptop.
-. Download the Yelp public dataset.
-. Create a project in Neo4j Desktop for this course.
-. Create a Neo4j 4.x database for this project
-. Install the APOC and Graph Data Science plugins for this database.
-. Install the Graph Algorithms Playground.
-. Copy the Yelp dataset for use in your project.
+. Ensure that you have the latest Neo4j Desktop (1.2.9 or later) installed on your laptop.
+. Create the project and database for this training.
+. Install plugins for the database.
+. Download the PaySim fraud dataset.
+. Modify the Neo4j configuration.
+. Start the fraud database.
+. Verify your setup.
 
+== Step 1: Install latest version of Neo4j Desktop
 
-=== Neo4j Desktop
+If you do not have Neo4j Desktop installed, https://neo4j.com/download-center/#desktop[download] version 1.2.9 or later and install it.
 
-[frame="none", cols="^.^,<.^"]
-|===
-a|image::{imagedir}/Neo4jDesktop.png[Neo4jDesktop,width=500,align=center]
-a|
-The Neo4j Desktop includes the Neo4j Database server which includes the graph engine and kernel so that Cypher statements can be executed to access a database on your system. 
-It includes an application called  Neo4j Browser.  
-Neo4j Browser enables you to access a Neo4j database using Cypher. 
-You can also call built-in procedures that communicate with the database server. 
-There are a number of additional libraries and drivers for accessing the Neo4j database from Cypher or from another programming language that you can install in your development environment.
+If you already have Neo4j Desktop installed, but is is not up to version 1.2.9 or later, upgrade by selecting *Neo4j Desktop -> Check for updates*.
 
-Neo4j Desktop runs on OS X, Linux, and Windows.
-|===
+include::DesktopInstall-1.2.6-non-Movie.adoc[]
 
+=== Getting started with Neo4j Browser
 
-== Step 1: Getting Started with Neo4j Desktop
-
-include::DesktopInstall-1.2.6.adoc[]
-
-=== Using Neo4j Browser
-
-Neo4j Browser is a tool that enables you to access a Neo4j Database by executing Cypher statements to create or update data in the graph and to query the graph to return data. 
-The data returned is typically visualized as nodes and relationships in a graph, but can also be displayed as tables. 
-In addition to executing Cypher statements, you can execute a number of system calls that are related to the database being accessed by the Browser. 
-For example, you can retrieve the list of queries that are currently running in the server.
-
-There are two ways that you can use Neo4j Browser functionality:
-[square]
-* Open the Neo4j Browser application from Neo4j Desktop (database is local)
-* Use the Neo4j Browser Web interface by specifying a URL in a Web browser using port 7474 (database is local)
-
-image:{imagedir}/Neo4jBrowser.png[Neo4jBrowser,width=800]
-
-{nbsp} +
-
-The user interface and behavior for the Neo4j Browser application and Neo4j Browser Web interface is identical, except that in the Web interface, you have the option of syncing your settings and scripts to the cloud.
-
-=== Getting Started with Neo4j Browser
-
-
-*Note*: Before you perform the tasks shown in this video, you must have created and started the database in Neo4j Desktop.
+If you have never used Neo4j Browser, you can watch this video that illustrates the basics of using Neo4j Browser.
 
 include::Neo4jBrowser.adoc[]
 
-== Step 2: Download the Yelp public dataset
+== Step 2: Create the project and database for this training
 
-. In a Web browser, enter this address to copy the data to your browser's download area.
-*Note*: This is a _large_ file that will take several minutes to download, depending on your ISP.
+. In Neo4j Desktop, create a new project named *Fraud*
 
-   https://s3.amazonaws.com/neo4j-sandbox-usecase-datastores/v3_5/yelp.db.zip
+image:{imagedir2}/CreateFraudProject.png[CreateFraudProject,width=600]
 
 [start=2]
-. Unzip this file. It should unzip to a folder named *yelp.db*.
+. In this new project, create a graph of version 3.5.18. Don't forget to type a password for this database.
 
-== Step 3: Create a project in Neo4j Desktop for this course
+image:{imagedir2}/CreateFraudDB.png[CreateFraudDB,width=800]
 
-. In Neo4j Desktop, create a new project. You can name it whatever you like.
-. In this newly-created project, create a local graph 4.x graph, giving it a password you will remember.
+== Step 3: Install plugins for this database
 
-*Note*: Do *not* start the database.
+For this training, you will use the GDS and APOC plugins. You should NOT install the Graph Algorithms plugin!
 
-== Step 4: Install the APOC and Graph Data Science plugins
+. Go to the Manage area for the Fraud database you just created:
 
-. For the database you just created go the the Manage area and click the Plugins tab.
+image:{imagedir2}/GoToManageFraud.png[GoToManageFraud,width=400]
 
-. Install the APOC and Graph Data Science plugins.
+[start=2]
+. Install the GDS and APOC plugins. (Do NOT install the Graph Algorithms plugin)
 
-. In Neo4j Desktop, start the database.
+image:{imagedir2}/SelectPluginsFraud.png[SelectPluginsFraud,width=800]
 
-. Open Neo4j Browser and confirm access to the apoc and data science libraries by executing the Cypher below:
+Here is what you should see after installation:
 
-[source, cypher]
-----
-CALL dbms.procedures()
-YIELD name
-WHERE name STARTS WITH 'apoc.' OR name STARTS WITH 'gds'
-RETURN name ORDER BY name ASC
-----
+image:{imagedir2}/PluginsInstalledFraud.png[PluginsInstalledFraud,width=800]
 
-{nbsp} +
+== Step 4: Download the PaySim dataset and install it as your database.
 
-If this code does not return the list of apoc and gds procedures, then you must ensure that the these libraries are available by installing the plugin (Neo4j Desktop) and restarting the database.
+. Download the zip file:  https://s3.amazonaws.com/neo4j-ps-ds-bootcamp/data/paysim.zip
+. For database you created earlier, open a terminal window:
 
-== Step 5: Install the Graph Algorithms Playground
+image:{imagedir2}/OpenFraudTerminal.png[OpenFraudTerminal,width=800]
 
-. Open the Graph Applications pane on the left side of Neo4j Desktop.
-. If Graph Algorithms Playground is not shown as an available application, click the *Discover more Graph Apps* link to find and instgall Graph Algorithms Playground.
-. Close the Graph Applications pane on the left to return to your project.
-. Click the *Add Application* area to install Graph Algorithms Playground for your project.
+[start=3]
+. In the terminal window:
+.. Change to the *data/databases* directory.
+.. Copy the zip file  you just downloaded to the current directory.
+.. Unzip the zip file.
+.. Remove the zip file.
 
-After installing the Graph Algorithms Playground, your project should appear as follows:
+You should now have a graph.db file in the data/databases directory:
 
-image:{imagedir2}/PluginsAppInstalled.png[PluginsAppInstalled,width=400]
+image:{imagedir2}/CopyFraudDB.png[CopyFraudDB,width=900]
 
+== Step 5: Modify the Neo4j Configuration
 
-*Jose: Do you have a more recent screen shot?*
+. In the Manage area for the database, click the *Settings* tab.
+. Modify the default initial heap size, max heap size, and page cache memory configuration as follows:
+.. dbms.memory.heap.initial_size=2G
+.. dbms.memory.heap.max_size=2G
+.. dbms.memory.pagecache.size=2G
+. Click *Apply* to save your changes.
 
-{nbsp} +
+image:{imagedir2}/FraudConfig.png[FraudConfig,width=900]
 
-== Step 6: Copy the Yelp dataset for use in your project
+== Step 6: Start the fraud database
 
-*Jose: Not sure what to do here since you are using 4.0?*
+Back in the Project view, start the database:
 
-. Click the *Manage* area for the local graph you just created.
-. Click *Open Folder*.
-. Navigate to data/databases.
-. Copy the *yelp.db*  folder that you unzipped to databases.
-. Rename the *yelp.db* folder to *graph.db*.
-. Start the database.
-. Open Neo4j Browser and click the Database icon. Is should appear as follows:
+image:{imagedir2}/StartFraudDB.png[StartFraudDB,width=600]
 
-image:{imagedir2}/YelpLoaded.png[YelpLoaded,width=150]
+== Step 7: Verify your setup
 
-{nbsp} +
+. After the database starts, you should see 1,663,200 nodes and 3,271,992 relationships in the database.
+. Open Neo4j Browser for the started fraud database.
+. Enter these statements:
+.. RETURN gds.version();
+.. RETURN apoc.version();
+
+image:{imagedir2}/VerifyFraudSetup.png[VerifyFraudSetup,width=1000]
 
 *Congratulations!* You are now ready to perform the exercises for this training session.
 
