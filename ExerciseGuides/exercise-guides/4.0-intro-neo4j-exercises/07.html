@@ -653,7 +653,7 @@ Finally, you will chain results together and unwind a collected list to produce 
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
-WITH  a, count(a) AS numMovies, collect(m.title) AS movies
+WITH  a, count(m) AS numMovies, collect(m.title) AS movies
 WHERE numMovies = 5
 RETURN a.name, movies<!--/code--></pre>
 </div>

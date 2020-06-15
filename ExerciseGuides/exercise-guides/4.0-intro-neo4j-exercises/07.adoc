@@ -47,7 +47,7 @@ Next, you will write queries that perform some intermediate processing using the
 [source, cypher]
 ----
 MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
-WITH  a, count(a) AS numMovies, collect(m.title) AS movies
+WITH  a, count(m) AS numMovies, collect(m.title) AS movies
 WHERE numMovies = 5
 RETURN a.name, movies
 ----
