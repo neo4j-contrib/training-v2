@@ -135,7 +135,7 @@ window.intercomSettings = {
     window.location = trainingCourseUrl
   })
 
-  var record_event = function (event, meta) {
+  var record_event = function (event, meta = {}) {
     if (event == null) return;
 
     // Sending event to Google Analytics via GTM Datalayer
