@@ -25,7 +25,7 @@ def update_wordpress_page(pageId, content):
   auth_encoded = b64encode(auth.encode("utf-8"))
   headers = {
     "Accept": "application/json",
-    "Authorization": "Basic {}".format(auth),
+    "Authorization": "Basic {}".format(auth_encoded),
   }
 
   r = requests.get(url, headers=headers)
@@ -36,6 +36,8 @@ def update_wordpress_page(pageId, content):
   headers["Content-Type"] = "application/json"
   print("\t%s" % (url))
   pr = requests.post(url, headers=headers, data=json.dumps(response))
+  if pr.status_code != 200:
+    raise Exception('Unable to update the WordPress page', pr.content)
 
   return pr.content
 
