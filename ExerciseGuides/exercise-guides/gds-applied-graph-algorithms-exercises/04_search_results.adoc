@@ -23,8 +23,10 @@ CALL gds.alpha.similarity.pearson(
   {data: "MATCH (u:User)
    WHERE size((u)-[:WROTE]->()) > 15
    // Fill in this part of the query
+
    RETURN id(u) AS item, id(business) AS category, review.stars AS weight",
-   graph: "cypher", skipValue: gds.util.NaN()})
+   graph: "cypher", skipValue: gds.util.NaN(),
+   writeRelationshipType:'SIMILAR'})
 ----
 
 == Answer: User Similarity
@@ -38,7 +40,8 @@ CALL gds.alpha.similarity.pearson.write({
   WHERE size((u)-[:WROTE]->()) > 15
   MATCH (u)-[:WROTE]->(review)-[:REVIEWS]->(b)
   RETURN id(u) AS item, id(b) AS category, review.stars as weight",
-  graph: "cypher", topK: 5, skipValue: gds.util.NaN(), similarityCutoff: 0.1,
+  graph: "cypher", topK: 5, skipValue: gds.util.NaN(),
+  similarityCutoff: 0.1, writeRelationshipType:'SIMILAR',
   nodeProjection:'*', relationshipProjection:'*'})
 ----
 

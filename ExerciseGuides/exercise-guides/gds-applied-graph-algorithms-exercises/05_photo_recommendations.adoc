@@ -21,7 +21,7 @@ LIMIT 25
 We want to work out which photos are similar to each other based on the labels they've been tagged with.
 We can do this using the https://neo4j.com/docs/graph-data-science/current/algorithms/node-similarity/#algorithms-node-similarity-examples[Node Similarity algorithm^].
 
-Update the following query (copied from the documentation) to:
+Update the following query to:
 
 * Compute similarity between photos based on the labels they have (Hint: you'll need to use the `HAS_LABEL` relationship)
 * Find the top 3 most similar photos (Hint: look at the `topK` parameter)
@@ -29,7 +29,7 @@ Update the following query (copied from the documentation) to:
 
 [source, cypher]
 ----
-CALL gds.nodeSimilarity.write({topK: 3,
+CALL gds.nodeSimilarity.write({
     similarityCutoff: 0.9, nodeProjection:['Photo','Label'],
     // Add the missing configuration
 
@@ -46,7 +46,7 @@ This is what the query should look like:
 CALL gds.nodeSimilarity.write({topK: 3,
     similarityCutoff: 0.9, nodeProjection:['Photo','Label'],
     relationshipProjection:'HAS_LABEL', writeProperty:'score',
-    writeRelationshipType:'SIMILAR'})
+    writeRelationshipType:'SIMILAR_PHOTO'})
 
 YIELD nodesCompared, relationshipsWritten, similarityDistribution
 RETURN nodesCompared, relationshipsWritten, similarityDistribution
@@ -59,15 +59,15 @@ Run the following query:
 
 [source, cypher]
 ----
-MATCH path = (p1:Photo)-[r:SIMILAR]->(p2:Photo)
+MATCH path = (p1:Photo)-[r:SIMILAR_PHOTO]->(p2:Photo)
 RETURN path
 LIMIT 20
 ----
 
 == Clustering photos
 
-Now we're going to cluster photos based on the `SIMILAR` relationships.
-Project the `SIMILAR` relationships as undirected.
+Now we're going to cluster photos based on the `SIMILAR_PHOTO` relationships.
+Project the `SIMILAR_PHOTO` relationships as undirected.
 Update the following query to do this:
 
 [source, cypher]
@@ -88,8 +88,8 @@ CALL gds.labelPropagation.write({
    writeProperty:"partition",
    nodeProjection:"Photo",
    relationshipProjection:{
-      SIMILAR:{
-         type:"SIMILAR",
+      SIMILAR_PHOTO:{
+         type:"SIMILAR_PHOTO",
          orientation:"UNDIRECTED"
       }
    }
