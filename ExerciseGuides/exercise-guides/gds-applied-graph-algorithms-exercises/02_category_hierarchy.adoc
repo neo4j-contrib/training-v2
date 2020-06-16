@@ -61,7 +61,7 @@ WITH collect(userData) as data
 
 // Fill in the configuration in this part of the query
 CALL gds.alpha.similarity.overlap.write({
-  data:data, 
+  data:data, writeRelationshipType: 'NARROWER_THAN'
 })
 
 YIELD nodes, similarityPairs, p50, p75, p90, p99
@@ -80,8 +80,9 @@ WITH {item:id(category), categories: collect(id(business))} AS userData
 WITH collect(userData) as data
 
 CALL gds.alpha.similarity.overlap.write({
-  data: data, similarityCutoff: 0.75,
-  nodeProjection:'*', relationshipProjection:'*'
+  data: data, writeRelationshipType: 'NARROWER_THAN',
+  similarityCutoff: 0.75, nodeProjection:'*',
+  relationshipProjection:'*'
 })
 
 YIELD nodes, similarityPairs, p50, p75, p90, p99
