@@ -1,7 +1,7 @@
-import GraphAcademyCore from './core';
-import misc from './misc';
+import GraphAcademyCore from './core.js';
+import misc from './misc.js';
 
-window.GraphAcademyPage = class GraphAcademyPage {
+export default class GraphAcademyPage {
 	constructor(options = {}) {
 		const defaultOptions = {
 			stage: 'prod',
@@ -40,7 +40,8 @@ window.GraphAcademyPage = class GraphAcademyPage {
 	}
 
 	async handlePageSetup() {
-		const { core, enrollmentStatus } = this;
+		const { core } = this;
+		let enrollmentStatus;
 		const [err, enrollmentResponse] = await core.getEnrollmentForClass();
 		if (enrollmentResponse.status === 200) {
 			enrollmentStatus = enrollmentResponse.data;

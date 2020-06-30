@@ -1,6 +1,6 @@
-import to from 'await-to-js'
-import 'whatwg-fetch'
-import backend from './backend'
+import to from 'await-to-js';
+import 'whatwg-fetch';
+import backend from './backend.js';
 
 export default class GraphAcademyCertificate {
 

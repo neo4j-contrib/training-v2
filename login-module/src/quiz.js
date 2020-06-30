@@ -1,5 +1,5 @@
-import 'whatwg-fetch'
-import backend from './backend'
+import 'whatwg-fetch';
+import backend from './backend.js';
 
 export default class GraphAcademyQuiz {
 	constructor(trainingClassName, stage) {
