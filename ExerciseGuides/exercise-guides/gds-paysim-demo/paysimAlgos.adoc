@@ -1,0 +1,473 @@
+= Fraud Detection Using Neo4j Platform and PaySim Dataset
+:icons: font
+
+
+== Using the Graph Data Science (GDS) Library & PaySim Dataset For Fraud Detection.
+
+This browser guide is walking you through a step by step hands-on exercise, using the GDS Library to detect first and second party fraud with the PaySim dataset.
+
+The modules included in this guide are the following:
+
+. Framing the problem
+. Data Understanding
+. First-party Fraud Detection
+. Second-party Fraud Detection
+
+== Module 1: Framing the Problem
+
+=== *What is Fraud?*
+
+*Fraud occurs* when an individual or group of individuals, or a business entity *intentionally*
+deceives another individual or business entity with *misrepresentation* of identity, products,
+services, or financial transactions and/or *false promises* with no intention of fulfilling them.
+
+{nbsp} + 
+
+=== *Fraud Categories*
+
+* *First-party Fraud*
+** An individual, or group of individuals, misrepresent their identity or give false information when applying for a product or services to receive more favourable rates or when have no intention of repayment.
+
+* *Second-party Fraud*
+** An individual knowingly gives their identity or personal information to another individual to commit fraud or someone is perpetrating fraud in his behalf.
+
+* *Third-party Fraud*
+** An individual, or group of individuals, create or use another person's identity, or personal details, to open or takeover an account.
+
+== End of Module 1
+In this module we framed the problem by defining Fraud and understanding the different fraud categories.
+
+image::{guides}/img/first-party-third-party-fraud.png[Fraud,width=600,align=center]
+
+== Module 2: Data Understanding
+
+This module includes the following exercises:
+
+. Database Schema
+. Graph Size
+. Node Label Frequency
+. Relationship Type Frequency
+. Transaction Type Frequency
+
+== Exercise 1: Database Schema
+[source,cypher]
+----
+CALL db.schema.visualization();
+----
+
+image::{guides}/img/schema.png[Schema,width=600,align=center]
+
+== Exercise 2: Graph Size
+[source,cypher]
+----
+CALL apoc.meta.stats();
+----
+
+== Exercise 3: Node Label Frequency
+[source,cypher]
+----
+include::scripts/nodeFrequency.cypher[]
+----
+
+== Exercise 4: Relationship Type Frequency
+[source,cypher]
+----
+include::scripts/relationshipFrequency.cypher[]
+----
+
+== Exercise 5: Nodes & Relationship Properties
+[source,cypher]
+----
+include::scripts/nodeRelationshipProperties.cypher[]
+----
+
+== Exercise 6: Transaction Type Frequency
+[source,cypher]
+----
+include::scripts/transactionFrequency.cypher[]
+----
+== End of Module 2
+
+In this module we explored the PaySim dataset by getting familiar with:
+
+. Database schema and size
+. Node labels and relationship types distributions
+. Node and relationship properties
+. Transaction type distribution
+
+== Module 3: First-party Fraud
+
+This module contains the following exercises:
+
+. Preliminary Analysis
+. Weakly Connected Components for identifying clusters of clients sharing personally identifiable information (PII)
+. Node Similarity for pairwise similarity calculation on the clients sharing PII
+. Degree Centrality for computing a first party fraud score
+. Using the first-party fraud score for identifying first-party fraudsters
+. Remove all Named Graph loaded during this module
+
+== Exercise 1: Preliminary Analysis
+
+This exercise is compose by the following task:
+
+. Identifying clients sharing PII
+.. Explore all pairs of clients sharing PII
+.. Calculate the number of unique clients sharing PII
+. Create a Cypher parameter with a single pair of client sharing PII
+.. Visualized their PII
+.. Compute the Jaccard Similarity score between them
+
+== Exercise 1, Task 1: Identifying clients sharing PII
+
+Identifying pairs of clients sharing PII
+
+[source,cypher]
+----
+include::scripts/sharingPIIQuery.cypher[]
+----
+Number of unique clients sharing PII
+[source,cypher]
+----
+include::scripts/sharingPIIUniqueQuery.cypher[]
+----
+
+== Exercise 1, Task 2: Create a Cypher parameter with a single pair of client sharing PII
+
+Create a Cypher parameter with a single pair of client sharing PII
+
+[source,cypher]
+----
+include::scripts/sharingParam.cypher[]
+----
+Visualizing their PII
+
+[source,cypher]
+----
+include::scripts/sharingPIIExample.cypher[]
+----
+Calculating the Jaccard Similarity Score
+
+[source,cypher]
+----
+include::scripts/onePairSimilarity.cypher[]
+----
+== End of Module 2
+
+In this module we accomplished the following tasks:
+
+. Explored all pairs of clients sharing PII and calculated the number of unique clients involved in these pairs
+. Selected a pair of clients sharing PII to visualize their identifiers and calculate their similarity
+
+image::{guides}/img/sharingPIIExample.png[SharingPII,width=600,align=center]
+
+== Module 3: First Party Fraud
+
+This module contains the following exercises:
+
+. Weakly Connected Components (WCC) to Identify Clusters of Clients Sharing PII
+. Node Similarity for Pairwise Similarity Calculation
+. Degree Centrality for Computing a First-party Fraud Score
+. Removing Named Graph loaded during this module
+
+== Exercise 1: Weakly Connected Components (WCC) to Identify Clusters of Clients Sharing PII
+
+This exercise is compose of the following task:
+
+. Estimate the amount of memory required to load an in-memory graph using a Cypher projection
+. Load the in-memory graph
+. List graphs currently available in the Graph Catalog
+. Estimate the amount of memory required to execute WCC in the named graph
+. Obtain descriptive statistics of the results of WCC prior to execute the procedure
+. Explore the results of the WCC procedure
+. Store the results of the WCC procedure
+. Create a Cypher parameter containing the biggest clusters identified by WCC
+. Visualize these big clusters
+
+== Exercise 1, Task 1: WCC Memory Estimation
+[source,cypher]
+----
+include::scripts/memoryEstimation.cypher[]
+----
+
+== Exercise 1, Task 2: Loading WCC graph to the Graph Catalog
+[source,cypher]
+----
+include::scripts/loadWCCNamedGraph.cypher[]
+----
+
+== Exercise 1, Task 3: Listing graphs in the Graph Catalog
+[source,cypher]
+----
+CALL gds.graph.list();
+----
+
+== Exercise 1, Task 4: WCC Memory Estimating
+[source,cypher]
+----
+CALL gds.wcc.stream.estimate('WCC');
+----
+
+== Exercise 1, Task 5: WCC Descriptive Statistics
+[source,cypher]
+----
+CALL gds.wcc.stats('WCC');
+----
+
+== Exercise 1, Task 6: Using WCC to identify clusters of clients sharing PII
+[source,cypher]
+----
+include::scripts/wccStream.cypher[]
+----
+
+== Exercise 1, Task 7: Writing the clusters the database.
+[source,cypher]
+----
+include::scripts/wccWrite.cypher[]
+----
+
+== Exercise 1, Task 8: Identifying and saving big clusters in a Cypher Parameter
+[source,cypher]
+----
+include::scripts/wccParams.cypher[]
+----
+
+== Exercise 1, Task 9: Big Clusters Visualization
+[source,cypher]
+----
+include::scripts/wccDisplay.cypher[]
+----
+
+== Exercise 2: Pairwise Similarity Calculation
+
+This exercise is compose of the following task:
+
+. Load Similarity Named Graph
+. Execute the Node Similarity procedure and stream the results
+. Mutate the in-memory graph to store these results in it
+. Write the results from the in-memory graph to the database
+. Visualize the results
+
+== Exercise 2, Task 1: Loading the Similarity Graph to the Graph Catalog
+[source,cypher]
+----
+include::scripts/loadSimilarityNamedGraph.cypher[]
+----
+
+== Exercise 2, Task 2: Streaming the Similarity Results
+[source,cypher]
+----
+include::scripts/similarityStream.cypher[]
+----
+
+== Exercise 2, Task 3: Saving the Similarity Results to the In-memory Graph
+[source,cypher]
+----
+include::scripts/similarityMutate.cypher[]
+----
+
+== Exercise 2, Task 4: Writing the In-memory Graph Edges to the Database
+[source,cypher]
+----
+include::scripts/similarityWrite.cypher[]
+----
+
+== Exercise 2, Task 5: Similarity Results Visualization
+[source,cypher]
+----
+include::scripts/similarityDisplay.cypher[]
+----
+
+== Exercise 3: First-party Fraud Score
+
+This exercise is compose by the following task:
+
+. Explore the Degree Centrality Results
+. Store the results of Degree Centrality to the database
+. Set a threshold for first-party fraud identification
+. Labeling clients as first-party fraudsters
+
+== Exercise 3, Task 1: Looking at the Degree Centrality Results
+[source,cypher]
+----
+include::scripts/degreeStream.cypher[]
+----
+
+== Exercise 3, Task 2: Writing the Degree Centrality to the database
+[source,cypher]
+----
+include::scripts/degreeWrite.cypher[]
+----
+
+== Exercise 3, Task 3: Setting a Threshold for the First-party Fraud Score
+Setting the threshold
+
+[source,cypher]
+----
+include::scripts/firstPartyFraudScoreParam.cypher[]
+----
+
+Exploring the clients with first-party fraud score grater than the threshold
+[source,cypher]
+----
+include::scripts/firstPartyFraudScoreStream.cypher[]
+----
+
+== Exercise 3, Task 4: Identifying First-party Fraudsters
+[source,cypher]
+----
+include::scripts/firstPartyFraudScoreWrite.cypher[]
+----
+
+== Exercise 4: Removing all graphs in the Graph Catalog
+[source,cypher]
+----
+include::scripts/removeNamedGraphs.cypher[]
+----
+
+== End of Module 3
+
+////
+In this module we were accomplished the following tasks:
+
+. Identified clusters of clients sharing PII
+. Conducted pairwise similarity calculations based on shared PII
+. Created a first-party fraud score
+. Identified first-party fraudsters
+
+image::{guides}/img/degreeDisplay.png[Schema,width=600,high=700,align=center]
+////
+
+[cols=2, frame=none]
+|===
+| In this module we were accomplished the following tasks:
+
+1. Identified clusters of clients sharing PII
+
+2. Conducted pairwise similarity calculations based on shared PII
+
+3. Created a first-party fraud score
+
+4. Identified first-party fraudsters
+
+| image:{guides}/img/degreeDisplay.png[Schema,width=300,align=center]
+|===
+
+== Module 4: Second-party Fraud
+
+This module consists of the following exercises:
+
+. Identify transactions between first-party fraudsters and other clients
+. Explore the type of transactions between these two groups
+. Create TRANSFER_TO relationships between first-party fraudsters and clients
+. Visualize the TRANSFER_TO relationships
+. Identify Second-party Fraud
+. Remove all Named Graph loaded in this module
+
+== Exercise 1: Identifying Transactions Between First-party Fraudsters and Client
+[source,cypher]
+----
+include::scripts/firstPartyFraudstersTransactions.cypher[]
+----
+
+== Exercise 2: What are the types of Transactions Between First-party Fraudsters and Clients?
+[source,cypher]
+----
+include::scripts/firstPartyFraudstersTransactionsType.cypher[]
+----
+
+== Exercise 3: Creating TRANSFER_TO Relationships Between First-party Fraudsters and Clients
+From first-party fraudsters to client
+[source,cypher]
+----
+include::scripts/firstPartyFraudstersTransferTo.cypher[]
+----
+From clients to first-party fraudsters
+[source,cypher]
+----
+include::scripts/firstPartyFraudstersTransferFrom.cypher[]
+----
+
+== Exercise 4: Visualizing the TRANSFER_TO Relationships
+[source,cypher]
+----
+include::scripts/secondPartyFraudDisplay.cypher[]
+----
+
+== Exercise 5: Identifying Second-party Fraud
+This exercise is compose of the following tasks:
+
+. Using Native Projection to load a graph to the Graph Catalog containing the TRANSFER_TO relationships
+. Explore WCC results to identify potential Second-party Fraud groups
+. Store the identified potential Second-party Fraud groups
+. Explore Page Rank results for Second-party Fraud Identification
+. Store the Page Rank results to the database
+. Explore Louvain results for Cluster identification within the Second Party-fraud Network
+. Store the Louvain results to the database
+. Visualize the Second-party Fraud Network
+
+== Exercise 5, Task 1: Loading Second-party Fraud Network In-memory Graph
+[source,cypher]
+----
+include::scripts/secondPartyFraudNamedGraph.cypher[]
+----
+
+== Exercise 5, Task 2: Identifying Potential Second-party Fraud Clusters
+[source,cypher]
+----
+include::scripts/secondPartyFraudWccStream.cypher[]
+----
+
+== Exercise 5, Task 3: Writing the Potential Second-party Fraud Clusters to the Database
+[source,cypher]
+----
+include::scripts/secondPartyFraudWccWrite.cypher[]
+----
+
+== Exercise 5, Task 4: Identifying Second-party Fraudsters
+[source,cypher]
+----
+include::scripts/secondPartyFraudPageRankStream.cypher[]
+----
+
+== Exercise 5, Task 5: Writing the Second-party Fraudsters Identification Results to the Database
+[source,cypher]
+----
+include::scripts/secondPartyFraudPageRankWrite.cypher[]
+----
+
+== Exercise 5, Task 6: Visualizing the Second-party Fraud Network
+[source,cypher]
+----
+include::scripts/secondPartyFraudDisplay.cypher[]
+----
+
+== Exercise 5, Task 7: Using Louvain to Identify Clusters in the Second-party Fraud Network
+[source,cypher]
+----
+include::scripts/louvainStream.cypher[]
+----
+
+== Exercise 5, Task 8: Storing Second-party Fraud Network Louvain Clusters to the Database
+[source,cypher]
+----
+include::scripts/louvainWrite.cypher[]
+----
+
+== Exercise 6: Removing all graphs in the Graph Catalog
+[source,cypher]
+----
+include::scripts/removeNamedGraphs.cypher[]
+----
+
+== End of Module 4
+
+In this module we accomplish the following task:
+
+. Identified cluster of clients and first-party fraudsters transferring money between them
+. Calculated a second-party fraud score and identified second-party fraudsters based on it
+. Identified inner clusters in the Second-party Fraud Network
+
+== End
+
+image::{guides}/img/secondPartyFrameNetwork.png[Schema,width=600,high=800,align=center]
+

@@ -16,4 +16,4 @@
 #open  html/IntroGraphAlgos_pre-class_Setup.html
 
 asciidoctor  adoc/Setup_CypherQueryTuning.adoc -o html/CypherQueryTuning_Setup.html
-asciidoctor  adoc/Setup_GraphAlgorithmsForDataScience.adoc -o html/GraphAlgorithmsForDataScience_Setup.html
+#asciidoctor  adoc/Setup_GraphAlgorithmsForDataScience.adoc -o html/GraphAlgorithmsForDataScience_Setup.html
