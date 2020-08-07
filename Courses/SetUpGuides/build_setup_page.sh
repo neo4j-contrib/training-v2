@@ -15,5 +15,12 @@
 #asciidoctor-pdf -T s adoc/Setup_IntroGraphAlgos.adoc -a allow-uri-read -a pdf-style=asciidoc-themes/IntroGraphAlgos.yml -o pdf/Setup_IntroGraphAlgos.pdf
 #open  html/IntroGraphAlgos_pre-class_Setup.html
 
-asciidoctor  adoc/Setup_CypherQueryTuning.adoc -o html/CypherQueryTuning_Setup.html
+#asciidoctor  adoc/Setup_CypherQueryTuning.adoc -o html/CypherQueryTuning_Setup.html
 #asciidoctor  adoc/Setup_GraphAlgorithmsForDataScience.adoc -o html/GraphAlgorithmsForDataScience_Setup.html
+
+asciidoctor  adoc/Setup_AdvGraphDataModeling.adoc -o html/AdvGraphDataModeling_Setup.html
+asciidoctor  adoc/Setup_ETLAndDataImport.adoc -o html/ETLAndDataImport_Setup.html
+asciidoctor  adoc/Setup_FullstackGraphQL.adoc -o html/FullstackGraphQL_Setup.html
+asciidoctor  adoc/Setup_ML.adoc -o html/ML_Setup.html
+asciidoctor  adoc/Setup_Neo4jStreams.adoc -o html/Neo4jStreams_Setup.html
+asciidoctor  adoc/Setup_NLP.adoc -o html/NLP_Setup.html
