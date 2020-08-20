@@ -8,6 +8,6 @@ WITH node AS b ORDER BY score DESC LIMIT 200
 MATCH (b)-[:IN_CATEGORY]->(c:Category {name: $category})
 OPTIONAL MATCH (b)-[:HAS_PHOTO]->(p:Photo)
 WITH b, COLLECT(p)[0] AS p
-WITH * ORDER BY EXISTS((b)-[:HAS_PHOTO]->()) DESC LIMIT 100
+WITH b,p ORDER BY EXISTS((b)-[:HAS_PHOTO]->()) DESC LIMIT 100
 RETURN COLLECT(b {.*, photo: p.id}) AS businesses
 `;
