@@ -133,11 +133,13 @@ window.intercomSettings = {
     }
   })
 
-  $('[data-action="logout"]').click(function (_) {
+  $('[data-action="logout"]').click(function (e) {
+    e.preventDefault()
     record_event('GRAPH_ACADEMY_LOGOUT')
     window.location = "https://neo4j.com/accounts/logout/?targetUrl=" + encodeURIComponent(siteUrl)
   })
   $('.btn-login').click(function (e) {
+    e.preventDefault()
     record_event('GRAPH_ACADEMY_LOGIN')
     window.location = "https://neo4j.com/accounts/login-b/?targetUrl=" + encodeURIComponent(siteUrl)
   })
