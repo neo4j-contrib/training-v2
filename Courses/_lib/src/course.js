@@ -273,6 +273,56 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     })
   }
+
+  // Yelp dataset
+  const yelpDatasetAgreementElement = document.getElementById('yelp-dataset-agreement')
+  const yelpCreateSandboxLinkElement = document.getElementById('yelp-create-sandbox-link')
+
+  if (yelpDatasetAgreementElement && yelpCreateSandboxLinkElement) {
+    const neo4jYelpAgreement = localStorage.getItem('neo4j.yelp-agreement')
+    if (neo4jYelpAgreement === 'read-agreed') {
+      yelpDatasetAgreementElement.style.display = 'none'
+    } else {
+      const originalHref = yelpCreateSandboxLinkElement.getAttribute('href')
+      yelpCreateSandboxLinkElement.setAttribute('href', 'javascript:void(0)')
+      yelpCreateSandboxLinkElement.setAttribute('target', '_self')
+      const focusAgreementElementEvent = function () {
+        const top = yelpDatasetAgreementElement.getBoundingClientRect().top + window.pageYOffset - 140
+        window.scrollTo({ top: top, behavior: 'smooth' })
+        yelpDatasetAgreementElement.classList.add('has-focus')
+        setTimeout(function() {
+          yelpDatasetAgreementElement.classList.remove('has-focus')
+        }, 2000)
+      }
+      yelpCreateSandboxLinkElement.addEventListener('click', focusAgreementElementEvent)
+      // checkbox
+      const yelpDatasetAgreementInputCheckboxElement = document.createElement('input')
+      yelpDatasetAgreementInputCheckboxElement.type = 'checkbox'
+      yelpDatasetAgreementInputCheckboxElement.id = 'yelp-dataset-agreement-check'
+      // label
+      const yelpDatasetAgreementLabelElement = document.createElement('label')
+      yelpDatasetAgreementLabelElement.innerHTML = '&nbsp;I have read and agree to the Dataset License'
+      yelpDatasetAgreementLabelElement.setAttribute('for', 'yelp-dataset-agreement-check')
+      // accept button
+      const continueButtonElement = document.createElement('button')
+      continueButtonElement.type = 'button'
+      continueButtonElement.innerText = 'Continue'
+      continueButtonElement.addEventListener('click', function (_) {
+        if (yelpDatasetAgreementInputCheckboxElement.checked) {
+          localStorage.setItem('neo4j.yelp-agreement', 'read-agreed')
+          yelpCreateSandboxLinkElement.removeEventListener('click', focusAgreementElementEvent)
+          yelpCreateSandboxLinkElement.setAttribute('target', '_blank')
+          yelpCreateSandboxLinkElement.setAttribute('href', originalHref)
+          yelpDatasetAgreementElement.style.display = 'none'
+        }
+      })
+      const paragraphElement = document.createElement('p')
+      paragraphElement.appendChild(yelpDatasetAgreementInputCheckboxElement)
+      paragraphElement.appendChild(yelpDatasetAgreementLabelElement)
+      paragraphElement.appendChild(continueButtonElement)
+      yelpDatasetAgreementElement.appendChild(paragraphElement)
+    }
+  }
 })
 
 //
@@ -326,7 +376,7 @@ $(document).ready(function () {
   if (CodeMirror.colorize) {
     CodeMirror.colorize(document.body.getElementsByTagName("pre"), 'cypher');
   }
-  Intercom('trackEvent', 'PAGE_VIEW', {course: window.trainingClassName, module: trainingPartIndex })
+  Intercom('trackEvent', 'PAGE_VIEW', { course: window.trainingClassName, module: trainingPartIndex })
 })
 
 // Intercom
