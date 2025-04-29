@@ -504,13 +504,8 @@ CREATE
   (JessicaThompson)-[:REVIEWED {summary:'A solid romp', rating:68}]->(TheDaVinciCode),
   (JamesThompson)-[:REVIEWED {summary:'Fun, but a little far fetched', rating:65}]->(TheDaVinciCode),
   (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]->(JerryMaguire),
-(ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994, tagline: "Life is like a box of chocolates...you never know what you're gonna get." }),
-(RobinW:Person {name: 'Robin Wright', born: 1966}),
-(TomH)-[:ACTED_IN {roles: ['Forrest Gump']}]->(ForrestGump),
-(GaryS)-[:ACTED_IN {roles: ['Lt. Dan Taylor']}]->(ForrestGump),
-(RobinW)-[:ACTED_IN {roles: ['Jenny Curran']}]->(ForrestGump),
-(RobertZ)-[:DIRECTED]->(ForrestGump),
-(TomH)-[:HELPED]->(GaryS);
+ (ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994, tagline: "Life is like a box of chocolates...you never know what you're gonna get." }),
+  (RobinW:Person {name: 'Robin Wright', born: 1966});
 MATCH (m:Movie)
 WHERE m.released < 2010
 SET m:OlderMovie

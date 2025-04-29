@@ -6,7 +6,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:   
    
-image:{guides}/img/InitialDatabase.png[InitialDatabase,200,200]
+image:{guides}/img/InitialDatabase.png[InitialDatabase,width=150]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -14,7 +14,6 @@ If your database does not have this number of nodes and relationships, you can u
 ----
 include::scripts/initialDatabase.cypher[]
 ----
-
 
 == Exercise 2: Filtering queries using property values (Overview)
 
@@ -49,11 +48,7 @@ MATCH (m:Movie {released:2003}) RETURN m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MoviesReleased2003_Nodes.png[MoviesReleased2003_Nodes,width=300]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MoviesReleased2003_Nodes.png[MoviesReleased2003_Nodes,width=500]
 
 == Exercise 2.2: View the retrieved results as a table (Instructions)
 
@@ -63,17 +58,13 @@ image::{guides}/img/MoviesReleased2003_Nodes.png[MoviesReleased2003_Nodes,width=
 
 *View the results you just viewed in Neo4j Browser as a table.*
 
-In the result pane, click the table icon.
+In the result pane, click the table icon in the left panel.
 You should see this table in the result pane:
 
 [.thumb]
 image::{guides}/img/MoviesReleased2003_Table.png[MoviesReleased2003_Table,width=400]
 
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 2.2: View the retrieved results as a table (Taking it further- optional)
+== Exercise 2.2: View the retrieved results as a table (Taking it further - optional)
 
 ** Retrieve all movie nodes in the database and view the data as a table.
 Notice the values for the released property for each node.
@@ -95,17 +86,13 @@ In the query editor pane, enter the Cypher query to retrieve the property keys f
 
 [source, cypher]
 ----
-CALL db.propertyKeys
+CALL db.propertyKeys()
 ----
 
 The result returned should be:
 
 [.thumb]
 image::{guides}/img/call_db.PropertyKeys.png[call_db.PropertyKeys,width=400]
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Instructions)
 
@@ -127,12 +114,7 @@ MATCH (m:Movie {released: 2006}) RETURN m.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MoviesReleased2006_titles.png[MoviesReleased2006_titles,width=400]
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MoviesReleased2006_titles.png[MoviesReleased2006_titles,width=500]
 
 == Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles (Taking it further - optional)
 
@@ -161,13 +143,7 @@ MATCH (m:Movie) RETURN m.title, m.released, m.tagline
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RetrieveTitleReleasedTagline.png[RetrieveTitleReleasedTagline,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/RetrieveTitleReleasedTagline.png[RetrieveTitleReleasedTagline,width=500]
 
 == Exercise 2.6: Display more user-friendly headers in the table (Instructions)
 
@@ -185,11 +161,8 @@ MATCH (m:Movie) RETURN m.title AS `movie title`, m.released AS released, m.tagli
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/UsingAliases.png[UsingAliases,width=400]
+image::{guides}/img/UsingAliases.png[UsingAliases,width=500]
 
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 2: Filtering queries using property values (Summary)
 

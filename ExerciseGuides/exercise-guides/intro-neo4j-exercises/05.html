@@ -50,7 +50,7 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5: Controlling query processing (Preparations)</h3>
+    <h3>Exercise 5: Working with patterns in queries (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -59,10 +59,8 @@
 <div class="paragraph">
 <p>This is what you should see when you click the database icon:</p>
 </div>
-<div class="imageblock left">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150"></span></p>
 </div>
 <div class="paragraph">
 <p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
@@ -585,7 +583,7 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5: Controlling query processing (Overview)</h3>
+    <h3>Exercise 5: Working with patterns in queries (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -595,10 +593,7 @@ CREATE
 <p>In this exercise, you will write queries that filter the results that are returned using a <code>WHERE</code> clause as well as performing some additional processing during the query.
 First, you will write a query where multiple patterns are required.
 Then you write a query that uses a variable length pattern to retrieve data.
-Next, you will write a query that retrieves data with optional results.
-Then you will collect results during a query to build a list.
-Next, you count retrievals during the query.
-Finally, you will perform intermediate processing during the query using a <code>WITH</code> clause.</p>
+Finally, you will write a query that retrieves data with optional results.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -620,21 +615,6 @@ Finally, you will perform intermediate processing during the query using a <code
 <li>
 <p><strong>Exercise 5.6</strong>: Specify optional data to be retrieved during the query.</p>
 </li>
-<li>
-<p><strong>Exercise 5.7</strong>: Retrieve nodes by collecting a list.</p>
-</li>
-<li>
-<p><strong>Exercise 5.9</strong>: Retrieve nodes as lists and return data associated with the corresponding lists.</p>
-</li>
-<li>
-<p><strong>Exercise 5.10</strong>: Retrieve nodes and their relationships as lists.</p>
-</li>
-<li>
-<p><strong>Exercise 5.11</strong>: Retrieve the actors who have acted in exactly five movies.</p>
-</li>
-<li>
-<p><strong>Exercise 5.12</strong>: Retrieve the movies that have at least 2 directors with other optional data.</p>
-</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -652,7 +632,7 @@ Finally, you will perform intermediate processing during the query using a <code
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a Cypher query that retrieves all movies that <em>Gene Hackman</em> has acted it, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as <em>Gene Hackman</em>. Return the name of the movie, the name of the director, and the names of actors that worked with <em>Gene Hackman</em>.</strong></p>
+<p><strong>Write a Cypher query that retrieves all movies that <em>Gene Hackman</em> has acted in, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as <em>Gene Hackman</em>. Return the name of the movie, the name of the director, and the names of actors that worked with <em>Gene Hackman</em>.</strong></p>
 </div>
 	</div>
   </div>
@@ -666,7 +646,7 @@ Finally, you will perform intermediate processing during the query using a <code
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write a Cypher query that retrieves all movies that <em>Gene Hackman</em> has acted it, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as <em>Gene Hackman</em>. Return the name of the movie, the name of the director, and the names of actors that worked with <em>Gene Hackman</em>.</strong></p>
+<p><strong>Write a Cypher query that retrieves all movies that <em>Gene Hackman</em> has acted in, along with the directors of the movies. In addition, retrieve the actors that acted in the same movies as <em>Gene Hackman</em>. Return the name of the movie, the name of the director, and the names of actors that worked with <em>Gene Hackman</em>.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -681,10 +661,9 @@ RETURN m.title as movie, d.name AS director , a2.name AS `co-actors`<!--/code-->
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/GeneHackmanMoviesWithDirectorAndCoActors.png" alt="GeneHackmanMoviesWithDirectorAndCoActors" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/GeneHackmanMoviesWithDirectorAndCoActors.png" alt="GeneHackmanMoviesWithDirectorAndCoActors" width="600">
 </div>
 </div>
-<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -731,10 +710,9 @@ RETURN p1, p2<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompsonFollows.png" alt="JamesThompsonFollows" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompsonFollows.png" alt="JamesThompsonFollows" width="500">
 </div>
 </div>
-<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -775,13 +753,13 @@ RETURN p1, p2<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompson3Hops.png" alt="JamesThompson3Hops" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompson3Hop.png" alt="JamesThompson3Hop" width="400">
 </div>
 </div>
+<div style="clear: both;"></div>
 <div class="paragraph">
 <p>Notice here that the relationships between the nodes are not displayed because <em>James Thompson</em> is not connected to <em>Paul Blythe</em>.</p>
 </div>
-<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -822,10 +800,9 @@ RETURN p1, p2<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompson1And2Hops.png" alt="JamesThompson1And2Hops" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompson1And2Hops.png" alt="JamesThompson1And2Hops" width="500">
 </div>
 </div>
-<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -866,10 +843,9 @@ RETURN p1, p2<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/JamesThompsonAllHops.png" alt="JamesThompsonAllHops" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/JamesThompsonAllHops.png" alt="JamesThompsonAllHops" width="500">
 </div>
 </div>
-<div style="clear: both;"></div>
 	</div>
   </div>
 </slide>
@@ -911,26 +887,8 @@ RETURN p.name, m.title<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/OptionalMatch.png" alt="OptionalMatch" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/OptionalMatch.png" alt="OptionalMatch" width="600">
 </div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.7: Retrieve nodes by collecting a list (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Next, you will perform queries where you collect the results into a list.</p>
-</div>
-<div class="paragraph">
-<p><strong>Retrieve actors and the movies they have acted in, returning each actor&#8217;s name and the list of movies they acted in.</strong></p>
 </div>
 	</div>
   </div>
@@ -940,276 +898,17 @@ RETURN p.name, m.title<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 5.7: Retrieve nodes by collecting a list (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve actors and the movies they have acted in, returning each actor&#8217;s name and the list of movies they acted in.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
-RETURN p.name as actor, collect(m.title) AS `movie list`<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ActorMovies.png" alt="ActorMovies" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.8: Retrieve all movies that <em>Tom Cruise</em> has acted in and the co-actors that acted in the same movie by collecting a list (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve all movies that <em>Tom Cruise</em> has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that <em>Tom Cruise</em> worked with.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.8: Retrieve all movies that <em>Tom Cruise</em> has acted in and the co-actors that acted in the same movie by collecting a list (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve all movies that <em>Tom Cruise</em> has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that <em>Tom Cruise</em> worked with.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(p2:Person)
-WHERE p.name ='Tom Cruise'
-RETURN m.title as movie, collect(p2.name) AS `co-actors`<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TomCruiseCoActors.png" alt="TomCruiseCoActors" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.9: Retrieve nodes as lists and return data associated with the corresponding lists (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Next, you will count results retrieved.</p>
-</div>
-<div class="paragraph">
-<p><strong>Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.9: Retrieve nodes as lists and return data associated with the corresponding lists (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:REVIEWED]-&gt;(m:Movie)
-RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CountReviews.png" alt="CountReviews" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.10: Retrieve nodes and their relationships as list (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.10: Retrieve nodes and their relationships as list (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (d:Person)-[:DIRECTED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-RETURN d.name AS director, count(a) AS `number actors` , collect(a.name) AS `actors worked with`<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CountActorsWhoWorkedWithDirectors.png" alt="CountActorsWhoWorkedWithDirectors" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.11: Retrieve the actors who have acted in exactly five movies (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Next, you will write queries that perform some intermediate processing using the <code>WITH</code> clause.</p>
-</div>
-<div class="paragraph">
-<p><strong>Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.11: Retrieve the actors who have acted in exactly five movies (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
-WITH  a, count(m) AS numMovies, collect(m.title) AS movies
-WHERE numMovies = 5
-RETURN a.name, movies<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/FiveMovies.png" alt="FiveMovies" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)
-WITH m, size((:Person)-[:DIRECTED]-&gt;(m)) AS directors
-WHERE directors &gt;= 2
-OPTIONAL MATCH (p:Person)-[:REVIEWED]-&gt;(m)
-RETURN  m.title, p.name<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/TopDirectorsAndReviewers.png" alt="TopDirectorsAndReviewers" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 5: Controlling query processing (Summary)</h3>
+    <h3>Exercise 5: Working with patterns in queries (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
 <p>In this exercise, you wrote queries that filtered the results that are returned using a <code>WHERE</code> clause as well as performing some additional processing during the query.
 First, you wrote a query where multiple patterns are required.
 Then you wrote a query that uses a variable length pattern to retrieve data.
-Next, you wrote a query that retrieves data with optional results.
-Then you collected results during a query to build a list.
-Next, you counted retrievals during the query.
-Finally, you performed intermediate processing during the query using a <code>WITH</code> clause.</p>
+Finally, you wrote a query that retrieves data with optional results.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/06.html'>Continue to Exercise 6</a></p>
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/06.html'>Continue to Exercise 6</a></p>
 </div>
 	</div>
   </div>

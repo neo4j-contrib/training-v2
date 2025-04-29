@@ -1,0 +1,964 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 12</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 12</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12: Using Cypher parameters (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Make sure you have the Movie database, which contains 173 nodes and 257 relationships.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see when you click the database icon:</p>
+</div>
+<div class="imageblock left">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise11.png" alt="After exercise 11" width="200" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) DETACH DELETE n;
+CREATE (TheMatrix:Movie {title:'The Matrix', released:1999, tagline:'Welcome to the Real World'})
+CREATE (Keanu:Person {name:'Keanu Reeves', born:1964})
+CREATE (Carrie:Person {name:'Carrie-Anne Moss', born:1967})
+CREATE (Laurence:Person {name:'Laurence Fishburne', born:1961})
+CREATE (Hugo:Person {name:'Hugo Weaving', born:1960})
+CREATE (LillyW:Person {name:'Lilly Wachowski', born:1967})
+CREATE (LanaW:Person {name:'Lana Wachowski', born:1965})
+CREATE (JoelS:Person {name:'Joel Silver', born:1952})
+CREATE
+  (Keanu)-[:ACTED_IN {roles:['Neo']}]-&gt;(TheMatrix),
+  (Carrie)-[:ACTED_IN {roles:['Trinity']}]-&gt;(TheMatrix),
+  (Laurence)-[:ACTED_IN {roles:['Morpheus']}]-&gt;(TheMatrix),
+  (Hugo)-[:ACTED_IN {roles:['Agent Smith']}]-&gt;(TheMatrix),
+  (LillyW)-[:DIRECTED]-&gt;(TheMatrix),
+  (LanaW)-[:DIRECTED]-&gt;(TheMatrix),
+  (JoelS)-[:PRODUCED]-&gt;(TheMatrix)
+
+CREATE (Emil:Person {name:"Emil Eifrem", born:1978})
+CREATE (Emil)-[:ACTED_IN {roles:["Emil"]}]-&gt;(TheMatrix)
+
+CREATE (TheMatrixReloaded:Movie {title:'The Matrix Reloaded', released:2003, tagline:'Free your mind'})
+CREATE
+  (Keanu)-[:ACTED_IN {roles:['Neo']}]-&gt;(TheMatrixReloaded),
+  (Carrie)-[:ACTED_IN {roles:['Trinity']}]-&gt;(TheMatrixReloaded),
+  (Laurence)-[:ACTED_IN {roles:['Morpheus']}]-&gt;(TheMatrixReloaded),
+  (Hugo)-[:ACTED_IN {roles:['Agent Smith']}]-&gt;(TheMatrixReloaded),
+  (LillyW)-[:DIRECTED]-&gt;(TheMatrixReloaded),
+  (LanaW)-[:DIRECTED]-&gt;(TheMatrixReloaded),
+  (JoelS)-[:PRODUCED]-&gt;(TheMatrixReloaded)
+
+CREATE (TheMatrixRevolutions:Movie {title:'The Matrix Revolutions', released:2003, tagline:'Everything that has a beginning has an end'})
+CREATE
+  (Keanu)-[:ACTED_IN {roles:['Neo']}]-&gt;(TheMatrixRevolutions),
+  (Carrie)-[:ACTED_IN {roles:['Trinity']}]-&gt;(TheMatrixRevolutions),
+  (Laurence)-[:ACTED_IN {roles:['Morpheus']}]-&gt;(TheMatrixRevolutions),
+  (Hugo)-[:ACTED_IN {roles:['Agent Smith']}]-&gt;(TheMatrixRevolutions),
+  (LillyW)-[:DIRECTED]-&gt;(TheMatrixRevolutions),
+  (LanaW)-[:DIRECTED]-&gt;(TheMatrixRevolutions),
+  (JoelS)-[:PRODUCED]-&gt;(TheMatrixRevolutions)
+
+CREATE (TheDevilsAdvocate:Movie {title:"The Devil's Advocate", released:1997, tagline:'Evil has its winning ways'})
+CREATE (Charlize:Person {name:'Charlize Theron', born:1975})
+CREATE (Al:Person {name:'Al Pacino', born:1940})
+CREATE (Taylor:Person {name:'Taylor Hackford', born:1944})
+CREATE
+  (Keanu)-[:ACTED_IN {roles:['Kevin Lomax']}]-&gt;(TheDevilsAdvocate),
+  (Charlize)-[:ACTED_IN {roles:['Mary Ann Lomax']}]-&gt;(TheDevilsAdvocate),
+  (Al)-[:ACTED_IN {roles:['John Milton']}]-&gt;(TheDevilsAdvocate),
+  (Taylor)-[:DIRECTED]-&gt;(TheDevilsAdvocate)
+
+CREATE (AFewGoodMen:Movie {title:"A Few Good Men", released:1992, tagline:"In the heart of the nation's capital, in a courthouse of the U.S. government, one man will stop at nothing to keep his honor, and one will stop at nothing to find the truth."})
+CREATE (TomC:Person {name:'Tom Cruise', born:1962})
+CREATE (JackN:Person {name:'Jack Nicholson', born:1937})
+CREATE (DemiM:Person {name:'Demi Moore', born:1962})
+CREATE (KevinB:Person {name:'Kevin Bacon', born:1958})
+CREATE (KieferS:Person {name:'Kiefer Sutherland', born:1966})
+CREATE (NoahW:Person {name:'Noah Wyle', born:1971})
+CREATE (CubaG:Person {name:'Cuba Gooding Jr.', born:1968})
+CREATE (KevinP:Person {name:'Kevin Pollak', born:1957})
+CREATE (JTW:Person {name:'J.T. Walsh', born:1943})
+CREATE (JamesM:Person {name:'James Marshall', born:1967})
+CREATE (ChristopherG:Person {name:'Christopher Guest', born:1948})
+CREATE (RobR:Person {name:'Rob Reiner', born:1947})
+CREATE (AaronS:Person {name:'Aaron Sorkin', born:1961})
+CREATE
+  (TomC)-[:ACTED_IN {roles:['Lt. Daniel Kaffee']}]-&gt;(AFewGoodMen),
+  (JackN)-[:ACTED_IN {roles:['Col. Nathan R. Jessup']}]-&gt;(AFewGoodMen),
+  (DemiM)-[:ACTED_IN {roles:['Lt. Cdr. JoAnne Galloway']}]-&gt;(AFewGoodMen),
+  (KevinB)-[:ACTED_IN {roles:['Capt. Jack Ross']}]-&gt;(AFewGoodMen),
+  (KieferS)-[:ACTED_IN {roles:['Lt. Jonathan Kendrick']}]-&gt;(AFewGoodMen),
+  (NoahW)-[:ACTED_IN {roles:['Cpl. Jeffrey Barnes']}]-&gt;(AFewGoodMen),
+  (CubaG)-[:ACTED_IN {roles:['Cpl. Carl Hammaker']}]-&gt;(AFewGoodMen),
+  (KevinP)-[:ACTED_IN {roles:['Lt. Sam Weinberg']}]-&gt;(AFewGoodMen),
+  (JTW)-[:ACTED_IN {roles:['Lt. Col. Matthew Andrew Markinson']}]-&gt;(AFewGoodMen),
+  (JamesM)-[:ACTED_IN {roles:['Pfc. Louden Downey']}]-&gt;(AFewGoodMen),
+  (ChristopherG)-[:ACTED_IN {roles:['Dr. Stone']}]-&gt;(AFewGoodMen),
+  (AaronS)-[:ACTED_IN {roles:['Man in Bar']}]-&gt;(AFewGoodMen),
+  (RobR)-[:DIRECTED]-&gt;(AFewGoodMen),
+  (AaronS)-[:WROTE]-&gt;(AFewGoodMen)
+
+CREATE (TopGun:Movie {title:"Top Gun", released:1986, tagline:'I feel the need, the need for speed.'})
+CREATE (KellyM:Person {name:'Kelly McGillis', born:1957})
+CREATE (ValK:Person {name:'Val Kilmer', born:1959})
+CREATE (AnthonyE:Person {name:'Anthony Edwards', born:1962})
+CREATE (TomS:Person {name:'Tom Skerritt', born:1933})
+CREATE (MegR:Person {name:'Meg Ryan', born:1961})
+CREATE (TonyS:Person {name:'Tony Scott', born:1944})
+CREATE (JimC:Person {name:'Jim Cash', born:1941})
+CREATE
+  (TomC)-[:ACTED_IN {roles:['Maverick']}]-&gt;(TopGun),
+  (KellyM)-[:ACTED_IN {roles:['Charlie']}]-&gt;(TopGun),
+  (ValK)-[:ACTED_IN {roles:['Iceman']}]-&gt;(TopGun),
+  (AnthonyE)-[:ACTED_IN {roles:['Goose']}]-&gt;(TopGun),
+  (TomS)-[:ACTED_IN {roles:['Viper']}]-&gt;(TopGun),
+  (MegR)-[:ACTED_IN {roles:['Carole']}]-&gt;(TopGun),
+  (TonyS)-[:DIRECTED]-&gt;(TopGun),
+  (JimC)-[:WROTE]-&gt;(TopGun)
+
+CREATE (JerryMaguire:Movie {title:'Jerry Maguire', released:2000, tagline:'The rest of his life begins now.'})
+CREATE (ReneeZ:Person {name:'Renee Zellweger', born:1969})
+CREATE (KellyP:Person {name:'Kelly Preston', born:1962})
+CREATE (JerryO:Person {name:"Jerry O'Connell", born:1974})
+CREATE (JayM:Person {name:'Jay Mohr', born:1970})
+CREATE (BonnieH:Person {name:'Bonnie Hunt', born:1961})
+CREATE (ReginaK:Person {name:'Regina King', born:1971})
+CREATE (JonathanL:Person {name:'Jonathan Lipnicki', born:1996})
+CREATE (CameronC:Person {name:'Cameron Crowe', born:1957})
+CREATE
+  (TomC)-[:ACTED_IN {roles:['Jerry Maguire']}]-&gt;(JerryMaguire),
+  (CubaG)-[:ACTED_IN {roles:['Rod Tidwell']}]-&gt;(JerryMaguire),
+  (ReneeZ)-[:ACTED_IN {roles:['Dorothy Boyd']}]-&gt;(JerryMaguire),
+  (KellyP)-[:ACTED_IN {roles:['Avery Bishop']}]-&gt;(JerryMaguire),
+  (JerryO)-[:ACTED_IN {roles:['Frank Cushman']}]-&gt;(JerryMaguire),
+  (JayM)-[:ACTED_IN {roles:['Bob Sugar']}]-&gt;(JerryMaguire),
+  (BonnieH)-[:ACTED_IN {roles:['Laurel Boyd']}]-&gt;(JerryMaguire),
+  (ReginaK)-[:ACTED_IN {roles:['Marcee Tidwell']}]-&gt;(JerryMaguire),
+  (JonathanL)-[:ACTED_IN {roles:['Ray Boyd']}]-&gt;(JerryMaguire),
+  (CameronC)-[:DIRECTED]-&gt;(JerryMaguire),
+  (CameronC)-[:PRODUCED]-&gt;(JerryMaguire),
+  (CameronC)-[:WROTE]-&gt;(JerryMaguire)
+
+CREATE (StandByMe:Movie {title:"Stand By Me", released:1986, tagline:"For some, it's the last real taste of innocence, and the first real taste of life. But for everyone, it's the time that memories are made of."})
+CREATE (RiverP:Person {name:'River Phoenix', born:1970})
+CREATE (CoreyF:Person {name:'Corey Feldman', born:1971})
+CREATE (WilW:Person {name:'Wil Wheaton', born:1972})
+CREATE (JohnC:Person {name:'John Cusack', born:1966})
+CREATE (MarshallB:Person {name:'Marshall Bell', born:1942})
+CREATE
+  (WilW)-[:ACTED_IN {roles:['Gordie Lachance']}]-&gt;(StandByMe),
+  (RiverP)-[:ACTED_IN {roles:['Chris Chambers']}]-&gt;(StandByMe),
+  (JerryO)-[:ACTED_IN {roles:['Vern Tessio']}]-&gt;(StandByMe),
+  (CoreyF)-[:ACTED_IN {roles:['Teddy Duchamp']}]-&gt;(StandByMe),
+  (JohnC)-[:ACTED_IN {roles:['Denny Lachance']}]-&gt;(StandByMe),
+  (KieferS)-[:ACTED_IN {roles:['Ace Merrill']}]-&gt;(StandByMe),
+  (MarshallB)-[:ACTED_IN {roles:['Mr. Lachance']}]-&gt;(StandByMe),
+  (RobR)-[:DIRECTED]-&gt;(StandByMe)
+
+CREATE (AsGoodAsItGets:Movie {title:'As Good as It Gets', released:1997, tagline:'A comedy from the heart that goes for the throat.'})
+CREATE (HelenH:Person {name:'Helen Hunt', born:1963})
+CREATE (GregK:Person {name:'Greg Kinnear', born:1963})
+CREATE (JamesB:Person {name:'James L. Brooks', born:1940})
+CREATE
+  (JackN)-[:ACTED_IN {roles:['Melvin Udall']}]-&gt;(AsGoodAsItGets),
+  (HelenH)-[:ACTED_IN {roles:['Carol Connelly']}]-&gt;(AsGoodAsItGets),
+  (GregK)-[:ACTED_IN {roles:['Simon Bishop']}]-&gt;(AsGoodAsItGets),
+  (CubaG)-[:ACTED_IN {roles:['Frank Sachs']}]-&gt;(AsGoodAsItGets),
+  (JamesB)-[:DIRECTED]-&gt;(AsGoodAsItGets)
+
+CREATE (WhatDreamsMayCome:Movie {title:'What Dreams May Come', released:1998, tagline:'After life there is more. The end is just the beginning.'})
+CREATE (AnnabellaS:Person {name:'Annabella Sciorra', born:1960})
+CREATE (MaxS:Person {name:'Max von Sydow', born:1929})
+CREATE (WernerH:Person {name:'Werner Herzog', born:1942})
+CREATE (Robin:Person {name:'Robin Williams', born:1951})
+CREATE (VincentW:Person {name:'Vincent Ward', born:1956})
+CREATE
+  (Robin)-[:ACTED_IN {roles:['Chris Nielsen']}]-&gt;(WhatDreamsMayCome),
+  (CubaG)-[:ACTED_IN {roles:['Albert Lewis']}]-&gt;(WhatDreamsMayCome),
+  (AnnabellaS)-[:ACTED_IN {roles:['Annie Collins-Nielsen']}]-&gt;(WhatDreamsMayCome),
+  (MaxS)-[:ACTED_IN {roles:['The Tracker']}]-&gt;(WhatDreamsMayCome),
+  (WernerH)-[:ACTED_IN {roles:['The Face']}]-&gt;(WhatDreamsMayCome),
+  (VincentW)-[:DIRECTED]-&gt;(WhatDreamsMayCome)
+
+CREATE (SnowFallingonCedars:Movie {title:'Snow Falling on Cedars', released:1999, tagline:'First loves last. Forever.'})
+CREATE (EthanH:Person {name:'Ethan Hawke', born:1970})
+CREATE (RickY:Person {name:'Rick Yune', born:1971})
+CREATE (JamesC:Person {name:'James Cromwell', born:1940})
+CREATE (ScottH:Person {name:'Scott Hicks', born:1953})
+CREATE
+  (EthanH)-[:ACTED_IN {roles:['Ishmael Chambers']}]-&gt;(SnowFallingonCedars),
+  (RickY)-[:ACTED_IN {roles:['Kazuo Miyamoto']}]-&gt;(SnowFallingonCedars),
+  (MaxS)-[:ACTED_IN {roles:['Nels Gudmundsson']}]-&gt;(SnowFallingonCedars),
+  (JamesC)-[:ACTED_IN {roles:['Judge Fielding']}]-&gt;(SnowFallingonCedars),
+  (ScottH)-[:DIRECTED]-&gt;(SnowFallingonCedars)
+
+CREATE (YouveGotMail:Movie {title:"You've Got Mail", released:1998, tagline:'At odds in life... in love on-line.'})
+CREATE (ParkerP:Person {name:'Parker Posey', born:1968})
+CREATE (DaveC:Person {name:'Dave Chappelle', born:1973})
+CREATE (SteveZ:Person {name:'Steve Zahn', born:1967})
+CREATE (TomH:Person {name:'Tom Hanks', born:1956})
+CREATE (NoraE:Person {name:'Nora Ephron', born:1941})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Joe Fox']}]-&gt;(YouveGotMail),
+  (MegR)-[:ACTED_IN {roles:['Kathleen Kelly']}]-&gt;(YouveGotMail),
+  (GregK)-[:ACTED_IN {roles:['Frank Navasky']}]-&gt;(YouveGotMail),
+  (ParkerP)-[:ACTED_IN {roles:['Patricia Eden']}]-&gt;(YouveGotMail),
+  (DaveC)-[:ACTED_IN {roles:['Kevin Jackson']}]-&gt;(YouveGotMail),
+  (SteveZ)-[:ACTED_IN {roles:['George Pappas']}]-&gt;(YouveGotMail),
+  (NoraE)-[:DIRECTED]-&gt;(YouveGotMail)
+
+CREATE (SleeplessInSeattle:Movie {title:'Sleepless in Seattle', released:1993, tagline:'What if someone you never met, someone you never saw, someone you never knew was the only someone for you?'})
+CREATE (RitaW:Person {name:'Rita Wilson', born:1956})
+CREATE (BillPull:Person {name:'Bill Pullman', born:1953})
+CREATE (VictorG:Person {name:'Victor Garber', born:1949})
+CREATE (RosieO:Person {name:"Rosie O'Donnell", born:1962})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Sam Baldwin']}]-&gt;(SleeplessInSeattle),
+  (MegR)-[:ACTED_IN {roles:['Annie Reed']}]-&gt;(SleeplessInSeattle),
+  (RitaW)-[:ACTED_IN {roles:['Suzy']}]-&gt;(SleeplessInSeattle),
+  (BillPull)-[:ACTED_IN {roles:['Walter']}]-&gt;(SleeplessInSeattle),
+  (VictorG)-[:ACTED_IN {roles:['Greg']}]-&gt;(SleeplessInSeattle),
+  (RosieO)-[:ACTED_IN {roles:['Becky']}]-&gt;(SleeplessInSeattle),
+  (NoraE)-[:DIRECTED]-&gt;(SleeplessInSeattle)
+
+CREATE (JoeVersustheVolcano:Movie {title:'Joe Versus the Volcano', released:1990, tagline:'A story of love, lava and burning desire.'})
+CREATE (JohnS:Person {name:'John Patrick Stanley', born:1950})
+CREATE (Nathan:Person {name:'Nathan Lane', born:1956})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Joe Banks']}]-&gt;(JoeVersustheVolcano),
+  (MegR)-[:ACTED_IN {roles:['DeDe', 'Angelica Graynamore', 'Patricia Graynamore']}]-&gt;(JoeVersustheVolcano),
+  (Nathan)-[:ACTED_IN {roles:['Baw']}]-&gt;(JoeVersustheVolcano),
+  (JohnS)-[:DIRECTED]-&gt;(JoeVersustheVolcano)
+
+CREATE (WhenHarryMetSally:Movie {title:'When Harry Met Sally', released:1998, tagline:'At odds in life... in love on-line.'})
+CREATE (BillyC:Person {name:'Billy Crystal', born:1948})
+CREATE (CarrieF:Person {name:'Carrie Fisher', born:1956})
+CREATE (BrunoK:Person {name:'Bruno Kirby', born:1949})
+CREATE
+  (BillyC)-[:ACTED_IN {roles:['Harry Burns']}]-&gt;(WhenHarryMetSally),
+  (MegR)-[:ACTED_IN {roles:['Sally Albright']}]-&gt;(WhenHarryMetSally),
+  (CarrieF)-[:ACTED_IN {roles:['Marie']}]-&gt;(WhenHarryMetSally),
+  (BrunoK)-[:ACTED_IN {roles:['Jess']}]-&gt;(WhenHarryMetSally),
+  (RobR)-[:DIRECTED]-&gt;(WhenHarryMetSally),
+  (RobR)-[:PRODUCED]-&gt;(WhenHarryMetSally),
+  (NoraE)-[:PRODUCED]-&gt;(WhenHarryMetSally),
+  (NoraE)-[:WROTE]-&gt;(WhenHarryMetSally)
+
+CREATE (ThatThingYouDo:Movie {title:'That Thing You Do', released:1996, tagline:'In every life there comes a time when that thing you dream becomes that thing you do'})
+CREATE (LivT:Person {name:'Liv Tyler', born:1977})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Mr. White']}]-&gt;(ThatThingYouDo),
+  (LivT)-[:ACTED_IN {roles:['Faye Dolan']}]-&gt;(ThatThingYouDo),
+  (Charlize)-[:ACTED_IN {roles:['Tina']}]-&gt;(ThatThingYouDo),
+  (TomH)-[:DIRECTED]-&gt;(ThatThingYouDo)
+
+CREATE (TheReplacements:Movie {title:'The Replacements', released:2000, tagline:'Pain heals, Chicks dig scars... Glory lasts forever'})
+CREATE (Brooke:Person {name:'Brooke Langton', born:1970})
+CREATE (Gene:Person {name:'Gene Hackman', born:1930})
+CREATE (Orlando:Person {name:'Orlando Jones', born:1968})
+CREATE (Howard:Person {name:'Howard Deutch', born:1950})
+CREATE
+  (Keanu)-[:ACTED_IN {roles:['Shane Falco']}]-&gt;(TheReplacements),
+  (Brooke)-[:ACTED_IN {roles:['Annabelle Farrell']}]-&gt;(TheReplacements),
+  (Gene)-[:ACTED_IN {roles:['Jimmy McGinty']}]-&gt;(TheReplacements),
+  (Orlando)-[:ACTED_IN {roles:['Clifford Franklin']}]-&gt;(TheReplacements),
+  (Howard)-[:DIRECTED]-&gt;(TheReplacements)
+
+CREATE (RescueDawn:Movie {title:'RescueDawn', released:2006, tagline:"Based on the extraordinary true story of one man's fight for freedom"})
+CREATE (ChristianB:Person {name:'Christian Bale', born:1974})
+CREATE (ZachG:Person {name:'Zach Grenier', born:1954})
+CREATE
+  (MarshallB)-[:ACTED_IN {roles:['Admiral']}]-&gt;(RescueDawn),
+  (ChristianB)-[:ACTED_IN {roles:['Dieter Dengler']}]-&gt;(RescueDawn),
+  (ZachG)-[:ACTED_IN {roles:['Squad Leader']}]-&gt;(RescueDawn),
+  (SteveZ)-[:ACTED_IN {roles:['Duane']}]-&gt;(RescueDawn),
+  (WernerH)-[:DIRECTED]-&gt;(RescueDawn)
+
+CREATE (TheBirdcage:Movie {title:'The Birdcage', released:1996, tagline:'Come as you are'})
+CREATE (MikeN:Person {name:'Mike Nichols', born:1931})
+CREATE
+  (Robin)-[:ACTED_IN {roles:['Armand Goldman']}]-&gt;(TheBirdcage),
+  (Nathan)-[:ACTED_IN {roles:['Albert Goldman']}]-&gt;(TheBirdcage),
+  (Gene)-[:ACTED_IN {roles:['Sen. Kevin Keeley']}]-&gt;(TheBirdcage),
+  (MikeN)-[:DIRECTED]-&gt;(TheBirdcage)
+
+CREATE (Unforgiven:Movie {title:'Unforgiven', released:1992, tagline:"It's a hell of a thing, killing a man"})
+CREATE (RichardH:Person {name:'Richard Harris', born:1930})
+CREATE (ClintE:Person {name:'Clint Eastwood', born:1930})
+CREATE
+  (RichardH)-[:ACTED_IN {roles:['English Bob']}]-&gt;(Unforgiven),
+  (ClintE)-[:ACTED_IN {roles:['Bill Munny']}]-&gt;(Unforgiven),
+  (Gene)-[:ACTED_IN {roles:['Little Bill Daggett']}]-&gt;(Unforgiven),
+  (ClintE)-[:DIRECTED]-&gt;(Unforgiven)
+
+CREATE (JohnnyMnemonic:Movie {title:'Johnny Mnemonic', released:1995, tagline:'The hottest data on earth. In the coolest head in town'})
+CREATE (Takeshi:Person {name:'Takeshi Kitano', born:1947})
+CREATE (Dina:Person {name:'Dina Meyer', born:1968})
+CREATE (IceT:Person {name:'Ice-T', born:1958})
+CREATE (RobertL:Person {name:'Robert Longo', born:1953})
+CREATE
+  (Keanu)-[:ACTED_IN {roles:['Johnny Mnemonic']}]-&gt;(JohnnyMnemonic),
+  (Takeshi)-[:ACTED_IN {roles:['Takahashi']}]-&gt;(JohnnyMnemonic),
+  (Dina)-[:ACTED_IN {roles:['Jane']}]-&gt;(JohnnyMnemonic),
+  (IceT)-[:ACTED_IN {roles:['J-Bone']}]-&gt;(JohnnyMnemonic),
+  (RobertL)-[:DIRECTED]-&gt;(JohnnyMnemonic)
+
+CREATE (CloudAtlas:Movie {title:'Cloud Atlas', released:2012, tagline:'Everything is connected'})
+CREATE (HalleB:Person {name:'Halle Berry', born:1966})
+CREATE (JimB:Person {name:'Jim Broadbent', born:1949})
+CREATE (TomT:Person {name:'Tom Tykwer', born:1965})
+CREATE (DavidMitchell:Person {name:'David Mitchell', born:1969})
+CREATE (StefanArndt:Person {name:'Stefan Arndt', born:1961})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Zachry', 'Dr. Henry Goose', 'Isaac Sachs', 'Dermot Hoggins']}]-&gt;(CloudAtlas),
+  (Hugo)-[:ACTED_IN {roles:['Bill Smoke', 'Haskell Moore', 'Tadeusz Kesselring', 'Nurse Noakes', 'Boardman Mephi', 'Old Georgie']}]-&gt;(CloudAtlas),
+  (HalleB)-[:ACTED_IN {roles:['Luisa Rey', 'Jocasta Ayrs', 'Ovid', 'Meronym']}]-&gt;(CloudAtlas),
+  (JimB)-[:ACTED_IN {roles:['Vyvyan Ayrs', 'Captain Molyneux', 'Timothy Cavendish']}]-&gt;(CloudAtlas),
+  (TomT)-[:DIRECTED]-&gt;(CloudAtlas),
+  (LillyW)-[:DIRECTED]-&gt;(CloudAtlas),
+  (LanaW)-[:DIRECTED]-&gt;(CloudAtlas),
+  (DavidMitchell)-[:WROTE]-&gt;(CloudAtlas),
+  (StefanArndt)-[:PRODUCED]-&gt;(CloudAtlas)
+
+CREATE (TheDaVinciCode:Movie {title:'The Da Vinci Code', released:2006, tagline:'Break The Codes'})
+CREATE (IanM:Person {name:'Ian McKellen', born:1939})
+CREATE (AudreyT:Person {name:'Audrey Tautou', born:1976})
+CREATE (PaulB:Person {name:'Paul Bettany', born:1971})
+CREATE (RonH:Person {name:'Ron Howard', born:1954})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Dr. Robert Langdon']}]-&gt;(TheDaVinciCode),
+  (IanM)-[:ACTED_IN {roles:['Sir Leight Teabing']}]-&gt;(TheDaVinciCode),
+  (AudreyT)-[:ACTED_IN {roles:['Sophie Neveu']}]-&gt;(TheDaVinciCode),
+  (PaulB)-[:ACTED_IN {roles:['Silas']}]-&gt;(TheDaVinciCode),
+  (RonH)-[:DIRECTED]-&gt;(TheDaVinciCode)
+
+CREATE (VforVendetta:Movie {title:'V for Vendetta', released:2006, tagline:'Freedom! Forever!'})
+CREATE (NatalieP:Person {name:'Natalie Portman', born:1981})
+CREATE (StephenR:Person {name:'Stephen Rea', born:1946})
+CREATE (JohnH:Person {name:'John Hurt', born:1940})
+CREATE (BenM:Person {name: 'Ben Miles', born:1967})
+CREATE
+  (Hugo)-[:ACTED_IN {roles:['V']}]-&gt;(VforVendetta),
+  (NatalieP)-[:ACTED_IN {roles:['Evey Hammond']}]-&gt;(VforVendetta),
+  (StephenR)-[:ACTED_IN {roles:['Eric Finch']}]-&gt;(VforVendetta),
+  (JohnH)-[:ACTED_IN {roles:['High Chancellor Adam Sutler']}]-&gt;(VforVendetta),
+  (BenM)-[:ACTED_IN {roles:['Dascomb']}]-&gt;(VforVendetta),
+  (JamesM)-[:DIRECTED]-&gt;(VforVendetta),
+  (LillyW)-[:PRODUCED]-&gt;(VforVendetta),
+  (LanaW)-[:PRODUCED]-&gt;(VforVendetta),
+  (JoelS)-[:PRODUCED]-&gt;(VforVendetta),
+  (LillyW)-[:WROTE]-&gt;(VforVendetta),
+  (LanaW)-[:WROTE]-&gt;(VforVendetta)
+
+CREATE (SpeedRacer:Movie {title:'Speed Racer', released:2008, tagline:'Speed has no limits'})
+CREATE (EmileH:Person {name:'Emile Hirsch', born:1985})
+CREATE (JohnG:Person {name:'John Goodman', born:1960})
+CREATE (SusanS:Person {name:'Susan Sarandon', born:1946})
+CREATE (MatthewF:Person {name:'Matthew Fox', born:1966})
+CREATE (ChristinaR:Person {name:'Christina Ricci', born:1980})
+CREATE (Rain:Person {name:'Rain', born:1982})
+CREATE
+  (EmileH)-[:ACTED_IN {roles:['Speed Racer']}]-&gt;(SpeedRacer),
+  (JohnG)-[:ACTED_IN {roles:['Pops']}]-&gt;(SpeedRacer),
+  (SusanS)-[:ACTED_IN {roles:['Mom']}]-&gt;(SpeedRacer),
+  (MatthewF)-[:ACTED_IN {roles:['Racer X']}]-&gt;(SpeedRacer),
+  (ChristinaR)-[:ACTED_IN {roles:['Trixie']}]-&gt;(SpeedRacer),
+  (Rain)-[:ACTED_IN {roles:['Taejo Togokahn']}]-&gt;(SpeedRacer),
+  (BenM)-[:ACTED_IN {roles:['Cass Jones']}]-&gt;(SpeedRacer),
+  (LillyW)-[:DIRECTED]-&gt;(SpeedRacer),
+  (LanaW)-[:DIRECTED]-&gt;(SpeedRacer),
+  (LillyW)-[:WROTE]-&gt;(SpeedRacer),
+  (LanaW)-[:WROTE]-&gt;(SpeedRacer),
+  (JoelS)-[:PRODUCED]-&gt;(SpeedRacer)
+
+CREATE (NinjaAssassin:Movie {title:'Ninja Assassin', released:2009, tagline:'Prepare to enter a secret world of assassins'})
+CREATE (NaomieH:Person {name:'Naomie Harris'})
+CREATE
+  (Rain)-[:ACTED_IN {roles:['Raizo']}]-&gt;(NinjaAssassin),
+  (NaomieH)-[:ACTED_IN {roles:['Mika Coretti']}]-&gt;(NinjaAssassin),
+  (RickY)-[:ACTED_IN {roles:['Takeshi']}]-&gt;(NinjaAssassin),
+  (BenM)-[:ACTED_IN {roles:['Ryan Maslow']}]-&gt;(NinjaAssassin),
+  (JamesM)-[:DIRECTED]-&gt;(NinjaAssassin),
+  (LillyW)-[:PRODUCED]-&gt;(NinjaAssassin),
+  (LanaW)-[:PRODUCED]-&gt;(NinjaAssassin),
+  (JoelS)-[:PRODUCED]-&gt;(NinjaAssassin)
+
+CREATE (TheGreenMile:Movie {title:'The Green Mile', released:1999, tagline:"Walk a mile you'll never forget."})
+CREATE (MichaelD:Person {name:'Michael Clarke Duncan', born:1957})
+CREATE (DavidM:Person {name:'David Morse', born:1953})
+CREATE (SamR:Person {name:'Sam Rockwell', born:1968})
+CREATE (GaryS:Person {name:'Gary Sinise', born:1955})
+CREATE (PatriciaC:Person {name:'Patricia Clarkson', born:1959})
+CREATE (FrankD:Person {name:'Frank Darabont', born:1959})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Paul Edgecomb']}]-&gt;(TheGreenMile),
+  (MichaelD)-[:ACTED_IN {roles:['John Coffey']}]-&gt;(TheGreenMile),
+  (DavidM)-[:ACTED_IN {roles:['Brutus "Brutal" Howell']}]-&gt;(TheGreenMile),
+  (BonnieH)-[:ACTED_IN {roles:['Jan Edgecomb']}]-&gt;(TheGreenMile),
+  (JamesC)-[:ACTED_IN {roles:['Warden Hal Moores']}]-&gt;(TheGreenMile),
+  (SamR)-[:ACTED_IN {roles:['"Wild Bill" Wharton']}]-&gt;(TheGreenMile),
+  (GaryS)-[:ACTED_IN {roles:['Burt Hammersmith']}]-&gt;(TheGreenMile),
+  (PatriciaC)-[:ACTED_IN {roles:['Melinda Moores']}]-&gt;(TheGreenMile),
+  (FrankD)-[:DIRECTED]-&gt;(TheGreenMile)
+
+CREATE (FrostNixon:Movie {title:'Frost/Nixon', released:2008, tagline:'400 million people were waiting for the truth.'})
+CREATE (FrankL:Person {name:'Frank Langella', born:1938})
+CREATE (MichaelS:Person {name:'Michael Sheen', born:1969})
+CREATE (OliverP:Person {name:'Oliver Platt', born:1960})
+CREATE
+  (FrankL)-[:ACTED_IN {roles:['Richard Nixon']}]-&gt;(FrostNixon),
+  (MichaelS)-[:ACTED_IN {roles:['David Frost']}]-&gt;(FrostNixon),
+  (KevinB)-[:ACTED_IN {roles:['Jack Brennan']}]-&gt;(FrostNixon),
+  (OliverP)-[:ACTED_IN {roles:['Bob Zelnick']}]-&gt;(FrostNixon),
+  (SamR)-[:ACTED_IN {roles:['James Reston, Jr.']}]-&gt;(FrostNixon),
+  (RonH)-[:DIRECTED]-&gt;(FrostNixon)
+
+CREATE (Hoffa:Movie {title:'Hoffa', released:1992, tagline:"He didn't want law. He wanted justice."})
+CREATE (DannyD:Person {name:'Danny DeVito', born:1944})
+CREATE (JohnR:Person {name:'John C. Reilly', born:1965})
+CREATE
+  (JackN)-[:ACTED_IN {roles:['Hoffa']}]-&gt;(Hoffa),
+  (DannyD)-[:ACTED_IN {roles:['Robert "Bobby" Ciaro']}]-&gt;(Hoffa),
+  (JTW)-[:ACTED_IN {roles:['Frank Fitzsimmons']}]-&gt;(Hoffa),
+  (JohnR)-[:ACTED_IN {roles:['Peter "Pete" Connelly']}]-&gt;(Hoffa),
+  (DannyD)-[:DIRECTED]-&gt;(Hoffa)
+
+CREATE (Apollo13:Movie {title:'Apollo 13', released:1995, tagline:'Houston, we have a problem.'})
+CREATE (EdH:Person {name:'Ed Harris', born:1950})
+CREATE (BillPax:Person {name:'Bill Paxton', born:1955})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Jim Lovell']}]-&gt;(Apollo13),
+  (KevinB)-[:ACTED_IN {roles:['Jack Swigert']}]-&gt;(Apollo13),
+  (EdH)-[:ACTED_IN {roles:['Gene Kranz']}]-&gt;(Apollo13),
+  (BillPax)-[:ACTED_IN {roles:['Fred Haise']}]-&gt;(Apollo13),
+  (GaryS)-[:ACTED_IN {roles:['Ken Mattingly']}]-&gt;(Apollo13),
+  (RonH)-[:DIRECTED]-&gt;(Apollo13)
+
+CREATE (Twister:Movie {title:'Twister', released:1996, tagline:"Don't Breathe. Don't Look Back."})
+CREATE (PhilipH:Person {name:'Philip Seymour Hoffman', born:1967})
+CREATE (JanB:Person {name:'Jan de Bont', born:1943})
+CREATE
+  (BillPax)-[:ACTED_IN {roles:['Bill Harding']}]-&gt;(Twister),
+  (HelenH)-[:ACTED_IN {roles:['Dr. Jo Harding']}]-&gt;(Twister),
+  (ZachG)-[:ACTED_IN {roles:['Eddie']}]-&gt;(Twister),
+  (PhilipH)-[:ACTED_IN {roles:['Dustin "Dusty" Davis']}]-&gt;(Twister),
+  (JanB)-[:DIRECTED]-&gt;(Twister)
+
+CREATE (CastAway:Movie {title:'Cast Away', released:2000, tagline:'At the edge of the world, his journey begins.'})
+CREATE (RobertZ:Person {name:'Robert Zemeckis', born:1951})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Chuck Noland']}]-&gt;(CastAway),
+  (HelenH)-[:ACTED_IN {roles:['Kelly Frears']}]-&gt;(CastAway),
+  (RobertZ)-[:DIRECTED]-&gt;(CastAway)
+
+CREATE (OneFlewOvertheCuckoosNest:Movie {title:"One Flew Over the Cuckoo's Nest", released:1975, tagline:"If he's crazy, what does that make you?"})
+CREATE (MilosF:Person {name:'Milos Forman', born:1932})
+CREATE
+  (JackN)-[:ACTED_IN {roles:['Randle McMurphy']}]-&gt;(OneFlewOvertheCuckoosNest),
+  (DannyD)-[:ACTED_IN {roles:['Martini']}]-&gt;(OneFlewOvertheCuckoosNest),
+  (MilosF)-[:DIRECTED]-&gt;(OneFlewOvertheCuckoosNest)
+
+CREATE (SomethingsGottaGive:Movie {title:"Something's Gotta Give", released:2003})
+CREATE (DianeK:Person {name:'Diane Keaton', born:1946})
+CREATE (NancyM:Person {name:'Nancy Meyers', born:1949})
+CREATE
+  (JackN)-[:ACTED_IN {roles:['Harry Sanborn']}]-&gt;(SomethingsGottaGive),
+  (DianeK)-[:ACTED_IN {roles:['Erica Barry']}]-&gt;(SomethingsGottaGive),
+  (Keanu)-[:ACTED_IN {roles:['Julian Mercer']}]-&gt;(SomethingsGottaGive),
+  (NancyM)-[:DIRECTED]-&gt;(SomethingsGottaGive),
+  (NancyM)-[:PRODUCED]-&gt;(SomethingsGottaGive),
+  (NancyM)-[:WROTE]-&gt;(SomethingsGottaGive)
+
+CREATE (BicentennialMan:Movie {title:'Bicentennial Man', released:1999, tagline:"One robot's 200 year journey to become an ordinary man."})
+CREATE (ChrisC:Person {name:'Chris Columbus', born:1958})
+CREATE
+  (Robin)-[:ACTED_IN {roles:['Andrew Marin']}]-&gt;(BicentennialMan),
+  (OliverP)-[:ACTED_IN {roles:['Rupert Burns']}]-&gt;(BicentennialMan),
+  (ChrisC)-[:DIRECTED]-&gt;(BicentennialMan)
+
+CREATE (CharlieWilsonsWar:Movie {title:"Charlie Wilson's War", released:2007, tagline:"A stiff drink. A little mascara. A lot of nerve. Who said they couldn't bring down the Soviet empire."})
+CREATE (JuliaR:Person {name:'Julia Roberts', born:1967})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Rep. Charlie Wilson']}]-&gt;(CharlieWilsonsWar),
+  (JuliaR)-[:ACTED_IN {roles:['Joanne Herring']}]-&gt;(CharlieWilsonsWar),
+  (PhilipH)-[:ACTED_IN {roles:['Gust Avrakotos']}]-&gt;(CharlieWilsonsWar),
+  (MikeN)-[:DIRECTED]-&gt;(CharlieWilsonsWar)
+
+CREATE (ThePolarExpress:Movie {title:'The Polar Express', released:2004, tagline:'This Holiday Season… Believe'})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Hero Boy', 'Father', 'Conductor', 'Hobo', 'Scrooge', 'Santa Claus']}]-&gt;(ThePolarExpress),
+  (RobertZ)-[:DIRECTED]-&gt;(ThePolarExpress)
+
+CREATE (ALeagueofTheirOwn:Movie {title:'A League of Their Own', released:1992, tagline:'Once in a lifetime you get a chance to do something different.'})
+CREATE (Madonna:Person {name:'Madonna', born:1954})
+CREATE (GeenaD:Person {name:'Geena Davis', born:1956})
+CREATE (LoriP:Person {name:'Lori Petty', born:1963})
+CREATE (PennyM:Person {name:'Penny Marshall', born:1943})
+CREATE
+  (TomH)-[:ACTED_IN {roles:['Jimmy Dugan']}]-&gt;(ALeagueofTheirOwn),
+  (GeenaD)-[:ACTED_IN {roles:['Dottie Hinson']}]-&gt;(ALeagueofTheirOwn),
+  (LoriP)-[:ACTED_IN {roles:['Kit Keller']}]-&gt;(ALeagueofTheirOwn),
+  (RosieO)-[:ACTED_IN {roles:['Doris Murphy']}]-&gt;(ALeagueofTheirOwn),
+  (Madonna)-[:ACTED_IN {roles:['"All the Way" Mae Mordabito']}]-&gt;(ALeagueofTheirOwn),
+  (BillPax)-[:ACTED_IN {roles:['Bob Hinson']}]-&gt;(ALeagueofTheirOwn),
+  (PennyM)-[:DIRECTED]-&gt;(ALeagueofTheirOwn)
+
+CREATE (PaulBlythe:Person {name:'Paul Blythe'})
+CREATE (AngelaScope:Person {name:'Angela Scope'})
+CREATE (JessicaThompson:Person {name:'Jessica Thompson'})
+CREATE (JamesThompson:Person {name:'James Thompson'})
+
+CREATE
+  (JamesThompson)-[:FOLLOWS]-&gt;(JessicaThompson),
+  (AngelaScope)-[:FOLLOWS]-&gt;(JessicaThompson),
+  (PaulBlythe)-[:FOLLOWS]-&gt;(AngelaScope)
+
+CREATE
+  (JessicaThompson)-[:REVIEWED {summary:'An amazing journey', rating:95}]-&gt;(CloudAtlas),
+  (JessicaThompson)-[:REVIEWED {summary:'Silly, but fun', rating:65}]-&gt;(TheReplacements),
+  (JamesThompson)-[:REVIEWED {summary:'The coolest football movie ever', rating:100}]-&gt;(TheReplacements),
+  (AngelaScope)-[:REVIEWED {summary:'Pretty funny at times', rating:62}]-&gt;(TheReplacements),
+  (JessicaThompson)-[:REVIEWED {summary:'Dark, but compelling', rating:85}]-&gt;(Unforgiven),
+  (JessicaThompson)-[:REVIEWED {summary:"Slapstick redeemed only by the Robin Williams and Gene Hackman's stellar performances", rating:45}]-&gt;(TheBirdcage),
+  (JessicaThompson)-[:REVIEWED {summary:'A solid romp', rating:68}]-&gt;(TheDaVinciCode),
+  (JamesThompson)-[:REVIEWED {summary:'Fun, but a little far fetched', rating:65}]-&gt;(TheDaVinciCode),
+  (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire),
+  (RobinW:Person {name: 'Robin Wright', born: 1966}),
+  (ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994}),
+  (TomH)-[:ACTED_IN {roles: ['Forrest Gump']}]-&gt;(ForrestGump),
+  (GaryS)-[:ACTED_IN {roles: ['Lt. Dan Taylor']}]-&gt;(ForrestGump),
+  (RobinW)-[:ACTED_IN {roles: ['Jenny Curran']}]-&gt;(ForrestGump),
+  (RobertZ)-[:DIRECTED]-&gt;(ForrestGump)
+  ;
+MATCH (m:Movie)
+WHERE m.released &lt; 2010
+SET m:OlderMovie<!--/code--></pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12: Using Cypher parameters (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>You have gained experience with the basics of accessing a Neo4j graph by querying it, creating nodes and relationships, and updating the graph.</p>
+</div>
+<div class="paragraph">
+<p>In this exercise you enhance Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 12.1</strong>: Execute a Cypher query as described.</p>
+</li>
+<li>
+<p><strong>Exercise 12.2</strong>: Add a parameter to your session.</p>
+</li>
+<li>
+<p><strong>Exercise 12.3</strong>: Modify the Cypher query you just wrote to use a parameter.</p>
+</li>
+<li>
+<p><strong>Exercise 12.4</strong>: Modify parameter value and retest your query.</p>
+</li>
+<li>
+<p><strong>Exercise 12.5</strong>: Add a different parameter to your session.</p>
+</li>
+<li>
+<p><strong>Exercise 12.6</strong>: Modify the query you wrote previously to use the second parameter.</p>
+</li>
+<li>
+<p><strong>Exercise 12.7</strong>: Modify the second parameter value and retest your query.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.1: Execute a Cypher query as described (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
+You will be exploring the graph for people who reviewed movies and the actors in these movies.
+You do not want to hard-code the value for <em>released</em> for a _Movie_node in your query.</p>
+</div>
+<div class="paragraph">
+<p><strong>Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.1: Execute a Cypher query as described (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialQueryWithoutParms.png" alt="InitialQueryWithoutParms" width="600">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Add a parameter to your session (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.2: Add a parameter to your session (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:param year =&gt; 2000<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetYearParam.png" alt="SetYearParam" width="400">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
+WHERE m.released = $year
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UsingOneParameter.png" alt="UsingOneParameter" width="600">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Modify parameter value and retest your query (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.4: Modify parameter value and retest your query (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>year</em> parameter to be a different value, <em>2006</em>, and retest your query.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:param year =&gt; 2006<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned  with the same query should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UsingOneParameter2.png" alt="UsingOneParameter2" width="600">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.5: Add a different parameter to your session (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Suppose that you want to parameterize both the values in your query for <em>released</em> for a <em>Movie_node and the _rating</em> value for the <em>REVIEWED</em> relationship.</p>
+</div>
+<div class="paragraph">
+<p><strong>Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.5: Add a different parameter to your session (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:params {year: 2006, ratingValue: 65}<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/SetTwoParameters.png" alt="SetTwoParameters" width="400">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Modify the query you wrote previously to use the second parameter (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query you wrote previously to also filter the result returned by  the <em>rating</em> for the movie.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.6: Modify the query you wrote previously to use the second parameter (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the query you wrote previously to also filter the result returned by  the <em>rating</em> for the movie.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
+WHERE m.released = $year AND
+      rel.rating &gt; $ratingValue
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the above statement, the result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UseTwoParameters.png" alt="UseTwoParameters" width="600">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.7: Modify the second parameter value and retest your query (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12.7: Modify the second parameter value and retest your query (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:params {year: 2006, ratingValue: 60}<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned with the new parameter value should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/UseTwoParameters2.png" alt="UseTwoParameters2" width="600">
+</div>
+</div>
+<div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 12: Using Cypher parameters (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you gained experience using parameters in your Neo4j Browser session and your Cypher statements.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/13.html'>Continue to Exercise 13</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

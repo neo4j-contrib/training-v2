@@ -1,0 +1,344 @@
+<style type="text/css" media="screen">
+/*
+.nodes-image {
+	margin:-100;
+}
+*/	
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+.listingblock {margin:8px;}
+.pull-bottom {position:relative;bottom:1em;}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+/* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <!--slide class="row-fluid">
+      <div class="col-sm-3">
+        <h3>Exercise 18</h3>
+        <p class="lead">Information</p>
+			<!dl>
+				
+				
+				
+				
+				
+			</dl>
+		</div>
+      <div class="col-sm-9">
+        <figure>
+          <img style="width:300px" src=""/>
+        </figure>
+      </div>
+    </slide-->
+    
+
+
+   <h4>Exercise 18</h4>
+   
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18: Importing data with the import command of neo4j-admin (Preparations)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Note:</strong> If you are using Neo4j Sandbox or Neo4j Aura, you cannot perform the steps of this exercise.</p>
+</div>
+<div class="paragraph">
+<p>For this exercise, you will be creating a new database with the neo4j-admin tool.
+Make sure that the database instance is running.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18: Importing data with the import command of neo4j-admin (Overview)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you create a database from a set of CSV files using the import functionality of the neo4j-admin tool.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Exercise 18.1</strong>: Place the CSV files in the <strong>import</strong> folder.</p>
+</li>
+<li>
+<p><strong>Exercise 18.2</strong>: Examine the CSV files.</p>
+</li>
+<li>
+<p><strong>Exercise 18.3</strong>: Open a terminal window for the Neo4j instance.</p>
+</li>
+<li>
+<p><strong>Exercise 18.4</strong>: Use the neo4j-admin tool to import the CSV files.</p>
+</li>
+<li>
+<p><strong>Exercise 18.5</strong>: View the database after import.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Go to the next page to start this exercise.</p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.1: Place the CSV files in the <strong>import</strong> folder (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You must have downloaded the following ZIP file containing the CSV files:</p>
+<div class="paragraph">
+<p><a href="http://data.neo4j.com/v4.0-intro-neo4j/crimes-dataset.zip" class="bare">http://data.neo4j.com/v4.0-intro-neo4j/crimes-dataset.zip</a></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Hint</strong>: use <code>curl -O</code> or <code>wget</code>, or simply use the Web browser to download.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Neo4j Desktop for the project&#8217;s database you are using, select <strong>Manage &gt; Open Folder</strong>.</p>
+</li>
+<li>
+<p>Unzip the contents of the <strong>crimes-dataset.zip</strong> to the <strong>import</strong> folder. The <strong>import</strong> folder should contain six CSV files.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/CSVFilesInImportFolder.png" alt="CSVFilesInImportFolder" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.2: Examine the CSV files (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>In a text editor of your choice, examine the CSV files.
+Make sure you understand the headers and how they will be used for the import.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.3: Open a terminal window for the Neo4j instance (Instructions/Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In Neo4j Desktop for the project you are using, do the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For the project&#8217;s database that should be running, select <strong>Manage &gt; Open Terminal</strong>.</p>
+</li>
+<li>
+<p>Navigate to the <strong>import</strong> folder.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/TerminalImport.png" alt="TerminalImport" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.4: Use the neo4j-admin tool to import the CSV files (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>In the terminal window you just opened, use neo4j-admin tool to import the CSV files using these guidelines:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>             --database crimes
+             --nodes crimes_header.csv,crimes.csv
+             --nodes beats.csv
+             --nodes=PrimaryType=primaryTypes.csv
+             --relationships crimesBeats.csv
+             --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv
+             --trim-strings=true</pre>
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.4: Use the neo4j-admin tool to import the CSV files (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>In the terminal window you just opened, use neo4j-admin tool to import the CSV files using these guidelines:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>             --database crimes
+             --nodes crimes_header.csv,crimes.csv
+             --nodes beats.csv
+             --nodes=PrimaryType=primaryTypes.csv
+             --relationships crimesBeats.csv
+             --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv
+             --trim-strings=true</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is what you should enter (ensure there are no newline characters):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding"><!--code-->../bin/neo4j-admin import --database crimes --nodes crimes_header.csv,crimes.csv --nodes beats.csv --nodes=PrimaryType=primaryTypes.csv -
+-relationships crimesBeats.csv --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv --trim-strings=true &gt; import.out<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: Depending on your system, it could take up to 10 minutes to load this data.</p>
+</div>
+<div class="paragraph">
+<p>This is what you should see in the terminal window if all goes well:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/adminImportDone.png" alt="adminImportDone" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>Examine the contents of <strong>import.out</strong>. Did it execute without error?</p>
+</div>
+<div class="paragraph">
+<p>Here is what the beginning of <strong>import.out</strong> file should look like:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/importout1.png" alt="importout1" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>Here is what the end of <strong>import.out</strong> file should look like:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/importout2.png" alt="importout2" width="400">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.5: View the database after import (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database files have been created, but you must use the <strong>system</strong> database to add the crimes data base to your environment.</p>
+</div>
+<div class="paragraph">
+<p><strong>Using the system domain, create the <em>crimes</em> database and then view its nodes and relationships.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18.5: Verify that you can access APOC procecdures (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>The database files have been created, but you must use the <strong>system</strong> database to add the crimes data base to your environment.</p>
+</div>
+<div class="paragraph">
+<p><strong>Using the system domain, create the <em>crimes</em> database and then view its nodes and relationships.</strong></p>
+</div>
+<div class="paragraph">
+<p>Enter the following in the query edit pane:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding"><!--code-->:use system
+CREATE DATABASE crimes
+:use crimes<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The database information should now look as follows:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/Afteradmin-toolImport.png" alt="Afteradmin-toolImport" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 18: Importing data with the import command of neo4j-admin (Summary)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>In this exercise you created a database from a set of CSV files using the import functionality of the neo4j-admin tool.</p>
+</div>
+<div class="paragraph">
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/19.html'>Continue to Exercise 19</a></p>
+</div>
+	</div>
+  </div>
+</slide>
+  </carousel>
+</article>

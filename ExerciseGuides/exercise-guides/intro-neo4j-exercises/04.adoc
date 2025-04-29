@@ -6,7 +6,7 @@ Make sure you have the Movie database, which contains 171 nodes and 253 relation
 
 This is what you should see when you click the database icon:   
    
-image:{guides}/img/InitialDatabase.png[InitialDatabase,200,200]
+image:{guides}/img/InitialDatabase.png[InitialDatabase,width=150]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -65,13 +65,8 @@ RETURN m.title as Movie
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/TomCruiseMovies.png[TomCruiseMovies,width=400]
+image::{guides}/img/TomCruiseMovies.png[TomCruiseMovies,width=500]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 4.2: Retrieve all people that were born in the 70's (Instructions)
 
@@ -91,13 +86,8 @@ RETURN a.name as Name, a.born as `Year Born`
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SeventiesActors.png[SeventiesActors,width=400]
+image::{guides}/img/SeventiesActors.png[SeventiesActors,width=500]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 4.3: Retrieve the actors who acted in the movie _The Matrix_ who were born after 1960 (Instructions)
 
@@ -117,7 +107,7 @@ RETURN a.name as Name, a.born as `Year Born`
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MatrixYoungerActors.png[MatrixYoungerActors,width=400]
+image::{guides}/img/MatrixYoungerActors.png[MatrixYoungerActors,width=500]
 
 ++++
 <div style="clear: both;"></div>
@@ -141,13 +131,7 @@ RETURN m.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=500]
 
 == Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes (Instructions)
 
@@ -160,20 +144,22 @@ image::{guides}/img/MatchMovies2000.png[MatchMovies2000,width=400]
 [source, cypher]
 ----
 MATCH (a)-[rel]->(m)
-WHERE a:Person AND type(rel) = 'WROTE' AND m:Movie
+WHERE a:Person AND rel:WROTE AND m:Movie
+RETURN a.name as Name, m.title as Movie
+----
+
+Or you can specify the labels inline:
+
+[source, cypher]
+----
+MATCH (a:Person)-[rel:WROTE]->(m:Movie)
 RETURN a.name as Name, m.title as Movie
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MatchWritersWhere.png[MatchWritersWhere,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MatchWritersWhere.png[MatchWritersWhere,width=600]
 
 == Exercise 4.6: Retrieve all people in the graph that do not have a property (Instructions)
 
@@ -188,20 +174,14 @@ You will write Cypher queries using a `WHERE` clause to test existence.
 [source, cypher]
 ----
 MATCH (a:Person)
-WHERE NOT exists(a.born)
+WHERE a.born IS NULL
 RETURN a.name as Name
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/NoYearBorn.png[NoYearBorn,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/NoYearBorn.png[NoYearBorn,width=600]
 
 == Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Instructions)
 
@@ -216,20 +196,14 @@ You will write Cypher queries using a `WHERE` clause to test existence.
 [source, cypher]
 ----
 MATCH (a:Person)-[rel]->(m:Movie)
-WHERE exists(rel.rating)
+WHERE rel.rating IS NOT NULL
 RETURN a.name as Name, m.title as Movie, rel.rating as Rating
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RelationshipsWithRatings.png[RelationshipsWithRatings,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/RelationshipsWithRatings.png[RelationshipsWithRatings,width=600]
 
 == Exercise 4.8: Retrieve all actors whose name begins with _James_ (Instructions)
 
@@ -251,13 +225,7 @@ RETURN a.name
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActorsNamedJames.png[ActorsNamedJames,width=400]
-
-The result returned should be:
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ActorsNamedJames.png[ActorsNamedJames,width=600]
 
 == Exercise 4.9: Retrieve all _REVIEWED_ relationships from the graph with filtered results (Instructions)
 
@@ -279,13 +247,7 @@ RETURN  m.title as Movie, r.summary as Review, r.rating as Rating
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ReviewsWithFun.png[ReviewsWithFun,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ReviewsWithFun.png[ReviewsWithFun,width=600]
 
 == Exercise 4.9: Retrieve all _REVIEWED_ relationships from the graph where the _summary_ of the review contains the string _fun_ (Taking it further - optional)
 
@@ -314,11 +276,7 @@ RETURN a.name, m.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirectors,width=400]
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirectors,width=500]
 
 == Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie (Instructions)
 
@@ -338,13 +296,19 @@ RETURN  a1.name as Actor, a2.name as `Actor/Director`, m.title as Movie
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActorsAsDirectors.png[ActorsAsDirectors,width=400]
+image::{guides}/img/ActorsAsDirectors.png[ActorsAsDirectors,width=600]
 
+So in the first query, the requirement is we're finding the entire pattern, and one of the requirements of this pattern is that whoever is matched to a2 has to have also directed the movie.
 
+The movies in question ("That Thing You Do", "Unforgiven", and "Hoffa") only have a single director each.
 
-++++
-<div style="clear: both;"></div>
-++++
+So while we could possibly have a1 match to the actor/director in all these cases, there is no other (a2) person who directed the movie, so the pattern cannot be fulfilled by binding the directors to a1.
+
+Now if there was a second director on each of these movies, and that second director also happened to act in the movie, then we could successfully match on that pattern.
+
+Note also that relationships must be unique within matched patterns, which is why the same person from a1 cannot also be matched to a2, since it would require us to traverse the single :ACTED_IN relationship between them and the movie twice, which isn't allowed.
+
+That is also why in the second query whoever we match to a1 cannot be bound to a2 as well, because the single :ACTED_IN relationship between the person and the movie may only be traversed once per path, and it was already used in the first pattern, so it cannot be used in the second part of the pattern. This has the consequence that a1 and a2 must be separate people.
 
 == Exercise 4.12: Retrieve all movies that were released in a set of years (Instructions)
 
@@ -359,24 +323,18 @@ Next you will perform queries using lists.
 [source, cypher]
 ----
 MATCH (m:Movie)
-WHERE m.released in [2000, 2004, 2008]
+WHERE m.released IN [2000, 2004, 2008]
 RETURN m.title, m.released
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/MoviesInList.png[MoviesInList,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
+image::{guides}/img/MoviesInList.png[MoviesInList,width=500]
 
 == Exercise 4.13: Retrieve the movies that have an actor's role that is the name of the movie (Instructions)
 
-*Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and the actor's name.*
+*Retrieve the movies that have an actor's role that is the name of the movie, return the movie title and actor's name*
 
 == Exercise 4.13: Retrieve the movies that have an actor's role that is the name of the movie (Solution)
 
@@ -392,13 +350,8 @@ RETURN  m.title as Movie, a.name as Actor
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/RoleNameIsMovieName.png[RoleNameIsMovieName,width=400]
+image::{guides}/img/RoleNameIsMovieName.png[RoleNameIsMovieName,width=600]
 
-
-
-++++
-<div style="clear: both;"></div>
-++++
 
 == Exercise 4: Filtering queries using the `WHERE` clause (Summary)
 

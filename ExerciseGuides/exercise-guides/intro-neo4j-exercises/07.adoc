@@ -1,77 +1,113 @@
 = Exercise 7
-== Exercise 7: Working with Cypher data (Preparations)
+
+== Exercise 7: Controlling query processing (Preparations)
 
 Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/InitialDatabase.png[InitialDatabase,200,200, role=left]
+image:{guides}/img/InitialDatabase.png[InitialDatabase,width=150]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
-[source, cypher]
+[source,cypher]
 ----
 include::scripts/initialDatabase.cypher[]
 ----
 
+== Exercise 7: Controlling query processing (Overview)
 
-== Exercise 7: Working with Cypher data (Overview)
+In the previous exercise, you used aggregation to collect data for lists, worked with lists and maps, and also date types.
 
-In the previous exercises, you wrote queries using Cypher syntax for retrieving, filtering, ordering, avoiding duplication, and performing intermediate processing during a query.
-These queries give you a good basis for exploring more types of queries against the _Movie_ database you are working with for this training.
+In this exercise you will write queries that use `WITH` to chain query results and control processing during queries.
+You will write queries that use `WITH` to collect data and then return intermediate results.
+Then, you will use `WITH` to limit the number of results returned.
+Next, you will test the size of a collection, together with the `WITH` clause to control what results are returned.
+Then, you will chain results together to test the size to control the results returned.
+Finally, you will chain results together and unwind a collected list to produce results.
 
-In this exercise, you will write more Cypher statements to work with lists and you will also work with dates.
-First, you will write a query where lists are collected and the results returned are sorted by the size of the list.
-Then you will write a query that collects and unwinds a list.
-Finally, you write a query that performs calculations based upon a date retrieved from the graph.
-
-* *Exercise 7.1*: Collect and use lists.
-* *Exercise 7.2*: Collect a list.
-* *Exercise 7.3*: Unwind a list.
-* *Exercise 7.4*: Perform a calculation with the date type.
+* *Exercise 7.1*: Using `WITH`.
+* *Exercise 7.2*: Using `WITH` to limit results returned.
+* *Exercise 7.3*: Using the size of a retrieval to process the query.
+* *Exercise 7.4*: Testing the size of a list.
+* *Exercise 7.5*: Unwinding a list in the query chain.
 
 Go to the next page to start this exercise.
 
-== Exercise 7.1: Collect and use lists (Instructions)
+== Exercise 7.1: Using `WITH` (Instructions)
 
-*Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Return the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.*
+Next, you will write queries that perform some intermediate processing using the `WITH` clause.
 
-*Hints:* Use two patterns for the query, one for actors, and one for producers.
-Use a `WITH` clause to collect the values for the cast and producers.
-You can use the `size()` function to calculate the size of a list for ordering purposes.
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
 
-== Exercise 7.1: Collect and use lists (Solution)
+== Exercise 7.1: Using `WITH` (Solution)
 
-*Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Return the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.*
+*Retrieve the actors who have acted in exactly five movies, returning the name of the actor, and the list of movies for that actor.*
 
 [source, cypher]
 ----
-MATCH (a:Person)-[:ACTED_IN]->(m:Movie),
-      (m)<-[:PRODUCED]-(p:Person)
-WITH  m, collect(DISTINCT a.name) AS cast, collect(DISTINCT p.name) AS producers
-RETURN DISTINCT m.title, cast, producers
-ORDER BY size(cast)
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, count(m) AS numMovies, collect(m.title) AS movies
+WHERE numMovies = 5
+RETURN a.name, movies
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/UsingLists.png[UsingLists,width=400]
+image::{guides}/img/FiveMovies.png[FiveMovies,width=600]
 
+== Exercise 7.2: Using `WITH` to limit results returned (Instructions)
 
+*Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 7.2: Using `WITH` to limit results returned (Solution)
 
-== Exercise 7.2: Collect a list (Instructions)
+*Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.*
+
+[source, cypher]
+----
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a,  count(a) AS numMovies, collect(m.title) AS movies
+WHERE numMovies <= 3
+RETURN a.name, movies
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/AtMost3MoviesPerActor.png[AtMost3MoviesPerActor,width=600]
+
+== Exercise 7.3: Using the size of a retrieval to process the query (Instructions)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+
+== Exercise 7.3: Use the size of a retrieval to process the query (Solution)
+
+*Retrieve the movies that have at least 2 directors, and optionally the names of people who reviewed the movies.*
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WITH m, size((:Person)-[:DIRECTED]->(m)) AS directors
+WHERE directors >= 2
+OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m)
+RETURN  m.title, p.name
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/TopDirectorsAndReviewers.png[TopDirectorsAndReviewers,width=600]
+
+== Exercise 7.4: Testing the size of a list (Instructions)
 
 *Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies. Return the name of the actor and the list.*
 
 *Hint:* Use a `WITH` clause and test the size of the collected list using the `size()` function.
 
 
-== Exercise 7.2: Collect a list (Solution)
+== Exercise 7.4: Testing the size of a list (Solution)
 
 *Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies. Return the name of the actor and the list.*
 
@@ -85,24 +121,18 @@ RETURN p.name, movies
 
 The result returned should be:
 [.thumb]
-image::{guides}/img/ActorsWithMoreThan5Movies1.png[ActorsWithMoreThan5Movies1,width=400]
-
-
+image::{guides}/img/ActorsWithMoreThan5Movies1.png[ActorsWithMoreThan5Movies1,width=600]
 
 In this view, we are examining the table view where we can see the actor name and the list of movies for each actor.
 The actors should be _Tom Hanks_ and _Keanu Reeves_.
 
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 7.3: Unwind a list (Instructions)
+== Exercise 7.5: Unwinding a list in the query chain (Instructions)
 
 *Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie*
 
 *Hint:* Use two `WITH` clauses and test the size of the collected list using the `size()` function.
 
-== Exercise 7.3: Unwind a list (Solution)
+== Exercise 7.5: Unwinding a list in the query chain (Solution)
 
 *Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie*
 
@@ -118,47 +148,15 @@ RETURN p.name, movie.title
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ActorsWithMoreThan5Movies2.png[ActorsWithMoreThan5Movies2,width=400]
+image::{guides}/img/ActorsWithMoreThan5Movies2.png[ActorsWithMoreThan5Movies2,width=500]
 
+== Exercise 7: Controlling query processing (Summary)
 
-
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 7.4: Perform a calculation with the date type (Instructions)
-
-*Write a query that retrieves all movies that _Tom Hanks_ acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of _Tom_ when the movie was released.*
-
-== Exercise 7.4: Perform a calculation with the date type (Solution)
-
-*Write a query that retrieves all movies that _Tom Hanks_ acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of _Tom_ when the movie was released.*
-
-[source, cypher]
-----
-MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
-WHERE a.name = 'Tom Hanks'
-RETURN  m.title, m.released, date().year  - m.released as yearsAgoReleased, m.released  - a.born AS `age of Tom`
-ORDER BY yearsAgoReleased
-----
-
-The result returned should be:
-
-[.thumb]
-image::{guides}/img/AgeCalculations.png[AgeCalculations,width=400]
-
-
-
-++++
-<div style="clear: both;"></div>
-++++
-
-
-== Exercise 7: Working with Cypher data (Summary)
-
-In this exercise, you wrote more Cypher statements to work with lists and dates.
-First, you wrote a query where lists are collected and the results returned are sorted by the size of the list.
-Then you wrote a query that collects and unwinds a list.
-Finally, you wrote a query that performs calculations based upon a date retrieved from the graph.
+In this exercise you wrote queries that use `WITH` to chain query results and control processing during queries.
+You wrote queries that use `WITH` to collect data and then return intermediate results.
+Then, you used `WITH` to limit the number of results returned.
+Next, you tested size of a collection, together with the `WITH` clause to control what results are returned.
+Then, you chained results together to test the size to control the results returned.
+Finally, you chained results together and unwound a collected list to produce results.
 
 pass:a[<a play-topic='{guides}/08.html'>Continue to Exercise 8</a>]

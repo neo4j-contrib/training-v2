@@ -19,6 +19,9 @@ $GUIDES/run.sh 13.adoc 13.html +1 "$@"
 $GUIDES/run.sh 14.adoc 14.html +1 "$@"
 $GUIDES/run.sh 15.adoc 15.html +1 "$@"
 $GUIDES/run.sh 16.adoc 16.html +1 "$@"
+$GUIDES/run.sh 17.adoc 17.html +1 "$@"
+$GUIDES/run.sh 18.adoc 18.html +1 "$@"
+$GUIDES/run.sh 19.adoc 19.html +1 "$@"
 }
 
 if [ "$1" == "publish" ]; then

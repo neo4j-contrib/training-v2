@@ -1,0 +1,138 @@
+= Exercise 1
+:icons: font
+
+== Exercise 1: Retrieving Nodes (Preparations)
+
+Make sure you have the Movie database, which contains 171 nodes and 253 relationships.
+
+This is what you should see when you click the database icon image:{guides}/img/database-icon.png[].
+
+image::{guides}/img/InitialDatabase.png[InitialDatabase,150,200, role=left]
+
+If your database does not have this number of nodes and relationships, you can use the script below to reset it:
+
+[source, cypher]
+----
+include::scripts/initialDatabase.cypher[]
+----
+
+== Exercise 1: Retrieving Nodes (Overview)
+
+In this exercise, you will perform some basic retrievals from the Movie database.
+
+* *Exercise 1.1*: Retrieve all nodes from the database.
+* *Exercise 1.2*: Examine the data model for the graph.
+* *Exercise 1.3*: Retrieve all _Person_ nodes.
+* *Exercise 1.4*: Retrieve all _Movie_ nodes.
+
+Go to the next page to start this exercise.
+
+== Exercise 1.1: Retrieve all nodes from the database (Instructions)
+
+*Write a query to retrieve _all_ nodes from the database.*
+
+*Hints:*
+. Write the query in the query pane at the top of Neo4j Browser.
+. Click the _Run_ button image:{guides}/img/run-button.png[] in order to execute the code.
+
+== Exercise 1.1: Retrieve all nodes from the database (Solution)
+
+*Write a query to retrieve _all_ nodes from the database.*
+
+. Click the code block below where it appears in query pane at the top of Neo4j Browser.
+. Click the _Run_ button image:{guides}/img/run-button.png[] in order to execute the code.
+
+[source, cypher]
+----
+MATCH (n) RETURN n 
+----
+
+You should now see all nodes in the graph in the result pane.
+In this query, _n_ is a variable, which is a container that holds the result.
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ReturnAllNodes.png[ReturnAllNodes,width=250]
+
+*Notes:* 
+
+* If the nodes displayed are not connected, make sure that _Connect result nodes_ is selected in your Neo4j Browser settings.
+* If no nodes are returned, then perhaps you did not load the _Movie_ database (see _Preparations_).
+
+
+== Exercise 1.2: Examine the data model of the graph (Instructions)
+
+*Write a query to display the _schema_ of your database.*
+
+
+== Exercise 1.2: Examine the _schema_ of your database (Solution)
+
+*Write a query to display the _schema_ of your database.*
+
+[source, cypher]
+----
+CALL db.schema() 
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/call_db.schema.png[call_db.schema,width=500]
+
+
+== Exercise 1.3: Retrieve all _Person_ nodes (Instructions)
+
+*Write a query to retrieve all _Person_ nodes.*
+
+== Exercise 1.3: Retrieve all _Person_ nodes (Solution)
+
+*Write a query to retrieve all _Person_ nodes.*
+
+[source, cypher]
+----
+MATCH (p:Person) RETURN p 
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/PersonNodes.png[PersonNodes,width=600]
+
+Here we use _p_ as the variable representing all nodes retrieved and what is returned for the query.
+Notice also, that very few relationships are displayed.
+That is because most _Person_ nodes have no relationships with other _Person_ nodes.
+
+
+== Exercise 1.4: Retrieve all _Movie_ nodes (Instructions)
+
+*Write a query to retrieve all _Movie_ nodes.*
+
+== Exercise 1.4: Retrieve all _Movie_ nodes (Solution)
+
+*Write a query to retrieve all _Movie_ nodes.*
+
+[source, cypher]
+----
+MATCH (m:Movie) RETURN m
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/MovieNodes.png[MovieNodes,width=600]
+
+
+Here we use _m_ as the variable representing all nodes retrieved and what is returned for the query.
+Notice also, that no relationships are displayed.
+That is because a _Movie_ node has no relationships with another _Movie_ node.
+
+
+== Exercise 1: Retrieving Nodes (Summary)
+
+
+In this exercise, you performed some basic retrievals from the Movie database.
+You also called the procedure to examine the schema of the graph.
+
+
+pass:a[<a play-topic='{guides}/02.html'>Continue to Exercise 2</a>]

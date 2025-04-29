@@ -1,0 +1,142 @@
+= Exercise 18
+:imagedir: ../images
+
+== Exercise 18: Importing data with the import command of neo4j-admin (Preparations)
+
+*Note:* If you are using Neo4j Sandbox or Neo4j Aura, you cannot perform the steps of this exercise.
+
+For this exercise, you will be creating a new database with the neo4j-admin tool.
+Make sure that the database instance is running.
+
+== Exercise 18: Importing data with the import command of neo4j-admin (Overview)
+
+In this exercise you create a database from a set of CSV files using the import functionality of the neo4j-admin tool.
+
+* *Exercise 18.1*: Place the CSV files in the *import* folder.
+* *Exercise 18.2*: Examine the CSV files.
+* *Exercise 18.3*: Open a terminal window for the Neo4j instance.
+* *Exercise 18.4*: Use the neo4j-admin tool to import the CSV files.
+* *Exercise 18.5*: View the database after import.
+
+Go to the next page to start this exercise.
+
+== Exercise 18.1: Place the CSV files in the *import* folder (Instructions/Solution)
+
+. You must have downloaded the following ZIP file containing the CSV files:
++
+
+http://data.neo4j.com/v4.0-intro-neo4j/crimes-dataset.zip
+
+*Hint*: use `curl -O` or `wget`, or simply use the Web browser to download.
+
+. In Neo4j Desktop for the project's database you are using, select *Manage > Open Folder*.
+. Unzip the contents of the *crimes-dataset.zip* to the *import* folder. The *import* folder should contain six CSV files.
+
+[.thumb]
+image::{guides}/img/CSVFilesInImportFolder.png[CSVFilesInImportFolder,width=600]
+
+== Exercise 18.2: Examine the CSV files (Instructions/Solution)
+
+*In a text editor of your choice, examine the CSV files.
+Make sure you understand the headers and how they will be used for the import.*
+
+
+== Exercise 18.3: Open a terminal window for the Neo4j instance (Instructions/Solution)
+
+In Neo4j Desktop for the project you are using, do the following:
+
+. For the project's database that should be running, select *Manage > Open Terminal*.
+. Navigate to the *import* folder.
+
+[.thumb]
+image::{guides}/img/TerminalImport.png[TerminalImport,width=500]
+
+== Exercise 18.4: Use the neo4j-admin tool to import the CSV files (Instructions)
+
+*In the terminal window you just opened, use neo4j-admin tool to import the CSV files using these guidelines:*
+
+----
+             --database crimes
+             --nodes crimes_header.csv,crimes.csv
+             --nodes beats.csv
+             --nodes=PrimaryType=primaryTypes.csv
+             --relationships crimesBeats.csv
+             --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv
+             --trim-strings=true
+----
+
+== Exercise 18.4: Use the neo4j-admin tool to import the CSV files (Solution)
+
+*In the terminal window you just opened, use neo4j-admin tool to import the CSV files using these guidelines:*
+
+----
+             --database crimes
+             --nodes crimes_header.csv,crimes.csv
+             --nodes beats.csv
+             --nodes=PrimaryType=primaryTypes.csv
+             --relationships crimesBeats.csv
+             --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv
+             --trim-strings=true
+----
+
+This is what you should enter (ensure there are no newline characters):
+
+[source]
+----
+../bin/neo4j-admin import --database crimes --nodes crimes_header.csv,crimes.csv --nodes beats.csv --nodes=PrimaryType=primaryTypes.csv -
+-relationships crimesBeats.csv --relationships=PRIMARY_TYPE=crimesPrimaryTypes.csv --trim-strings=true > import.out
+----
+
+*Note*: Depending on your system, it could take up to 10 minutes to load this data.
+
+This is what you should see in the terminal window if all goes well:
+
+[.thumb]
+image::{guides}/img/adminImportDone.png[adminImportDone,width=500]
+
+Examine the contents of *import.out*. Did it execute without error?
+
+Here is what the beginning of *import.out* file should look like:
+
+[.thumb]
+image::{guides}/img/importout1.png[importout1,width=400]
+
+Here is what the end of *import.out* file should look like:
+
+[.thumb]
+image::{guides}/img/importout2.png[importout2,width=400]
+
+== Exercise 18.5: View the database after import (Instructions)
+
+The database files have been created, but you must use the *system* database to add the crimes data base to your environment.
+
+*Using the system domain, create the _crimes_ database and then view its nodes and relationships.*
+
+== Exercise 18.5: Verify that you can access APOC procecdures (Solution)
+
+The database files have been created, but you must use the *system* database to add the crimes data base to your environment.
+
+*Using the system domain, create the _crimes_ database and then view its nodes and relationships.*
+
+Enter the following in the query edit pane:
+
+[source]
+----
+:use system
+CREATE DATABASE crimes
+:use crimes
+----
+
+The database information should now look as follows:
+
+[.thumb]
+image::{guides}/img/Afteradmin-toolImport.png[Afteradmin-toolImport,width=600]
+
+
+== Exercise 18: Importing data with the import command of neo4j-admin (Summary)
+
+In this exercise you created a database from a set of CSV files using the import functionality of the neo4j-admin tool.
+
+ifndef::backend-pdf[]
+pass:a[<a play-topic='{guides}/19.html'>Continue to Exercise 19</a>]
+endif::[]

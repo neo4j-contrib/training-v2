@@ -1,0 +1,140 @@
+= Exercise 19
+:imagedir: ../images
+
+== Exercise 19: Importing data from an RDBMS using an application (Preparations)
+
+If you are using Neo4j Desktop:
+
+You will start with a new database named products. Execute these commands in Neo4j Browser to create the database.
+[source, cypher]
+----
+:USE system
+CREATE DATABASE products
+:USE products
+----
+
+If you are using Neo4j Sandbox or Neo4j Aura, you will need to:
+
+. Drop all indexes and constraints in the graph.
+. Execute `MATCH (n) DETACH DELETE n`
+
+== Exercise 19: Importing data with an application (Overview)
+
+In this exercise you install the sdk and groovy frameworks for running the java-based application.
+Next, you run the application that connects to the northwind RDBMS and copies data into the Neo4j database.
+Finally, you confirm that the data has been created in the Neo4j database.
+
+* *Exercise 19.1*: Install *sdkman*.
+* *Exercise 19.2*: Install *groovy*.
+* *Exercise 19.3*: Modify the groovy file to use the Neo4j RDBMS credentials.
+* *Exercise 19.4*: Run the application to import the data.
+* *Exercise 19.5*: View the database after import.
+
+Go to the next page to start this exercise.
+
+== Exercise 19.1: Install sdk (Instructions/Solution)
+
+If you have already installed *sdkman* on your system, skip this step.
+
+In a terminal window on OS X or Linux, follow these steps to install *sdk* on your system:
+
+. Type: curl -s "https://get.sdkman.io" | bash
+. Type: source "$HOME/.sdkman/bin/sdkman-init.sh"
+. Verify the installation by typing: *sdk help*.
+
+*Note*: If you have a Windows system, you will need to install sdkman using a number of steps that are shown in this video:
+        https://www.youtube.com/watch?v=hFiFQcfT9U0&feature=youtu.be
+
+[.thumb]
+image::{guides}/img/sdkInstalled.png[sdkInstalled,width=500]
+
+== Exercise 19.2: Install groovy (Instructions/Solution)
+
+If you have already installed *groovy* on your system, skip this step.
+
+In the same terminal window, follow these steps to install groovy on your system:
+
+. Type: sdk install groovy
+. Verify the installation by typing: groovy -h
+
+[.thumb]
+image::{guides}/img/groovyInstalled.png[groovyInstalled,width=500]
+
+== Exercise 19.3: Modify the groovy file to use the Neo4j RDBMS credentials (Instructions/Solution)
+
+. Here is the *import.groovy* file that you should place somewhere on your system:
++
+[source]
+----
+@GrabConfig( systemClassLoader=true )
+@Grapes([
+  @Grab(group='org.postgresql', module='postgresql', version='42.0.0'),
+  @Grab(group='org.neo4j.driver', module='neo4j-java-driver', version='4.0.0')
+])
+
+import org.neo4j.driver.*;
+import java.sql.*;
+Class.forName("org.postgresql.Driver");
+
+table = "products";
+JDBC = [url:"jdbc:postgresql://db-examples.cmlvojdj5cci.us-east-1.rds.amazonaws.com/northwind", user:"n4examples", pass:"36gdOVABr3Ex"];
+NEO4J=[url:"bolt://localhost:7687", user:"neo4j",pass:"training-helps"];
+
+// see https://neo4j.com/docs/api/java-driver/current/
+GraphDatabase.driver(NEO4J.url, AuthTokens.basic(NEO4J.user, NEO4J.pass)).withCloseable{ neo4j ->
+DriverManager.getConnection(JDBC.url, JDBC.user, JDBC.pass).withCloseable { rdbms ->
+
+stmt = rdbms.prepareStatement("SELECT * FROM ${table}");
+
+neo4j.session(SessionConfig.builder().withDatabase("products").build()).withCloseable{ session ->
+  session.writeTransaction { tx ->
+   stmt.executeQuery().withCloseable{ rs ->
+     meta = rs.getMetaData();
+     cols = meta.getColumnCount();
+     while (rs.next()) {
+        params = [:];
+        for (int i=0;i<cols;i++) {
+           params[meta.getColumnName(i+1)]=rs.getObject(i+1);
+        }
+        println(params);
+        tx.run("CREATE (n:${table}) SET n += \$props", Values.value([props:params])).consume();
+     }
+   }
+}}}}
+----
+
+++++
+<div style="clear: both;"></div>
+
+++++
+
+. Modify the NEO4J value to match the credentials you use to connect to the Neo4j database.
+
+== Exercise 19.4: Run the application to load the data (Instructions/Solution)
+
+In the same terminal window:
+
+. Navigate to the folder where you placed the *import.groovy* file.
+
+. Type: groovy import.groovy
+
+You should see something like this:
+
+[.thumb]
+image::{guides}/img/RunGroovy.png[RunGroovy,width=500]
+
+== Exercise 19.5: View the database after import (Instructions/Solution)
+
+In Neo4j Browser, confirm that the database was populated.
+
+You should see this in Neo4j Browser:
+
+[.thumb]
+image::{guides}/img/AfterAppImport.png[AfterAppImport,width=150]
+
+== Exercise 19: Importing data from an RDBMS using an application (Summary)
+
+In this exercise you install the sdk and groovy frameworks for running the java-based application.
+Next, you run the application that connects to the northwind RDBMS and copies data into the Neo4j database.
+Finally, you confirm that the data has been created in the Neo4j database.
+

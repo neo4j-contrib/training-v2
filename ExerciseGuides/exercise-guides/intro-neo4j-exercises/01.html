@@ -57,12 +57,10 @@
 <p>Make sure you have the Movie database, which contains 171 nodes and 253 relationships.</p>
 </div>
 <div class="paragraph">
-<p>This is what you should see when you click the database icon <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/database-icon.png" alt="database icon"></span>.</p>
+<p>This is what you should see when you click the database icon:</p>
 </div>
-<div class="imageblock left">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150" height="200">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150"></span></p>
 </div>
 <div class="paragraph">
 <p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
@@ -624,10 +622,15 @@ CREATE
       <div class="paragraph">
 <p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
 </div>
-<div class="paragraph">
-<p><strong>Hints:</strong>
-. Write the query in the query pane at the top of Neo4j Browser.
-. Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Write the query in the query pane at the top of Neo4j Browser.</p>
+</li>
+<li>
+<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
+</li>
+</ol>
 </div>
 	</div>
   </div>
@@ -643,16 +646,6 @@ CREATE
       <div class="paragraph">
 <p><strong>Write a query to retrieve <em>all</em> nodes from the database.</strong></p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click the code block below where it appears in query pane at the top of Neo4j Browser.</p>
-</li>
-<li>
-<p>Click the <em>Run</em> button <span class="image"><img src="https://guides.neo4j.com/intro-neo4j-exercises/img/run-button.png" alt="run button"></span> in order to execute the code.</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (n) RETURN n<!--/code--></pre>
@@ -667,9 +660,10 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ReturnAllNodes.png" alt="ReturnAllNodes" width="250">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ReturnAllNode.png" alt="ReturnAllNode" width="250">
 </div>
 </div>
+<div style="clear: both;"></div>
 <div class="paragraph">
 <p><strong>Notes:</strong></p>
 </div>
@@ -691,7 +685,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the data model of the graph (Instructions)</h3>
+    <h3>Exercise 1.2: Examine the data model for the graph (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -705,7 +699,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 1.2: Examine the <em>schema</em> of your database (Solution)</h3>
+    <h3>Exercise 1.2: Examine the data model for the graph (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -713,7 +707,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema()<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.schema.visualization()<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,7 +715,7 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="500">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/call_db.schema.png" alt="call_db.schema" width="600">
 </div>
 </div>
 	</div>
@@ -762,12 +756,13 @@ In this query, <em>n</em> is a variable, which is a container that holds the res
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/PersonNodes.png" alt="PersonNodes" width="600">
 </div>
 </div>
+<div style="clear: both;"></div>
 <div class="paragraph">
 <p>Here we use <em>p</em> as the variable representing all nodes retrieved and what is returned for the query.
-Notice also, that very few relationships are displayed.
+Notice also, that no relationships are displayed.
 That is because most <em>Person</em> nodes have no relationships with other <em>Person</em> nodes.</p>
 </div>
 	</div>
@@ -808,9 +803,10 @@ That is because most <em>Person</em> nodes have no relationships with other <em>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/MovieNodes.png" alt="MovieNodes" width="600">
 </div>
 </div>
+<div style="clear: both;"></div>
 <div class="paragraph">
 <p>Here we use <em>m</em> as the variable representing all nodes retrieved and what is returned for the query.
 Notice also, that no relationships are displayed.
@@ -829,10 +825,10 @@ That is because a <em>Movie</em> node has no relationships with another <em>Movi
     <div>
       <div class="paragraph">
 <p>In this exercise, you performed some basic retrievals from the Movie database.
-You also called the procedure to examine the schema of the graph.</p>
+You also called the method to examine the schema of the graph.</p>
 </div>
 <div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/02.html'>Continue to Exercise 2</a></p>
 </div>
 	</div>
   </div>

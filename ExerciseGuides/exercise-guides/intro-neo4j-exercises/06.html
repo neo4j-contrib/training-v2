@@ -50,7 +50,7 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6: Controlling results returned (Preparations)</h3>
+    <h3>Exercise 6: Working with Cypher data (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
@@ -59,10 +59,8 @@
 <div class="paragraph">
 <p>This is what you should see when you click the database icon:</p>
 </div>
-<div class="imageblock left">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="200" height="200">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/InitialDatabase.png" alt="InitialDatabase" width="150"></span></p>
 </div>
 <div class="paragraph">
 <p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
@@ -585,37 +583,37 @@ CREATE
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6: Controlling results returned (Overview)</h3>
+    <h3>Exercise 6: Working with Cypher data (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>In the previous exercise, you wrote queries to perform additional filtering, count and collect results, as well as to perform some intermediate processing during the query.</p>
+<p>In the previous exercise, you worked with various patterns in your queries as well as returning optional rows.</p>
 </div>
 <div class="paragraph">
-<p>In this exercise, you will write queries where you can customize what results are returned and if they will be sorted.
-First, you will write a query that eliminates duplication of rows returned.
-Then you write a query that sorts the data returned.
-Finally, you will write a query to limit the number of results returned.</p>
+<p>In this exercise, you will collect results during a query to build a list.
+Then, you count rows retrieved during the query and use a combination of collecting data and counting data.
+Next, you will use map projection to return a custom map.
+Finally, you will perform a date calculation.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 6.1</strong>: Execute a query that returns duplicate records.</p>
+<p><strong>Exercise 6.1</strong>: Retrieve nodes and collect a list of movie titles.</p>
 </li>
 <li>
-<p><strong>Exercise 6.2</strong>: Modify the query to eliminate duplication.</p>
+<p><strong>Exercise 6.2</strong>: Retrieve nodes and collect a list of actors.</p>
 </li>
 <li>
-<p><strong>Exercise 6.3</strong>: Modify the query to eliminate more duplication.</p>
+<p><strong>Exercise 6.3</strong>: Collect and count data.</p>
 </li>
 <li>
-<p><strong>Exercise 6.4</strong>: Sort results returned.</p>
+<p><strong>Exercise 6.4</strong>: Collect and count more data.</p>
 </li>
 <li>
-<p><strong>Exercise 6.5</strong>: Retrieve the top 5 ratings and their associated movies.</p>
+<p><strong>Exercise 6.5</strong>: Return movies as a custom map using map projection.</p>
 </li>
 <li>
-<p><strong>Exercise 6.6</strong>: Retrieve all actors that have not appeared in more than 3 movies.</p>
+<p><strong>Exercise 6.6</strong>: Perform a calculation with the date type.</p>
 </li>
 </ul>
 </div>
@@ -630,11 +628,14 @@ Finally, you will write a query to limit the number of results returned.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.1: Execute a query that returns duplicate records. (Instructions)</h3>
+    <h3>Exercise 6.1: Retrieve nodes and collect a list of movie titles (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.</strong></p>
+<p>Next, you will perform queries where you collect the results into a list.</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve actors and the movies they have acted in, returning each actor&#8217;s name and the list of movies they acted in.</strong></p>
 </div>
 	</div>
   </div>
@@ -644,17 +645,189 @@ Finally, you will write a query to limit the number of results returned.</p>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.1: Execute a query that returns duplicate records. (Solution)</h3>
+    <h3>Exercise 6.1: Retrieve nodes and collect a list of movie titles (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>You want to know what actors acted in movies in the decade starting with the year 1990. First write a query to retrieve all actors that acted in movies during the 1990s, where you return the released date, the movie title, and the collected actor names for the movie. For now do not worry about duplication.</strong></p>
+<p><strong>Retrieve actors and the movies they have acted in, returning each actor&#8217;s name and the list of movies they acted in.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)
+RETURN p.name as actor, collect(m.title) AS `movie list`<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/ActorMovies.png" alt="ActorMovies" width="500">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.2: Retrieve nodes and collect a list of actors (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all movies that <em>Tom Cruise</em> has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that <em>Tom Cruise</em> worked with.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.2: Retrieve nodes and collect a list of actors (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all movies that <em>Tom Cruise</em> has acted in and the co-actors that acted in the same movie, returning the movie title and the list of co-actors that <em>Tom Cruise</em> worked with.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:ACTED_IN]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(p2:Person)
+WHERE p.name ='Tom Cruise'
+RETURN m.title as movie, collect(p2.name) AS `co-actors`<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/TomCruiseCoActors.png" alt="TomCruiseCoActors" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.3: Collect and count data (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p>Next, you will count results retrieved.</p>
+</div>
+<div class="paragraph">
+<p><strong>Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.3: Collect and count data (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all people who reviewed a movie, returning the list of reviewers and how many reviewers reviewed the movie.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)-[:REVIEWED]-&gt;(m:Movie)
+RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/CountReviews.png" alt="CountReviews" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.4: Collect and count more data (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.4: Collect and count more data (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Retrieve all directors, their movies, and people who acted in the movies, returning the name of the director, the number of actors the director has worked with, and the list of actors.</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (d:Person)-[:DIRECTED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
+RETURN d.name AS director, count(a) AS `number actors` , collect(a.name) AS `actors worked with`<!--/code--></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/CountActorsWhoWorkedWithDirectors.png" alt="CountActorsWhoWorkedWithDirectors" width="600">
+</div>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.5: Return movies as a custom map using map projection (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query that returns a map of all movies that Tom Hanks acted in. The map returned only contains the title of the movie and the year released for the movie.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.5: Return movies as a custom map using map projection (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query that returns a map of all movies that Tom Hanks acted in. The map returned only contains the title of the movie and the year released for the movie.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
-WHERE m.released &gt;= 1990 AND m.released &lt; 2000
-RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
+WHERE a.name = 'Tom Hanks'
+RETURN  m {.title, .released}<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -662,23 +835,8 @@ RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies1.png" alt="NinetiesMovies1" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/CustomMap.png" alt="CustomMap" width="500">
 </div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.2: Modify the query to eliminate duplication (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.</strong></p>
 </div>
 	</div>
   </div>
@@ -688,17 +846,31 @@ RETURN DISTINCT m.released, m.title, collect(a.name)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.2: Modify the query to eliminate duplication (Solution)</h3>
+    <h3>Exercise 6.6: Perform a calculation with the date type (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>The results returned from the previous query include multiple rows for a movie released value. Next, modify the query so that the released date records returned are not duplicated. To implement this, you must add the collection of the movie titles to the results returned.</strong></p>
+<p><strong>Write a query that retrieves all movies that <em>Tom Hanks</em> acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of <em>Tom</em> when the movie was released.</strong></p>
+</div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 6.6: Perform a calculation with the date type (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Write a query that retrieves all movies that <em>Tom Hanks</em> acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of <em>Tom</em> when the movie was released.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
-WHERE m.released &gt;= 1990 AND m.released &lt; 2000
-RETURN  m.released, collect(m.title), collect(a.name)<!--/code--></pre>
+WHERE a.name = 'Tom Hanks'
+RETURN  m.title, m.released, date().year  - m.released as yearsAgoReleased, m.released  - a.born AS `age of Tom`<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -706,23 +878,8 @@ RETURN  m.released, collect(m.title), collect(a.name)<!--/code--></pre>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies2.png" alt="NinetiesMovies2" width="400">
+<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AgeCalculations.png" alt="AgeCalculations" width="600">
 </div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.3: Modify the query to eliminate more duplication. (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.</strong></p>
 </div>
 	</div>
   </div>
@@ -732,184 +889,17 @@ RETURN  m.released, collect(m.title), collect(a.name)<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 6.3: Modify the query to eliminate more duplication. (Solution)</h3>
+    <h3>Exercise 6: Working with Cypher data (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>The results returned from the previous query returns the collection of movie titles with duplicates. That is because there are multiple actors per released year. Next, modify the query so that there is no duplication of the movies listed for a year.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
-WHERE m.released &gt;= 1990 AND m.released &lt; 2000
-RETURN  m.released, collect(DISTINCT m.title), collect(a.name)<!--/code--></pre>
-</div>
+<p>In this exercise, you collected results during a query to build a list.
+Then, you counted rows retrieved during the query and used a combination of collecting data and counting data.
+Next, you used map projection to return a custom map.
+Finally, you performed a date calculation.</p>
 </div>
 <div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/NinetiesMovies3.png" alt="NinetiesMovies3" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.4: Sort results returned (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.4: Sort results returned (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the query that you just wrote to order the results returned so that the more recent years are displayed first.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
-WHERE m.released &gt;= 1990 AND m.released &lt; 2000
-RETURN  m.released, collect(DISTINCT m.title), collect(a.name)
-ORDER BY m.released DESC<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/OrderBy.png" alt="OrderBy" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.5: Retrieve the top 5 ratings and their associated movies (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Next you will limit the number of results returned.</p>
-</div>
-<div class="paragraph">
-<p><strong>Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.5: Retrieve the top 5 ratings and their associated movies (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve the top 5 ratings and their associated movies, returning the movie title and the rating.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (:Person)-[r:REVIEWED]-&gt;(m:Movie)
-RETURN  m.title AS movie, r.rating AS rating
-ORDER BY r.rating DESC LIMIT 5<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/Limit1.png" alt="Limit1" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Retrieve all actors that have not appeared in more than 3 movies. Return their names and list of movies.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (a:Person)-[:ACTED_IN]-&gt;(m:Movie)
-WITH  a,  count(a) AS numMovies, collect(m.title) AS movies
-WHERE numMovies &lt;= 3
-RETURN a.name, movies<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AtMost3MoviesPerActor.png" alt="AtMost3MoviesPerActor" width="400">
-</div>
-</div>
-<div style="clear: both;"></div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 6: Controlling results returned (Summary)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>In this exercise, you wrote queries where you can customize what results are returned and if they will be sorted.
-First, you wrote a query that eliminates duplication of rows returned.
-Then you wrote a query that sorts the data returned.
-Finally, you wrote a query to limit the number of results returned.</p>
-</div>
-<div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/07.html'>Continue to Exercise 7</a></p>
+<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/07.html'>Continue to Exercise 7</a></p>
 </div>
 	</div>
   </div>

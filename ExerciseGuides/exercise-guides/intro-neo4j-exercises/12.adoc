@@ -1,12 +1,12 @@
 = Exercise 12
-== Exercise 12: Using Cypher parameters (Preparations)
 
+== Exercise 12: Merging Data in the Graph (Preparations)
 
-Make sure you have the Movie database, which contains 173 nodes and 257 relationships.
+Make sure you have the Movie database, which contains 172 nodes and 253 relationships.
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise11.png[After exercise 11,200,200, role=left]
+image::{guides}/img/AfterExercise11.png[AfterExercise11,width=150]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -15,195 +15,392 @@ If your database does not have this number of nodes and relationships, you can u
 include::scripts/AfterExercise11.cypher[]
 ----
 
+== Exercise 12: Merging Data in the Graph (Overview)
 
-== Exercise 12: Using Cypher parameters (Overview)
+You have gained experience creating, modifying, and deleting nodes and relationships.
 
-You have gained experience with the basics of accessing a Neo4j graph by querying it, creating nodes and relationships, and updating the graph.
+In this exercise you will add and modify nodes and relationships in the graph by merging data.
+In some parts of the exercise, you will be creating duplicate nodes and relationships.
+You will see how in your real application, you should take care not to create duplicate nodes and relationships in your graphs.
 
-In this exercise you enhance Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.
-
-* *Exercise 12.1*: Execute a Cypher query as described.
-* *Exercise 12.2*: Add a parameter to your session.
-* *Exercise 12.3*: Modify the Cypher query you just wrote to use a parameter.
-* *Exercise 12.4*: Modify parameter value and retest your query.
-* *Exercise 12.5*: Add a different parameter to your session.
-* *Exercise 12.6*: Modify the query you wrote previously to use the second parameter.
-* *Exercise 12.7*: Modify the second parameter value and retest your query.
+* *Exercise 12.1*: Use `MERGE` to create a _Movie_ node.
+* *Exercise 12.2*: Use `MERGE` to update a node.
+* *Exercise 12.3*: Use `MERGE` to create a _Production_ node.
+* *Exercise 12.4*: Find all labels for nodes with a property value.
+* *Exercise 12.5*: Use `MERGE` to update a _Production_ node.
+* *Exercise 12.6*: Use `MERGE` to add a label to a node.
+* *Exercise 12.7*: Use `MERGE` to create two nodes and a single relationship.
+* *Exercise 12.8*: Use the same `MERGE` statement to attempt to create two nodes and a single relationship.
+* *Exercise 12.9*: Find the correct _Person_ node to delete.
+* *Exercise 12.10*: Delete this _Person_ node, along with its relationships.
+* *Exercise 12.11*: Find the correct _Forrest Gump_ node to delete.
+* *Exercise 12.12*: Delete the _Forrest Gump_ node.
+* *Exercise 12.13*: Use `MERGE` to create the _DIRECTED_ relationship.
+* *Exercise 12.14*: Use `MERGE` to create the _ACTED_IN_ relationship.
+* *Exercise 12.15*: Modify the _role_ relationship property.
+* *Exercise 12.16*: Verify the update.
 
 Go to the next page to start this exercise.
 
-== Exercise 12.1: Execute a Cypher query as described (Instructions)
+== Exercise 12.1: Use `MERGE` to create a _Movie_ node (Instructions)
 
-Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph.
-You will be exploring the graph for people who reviewed movies and the actors in these movies.
-You do not want to hard-code the value for _released_ for a _Movie_node in your query.
+In this Part of the exercise, you will again create the movie, _Forrest Gump_, update the node, and then merge the data in the graph to create another node with a different label.
 
-*Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.*
+*Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_.*
 
-== Exercise 12.1: Execute a Cypher query as described (Solution)
+== Exercise 12.1: Use `MERGE` to create a _Movie_ node (Solution)
 
-*Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.*
+*Use `MERGE` to create (`ON CREATE`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If created,  set the _released_ property to  _1994_.*
 
 [source, cypher]
 ----
-MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+MERGE (m:Movie {title: 'Forrest Gump'})
+ON CREATE SET m.released = 1994
+RETURN m
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/InitialQueryWithoutParms.png[InitialQueryWithoutParms,width=600]
+image::{guides}/img/CreateForrestGump2.png[CreateForrestGump2,width=600]
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 12.2: Use `MERGE` to update a node (Instructions)
 
-== Exercise 12.2: Add a parameter to your session (Instructions)
+*Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to "Life is like a box of chocolates...you never know what you're gonna get.".*
 
-*Add a parameter named _year_ to your session with a value of _2000_.*
+== Exercise 12.2: Use `MERGE` to update a node (Solution)
 
-== Exercise 12.2: Add a parameter to your session (Solution)
-
-*Add a parameter named _year_ to your session with a value of _2000_.*
+*Use `MERGE` to update (`ON MATCH`) a node of type _Movie_ with the _title_ property, _Forrest Gump_. If found, set the tagline property to "Life is like a box of chocolates...you never know what you're gonna get.".*
 
 [source, cypher]
 ----
-:param year => 2000
+MERGE (m:Movie {title: 'Forrest Gump'})
+ON CREATE SET m.released = 1994
+ON MATCH SET m.tagline = "Life is like a box of chocolates...you never know what you're gonna get."
+RETURN m
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetYearParam.png[SetYearParam,width=400]
+image::{guides}/img/MergeForrestGump.png[MergeForrestGump,width=600]
 
+== Exercise 12.3: Use `MERGE` to create a _Production_ node (Instructions)
 
+*Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 12.3: Use `MERGE` to create a _Production_ node (Solution)
 
-== Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Instructions)
-
-*Modify the Cypher query you just wrote to filter by the _year_ parameter.*
-
-== Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Solution)
-
-*Modify the Cypher query you just wrote to filter by the _year_ parameter.*
+*Use `MERGE` to create (`ON CREATE`) a node of type _Production_ with the _title_ property, _Forrest Gump_. If created, set the property _year_ to the value _1994_.*
 
 [source, cypher]
 ----
-MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+MERGE (p:Production {title: 'Forrest Gump'})
+ON CREATE SET p.year = 1994
+RETURN p
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/UsingOneParameter.png[UsingOneParameter,width=600]
+image::{guides}/img/MergeProduction.png[MergeProduction,width=600]
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 12.4: Find all labels for nodes with a property value (Instructions)
 
-== Exercise 12.4: Modify parameter value and retest your query (Instructions)
+*Query the graph to find labels for nodes with the title property, _Forrest Gump_.*
 
-*Modify the _year_ parameter to be a different value, _2006_, and retest your query.*
+== Exercise 12.4: Find all labels for nodes with a property value (Solution)
 
-== Exercise 12.4: Modify parameter value and retest your query (Solution)
-
-*Modify the _year_ parameter to be a different value, _2006_, and retest your query.*
+*Query the graph to find labels for nodes with the title property, _Forrest Gump_.*
 
 [source, cypher]
 ----
-:param year => 2006
-----
-
-The result returned  with the same query should be:
-
-[.thumb]
-image::{guides}/img/UsingOneParameter2.png[UsingOneParameter2,width=600]
-
-++++
-<div style="clear: both;"></div>
-++++
-
-== Exercise 12.5: Add a different parameter to your session (Instructions)
-
-Suppose that you want to parameterize both the values in your query for _released_ for a _Movie_node and the _rating_ value for the _REVIEWED_ relationship.
-
-*Add a parameter named _ratingValue_ to your session with a value of _65_.*
-
-== Exercise 12.5: Add a different parameter to your session (Solution)
-
-*Add a parameter named _ratingValue_ to your session with a value of _65_.*
-
-[source, cypher]
-----
-:params {year: 2006, ratingValue: 65}
+MATCH (m)
+WHERE m.title = 'Forrest Gump'
+RETURN  labels(m)
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/SetTwoParameters.png[SetTwoParameters,width=400]
+image::{guides}/img/AllForrestGumps.png[AllForrestGumps,width=600]
 
+== Exercise 12.5: Use `MERGE` to update a _Production_ node (Instructions)
 
+*Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 12.5: Use `MERGE` to update a _Production_ node (Solution)
 
-== Exercise 12.6: Modify the query you wrote previously to use the second parameter (Instructions)
-
-*Modify the query you wrote previously to also filter the result returned by  the _rating_ for the movie.* 
-
-== Exercise 12.6: Modify the query you wrote previously to use the second parameter (Solution)
-
-*Modify the query you wrote previously to also filter the result returned by  the _rating_ for the movie.* 
+*Use `MERGE` to update (`ON MATCH`) the existing _Production_ node for _Forrest Gump_ to add the _company_ property with a value of _Paramount Pictures_.*
 
 [source, cypher]
 ----
-MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year AND
-      rel.rating > $ratingValue
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+MERGE (p:Production {title: 'Forrest Gump'})
+ON MATCH SET p.company = 'Paramount Pictures'
+RETURN p
 ----
 
-For the above statement, the result returned should be:
+The result returned should be:
 
 [.thumb]
-image::{guides}/img/UseTwoParameters.png[UseTwoParameters,width=600]
+image::{guides}/img/AddCompany.png[AddCompany,width=600]
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 12.6: Use `MERGE` to add a label to a node (Instructions)
 
-== Exercise 12.7: Modify the second parameter value and retest your query (Instructions)
+*Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_.*
 
-*Modify the _ratingValue_ parameter to be a different value, _60_, and retest your query.*
+== Exercise 12.6: Use `MERGE` to add a label to a node (Solution)
 
-== Exercise 12.7: Modify the second parameter value and retest your query (Solution)
-
-*Modify the _ratingValue_ parameter to be a different value, _60_, and retest your query.*
+*Use `MERGE` to add the _OlderMovie_ label to the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
-:params {year: 2006, ratingValue: 60}
+MERGE (m:Movie {title: 'Forrest Gump'})
+ON MATCH SET m:OlderMovie
+RETURN labels(m)
 ----
 
-The result returned with the new parameter value should be:
+The result returned should be:
 
 [.thumb]
-image::{guides}/img/UseTwoParameters2.png[UseTwoParameters2,width=600]
+image::{guides}/img/AddOlderMovieLabelToForrestGump.png[AddOlderMovieLabelToForrestGump,width=600]
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 12.7: Use `MERGE` to create two nodes and a single relationship (Instructions)
 
-== Exercise 12: Using Cypher parameters (Summary)
+In this Part of the exercise, you merge data to create relationships.
 
-In this exercise you gained experience using parameters in your Neo4j Browser session and your Cypher statements.
+*Execute the following Cypher statement that uses `MERGE` to create two nodes and a single relationship*
+
+[source, cypher]
+----
+MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump'})
+----
+
+This statement first finds all _Person_ nodes that have only the _name_ property value of _Robert Zemeckis_.
+It then finds all nodes with only the _title_ property set to _Forrest Gump_.
+There are no _Person_ or other nodes that have only these properties so the graph engine creates them.
+Then the graph engine creates the relationship between these two nodes.
+That is, this `MERGE` operation creates two nodes and a single relationship.
+If we had provided all of the property values for the nodes, we would not have created the extra nodes.
+
+In fact, you should *never* create nodes and relationships together like this! This example is here to show you how powerful Cypher can be.
+A best practice is to create nodes first, then relationships.
+
+== Exercise 12.7: Use `MERGE` to create two nodes and a single relationship (Solution)
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/MergeNodesAndRelationships.png[MergeNodesAndRelationships,width=500]
+
+== Exercise 12.8: Use the same `MERGE` statement to attempt to create two nodes and a single relationship (Instructions)
+
+*Repeat the execution of the previous statement.*
+
+It should do nothing.
+A best practice is to always use `MERGE` to create relationships to ensure that there will be no duplication in the graph.
+
+[source, cypher]
+----
+MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump'})
+----
+
+== Exercise 12.8: Use the same `MERGE` statement to attempt to create two nodes and a single relationship (Solution)
+
+*Repeat the execution of the previous statement.*
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/MergeNodesAndRelationships2.png[MergeNodesAndRelationships2,width=500]
+
+== Exercise 12.9: Find the correct _Person_ node to delete (Instructions)
+
+*Find the correct _Person_ node to delete*
+
+You query the nodes before you delete them to ensure you have the correct `MATCH` clauses. In this case, we are looking for a _Person_ node without the property _born_, that has an relationship to another node.
+
+Execute this query:
+
+[source, cypher]
+----
+MATCH (p:Person {name: 'Robert Zemeckis'})-[rel]-(x)
+WHERE p.born IS NULL
+RETURN p, rel, x
+----
+
+== Exercise 12.9: Find the correct _Person_ node to delete (Solution)
+
+*Find the correct _Person_ node to delete*
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/FindPersonNodeBeforeDelete.png[FindPersonNodeBeforeDelete,width=600]
+
+== Exercise 12.10: Delete this _Person_ node, along with its relationships (Instructions)
+
+*Delete this _Person_ node, along with its relationships.*
+
+== Exercise 12.10: Delete this _Person_ node, along with its relationships (Solution)
+
+*Delete this _Person_ node, along with its relationships.*
+
+[source, cypher]
+----
+MATCH (p:Person {name: 'Robert Zemeckis'})--()
+WHERE p.born IS NULL
+DETACH DELETE p
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeletedExtraPerson.png[DeletedExtraPerson,width=500]
+
+== Exercise 12.11: Find the correct _Forrest Gump_ node to delete (Instructions)
+
+*Find the correct _Forrest Gump_ node to delete by executing this statement:*
+
+[source, cypher]
+----
+MATCH (m)
+WHERE m.title = 'Forrest Gump' AND labels(m) = []
+RETURN m, labels(m)
+----
+
+== Exercise 12.11: Find the correct _Forrest Gump_ node to delete (Solution)
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ForrestGumpToDelete.png[ForrestGumpToDelete,width=600]
+
+== Exercise 12.12: Delete the _Forrest Gump_ node (Instructions)
+
+*Delete this _Forrest Gump_ node.*
+
+It should have no relationships, but you can specify DETACH just to be certain.
+
+== Exercise 12.12: Delete the _Forrest Gump_ node (Solution)
+
+*Delete this _Forrest Gump_ node.*
+
+[source, cypher]
+----
+MATCH (m)
+WHERE m.title = 'Forrest Gump' AND labels(m) = []
+DETACH DELETE m
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/DeletedExtraForrestGump.png[DeletedExtraForrestGump,width=500]
+
+== Exercise 12.13: Use `MERGE` to create the _DIRECTED_ relationship (Instructions)
+
+*Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_.*
+
+== Exercise 12.13: Use `MERGE` to create the _DIRECTED_ relationship (Solution)
+
+*Use `MERGE` to create the _DIRECTED_ relationship between _Robert Zemeckis_ and  the _Movie_, _Forrest Gump_.*
+
+[source, cypher]
+----
+MATCH (p:Person), (m:Movie)
+WHERE p.name = 'Robert Zemeckis' AND m.title = 'Forrest Gump'
+MERGE (p)-[:DIRECTED]->(m)
+----
+
+In this code, you will see a warning that the query forms a Cartesian Product. This is common if you are retrieving nodes that are unrelated to create their relationship
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/AddDirectedToForrestGump.png[AddDirectedToForrestGump,width=500]
+
+== Exercise 12.14: Use `MERGE` to create the _ACTED_IN_ relationship (Instructions)
+
+*Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, _Forrest Gump_.*
+
+== Exercise 12.14: Use `MERGE` to create the _ACTED_IN_ relationship (Solution)
+
+*Use `MERGE` to create the _ACTED_IN_ relationship between the actors, _Tom Hanks_, _Gary Sinise_, and _Robin Wright_ and the _Movie_, _Forrest Gump_.*
+
+[source, cypher]
+----
+MATCH (p:Person), (m:Movie)
+WHERE p.name IN ['Tom Hanks','Gary Sinise', 'Robin Wright']
+      AND m.title = 'Forrest Gump'
+MERGE (p)-[:ACTED_IN]->(m)
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ActedInForrestGump.png[ActedInForrestGump,width=500]
+
+== Exercise 12.15: Modify the _role_ relationship property (Instructions)
+
+*Modify the relationship property, _role_ for their roles in _Forrest Gump_:*
+
+* *Tom Hanks is Forrest Gump*
+* *Gary Sinise is Lt. Dan Taylor*
+* *Robin Wright is Jenny Curran*
+
+*Hint:* Use the `CASE` clause.
+
+== Exercise 12.15: Modify the _role_ relationship property (Solution)
+
+*Modify the relationship property, _role_ for their roles in _Forrest Gump_:*
+
+* *Tom Hanks is Forrest Gump*
+* *Gary Sinise is Lt. Dan Taylor*
+* *Robin Wright is Jenny Curran*
+
+[source, cypher]
+----
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+SET rel.roles = 
+CASE p.name
+  WHEN 'Tom Hanks' THEN ['Forrest Gump']
+  WHEN 'Robin Wright' THEN ['Jenny Curran']
+  WHEN 'Gary Sinise' THEN ['Lt. Dan Taylor']
+END
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/SetActedRoles.png[SetActedRoles,width=500]
+
+== Exercise 12.16: Verify the update (Instructions)
+
+*Write a query to verify what you just updated in the graph.*
+
+== Exercise 12.16: Verify the update (Solution)
+
+*Write a query to verify what you just updated in the graph.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN p.name, rel.roles, m.title
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/VerifyRoleUpdates.png[VerifyRoleUpdates,width=600]
+
+
+== Exercise 12: Merging Data in the Graph (Summary)
+
+In this exercise you added and modified nodes and relationships in the graph by merging data.
+In some parts of the exercise, you created duplicate nodes and relationships.
+You should take care not to create duplicate nodes and relationships in your real application graphs.
 
 pass:a[<a play-topic='{guides}/13.html'>Continue to Exercise 13</a>]

@@ -1,11 +1,12 @@
 = Exercise 10
-== Exercise 10: Deleting Nodes and Relationships (Preparations)
 
-Make sure you have the Movie database, which contains 173 nodes and 258 relationships.
+== Exercise 10: Creating Relationships (Preparations)
+
+Make sure you have the Movie database, which contains 173 nodes and 253 relationships.
 
 This is what you should see when you click the database icon:
 
-image::{guides}/img/AfterExercise9.png[After exercise 9,200,200, role=left]
+image::{guides}/img/AfterExercise9.png[AfterExercise9,width=150]
 
 If your database does not have this number of nodes and relationships, you can use the script below to reset it:
 
@@ -14,83 +15,106 @@ If your database does not have this number of nodes and relationships, you can u
 include::scripts/AfterExercise9.cypher[]
 ----
 
+== Exercise 10: Creating Relationships (Overview)
 
-== Exercise 10: Deleting Nodes and Relationships (Overview)
+In the previous exercise, you created nodes, added and removed both properties and labels from nodes.
+The connections between nodes, the relationships, are one of the most important parts of a Neo4j graph.
 
-In the previous exercise, you created relationships between _Person_ and _Movie_ nodes and you modified the properties for these relationships.
+In this exercise you will create relationships between nodes.
+Then you will add properties to relationships.
+Finally, you will remove properties from relationships.
 
-In this exercise you will delete nodes and relationships from the graph.
-
-* *Exercise 10.1*: Delete a relationship.
-* *Exercise 10.2*: Confirm that the relationship has been deleted.
-* *Exercise 10.3*: Retrieve a movie and all of its relationships.
-* *Exercise 10.4*: Try deleting a node without detaching its relationships.
-* *Exercise 10.5*: Delete a _Movie_ node, along with its relationships.
-* *Exercise 10.6*: Confirm that the _Movie_ node has been deleted.
+* *Exercise 10.1*: Create _ACTED_IN_ relationships.
+* *Exercise 10.2*: Create a _DIRECTED_ relationship.
+* *Exercise 10.3*: Create a _HELPED_ relationship.
+* *Exercise 10.4*: Query nodes and new relationships.
+* *Exercise 10.5*: Add properties to relationships.
+* *Exercise 10.6*: Add a property to the _HELPED_ relationship.
+* *Exercise 10.7*: View the current list of property keys in the graph.
+* *Exercise 10.8*: View the current schema of the graph.
+* *Exercise 10.9*: Retrieve the names and roles for actors.
+* *Exercise 10.10*: Retrieve information about any specific relationships.
+* *Exercise 10.11*: Modify a property of a relationship.
+* *Exercise 10.12*: Remove a property from a relationship.
+* *Exercise 10.13*: Confirm that your modifications were made to the graph.
 
 Go to the next page to start this exercise.
 
-== Exercise 10.1: Delete a relationship (Instructions)
+== Exercise 10.1: Create _ACTED_IN_ relationships (Instructions)
 
-Recall that in the graph we have been working with, we have the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_.
-We have decided that we no longer need this relationship in the graph.
+In the last exercise, you created the node for the movie, _Forrest Gump_ and the person, _Robin Wright_.
 
-*Delete the _HELPED_ relationship from the graph.*
+*Create the _ACTED_IN_ relationship between the actors, _Robin Wright_, _Tom Hanks_, and _Gary Sinise_ and the movie, _Forrest Gump_.*
 
-== Exercise 10.1: Delete a relationship (Solution)
+== Exercise 10.1: Create _ACTED_IN_ relationships (Solution)
 
-*Delete the _HELPED_ relationship from the graph.*
+*Create the _ACTED_IN_ relationship between the actors, _Robin Wright_, _Tom Hanks_, and _Gary Sinise_ and the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
-MATCH (:Person)-[rel:HELPED]-(:Person)
-DELETE rel
+MATCH (m:Movie) 
+WHERE m.title = 'Forrest Gump'
+MATCH (p:Person)
+WHERE p.name = 'Tom Hanks' OR p.name = 'Robin Wright' OR p.name = 'Gary Sinise'
+CREATE (p)-[:ACTED_IN]->(m)
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DeleteHELPED.png[DeleteHELPED,width=400]
+image::{guides}/img/CreateThreeRelationships.png[CreateThreeRelationships,width=500]
 
+== Exercise 10.2: Create a _DIRECTED_ relationship (Instructions)
 
+*Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 10.2: Create a _DIRECTED_ relationship (Solution)
 
-== Exercise 10.2: Confirm that the relationship has been deleted (Instructions)
-
-*Query the graph to confirm that the relationship no longer exists.* 
-
-== Exercise 10.2: Confirm that the relationship has been deleted (Solution)
-
-*Query the graph to confirm that the relationship no longer exists.* 
+*Create the _DIRECTED_ relationship between _Robert Zemeckis_ and the movie, _Forrest Gump_.*
 
 [source, cypher]
 ----
-MATCH (:Person)-[rel:HELPED]-(:Person)
-RETURN rel
+MATCH (m:Movie) 
+WHERE m.title = 'Forrest Gump'
+MATCH (p:Person)
+WHERE p.name = 'Robert Zemeckis'
+CREATE (p)-[:DIRECTED]->(m)
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/ConfirmDeleteHELPED.png[ConfirmDeleteHELPED,width=400]
+image::{guides}/img/AddDirectedRelationship.png[AddDirectedRelationship,width=500]
 
+== Exercise 10.3: Create a _HELPED_ relationship (Instructions)
 
+*Create a new relationship, _HELPED_ from _Tom Hanks_ to _Gary Sinise_.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 10.3: Create a _HELPED_ relationship (Solution)
 
+*Create a new relationship, _HELPED_ from _Tom Hanks_ to _Gary Sinise_.*
 
-== Exercise 10.3: Retrieve a movie and all of its relationships (Instructions)
+[source, cypher]
+----
+MATCH (p1:Person) 
+WHERE p1.name = 'Tom Hanks'
+MATCH (p2:Person)
+WHERE p2.name = 'Gary Sinise'
+CREATE (p1)-[:HELPED]->(p2)
+----
 
-*Query the graph to display _Forrest Gump_ and all of its relationships.*
+The result returned should be:
 
-== Exercise 10.3: Retrieve a movie and all of its relationships (Solution)
+[.thumb]
+image::{guides}/img/CreateHELPEDRelationship.png[CreateHELPEDRelationship,width=500]
 
-*Query the graph to display _Forrest Gump_ and all of its relationships.*
+== Exercise 10.4: Query nodes and new relationships (Instructions)
+
+*Write a Cypher query to return all nodes connected to the movie, _Forrest Gump_, along with their relationships.*
+
+== Exercise 10.4: Query nodes and new relationships (Solution)
+
+*Write a Cypher query to return all nodes connected to the movie, _Forrest Gump_, along with their relationships.*
 
 [source, cypher]
 ----
@@ -102,100 +126,222 @@ RETURN p, rel, m
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/QueryForrestGump.png[QueryForrestGump,width=400]
-
-
+image::{guides}/img/ForrestGumpRelationships.png[ForrestGumpRelationships,width=500]
 
 ++++
 <div style="clear: both;"></div>
+
 ++++
 
-== Exercise 10.4: Try deleting a node without detaching its relationships (Instructions)
+Notice here that the _HELPED_ relationship is also shown because _Tom Hanks_ and _Gary Sinise_ are connected and we have _Connect result nodes_ selected in our Neo4j Browser settings.
 
-We want to remove the movie, _Forrest Gump_ from the graph.
+== Exercise 10.5: Add properties to relationships (Instructions)
 
-*Try deleting the _Forrest Gump_ node without detaching its relationships.* 
+Next, you will add some properties to the relationships that you just created.
 
-Do you receive an error?
+*Add the _roles_ property to the three _ACTED_IN_ relationships that you just created to the movie, _Forrest Gump_ using this information:*
+*_Tom Hanks_ played the role, _Forrest Gump_.*
+*_Robin Wright_ played the role, _Jenny Curran_.*
+*_Gary Sinise_ played the role, _Lieutenant Dan Taylor_.*
 
-== Exercise 10.4: Try deleting a node without detaching its relationships (Solution)
+*Hint:* You can set each relationship using separate `MATCH` clauses.
+You can also use a `CASE` clause to set the values.
+Look up in the documentation for how to use the `CASE` clause.
 
-*Try deleting the _Forrest Gump_ node without detaching its relationships.*
+== Exercise 10.5: Add properties to relationships (Solution)
 
-Do you receive an error?
+*Add the _roles_ property to the three _ACTED_IN_ relationships that you just created to the movie, _Forrest Gump_ using this information:*
+*_Tom Hanks_ played the role, _Forrest Gump_.*
+*_Robin Wright_ played the role, _Jenny Curran_.*
+*_Gary Sinise_ played the role, _Lieutenant Dan Taylor_.*
 
 [source, cypher]
 ----
-MATCH (m:Movie)
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie)
 WHERE m.title = 'Forrest Gump'
-DELETE m
+SET rel.roles = 
+CASE p.name
+  WHEN 'Tom Hanks' THEN ['Forrest Gump']
+  WHEN 'Robin Wright' THEN ['Jenny Curran']
+  WHEN 'Gary Sinise' THEN ['Lieutenant Dan Taylor']
+END
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DeleteNodeFailed.png[DeleteNodeFailed,width=400]
+image::{guides}/img/SetPropertiesUsingCase.png[SetPropertiesUsingCase,width=500]
 
+== Exercise 10.6: Add a property to the _HELPED_ relationship (Instructions)
 
+*Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _war history_.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 10.6: Add a property to the _HELPED_ relationship (Solution)
 
-== Exercise 10.5: Delete a _Movie_ node, along with its relationships (Instructions)
-
-*Delete _Forrest Gump_, along with its relationships in the graph.*
-
-== Exercise 10.5: Delete a _Movie_ node, along with its relationships (Solution)
-
-*Delete _Forrest Gump_, along with its relationships in the graph.*
+*Add a new property, _research_ to the _HELPED_ relationship between _Tom Hanks_ and _Gary Sinise_ and set this property's value to _war history_.*
 
 [source, cypher]
 ----
-MATCH (m:Movie)
-WHERE m.title = 'Forrest Gump'
-DETACH DELETE m
+MATCH (p1:Person)-[rel:HELPED]->(p2:Person)
+WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
+SET rel.research = 'war history'
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/DetachDelete.png[DetachDelete,width=400]
+image::{guides}/img/SetResearchProperty.png[SetResearchProperty,width=500]
 
+== Exercise 10.7: View the current list of property keys in the graph (Instructions)
 
+*View the current list of property keys in the graph.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 10.7: View the current list of property keys in the graph (Solution)
 
-== Exercise 10.6: Confirm that the _Movie_ node has been deleted (Instructions)
-
-*Query the graph to confirm that the _Forrest Gump_ node has been deleted.*
-
-== Exercise 10.6: Confirm that the _Movie_ node has been deleted (Solution)
-
-*Query the graph to confirm that the _Forrest Gump_ node has been deleted.*
+*View the current list of property keys in the graph.*
 
 [source, cypher]
 ----
-MATCH (p:Person)-[rel]-(m:Movie)
-WHERE m.title = 'Forrest Gump'
-RETURN p, rel, m
+CALL db.propertyKeys()
 ----
 
 The result returned should be:
 
 [.thumb]
-image::{guides}/img/NoForrestGump.png[NoForrestGump,width=400]
+image::{guides}/img/PropertyKeys-research.png[PropertyKeys-research,width=600]
 
+== Exercise 10.8: View the current schema of the graph (Instructions)
 
+*View the current schema of the graph.*
 
-++++
-<div style="clear: both;"></div>
-++++
+== Exercise 10.8: View the current schema of the graph (Solution)
 
-== Exercise 10: Deleting Nodes and Relationships (Summary)
+*View the current schema of the graph.*
 
-In this exercise you deleted relationships and a node from the graph.
+[source, cypher]
+----
+CALL db.schema.visualization()
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/SchemaAfterAddingRelatiobnships.png[SchemaAfterAddingRelatiobnships,width=500]
+
+== Exercise 10.9: Retrieve the names and roles for actors (Instructions)
+
+*Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.*
+
+== Exercise 10.9: Retrieve the names and roles for actors (Solution)
+
+*Query the graph to return the names and roles of actors in the movie, _Forrest Gump_.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+RETURN p.name, rel.roles
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/ForrestGumpRoles.png[ForrestGumpRoles,width=600]
+
+== Exercise 10.10: Retrieve information about any specific relationships (Instructions)
+
+*Query the graph to retrieve information about any _HELPED_ relationships.*
+
+== Exercise 10.10: Retrieve information about any specific relationships (Solution)
+
+*Query the graph to retrieve information about any _HELPED_ relationships.*
+
+[source, cypher]
+----
+MATCH (p1:Person)-[rel:HELPED]-(p2:Person)
+RETURN p1.name, rel, p2.name
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/HELPEDProperties.png[HELPEDProperties,width=600]
+
+Notice here that 2 results are returned.
+That is because we did not specify a direction for the relationship in the query.
+So there is a relationship from _Tom Hanks_ and also to _Gary Sinise_, even though there is only one physical relationship in the graph.
+If you specify a direction for the relationship, only one result is returned.
+
+== Exercise 10.11: Modify a property of a relationship (Instructions)
+
+Next, you will modify existing properties for a relationship and also remove them.
+
+*Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.*
+
+== Exercise 10.11: Modify a property of a relationship (Solution)
+
+*Modify the _role_ that _Gary Sinise_ played in the movie, _Forrest Gump_ from _Lieutenant Dan Taylor_ to _Lt. Dan Taylor_.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump' AND p.name = 'Gary Sinise'
+SET rel.roles =['Lt. Dan Taylor']
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/UpdateGarySiniseRole.png[UpdateGarySiniseRole,width=400]
+
+== Exercise 10.12: Remove a property from a relationship (Instructions)
+
+*Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.*
+
+== Exercise 10.12: Remove a property from a relationship (Solution)
+
+*Remove the _research_ property from the _HELPED_ relationship from _Tom Hanks_ to _Gary Sinise_.*
+
+[source, cypher]
+----
+MATCH (p1:Person)-[rel:HELPED]->(p2:Person)
+WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
+REMOVE rel.research
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/RemoveResearchProperty.png[RemoveResearchProperty,width=500]
+
+== Exercise 10.13: Confirm that your modifications were made to the graph (Instructions)
+
+*Query the graph to confirm that your modifications were made to the graph.*
+
+== Exercise 10.13: Confirm that your modifications were made to the graph (Solution)
+
+*Query the graph to confirm that your modifications were made to the graph.*
+
+[source, cypher]
+----
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie)
+WHERE m.title = 'Forrest Gump'
+return p, rel, m
+----
+
+The result returned should be:
+
+[.thumb]
+image::{guides}/img/GarySiniseRoleUpdate.png[GarySiniseRoleUpdate,width=600]
+
+== Exercise 10: Creating Relationships (Taking it further - optional)
+
+* Try adding or updating properties using the JSON-style syntax using `=` and `+=`.
+
+== Exercise 10: Creating Relationships (Summary)
+
+In this exercise you created relationships between nodes.
+Then you added properties to relationships.
+Finally, you removed properties from relationships.
 
 pass:a[<a play-topic='{guides}/11.html'>Continue to Exercise 11</a>]
