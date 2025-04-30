@@ -515,11 +515,11 @@ CREATE
 MATCH (m:Movie)
   WHERE m.released < 2010
 SET m:OlderMovie;
-CREATE CONSTRAINT PersonNameUniqueConstraint ON (p:Person) ASSERT p.name IS UNIQUE;
+CREATE CONSTRAINT PersonNameUniqueConstraint FOR (p:Person) REQUIRE p.name IS UNIQUE;
 MATCH (p:Person)
-  WHERE NOT exists(p.born)
+  WHERE p.born IS NULL
 SET p.born = 0;
-CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born);
-CREATE CONSTRAINT MovieTitleReleasedConstraint ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY;
+CREATE CONSTRAINT PersonBornExistsConstraint FOR (p:Person) REQUIRE p.born IS NOT NULL;
+CREATE CONSTRAINT MovieTitleReleasedConstraint FOR (m:Movie) REQUIRE (m.title, m.released) IS NODE KEY;
 CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our future.'}),
        (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})

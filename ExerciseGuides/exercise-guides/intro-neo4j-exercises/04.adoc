@@ -289,7 +289,7 @@ image::{guides}/img/ProducersThatAreNotDirectors.png[ProducersThatAreNotDirector
 [source, cypher]
 ----
 MATCH (a1:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(a2:Person)
-WHERE exists( (a2)-[:DIRECTED]->(m) )
+WHERE (a2)-[:DIRECTED]->(m)
 RETURN  a1.name as Actor, a2.name as `Actor/Director`, m.title as Movie
 ----
 

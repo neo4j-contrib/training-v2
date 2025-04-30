@@ -48,7 +48,7 @@ Suppose we want to ensure that every _Person_ in the graph must have a unique na
 
 [source, cypher]
 ----
-CREATE CONSTRAINT PersonNameUniqueConstraint ON (p:Person) ASSERT p.name IS UNIQUE
+CREATE CONSTRAINT PersonNameUniqueConstraint FOR (p:Person) REQUIRE p.name IS UNIQUE
 ----
 
 Where the result returned should be:
@@ -88,7 +88,7 @@ Suppose we want to ensure that every _Person_ node in the graph has a _born_ pro
 
 [source, cypher]
 ----
-CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born)
+CREATE CONSTRAINT PersonBornExistsConstraint FOR (p:Person) REQUIRE p.born IS NOT NULL
 ----
 
 What happens when you add the constraint? This is what you should see.
@@ -108,7 +108,7 @@ image::{guides}/img/CreateBornExistsConstraintFailed.png[CreateBornExistsConstra
 [source, cypher]
 ----
 MATCH (p:Person) 
-WHERE NOT exists(p.born)
+WHERE p.born IS NULL
 SET p.born = 0
 ----
 
@@ -127,7 +127,7 @@ image::{guides}/img/AddBornProperty.png[AddBornProperty,width=500]
 
 [source, cypher]
 ----
-CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born)
+CREATE CONSTRAINT PersonBornExistsConstraint FOR (p:Person) REQUIRE p.born IS NOT NULL
 ----
 
 The result returned should be:
@@ -165,7 +165,7 @@ Suppose we want to ensure that every _ACTED_IN_ relationship must have a value f
 
 [source, cypher]
 ----
-CREATE CONSTRAINT ActedInRolesExistConstraint ON ()-[r:ACTED_IN]-() ASSERT exists(r.roles)
+CREATE CONSTRAINT ActedInRolesExistConstraint FOR ()-[r:ACTED_IN]-() REQUIRE r.roles IS NOT NULL
 ----
 
 The result returned should be:
@@ -218,7 +218,7 @@ DROP CONSTRAINT MovieTitleConstraint
 
 [source, cypher]
 ----
-CREATE CONSTRAINT MovieTitleReleasedConstraint ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY
+CREATE CONSTRAINT MovieTitleReleasedConstraint FOR (m:Movie) REQUIRE (m.title, m.released) IS NODE KEY
 ----
 
 The result returned should be:

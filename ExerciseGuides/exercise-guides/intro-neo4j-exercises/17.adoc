@@ -110,9 +110,9 @@ image::{guides}/img/ViewAPOCdataToLoad.png[ViewAPOCdataToLoad,width=500]
 [source, cypher]
 ----
 // create constraints
-CREATE CONSTRAINT UniqueMovieIdConstraint ON (m:Movie) ASSERT m.id IS UNIQUE;
+CREATE CONSTRAINT UniqueMovieIdConstraint FOR (m:Movie) REQUIRE m.id IS UNIQUE;
 
-CREATE CONSTRAINT UniquePersonIdConstraint ON (p:Person) ASSERT p.id IS UNIQUE
+CREATE CONSTRAINT UniquePersonIdConstraint FOR (p:Person) REQUIRE p.id IS UNIQUE
 ----
 
 The result should be:
