@@ -586,7 +586,7 @@ MATCH (m:Movie)
 WHERE m.released &lt; 2010
 SET m:OlderMovie;
 CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
-MATCH (p:Person)
+MATCH (p:Person) 
 WHERE NOT exists(p.born)
 SET p.born = 0;
 CREATE CONSTRAINT ON (p:Person) ASSERT exists(p.born);
