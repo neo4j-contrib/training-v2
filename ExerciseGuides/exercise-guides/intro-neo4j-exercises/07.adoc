@@ -89,10 +89,21 @@ image::{guides}/img/AtMost3MoviesPerActor.png[AtMost3MoviesPerActor,width=600]
 [source, cypher]
 ----
 MATCH (m:Movie)
-WITH m, size((:Person)-[:DIRECTED]->(m)) AS directors
+WITH m, size( [ (p:Person)-[:DIRECTED]->(m) | p ] ) AS directors
 WHERE directors >= 2
 OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m)
-RETURN  m.title, p.name
+RETURN m.title, p.name
+----
+
+An alternative using COUNT subquery would be the following.
+
+[source, cypher]
+----
+MATCH (m:Movie)
+WITH m, COUNT { (:Person)-[:DIRECTED]->(m) } AS directors
+WHERE directors >= 2
+OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m)
+RETURN m.title, p.name
 ----
 
 The result returned should be:
