@@ -50,36 +50,22 @@
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15: Using query best practices (Preparations)</h3>
+    <h3>Exercise 15: Managing indexes (Preparations)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Make sure you have the Movie database, which contains 176 nodes and 257 relationships.</p>
+<p>Make sure you have the Movie database, which contains 175 nodes and 257 relationships.</p>
 </div>
 <div class="paragraph">
 <p>This is what you should see when you click the database icon:</p>
 </div>
-<div class="imageblock">
+<div class="imageblock left">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/AfterExercise13.png" alt="AfterExercise13" width="150">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/AfterExercise14.png" alt="After exercise 14" width="200" height="200">
 </div>
 </div>
 <div class="paragraph">
-<p>If your database does not have this number of nodes and relationships, you should do the following in Neo4j Browser to recreate the database (assuming you are using the <em>neo4j</em> database):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:USE system
-CREATE OR REPLACE DATABASE neo4j
-:USE neo4j<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Note</strong>: You can only use the above commands for a local database (using Neo4j Desktop, not Neo4j Sandbox or Neo4j Aura).
-Otherwise, you will need to execute Cypher code to drop all constraints before you run the script below.</p>
-</div>
-<div class="paragraph">
-<p>Then,  use the script below to populate it, including the constraints added in a previous exercise:</p>
+<p>If your database does not have this number of nodes and relationships, you can use the script below to reset it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -591,21 +577,20 @@ CREATE
   (JessicaThompson)-[:REVIEWED {summary:'You had me at Jerry', rating:92}]-&gt;(JerryMaguire),
   (RobinW:Person {name: 'Robin Wright', born: 1966}),
   (ForrestGump:Movie:OlderMovie {title: 'Forrest Gump', released: 1994}),
-  (ForrestGumpProduction:Production {title: 'Forrest Gump', year: 1994, company: 'Paramount Pictures'}),
   (TomH)-[:ACTED_IN {roles: ['Forrest Gump']}]-&gt;(ForrestGump),
   (GaryS)-[:ACTED_IN {roles: ['Lt. Dan Taylor']}]-&gt;(ForrestGump),
   (RobinW)-[:ACTED_IN {roles: ['Jenny Curran']}]-&gt;(ForrestGump),
   (RobertZ)-[:DIRECTED]-&gt;(ForrestGump)
-;
+  ;
 MATCH (m:Movie)
-  WHERE m.released &lt; 2010
+WHERE m.released &lt; 2010
 SET m:OlderMovie;
-CREATE CONSTRAINT PersonNameUniqueConstraint ON (p:Person) ASSERT p.name IS UNIQUE;
-MATCH (p:Person)
-  WHERE NOT exists(p.born)
+CREATE CONSTRAINT ON (p:Person) ASSERT p.name IS UNIQUE;
+MATCH (p:Person) 
+WHERE NOT exists(p.born)
 SET p.born = 0;
-CREATE CONSTRAINT PersonBornExistsConstraint ON (p:Person) ASSERT exists(p.born);
-CREATE CONSTRAINT MovieTitleReleasedConstraint ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY;
+CREATE CONSTRAINT ON (p:Person) ASSERT exists(p.born);
+CREATE CONSTRAINT ON (m:Movie) ASSERT (m.title, m.released) IS NODE KEY;
 CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our future.'}),
        (:Movie {title: 'Back to the Future', released: 2018, tagline: 'The future is ours.'})<!--/code--></pre>
 </div>
@@ -618,59 +603,22 @@ CREATE (:Movie {title: 'Back to the Future', released: 1985, tagline: 'Our futur
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15: Using Query best practices (Overview)</h3>
+    <h3>Exercise 15: Managing indexes (Overview)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>You have gained experience with the basics of accessing a Neo4j graph by querying it, creating nodes and relationships, and updating the graph.</p>
-</div>
-<div class="paragraph">
-<p>In this exercise you enhance Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.
-Then you gain experience with viewing query plans, monitoring queries, and killing queries.</p>
+<p>In this exercise you write Cypher statements create, view, and drop indexes.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Exercise 15.1</strong>: Execute a Cypher query as described.</p>
+<p><strong>Exercise 15.1</strong>: Create an index.</p>
 </li>
 <li>
-<p><strong>Exercise 15.2</strong>: Add a parameter to your session.</p>
+<p><strong>Exercise 15.2</strong>: View index information.</p>
 </li>
 <li>
-<p><strong>Exercise 15.3</strong>: Modify the Cypher query you just wrote to use a parameter.</p>
-</li>
-<li>
-<p><strong>Exercise 15.4</strong>: Modify parameter value and retest your query.</p>
-</li>
-<li>
-<p><strong>Exercise 15.5</strong>: Add a different parameter to your session.</p>
-</li>
-<li>
-<p><strong>Exercise 15.6</strong>: Modify the query you wrote previously to use the second parameter.</p>
-</li>
-<li>
-<p><strong>Exercise 15.7</strong>: Modify the second parameter value and retest your query.</p>
-</li>
-<li>
-<p><strong>Exercise 15.8</strong>: View the query plan for a Cypher statement.</p>
-</li>
-<li>
-<p><strong>Exercise 15.9</strong>: View the metrics for the query when a statement executes.</p>
-</li>
-<li>
-<p><strong>Exercise 15.10</strong>: Remove the labels from the nodes and relationships in the query and again view the metrics.</p>
-</li>
-<li>
-<p><strong>Exercise 15.11</strong>: Open a second Neo4j Browser session.</p>
-</li>
-<li>
-<p><strong>Exercise 15.12</strong>: Execute a query that returns a lot of results and monitor.</p>
-</li>
-<li>
-<p><strong>Exercise 15.13</strong>: Execute a long-running query and monitor.</p>
-</li>
-<li>
-<p><strong>Exercise 15.14</strong>: Kill a query.</p>
+<p><strong>Exercise 15.3</strong>: Drop an index.</p>
 </li>
 </ul>
 </div>
@@ -685,16 +633,11 @@ Then you gain experience with viewing query plans, monitoring queries, and killi
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15.1: Execute a Cypher query as described (Instructions)</h3>
+    <h3>Exercise 15.1: Create an index (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p>Suppose that you want to create Cypher statements that enable you to easily test against a number of values in the graph.
-You will be exploring the graph for people who reviewed movies and the actors in these movies.
-You do not want to hard-code the value for <em>released</em> for a <em>Movie</em> node in your query.</p>
-</div>
-<div class="paragraph">
-<p><strong>Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</strong></p>
+<p><strong>Create a single-property index on the <em>born</em> property of a <em>Person</em> node.</strong></p>
 </div>
 	</div>
   </div>
@@ -704,609 +647,42 @@ You do not want to hard-code the value for <em>released</em> for a <em>Movie</em
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15.1: Execute a Cypher query as described (Solution)</h3>
+    <h3>Exercise 15.1: Create an index (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.</strong></p>
+<p><strong>Create a single-property index on the <em>born</em> property of a <em>Person</em> node.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CREATE INDEX ON :Person(born)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The result returned should be:</p>
+<p>The result should be:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/InitialQueryWithoutParms.png" alt="InitialQueryWithoutParms" width="800">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.2: Add a parameter to your session (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.2: Add a parameter to your session (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Add a parameter named <em>year</em> to your session with a value of <em>2000</em>.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:param year =&gt; 2000<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/SetYearParam.png" alt="SetYearParam" width="600">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.3: Modify the Cypher query you just wrote to use a parameter (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.3: Modify the Cypher query you just wrote to use a parameter (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the Cypher query you just wrote to filter by the <em>year</em> parameter.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UsingOneParameter.png" alt="UsingOneParameter" width="800">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.4: Modify parameter value and retest your query (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><strong>Modify the <em>year</em> parameter to be a different value, <em>2006</em>.</strong></p>
-</li>
-<li>
-<p><strong>Retest your query.</strong></p>
-</li>
-</ol>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.4: Modify parameter value and retest your query (Solution)</h3>
-    <br/>
-    <div>
-      <div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><strong>Modify the <em>year</em> parameter to be a different value, <em>2006</em>.</strong></p>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:param year =&gt; 2006<!--/code--></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UsingOneParameter2.png" alt="UsingOneParameter2" width="800">
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><strong>Retest your query.</strong></p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned  with the same query should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UsingOneParameter3.png" alt="UsingOneParameter3" width="600">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.5: Add a different parameter to your session (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Suppose that you want to parameterize both the values in your query for <em>released</em> for a <em>Movie</em> node and the <em>rating</em> value for the <em>REVIEWED</em> relationship.</p>
-</div>
-<div class="paragraph">
-<p><strong>Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.5: Add a different parameter to your session (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Add a parameter named <em>ratingValue</em> to your session with a value of <em>65</em>.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:params {year: 2006, ratingValue: 65}<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/SetTwoParameters.png" alt="SetTwoParameters" width="600">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.6: Modify the query you wrote previously to use the second parameter (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the query you wrote previously to also filter the result returned by  the <em>rating</em> for the movie.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.6: Modify the query you wrote previously to use the second parameter (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the query you wrote previously to also filter the result returned by  the <em>rating</em> for the movie.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year AND
-      rel.rating &gt; $ratingValue
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For the above statement, the result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UseTwoParameters.png" alt="UseTwoParameters" width="600">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.7: Modify the second parameter value and retest your query (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.7: Modify the second parameter value and retest your query (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Modify the <em>ratingValue</em> parameter to be a different value, <em>60</em>, and retest your query.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->:params {year: 2006, ratingValue: 60}<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned with the new parameter value should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/UseTwoParameters2.png" alt="UseTwoParameters2" width="600">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.8: View the query plan for a Cypher statement (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters.
-It assumes that you have set the <em>year</em> and <em>ratingValue</em> Cypher parameters:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year AND
-      rel.rating &gt; $ratingValue
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>View the query plan for this Cypher statement.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.8: View the query plan for a Cypher statement (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>View the query plan for this Cypher statement.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->EXPLAIN MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year AND
-      rel.rating &gt; $ratingValue
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>When the result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/EXPLAIN.png" alt="EXPLAIN" width="200">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.9: View the metrics for the query when a statement executes (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>View the metrics for the query when the previous statement executes.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.9: View the metrics for the query when a statement executes (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>View the metrics for the query when the previous statement executes.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (r:Person)-[rel:REVIEWED]-&gt;(m:Movie)&lt;-[:ACTED_IN]-(a:Person)
-WHERE m.released = $year AND
-      rel.rating &gt; $ratingValue
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should look something like this:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/PROFILE.png" alt="PROFILE" width="200">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.10: Remove the labels from the nodes and relationships in the query and again view the metrics (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Remove the labels from the nodes and relationships in the query and again view the metrics. Compare the db hits from the previous version of the statement.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.10: Remove the labels from the nodes and relationships in the query and again view the metrics (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Remove the labels from the nodes and relationships in the query and again view the metrics. Compare the db hits from the previous version of the statement.</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (r)-[rel]-&gt;(m)&lt;-[:ACTED_IN]-(a)
-WHERE m.released = $year AND
-      rel.rating &gt; $ratingValue
-RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result returned should be:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/PROFILE2.png" alt="PROFILE2" width="500">
-</div>
-</div>
-<div class="paragraph">
-<p>You should see more db hits.
-This is because you removed the labels that help to filter nodes and relationships during the query.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.10: Remove the labels from the nodes and relationships in the query and again view the metrics (Taking it further - optional)</h3>
-    <br/>
-    <div>
-      <div class="ulist">
-<ul>
-<li>
-<p>Explore the contents of each step of the query by opening each step.</p>
-</li>
-<li>
-<p>Perform other queries to view the steps of the queries.</p>
-</li>
-</ul>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.11: Open a second Neo4j Browser session (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>Recall that a query may run for a long time because:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>There are a lot of results to return</p>
-</li>
-<li>
-<p>The query takes a long time to execute in the graph engine.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>You will perform these steps to gain some experience with monitoring and killing queries by having your original Neo4j Browser window open and then opening another Neo4j Browser window.</p>
-</div>
-<div class="paragraph">
-<p><strong>Open a second Neo4j Browser session in a Web browser. This session will be used for monitoring queries as they run.</strong></p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.11: Open a second Neo4j Browser session (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Open a second Neo4j Browser session in a Web browser. This session will be used for monitoring queries as they run.</strong></p>
-</div>
-<div class="paragraph">
-<p>If you are using Neo4j Desktop, open a Web browser window and enter <a href="http://localhost:7474" class="bare">http://localhost:7474</a> which opens a second Neo4j Browser window that has access to the same graph.</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/SecondBrowserWindowDesktop.png" alt="SecondBrowserWindowDesktop" width="500">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> If you are using a Neo4j Sandbox or Neo4j Aura, go the the Sandbox or Aura site and simply click on the Neo4j Browser to open a second window for that same graph.</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.12: Execute a query that returns a lot of results and monitor (Instructions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Execute this code in your original Neo4j Browser session that returns a lot of results.
-In the second Neo4j Browser window, monitor the running queries.</strong></p>
-</div>
-<div class="paragraph">
-<p>Here is a very <strong>bad</strong> Cypher statement to use that returns a lot of results:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a)--(b)--(c)--(d)--(e)--(f)--(g)
-RETURN a<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>What do you see in the second Neo4j Browser window where you are monitoring queries with the <strong>:queries</strong> command?</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.12: Execute a query that returns a lot of results and monitor (Solution)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>Execute this code in your original Neo4j Browser session that returns a lot of results.
-In the second Neo4j Browser window, monitor the running queries.</strong></p>
-</div>
-<div class="paragraph">
-<p>Here is a very <strong>bad</strong> Cypher statement to use that returns a lot of results:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a)--(b)--(c)--(d)--(e)--(f)--(g)
-RETURN a<!--/code--></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>What do you see in the second Neo4j Browser window where you are monitoring queries with the <strong>:queries</strong> command?</p>
-</div>
-<div class="paragraph">
-<p>When you first execute the query in the original Neo4j Browser window, you should see this in the second Neo4j Browser window:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LongRunningReturn1.png" alt="LongRunningReturn1" width="900">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/CreateIndex.png" alt="CreateIndex" width="300">
 </div>
 </div>
 <div style="clear: both;"></div>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 15.2: View index information (Instructions)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>View the indexes defined for the graph.</strong></p>
+</div>
 <div class="paragraph">
-<p>Initially, the query is running in the server.
-After a few moments, you will see that in the original Neo4j Browser window, the query appears to be running, but it has completed on the server:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LongRunningReturn2.png" alt="LongRunningReturn2" width="900">
-</div>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p>This is because the graph engine has completed the query and the results are still being streamed to the client.</p>
+<p>Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
 </div>
 	</div>
   </div>
@@ -1316,23 +692,30 @@ After a few moments, you will see that in the original Neo4j Browser window, the
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15.13: Execute a long-running query and monitor (Instructions)</h3>
+    <h3>Exercise 15.2: View index information (Solution)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.</strong></p>
+<p><strong>View the indexes defined for the graph.</strong></p>
 </div>
 <div class="paragraph">
-<p>Here is a very <strong>bad</strong> Cypher statement that takes a lot of time to execute in the graph engine:</p>
+<p>Do you see indexes that you did not create with the <code>CREATE INDEX</code> statement?</p>
+</div>
+<div class="paragraph">
+<p>The other indexes have been created because you previously created a uniqueness constraint and a node key constraint, both of which create indexes. You will only be able to see the performance benefits of indexes with large graphs which is beyond the scope of this training.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
-RETURN count(id(a))<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL db.indexes()<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>What do you see in the second Neo4j Browser window where you are monitoring queries with the <strong>:queries</strong> command?</p>
+<p>The result returned should be:</p>
+</div>
+<div class="imageblock thumb">
+<div class="content">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/ViewIndexes.png" alt="ViewIndexes" width="600">
+</div>
 </div>
 	</div>
   </div>
@@ -1342,39 +725,40 @@ RETURN count(id(a))<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15.13: Execute a long-running query and monitor (Solution)</h3>
+    <h3>Exercise 15.3: Drop an index (Instructions)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>Execute this long-running query in your original Neo4j Browser session and monitor the query in the second Neo4j Browser session.</strong></p>
+<p><strong>Drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</strong></p>
 </div>
-<div class="paragraph">
-<p>Here is a very <strong>bad</strong> Cypher statement that takes a lot of time to execute in the graph engine:</p>
+	</div>
+  </div>
+</slide>
+
+
+
+<slide class="row-fluid">
+  <div class="col-sm-12">
+    <h3>Exercise 15.3: Drop an index (Solution)</h3>
+    <br/>
+    <div>
+      <div class="paragraph">
+<p><strong>Drop the single-property index you just created for the <em>born</em> property of the <em>Person</em> nodes.</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->PROFILE MATCH (a), (b), (c), (d), (e) , (f), (g)
-RETURN count(id(a))<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->DROP INDEX ON :Person(born)<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>What do you see in the second Neo4j Browser window where you are monitoring queries with the <strong>:queries</strong> command?</p>
-</div>
-<div class="paragraph">
-<p>You should see this when you first start the query:</p>
+<p>The result returned should be:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LongQuery1.png" alt="LongQuery1" width="900">
+<img src="https://guides.neo4j.com/intro-neo4j-exercises/img/DropIndex.png" alt="DropIndex" width="300">
 </div>
 </div>
 <div style="clear: both;"></div>
-<div class="paragraph">
-<p>It takes a VERY long time to complete on the server.</p>
-</div>
-<div class="paragraph">
-<p>After a while you will want to kill this long-running query.</p>
-</div>
 	</div>
   </div>
 </slide>
@@ -1383,63 +767,14 @@ RETURN count(id(a))<!--/code--></pre>
 
 <slide class="row-fluid">
   <div class="col-sm-12">
-    <h3>Exercise 15.14: Kill a query (Instructions)</h3>
+    <h3>Exercise 15: Managing indexes (Summary)</h3>
     <br/>
     <div>
       <div class="paragraph">
-<p><strong>In the second Neo4j Browser window, kill the long-running query.</strong></p>
+<p>In this exercise you wrote Cypher statements to create, view, and drop an index for the graph.</p>
 </div>
 <div class="paragraph">
-<p>What do you see in the original Neo4j Browser window?</p>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15.14: Kill a query (Solutions)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p><strong>In the second Neo4j Browser window, kill the long-running query.</strong></p>
-</div>
-<div class="paragraph">
-<p>Here is where you select in the UI that you want to kill the running query:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LongQuery2.png" alt="LongQuery2" width="900">
-</div>
-</div>
-<div style="clear: both;"></div>
-<div class="paragraph">
-<p>You should now see this in the original Neo4j Browser window:</p>
-</div>
-<div class="imageblock thumb">
-<div class="content">
-<img src="https://guides.neo4j.com/4.0-intro-neo4j-exercises/img/LongQuery3.png" alt="LongQuery3" width="600">
-</div>
-</div>
-	</div>
-  </div>
-</slide>
-
-
-
-<slide class="row-fluid">
-  <div class="col-sm-12">
-    <h3>Exercise 15: Using query best practices (Summary)</h3>
-    <br/>
-    <div>
-      <div class="paragraph">
-<p>In this exercise you enhanced Cypher statements you write so that you can parameterize values used during the execution of your Cypher statements.
-Then you gained experience with viewing query plans, monitoring queries, and killing queries.</p>
-</div>
-<div class="paragraph">
-<p><a play-topic='https://guides.neo4j.com/4.0-intro-neo4j-exercises/16.html'>Continue to Exercise 16</a></p>
+<p><a play-topic='https://guides.neo4j.com/intro-neo4j-exercises/16.html'>Continue to Exercise 16</a></p>
 </div>
 	</div>
   </div>
