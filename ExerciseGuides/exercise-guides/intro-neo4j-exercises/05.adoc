@@ -89,9 +89,12 @@ image::{guides}/img/JamesThompsonFollows.png[JamesThompsonFollows,width=500]
 
 [source, cypher]
 ----
-MATCH (p1:Person)-[:FOLLOWS*3]-(p2:Person)
-WHERE p1.name = 'James Thompson'
-RETURN p1, p2
+MATCH (p1:Person {name: 'James Thompson'})-[:FOLLOWS*3]-(p2:Person)
+WHERE p1 <> p2
+  AND NOT EXISTS {
+    MATCH (p1)-[:FOLLOWS*1..2]-(p2)
+  }
+RETURN DISTINCT p2;
 ----
 
 The result returned should be:
